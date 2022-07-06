@@ -273,7 +273,7 @@ export class AnnualAccountsComponent implements OnInit {
             url: null,
             name: null,
           },
-          // excel: { url: null, name: null },
+          excel: { url: null, name: null },
           // assets: { value: "", error: false },
           // f_assets: { value: "", error: false },
           // s_grant: { value: "", error: false },
@@ -435,6 +435,22 @@ export class AnnualAccountsComponent implements OnInit {
   pdfError = "PDF Not Uploaded!";
   inputNumberError = "Fields can not be blank!";
   uploadErrors = {
+    audited: {
+      standardized_data: {
+        error: null,
+        progress: null,
+        file: null,
+      },
+    },
+    unAudited: {
+      standardized_data: {
+        error: null,
+        progress: null,
+        file: null,
+      },
+    },
+  };
+  manadUploadErrors = {
     audited: {
       standardized_data: {
         error: null,
@@ -837,11 +853,28 @@ export class AnnualAccountsComponent implements OnInit {
   declareCheck(data) {
     console.log(data);
     data.declaration = !data.declaration;
+    sessionStorage.setItem("changeInAnnualAcc", "true");
     //  this.checkDiff();
   }
 
+  clearFile(fileType) {
+    if (this.isDisabled) {
+      return;
+    }
+    let temp = this.data[fileType].standardized_data?.excel;
+    for (const key in temp) {
+      temp[key] = null;
+    }
+    temp = this.uploadErrors[fileType].standardized_data;
+    for (const key in temp) {
+      temp[key] = null;
+    }
+    sessionStorage.setItem("changeInAnnualAcc", "true");
+    // this.checkDiff();
+  }
   formSave(type) {
     console.log("anual acc form", this.data);
+    this.patchPostData();
     if (type === "draft") {
       this.data.isDraft = true;
       this.postAnnualFormDraft();
@@ -850,15 +883,103 @@ export class AnnualAccountsComponent implements OnInit {
       this.checkValidation();
     }
   }
+  patchPostData() {
+    if (this.data?.audited?.submit_annual_accounts == false) {
+      for (const key in this.data.audited.provisional_data) {
+        let obj = this.data?.audited?.provisional_data[key];
+        let objLength = 0;
+        if (obj != null && obj != "" && obj != undefined) {
+          let objKeysE = Object.keys(obj);
+          objLength = objKeysE?.length;
+          console.log(objKeysE);
+        }
+        if (
+          objLength > 0 &&
+          (this.data?.audited?.provisional_data[key]?.pdf?.name != "" ||
+            this.data?.audited?.provisional_data[key]?.pdf?.name != null)
+        ) {
+          //this.data.unAudited.provisional_data[key].
+          this.data.audited.provisional_data[key].pdf.name = null;
+          this.data.audited.provisional_data[key].pdf.url = null;
+          this.data.audited.provisional_data[key].excel.name = null;
+          this.data.audited.provisional_data[key].excel.url = null;
+          this.auditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "file") {
+              el.error = false;
+            }
+          });
+        } else if (
+          (this.data?.audited?.provisional_data[key] != "" ||
+            this.data?.audited?.provisional_data[key] != null) &&
+          objLength == 0
+        ) {
+          this.data.audited.provisional_data[key] = "";
+          this.auditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "input") {
+              el.error = false;
+            }
+          });
+        }
+      }
+      this.data.audited.submit_standardized_data = null;
+      this.data.audited.standardized_data.declaration = null;
+      this.data.audited.standardized_data.excel.url = null;
+      this.data.audited.standardized_data.excel.name = null;
+    }
+    if (this.data?.unAudited?.submit_annual_accounts == false) {
+      for (const key in this.data.unAudited.provisional_data) {
+        let obj = this.data?.unAudited?.provisional_data[key];
+        let objLength = 0;
+        if (obj != null && obj != "" && obj != undefined) {
+          let objKeysE = Object.keys(obj);
+          objLength = objKeysE?.length;
+          console.log(objKeysE);
+        }
+        if (
+          objLength > 0 &&
+          (this.data?.unAudited?.provisional_data[key]?.pdf?.name != "" ||
+            this.data?.unAudited?.provisional_data[key]?.pdf?.name != null)
+        ) {
+          //this.data.unAudited.provisional_data[key].
+          this.data.unAudited.provisional_data[key].pdf.name = null;
+          this.data.unAudited.provisional_data[key].pdf.url = null;
+          this.data.unAudited.provisional_data[key].excel.name = null;
+          this.data.unAudited.provisional_data[key].excel.url = null;
+          this.unAuditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "file") {
+              el.error = false;
+            }
+          });
+        } else if (
+          (this.data?.unAudited?.provisional_data[key] != "" ||
+            this.data?.unAudited?.provisional_data[key] != null) &&
+          objLength == 0
+        ) {
+          this.data.unAudited.provisional_data[key] = "";
+          this.unAuditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "input") {
+              el.error = false;
+            }
+          });
+        }
+      }
+      this.data.unAudited.submit_standardized_data = null;
+      this.data.unAudited.standardized_data.declaration = null;
+      this.data.unAudited.standardized_data.excel.url = null;
+      this.data.unAudited.standardized_data.excel.name = null;
+    }
+  }
   annualError = false;
+  isSubmit = false;
   checkValidation() {
+    this.isSubmit = true;
     // autited
     if (this.data.audited.submit_annual_accounts) {
       for (const key in this.data.audited.provisional_data) {
         console.log(
           typeof this.data?.audited?.provisional_data[key] == "object"
         );
-        let obj = this.data?.unAudited?.provisional_data[key];
+        let obj = this.data?.audited?.provisional_data[key];
         let objLength = 0;
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
@@ -876,7 +997,7 @@ export class AnnualAccountsComponent implements OnInit {
               el.error = true;
             }
           });
-          this.annualError = true;
+          //  this.annualError = true;
         } else if (
           (this.data?.audited?.provisional_data[key] == "" ||
             this.data?.audited?.provisional_data[key] == null) &&
@@ -887,11 +1008,32 @@ export class AnnualAccountsComponent implements OnInit {
               el.error = true;
             }
           });
-          this.annualError = true;
+          // this.annualError = true;
         } else {
-          this.annualError = false;
+          //   this.annualError = false;
         }
-        this.answerError.audited.submit_annual_accounts = false;
+      }
+      this.answerError.audited.submit_annual_accounts = false;
+      // audit st
+      if (this.data.audited.submit_standardized_data == true) {
+        this.answerError.audited.submit_standardized_data = false;
+        if (
+          this.data?.audited?.standardized_data?.declaration == false ||
+          this.data?.audited?.standardized_data?.declaration == null ||
+          this.data?.audited?.standardized_data?.excel?.url == null ||
+          this.data?.audited?.standardized_data?.excel?.url == ""
+        ) {
+          this.manadUploadErrors.audited.standardized_data.error = true;
+        } else {
+          this.manadUploadErrors.audited.standardized_data.error = false;
+        }
+      } else if (this.data.audited.submit_standardized_data == false) {
+        this.answerError.audited.submit_standardized_data = false;
+        this.manadUploadErrors.audited.standardized_data.error = false;
+        // this.annualError = false;
+      } else {
+        this.answerError.audited.submit_standardized_data = true;
+        //  this.annualError = true;
       }
     } else if (this.data.audited.submit_annual_accounts == false) {
       this.unAuditQues.forEach((el) => {
@@ -906,21 +1048,11 @@ export class AnnualAccountsComponent implements OnInit {
       this.answerError.audited.submit_annual_accounts = true;
     }
     // autited st
-    if (this.data.audited.submit_standardized_data == true) {
-      this.answerError.audited.submit_standardized_data = false;
-      this.annualError = false;
-    } else if (this.data.audited.submit_standardized_data == false) {
-      this.answerError.audited.submit_standardized_data = false;
-      this.annualError = false;
-    } else {
-      this.answerError.audited.submit_standardized_data = true;
-      this.annualError = true;
-    }
+
     // unAudited
     if (this.data.unAudited.submit_annual_accounts) {
       for (const key in this.data.unAudited.provisional_data) {
         console.log(this.data?.unAudited?.provisional_data[key]);
-
         let obj = this.data?.unAudited?.provisional_data[key];
         let objLength = 0;
         if (obj != null && obj != "" && obj != undefined) {
@@ -940,7 +1072,7 @@ export class AnnualAccountsComponent implements OnInit {
               el.error = true;
             }
           });
-          this.annualError = true;
+          // this.annualError = true;
         } else if (
           objLength == 0 &&
           (this.data?.unAudited?.provisional_data[key] == "" ||
@@ -951,11 +1083,30 @@ export class AnnualAccountsComponent implements OnInit {
               el.error = true;
             }
           });
-          this.annualError = true;
-        } else {
-          this.annualError = false;
+          // this.annualError = true;
         }
-        this.answerError.unAudited.submit_annual_accounts = false;
+      }
+      this.answerError.unAudited.submit_annual_accounts = false;
+      // unaudtided st
+      if (this.data.unAudited.submit_standardized_data == true) {
+        this.answerError.unAudited.submit_standardized_data = false;
+        if (
+          this.data?.unAudited?.standardized_data?.declaration == false ||
+          this.data?.unAudited?.standardized_data?.declaration == null ||
+          this.data?.unAudited?.standardized_data?.excel?.url == null ||
+          this.data?.unAudited?.standardized_data?.excel?.url == ""
+        ) {
+          this.manadUploadErrors.unAudited.standardized_data.error = true;
+        } else {
+          this.manadUploadErrors.unAudited.standardized_data.error = false;
+        }
+      } else if (this.data.unAudited.submit_standardized_data == false) {
+        this.answerError.unAudited.submit_standardized_data = false;
+        this.manadUploadErrors.unAudited.standardized_data.error = false;
+        // this.annualError = false;
+      } else {
+        this.answerError.unAudited.submit_standardized_data = true;
+        //  this.annualError = true;
       }
     } else if (this.data.unAudited.submit_annual_accounts == false) {
       this.unAuditQues.forEach((el) => {
@@ -969,23 +1120,54 @@ export class AnnualAccountsComponent implements OnInit {
       this.annualError = true;
       this.answerError.unAudited.submit_annual_accounts = true;
     }
-    // unaudtided st
-    if (this.data.unAudited.submit_standardized_data == true) {
-      this.answerError.unAudited.submit_standardized_data = false;
-      this.annualError = false;
-    } else if (this.data.unAudited.submit_standardized_data == false) {
-      this.answerError.unAudited.submit_standardized_data = false;
-      this.annualError = false;
-    } else {
-      this.answerError.unAudited.submit_standardized_data = true;
-      this.annualError = true;
-    }
-    console.log(this.unAuditQues);
 
+    this.checkFinalError();
+    console.log(this.unAuditQues, "this.annual error", this.annualError);
     if (this.annualError) {
       swal("Error", `${this.errorMsg}`, "error");
     } else {
       this.validFormSubmit();
+    }
+  }
+  checkFinalError() {
+    this.unAuditQues.forEach((el) => {
+      if (el.error == true || el.error == null) {
+        this.annualError = true;
+        return;
+      }
+    });
+    this.auditQues.forEach((el) => {
+      if (el.error == true || el.error == null) {
+        this.annualError = true;
+        return;
+      }
+    });
+    if (
+      this.answerError.audited.submit_annual_accounts == true ||
+      this.answerError.unAudited.submit_annual_accounts == true ||
+      this.answerError.audited.submit_annual_accounts == null ||
+      this.answerError.unAudited.submit_annual_accounts == null
+    ) {
+      this.annualError = true;
+      return;
+    }
+    if (
+      this.answerError.audited.submit_standardized_data == true ||
+      this.answerError.unAudited.submit_standardized_data == true ||
+      this.answerError.audited.submit_standardized_data == null ||
+      this.answerError.unAudited.submit_standardized_data == null
+    ) {
+      this.annualError = true;
+      return;
+    }
+    if (
+      this.manadUploadErrors.audited.standardized_data.error == true ||
+      this.manadUploadErrors.unAudited.standardized_data.error == true ||
+      this.manadUploadErrors.audited.standardized_data.error == null ||
+      this.manadUploadErrors.unAudited.standardized_data.error == null
+    ) {
+      this.annualError = true;
+      return;
     }
   }
   validFormSubmit() {

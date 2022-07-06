@@ -65,7 +65,7 @@ export class CommonFileUploadComponent implements OnInit {
   }
   ngOnChanges() {
     if (this.delFileType) {
-      this.clearFile(this.delFileType);
+      this.clearFile(this.delFileType, 'onLoad');
     }
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
@@ -96,29 +96,38 @@ export class CommonFileUploadComponent implements OnInit {
       sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   async fileChangeEvent(event, fileType) {
-    console.log(fileType);
+    console.log(fileType, event);
+    console.log("aaa", event.target.files[0].size);
     let files;
-    if (typeof event != "boolean") files = event.target.files[0];
-    else files = this.data[fileType].file;
-    let fileExtension = files.name.split(".").pop();
-    console.log(fileExtension, fileType);
-    if (fileType == "excel") {
-      if (fileExtension == "xls" || fileExtension == "xlsx") {
-        this.uploadFile(files, files.name, files.type, fileType);
+    let fileSize = event?.target?.files[0]?.size / 1048576; //size in mb
+    console.log("aaa", fileSize);
+    if (fileSize < 20) {
+      if (typeof event != "boolean") files = event.target.files[0];
+      else files = this.data[fileType].file;
+      let fileExtension = files.name.split(".").pop();
+      console.log(fileExtension, fileType);
+      if (fileType == "excel") {
+        if (fileExtension == "xls" || fileExtension == "xlsx") {
+          this.uploadFile(files, files.name, files.type, fileType);
+        } else {
+          return swal("Error", "Only Excel File can be Uploaded.", "error");
+        }
+      } else if (fileType == "pdf") {
+        if (fileExtension == "pdf") {
+          this.uploadFile(files, files.name, files.type, fileType);
+        } else {
+          console.log("error type", event);
+          swal("Error", "Only PDF File can be Uploaded.", "error");
+          return;
+        }
       } else {
-        return swal("Error", "Only Excel File can be Uploaded.", "error");
-      }
-    } else if (fileType == "pdf") {
-      if (fileExtension == "pdf") {
-        this.uploadFile(files, files.name, files.type, fileType);
-      } else {
-        console.log("error type", event);
-        swal("Error", "Only PDF File can be Uploaded.", "error");
         return;
       }
     } else {
+      swal("File Limit Error", "Maximum 20 mb file can be allowed.", "error");
       return;
     }
+
   }
 
   uploadFile(file, name, type, fileType) {
@@ -170,7 +179,7 @@ export class CommonFileUploadComponent implements OnInit {
       }
     );
   }
-  clearFile(fileType) {
+  clearFile(fileType, type) {
     if (this.isDisabled) {
       return;
     }
@@ -178,5 +187,8 @@ export class CommonFileUploadComponent implements OnInit {
       this.data[fileType][key] = null;
     }
     this.getFileUploadResult.emit(this.data);
+    if(type == 'click'){
+      sessionStorage.setItem("changeInAnnualAcc", "true");
+    }
   }
 }

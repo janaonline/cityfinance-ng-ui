@@ -132,6 +132,9 @@
                                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
                                     {{ uploadErrors.unAudited.standardized_data.progress }}%
                                 </div>
+                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
+                                              Excel file are mandatory.
+                                  </label>
                             </div>
 
                             <div class="col-sm-2 col-lg-2 col-md-2" style="">
@@ -174,6 +177,9 @@
                                 <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
                                 <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                             </div>
+                            <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="(!data.unAudited.standardized_data.declaration) && isSubmit">
+                                Checkbox can not be blank.
+                            </div>
                         </div>
                     </div>
 
@@ -200,7 +206,7 @@
                             <label class="btn btn-y" [disabled]="isDisabled" [ngClass]="{'disable-btn' : isDisabled }" for="btnAudit">
                             Yes
                         </label>
-                            <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1',false,true)" />
+                            <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1', false, true)" />
                             <label class="btn btn-n" style="margin-left: 1rem;" [ngClass]="{'disable-btn' : isDisabled }" for="btnAudit2">
                             No
                         </label>
@@ -219,7 +225,7 @@
                     <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
                                     [isDisabled]="isDisabled" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
@@ -268,9 +274,13 @@
                         <div class="row">
                             <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
                                 <div class="row ms-2">
-                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                    <div class="col-sm-6 col-lg-6 col-md-6 mb-2">
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.audited.standardized_data.error">
-                                            {{uploadErrors.audited.standardized_data.error}}</label>
+                                            {{uploadErrors.audited.standardized_data.error}}
+                                          </label>
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.audited.standardized_data.error">
+                                              Excel file are mandatory.
+                                            </label>
                                     </div>
                                 </div>
                             </div>
@@ -325,6 +335,9 @@
                             <div class="col-sm-12 ms-3">
                                 <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
                                 <label style="margin-left: 1ch;" for="agree"> I Agree</label>
+                            </div>
+                            <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="!data.audited.standardized_data.declaration && isSubmit">
+                                Checkbox can not be blank.
                             </div>
                         </div>
                     </div>
