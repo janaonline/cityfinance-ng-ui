@@ -107,6 +107,8 @@ export class OdfFormPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
+    console.log(this.data.previewData.data.cert.url)
+    this.fileUrl = this.data.previewData.data.cert.url
     // this.certDate = this.data.formData.certDate;
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;

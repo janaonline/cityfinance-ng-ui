@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { OdfFormComponent } from "./components/odf-form/odf-form.component";
 import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
@@ -20,5 +20,6 @@ import { OdfFormPreviewComponent } from './components/odf-form/odf-form-preview/
   ],
   imports: [CommonModule, MatIconModule, ReactiveFormsModule, FormsModule],
   exports: [OdfFormComponent, CommonFileUploadComponent],
+  providers: [DatePipe]
 })
 export class Shared2223Module {}
