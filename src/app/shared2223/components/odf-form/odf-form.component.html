@@ -20,7 +20,7 @@
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
                   <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
                     <option value="" selected disabled>Select Rating</option>
-                    <option *ngFor="let item of ratings" [ngValue]="item._id">{{ item.name }}</option>
+                    <option *ngFor="let item of ratings" [value]="item._id">{{ item.name }}</option>
                   </select>
                 <div>
                     <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
@@ -45,7 +45,7 @@
                         <label for="cin1">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                           >Upload
-                          Pdf
+                          pdf
                           <img
                             src="../../../../assets/form-icon/upload-pdf-icon.png"
                             alt="" style="margin-left: 4px;">
@@ -64,15 +64,15 @@
         </div>
     </div> 
     <div class="row" *ngIf="showIcon">
-        <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
+        <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
             {{odfFileName}}
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4">
+        <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
             <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
                 {{ odfProgress }}%
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
+        <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
             <a href="{{ odfUrl }}" target="_blank">
                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
             </a>
@@ -93,7 +93,8 @@
        </span>
     </div>
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+       <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01"
+        onfocus="this.max=new Date().toISOString().split('T')[0]">
        <div>
            <div *ngIf="submitted && f.certDate.errors" class="invalid-feedback">
               <div *ngIf="f.certDate.errors.required">Date is required

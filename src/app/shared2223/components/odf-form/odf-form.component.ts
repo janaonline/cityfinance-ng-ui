@@ -8,6 +8,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { NewCommonService } from '../../services/new-common.service';
 import { OdfFormPreviewComponent } from './odf-form-preview/odf-form-preview.component';
 import { MatDialog } from "@angular/material/dialog";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-odf-form',
@@ -20,7 +21,7 @@ export class OdfFormComponent implements OnInit {
   noRating: boolean;
   @Input() isGfcOpen: boolean = false;
   constructor(private dataEntryService: DataEntryService,
-    private formBuilder: FormBuilder, private commonService: NewCommonService, public dialog: MatDialog,) {
+    private formBuilder: FormBuilder, private commonService: NewCommonService, public dialog: MatDialog) {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
@@ -61,7 +62,10 @@ export class OdfFormComponent implements OnInit {
   body;
   isGfc;
   isDisabled = false;
-  previewData: any
+  previewData: any;
+  ratingId:any;
+  selectedDropdownValue:any;
+  dateValue;
   ngOnInit(): void {
 
     this.profileForm = this.formBuilder.group({
@@ -93,7 +97,6 @@ export class OdfFormComponent implements OnInit {
     this.profileForm.patchValue({
       ulb: this.ulb
     })
-    this.fetchData();
 
     const params = {
       ulb: this.ulb,
@@ -101,20 +104,47 @@ export class OdfFormComponent implements OnInit {
       isGfc: this.isGfc
     }
     this.commonService.getOdfFormData(params).subscribe((res: any) => {
-      console.log(res)
+      console.log(res)  
+       this.ratingId =  res?.data?.rating;
+       this.fetchData();  
+       console.log(this.ratingId)
       this.previewData = res
+      this.prefilledOdf(res?.data);
       if (res?.data.isDraft == false) {
         console.log(res?.data?.isDraft)
         this.isDisabled = true
         // this.profileForm.disabled
         this.profileForm.controls['cert'].disable();
         this.profileForm.controls['certDate'].disable();
-        this.profileForm.controls['rating'].disable();
+        // this.profileForm.controls['rating'].disable();
 
       }
     })
   }
+  
+  prefilledOdf(data){
+    console.log(data)
+   
+    //curDate = curDate.toISOString();
+    this.dateValue = new Date(data.certDate);
+    this.dateValue = this.dateValue.toISOString().substring(0, 10);
 
+    console.log(data.certDate)
+    this.profileForm.patchValue({
+      rating: data?.rating,
+      certDate: this.dateValue
+    })
+    this.profileForm?.controls?.cert.patchValue({
+        url: data?.cert?.url,
+        name: data?.cert?.name,
+    })
+    this.odfFileName = data?.cert?.name
+    this.odfUrl = data?.cert?.url
+    if(this.odfFileName && this.odfUrl){
+      this.showIcon = true
+    }
+    console.log('aa', this.profileForm);
+  }
   get f() { return this.profileForm.controls; }
 
   disableSubmitForm: boolean
@@ -129,10 +159,21 @@ export class OdfFormComponent implements OnInit {
       })
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
+        console.log(res.data)
+        
         this.ratings = res.data;
         this.dropdownValues = res.data.map(a => a.name);
+        console.log(this.dropdownValues)
+        console.log(this.ratingId)
+
+        // this.selectedDropdownValue = res.data.find(res => res._id == this.ratingId);
+        // console.log(this.selectedDropdownValue.name)
+        // this.profileForm.patchValue({
+        //   rating: this.ratingId,
+        // })
       })
     }
+    
   }
   onSubmit(type) {
     this.submitted = true;
@@ -162,8 +203,9 @@ export class OdfFormComponent implements OnInit {
     this.body = this.profileForm.value;
     this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
       console.log('successDraftttt!!!!!!!!!!!!!', res)
-      this.fetchData();
-      swal('Saved', 'Data saved as draft successfully', 'success')
+      console.log(this.profileForm.value)
+     // this.fetchData();
+      swal('Saved', res.message, 'success')
 
     })
   }
@@ -188,7 +230,7 @@ export class OdfFormComponent implements OnInit {
   }
   onChange(item) {
     console.log(item)
-    if (item == '1: 62b2e4c79a6c781a28150d73' || item == '6: 62b2e4969a6c781a28150d71') {
+    if (item == '62b2e4c79a6c781a28150d73' || item == '62b2e4969a6c781a28150d71') {
       this.uploadDeclaration = true;
       this.uploadCertificate = false;
       this.noRating = true;
@@ -228,9 +270,10 @@ export class OdfFormComponent implements OnInit {
   clearFile() {
     this.showIcon = false
     this.odfFileName = ''
-    this.profileForm.patchValue({
-      cert: ''
-    })
+    this.profileForm?.controls?.cert.patchValue({
+      url: '',
+      name: '',
+  })
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {

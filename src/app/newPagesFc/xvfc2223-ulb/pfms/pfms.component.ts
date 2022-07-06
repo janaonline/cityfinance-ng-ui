@@ -33,6 +33,9 @@ export class PfmsComponent implements OnInit {
         console.log(this.designYearId)
       }
     }
+    this.getSubmittedFormData()
+    // if(this.registerForm.linkP)
+    // console.log(this.registerForm.value)
   }
   change = ''
   errorMessege: any = '';
@@ -66,7 +69,6 @@ export class PfmsComponent implements OnInit {
   activeClassNoBottom: boolean = false;
   otherFileName:any;
   subscription: any;
-  isDisabled:boolean = false;
   ngOnInit(): void {
     
     this.registerForm = this.formBuilder.group({
@@ -89,19 +91,22 @@ export class PfmsComponent implements OnInit {
       responseFile:''
     });
     this.accValueChange();
-    this.getSubmittedFormData();
+    // this.getSubmittedFormData();
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
-  
+  isDisabled:boolean = false
   getSubmittedFormData(){
     const params ={ulb: this.ulbId,
     design_year: this.designYearId,
     }
     this.commonService.submittedFormData(params).subscribe((res: any) => {
       console.log(res)
+      if(res?.data?.isDraft == false){
+        this.isDisabled = true
+      }
     })
   }
   onSubmit() {
@@ -118,8 +123,9 @@ export class PfmsComponent implements OnInit {
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
       if (res && res.status) {
-        this.isDisabled = true
         console.log('success!!!!!!!!!!!!!', res)
+        this.getSubmittedFormData();
+        this.isDisabled = true
         swal('Saved', 'Data saved successfully', 'success')
       } else {
         swal('Error', res?.message ? res?.message : 'Error', 'error')
@@ -139,7 +145,8 @@ export class PfmsComponent implements OnInit {
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
       if (res && res.status) {
-        swal('Saved as draft', 'Data saved as draft successfully', 'success')
+        this.getSubmittedFormData()
+        swal('Saved as draft', res?.message, 'success')
       } else {
         swal('Error', res?.message ? res?.message : 'Error', 'error')
       }
@@ -149,24 +156,40 @@ export class PfmsComponent implements OnInit {
   }
  
   clickYes() {
-    this.showOtherQuestions = true
-    this.activeClass = true
-    this.linkedToggle = false
-    this.activeClassBottom = false
-    this.activeClassNo = false
+    this.showOtherQuestions = true;
+    this.activeClass = true;
+    this.linkedToggle = false;
+    this.activeClassBottom = false;
+    this.activeClassNo = false;
+   
   }
   clickNo() {
     this.showOtherQuestions = false
     this.activeClass = false
     this.activeClassNo = true
   }
-  linkedYes() {
+  linkedYes(event) {
     this.linkedToggle = true
     this.activeClass = true
     this.activeClassBottom = true
     this.activeClassNoBottom = false
+    console.log(event)
+    if(event == 'Yes'){
+      this.registerForm.get('PFMSAccountNumber').setValidators(Validators.required);
+      this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+      this.registerForm.controls.cert['controls'].name.setValidators(Validators.required)
+      this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
+      // this.isDisabled = true;
+    } else {
+      this.registerForm.get('PFMSAccountNumber').setValidators(null);
+      this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+      this.registerForm.controls.cert['controls'].name.setValidators(null)
+      this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
+      this.isDisabled = false;
+    }
+    console.log('registerForm', this.registerForm, 'isDisabled', this.isDisabled)
   }
-  linkedNo() {
+  linkedNo(event) {
     this.linkedToggle = false
     this.activeClassBottom = false
     this.activeClassNoBottom = true

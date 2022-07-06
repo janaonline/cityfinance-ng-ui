@@ -1,5 +1,5 @@
 <div class="container">
-    <form [formGroup]="registerForm" [ngClass]="{'disabled-form': isDisabled}">
+    <form [formGroup]="registerForm">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <h4 class="form-header">
@@ -57,7 +57,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions">
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && !isDisabled">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
                         (B) Has the ULB linked its bank account with PFMS?
@@ -69,12 +69,12 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle d-flex">
-                        <label (click)="linkedYes()" [ngClass]="{'activeClassBottom': activeClassBottom }"
+                        <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': activeClassBottom }"
                             class="customLabel form-control">
                             <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS">
                             <span>Yes</span>
                         </label>
-                        <label (click)="linkedNo()" class="customLabel form-control ms-3"
+                        <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3"
                             [ngClass]="{'activeClassNoBottom': activeClassNoBottom }">
                             <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS">
                             <span>No</span>
@@ -187,10 +187,10 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" (click)="saveDraft()">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" (click)="saveDraft()"  [ngClass]="{'disabled-form': isDisabled}">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" (click)="onSubmit()">Submit</button>
+                        <button type="submit" class="btn btnDraft" (click)="onSubmit()"  [ngClass]="{'disabled-form': isDisabled}">Submit</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active">Next Form
