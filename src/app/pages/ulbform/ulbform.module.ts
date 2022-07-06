@@ -67,7 +67,6 @@ import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre
     ServiceSlbsComponent,
     StateActionUlbComponent,
     UtiNewPreComponent,
-
   ],
   imports: [
     CarouselModule.forRoot(),
@@ -89,9 +88,12 @@ import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre
     MatTooltipModule,
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    PdfViewerModule
-
+    PdfViewerModule,
   ],
-  providers: [PlanGuardGuard]
+  // exports: [
+  //   TwoDigitDecimaNumberDirective,
+  //   SixDigitDecimaNumberDirective,
+  // ],
+  providers: [PlanGuardGuard],
 })
-export class UlbformModule { }
+export class UlbformModule {}
