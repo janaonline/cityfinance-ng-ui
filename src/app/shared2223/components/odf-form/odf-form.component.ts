@@ -21,7 +21,7 @@ export class OdfFormComponent implements OnInit {
   noRating: boolean;
   @Input() isGfcOpen: boolean = false;
   constructor(private dataEntryService: DataEntryService,
-    private formBuilder: FormBuilder, private commonService: NewCommonService, public dialog: MatDialog,private datePipe: DatePipe) {
+    private formBuilder: FormBuilder, private commonService: NewCommonService, public dialog: MatDialog) {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
