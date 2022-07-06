@@ -103,6 +103,7 @@ sup {
 .color-in {
     background-color: #26A1A1;
     color: #ffff;
+    pointer-events: none;
 }
 
 .btn-add {
@@ -125,4 +126,8 @@ td {
 .ct-l {
     border-radius: 4px;
     padding: 4px 12px;
+}
+
+.t-n {
+    font-weight: 600;
 }

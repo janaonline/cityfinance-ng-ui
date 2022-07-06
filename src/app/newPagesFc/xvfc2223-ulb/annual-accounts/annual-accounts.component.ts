@@ -455,7 +455,8 @@ export class AnnualAccountsComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
-  alertError = "Are you sure you want to proceed further?";
+  alertError =
+    "Some data in form are not saved, Are you sure you want to save & proceed further?";
   dialogRef;
   modalRef;
   @ViewChild("templateAnnual") template;
@@ -472,7 +473,8 @@ export class AnnualAccountsComponent implements OnInit {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
-          this.alertError = "Are you sure you want to proceed further?";
+          this.alertError =
+            "Some data in form are not saved, Are you sure you want to save & proceed further?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
             sessionStorage.setItem("changeInAnnualAcc", "false");
@@ -532,6 +534,14 @@ export class AnnualAccountsComponent implements OnInit {
     // }
     await this.formSave("draft");
     return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  async discard() {
+    sessionStorage.setItem("changeInAnnualAcc", "false");
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
   }
   alertClose() {
     this.stay();
@@ -658,7 +668,7 @@ export class AnnualAccountsComponent implements OnInit {
         }
         break;
     }
-     sessionStorage.setItem("changeInAnnualAcc", "true");
+    sessionStorage.setItem("changeInAnnualAcc", "true");
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
@@ -895,6 +905,17 @@ export class AnnualAccountsComponent implements OnInit {
       this.annualError = true;
       this.answerError.audited.submit_annual_accounts = true;
     }
+    // autited st
+    if (this.data.audited.submit_standardized_data == true) {
+      this.answerError.audited.submit_standardized_data = false;
+      this.annualError = false;
+    } else if (this.data.audited.submit_standardized_data == false) {
+      this.answerError.audited.submit_standardized_data = false;
+      this.annualError = false;
+    } else {
+      this.answerError.audited.submit_standardized_data = true;
+      this.annualError = true;
+    }
     // unAudited
     if (this.data.unAudited.submit_annual_accounts) {
       for (const key in this.data.unAudited.provisional_data) {
@@ -947,6 +968,17 @@ export class AnnualAccountsComponent implements OnInit {
       });
       this.annualError = true;
       this.answerError.unAudited.submit_annual_accounts = true;
+    }
+    // unaudtided st
+    if (this.data.unAudited.submit_standardized_data == true) {
+      this.answerError.unAudited.submit_standardized_data = false;
+      this.annualError = false;
+    } else if (this.data.unAudited.submit_standardized_data == false) {
+      this.answerError.unAudited.submit_standardized_data = false;
+      this.annualError = false;
+    } else {
+      this.answerError.unAudited.submit_standardized_data = true;
+      this.annualError = true;
     }
     console.log(this.unAuditQues);
 
