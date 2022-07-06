@@ -101,19 +101,23 @@ export class CommonFileUploadComponent implements OnInit {
     if (typeof event != "boolean") files = event.target.files[0];
     else files = this.data[fileType].file;
     let fileExtension = files.name.split(".").pop();
-    console.log(fileExtension);
+    console.log(fileExtension, fileType);
     if (fileType == "excel") {
       if (fileExtension == "xls" || fileExtension == "xlsx") {
         this.uploadFile(files, files.name, files.type, fileType);
       } else {
-        return swal("Only Excel File can be Uploaded.");
+        return swal("Error", "Only Excel File can be Uploaded.", "error");
       }
     } else if (fileType == "pdf") {
       if (fileExtension == "pdf") {
         this.uploadFile(files, files.name, files.type, fileType);
+      } else {
+        console.log("error type", event);
+        swal("Error", "Only PDF File can be Uploaded.", "error");
+        return;
       }
     } else {
-      return swal("Only PDF File can be Uploaded.");
+      return;
     }
   }
 
