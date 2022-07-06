@@ -10,7 +10,7 @@
           </div> -->
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">₹</span>
-                <input type="number" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}" aria-describedby="basic-addon1">
+                <input type="text" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}" aria-describedby="basic-addon1" appFiftTwoDigitNumber>
             </div>
             <div class="mt-2">
                 <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->

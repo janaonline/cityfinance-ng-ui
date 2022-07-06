@@ -160,12 +160,14 @@
 }
 .btnUpload {
     background-color: #059b9a;
-    margin-left: .3rem;
+    margin-left: 0rem;
     margin-bottom: 1pc;
     color: white;
-    width: max-content;
+    width: 192px;
 }
-
+.progressBar{
+    padding-left: 23px;
+}
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;

@@ -15,6 +15,11 @@ import { DetailedUtilizationReportComponent } from "./detailed-utilization-repor
 import { Slbs2223Component } from "./slbs2223/slbs2223.component";
 import { Gtc2223Component } from "./gtc2223/gtc2223.component";
 import { PfmsComponent } from "./pfms/pfms.component";
+import {
+  NsixDigitDecimaNumberDirective,
+  NtwoDigitDecimaNumberDirective,
+} from "./decimal.directive";
+
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -25,7 +30,9 @@ import { PfmsComponent } from "./pfms/pfms.component";
     DetailedUtilizationReportComponent,
     Slbs2223Component,
     Gtc2223Component,
-    PfmsComponent
+    PfmsComponent,
+    NtwoDigitDecimaNumberDirective,
+    NsixDigitDecimaNumberDirective,
   ],
   imports: [
     CommonModule,
