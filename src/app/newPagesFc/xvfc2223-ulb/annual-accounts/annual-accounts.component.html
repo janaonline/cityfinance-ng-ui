@@ -83,8 +83,8 @@
                         <div class="col-sm-8">
 
                             <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                                ?</b>
-                        </span>
+                                ?<span style="color: red;">*</span></b>
+                            </span>
                         </div>
                         <div [ngClass]="data?.unAudited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
                             <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : isDisabled }">
@@ -191,7 +191,7 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <span class="quesIn">
-                        <b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
+                        <b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span> </b>
                         </span>
                     </div>
                     <div class="" [ngClass]="data?.audited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
@@ -235,8 +235,8 @@
                         <div class="col-sm-8">
 
                             <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                              ?</b>
-                      </span>
+                              ?<span style="color: red;">*</span></b>
+                            </span>
                         </div>
                         <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
                             <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : isDisabled }">
@@ -354,7 +354,7 @@
     </div>
 </div>
 <ng-template #templateAnnual>
-    <div class="modal-body text-center">
+    <div class="modal-body text-center ">
         <div class="modal-header">
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
@@ -364,16 +364,21 @@
             </div>
         </div>
 
-        <p style="margin-top: 8px;">
-            {{alertError}}
-            <div class="row">
-                <div class="col-sm-12 text-end">
-                    <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-                    <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
-              Proceed</button>
-                </div>
-
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success ms-2 m-btn" style="" (click)="proceed()">
+                  Save & Proceed
+                </button>
+            </div>
+
+        </div>
 
     </div>
 </ng-template>
@@ -394,6 +399,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
         </div>
 

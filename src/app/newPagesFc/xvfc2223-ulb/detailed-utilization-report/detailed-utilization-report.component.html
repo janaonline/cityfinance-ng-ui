@@ -120,7 +120,8 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text color-in" id="basic-addon1">₹</span>
-                                    <input class="form-control color-in" type="number" value="85455" disabled min="0" max="9999.99" formControlName="closingBal">
+                                    <!-- <label for="i-label color-in form-control">{{closingBal}}</label> -->
+                                    <input class="form-control color-in" type="number" [value]="closingBal" disabled min="0" max="9999.99" formControlName="closingBal">
                                 </div>
                             </div>
                         </div>
@@ -186,12 +187,12 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="font-weight: 500">
+                                                    <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td>99</td>
-                                                    <td>9999</td>
-                                                    <td>555</td>
+                                                    <td class="t-n">{{wmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n">{{wmTotalProjectCost}}</td>
+                                                    <td class="t-n">{{wmTotalProjectNum}}</td>
                                                 </tr>
                                             </tbody>
                                             <!-- <tfoot>
@@ -250,12 +251,12 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="font-weight: 500">
+                                                    <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td>99</td>
-                                                    <td>9999</td>
-                                                    <td>555</td>
+                                                    <td class="t-n">{{swmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n">{{swmTotalProjectCost}}</td>
+                                                    <td class="t-n">{{swmTotalProjectNum}}</td>
                                                 </tr>
                                             </tbody>
 
@@ -302,11 +303,11 @@
                                                 <td>--</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" style="font-weight: 500">
+                                                <td colspan="4" style="" class="t-n">
                                                     Total
                                                 </td>
-                                                <td>0</td>
-                                                <td>0.00</td>
+                                                <td class="t-n">0</td>
+                                                <td class="t-n">0.00</td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
@@ -355,6 +356,15 @@
                                                         </mat-icon>
                                                     </a>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="" class="t-n">
+                                                    Total
+                                                </td>
+                                                <td class="t-n">{{totalProjectCost}}</td>
+                                                <td class="t-n">{{totatlProjectExp}}</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
