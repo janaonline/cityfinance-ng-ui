@@ -66,6 +66,7 @@ export class OdfFormComponent implements OnInit {
   ratingId:any;
   selectedDropdownValue:any;
   dateValue;
+  activeClass:boolean = false
   ngOnInit(): void {
 
     this.profileForm = this.formBuilder.group({
@@ -177,9 +178,10 @@ export class OdfFormComponent implements OnInit {
   }
   onSubmit(type) {
     this.submitted = true;
-    this.draft = false;
+    // this.draft = false;
+    this.activeClass= true
     this.profileForm.patchValue({
-      isDraft: this.draft
+      isDraft: false
     })
     if (this.profileForm.invalid) {
       return;
