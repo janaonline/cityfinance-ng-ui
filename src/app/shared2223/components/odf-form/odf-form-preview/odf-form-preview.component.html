@@ -54,7 +54,7 @@
                             <a href="{{fileUrl}}" target="_blank">{{fileName ? fileName : 'N/A'}}</a>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="uploadCertificate">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
                             <span>(C) Certification Issue Date
                             </span>
