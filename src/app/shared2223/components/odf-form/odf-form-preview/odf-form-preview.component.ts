@@ -33,6 +33,7 @@ export class OdfFormPreviewComponent implements OnInit {
   fileName: any;
   isGfcOpen: boolean = true;
   previewData:any
+  uploadCertificate:boolean = true
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -107,7 +108,9 @@ export class OdfFormPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
-    
+    if(this.data?.formData?.rating == '62b2e4c79a6c781a28150d73' || this.data?.formData?.rating == '62b2e4969a6c781a28150d71'){
+      this.uploadCertificate = false
+    }
     // this.certDate = this.data.formData.certDate;
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
@@ -135,6 +138,7 @@ export class OdfFormPreviewComponent implements OnInit {
       });     
     } else {
       this.fileUrl = this.data.previewData.data.cert.url
+      console.log(this.fileUrl)
       this.commonService.getOdfRatings().subscribe((res: any) => {
         this.ratings = res.data
         console.log(this.ratings, 'ratingId', this.ratingId)
