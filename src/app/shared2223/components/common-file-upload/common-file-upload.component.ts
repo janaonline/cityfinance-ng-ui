@@ -1,5 +1,12 @@
 import { HttpEventType } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChange,
+} from "@angular/core";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
@@ -16,7 +23,7 @@ export class CommonFileUploadComponent implements OnInit {
   @Input() quesName;
   @Input() quesType;
   @Input() isDisabled;
-  @Input() dataFromParent;
+  @Input() dataFromParentN;
   @Output()
   getFileUploadResult = new EventEmitter();
   @Output()
@@ -33,9 +40,17 @@ export class CommonFileUploadComponent implements OnInit {
       error: null,
       progress: null,
     },
-    excel: { file: null, url: null, name: null, error: null, progress: null },
-    //status: this.stateAction,
-    // rejectReason: this.rejectReason,
+    excel: {
+      file: null,
+      url: null,
+      name: null,
+      error: null,
+      progress: null,
+    },
+    status: "",
+    rejectReason: "",
+    // status: this.stateAction,
+    //  rejectReason: this.rejectReason,
   };
   @Input() amountObj;
   @Input() itemError;
@@ -46,15 +61,18 @@ export class CommonFileUploadComponent implements OnInit {
   pdfError = "Pdf not uploaded!";
   inputNumberError = "Fields can not be blank!";
   ngOnInit(): void {
+    // debugger;
     if (this.quesName == "Auditors Report") {
       this.showExcel = false;
     } else {
       this.showExcel = true;
     }
-    if (this.dataFromParent) {
-      this.data = this.dataFromParent;
-      //  this.stateAction = this.data?.status;
-      //  this.rejectReason = this.data?.rejectReason;
+    console.log("this.dataFromParent", this.dataFromParentN);
+
+    if (this.dataFromParentN) {
+      this.data = this.dataFromParentN;
+      //   //  this.stateAction = this.data?.status;
+      //   //  this.rejectReason = this.data?.rejectReason;
     }
     if (
       this.quesType == "input" &&
@@ -63,13 +81,14 @@ export class CommonFileUploadComponent implements OnInit {
       this.amountKeyUp("onLoad");
     }
   }
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChange) {
+    console.log("chnages", changes);
     if (this.delFileType) {
-      this.clearFile(this.delFileType, 'onLoad');
+      this.clearFile(this.delFileType, "onLoad");
     }
-    if (this.dataFromParent) {
-      this.data = this.dataFromParent;
-      console.log("changes..........", this.dataFromParent);
+    if (this.dataFromParentN) {
+      this.data = this.dataFromParentN;
+      console.log("changes..........", this.dataFromParentN);
     }
   }
 
@@ -127,10 +146,11 @@ export class CommonFileUploadComponent implements OnInit {
       swal("File Limit Error", "Maximum 20 mb file can be allowed.", "error");
       return;
     }
-
   }
 
   uploadFile(file, name, type, fileType) {
+    console.log("this.data", this.data);
+
     this.data[fileType].progress = 20;
     this.dataEntryService.getURLForFileUpload(name, type).subscribe(
       (s3Response) => {
@@ -187,7 +207,7 @@ export class CommonFileUploadComponent implements OnInit {
       this.data[fileType][key] = null;
     }
     this.getFileUploadResult.emit(this.data);
-    if(type == 'click'){
+    if (type == "click") {
       sessionStorage.setItem("changeInAnnualAcc", "true");
     }
   }
