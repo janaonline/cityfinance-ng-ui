@@ -107,8 +107,7 @@ export class OdfFormPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
-    console.log(this.data.previewData.data.cert.url)
-    this.fileUrl = this.data.previewData.data.cert.url
+    
     // this.certDate = this.data.formData.certDate;
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
@@ -125,7 +124,9 @@ export class OdfFormPreviewComponent implements OnInit {
     }
     this.stateName = userData["stateName"];
     this.isGfcOpen = this.data.isGfcOpen
+    console.log(this.isGfcOpen)
     if (this.isGfcOpen) {
+      this.fileUrl = this.data.formData.cert.url
       this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
         this.ratings = res.data
         let selectedGFCRating = this.ratings.find(res => res._id.toString() == this.ratingId);
@@ -133,6 +134,7 @@ export class OdfFormPreviewComponent implements OnInit {
         console.log(this.ratingName)
       });     
     } else {
+      this.fileUrl = this.data.previewData.data.cert.url
       this.commonService.getOdfRatings().subscribe((res: any) => {
         this.ratings = res.data
         console.log(this.ratings, 'ratingId', this.ratingId)
