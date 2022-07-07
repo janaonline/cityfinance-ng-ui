@@ -63,7 +63,7 @@
                     <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
                         <div *ngFor="let item of unAuditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
+                                <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
                                     [isDisabled]="isDisabled" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
@@ -225,7 +225,7 @@
                     <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
+                                <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
                                     [isDisabled]="isDisabled" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
