@@ -243,31 +243,41 @@ export class ScorePerComponent implements OnInit {
   }
   tabType: string = "";
   presDetails(presItem, index, type) {
+    console.log('pres', presItem, index, type, this.prescription);
+    this.prescription = "";
+   // presItem.prescription = '';
+    this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+      if(el.name == presItem.name){
+        el.selected = true;
+      }else {
+        el.selected = false;
+      }
+    })
     this.prescription = presItem?.prescription;
 
-    if (presItem?.isClicked) {
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
-        false;
-      this.scoreReportData.currentUlb.partcularAnswerValues[index][
-        "isClicked"
-      ] = false;
-      this.prescribeText = this.clonePrescribeText;
-    } else {
-      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
-        (el, i) => {
-          el["selected"] = false;
-        }
-      );
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
-        true;
-      this.scoreReportData.currentUlb.partcularAnswerValues[index][
-        "isClicked"
-      ] = true;
-      this.prescribeText =
-        this.scoreReportData.currentUlb.partcularAnswerValues[index][
-          "prescription"
-        ];
-    }
+    // if (presItem?.isClicked) {
+    //   this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
+    //     false;
+    //   this.scoreReportData.currentUlb.partcularAnswerValues[index][
+    //     "isClicked"
+    //   ] = false;
+    //   this.prescribeText = this.clonePrescribeText;
+    // } else {
+    //   this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
+    //     (el, i) => {
+    //       el["selected"] = false;
+    //     }
+    //   );
+    //   this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
+    //     true;
+    //   this.scoreReportData.currentUlb.partcularAnswerValues[index][
+    //     "isClicked"
+    //   ] = true;
+    //   this.prescribeText =
+    //     this.scoreReportData.currentUlb.partcularAnswerValues[index][
+    //       "prescription"
+    //     ];
+    // }
   }
 
   prescribeText: string = "";
@@ -350,6 +360,11 @@ export class ScorePerComponent implements OnInit {
 
           this.scoreReportData = res?.data;
           this.getPrescriptionText(this.scoreReportData);
+          this.presDetails(
+            this.scoreReportData?.currentUlb?.partcularAnswerValues[0],
+            0,
+            ""
+          );
           this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
             (el) => {
               el.isActive = false;
