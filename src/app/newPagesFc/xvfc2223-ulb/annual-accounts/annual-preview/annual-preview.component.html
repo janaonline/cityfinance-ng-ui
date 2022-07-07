@@ -152,10 +152,10 @@
                                 (A) Do you wish to submit Audited Accounts for 2020-21 ?
                             </div>
                             <div class="col-sm-4 h-h">
-                                <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == true || preData?.body?.unAudited?.submit_annual_accounts == false">
-                                    {{preData?.body?.unAudited?.submit_annual_accounts ? 'Yes' : 'No'}}
+                                <div class="a-y" *ngIf="preData?.body?.audited?.submit_annual_accounts == true || preData?.body?.audited?.submit_annual_accounts == false">
+                                    {{preData?.body?.audited?.submit_annual_accounts ? 'Yes' : 'No'}}
                                 </div>
-                                <div class="n-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == null">
+                                <div class="n-y" *ngIf="preData?.body?.audited?.submit_annual_accounts == null">
                                     N/A
                                 </div>
                             </div>
