@@ -129,7 +129,7 @@ export class OdfFormPreviewComponent implements OnInit {
     this.isGfcOpen = this.data.isGfcOpen
     console.log(this.isGfcOpen)
     if (this.isGfcOpen) {
-      this.fileUrl = this.data.formData.cert.url
+      this.fileUrl = this.data?.formData?.cert?.url
       this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
         this.ratings = res.data
         let selectedGFCRating = this.ratings.find(res => res._id.toString() == this.ratingId);
@@ -137,7 +137,7 @@ export class OdfFormPreviewComponent implements OnInit {
         console.log(this.ratingName)
       });     
     } else {
-      this.fileUrl = this.data.previewData.data.cert.url
+      this.fileUrl = this.data?.formData?.cert?.url
       console.log(this.fileUrl)
       this.commonService.getOdfRatings().subscribe((res: any) => {
         this.ratings = res.data

@@ -23,7 +23,7 @@
                     <option *ngFor="let item of ratings" [value]="item._id">{{ item.name }}</option>
                   </select>
                 <div>
-                    <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f.rating.errors" class="text-danger">
                         <div *ngIf="f.rating.errors.required">Rating is required</div>
                     </div>
                 </div>
@@ -52,10 +52,10 @@
                           </a>
                           <p class="errorMessege">{{errorMessege}}</p>
                           </label>
-                        <input  id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
+                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
                         <div>
-                            <div *ngIf="submitted && f.cert.errors" class="customDate">
-                                <div *ngIf="f.cert.errors.required">File is required</div>
+                            <div *ngIf="submitted && f?.cert?.controls?.url?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.cert?.controls?.url?.errors.required">File is required</div>
                             </div>
                         </div>  
                     </div>          
@@ -96,7 +96,7 @@
        <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01"
         onfocus="this.max=new Date().toISOString().split('T')[0]">
        <div>
-           <div *ngIf="submitted && f.certDate.errors" class="invalid-feedback">
+           <div *ngIf="submitted && f.certDate.errors" class="text-danger">
               <div *ngIf="f.certDate.errors.required">Date is required
               </div>
            </div>

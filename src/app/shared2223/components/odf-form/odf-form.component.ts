@@ -108,6 +108,9 @@ export class OdfFormComponent implements OnInit {
       console.log(res)  
       if(res?.data?.rating == '62b2e4c79a6c781a28150d73' || res?.data?.rating == '62b2e4969a6c781a28150d71'){
         this.uploadCertificate = false
+        // this.profileForm.patchValue({
+        //   certDate: ['',Validators.required]
+        // })
       }
        this.ratingId =  res?.data?.rating;
        this.fetchData();  
@@ -125,14 +128,15 @@ export class OdfFormComponent implements OnInit {
       }
     })
   }
+
   
   prefilledOdf(data){
     console.log(data)
-   
     //curDate = curDate.toISOString();
     this.dateValue = new Date(data.certDate);
     this.dateValue = this.dateValue.toISOString().substring(0, 10);
-
+    // this.dateValue = new DatePipe('en-US').transform(this.dateValue, 'dd/MM/yyyy')
+    console.log(this.dateValue)
     console.log(data.certDate)
     this.profileForm.patchValue({
       rating: data?.rating,
@@ -182,6 +186,7 @@ export class OdfFormComponent implements OnInit {
   onSubmit(type) {
     this.submitted = true;
     // this.draft = false;
+    console.log('profileForm', this.profileForm);
     this.activeClass= true
     this.profileForm.patchValue({
       isDraft: false
@@ -189,7 +194,7 @@ export class OdfFormComponent implements OnInit {
     if (this.profileForm.invalid) {
       return;
     }
-    console.warn(this.profileForm.value);
+
     this.body = this.profileForm.value;
     this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
