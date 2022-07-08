@@ -118,7 +118,11 @@
                                 <div class="row ms-2">
                                     <div class="col-sm-6 col-lg-6 col-md-6">
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
-                                              {{uploadErrors.unAudited.standardized_data.error}}</label>
+                                              {{uploadErrors.unAudited.standardized_data.error}}
+                                        </label>
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
+                                          Excel file are mandatory.
+                                       </label>
                                     </div>
                                 </div>
                             </div>
@@ -132,9 +136,7 @@
                                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
                                     {{ uploadErrors.unAudited.standardized_data.progress }}%
                                 </div>
-                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
-                                              Excel file are mandatory.
-                                  </label>
+
                             </div>
 
                             <div class="col-sm-2 col-lg-2 col-md-2" style="">
@@ -280,7 +282,7 @@
                                           </label>
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.audited.standardized_data.error">
                                               Excel file are mandatory.
-                                            </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
