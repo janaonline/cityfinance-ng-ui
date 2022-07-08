@@ -148,7 +148,8 @@
     border-radius: 6px;
     width: 40%;
     border: 1px solid gray;
-    -webkit-appearance: listbox !important
+    -webkit-appearance: listbox !important;
+    height: auto;
 }
 .image-upload img {
     cursor: pointer;
