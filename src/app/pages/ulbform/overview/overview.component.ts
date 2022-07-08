@@ -47,10 +47,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid', id)
-        sessionStorage.setItem('row_id', this.id);
+        console.log("stid", id);
+        sessionStorage.setItem("row_id", this.id);
       } else {
-        this.id = sessionStorage.getItem('row_id')
+        this.id = sessionStorage.getItem("row_id");
       }
     });
   }
@@ -64,11 +64,11 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   noWrap = true;
   val = 0;
   cardFit = false;
-  grantTransferTitle = 'View Grant Transfer Certificate'
-  utilReportTitle = 'Upload Detailed Utilisation Report'
-  annualAccountsTitle = 'Upload Annual Accounts'
-  mpcfTitle = 'Fill details for Million Plus Challenge Fund'
-  performanceConditionTitle = 'Fill details for Performance Condition'
+  grantTransferTitle = "View Grant Transfer Certificate";
+  utilReportTitle = "Upload Detailed Utilisation Report";
+  annualAccountsTitle = "Upload Annual Accounts";
+  mpcfTitle = "Fill details for Million Plus Challenge Fund";
+  performanceConditionTitle = "Fill details for Performance Condition";
   cardsOverview = [
     // {
     //   label: "PFMS",
@@ -171,29 +171,25 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
-
-
-
-
     this.onResize();
     await this.getData();
     this.accessGrant();
   }
   getData() {
-    console.log('.......id', this.id)
+    console.log(".......id", this.id);
     return new Promise((resolve, reject) => {
       this.Overview.getData("606aaf854dff55e6c075d219", this.id).subscribe(
         (res) => {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
-          this.percentage = Number(res['percentage'])
+          this.percentage = Number(res["percentage"]);
           if (this.userData.role != USER_TYPE.ULB)
             this.ulbName = sessionStorage.getItem("ulbName");
-          else
-            this.ulbName = res["response"]["ulbName"];
+          else this.ulbName = res["response"]["ulbName"];
 
-          this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
+          this.annualStatus =
+            res["response"]["steps"]["annualAccounts"]["status"];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
           //   this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
           //   this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
@@ -237,7 +233,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     "XV-FC VOL I Main Report 2021-26",
     "XV-FC -VOL II Annexes 2021-26",
     "XV-FC recommended Urban Local Body Final Operational Guidelines for 2021-26",
-    "National Municipal Accounting Manual"
+    "National Municipal Accounting Manual",
   ];
   colors = [
     "#73C557, #3A632C",
@@ -275,14 +271,14 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
     console.log("overview", this.isUA, this.isMillionPlus);
     if (this.isUA == "Yes") {
-      this.cardsOverview[3].title = this.mpcfTitle
+      this.cardsOverview[3].title = this.mpcfTitle;
       this.cardsOverview = this.cardsOverview;
       this.formValue = 3;
       this.factor = 100 / this.formValue;
       this.numcard = 4;
     } else if (this.isUA == "No") {
       this.formValue = 3;
-      this.cardsOverview[3].title = this.performanceConditionTitle
+      this.cardsOverview[3].title = this.performanceConditionTitle;
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
@@ -298,41 +294,47 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
-      this.status = 'Completed'
-      console.log('ppercent', this.percentage);
+      this.status = "Completed";
+      console.log("ppercent", this.percentage);
     }
     if (this.percentage > 0 && this.percentage < 100) {
-      this.status = 'In Progress'
-      console.log('ppercent', this.percentage);
+      this.status = "In Progress";
+      console.log("ppercent", this.percentage);
     }
     if (this.percentage == 0) {
-      this.status = 'Not Started'
-      console.log('ppercent', this.percentage);
+      this.status = "Not Started";
+      console.log("ppercent", this.percentage);
     }
     let eligibleForms = [];
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
       if (element.label != "Grant Transfer Certificate") {
-        if (element.label != 'Plan water sanitation') {
+        if (element.label != "Plan water sanitation") {
           if (element.label != "service-level") {
             if (element.label != "PFMS") {
               eligibleForms.push(element.label);
               console.log(element.label);
-              if ((element.label != "PFMS") && !(element.label == "Annual Acconts" && this.annualStatus == 'N/A')
+              if (
+                element.label != "PFMS" &&
+                !(
+                  element.label == "Annual Acconts" &&
+                  this.annualStatus == "N/A"
+                )
               ) {
                 eligibleActionForms.push(element.label);
               }
             }
           }
         }
-      };
+      }
 
       sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
-      sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms)
+      sessionStorage.setItem(
+        "eligibleActionForms",
+        JSON.stringify(eligibleActionForms)
       );
       this.ulbformService.setForms.next(true);
-    })
-
+    });
   }
   onUnhover(num) {
     this.hover = false;
@@ -341,7 +343,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
 
   onHover(num, title) {
-    console.log('index-num', num, title);
+    console.log("index-num", num, title);
     // if (title == 'Linking of PFMS Account') {
     //   //   this.p = (num+1)*80;
     //   this.val = 0;
