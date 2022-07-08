@@ -1,0 +1,400 @@
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+
+@Component({
+  selector: "app-overview",
+  templateUrl: "./overview.component.html",
+  styleUrls: ["./overview.component.scss"],
+})
+export class OverviewComponent implements OnInit {
+  constructor() {}
+  width;
+  row_width;
+  messWidth;
+  grantTransferTitle = "View Grant Transfer Certificate";
+  utilReportTitle = "Upload Detailed Utilisation Report";
+  annualAccountsTitle = "Upload Annual Accounts";
+  mpcfTitle = "Fill details for Million Plus Challenge Fund";
+  performanceConditionTitle = "Fill details for Performance Condition";
+  cardsOverview = [
+    {
+      label: "Grant Transfer Certificate",
+      key: "GTC",
+      link: "../grant-tra-certi",
+      title: this.grantTransferTitle,
+      tooltip: "tooltip",
+      image: "../../../../assets//ulbform/gtc.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Utilisation Report",
+      key: "DUR",
+      link: "../utilisation-report",
+      title: this.utilReportTitle,
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/dur.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Annual Acconts",
+      key: "AA",
+      link: "../annual_acc",
+      title: this.annualAccountsTitle,
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/aa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "PFMS",
+      key: "PFMS",
+      link: "../pfms_acc",
+      title: "Provide details on PFMS Account Linkage",
+      tooltip: "tooltip",
+      image: "../../../../assets//ulbform/lpa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Property Tax Operationalisation",
+      key: "PTO",
+      link: "../pto",
+      title: `Furnish details on property tax collection procedures`,
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/aa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Service Level Benchmarks",
+      key: "SLB",
+      link: "../slb",
+      title: "Fill details for Performance Condition",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/slb.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    // {
+    //   label: "slbs",
+    //   link: "../slbs",
+    //   // title: "Million Plus City Challenge Fund",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets/ulbform/mpccf.svg",
+    //   permittedAccounts: [""],
+    //   display: [""],
+    // },
+    {
+      label: "Open Defecation Free (ODF)",
+      key: "ODF",
+      link: "../odf",
+      title: "Provide ODF rating certificate and other details",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+      permittedAccounts: ["No"],
+      display: ["None"],
+    },
+    {
+      label: "Garbage Free City (GFC)",
+      key: "GFC",
+      link: "../gfc",
+      title: "Provide GFC rating certificate and other details",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+      permittedAccounts: ["No"],
+      display: ["None"],
+    },
+  ];
+  // cardsOverview1 = [
+  //   {
+  //     label: "Grant Transfer Certificate",
+  //     key: "GTC",
+  //     link: "../grant-tra-certi",
+  //     title: this.grantTransferTitle,
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets//ulbform/gtc.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  //   {
+  //     label: "Utilisation Report",
+  //     key: "DUR",
+  //     link: "../utilisation-report",
+  //     title: this.utilReportTitle,
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/dur.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  //   {
+  //     label: "Annual Acconts",
+  //     key: "AA",
+  //     link: "../annual_acc",
+  //     title: this.annualAccountsTitle,
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/aa.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  //   {
+  //     label: "PFMS",
+  //     key: "PFMS",
+  //     link: "../pfms_acc",
+  //     title: "Provide details on PFMS Account Linkage",
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets//ulbform/lpa.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  // ];
+  // cardsOverview2 = [
+  //   {
+  //     label: "Property Tax Operationalisation",
+  //     key: "PTO",
+  //     link: "../pto",
+  //     title: `Furnish details on property tax collection procedures`,
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/aa.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  //   {
+  //     label: "Service Level Benchmarks",
+  //     key: "SLB",
+  //     link: "../slb",
+  //     title: "Fill details for Performance Condition",
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/slb.svg",
+  //     permittedAccounts: [""],
+  //     display: [""],
+  //   },
+  //   // {
+  //   //   label: "slbs",
+  //   //   link: "../slbs",
+  //   //   // title: "Million Plus City Challenge Fund",
+  //   //   tooltip: "tooltip",
+  //   //   image: "../../../../assets/ulbform/mpccf.svg",
+  //   //   permittedAccounts: [""],
+  //   //   display: [""],
+  //   // },
+  //   {
+  //     label: "Open Defecation Free (ODF)",
+  //     key: "ODF",
+  //     link: "../odf",
+  //     title: "Provide ODF rating certificate and other details",
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+  //     permittedAccounts: ["No"],
+  //     display: ["None"],
+  //   },
+  //   {
+  //     label: "Garbage Free City (GFC)",
+  //     key: "GFC",
+  //     link: "../gfc",
+  //     title: "Provide GFC rating certificate and other details",
+  //     tooltip: "tooltip",
+  //     image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+  //     permittedAccounts: ["No"],
+  //     display: ["None"],
+  //   },
+  // ];
+  @ViewChild("myIdentifier")
+  myIdentifier: ElementRef;
+  message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
+  message2 = `Process of collecting notified floor rates of property tax must be operationalized`;
+  hover = false;
+  i = 8098987;
+  i2 = 8098987;
+  itemsPerSlide = 8;
+  singleSlideOffset = true;
+  noWrap = true;
+  val = 0;
+  val2 = 0;
+  cardFit = false;
+  public innerWidth: number;
+  status;
+  overviewText = `The 15th Finance Commission Grants Management System facilitates seamless
+   submission and flow of required information between Urban Local Bodies, State Governments
+  and Ministry of Housing and Urban Affairs for the purposes of availing ULB Grants between 2021-26.`;
+  count = 0;
+  percentage = 0;
+  checkPos = true;
+  ngOnInit(): void {
+    this.onResize();
+  }
+
+  public onResize() {
+    this.innerWidth = window.innerWidth;
+    console.log("pk agr", this.innerWidth);
+    if (this.innerWidth < 1200) {
+      this.itemsPerSlide = 8;
+      //  this.cardFit = true;
+    }
+    if (this.innerWidth > 1000) {
+      // console.log('800px')
+      this.itemsPerSlide = 5;
+    } else if (this.innerWidth > 750) {
+      this.itemsPerSlide = 3;
+    } else if (this.innerWidth > 600) {
+      this.itemsPerSlide = 2;
+    } else if (this.innerWidth < 500) {
+      this.itemsPerSlide = 2;
+    } else {
+      this.itemsPerSlide = 5;
+    }
+    console.log(this.itemsPerSlide);
+  }
+  ngAfterViewInit() {
+    this.row_width = this.myIdentifier.nativeElement.offsetWidth;
+    var height = this.myIdentifier.nativeElement.offsetHeight;
+    this.messWidth = this.row_width - 42;
+    console.log("Width:" + this.row_width);
+    console.log("Height: " + height);
+  }
+  onUnhover(num) {
+    this.hover = false;
+    this.val = num;
+    console.log("val", this.val, num);
+  }
+
+  onHover(num, title, key) {
+    console.log("index-num", num, title);
+    if (key == "GTC") {
+      //  this.p = (num+1)*135;
+      this.val = 0;
+      this.hover = true;
+      this.i = 1;
+      // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+      this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
+      this.checkPos = true;
+    }
+    if (key == "DUR") {
+      //  this.p = (num+2)*120;
+      this.val = 1;
+      this.hover = true;
+      this.i = 2;
+      // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+      this.message = `ULBs are mandated to furnish
+       Detailed Utilisation Report as per prescribed format for the previous installments of 15th FC grants.`;
+      this.checkPos = true;
+    }
+
+    if (key == "AA") {
+      //  this.p = (num+3)*112;
+      this.val = 2;
+      this.hover = true;
+      this.i = 3;
+      //  this.message = "ULBs to upload provisional annual accounts for
+      //    previous year and audited annual accounts for year previous year w.r.t. award year."
+      this.message = `ULBs to upload Provisional Annual Accounts for previous year
+      and Audited Annual Accounts for year before previous year with respect to the award year.`;
+      this.checkPos = true;
+    }
+    if (key == "PFMS") {
+      //   this.p = (num+1)*80;
+      this.val = 3;
+      this.hover = true;
+      this.i = 4;
+      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
+      this.checkPos = true;
+    }
+    if (key == "PTO") {
+      //   this.p = (num+1)*80;
+      this.val = 4;
+      this.hover = true;
+      this.i = 5;
+      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
+      this.checkPos = true;
+    }
+    if (key == "SLB") {
+      //  this.p = (num+3)*125;
+      this.val = 5;
+      this.hover = true;
+      this.i = 6;
+      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+      this.message = `Performance condition grants will be recommended by MoHUA based on
+      the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
+      NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
+      this.checkPos = true;
+    }
+    if (key == "ODF") {
+      // this.p = (num+3)*125;
+      this.val = 6;
+      this.hover = true;
+      this.i = 7;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
+      this.checkPos = true;
+    }
+    if (key == "GFC") {
+      // this.p = (num+3)*125;
+      this.val = 7;
+      this.hover = true;
+      this.i = 8;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
+      this.checkPos = true;
+    }
+
+    //   if (title == 'Plans for Water and Sanitation') {
+    //     //  this.p = (num+3)*120;
+
+    //     this.hover = true;
+    //     if (num == 5) {
+    //       this.i = 6;
+    //       this.val = 5;
+    //     }
+    //     else {
+    //       this.i = 7;
+    //       this.val = 6;
+    //     }
+    //     //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+    //     this.message = `Non-Million Plus Cities to select 1 Project for Water
+    //  and 1 Project for Sanitation with clear functional outcomes`;
+    //     this.checkPos = true;
+    //   }
+  }
+  onHover2(num, title, key) {
+    if (key == "PTO") {
+      //   this.p = (num+1)*80;
+      this.val2 = 0;
+      this.hover = true;
+      this.i2 = 1;
+      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      this.message2 = `Process of collecting notified floor rates of property tax must be operationalized.`;
+      this.checkPos = true;
+    }
+    if (key == "SLB") {
+      //  this.p = (num+3)*125;
+      this.val2 = 1;
+      this.hover = true;
+      this.i2 = 2;
+      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+      this.message2 = `Performance condition grants will be recommended by MoHUA based on
+      the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
+      NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
+      this.checkPos = true;
+    }
+    if (key == "ODF") {
+      // this.p = (num+3)*125;
+      this.val2 = 2;
+      this.hover = true;
+      this.i2 = 3;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message2 = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
+      this.checkPos = true;
+    }
+    if (key == "GFC") {
+      // this.p = (num+3)*125;
+      this.val2 = 3;
+      this.hover = true;
+      this.i2 = 4;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message2 = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
+      this.checkPos = true;
+    }
+  }
+}

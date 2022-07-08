@@ -19,6 +19,9 @@ import {
   NsixDigitDecimaNumberDirective,
   NtwoDigitDecimaNumberDirective,
 } from "./decimal.directive";
+import { OverviewComponent } from "./overview/overview.component";
+import { ResourceComponent } from "./resource/resource.component";
+import { CarouselModule } from "ngx-bootstrap/carousel";
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import {
     PfmsComponent,
     NtwoDigitDecimaNumberDirective,
     NsixDigitDecimaNumberDirective,
+    OverviewComponent,
+    ResourceComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +48,7 @@ import {
     MatIconModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
+    CarouselModule.forRoot(),
   ],
 })
 export class Xvfc2223UlbModule {}
