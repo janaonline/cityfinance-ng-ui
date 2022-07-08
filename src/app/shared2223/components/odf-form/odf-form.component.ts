@@ -106,6 +106,9 @@ export class OdfFormComponent implements OnInit {
     }
     this.commonService.getOdfFormData(params).subscribe((res: any) => {
       console.log(res)  
+      if(res?.data?.rating == '62b2e4c79a6c781a28150d73' || res?.data?.rating == '62b2e4969a6c781a28150d71'){
+        this.uploadCertificate = false
+      }
        this.ratingId =  res?.data?.rating;
        this.fetchData();  
        console.log(this.ratingId)
@@ -259,15 +262,24 @@ export class OdfFormComponent implements OnInit {
       }, 4000);
       return;
     }
+
     this.odfFileName = event.target.files[0].name;
     if (this.odfFileName) {
       this.showIcon = true
     } else {
       this.showIcon = false
     }
-    const filesSelected = <Array<File>>event.target["files"];
-    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
-    this.upload(progessType, this.odfFileName);
+    console.log(event)
+    if(event.target.files[0].type == 'application/pdf'){
+      const filesSelected = <Array<File>>event.target["files"];
+      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+      this.upload(progessType, this.odfFileName);
+    }else {
+      this.showIcon = false
+      swal("Error", "Only PDF File can be Uploaded.", "error");
+      return;
+    }
+   
   }
   clearFile() {
     this.showIcon = false
