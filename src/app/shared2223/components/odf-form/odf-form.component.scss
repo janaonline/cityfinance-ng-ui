@@ -145,7 +145,7 @@
 }
 
 .marginClass {
-    margin-top: 4%;
+    margin-top: 1%;
 }
 
 .abDisable {
@@ -372,4 +372,14 @@
 
 .inputDate {
     text-transform: uppercase;
+}
+
+.score {
+    width: 40%;
+    border: 1px solid transparent;
+    background: limegreen;
+    border-radius: 4px;
+    margin-top: 1rem;
+    padding: 0.2rem 1rem;
+    color: #fff;
 }

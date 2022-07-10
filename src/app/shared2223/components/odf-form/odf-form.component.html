@@ -21,11 +21,17 @@
                     <option value="" selected disabled>Select Rating</option>
                     <option *ngFor="let item of ratings" [value]="item._id">{{ item.name }}</option>
                   </select>
-                <div>
-                    <div *ngIf="submitted && f.rating.errors" class="text-danger">
-                        <div *ngIf="f.rating.errors.required">Rating is required</div>
+
+                <div *ngIf="submitted && f.rating.errors" class="text-danger">
+                    <div *ngIf="f.rating.errors.required">Rating is required</div>
+                </div>
+
+                <div *ngIf="!isGfc">
+                    <div class="score">
+                        <div>Score = {{ratingMark}}</div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="row mb-4 question marginClass">
@@ -92,7 +98,7 @@
        </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" placeholder="DD/MM/YYYY" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" (change)="dateChange()" placeholder="DD/MM/YYYY" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
                 <div>
                     <div *ngIf="submitted && f.certDate.errors" class="text-danger">
                         <div *ngIf="f.certDate.errors.required">Date is required
@@ -115,11 +121,11 @@
         <div class="col-sm-5 col-md-5 col-lg-5 rightText">
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+                    <button type="button" [disabled]="isDisabled" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
 
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
+                    <button type="submit" [disabled]="isDisabled" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
 
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">

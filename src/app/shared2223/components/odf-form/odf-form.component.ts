@@ -11,26 +11,30 @@ import { MatDialog } from "@angular/material/dialog";
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-odf-form',
-  templateUrl: './odf-form.component.html',
-  styleUrls: ['./odf-form.component.scss']
+  selector: "app-odf-form",
+  templateUrl: "./odf-form.component.html",
+  styleUrls: ["./odf-form.component.scss"],
 })
 export class OdfFormComponent implements OnInit {
   date = new Date();
   now;
   noRating: boolean;
   @Input() isGfcOpen: boolean = false;
-  constructor(private dataEntryService: DataEntryService,
-    private formBuilder: FormBuilder, private commonService: NewCommonService, public dialog: MatDialog) {
+  constructor(
+    private dataEntryService: DataEntryService,
+    private formBuilder: FormBuilder,
+    private commonService: NewCommonService,
+    public dialog: MatDialog
+  ) {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
   }
 
-  uploadDeclaration: boolean = false
-  uploadCertificate: boolean = true
-  odfUrl = ''
-  change = ''
+  uploadDeclaration: boolean = false;
+  uploadCertificate: boolean = true;
+  odfUrl = "";
+  change = "";
   odfFileName;
   odfProgress;
   showIcon: boolean = false;
@@ -55,179 +59,206 @@ export class OdfFormComponent implements OnInit {
   draft = true;
   ulbId;
   ulb;
-  errorMessege: any = '';
+  errorMessege: any = "";
   dropdownValues: any;
   profileForm: FormGroup;
   submitted = false;
-  body;
+  body: any = {};
   isGfc;
   isDisabled = false;
   previewData: any;
-  ratingId:any;
-  selectedDropdownValue:any;
+  ratingId: any;
+  selectedDropdownValue: any;
   dateValue;
-  activeClass:boolean = false
+  activeClass: boolean = false;
+  ratingMark = "N/A";
   ngOnInit(): void {
-
     this.profileForm = this.formBuilder.group({
-      rating: ['', Validators.required],
+      rating: ["", Validators.required],
       cert: this.formBuilder.group({
-        url: ['', Validators.required],
-        name: ['', Validators.required],
+        url: ["", Validators.required],
+        name: ["", Validators.required],
       }),
-      certDate: ['', Validators.required],
-      ulb: '',
-      design_year: '',
-      status: 'PENDING',
-      isDraft: this.draft,
-      isGfc: this.isGfcOpen
+      certDate: ["", Validators.required],
+      ulb: "",
+      design_year: "",
+      status: "PENDING",
+      isGfc: this.isGfcOpen,
     });
-    this.isGfc = this.profileForm.value.isGfc
-    console.log(this.isGfc)
+    this.isGfc = this.profileForm.value.isGfc;
+    console.log(this.isGfc);
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.ulbId = JSON.parse(localStorage.getItem("userData"));
+    this.ulb = this.ulbId?.ulb;
     for (var i in this.design_year) {
-      if (i == '2022-23') {
+      if (i == "2022-23") {
         this.yearValue = this.design_year[i];
-        this.profileForm.patchValue({
-          design_year: this.yearValue
-        })
+        // this.profileForm.patchValue({
+        //   design_year: this.yearValue,
+        //   ulb: this.ulb:
+        // });
       }
     }
-    this.ulb = this.ulbId?.ulb
-    this.profileForm.patchValue({
-      ulb: this.ulb
-    })
 
     const params = {
       ulb: this.ulb,
       design_year: this.yearValue,
-      isGfc: this.isGfc
-    }
+      isGfc: this.isGfc,
+    };
     this.commonService.getOdfFormData(params).subscribe((res: any) => {
-      console.log(res)  
-      if(res?.data?.rating == '62b2e4c79a6c781a28150d73' || res?.data?.rating == '62b2e4969a6c781a28150d71'){
-        this.uploadCertificate = false
+      console.log(res);
+      if (
+        res?.data?.rating == "62b2e4c79a6c781a28150d73" ||
+        res?.data?.rating == "62b2e4969a6c781a28150d71"
+      ) {
+        this.uploadCertificate = false;
         // this.profileForm.patchValue({
         //   certDate: ['',Validators.required]
         // })
       }
-       this.ratingId =  res?.data?.rating;
-       this.fetchData();  
-       console.log(this.ratingId)
-      this.previewData = res
+      this.ratingId = res?.data?.rating;
+      this.fetchData();
+      console.log(this.ratingId);
       this.prefilledOdf(res?.data);
-      if (res?.data.isDraft == false) {
-        console.log(res?.data?.isDraft)
-        this.isDisabled = true
+      if (res?.data?.isDraft == false) {
+        console.log(res?.data?.isDraft);
+        this.isDisabled = true;
         // this.profileForm.disabled
-        this.profileForm.controls['cert'].disable();
-        this.profileForm.controls['certDate'].disable();
+        this.profileForm.controls["cert"]?.disable();
+        this.profileForm.controls["certDate"]?.disable();
         // this.profileForm.controls['rating'].disable();
-
       }
-    })
-  }
+    });
 
-  
-  prefilledOdf(data){
-    console.log(data)
-    //curDate = curDate.toISOString();
-    this.dateValue = new Date(data.certDate);
-    this.dateValue = this.dateValue.toISOString().substring(0, 10);
-    // this.dateValue = new DatePipe('en-US').transform(this.dateValue, 'dd/MM/yyyy')
-    console.log(this.dateValue)
-    console.log(data.certDate)
-    this.profileForm.patchValue({
-      rating: data?.rating,
-      certDate: this.dateValue
-    })
-    this.profileForm?.controls?.cert.patchValue({
-        url: data?.cert?.url,
-        name: data?.cert?.name,
-    })
-    this.odfFileName = data?.cert?.name
-    this.odfUrl = data?.cert?.url
-    if(this.odfFileName && this.odfUrl){
-      this.showIcon = true
+    console.log("gggggggggg", this.isGfc);
+
+    if (this.isGfc) {
+      sessionStorage.setItem("changeInGfc", "false");
+    } else {
+      sessionStorage.setItem("changeInGfc", "false");
     }
-    console.log('aa', this.profileForm);
   }
-  get f() { return this.profileForm.controls; }
+  formDataPre;
+  firstClick = false;
+  prefilledOdf(data) {
+    console.log(data);
+    //curDate = curDate.toISOString();
+    console.log("this.dateValue", this.dateValue);
+    if (data?.certDate) {
+      this.dateValue = new Date(data?.certDate);
+      this.dateValue = this.dateValue.toISOString().substring(0, 10);
+    }
 
-  disableSubmitForm: boolean
-  fetchData(){
+    // this.dateValue = new DatePipe('en-US').transform(this.dateValue, 'dd/MM/yyyy')
+    console.log("this.dateValue 2", this.dateValue);
+
+    this.profileForm.patchValue({
+      rating: data?.rating ? data?.rating : "",
+      certDate: this.dateValue,
+      design_year: this.yearValue,
+      ulb: this.ulb,
+    });
+    this.profileForm?.controls?.cert.patchValue({
+      url: data?.cert?.url,
+      name: data?.cert?.name,
+    });
+    this.odfFileName = data?.cert?.name;
+    this.odfUrl = data?.cert?.url;
+    if (this.odfFileName && this.odfUrl) {
+      this.showIcon = true;
+    }
+    // if (this.firstClick) {
+    //   this.formValueChanges();
+    // }
+    this.formDataPre = this.profileForm.value;
+    console.log("aaa", this.profileForm.value);
+  }
+  get f() {
+    return this.profileForm.controls;
+  }
+  disableSubmitForm: boolean;
+  fetchData() {
     if (this.isGfc == true) {
-      this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
-        console.log(res)
-        this.previewData = res;
+      this.commonService.getGfcFormData("gfc").subscribe((res: any) => {
+        console.log(res);
         this.ratings = res.data;
-        this.dropdownValues = res.data.map(a => a.name);
-        console.log(this.ratings)
-      })
+        this.dropdownValues = res.data.map((a) => a.name);
+        console.log(this.ratings);
+        this.getMarks(this.ratingId);
+      });
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
-        console.log(res.data)
-        
-        this.ratings = res.data;
-        this.dropdownValues = res.data.map(a => a.name);
-        console.log(this.dropdownValues)
-        console.log(this.ratingId)
+        console.log(res.data);
 
+        this.ratings = res?.data;
+        this.dropdownValues = res.data.map((a) => a.name);
+        console.log("this.dropdownValues", this.dropdownValues, this.ratings);
+        console.log("this.ratingId", this.ratingId);
+        this.getMarks(this.ratingId);
         // this.selectedDropdownValue = res.data.find(res => res._id == this.ratingId);
         // console.log(this.selectedDropdownValue.name)
         // this.profileForm.patchValue({
         //   rating: this.ratingId,
         // })
-      })
+      });
     }
-    
+    console.log("aaa 4", this.profileForm.value);
   }
   onSubmit(type) {
     this.submitted = true;
     // this.draft = false;
-    console.log('profileForm', this.profileForm);
-    this.activeClass= true
-    this.profileForm.patchValue({
-      isDraft: false
-    })
+    console.log("profileForm", this.profileForm);
+    this.activeClass = true;
     if (this.profileForm.invalid) {
       return;
     }
 
-    this.body = this.profileForm.value;
-    this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
-      console.log('success!!!!!!!!!!!!!', res)
-      if (res && res.success) {
+    this.body = { ...this.profileForm.value, isDraft: false };
+    this.commonService.odfSubmitForm(this.body).subscribe(
+      (res: any) => {
+        console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
-        swal('Saved', 'Data saved successfully', 'success')
-      } else {
-        swal('Error', res?.message ? res?.message : 'Error', 'error')
+        if (res && res.success) {
+          this.isDisabled = true;
+          swal("Saved", "Data saved successfully", "success");
+        } else {
+          swal("Error", res?.message ? res?.message : "Error", "error");
+        }
+      },
+      (error) => {
+        console.error("err", error);
       }
-    }, error => {
-      console.error('err', error);
-    })
+    );
   }
   onDraft() {
     console.log(this.profileForm.value);
-    this.body = this.profileForm.value;
-    this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
-      console.log('successDraftttt!!!!!!!!!!!!!', res)
-      console.log(this.profileForm.value)
-     // this.fetchData();
-      swal('Saved', res.message, 'success')
+    // this.body.isDraft = true;
+    this.body = { ...this.profileForm.value, isDraft: true };
+    console.log("this.body", this.body);
 
-    })
+    this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
+      console.log("successDraftttt!!!!!!!!!!!!!", res);
+      console.log(this.profileForm.value);
+      // this.fetchData();
+      swal("Saved", res.message, "success");
+    });
   }
   preview() {
-    console.log('odfFileName', this.odfFileName)
+    console.log(
+      "odfFileName 111",
+      this.profileForm,
+      "this.profileForm.value",
+      this.profileForm.value
+    );
     let preData = {
-      formData: this.profileForm.value,
+      formData: this.formDataPre,
       fileName: this.odfFileName,
       isGfcOpen: this.isGfcOpen,
-      previewData: this.previewData
-    }
-    console.log('preData', preData)
+      previewData: this.previewData,
+      ratings: this.ratings,
+      score: this.ratingMark
+    };
+    console.log("preData", preData);
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
       data: preData,
       width: "85vw",
@@ -235,64 +266,88 @@ export class OdfFormComponent implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   onChange(item) {
-    console.log(item)
-    if (item == '62b2e4c79a6c781a28150d73' || item == '62b2e4969a6c781a28150d71') {
+    this.firstClick = true;
+    console.log(item);
+    if (
+      item == "62b2e4c79a6c781a28150d73" ||
+      item == "62b2e4969a6c781a28150d71"
+    ) {
       this.uploadDeclaration = true;
       this.uploadCertificate = false;
       this.noRating = true;
-      this.profileForm.get('certDate').clearValidators();
-      this.profileForm.get('certDate').updateValueAndValidity();
+      this.profileForm?.get("certDate")?.clearValidators();
+      this.profileForm?.get("certDate")?.updateValueAndValidity();
     } else {
-      this.uploadDeclaration = false
-      this.uploadCertificate = true
+      this.uploadDeclaration = false;
+      this.uploadCertificate = true;
       this.noRating = false;
-      this.profileForm.get('certDate').setValidators([Validators.required]);
+      this.profileForm?.get("certDate")?.setValidators([Validators.required]);
     }
+    this.getMarks(item);
+    this.formDataPre = this.profileForm.value;
+  }
+  getMarks(id) {
+    console.log("id ", id);
+    console.log("r", this.ratings);
+    if (id) {
+      this.ratings.forEach((el) => {
+        if (el?._id == id) {
+          this.ratingMark = el?.value;
+          return;
+        }
+      });
+    } else {
+      this.ratingMark = "N/A";
+    }
+
+    //  this.ratingMark = data?.value;
   }
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInGTC", "true");
     this.change = "true";
   }
   fileChangeEvent(event, progessType, fileName) {
+    this.firstClick = true;
     if (event.target.files[0].size >= 5000000) {
-      this.errorMessege = 'File size should be less than 5Mb.'
+      this.errorMessege = "File size should be less than 5Mb.";
       this.profileForm.controls.cert.reset();
       const error = setTimeout(() => {
-        this.showIcon = false
-        this.errorMessege = ''
+        this.showIcon = false;
+        this.errorMessege = "";
       }, 4000);
       return;
     }
 
     this.odfFileName = event.target.files[0].name;
     if (this.odfFileName) {
-      this.showIcon = true
+      this.showIcon = true;
     } else {
-      this.showIcon = false
+      this.showIcon = false;
     }
-    console.log(event)
-    if(event.target.files[0].type == 'application/pdf'){
+    console.log(event);
+    if (event.target.files[0].type == "application/pdf") {
       const filesSelected = <Array<File>>event.target["files"];
-      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+      this.filesToUpload.push(
+        ...this.filterInvalidFilesForUpload(filesSelected)
+      );
       this.upload(progessType, this.odfFileName);
-    }else {
-      this.showIcon = false
+    } else {
+      this.showIcon = false;
       swal("Error", "Only PDF File can be Uploaded.", "error");
       return;
     }
-   
   }
   clearFile() {
-    this.showIcon = false
-    this.odfFileName = ''
+    this.showIcon = false;
+    this.odfFileName = "";
     this.profileForm?.controls?.cert.patchValue({
-      url: '',
-      name: '',
-  })
+      url: "",
+      name: "",
+    });
+    this.formDataPre = this.profileForm.value;
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
@@ -303,20 +358,20 @@ export class OdfFormComponent implements OnInit {
       if (fileExtension === "pdf") {
         validFiles.push(file);
       } else {
-        swal("Only PDF File can be Uploaded.")
+        swal("Only PDF File can be Uploaded.");
         return;
       }
     }
     return validFiles;
   }
-  apiData = {}
+  apiData = {};
   async upload(progessType, fileName) {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
-    console.log(files[0].name)
-    let fileExtension = files[0].name.split('.').pop();
-    console.log(fileExtension)
+    console.log(files[0].name);
+    let fileExtension = files[0].name.split(".").pop();
+    console.log(fileExtension);
     this[progessType] = 10;
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
@@ -334,14 +389,8 @@ export class OdfFormComponent implements OnInit {
           let fileAlias = s3Response["data"][0]["file_alias"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
-          this.uploadFileToS3(
-            file,
-            s3URL,
-            fileAlias,
-            fileIndex,
-            progessType
-          );
-          resolve("success")
+          this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
+          resolve("success");
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {
@@ -353,7 +402,7 @@ export class OdfFormComponent implements OnInit {
           }
         }
       );
-    })
+    });
   }
   subscription: any;
   private uploadFileToS3(
@@ -361,7 +410,7 @@ export class OdfFormComponent implements OnInit {
     s3URL: string,
     fileAlias: string,
     fileIndex: number,
-    progressType: string = ''
+    progressType: string = ""
   ) {
     this.subscription = this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -369,23 +418,34 @@ export class OdfFormComponent implements OnInit {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
-            if (progressType == 'odfProgress') {
+            if (progressType == "odfProgress") {
               this.odfUrl = fileAlias;
-              this.profileForm.get('cert').patchValue({
+              this.profileForm.get("cert").patchValue({
                 url: fileAlias,
-                name: file.name
-              })
+                name: file.name,
+              });
+              this.formDataPre = this.profileForm.value;
               // this.profileForm.get('cert').patchValue({name:file.name})
 
-              console.log(file)
-              console.log(s3URL)
+              console.log(file);
+              console.log(s3URL);
             }
-
           }
         },
         (err) => {
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );
+    // this.formDataPre = this.profileForm.value;
+  }
+  dateChange() {
+    this.formDataPre = this.profileForm.value;
+    console.log("date change", this.profileForm.value);
+  }
+  formValueChanges() {
+    this.profileForm.valueChanges.subscribe((el) => {
+      //   this.firstClick = true;
+      console.log("changes", el);
+    });
   }
 }
