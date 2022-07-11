@@ -7,7 +7,7 @@
                 </h4>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
-                <button type="button" class="btn btn-primary" id="prevBtn">Preview</button>
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
             </div>
         </div>
         <div class="card">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        <input type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
+                        <input type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue.data.PFMSAccountNumber}}">
                     </span>
                 </div>
             </div>
@@ -114,18 +114,21 @@
                         (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
                 </div>
             </div>
+            <!-- <div *ngIf="uploadedFile">
+                {{uploadedFile}}
+             </div> -->
             <div class="row" *ngIf="showIcon">
-                <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{pfmsFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
                     <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar"
                         attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: pfmsLinkProgress + '%' }">
                         {{ pfmsLinkProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
                     <a href="{{ odfUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
@@ -156,7 +159,7 @@
                 </div>
             </div>
             <div class="row" *ngIf="showIconOtherDoc">
-                <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{otherFileName}}
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
@@ -166,7 +169,7 @@
                         {{ otherProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
                     <a href="{{ odfUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>

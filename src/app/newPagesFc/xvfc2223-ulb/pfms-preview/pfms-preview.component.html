@@ -1,0 +1,86 @@
+<div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status d-none">
+                <b>Form Current Status:</b>
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            <p>Linking of PFMS Account</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(A) Do you wish to submit Details for PFMS Account ?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            {{data.data.linkPFMS ? data.data.linkPFMS : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span class="fontStyle">(B) Has the ULB linked its bank account with PFMS?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            {{data.data.isUlbLinkedWithPFMS ? data.data.isUlbLinkedWithPFMS : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(C) PFMS Account Number
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            {{data.data.PFMSAccountNumber ? data.data.PFMSAccountNumber : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(D) Upload proof of account linkage with PFMS such as Bank account details, Bank
+                                statement copy, etc
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            <a href="{{data.data.cert.url}}" target="_blank">{{data.data.cert.name ? data.data.cert.name: 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(E) Upload any other transaction doc from PFMS
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            <a href="{{data.data.otherDocs.url}}" target="_blank">{{data.data.otherDocs.name ? data.data.otherDocs.name : 'N/A'}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

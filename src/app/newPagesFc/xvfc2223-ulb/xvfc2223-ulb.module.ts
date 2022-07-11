@@ -22,6 +22,7 @@ import {
 import { OverviewComponent } from "./overview/overview.component";
 import { ResourceComponent } from "./resource/resource.component";
 import { CarouselModule } from "ngx-bootstrap/carousel";
+import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CarouselModule } from "ngx-bootstrap/carousel";
     NsixDigitDecimaNumberDirective,
     OverviewComponent,
     ResourceComponent,
+    PfmsPreviewComponent,
   ],
   imports: [
     CommonModule,

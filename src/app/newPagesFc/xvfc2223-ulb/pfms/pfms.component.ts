@@ -5,6 +5,8 @@ const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
+import { MatDialog } from "@angular/material/dialog";
 @Component({
   selector: 'app-pfms',
   templateUrl: './pfms.component.html',
@@ -20,7 +22,7 @@ export class PfmsComponent implements OnInit {
   submitted = false;
   ulbId: any;
   designYearId: any;
-  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService) {
+  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService,public dialog: MatDialog) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData)
     this.ulbId = this.ulbData.ulb
@@ -69,6 +71,7 @@ export class PfmsComponent implements OnInit {
   activeClassNoBottom: boolean = false;
   otherFileName:any;
   subscription: any;
+  previewData:any;
   ngOnInit(): void {
     
     this.registerForm = this.formBuilder.group({
@@ -98,12 +101,28 @@ export class PfmsComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   isDisabled:boolean = false
+  dataValue:any
+  uploadedFile:any
   getSubmittedFormData(){
     const params ={ulb: this.ulbId,
     design_year: this.designYearId,
     }
     this.commonService.submittedFormData(params).subscribe((res: any) => {
       console.log(res)
+      this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
+      this.dataValue = res
+      if(res?.data?.linkPFMS == 'Yes' && res?.data?.isUlbLinkedWithPFMS == 'Yes' && res?.data?.PFMSAccountNumber){
+        this.showOtherQuestions = true;
+        this.linkedToggle = true;
+      }else{
+        this.showOtherQuestions = false;
+        this.linkedToggle = false;
+      }
+      res?.data?.linkPFMS == 'Yes' ? this.activeClass = true : this.activeClassNo = true
+      res?.data?.isUlbLinkedWithPFMS == 'Yes' ? this.activeClassBottom = true : this.activeClassNoBottom = true 
+     
+      
+      this.previewData = res
       if(res?.data?.isDraft == false){
         this.isDisabled = true
       }
@@ -141,6 +160,7 @@ export class PfmsComponent implements OnInit {
     this.registerForm.patchValue({
       isDraft: true
     })
+    console.log(this.registerForm.value)
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
@@ -154,7 +174,18 @@ export class PfmsComponent implements OnInit {
       console.error('err', error);
     })
   }
- 
+  preview() {
+    
+    const dialogRef = this.dialog.open(PfmsPreviewComponent, {
+      data: this.previewData,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+    });
+  }
   clickYes() {
     this.showOtherQuestions = true;
     this.activeClass = true;
@@ -167,6 +198,8 @@ export class PfmsComponent implements OnInit {
     this.showOtherQuestions = false
     this.activeClass = false
     this.activeClassNo = true
+    this.showIcon =false
+    this.showIconOtherDoc = false
   }
   linkedYes(event) {
     this.linkedToggle = true
@@ -193,6 +226,8 @@ export class PfmsComponent implements OnInit {
     this.linkedToggle = false
     this.activeClassBottom = false
     this.activeClassNoBottom = true
+    this.showIcon =false
+    this.showIconOtherDoc = false
   }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
@@ -354,13 +389,7 @@ export class PfmsComponent implements OnInit {
     this.registerForm.controls['isUlbLinkedWithPFMS'].valueChanges.subscribe(
       (selectedValue) => {
         console.log(selectedValue);
-      console.log(this.registerForm.get('isUlbLinkedWithPFMS').value);  
-      // if(this.registerForm.get('isUlbLinkedWithPFMS').value == 'Yes'){
-      //   this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required])
-      //   this.registerForm.controls['PFMSAccountNumber'].updateValueAndValidity()
-      //   this.registerForm.controls.cert['controls'].name.setValidators([Validators.required])
-      //   this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
-      // }   
+      console.log(this.registerForm.get('isUlbLinkedWithPFMS').value);    
       }
   );
   }

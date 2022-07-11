@@ -188,7 +188,7 @@
     margin-left: .3rem;
     margin-bottom: 1pc;
     color: white;
-    width: max-content;
+    width: 200px;
 }
 
 .form-header {
@@ -402,4 +402,7 @@ input[type='radio'] {
 .disabled-form {
     pointer-events: none;
     background-color: rgb(170, 168, 168);
+}
+.progressBar{
+    padding: 0;
 }
