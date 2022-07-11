@@ -815,12 +815,14 @@ export class AnnualAccountsComponent implements OnInit {
 
             this.uploadErrors[fileType].standardized_data.file = null;
             this.uploadErrors[fileType].standardized_data.error = null;
+            this.manadUploadErrors[fileType].standardized_data.error = false
             //  this.checkDiff();
           } catch (error) {
             this.uploadErrors[fileType].standardized_data.file = file;
             this.uploadErrors[fileType].standardized_data.error =
               error?.data.message;
             this.data[fileType].standardized_data.excel.url = null;
+            this.manadUploadErrors[fileType].standardized_data.error = null;
             rej(error);
           }
           resolve("Success");
