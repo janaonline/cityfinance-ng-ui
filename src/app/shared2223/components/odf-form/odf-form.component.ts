@@ -391,7 +391,7 @@ export class OdfFormComponent implements OnInit {
     if (id) {
       this.ratings.forEach((el) => {
         if (el?._id == id) {
-          this.ratingMark = el?.value;
+          this.ratingMark = el?.marks;
           return;
         }
       });
