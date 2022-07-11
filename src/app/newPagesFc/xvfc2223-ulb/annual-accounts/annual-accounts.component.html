@@ -118,7 +118,11 @@
                                 <div class="row ms-2">
                                     <div class="col-sm-6 col-lg-6 col-md-6">
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
-                                              {{uploadErrors.unAudited.standardized_data.error}}</label>
+                                              {{uploadErrors.unAudited.standardized_data.error}}
+                                        </label>
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
+                                          Excel file are mandatory.
+                                       </label>
                                     </div>
                                 </div>
                             </div>
@@ -132,9 +136,7 @@
                                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
                                     {{ uploadErrors.unAudited.standardized_data.progress }}%
                                 </div>
-                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
-                                              Excel file are mandatory.
-                                  </label>
+
                             </div>
 
                             <div class="col-sm-2 col-lg-2 col-md-2" style="">
@@ -280,7 +282,7 @@
                                           </label>
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.audited.standardized_data.error">
                                               Excel file are mandatory.
-                                            </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -358,18 +360,18 @@
 </div> -->
 <div class="row ms-0 me-0 mt-4 mb-3">
     <div class="col-sm-6">
-        <button class="btn btn-c-back"><- Previous Form</button>
+        <button class="btn btn-c-back" routerLink="../resources"><- Previous Form</button>
     </div>
     <div class="col-sm-6 text-end">
         <button class="btn btn-primary" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
         <button class="btn btn-primary ms-3" [disabled]="isDisabled" (click)="formSave('save')">Submit</button>
-        <button class="btn btn-c-next ms-3">Next Form -></button>
+        <button class="btn btn-c-next ms-3" routerLink="../utilisation-report">Next Form -></button>
     </div>
 </div>
 <ng-template #templateAnnual>
     <div class="modal-body text-center ">
         <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
                     <img src="../../../../assets/form-icon/close-red-icon.png">
@@ -384,7 +386,7 @@
 
         <div class="row">
             <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                 <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
                 <button type="button" class="btn btn-success ms-2 m-btn" style="" (click)="proceed()">
                   Save & Proceed
@@ -399,7 +401,7 @@
 <ng-template #template1>
     <div class="modal-body text-center">
         <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
                     <img src="../../../../assets/form-icon/close-red-icon.png">

@@ -52,5 +52,6 @@ import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
   ],
+  exports: [Xvfc2223UlbRoutingModule],
 })
 export class Xvfc2223UlbModule {}

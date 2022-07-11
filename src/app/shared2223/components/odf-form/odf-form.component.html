@@ -1,48 +1,53 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
-          <h4 class="form-header">
-            {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
-          </h4>
+            <h4 class="form-header">
+                {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
+            </h4>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
             <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
         </div>
     </div>
-    <form [formGroup]="profileForm" class="formShadow"
-    [ngClass]="{'disabled-form': isDisabled}">
+    <form [formGroup]="profileForm" class="formShadow" [ngClass]="{'disabled-form': isDisabled}">
         <div class="row mt-4 mb-4 question">
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
                 <span class="fontStyle">
-                    (A){{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?<sup>*</sup>
+                    (A){{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating ?<sup>*</sup>
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                  <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
+                <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
                     <option value="" selected disabled>Select Rating</option>
                     <option *ngFor="let item of ratings" [value]="item._id">{{ item.name }}</option>
                   </select>
-                <div>
-                    <div *ngIf="submitted && f.rating.errors" class="text-danger">
-                        <div *ngIf="f.rating.errors.required">Rating is required</div>
-                    </div>
+
+                <div *ngIf="submitted && f.rating.errors" class="text-danger">
+                    <div *ngIf="f.rating.errors.required">Rating is required</div>
                 </div>
+
+                <!-- <div *ngIf="!isGfc"> -->
+                <div class="score">
+                    <div>Score = {{ratingMark}}</div>
+                </div>
+                <!-- </div> -->
+
             </div>
         </div>
         <div class="row mb-4 question marginClass">
-         <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-            <span class="fontStyle" *ngIf="uploadCertificate">
+            <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+                <span class="fontStyle" *ngIf="uploadCertificate">
                 (B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?<sup>*</sup>
             </span>
-            <span class="fontStyle" *ngIf="uploadDeclaration">(B) Upload Declaration ?<sup>*</sup>
+                <span class="fontStyle" *ngIf="uploadDeclaration">(B) Upload Declaration ?<sup>*</sup>
             </span>
-        </div>
-        <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-         <div class="row">   
-            <div class="col-lg-5 col-md-5 col-sm-5">
+            </div>
+            <div class="col-sm-6 col-lg-6 col-md-6 q-s">
                 <div class="row">
-                    <div  class="col-lg-4 col-md-4 col-sm-4 image-upload">
-                        <label for="cin1">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 image-upload">
+                                <label for="cin1">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                           >Upload
                           pdf
@@ -52,58 +57,57 @@
                           </a>
                           <p class="errorMessege">{{errorMessege}}</p>
                           </label>
-                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
-                        <div>
-                            <div *ngIf="submitted && f?.cert?.controls?.url?.errors" class="customDate text-danger">
-                                <div *ngIf="f?.cert?.controls?.url?.errors.required">File is required</div>
+                                <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
+                                <div>
+                                    <div *ngIf="submitted && f?.cert?.controls?.url?.errors" class="customDate text-danger">
+                                        <div *ngIf="f?.cert?.controls?.url?.errors.required">File is required</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>  
-                    </div>          
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div> 
-    <div class="row" *ngIf="showIcon">
-        <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
-            {{odfFileName}}
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
-            <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
-                {{ odfProgress }}%
-            </div>
-        </div>
-        <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
-            <a href="{{ odfUrl }}" target="_blank">
-                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
-            </a>
-            <span style="cursor:not-allowed;">
+            <div class="row" *ngIf="showIcon">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{odfFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                    <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
+                        {{ odfProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ odfUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span style="cursor:not-allowed;">
             <a (click)="clearFile()"
               style="margin-left: 4px;">
               <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
               >
-            </a> 
+            </a>
         </span>
-        </div>
-    </div>     
+                </div>
+            </div>
         </div>
 
-<div class="row mt-4 mb-4 question" *ngIf="uploadCertificate">
-    <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <span class="fontStyle">(C) Certification Issue Date?<sup>*</sup>
+        <div class="row mt-4 mb-4 question" *ngIf="uploadCertificate">
+            <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+                <span class="fontStyle">(C) Certification Issue Date?<sup>*</sup>
        </span>
-    </div>
-    <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01"
-        onfocus="this.max=new Date().toISOString().split('T')[0]">
-       <div>
-           <div *ngIf="submitted && f.certDate.errors" class="text-danger">
-              <div *ngIf="f.certDate.errors.required">Date is required
-              </div>
-           </div>
-       </div>
-    </div>
-</div>    
-<!-- <div class="row">
+            </div>
+            <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" (change)="dateChange()" placeholder="DD/MM/YYYY" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+                <div>
+                    <div *ngIf="submitted && f.certDate.errors" class="text-danger">
+                        <div *ngIf="f.certDate.errors.required">Date is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
     <div class="col-sm-6">
     </div>
     <div class="col-sm-6 col-lg-6 col-md-6 previousText">
@@ -112,25 +116,52 @@
     </form>
     <div class="row mb-3 mt-4">
         <div class="col-sm-7 col-md-7 col-lg-7">
-            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
-                routerLink='/ulbform/overview'><- Previous Form</button>
+            <button type="button" class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-5 col-md-5 col-lg-5 rightText">
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+                    <button type="button" [disabled]="isDisabled" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
 
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
-                    
+                    <button type="submit" [disabled]="isDisabled" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active"
-                    >Next Form -></button>        
+                    <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form -></button>
                 </div>
             </div>
-            
+
         </div>
-    </div>      
+    </div>
 </div>
+
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" style="" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>

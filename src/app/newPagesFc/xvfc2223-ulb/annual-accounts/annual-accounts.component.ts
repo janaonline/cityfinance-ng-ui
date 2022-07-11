@@ -28,7 +28,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.loggedInUserType = this.loggedInUserDetails.role;
   }
   errorMsg =
-    "Some fields or files are blank or not uploaded. Please fill or uploaded all mandatory fields and files to submit the form.";
+    "One or more required fields are empty or contains invalid data. Please check your input.";
   dateShow: string = "2021-22";
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -471,8 +471,7 @@ export class AnnualAccountsComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
-  alertError =
-    "Some data in form are not saved, Are you sure you want to save & proceed further?";
+  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
   @ViewChild("templateAnnual") template;
@@ -489,8 +488,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
-          this.alertError =
-            "Some data in form are not saved, Are you sure you want to save & proceed further?";
+          this.alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
             sessionStorage.setItem("changeInAnnualAcc", "false");
@@ -815,12 +813,14 @@ export class AnnualAccountsComponent implements OnInit {
 
             this.uploadErrors[fileType].standardized_data.file = null;
             this.uploadErrors[fileType].standardized_data.error = null;
+            this.manadUploadErrors[fileType].standardized_data.error = false;
             //  this.checkDiff();
           } catch (error) {
             this.uploadErrors[fileType].standardized_data.file = file;
             this.uploadErrors[fileType].standardized_data.error =
               error?.data.message;
             this.data[fileType].standardized_data.excel.url = null;
+            this.manadUploadErrors[fileType].standardized_data.error = null;
             rej(error);
           }
           resolve("Success");
@@ -899,10 +899,13 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.audited?.provisional_data[key]?.pdf?.name != null)
         ) {
           //this.data.unAudited.provisional_data[key].
+          if (key != "auditor_report") {
+            this.data.audited.provisional_data[key].excel.name = null;
+            this.data.audited.provisional_data[key].excel.url = null;
+          }
           this.data.audited.provisional_data[key].pdf.name = null;
           this.data.audited.provisional_data[key].pdf.url = null;
-          this.data.audited.provisional_data[key].excel.name = null;
-          this.data.audited.provisional_data[key].excel.url = null;
+
           this.auditQues.forEach((el) => {
             if (key == el?.key && el?.type == "file") {
               el.error = false;
@@ -1008,8 +1011,23 @@ export class AnnualAccountsComponent implements OnInit {
               el.error = true;
             }
           });
+
           // this.annualError = true;
         } else {
+          if (objLength > 0) {
+            this.auditQues.forEach((el) => {
+              if (key == el?.key && el?.type == "file") {
+                el.error = false;
+              }
+            });
+          }
+          if ((objLength = 0)) {
+            this.auditQues.forEach((el) => {
+              if (key == el?.key && el?.type == "input") {
+                el.error = false;
+              }
+            });
+          }
           //   this.annualError = false;
         }
       }
@@ -1036,16 +1054,19 @@ export class AnnualAccountsComponent implements OnInit {
         //  this.annualError = true;
       }
     } else if (this.data.audited.submit_annual_accounts == false) {
-      this.unAuditQues.forEach((el) => {
+      this.auditQues.forEach((el) => {
         el.error = false;
       });
       this.answerError.audited.submit_annual_accounts = false;
+      this.manadUploadErrors.audited.standardized_data.error = false;
+      this.answerError.audited.submit_standardized_data = false;
     } else {
       this.auditQues.forEach((el) => {
         el.error = false;
       });
-      this.annualError = true;
+      // this.annualError = true;
       this.answerError.audited.submit_annual_accounts = true;
+      this.answerError.audited.submit_standardized_data = true;
     }
     // autited st
 
@@ -1113,18 +1134,30 @@ export class AnnualAccountsComponent implements OnInit {
         el.error = false;
       });
       this.answerError.unAudited.submit_annual_accounts = false;
+      this.answerError.unAudited.submit_standardized_data = false;
+      this.manadUploadErrors.audited.standardized_data.error = false;
     } else {
       this.unAuditQues.forEach((el) => {
         el.error = false;
       });
-      this.annualError = true;
+      // this.annualError = true;
       this.answerError.unAudited.submit_annual_accounts = true;
+      this.answerError.unAudited.submit_standardized_data = true;
     }
 
     this.checkFinalError();
-    console.log(this.unAuditQues, "this.annual error", this.annualError);
+    console.log(
+      this.unAuditQues,
+      this.auditQues,
+      "this.annual error",
+      this.annualError,
+      this.answerError,
+      this.uploadErrors,
+      this.manadUploadErrors
+    );
+    console.log("this. error", this.answerError);
     if (this.annualError) {
-      swal("Error", `${this.errorMsg}`, "error");
+      swal("Missing Data !", `${this.errorMsg}`, "error");
     } else {
       this.validFormSubmit();
     }
@@ -1144,27 +1177,42 @@ export class AnnualAccountsComponent implements OnInit {
     });
     if (
       this.answerError.audited.submit_annual_accounts == true ||
+      this.answerError.audited.submit_annual_accounts == null
+    ) {
+      this.annualError = true;
+      return;
+    }
+    if (
       this.answerError.unAudited.submit_annual_accounts == true ||
-      this.answerError.audited.submit_annual_accounts == null ||
       this.answerError.unAudited.submit_annual_accounts == null
     ) {
       this.annualError = true;
       return;
     }
     if (
-      this.answerError.audited.submit_standardized_data == true ||
       this.answerError.unAudited.submit_standardized_data == true ||
-      this.answerError.audited.submit_standardized_data == null ||
       this.answerError.unAudited.submit_standardized_data == null
     ) {
       this.annualError = true;
       return;
     }
     if (
-      this.manadUploadErrors.audited.standardized_data.error == true ||
+      this.answerError.audited.submit_standardized_data == true ||
+      this.answerError.audited.submit_standardized_data == null
+    ) {
+      this.annualError = true;
+      return;
+    }
+    if (
       this.manadUploadErrors.unAudited.standardized_data.error == true ||
-      this.manadUploadErrors.audited.standardized_data.error == null ||
       this.manadUploadErrors.unAudited.standardized_data.error == null
+    ) {
+      this.annualError = true;
+      return;
+    }
+    if (
+      this.manadUploadErrors.audited.standardized_data.error == true ||
+      this.manadUploadErrors.audited.standardized_data.error == null
     ) {
       this.annualError = true;
       return;
@@ -1172,9 +1220,10 @@ export class AnnualAccountsComponent implements OnInit {
   }
   validFormSubmit() {
     swal(
-      "Alert",
-      ` Are you sure you want to submit this form? Once submitted,
-        you will not be able to make any changes. Alternatively, you can save as draft for now and submit it later.`,
+      "Confirmation !",
+      `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to State for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
       "warning",
       {
         buttons: {
@@ -1225,6 +1274,7 @@ export class AnnualAccountsComponent implements OnInit {
       (res) => {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
+        this.isDisabled = true;
         swal("Saved", "Data saved successfully", "success");
       },
       (error) => {

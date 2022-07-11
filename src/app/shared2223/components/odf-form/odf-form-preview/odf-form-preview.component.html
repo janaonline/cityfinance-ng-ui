@@ -1,4 +1,4 @@
-<div class="container-fluid" id="gtcpre" #gtcpre>
+<div class="container-fluid" id="odf" #odf>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
             <a (click)="closeMat()" class="pull-right">
@@ -20,8 +20,8 @@
                 <b>Form Current Status:</b>
             </p>
         </div>
-        <div class="col-sm-6 text-end">
-            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as PDF</button>
+        <div class="col-sm-6 text-end d-n">
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as PDF</button>
         </div>
     </div>
     <div class="row">
@@ -36,22 +36,31 @@
                     <!-- main content -->
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
-                            <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?
+                            <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating ?*
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
                             {{ratingName ? ratingName : 'N/A'}}
+
+                            <!-- <div *ngIf="!isGfcOpen"> -->
+                            <div class="score">
+                                <div>Score = {{this.data?.score}}</div>
+                            </div>
+
+                            <!-- </div> -->
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
-                            <span class="fontStyle">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?
+                            <span class="fontStyle" *ngIf="!data?.uploadText">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?*
                             </span>
-                            <!-- <span class="fontStyle">(B) Upload Declaration
-                            </span> -->
+                            <span class="fontStyle" *ngIf="data?.uploadText">(B) Upload Declaration ?*
+                            </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a href="{{fileUrl}}" target="_blank">{{fileName ? fileName : 'N/A'}}</a>
+                            <a href="{{fileUrl}}" *ngIf="fileName" target="_blank">{{fileName}}</a>
+                            <span *ngIf="!fileName">N/A</span>
                         </div>
                     </div>
                     <div class="row" *ngIf="uploadCertificate">
@@ -68,3 +77,28 @@
         </div>
     </div>
 </div>
+
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
