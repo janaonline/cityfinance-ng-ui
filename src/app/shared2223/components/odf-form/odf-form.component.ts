@@ -1,14 +1,26 @@
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
-import { debug } from 'console';
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
-import { NewCommonService } from '../../services/new-common.service';
-import { OdfFormPreviewComponent } from './odf-form-preview/odf-form-preview.component';
-import { MatDialog } from "@angular/material/dialog";
-import { DatePipe } from '@angular/common';
+import { NewCommonService } from "../../services/new-common.service";
+import { OdfFormPreviewComponent } from "./odf-form-preview/odf-form-preview.component";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DatePipe } from "@angular/common";
+import { NavigationStart, Router } from "@angular/router";
 
 @Component({
   selector: "app-odf-form",
@@ -24,11 +36,13 @@ export class OdfFormComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
     private commonService: NewCommonService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public _router: Router
   ) {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
+    this.navigationCheck();
   }
 
   uploadDeclaration: boolean = false;
@@ -73,6 +87,7 @@ export class OdfFormComponent implements OnInit {
   activeClass: boolean = false;
   ratingMark = "N/A";
   ngOnInit(): void {
+    this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
       rating: ["", Validators.required],
       cert: this.formBuilder.group({
@@ -135,7 +150,7 @@ export class OdfFormComponent implements OnInit {
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "false");
     } else {
-      sessionStorage.setItem("changeInGfc", "false");
+      sessionStorage.setItem("changeInODf", "false");
     }
   }
   formDataPre;
@@ -216,10 +231,17 @@ export class OdfFormComponent implements OnInit {
     this.body = { ...this.profileForm.value, isDraft: false };
     this.commonService.odfSubmitForm(this.body).subscribe(
       (res: any) => {
+        this.clickedSave = false;
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
         if (res && res.success) {
           this.isDisabled = true;
+          this.clickedSave = false;
+          if (this.isGfc) {
+            sessionStorage.setItem("changeInGfc", "false");
+          } else {
+            sessionStorage.setItem("changeInODf", "false");
+          }
           swal("Saved", "Data saved successfully", "success");
         } else {
           swal("Error", res?.message ? res?.message : "Error", "error");
@@ -236,12 +258,23 @@ export class OdfFormComponent implements OnInit {
     this.body = { ...this.profileForm.value, isDraft: true };
     console.log("this.body", this.body);
 
-    this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
-      console.log("successDraftttt!!!!!!!!!!!!!", res);
-      console.log(this.profileForm.value);
-      // this.fetchData();
-      swal("Saved", res.message, "success");
-    });
+    this.commonService.odfSubmitForm(this.body).subscribe(
+      (res: any) => {
+        console.log("successDraftttt!!!!!!!!!!!!!", res);
+        this.clickedSave = false;
+        if (this.isGfc) {
+          sessionStorage.setItem("changeInGfc", "false");
+        } else {
+          sessionStorage.setItem("changeInODf", "false");
+        }
+        console.log(this.profileForm.value);
+        // this.fetchData();
+        swal("Saved", res.message, "success");
+      },
+      (error) => {
+        this.clickedSave = false;
+      }
+    );
   }
   preview() {
     console.log(
@@ -256,7 +289,7 @@ export class OdfFormComponent implements OnInit {
       isGfcOpen: this.isGfcOpen,
       previewData: this.previewData,
       ratings: this.ratings,
-      score: this.ratingMark
+      score: this.ratingMark,
     };
     console.log("preData", preData);
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
@@ -288,6 +321,11 @@ export class OdfFormComponent implements OnInit {
     }
     this.getMarks(item);
     this.formDataPre = this.profileForm.value;
+    if (this.isGfc) {
+      sessionStorage.setItem("changeInGfc", "true");
+    } else {
+      sessionStorage.setItem("changeInODf", "true");
+    }
   }
   getMarks(id) {
     console.log("id ", id);
@@ -306,7 +344,7 @@ export class OdfFormComponent implements OnInit {
     //  this.ratingMark = data?.value;
   }
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInGTC", "true");
+    //  sessionStorage.setItem("changeInGTC", "true");
     this.change = "true";
   }
   fileChangeEvent(event, progessType, fileName) {
@@ -348,6 +386,11 @@ export class OdfFormComponent implements OnInit {
       name: "",
     });
     this.formDataPre = this.profileForm.value;
+    if (this.isGfc) {
+      sessionStorage.setItem("changeInGfc", "true");
+    } else {
+      sessionStorage.setItem("changeInODf", "true");
+    }
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
@@ -425,6 +468,11 @@ export class OdfFormComponent implements OnInit {
                 name: file.name,
               });
               this.formDataPre = this.profileForm.value;
+              if (this.isGfc) {
+                sessionStorage.setItem("changeInGfc", "true");
+              } else {
+                sessionStorage.setItem("changeInODf", "true");
+              }
               // this.profileForm.get('cert').patchValue({name:file.name})
 
               console.log(file);
@@ -440,6 +488,16 @@ export class OdfFormComponent implements OnInit {
   }
   dateChange() {
     this.formDataPre = this.profileForm.value;
+    console.log(
+      "this.isGfc",
+      this.isGfc,
+      sessionStorage.setItem("changeInODf", "true")
+    );
+    if (this.isGfc) {
+      sessionStorage.setItem("changeInGfc", "true");
+    } else {
+      sessionStorage.setItem("changeInODf", "true");
+    }
     console.log("date change", this.profileForm.value);
   }
   formValueChanges() {
@@ -447,5 +505,92 @@ export class OdfFormComponent implements OnInit {
       //   this.firstClick = true;
       console.log("changes", el);
     });
+  }
+  clickedSave;
+  routerNavigate = null;
+  response;
+  alertError =
+    "Some data in form are not saved, Are you sure you want to save & proceed further?";
+  dialogRef;
+  modalRef;
+  @ViewChild("templateSave") template;
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          let changeInForm;
+          this.alertError =
+            "Some data in form are not saved, Are you sure you want to save & proceed further?";
+          if (this.isGfc) {
+            changeInForm = sessionStorage.getItem("changeInGfc");
+          } else {
+            changeInForm = sessionStorage.getItem("changeInODf");
+          }
+          // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
+          if (event.url === "/" || event.url === "/login") {
+            if (this.isGfc) {
+              sessionStorage.setItem("changeInGfc", "false");
+            } else {
+              sessionStorage.setItem("changeInODf", "false");
+            }
+            return;
+          }
+          if (changeInForm === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    // await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.onDraft();
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    await this.onDraft();
+    return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  async discard() {
+    if (this.isGfc) {
+      sessionStorage.setItem("changeInGfc", "false");
+    } else {
+      sessionStorage.setItem("changeInODf", "false");
+    }
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
   }
 }

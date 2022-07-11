@@ -7,6 +7,9 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 //import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
+import { Router } from "@angular/router";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-odf-form-preview",
   templateUrl: "./odf-form-preview.component.html",
@@ -16,12 +19,13 @@ export class OdfFormPreviewComponent implements OnInit {
   constructor(
     private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private commonService: NewCommonService
+    public _router: Router,
+    private newCommonService: NewCommonService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-  @ViewChild("gtcpre") _html: ElementRef;
+  @ViewChild("odf") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
-  @ViewChild("templateAnnual") template;
+  @ViewChild("templateSave") template;
   showLoader;
   ulbName = "";
   stateName = "";
@@ -108,6 +112,8 @@ export class OdfFormPreviewComponent implements OnInit {
     display : none;
   }
     </style>`;
+  dialogRef;
+  download;
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log("this.data", this.data);
@@ -162,9 +168,27 @@ export class OdfFormPreviewComponent implements OnInit {
     //   });
     // }
   }
-  clickedDownloadAsPDF() {
-    this.downloadAsPDF();
+  clickedDownloadAsPDF(template) {
+    // this.downloadAsPDF();
+    this.download = true;
+    let changeHappen;
+    if (this.isGfcOpen) {
+      changeHappen = sessionStorage.getItem("changeInGfc");
+    } else {
+      changeHappen = sessionStorage.getItem("changeInODf");
+    }
+    // let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
+    if (changeHappen === "true") {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
   }
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
+
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
@@ -206,5 +230,49 @@ export class OdfFormPreviewComponent implements OnInit {
   }
   closeMat() {
     this._matDialog.closeAll();
+  }
+  async proceed(uploadedFiles) {
+    this.dialogRef.close();
+    this._matDialog.closeAll();
+    await this.submit();
+
+    await this.downloadAsPDF();
+    //  if (this.changeFromOutSide)
+    // this._ulbformService.initiateDownload.next(true);
+    //  else await this.downloadAsPDF();
+  }
+
+  async submit() {
+    console.log("odf save", this.data?.formData);
+    let body = { ...this.data?.formData, isDraft: true };
+    return new Promise((resolve, rej) => {
+      this.newCommonService.odfSubmitForm(body).subscribe(
+        (res) => {
+          if (this.isGfcOpen) {
+            sessionStorage.setItem("changeInGfc", "false");
+          } else {
+            sessionStorage.setItem("changeInODf", "false");
+          }
+          console.log(res);
+          // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          // status.annualAccounts.isSubmit = res["isCompleted"];
+          // this._ulbformService.allStatus.next(status);
+          swal("Saved", "Data saved as draft successfully", "success");
+          resolve("sucess");
+        },
+        (err) => {
+          swal("Error", "Failed To Save", "error");
+          resolve(err);
+        }
+      );
+    });
+  }
+
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
   }
 }
