@@ -136,3 +136,33 @@
         </div>
     </div>
 </div>
+
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" style="" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
