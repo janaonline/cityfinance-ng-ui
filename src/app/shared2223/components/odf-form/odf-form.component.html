@@ -13,7 +13,7 @@
         <div class="row mt-4 mb-4 question">
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
                 <span class="fontStyle">
-                    (A){{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?<sup>*</sup>
+                    (A){{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating ?<sup>*</sup>
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
@@ -26,11 +26,11 @@
                     <div *ngIf="f.rating.errors.required">Rating is required</div>
                 </div>
 
-                <div *ngIf="!isGfc">
-                    <div class="score">
-                        <div>Score = {{ratingMark}}</div>
-                    </div>
+                <!-- <div *ngIf="!isGfc"> -->
+                <div class="score">
+                    <div>Score = {{ratingMark}}</div>
                 </div>
+                <!-- </div> -->
 
             </div>
         </div>
@@ -116,7 +116,7 @@
     </form>
     <div class="row mb-3 mt-4">
         <div class="col-sm-7 col-md-7 col-lg-7">
-            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active" routerLink='/ulbform/overview'><- Previous Form</button>
+            <button type="button" class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-5 col-md-5 col-lg-5 rightText">
             <div class="row">
@@ -125,11 +125,10 @@
 
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" [disabled]="isDisabled" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
-
+                    <button type="submit" [disabled]="isDisabled" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active">Next Form -></button>
+                    <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form -></button>
                 </div>
             </div>
 
@@ -140,7 +139,7 @@
 <ng-template #templateSave>
     <div class="modal-body text-center ">
         <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
                     <img src="../../../../assets/form-icon/close-red-icon.png">
@@ -155,7 +154,7 @@
 
         <div class="row">
             <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                 <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
                 <button type="button" class="btn ms-2 m-btn" style="" (click)="proceed()">
                 Save & Proceed

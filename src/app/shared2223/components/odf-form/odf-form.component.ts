@@ -86,6 +86,8 @@ export class OdfFormComponent implements OnInit {
   dateValue;
   activeClass: boolean = false;
   ratingMark = "N/A";
+  backRouter = "#";
+  nextRouter = "#";
   ngOnInit(): void {
     this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
@@ -120,6 +122,7 @@ export class OdfFormComponent implements OnInit {
       design_year: this.yearValue,
       isGfc: this.isGfc,
     };
+
     this.commonService.getOdfFormData(params).subscribe((res: any) => {
       console.log(res);
       if (
@@ -149,7 +152,11 @@ export class OdfFormComponent implements OnInit {
 
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "false");
+      this.backRouter = "../odf";
+      this.nextRouter = "../overview";
     } else {
+      this.backRouter = "../utilisation-report";
+      this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
   }
@@ -219,14 +226,64 @@ export class OdfFormComponent implements OnInit {
     }
     console.log("aaa 4", this.profileForm.value);
   }
-  onSubmit(type) {
+  alertFormFinalSubmit() {
     this.submitted = true;
-    // this.draft = false;
-    console.log("profileForm", this.profileForm);
     this.activeClass = true;
     if (this.profileForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
       return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to State for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.onDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
     }
+  }
+
+  onSubmit(type) {
+    // this.submitted = true;
+    // this.activeClass = true;
+    // this.draft = false;
+    console.log("profileForm", this.profileForm);
+
+    // if (this.profileForm.invalid) {
+    //   return;
+    // }
 
     this.body = { ...this.profileForm.value, isDraft: false };
     this.commonService.odfSubmitForm(this.body).subscribe(
@@ -290,6 +347,7 @@ export class OdfFormComponent implements OnInit {
       previewData: this.previewData,
       ratings: this.ratings,
       score: this.ratingMark,
+      uploadText: this.uploadDeclaration,
     };
     console.log("preData", preData);
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
@@ -509,8 +567,7 @@ export class OdfFormComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
-  alertError =
-    "Some data in form are not saved, Are you sure you want to save & proceed further?";
+  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
   @ViewChild("templateSave") template;
@@ -519,8 +576,7 @@ export class OdfFormComponent implements OnInit {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           let changeInForm;
-          this.alertError =
-            "Some data in form are not saved, Are you sure you want to save & proceed further?";
+          this.alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
           if (this.isGfc) {
             changeInForm = sessionStorage.getItem("changeInGfc");
           } else {

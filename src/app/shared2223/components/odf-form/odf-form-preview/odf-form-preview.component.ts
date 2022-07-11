@@ -193,7 +193,12 @@ export class OdfFormPreviewComponent implements OnInit {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName = "odf.pdf";
+    let downloadFileName = "";
+    if (this.isGfcOpen) {
+      downloadFileName = "Gdf.pdf";
+    } else {
+      downloadFileName = "Odf.pdf";
+    }
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);

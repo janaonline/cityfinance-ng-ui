@@ -13,6 +13,7 @@ import {
   FourTwoDigitNumberDirective,
   FiftTwoDigitNumberDirective,
 } from "./directive/decimal.directive";
+import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ulb-routing.module";
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -24,7 +25,13 @@ import {
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
   ],
-  imports: [CommonModule, MatIconModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    Xvfc2223UlbRoutingModule,
+  ],
   exports: [
     OdfFormComponent,
     CommonFileUploadComponent,
