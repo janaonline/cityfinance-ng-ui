@@ -35,11 +35,11 @@
                 <div class="card-body">
                     <!-- main content -->
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                        <div class="col-sm-6 questionClass qus-h">
                             <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating ?*
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
                             {{ratingName ? ratingName : 'N/A'}}
 
                             <!-- <div *ngIf="!isGfcOpen"> -->
@@ -52,23 +52,23 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span class="fontStyle" *ngIf="!data?.uploadText">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?*
                             </span>
-                            <span class="fontStyle" *ngIf="data?.uploadText">(B) Upload Declaration ?*
+                            <span class="fontStyle qus-h" *ngIf="data?.uploadText">(B) Upload Declaration ?*
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
                             <a href="{{fileUrl}}" *ngIf="fileName" target="_blank">{{fileName}}</a>
                             <span *ngIf="!fileName">N/A</span>
                         </div>
                     </div>
                     <div class="row" *ngIf="uploadCertificate">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(C) Certification Issue Date
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
                             {{certDate ? certDate : 'N/A'}}
                         </div>
                     </div>

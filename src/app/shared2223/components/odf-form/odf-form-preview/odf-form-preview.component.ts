@@ -98,11 +98,6 @@ export class OdfFormPreviewComponent implements OnInit {
         font-size: 10px;
         margin-top: 10px;
       }
-      td, th{
-        word-break: break-all;
-        font-size: 9px !important;
-        padding: 5px 1px !important;
-      }
       .na-cls {
         text-decoration: none;
         color: black;
@@ -111,6 +106,15 @@ export class OdfFormPreviewComponent implements OnInit {
   .d-n {
     display : none;
   }
+  .score {
+    width: 25%;
+    border: 1px solid transparent;
+    background: limegreen;
+    border-radius: 4px;
+    margin-top: 1rem;
+    padding: 0.2rem 1rem;
+    color: #fff;
+}
     </style>`;
   dialogRef;
   download;
@@ -127,6 +131,7 @@ export class OdfFormPreviewComponent implements OnInit {
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
     this.fileName = this.data?.formData?.cert?.name;
+    this.fileUrl = this.data?.formData?.cert?.url;
     this.certDate = this.data?.formData?.certDate;
     this.ratingId = this.data?.formData?.rating;
     let selectedRating = this.data?.ratings.find(
@@ -266,6 +271,12 @@ export class OdfFormPreviewComponent implements OnInit {
           resolve("sucess");
         },
         (err) => {
+          if (this.isGfcOpen) {
+            sessionStorage.setItem("changeInGfc", "false");
+          } else {
+            sessionStorage.setItem("changeInODf", "false");
+          }
+
           swal("Error", "Failed To Save", "error");
           resolve(err);
         }

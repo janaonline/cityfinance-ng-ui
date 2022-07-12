@@ -40,7 +40,7 @@
             <div class="card">
                 <div class="card-body">
                     <!-- main content unAudit -->
-                    <div class="f-l">
+                    <div class="f-l h-annual">
                         Provisional Accounts for 2022-23
                     </div>
                     <div class="item-c">
@@ -48,7 +48,7 @@
                             <div class="col-sm-8 h-h">
                                 (A) Do you wish to submit Provisional Accounts for 2021-22 ?
                             </div>
-                            <div class="col-sm-4 h-h">
+                            <div class="col-sm-4 h-h f-r">
                                 <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == true || preData?.body?.unAudited?.submit_annual_accounts == false">
                                     {{preData?.body?.unAudited?.submit_annual_accounts ? 'Yes' : 'No'}}
                                 </div>
@@ -86,11 +86,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row c-he mt-3 mb-3">
+                        <div class="page-break"></div>
+                        <div class="row c-he mt-3 mb-3 m-r-t">
                             <div class="col-sm-8 h-h">
                                 (B) Do you wish to submit financials in Standardized Format for 2021-22 ?
                             </div>
-                            <div class="col-sm-4 h-h">
+                            <div class="col-sm-4 h-h f-r">
                                 <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_standardized_data == true || preData?.body?.unAudited?.submit_standardized_data == false">
                                     {{preData?.body?.unAudited?.submit_standardized_data ? 'Yes' : 'No'}}
                                 </div>
@@ -100,7 +101,7 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-8">
+                            <div class="col-sm-8 qus-h-an-ex">
                                 Uploaded Excel
                             </div>
                             <div class="col-sm-4 ans">
@@ -126,12 +127,12 @@
                                   Self declaration by the Executive officer/Municipal
                                   Commissioner of the ULB on the standardised financial statements uploaded above.
                               </label> <br>
-                                <span> I hereby confirm that I have verified the information uploaded in standardized
+                                <span class="dec-h-h"> I hereby confirm that I have verified the information uploaded in standardized
                                   template and it is true and correct. It is confirmed that this information can be made
                                   available for public
                                   consumption on the CityFinance portal.</span>
                             </div>
-                            <div class="col-sm-4" style="">
+                            <div class="col-sm-4 m-r-t" style="">
                                 <span class="ans-h-an" *ngIf="preData?.body.unAudited?.standardized_data?.declaration == true">Agreed</span>
 
                                 <span class="ans-h-an" *ngIf="preData?.body.unAudited?.standardized_data?.declaration == false">Not
@@ -142,8 +143,9 @@
                         </div>
 
                     </div>
+                    <div class="page-break"></div>
                     <!-- main content Audit -->
-                    <div class="f-l mt-3">
+                    <div class="f-l mt-3 h-annual">
                         Audited Accounts for 2020-21
                     </div>
                     <div class="item-c">
@@ -151,7 +153,7 @@
                             <div class="col-sm-8 h-h">
                                 (A) Do you wish to submit Audited Accounts for 2020-21 ?
                             </div>
-                            <div class="col-sm-4 h-h">
+                            <div class="col-sm-4 h-h f-r">
                                 <div class="a-y" *ngIf="preData?.body?.audited?.submit_annual_accounts == true || preData?.body?.audited?.submit_annual_accounts == false">
                                     {{preData?.body?.audited?.submit_annual_accounts ? 'Yes' : 'No'}}
                                 </div>
@@ -192,11 +194,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row c-he mt-3 mb-3">
+                        <div class="page-break"></div>
+                        <div class="row c-he mt-3 mb-3 m-r-t">
                             <div class="col-sm-8 h-h">
                                 (B) Do you wish to submit financials in Standardized Format for 2020-21 ?
                             </div>
-                            <div class="col-sm-4 h-h">
+                            <div class="col-sm-4 h-h f-r">
                                 <div class="a-y" *ngIf="preData?.body?.audited?.submit_standardized_data == true || preData?.body?.audited?.submit_standardized_data == false">
                                     {{preData?.body?.audited?.submit_standardized_data ? 'Yes' : 'No'}}
                                 </div>
@@ -206,7 +209,7 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-8">
+                            <div class="col-sm-8 qus-h-an-ex">
                                 Uploaded Excel
                             </div>
                             <div class="col-sm-4 ans">
@@ -226,18 +229,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-r-t">
                             <div class="col-sm-8 qus-h-an">
-                                <label class="dec-h" style="font-weight: 600;">
+                                <label class="dec-h" style="font-weight: 500;">
                             Self declaration by the Executive officer/Municipal
                             Commissioner of the ULB on the standardised financial statements uploaded above.
                         </label> <br>
-                                <span> I hereby confirm that I have verified the information uploaded in standardized
+                                <span class="dec-h-h"> I hereby confirm that I have verified the information uploaded in standardized
                             template and it is true and correct. It is confirmed that this information can be made
                             available for public
                             consumption on the CityFinance portal.</span>
                             </div>
-                            <div class="col-sm-4" style="">
+                            <div class="col-sm-4 m-r-t" style="">
                                 <span class="ans-h-an" *ngIf="preData?.body.audited?.standardized_data?.declaration == true">Agreed</span>
 
                                 <span class="ans-h-an" *ngIf="preData?.body.audited?.standardized_data?.declaration == false">Not
