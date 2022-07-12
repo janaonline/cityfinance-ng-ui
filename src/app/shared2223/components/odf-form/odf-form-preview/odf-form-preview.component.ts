@@ -131,6 +131,7 @@ export class OdfFormPreviewComponent implements OnInit {
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
     this.fileName = this.data?.formData?.cert?.name;
+    this.fileUrl = this.data?.formData?.cert?.url;
     this.certDate = this.data?.formData?.certDate;
     this.ratingId = this.data?.formData?.rating;
     let selectedRating = this.data?.ratings.find(
