@@ -328,7 +328,6 @@ export class AnnualAccountsComponent implements OnInit {
             url: null,
             name: null,
           },
-          excel: { url: null, name: null },
           status: null,
           rejectReason: null,
         },
@@ -471,7 +470,8 @@ export class AnnualAccountsComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
-  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
   @ViewChild("templateAnnual") template;
@@ -488,7 +488,8 @@ export class AnnualAccountsComponent implements OnInit {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
-          this.alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
             sessionStorage.setItem("changeInAnnualAcc", "false");

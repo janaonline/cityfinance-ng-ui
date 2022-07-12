@@ -47,6 +47,20 @@ export class CommonFileUploadComponent implements OnInit {
       error: null,
       progress: null,
     },
+
+    status: "",
+    rejectReason: "",
+    // status: this.stateAction,
+    //  rejectReason: this.rejectReason,
+  };
+  dataAuditor = {
+    pdf: {
+      file: null,
+      url: null,
+      name: null,
+      error: null,
+      progress: null,
+    },
     status: "",
     rejectReason: "",
     // status: this.stateAction,

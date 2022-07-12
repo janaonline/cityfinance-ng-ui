@@ -306,6 +306,11 @@ export class OdfFormComponent implements OnInit {
       },
       (error) => {
         console.error("err", error);
+        if (this.isGfc) {
+          sessionStorage.setItem("changeInGfc", "false");
+        } else {
+          sessionStorage.setItem("changeInODf", "false");
+        }
       }
     );
   }
@@ -326,10 +331,15 @@ export class OdfFormComponent implements OnInit {
         }
         console.log(this.profileForm.value);
         // this.fetchData();
-        swal("Saved", res.message, "success");
+        swal("Saved", "Data saved as draft successfully", "success");
       },
       (error) => {
         this.clickedSave = false;
+        if (this.isGfc) {
+          sessionStorage.setItem("changeInGfc", "false");
+        } else {
+          sessionStorage.setItem("changeInODf", "false");
+        }
       }
     );
   }
