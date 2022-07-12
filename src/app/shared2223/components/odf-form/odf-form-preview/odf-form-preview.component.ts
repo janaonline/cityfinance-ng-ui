@@ -98,11 +98,6 @@ export class OdfFormPreviewComponent implements OnInit {
         font-size: 10px;
         margin-top: 10px;
       }
-      td, th{
-        word-break: break-all;
-        font-size: 9px !important;
-        padding: 5px 1px !important;
-      }
       .na-cls {
         text-decoration: none;
         color: black;
@@ -111,6 +106,15 @@ export class OdfFormPreviewComponent implements OnInit {
   .d-n {
     display : none;
   }
+  .score {
+    width: 25%;
+    border: 1px solid transparent;
+    background: limegreen;
+    border-radius: 4px;
+    margin-top: 1rem;
+    padding: 0.2rem 1rem;
+    color: #fff;
+}
     </style>`;
   dialogRef;
   download;

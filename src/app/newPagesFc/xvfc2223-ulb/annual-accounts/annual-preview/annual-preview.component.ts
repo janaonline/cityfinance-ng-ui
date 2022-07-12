@@ -100,13 +100,70 @@ text-align: center;
   font-size: 10px;
   margin-top: 10px;
 }
-.optionalText{
-  padding-left: 2.5rem;
+.ot-text {
+  padding-left: .5rem;
   margin-top: .5rem;
-  margin-bottom: 1.5rem;
-  font-size:7px;
+  margin-bottom: .5rem;
+  font-size:9px;
+}
+.f-l {
+  background-color: #124A55;
+  color: #FFFFFF;
+  padding: 7px;
+}
+.h-h {
+    display: inline-block;
+    font-size: 12px !important;
+
+}
+.ques {
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  font-size: 10px;
 }
 
+.ans {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px;
+}
+.dec-h {
+font-weight: 600 !important;
+margin-bottom: 0 !important;
+  font-size: 10px;
+}
+.ans-h-an{
+  margin-left : .5rem !important;
+}
+.qus-h-an-ex {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px;
+  margin-left : .5rem !important;
+}
+.ans-h-an-b {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    margin-left : 1rem !important;
+    font-size: 10px;
+}
+.f-r {
+  margin-left: 30px;
+}
+.f-l {
+  margin-bottom : 1rem;
+}
+.m-r-t {
+  margin-top : 1rem !important;
+}
+.dec-h-h {
+  font-size: 10px;
+}
+.ans-h-na {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px !important;
+}
   </style>`;
   ngOnInit(): void {
     console.log("pre data", this.preData);
