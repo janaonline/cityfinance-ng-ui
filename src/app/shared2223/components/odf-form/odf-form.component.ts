@@ -88,6 +88,16 @@ export class OdfFormComponent implements OnInit {
   ratingMark = "N/A";
   backRouter = "#";
   nextRouter = "#";
+  clickedSave;
+  routerNavigate = null;
+  response;
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  dialogRef;
+  modalRef;
+  formDataPre;
+  firstClick = false;
+  @ViewChild("templateSave") template;
   ngOnInit(): void {
     this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
@@ -159,9 +169,12 @@ export class OdfFormComponent implements OnInit {
       this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
+    console.log(
+      "sess",
+      sessionStorage.getItem("changeInODf"),
+      sessionStorage.getItem("changeInGfc")
+    );
   }
-  formDataPre;
-  firstClick = false;
   prefilledOdf(data) {
     console.log(data);
     //curDate = curDate.toISOString();
@@ -306,6 +319,11 @@ export class OdfFormComponent implements OnInit {
       },
       (error) => {
         console.error("err", error);
+        if (this.isGfc) {
+          sessionStorage.setItem("changeInGfc", "false");
+        } else {
+          sessionStorage.setItem("changeInODf", "false");
+        }
       }
     );
   }
@@ -326,10 +344,15 @@ export class OdfFormComponent implements OnInit {
         }
         console.log(this.profileForm.value);
         // this.fetchData();
-        swal("Saved", res.message, "success");
+        swal("Saved", "Data saved as draft successfully", "success");
       },
       (error) => {
         this.clickedSave = false;
+        if (this.isGfc) {
+          sessionStorage.setItem("changeInGfc", "false");
+        } else {
+          sessionStorage.setItem("changeInODf", "false");
+        }
       }
     );
   }
@@ -546,11 +569,7 @@ export class OdfFormComponent implements OnInit {
   }
   dateChange() {
     this.formDataPre = this.profileForm.value;
-    console.log(
-      "this.isGfc",
-      this.isGfc,
-      sessionStorage.setItem("changeInODf", "true")
-    );
+    console.log("this.isGfc", this.isGfc);
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "true");
     } else {
@@ -564,19 +583,14 @@ export class OdfFormComponent implements OnInit {
       console.log("changes", el);
     });
   }
-  clickedSave;
-  routerNavigate = null;
-  response;
-  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
-  dialogRef;
-  modalRef;
-  @ViewChild("templateSave") template;
+
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           let changeInForm;
-          this.alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           if (this.isGfc) {
             changeInForm = sessionStorage.getItem("changeInGfc");
           } else {
@@ -609,22 +623,23 @@ export class OdfFormComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this.dialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
       if (result === undefined) {
         if (this.routerNavigate) {
-          this.routerNavigate = null;
+          // this.routerNavigate = null;
         }
       }
     });
   }
   async stay() {
-    // await this.dialogRef.close(true);
+    await this.dialogRef.close();
     this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
-    await this.dialogRef.close(true);
+    this.dialogRef.close();
     this.dialog.closeAll();
     if (this.routerNavigate) {
       await this.onDraft();

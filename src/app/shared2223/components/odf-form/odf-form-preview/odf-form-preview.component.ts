@@ -271,6 +271,12 @@ export class OdfFormPreviewComponent implements OnInit {
           resolve("sucess");
         },
         (err) => {
+          if (this.isGfcOpen) {
+            sessionStorage.setItem("changeInGfc", "false");
+          } else {
+            sessionStorage.setItem("changeInODf", "false");
+          }
+
           swal("Error", "Failed To Save", "error");
           resolve(err);
         }
