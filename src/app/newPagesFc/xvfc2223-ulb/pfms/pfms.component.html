@@ -38,29 +38,31 @@
             <div class="row mt-3 mb-3 question">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (A) Do you wish to submit Details for PFMS Account ?
+                        (A) Do you wish to submit Details for PFMS Account ?<sup>*</sup>
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle d-flex">
                         <label (click)="clickYes()" [ngClass]="{'activeClass': activeClass }"
                             class="customLabel form-control">
-                            <input type="radio" value="Yes" formControlName="linkPFMS">
+                            <input type="radio" value="Yes" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>Yes</span>
                         </label>
                         <label (click)="clickNo()" class="customLabel ms-3 form-control"
                             [ngClass]="{'activeClassNo': activeClassNo }">
-                            <input type="radio" value="No" formControlName="linkPFMS">
+                            <input type="radio" value="No" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>No</span>
                         </label>
-
+                        <div *ngIf="submitted && f.linkPFMS.errors" class="text-danger">
+                            <div *ngIf="f.linkPFMS.errors.required">Rating is required</div>
+                        </div>
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && !isDisabled">
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions1">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (B) Has the ULB linked its bank account with PFMS?
+                        (B) Has the ULB linked its bank account with PFMS?<sup>*</sup>
                         <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC."
                             matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -71,35 +73,42 @@
                     <span class="fontStyle d-flex">
                         <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': activeClassBottom }"
                             class="customLabel form-control">
-                            <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS">
+                            <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>Yes</span>
                         </label>
                         <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3"
                             [ngClass]="{'activeClassNoBottom': activeClassNoBottom }">
-                            <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS">
+                            <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>No</span>
                         </label>
+                        <div *ngIf="submitted && f.isUlbLinkedWithPFMS.errors" class="text-danger">
+                            <div *ngIf="f.isUlbLinkedWithPFMS.errors.required">Rating is required</div>
+                        </div>
                     </span>
                 </div>
             </div>
             <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (C) PFMS Account Number
+                        (C) PFMS Account Number<sup>*</sup>
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        <input type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue.data.PFMSAccountNumber}}">
+                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue.data.PFMSAccountNumber}}">
                     </span>
+                    <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
+                        <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
                         (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
-                        etc
+                        etc<sup>*</sup>
                     </span>
+                    
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin1">
@@ -110,8 +119,13 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input id="cin1" name="cin1" type="file"
+                    <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" id="cin1" name="cin1" type="file"
                         (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
+                        <div>
+                            <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
+                            </div>
+                        </div>
                 </div>
             </div>
             <!-- <div *ngIf="uploadedFile">

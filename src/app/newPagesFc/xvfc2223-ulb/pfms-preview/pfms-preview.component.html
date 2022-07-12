@@ -39,7 +39,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data.data.linkPFMS ? data.data.linkPFMS : 'N/A'}}
+                            {{data?.dataPreview?.linkPFMS ? data?.dataPreview?.linkPFMS : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -48,7 +48,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data.data.isUlbLinkedWithPFMS ? data.data.isUlbLinkedWithPFMS : 'N/A'}}
+                            {{data?.dataPreview?.isUlbLinkedWithPFMS ? data?.dataPreview?.isUlbLinkedWithPFMS : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -57,7 +57,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data.data.PFMSAccountNumber ? data.data.PFMSAccountNumber : 'N/A'}}
+                            {{data?.dataPreview?.PFMSAccountNumber ? data?.dataPreview?.PFMSAccountNumber : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -67,7 +67,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a href="{{data.data.cert.url}}" target="_blank">{{data.data.cert.name ? data.data.cert.name: 'N/A'}}</a>
+                            <a href="{{data?.dataPreview?.cert?.url}}" target="_blank">{{data?.dataPreview?.cert?.name ? data?.dataPreview?.cert?.name: 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -76,7 +76,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a href="{{data.data.otherDocs.url}}" target="_blank">{{data.data.otherDocs.name ? data.data.otherDocs.name : 'N/A'}}</a>
+                            <a href="{{data?.dataPreview?.otherDocs?.url}}" target="_blank">{{data?.dataPreview?.otherDocs?.name ? data?.dataPreview?.otherDocs?.name : 'N/A'}}</a>
                         </div>
                     </div>
                 </div>

@@ -46,6 +46,7 @@ export class PfmsComponent implements OnInit {
   pfmsLinkProgress;
   odfUrl = ''
   showOtherQuestions: boolean = false;
+  showOtherQuestions1:boolean = false;
   linkedToggle: boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
@@ -111,30 +112,79 @@ export class PfmsComponent implements OnInit {
       console.log(res)
       this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
       this.dataValue = res
-      if(res?.data?.linkPFMS == 'Yes' && res?.data?.isUlbLinkedWithPFMS == 'Yes' && res?.data?.PFMSAccountNumber){
-        this.showOtherQuestions = true;
-        this.linkedToggle = true;
-      }else{
-        this.showOtherQuestions = false;
-        this.linkedToggle = false;
-      }
-      res?.data?.linkPFMS == 'Yes' ? this.activeClass = true : this.activeClassNo = true
-      res?.data?.isUlbLinkedWithPFMS == 'Yes' ? this.activeClassBottom = true : this.activeClassNoBottom = true 
-     
-      
+    
       this.previewData = res
+      console.log(this.previewData)
+      if(this.previewData.data.linkPFMS == 'Yes'){
+         this.activeClass = true;
+         this.showOtherQuestions = true;
+         this.showOtherQuestions1 = true;
+         this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
+         if(this.previewData.data.isUlbLinkedWithPFMS == 'No'){
+            this.activeClassNoBottom = true;
+            this.showIcon = false
+            this.showIconOtherDoc = false
+            this.isDisabled = false
+            this.patchFormValue('isUlbLinkedWithPFMS', res?.data?.isUlbLinkedWithPFMS);
+         }else{
+           this.showOtherQuestions = true
+           this.showOtherQuestions1 = true
+           this.activeClassBottom = true
+           this.linkedToggle = true
+         }
+      }else{
+        this.activeClassNo = true
+        this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
+      }
+
+      if(this.previewData.data.cert.name){
+         this.pfmsFileName= this.previewData.data.cert.name
+         this.showIcon = true
+      }else{
+        this.showIcon = false
+      }
+    
+      if(this.previewData.data.otherDocs.name){
+        this.otherFileName= this.previewData.data.otherDocs.name
+        this.showIconOtherDoc = true
+     }else{
+       this.showIconOtherDoc = false
+     }
       if(res?.data?.isDraft == false){
         this.isDisabled = true
       }
     })
   }
+
+  patchFormValue(formControlName: string, value: any) {
+    this.registerForm.patchValue({
+      [formControlName]: value,
+     })
+  }
+
   onSubmit() {
+    console.log(this.registerForm)
     this.submitted = true;
-    
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
+    this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
+      if (this.previewData.data.isUlbLinkedWithPFMS == 'Yes') {
+        this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    
+        this.registerForm.controls['cert']['controls']['name'].setValidators([Validators.required]);
+        this.registerForm.controls['cert']['controls']['url'].setValidators([Validators.required]);
+      } else {
+        this.registerForm.controls['PFMSAccountNumber'].clearValidators();
+        this.registerForm.controls['cert']['controls']['name'].clearValidators();
+        this.registerForm.controls['cert']['controls']['url'].clearValidators();
+      }
+      this.registerForm.controls['PFMSAccountNumber'].updateValueAndValidity();
+      this.registerForm.controls['cert']['controls']['name'].updateValueAndValidity();
+        this.registerForm.controls['cert']['controls']['url'].updateValueAndValidity();
+
+    });
+
     this.registerForm.patchValue({
       isDraft: false
     })
@@ -157,9 +207,7 @@ export class PfmsComponent implements OnInit {
   }
 
   saveDraft() {
-    this.registerForm.patchValue({
-      isDraft: true
-    })
+    this.patchFormValue('isDraft', true);
     console.log(this.registerForm.value)
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
@@ -175,9 +223,14 @@ export class PfmsComponent implements OnInit {
     })
   }
   preview() {
-    
+    console.log(this.registerForm.value)
+    let previewData = {
+      dataPreview : this.registerForm.value,
+      preData: this.previewData
+    }
+    console.log(this.previewData)
     const dialogRef = this.dialog.open(PfmsPreviewComponent, {
-      data: this.previewData,
+      data: previewData,
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
@@ -188,6 +241,7 @@ export class PfmsComponent implements OnInit {
   }
   clickYes() {
     this.showOtherQuestions = true;
+    this.showOtherQuestions1 =true
     this.activeClass = true;
     this.linkedToggle = false;
     this.activeClassBottom = false;
@@ -196,6 +250,7 @@ export class PfmsComponent implements OnInit {
   }
   clickNo() {
     this.showOtherQuestions = false
+    this.showOtherQuestions1 = false
     this.activeClass = false
     this.activeClassNo = true
     this.showIcon =false
