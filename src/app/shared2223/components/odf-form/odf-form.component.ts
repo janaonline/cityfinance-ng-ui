@@ -31,6 +31,7 @@ export class OdfFormComponent implements OnInit {
   date = new Date();
   now;
   noRating: boolean;
+  maxDate;
   @Input() isGfcOpen: boolean = false;
   constructor(
     private dataEntryService: DataEntryService,
@@ -42,6 +43,7 @@ export class OdfFormComponent implements OnInit {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
+    this.maxDate = new Date().toISOString().split("T")[0];
     this.navigationCheck();
   }
 
