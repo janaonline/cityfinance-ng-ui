@@ -205,6 +205,19 @@ export class OdfFormComponent implements OnInit {
     // if (this.firstClick) {
     //   this.formValueChanges();
     // }
+    console.log("rating", data?.rating);
+    if (
+      data?.rating == "62b2e4c79a6c781a28150d73" ||
+      data?.rating == "62b2e4969a6c781a28150d71"
+    ) {
+      this.uploadDeclaration = true;
+      this.uploadCertificate = false;
+      this.noRating = true;
+    } else {
+      this.uploadDeclaration = false;
+      this.uploadCertificate = true;
+      this.noRating = false;
+    }
     this.formDataPre = this.profileForm.value;
     console.log("aaa", this.profileForm.value);
   }
