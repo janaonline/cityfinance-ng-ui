@@ -97,8 +97,9 @@
                 <span class="fontStyle">(C) Certification Issue Date?<sup>*</sup>
        </span>
             </div>
+            <!-- onfocus="this.max=new Date().toISOString().split('T')[0]" -->
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" (change)="dateChange()" placeholder="DD/MM/YYYY" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" (change)="dateChange()" placeholder="DD/MM/YYYY" class="inputDate form-control" [min]="now" formControlName="certDate" max="{{maxDate}}">
                 <div>
                     <div *ngIf="submitted && f.certDate.errors" class="text-danger">
                         <div *ngIf="f.certDate.errors.required">Date is required
