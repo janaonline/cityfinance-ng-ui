@@ -114,6 +114,7 @@ export class CommonFileUploadComponent implements OnInit {
           currency: true,
           doNotAddOnly: true,
         });
+        this.amountObj.value = Number(this.amountObj.value);
         this.itemError = false;
         if (type == "click") this.amountObj.error = false;
       } else if (this.amountObj.value > 999999999999999.99) {
@@ -124,6 +125,7 @@ export class CommonFileUploadComponent implements OnInit {
       this.amount2Type = "";
       if (type == "click") this.itemError = true;
     }
+
     this.fillAmount.emit(this.amountObj);
     if (this.compName == "AnnualAccount" && type == "click")
       sessionStorage.setItem("changeInAnnualAcc", "true");
