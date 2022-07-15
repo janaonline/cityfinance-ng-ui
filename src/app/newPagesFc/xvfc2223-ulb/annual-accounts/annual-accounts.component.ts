@@ -7,8 +7,8 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UserUtility } from "src/app/util/user/user";
-import { SweetAlert } from "sweetalert/typings/core";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",

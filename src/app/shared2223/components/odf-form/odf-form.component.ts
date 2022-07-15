@@ -407,6 +407,7 @@ export class OdfFormComponent implements OnInit {
       this.uploadDeclaration = true;
       this.uploadCertificate = false;
       this.noRating = true;
+      this.clearFile();
       this.profileForm?.get("certDate")?.clearValidators();
       this.profileForm?.get("certDate")?.updateValueAndValidity();
     } else {
