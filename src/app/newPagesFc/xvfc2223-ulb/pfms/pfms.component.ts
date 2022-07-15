@@ -154,6 +154,10 @@ export class PfmsComponent implements OnInit {
         this.isDisabled = true
       }
     })
+    // if(this.previewData.data.isDraft == true){
+    //   this.showIcon = false
+    //  this.showIconOtherDoc = false
+    // }
   }
 
   patchFormValue(formControlName: string, value: any) {
@@ -164,6 +168,8 @@ export class PfmsComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm)
+    this.showIcon = false
+    this.showIconOtherDoc = false
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {

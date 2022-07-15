@@ -95,7 +95,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue.data.PFMSAccountNumber}}">
+                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue?.data?.PFMSAccountNumber}}">
                     </span>
                     <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
                         <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
@@ -128,9 +128,6 @@
                         </div>
                 </div>
             </div>
-            <!-- <div *ngIf="uploadedFile">
-                {{uploadedFile}}
-             </div> -->
             <div class="row" *ngIf="showIcon">
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{pfmsFileName}}
