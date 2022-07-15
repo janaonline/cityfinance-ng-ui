@@ -14,6 +14,7 @@ import {
   FiftTwoDigitNumberDirective,
 } from "./directive/decimal.directive";
 import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ulb-routing.module";
+import { ErrorDisplayComponent } from './components/error-display/error-display.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -24,6 +25,7 @@ import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ul
     OdfFormPreviewComponent,
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
+    ErrorDisplayComponent,
   ],
   imports: [
     CommonModule,

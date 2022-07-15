@@ -31,6 +31,7 @@ export class OdfFormComponent implements OnInit {
   date = new Date();
   now;
   noRating: boolean;
+  maxDate;
   @Input() isGfcOpen: boolean = false;
   constructor(
     private dataEntryService: DataEntryService,
@@ -42,6 +43,7 @@ export class OdfFormComponent implements OnInit {
     this.date.setDate(this.date.getDate());
     this.date.setFullYear(this.date.getFullYear() - 1);
     this.now = new Date(this.date).toISOString().slice(0, 10);
+    this.maxDate = new Date().toISOString().split("T")[0];
     this.navigationCheck();
   }
 
@@ -88,6 +90,16 @@ export class OdfFormComponent implements OnInit {
   ratingMark = "N/A";
   backRouter = "#";
   nextRouter = "#";
+  clickedSave;
+  routerNavigate = null;
+  response;
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  dialogRef;
+  modalRef;
+  formDataPre;
+  firstClick = false;
+  @ViewChild("templateSave") template;
   ngOnInit(): void {
     this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
@@ -159,9 +171,12 @@ export class OdfFormComponent implements OnInit {
       this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
+    console.log(
+      "sess",
+      sessionStorage.getItem("changeInODf"),
+      sessionStorage.getItem("changeInGfc")
+    );
   }
-  formDataPre;
-  firstClick = false;
   prefilledOdf(data) {
     console.log(data);
     //curDate = curDate.toISOString();
@@ -192,6 +207,19 @@ export class OdfFormComponent implements OnInit {
     // if (this.firstClick) {
     //   this.formValueChanges();
     // }
+    console.log("rating", data?.rating);
+    if (
+      data?.rating == "62b2e4c79a6c781a28150d73" ||
+      data?.rating == "62b2e4969a6c781a28150d71"
+    ) {
+      this.uploadDeclaration = true;
+      this.uploadCertificate = false;
+      this.noRating = true;
+    } else {
+      this.uploadDeclaration = false;
+      this.uploadCertificate = true;
+      this.noRating = false;
+    }
     this.formDataPre = this.profileForm.value;
     console.log("aaa", this.profileForm.value);
   }
@@ -379,6 +407,7 @@ export class OdfFormComponent implements OnInit {
       this.uploadDeclaration = true;
       this.uploadCertificate = false;
       this.noRating = true;
+      this.clearFile();
       this.profileForm?.get("certDate")?.clearValidators();
       this.profileForm?.get("certDate")?.updateValueAndValidity();
     } else {
@@ -556,11 +585,7 @@ export class OdfFormComponent implements OnInit {
   }
   dateChange() {
     this.formDataPre = this.profileForm.value;
-    console.log(
-      "this.isGfc",
-      this.isGfc,
-      sessionStorage.setItem("changeInODf", "true")
-    );
+    console.log("this.isGfc", this.isGfc);
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "true");
     } else {
@@ -574,19 +599,14 @@ export class OdfFormComponent implements OnInit {
       console.log("changes", el);
     });
   }
-  clickedSave;
-  routerNavigate = null;
-  response;
-  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
-  dialogRef;
-  modalRef;
-  @ViewChild("templateSave") template;
+
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           let changeInForm;
-          this.alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           if (this.isGfc) {
             changeInForm = sessionStorage.getItem("changeInGfc");
           } else {
@@ -619,22 +639,23 @@ export class OdfFormComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this.dialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
       if (result === undefined) {
         if (this.routerNavigate) {
-          this.routerNavigate = null;
+          // this.routerNavigate = null;
         }
       }
     });
   }
   async stay() {
-    // await this.dialogRef.close(true);
+    await this.dialogRef.close();
     this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
-    await this.dialogRef.close(true);
+    this.dialogRef.close();
     this.dialog.closeAll();
     if (this.routerNavigate) {
       await this.onDraft();

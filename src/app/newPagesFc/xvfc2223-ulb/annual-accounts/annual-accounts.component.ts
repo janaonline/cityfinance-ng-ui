@@ -7,8 +7,8 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UserUtility } from "src/app/util/user/user";
-import { SweetAlert } from "sweetalert/typings/core";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",
@@ -996,8 +996,11 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.audited?.provisional_data[key]?.pdf?.name == null)
         ) {
           //this.data.unAudited.provisional_data[key].
+          console.log("elel key", key);
           this.auditQues.forEach((el) => {
+            console.log("elel 1", el);
             if (key == el?.key && el?.type == "file") {
+              console.log("elel", el);
               el.error = true;
             }
           });
@@ -1015,21 +1018,23 @@ export class AnnualAccountsComponent implements OnInit {
 
           // this.annualError = true;
         } else {
+          console.log("else", key, objLength, this.auditQues);
           if (objLength > 0) {
             this.auditQues.forEach((el) => {
+              // console.log("elel 2", el);
               if (key == el?.key && el?.type == "file") {
+                //  console.log("elel 2", el);
                 el.error = false;
               }
             });
-          }
-          if ((objLength = 0)) {
+          } else {
             this.auditQues.forEach((el) => {
               if (key == el?.key && el?.type == "input") {
                 el.error = false;
               }
             });
           }
-          //   this.annualError = false;
+          this.annualError = false;
         }
       }
       this.answerError.audited.submit_annual_accounts = false;
@@ -1049,7 +1054,8 @@ export class AnnualAccountsComponent implements OnInit {
       } else if (this.data.audited.submit_standardized_data == false) {
         this.answerError.audited.submit_standardized_data = false;
         this.manadUploadErrors.audited.standardized_data.error = false;
-        // this.annualError = false;
+        //  this.uploadErrors.audited.standardized_data.error = false;
+        this.annualError = false;
       } else {
         this.answerError.audited.submit_standardized_data = true;
         //  this.annualError = true;
@@ -1060,7 +1066,9 @@ export class AnnualAccountsComponent implements OnInit {
       });
       this.answerError.audited.submit_annual_accounts = false;
       this.manadUploadErrors.audited.standardized_data.error = false;
+      this.uploadErrors.audited.standardized_data.error = false;
       this.answerError.audited.submit_standardized_data = false;
+      this.annualError = false;
     } else {
       this.auditQues.forEach((el) => {
         el.error = false;
@@ -1073,8 +1081,13 @@ export class AnnualAccountsComponent implements OnInit {
 
     // unAudited
     if (this.data.unAudited.submit_annual_accounts) {
+      console.log(
+        "this.data.unAudited.provisional_data",
+        this.data.unAudited.provisional_data
+      );
+
       for (const key in this.data.unAudited.provisional_data) {
-        console.log(this.data?.unAudited?.provisional_data[key]);
+        console.log("keys", this.data?.unAudited?.provisional_data[key]);
         let obj = this.data?.unAudited?.provisional_data[key];
         let objLength = 0;
         if (obj != null && obj != "" && obj != undefined) {
@@ -1088,8 +1101,9 @@ export class AnnualAccountsComponent implements OnInit {
           (this.data?.unAudited?.provisional_data[key]?.pdf?.name == "" ||
             this.data?.unAudited?.provisional_data[key]?.pdf?.name == null)
         ) {
-          //this.data.unAudited.provisional_data[key].
           this.unAuditQues.forEach((el) => {
+            console.log("un a file", el);
+
             if (key == el?.key && el?.type == "file") {
               el.error = true;
             }
@@ -1101,11 +1115,29 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.unAudited?.provisional_data[key] == null)
         ) {
           this.unAuditQues.forEach((el) => {
+            console.log("un a input", el);
             if (key == el?.key && el?.type == "input") {
               el.error = true;
             }
           });
           // this.annualError = true;
+        } else {
+          // console.log("else 2", key, objLength, this.unAuditQues);
+          if (objLength > 0) {
+            //   console.log("elel key 2", key);
+            this.unAuditQues.forEach((el) => {
+              if (key == el?.key && el?.type == "file") {
+                el.error = false;
+              }
+            });
+          } else {
+            this.unAuditQues.forEach((el) => {
+              if (key == el?.key && el?.type == "input") {
+                el.error = false;
+              }
+            });
+          }
+          this.annualError = false;
         }
       }
       this.answerError.unAudited.submit_annual_accounts = false;
@@ -1125,7 +1157,8 @@ export class AnnualAccountsComponent implements OnInit {
       } else if (this.data.unAudited.submit_standardized_data == false) {
         this.answerError.unAudited.submit_standardized_data = false;
         this.manadUploadErrors.unAudited.standardized_data.error = false;
-        // this.annualError = false;
+        this.uploadErrors.unAudited.standardized_data.error = false;
+        this.annualError = false;
       } else {
         this.answerError.unAudited.submit_standardized_data = true;
         //  this.annualError = true;
@@ -1137,6 +1170,8 @@ export class AnnualAccountsComponent implements OnInit {
       this.answerError.unAudited.submit_annual_accounts = false;
       this.answerError.unAudited.submit_standardized_data = false;
       this.manadUploadErrors.audited.standardized_data.error = false;
+      this.uploadErrors.unAudited.standardized_data.error = false;
+      this.annualError = false;
     } else {
       this.unAuditQues.forEach((el) => {
         el.error = false;
@@ -1164,6 +1199,8 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
   checkFinalError() {
+    console.log('aaaaaaaaa error', this.annualError);
+
     this.unAuditQues.forEach((el) => {
       if (el.error == true || el.error == null) {
         this.annualError = true;
