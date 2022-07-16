@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 const swal: SweetAlert = require("sweetalert");
@@ -6,7 +6,8 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
+import { NavigationStart, Router } from '@angular/router';
 @Component({
   selector: 'app-pfms',
   templateUrl: './pfms.component.html',
@@ -22,7 +23,17 @@ export class PfmsComponent implements OnInit {
   submitted = false;
   ulbId: any;
   designYearId: any;
-  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService,public dialog: MatDialog) {
+  clickedSave;
+  routerNavigate = null;
+  response;
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  dialogRef;
+  modalRef;
+  formDataPre;
+  firstClick = false;
+  @ViewChild("templateSave") template;
+  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService,public dialog: MatDialog,public _router: Router) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData)
     this.ulbId = this.ulbData.ulb
@@ -36,6 +47,8 @@ export class PfmsComponent implements OnInit {
       }
     }
     this.getSubmittedFormData()
+    this.navigationCheck();
+
     // if(this.registerForm.linkP)
     // console.log(this.registerForm.value)
   }
@@ -74,7 +87,7 @@ export class PfmsComponent implements OnInit {
   subscription: any;
   previewData:any;
   ngOnInit(): void {
-    
+    this.clickedSave = false;
     this.registerForm = this.formBuilder.group({
       linkPFMS: ['', Validators.required],
       isUlbLinkedWithPFMS: [''],
@@ -95,6 +108,7 @@ export class PfmsComponent implements OnInit {
       responseFile:''
     });
     this.accValueChange();
+    sessionStorage.setItem("changeInPFMS", "false");
     // this.getSubmittedFormData();
   }
 
@@ -135,6 +149,7 @@ export class PfmsComponent implements OnInit {
       }else{
         this.activeClassNo = true
         this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
+        // this.patchFormValue('isUlbLinkedWithPFMS', '');
       }
 
       if(this.previewData.data.cert.name){
@@ -196,13 +211,17 @@ export class PfmsComponent implements OnInit {
     })
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
+      this.clickedSave = false;
       console.log('success!!!!!!!!!!!!!', res)
       if (res && res.status) {
+        this.clickedSave = false;
+        sessionStorage.setItem("changeInPFMS", "false");
         console.log('success!!!!!!!!!!!!!', res)
         this.getSubmittedFormData();
         this.isDisabled = true
         swal('Saved', 'Data saved successfully', 'success')
       } else {
+        sessionStorage.setItem("changeInPFMS", "false");
         swal('Error', res?.message ? res?.message : 'Error', 'error')
       }
     }, error => {
@@ -219,12 +238,16 @@ export class PfmsComponent implements OnInit {
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
       if (res && res.status) {
+        this.clickedSave = false;
         this.getSubmittedFormData()
+        sessionStorage.setItem("changeInPFMS", "false");
         swal('Saved as draft', res?.message, 'success')
       } else {
+        sessionStorage.setItem("changeInPFMS", "false");
         swal('Error', res?.message ? res?.message : 'Error', 'error')
       }
     }, error => {
+      this.clickedSave = false;
       console.error('err', error);
     })
   }
@@ -252,7 +275,8 @@ export class PfmsComponent implements OnInit {
     this.linkedToggle = false;
     this.activeClassBottom = false;
     this.activeClassNo = false;
-   
+    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInPFMS", "true")
   }
   clickNo() {
     this.showOtherQuestions = false
@@ -261,6 +285,8 @@ export class PfmsComponent implements OnInit {
     this.activeClassNo = true
     this.showIcon =false
     this.showIconOtherDoc = false
+    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInPFMS", "true")
   }
   linkedYes(event) {
     this.linkedToggle = true
@@ -268,6 +294,8 @@ export class PfmsComponent implements OnInit {
     this.activeClassBottom = true
     this.activeClassNoBottom = false
     console.log(event)
+    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInPFMS", "true")
     if(event == 'Yes'){
       this.registerForm.get('PFMSAccountNumber').setValidators(Validators.required);
       this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
@@ -289,6 +317,8 @@ export class PfmsComponent implements OnInit {
     this.activeClassNoBottom = true
     this.showIcon =false
     this.showIconOtherDoc = false
+    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInPFMS", "true")
   }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
@@ -330,7 +360,7 @@ export class PfmsComponent implements OnInit {
       this.showIconOtherDoc = false;
       this.otherFileName = ''
     }
-   
+    sessionStorage.setItem("changeInPFMS", "true");
     this.registerForm.patchValue({
       // cert: '',
       [type]: ''
@@ -420,6 +450,7 @@ export class PfmsComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
+              sessionStorage.setItem("changeInPFMS", "true");
               // this.profileForm.get('cert').patchValue({name:file.name})
 
               console.log(file)
@@ -454,4 +485,80 @@ export class PfmsComponent implements OnInit {
       }
   );
   }
+
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          let changeInForm;
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          
+            changeInForm = sessionStorage.getItem("changeInPFMS");
+          
+          // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
+          if (event.url === "/" || event.url === "/login") {
+           
+              sessionStorage.setItem("changeInPFMS", "false");
+            
+            return;
+          }
+          if (changeInForm === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    await this.dialogRef.close();
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    this.dialogRef.close();
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.saveDraft();
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    await this.saveDraft();
+    return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  async discard() {
+    
+      sessionStorage.setItem("changeInPFMS", "false");
+    
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
+  }
 }
+
