@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { IncompleteProfileComponent } from "src/app/shared/components/ulb/incomplete-profile/incomplete-profile.component";
 import { Ulb2223Guard } from "src/app/shared2223/commom-gaurds/ulb2223.guard";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
 import { DetailedUtilizationReportComponent } from "./detailed-utilization-report/detailed-utilization-report.component";
@@ -55,6 +56,10 @@ const routes: Routes = [
         component: ResourceComponent,
       },
     ],
+  },
+  {
+    path: "profileUpdate",
+    component: IncompleteProfileComponent,
   },
 ];
 
