@@ -41,7 +41,7 @@
                         (A) Do you wish to submit Details for PFMS Account ?<sup>*</sup>
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': disableInputs }">
                     <span class="fontStyle d-flex">
                         <label (click)="clickYes()" [ngClass]="{'activeClass': activeClass }"
                             class="customLabel form-control">
@@ -69,7 +69,7 @@
                         </span>
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': disableInputs }">
                     <span class="fontStyle d-flex">
                         <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': activeClassBottom }"
                             class="customLabel form-control">
@@ -93,7 +93,7 @@
                         (C) PFMS Account Number<sup>*</sup>
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': disableInputs }">
                     <span class="fontStyle">
                         <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue?.data?.PFMSAccountNumber}}">
                     </span>
@@ -110,7 +110,7 @@
                     </span>
                     
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload" [ngClass]="{'disableInputs': disableInputs }">
                     <label for="cin1">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
                             Pdf
@@ -128,7 +128,7 @@
                         </div>
                 </div>
             </div>
-            <div class="row" *ngIf="showIcon">
+            <div class="row" *ngIf="showIcon" [ngClass]="{'disableInputs': disableInputs }">
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{pfmsFileName}}
                 </div>
@@ -150,13 +150,13 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle" [ngClass]="{'disableInputs': disableInputs }">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
                         (E) Upload any other transaction doc from PFMS
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload" [ngClass]="{'disableInputs': disableInputs }">
                     <label for="cin2">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
                             Pdf
@@ -169,7 +169,7 @@
                         (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
                 </div>
             </div>
-            <div class="row" *ngIf="showIconOtherDoc">
+            <div class="row" *ngIf="showIconOtherDoc" [ngClass]="{'disableInputs': disableInputs }">
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{otherFileName}}
                 </div>

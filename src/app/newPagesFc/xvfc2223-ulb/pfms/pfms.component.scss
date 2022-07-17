@@ -262,7 +262,9 @@
 .activeClass {
     background-color: #ffc500;
 }
-
+.disableInputs{
+    pointer-events: none;
+}
 .activeClassNo {
     background-color: #ffc500;
 }

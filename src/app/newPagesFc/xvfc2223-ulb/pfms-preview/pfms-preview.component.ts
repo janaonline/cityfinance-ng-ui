@@ -7,7 +7,8 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 //import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-pfms-preview',
   templateUrl: './pfms-preview.component.html',
@@ -21,7 +22,9 @@ export class PfmsPreviewComponent implements OnInit {
     private commonService: NewCommonService) { }
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
-  @ViewChild("templateAnnual") template;
+  @ViewChild("templateSave") template;
+  dialogRef;
+  download;
   showLoader;
   ulbName = "";
   stateName = "";
@@ -112,8 +115,24 @@ export class PfmsPreviewComponent implements OnInit {
     this.stateName = userData["stateName"];
     
   }
-  clickedDownloadAsPDF() {
-    this.downloadAsPDF();
+  clickedDownloadAsPDF(template) {
+    this.download = true;
+    let changeHappen;
+    
+      // changeHappen = sessionStorage.setItem("changeInPFMS", "false");
+      changeHappen = sessionStorage.getItem("changeInGTC");
+      changeHappen = sessionStorage.getItem("changeInPFMS");
+    // let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
+    console.log(changeHappen)
+    if (changeHappen === "true") {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
+  }
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
   }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -156,5 +175,53 @@ export class PfmsPreviewComponent implements OnInit {
   }
   closeMat() {
     this._matDialog.closeAll();
+  }
+  async proceed(uploadedFiles) {
+    this.dialogRef.close();
+    this._matDialog.closeAll();
+    await this.submit();
+
+    await this.downloadAsPDF();
+    //  if (this.changeFromOutSide)
+    // this._ulbformService.initiateDownload.next(true);
+    //  else await this.downloadAsPDF();
+  }
+
+  async submit() {
+    console.log("odf save", this.data?.formData);
+    let body = { ...this.data?.dataPreview, isDraft: true };
+    return new Promise((resolve, rej) => {
+      this.commonService.pfmsSubmitForm(body).subscribe(
+        (res) => {
+         
+            sessionStorage.setItem("changeInPFMS", "false");
+            sessionStorage.setItem("changeInGTC", "false");
+          
+          console.log(res);
+          // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          // status.annualAccounts.isSubmit = res["isCompleted"];
+          // this._ulbformService.allStatus.next(status);
+          swal("Saved", "Data saved as draft successfully", "success");
+          resolve("sucess");
+        },
+        (err) => {
+         
+          sessionStorage.setItem("changeInPFMS", "false");
+          sessionStorage.setItem("changeInGTC", "false");
+          
+
+          swal("Error", "Failed To Save", "error");
+          resolve(err);
+        }
+      );
+    });
+  }
+
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
   }
 }

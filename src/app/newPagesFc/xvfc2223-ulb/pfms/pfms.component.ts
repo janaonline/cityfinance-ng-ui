@@ -118,6 +118,7 @@ export class PfmsComponent implements OnInit {
   isDisabled:boolean = false
   dataValue:any
   uploadedFile:any
+  disableInputs:boolean = false
   getSubmittedFormData(){
     const params ={ulb: this.ulbId,
     design_year: this.designYearId,
@@ -128,6 +129,10 @@ export class PfmsComponent implements OnInit {
       this.dataValue = res
     
       this.previewData = res
+      if(this.previewData?.data?.isDraft == false){
+        // this.registerForm.disable()
+        this.disableInputs = true
+      }
       console.log(this.previewData)
       if(this.previewData.data.linkPFMS == 'Yes'){
          this.activeClass = true;
@@ -275,6 +280,7 @@ export class PfmsComponent implements OnInit {
     this.linkedToggle = false;
     this.activeClassBottom = false;
     this.activeClassNo = false;
+    this.activeClassNoBottom = false
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
   }
@@ -285,6 +291,7 @@ export class PfmsComponent implements OnInit {
     this.activeClassNo = true
     this.showIcon =false
     this.showIconOtherDoc = false
+    this.registerForm.controls['isUlbLinkedWithPFMS'].reset();
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
   }
@@ -480,7 +487,6 @@ export class PfmsComponent implements OnInit {
     
     this.registerForm.controls['isUlbLinkedWithPFMS'].valueChanges.subscribe(
       (selectedValue) => {
-        console.log(selectedValue);
       console.log(this.registerForm.get('isUlbLinkedWithPFMS').value);    
       }
   );
