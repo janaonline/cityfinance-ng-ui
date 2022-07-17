@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 
 @Component({
   selector: "app-overview",
@@ -6,7 +7,11 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
   styleUrls: ["./overview.component.scss"],
 })
 export class OverviewComponent implements OnInit {
-  constructor() {}
+  constructor(public newCommonService: NewCommonService) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.getSideBar();
+  }
+  userData;
   width;
   row_width;
   messWidth;
@@ -106,99 +111,7 @@ export class OverviewComponent implements OnInit {
       display: ["None"],
     },
   ];
-  // cardsOverview1 = [
-  //   {
-  //     label: "Grant Transfer Certificate",
-  //     key: "GTC",
-  //     link: "../grant-tra-certi",
-  //     title: this.grantTransferTitle,
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets//ulbform/gtc.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  //   {
-  //     label: "Utilisation Report",
-  //     key: "DUR",
-  //     link: "../utilisation-report",
-  //     title: this.utilReportTitle,
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/dur.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  //   {
-  //     label: "Annual Acconts",
-  //     key: "AA",
-  //     link: "../annual_acc",
-  //     title: this.annualAccountsTitle,
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/aa.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  //   {
-  //     label: "PFMS",
-  //     key: "PFMS",
-  //     link: "../pfms_acc",
-  //     title: "Provide details on PFMS Account Linkage",
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets//ulbform/lpa.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  // ];
-  // cardsOverview2 = [
-  //   {
-  //     label: "Property Tax Operationalisation",
-  //     key: "PTO",
-  //     link: "../pto",
-  //     title: `Furnish details on property tax collection procedures`,
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/aa.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  //   {
-  //     label: "Service Level Benchmarks",
-  //     key: "SLB",
-  //     link: "../slb",
-  //     title: "Fill details for Performance Condition",
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/slb.svg",
-  //     permittedAccounts: [""],
-  //     display: [""],
-  //   },
-  //   // {
-  //   //   label: "slbs",
-  //   //   link: "../slbs",
-  //   //   // title: "Million Plus City Challenge Fund",
-  //   //   tooltip: "tooltip",
-  //   //   image: "../../../../assets/ulbform/mpccf.svg",
-  //   //   permittedAccounts: [""],
-  //   //   display: [""],
-  //   // },
-  //   {
-  //     label: "Open Defecation Free (ODF)",
-  //     key: "ODF",
-  //     link: "../odf",
-  //     title: "Provide ODF rating certificate and other details",
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/plan for water and sanitation.svg",
-  //     permittedAccounts: ["No"],
-  //     display: ["None"],
-  //   },
-  //   {
-  //     label: "Garbage Free City (GFC)",
-  //     key: "GFC",
-  //     link: "../gfc",
-  //     title: "Provide GFC rating certificate and other details",
-  //     tooltip: "tooltip",
-  //     image: "../../../../assets/ulbform/plan for water and sanitation.svg",
-  //     permittedAccounts: ["No"],
-  //     display: ["None"],
-  //   },
-  // ];
+
   @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
   message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
@@ -244,6 +157,20 @@ export class OverviewComponent implements OnInit {
       this.itemsPerSlide = 5;
     }
     console.log(this.itemsPerSlide);
+  }
+  getSideBar() {
+    console.log("user Data", this.userData);
+
+    let ulbId = this.userData?.ulb;
+    let role = this.userData?.role;
+    let isUA = this.userData?.isUA;
+    this.newCommonService
+      .getULBLeftMenu(ulbId, role, isUA)
+      .subscribe((res: any) => {
+        console.log("left responces..", res);
+        this.cardsOverview = res?.card;
+        // this.leftMenu = res;
+      });
   }
   ngAfterViewInit() {
     this.row_width = this.myIdentifier.nativeElement.offsetWidth;

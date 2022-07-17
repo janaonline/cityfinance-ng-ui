@@ -22,7 +22,10 @@ import {
 import { OverviewComponent } from "./overview/overview.component";
 import { ResourceComponent } from "./resource/resource.component";
 import { CarouselModule } from "ngx-bootstrap/carousel";
-import { DurPreviewComponent } from './detailed-utilization-report/dur-preview/dur-preview.component';
+import { DurPreviewComponent } from "./detailed-utilization-report/dur-preview/dur-preview.component";
+import { CharacterDirective, PatternDirective } from "./pattern.directive";
+import { IncompleteProfileComponent } from "src/app/shared/components/ulb/incomplete-profile/incomplete-profile.component";
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -40,6 +43,8 @@ import { DurPreviewComponent } from './detailed-utilization-report/dur-preview/d
     OverviewComponent,
     ResourceComponent,
     DurPreviewComponent,
+    PatternDirective,
+    CharacterDirective,
   ],
   imports: [
     CommonModule,
@@ -51,6 +56,7 @@ import { DurPreviewComponent } from './detailed-utilization-report/dur-preview/d
     MatTooltipModule,
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
+    SharedModule,
   ],
   exports: [Xvfc2223UlbRoutingModule],
 })

@@ -1,1 +1,27 @@
-<p>error-display works!</p>
+<div class="row" [ngSwitch]="errorType">
+    <div class="col-sm-12" *ngSwitchCase="'normal'">
+        <div *ngIf="formControlSec.errors?.required">
+            {{fName}} is required.
+        </div>
+        <!-- <div *ngIf="formControlSec.errors['minlength']">
+            Name must be at least 4 characters long.
+        </div> -->
+        <div *ngIf="formControlSec.errors['maxlength']">
+            Maximum 50 Characters are allowed*
+        </div>
+    </div>
+    <div class="col-sm-12" *ngSwitchCase="'table'">
+        <div *ngIf="formControlSec.errors?.required">
+            Error
+            <span class="material-icons" tooltip="{{fName}} is required." style="vertical-align: middle;">
+              info
+            </span>
+        </div>
+        <!-- <div *ngIf="formControlSec.errors['minlength']">
+          Name must be at least 4 characters long.
+      </div> -->
+        <div *ngIf="formControlSec.errors['maxlength']">
+            Maximum 50 Characters are allowed*
+        </div>
+    </div>
+</div>
