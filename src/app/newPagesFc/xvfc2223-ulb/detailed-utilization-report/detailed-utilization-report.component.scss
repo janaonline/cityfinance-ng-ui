@@ -97,7 +97,7 @@ sup {
 }
 
 .row {
-    align-items: center;
+    //  align-items: center;
 }
 
 .color-in {
@@ -134,4 +134,17 @@ td {
 
 .errorCls {
     border: 1px solid red;
+}
+
+.alert {
+    position: relative;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: none;
+    margin-top: 0.5rem;
+}
+
+.anDisable {
+    pointer-events: none;
 }

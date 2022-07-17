@@ -12,7 +12,7 @@
                 <div class="col-sm-12 h-uti-p" [ngClass]="{'heading-p':!parentData, 'heading-ut-p' : parentData }">
                     <span>
                       GRANT UTILISATION REPORT FOR THE FIFTEENTH COMMISSION RECOMMENDED
-                      TIED GRANT RECEIVED DURING THE AWARD PERIOD 2021-22 TO 2025-26.
+                      TIED GRANT RECEIVED DURING THE AWARD PERIOD 2022-23 TO 2025-26.
                   </span>
                     <hr style="border: 1px solid #FFFFFF; margin: 5px 0;">
                 </div>
@@ -104,12 +104,13 @@
                         </td>
                         <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
                          data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+
                         <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                     </tr>
-                    <tr *ngFor="let outputRow of wm; let rowIndex=index">
+                    <tr *ngFor="let outputRow of data?.categoryWiseData_wm; let rowIndex=index">
                         <th scope="row" class="f-table"></th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">
                             {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.category_name}}
@@ -161,7 +162,7 @@
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                     </tr>
-                    <tr *ngFor="let outputRow of swm; let rowIndex=index">
+                    <tr *ngFor="let outputRow of data?.categoryWiseData_swm; let rowIndex=index">
                         <th scope="row" class="f-table"></th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">
                             {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.category_name}}
@@ -220,10 +221,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                    <tr *ngFor="let item of data?.projects; let i=index" style="text-align: center; vertical-align: inherit;">
                         <th scope="row" class="f-table">{{1+i}}.</th>
                         <td class="f-table">{{data.projects[i].name}}</td>
-                        <td class="f-table">{{data.projects[i].category}}</td>
+                        <td class="f-table">{{data.projects[i].categoryName}}</td>
                         <td class="f-table p-tb">{{data.projects[i].location.lat}}</td>
                         <td class="f-table p-tb">{{data.projects[i].location.long}}</td>
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerName}}</td> -->

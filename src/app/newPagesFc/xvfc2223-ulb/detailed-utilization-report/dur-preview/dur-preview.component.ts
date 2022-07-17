@@ -203,13 +203,15 @@ tr {
       this.state = sessionStorage.getItem("stateName");
       this.ulb = sessionStorage.getItem("ulbName");
     }
-    console.log("preview data", this.data);
-    this.UtiReportService.getCategory().subscribe((resdata) => {
-      this.categories = resdata;
-      console.log("res cat", resdata);
-      this.categories = this.categories.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+    this.categories = this.data?.categories;
+
+    console.log("preview data", this.data, this.categories);
+    this.data?.projects.forEach((el) => {
+      let cName = this.categories.find((item) => item?._id == el?.category);
+      if (cName) {
+        el.categoryName = cName?.name;
+      }
+      console.log("ccc", cName);
     });
     // this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
     //   (change) => {
@@ -222,39 +224,6 @@ tr {
     if (this.parentData) {
       this.genrateParentData();
     }
-    setTimeout(() => {
-      this.analytics = this.data.analytics;
-      console.log(
-        "anaaaaaaaaaaa",
-        this.analytics,
-        this.categories,
-        this.data.categories
-      );
-      // this.categories = this.data.categories;
-      this.analytics.forEach((el) => {
-        this.categories.forEach((element) => {
-          if (element._id == el["_id"]) {
-            el["categoryName"] = element.name;
-          }
-        });
-      });
-      console.log("prev ana...", this.analytics, this.categories);
-      this.swm = this.data?.useData?.categoryWiseData_swm;
-      this.wm = this.data?.useData?.categoryWiseData_wm;
-      // this.analytics.forEach(el => {
-      //   if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-      //     this.swm.push(el)
-      //   } else {
-      //     this.wm.push(el)
-      //   }
-      // })
-      // this.wm.forEach(el => {
-      //   this.totalWmAmount = this.totalWmAmount + el.amount;
-      // });
-      // this.swm.forEach(el => {
-      //   this.totalSwmAmount = this.totalSwmAmount + el.amount;
-      // });
-    }, 500);
 
     let getData = JSON.parse(sessionStorage.getItem("utilReport"));
     console.log("getData", getData);
@@ -288,10 +257,20 @@ tr {
     }
 
     this.setTotalStatus();
+    this.calculateAmt();
   }
-
+  calculateAmt() {
+    this.data?.categoryWiseData_wm?.forEach((el) => {
+      this.totalWmAmount =
+        Number(this.totalWmAmount) + Number(el?.grantUtilised);
+    });
+    this.data?.categoryWiseData_swm?.forEach((el) => {
+      this.totalSwmAmount =
+        Number(this.totalSwmAmount) + Number(el?.grantUtilised);
+    });
+  }
   ngOnDestroy(): void {
-    this.subParentForModal.unsubscribe();
+  //  this.subParentForModal.unsubscribe();
   }
 
   setTotalStatus() {
