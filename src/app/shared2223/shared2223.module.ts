@@ -15,6 +15,8 @@ import {
 } from "./directive/decimal.directive";
 import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ulb-routing.module";
 import { ErrorDisplayComponent } from './components/error-display/error-display.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -33,12 +35,15 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
     ReactiveFormsModule,
     FormsModule,
     Xvfc2223UlbRoutingModule,
+    MatTooltipModule,
+    TooltipModule.forRoot(),
   ],
   exports: [
     OdfFormComponent,
     CommonFileUploadComponent,
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
+    ErrorDisplayComponent,
   ],
 })
 export class Shared2223Module {}

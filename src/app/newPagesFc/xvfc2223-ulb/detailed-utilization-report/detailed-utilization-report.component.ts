@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -6,13 +6,14 @@ import {
   FormBuilder,
   FormArray,
 } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MapDialogComponent } from "src/app/shared/components/map-dialog/map-dialog.component";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 
 import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-report/uti-report.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DurPreviewComponent } from "./dur-preview/dur-preview.component";
+import { NavigationStart, Router } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-detailed-utilization-report",
@@ -24,8 +25,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
     private newCommonService: NewCommonService,
     private fb: FormBuilder,
     private UtiReportService: UtiReportService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _router: Router
   ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeReport();
   }
   durForm;
@@ -110,12 +113,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
   grantsError = false;
   closingError = false;
   expDuringYear;
+  isDisabled = false;
   ngOnInit(): void {
-    this.userData = JSON.parse(localStorage.getItem("userData"))
-      ? JSON.parse(localStorage.getItem("userData"))
-      : localStorage.getItem("userData")
-      ? localStorage.getItem("userData")
-      : "";
     this.ulbName = this.userData?.name;
     this.onLoad();
   }
@@ -133,6 +132,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.wmPosValueChangeSubs();
     this.swmPosValueChangeSubs();
     this.pojectPosValueChangeSubs();
+    sessionStorage.setItem("changeInUti", "false");
   }
   public initializeReport() {
     let stName = sessionStorage.getItem("stateName");
@@ -188,17 +188,89 @@ export class DetailedUtilizationReportComponent implements OnInit {
       declaration: [false, Validators.required],
     });
   }
+  clickedSave = false;
+  routerNavigate = null;
+  dialogRef;
+  modalRef;
+  @ViewChild("changeTemplate") template;
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        console.log("entered into router", this.routerNavigate);
+        if (event instanceof NavigationStart) {
+          const canNavigate = sessionStorage.getItem("changeInUti");
+          console.log(canNavigate);
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInUti", "true");
+            return;
+          }
+          if (canNavigate === "false" && this.routerNavigate === null) {
+            // this.dialogReference.close();
 
-  get utiRControls() {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.openDialogBox(this.template);
+            return;
+          }
+        }
+      });
+    }
+  }
+  dialogReference;
+  openDialogBox(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogReference = this.dialog.open(template, dialogConfig);
+  }
+
+  stay() {
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.saveUtiReport("draft");
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    // if (this.routerNavigate && !this.clickedBack) {
+    //  await this.saveStateActionData();
+    //   sessionStorage.setItem("changeInAnnual", "false");
+    //   this._router.navigate([this.routerNavigate.url]);
+    //   return;
+    // }
+    // if (this.clickedBack && this.actionTaken) {
+    //   await this.saveStateActionData();
+    //   sessionStorage.setItem("changeInAnnual", "false");
+    //   this._router.navigate(['/ulbform/utilisation-report']);
+    //   return;
+    // }
+    await this.saveUtiReport("draft");
+    return this._router.navigate(["ulbform2223/annual-acc"]);
+  }
+  alertClose() {
+    this.stay();
+  }
+  get utiControls() {
     return this.utilizationReportForm.controls;
+  }
+  get grantPosCon() {
+    return this.utilizationReportForm.controls.grantPosition["controls"];
   }
   get tabelRows() {
     return this.utilizationReportForm.get("projects") as FormArray;
   }
-  get tabelRows_SWMcategory() {
+  get swmProject() {
     return this.utilizationReportForm.get("categoryWiseData_swm") as FormArray;
   }
-  get tabelRows_WMcategory() {
+  get wmProject() {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
   getUtiReport() {
@@ -227,6 +299,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
         // });
         this.setcategoryData(res?.data);
         this.preFilledData(res?.data);
+        if (res?.data.isDraft == false) {
+          //  this.isDisabled = true;
+          //  this.utilizationReportForm.disable();
+        } else {
+          this.isDisabled = false;
+        }
       },
       (error) => {
         console.log("error", error);
@@ -242,11 +320,19 @@ export class DetailedUtilizationReportComponent implements OnInit {
       grantPosition: {
         unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr,
         receivedDuringYr: data?.grantPosition?.receivedDuringYr,
-        expDuringYr: data?.grantPosition?.expDuringYr,
-        closingBal: data?.grantPosition?.closingBal,
+        expDuringYr: data?.grantPosition?.expDuringYr
+          ? data?.grantPosition?.expDuringYr
+          : 0,
+        closingBal: data?.grantPosition?.closingBal
+          ? data?.grantPosition?.closingBal
+          : 0,
       },
       status: data?.status,
     });
+    console.log(
+      "data?.grantPosition?.closingBal",
+      data?.grantPosition?.closingBal
+    );
   }
   setcategoryData(res) {
     console.log("select", res);
@@ -345,7 +431,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
   }
   addSwmRow(data, type) {
     if (type == "swm_category") {
-      this.tabelRows_SWMcategory.push(
+      this.swmProject.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
@@ -354,7 +440,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         })
       );
     } else {
-      this.tabelRows_SWMcategory.push(
+      this.swmProject.push(
         this.fb.group({
           category_name: [data?.categoryName, Validators.required],
           grantUtilised: [data?.amount, Validators.required],
@@ -366,10 +452,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
   }
 
   addWmRow(data, type) {
-    console.log("ddd", this.utilizationReportForm, this.tabelRows_WMcategory);
+    console.log("ddd", this.utilizationReportForm, this.wmProject);
 
     if (type == "wm_category") {
-      this.tabelRows_WMcategory.push(
+      this.wmProject.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
@@ -378,7 +464,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         })
       );
     } else {
-      this.tabelRows_WMcategory.push(
+      this.wmProject.push(
         this.fb.group({
           category_name: [data?.categoryName, Validators.required],
           grantUtilised: [data?.amount, Validators.required],
@@ -423,6 +509,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
   formValueChangeSubs() {
     this.utilizationReportForm?.valueChanges.subscribe((el) => {
       console.log("changes form", el);
+      sessionStorage.setItem("changeInUti", "true");
     });
   }
 
@@ -435,6 +522,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
           Number(el?.receivedDuringYr) -
           Number(el?.expDuringYr);
         this.expDuringYear = el?.expDuringYr;
+        // if(this.closingBal == undefined || !isNaN(this.closingBal)){
+        //   this.closingBal = 0;
+        // }
       }
     );
   }
@@ -491,12 +581,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
   }
   totalPExpErr = false;
   changeInTotalPExp() {
+    console.log("expDuringYear", this.expDuringYear);
     if (this.expDuringYear != this.totalProjectExp) {
-      swal(
-        "Alert",
-        `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
-        "error"
-      );
+      // swal(
+      //   "Alert",
+      //   `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
+      //   "error"
+      // );
       this.totalPExpErr = true;
     } else {
       this.totalPExpErr = false;
@@ -512,24 +603,24 @@ export class DetailedUtilizationReportComponent implements OnInit {
         Number(this.wmTotalTiedGrantUti) + Number(this.swmTotalTiedGrantUti);
       console.log("to", totalUtilised);
 
-      if (totalUtilised != grantsExp) {
-        swal(
-          "Alert",
-          "The total expenditure in the component wise grants must not exceed the amounts of grant received.",
-          "error"
-        );
+      if (totalUtilised != grantsExp && grantsExp != "") {
+        // swal(
+        //   "Alert",
+        //   "The total expenditure in the component wise grants must not exceed the amounts of grant received.",
+        //   "error"
+        // );
         this.grantsError = true;
       } else {
         this.grantsError = false;
       }
     }
     if (this.closingBal < 0) {
-      swal(
-        "Alert",
-        `Closing balance is negative because Expenditure
-        amount is greater than total tied grants amount available. Please recheck the amounts entered.`,
-        "error"
-      );
+      // swal(
+      //   "Alert",
+      //   `Closing balance is negative because Expenditure
+      //   amount is greater than total tied grants amount available. Please recheck the amounts entered.`,
+      //   "error"
+      // );
       this.closingError = true;
     } else {
       this.closingError = false;
@@ -557,31 +648,90 @@ export class DetailedUtilizationReportComponent implements OnInit {
         (res) => {
           swal("Saved", "Data save as draft successfully.", "success");
           console.log("post uti mess", res);
+          sessionStorage.setItem("changeInUti", "false");
+          this.isSubmitted = false;
         },
         (error) => {
           console.log("error", error);
+          sessionStorage.setItem("changeInUti", "false");
         }
       );
     } else {
       this.isSubmitted = true;
       this.checkValidation();
+      this.changeFormInput("dec");
+      this.changeInGrant("exp");
+      this.changeInTotalPExp();
     }
   }
   decError = false;
+  errorMsg =
+    "One or more required fields are empty or contains invalid data. Please check your input.";
   checkValidation() {
     console.log("validation", this.utilizationReportForm);
     this.postBody.isDraft = false;
     if (
-      this.postBody?.declaration == false ||
-      this.postBody?.declaration == null ||
-      this.postBody?.declaration == ""
+      this.utilizationReportForm.invalid ||
+      this.decError ||
+      this.closingError ||
+      this.totalPExpErr
     ) {
-      swal("Error", "Accepting the declaration is mandatory.", "error");
-      this.decError = true;
+      swal("Missing Data !", `${this.errorMsg}`, "error");
+      //  return true;
     } else {
-      this.decError = false;
+      console.log("final submit", this.utilizationReportForm);
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+         it will become uneditable and will be sent to State for Review.
+          Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.finalSubmit();
+            break;
+          case "draft":
+            this.saveUtiReport("draft");
+            break;
+          case "cancel":
+            break;
+        }
+      });
     }
     console.log("body draft", this.postBody);
+  }
+  finalSubmit() {
+    this.newCommonService.postUtiData(this.postBody).subscribe(
+      (res) => {
+        swal("Saved", "Data save successfully.", "success");
+        this.isDisabled = true;
+        this.utilizationReportForm.disable();
+        console.log("post uti mess", res);
+        this.isSubmitted = false;
+        sessionStorage.setItem("changeInUti", "false");
+      },
+      (error) => {
+        console.log("error", error);
+        sessionStorage.setItem("changeInUti", "false");
+      }
+    );
   }
   onPreview() {
     let formdata = {
@@ -592,6 +742,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       grantType: "Tied",
       ulb: this.userData?.ulb,
       ...this.utilizationReportForm?.value,
+      categories: this.categories,
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: formdata,
@@ -610,8 +761,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
     let formdata = {
       ...this.utilizationReportForm?.value,
     };
-    console.log('utiRControls', this.utiRControls);
-    
+    console.log("utiRControls", this.utiControls);
+
     switch (type) {
       case "dec":
         if (
@@ -625,7 +776,40 @@ export class DetailedUtilizationReportComponent implements OnInit {
           this.decError = false;
         }
         break;
-        
     }
+  }
+  numberLimitV(e, input) {
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft"];
+
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (+newValue > 1000 || newValue.length > 3) {
+      e.preventDefault();
+    }
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
 }

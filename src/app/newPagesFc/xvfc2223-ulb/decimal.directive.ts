@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 })
 export class NtwoDigitDecimaNumberDirective {
   // Allow decimal numbers and negative values
-  private regex: RegExp = new RegExp(/^\d{1,7}\.?\d{0,2}$/g);
+  private regex: RegExp = new RegExp(/^\d{0,4}\.?\d{0,2}$/g);
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
   private specialKeys: Array<string> = [
@@ -91,3 +91,7 @@ export class NsixDigitDecimaNumberDirective {
     }
   }
 }
+
+// 50 char directive
+
+
