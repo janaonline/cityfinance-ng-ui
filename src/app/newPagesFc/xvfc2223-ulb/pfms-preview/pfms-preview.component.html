@@ -39,7 +39,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data?.dataPreview?.linkPFMS ? data?.dataPreview?.linkPFMS : 'N/A'}}
+                            {{data?.preData?.data?.linkPFMS ? data?.preData?.data?.linkPFMS : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -48,7 +48,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data?.dataPreview?.isUlbLinkedWithPFMS ? data?.dataPreview?.isUlbLinkedWithPFMS : 'N/A'}}
+                            {{data?.preData?.data?.isUlbLinkedWithPFMS ? data?.preData?.data?.isUlbLinkedWithPFMS : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -57,7 +57,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{data?.dataPreview?.PFMSAccountNumber ? data?.dataPreview?.PFMSAccountNumber : 'N/A'}}
+                            {{data?.preData?.data?.PFMSAccountNumber ? data?.preData?.data?.PFMSAccountNumber : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -67,7 +67,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.cert?.url}}" target="_blank">{{data?.dataPreview?.cert?.name ? data?.dataPreview?.cert?.name: 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.preData?.data?.cert?.url}}" target="_blank">{{data?.preData?.data?.cert?.name ? data?.preData?.data?.cert?.name: 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -76,7 +76,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.otherDocs?.url}}" target="_blank">{{data?.dataPreview?.otherDocs?.name ? data?.dataPreview?.otherDocs?.name : 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.preData?.data?.otherDocs?.url}}" target="_blank">{{data?.preData?.data?.otherDocs?.name ? data?.preData?.data?.otherDocs?.name : 'N/A'}}</a>
                         </div>
                     </div>
                 </div>
