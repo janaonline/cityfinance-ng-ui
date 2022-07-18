@@ -45,6 +45,10 @@ export class AnnualAccountsCreateComponent implements OnInit {
   @ViewChild("excel17_18") excel17_18: ElementRef;
   @ViewChild("pdf18_19") pdf18_19: ElementRef;
   @ViewChild("excel18_19") excel18_19: ElementRef;
+  @ViewChild("pdf18_19") pdf19_20: ElementRef;
+  @ViewChild("excel18_19") excel19_20: ElementRef;
+  @ViewChild("pdf18_19") pdf20_21: ElementRef;
+  @ViewChild("excel18_19") excel20_21: ElementRef;
   @ViewChild("template") template: TemplateRef<any>;
   @ViewChild("saveTemplate") saveTemplate: TemplateRef<any>;
   @ViewChild("fileTemplate") fileTemplate: TemplateRef<any>;
@@ -83,6 +87,14 @@ export class AnnualAccountsCreateComponent implements OnInit {
       pdf: [],
       excel: [],
     },
+    financial_year_2019_20: {
+      pdf: [],
+      excel: [],
+    },
+    financial_year_2020_21: {
+      pdf: [],
+      excel: [],
+    },
   };
   viewMode = false;
   ulb: any;
@@ -104,6 +116,16 @@ export class AnnualAccountsCreateComponent implements OnInit {
       name: { pdf: null, excel: null },
     },
     financial_year_2018_19: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+    financial_year_2019_20: {
+      pdf: false,
+      excel: false,
+      name: { pdf: null, excel: null },
+    },
+    financial_year_2020_21: {
       pdf: false,
       excel: false,
       name: { pdf: null, excel: null },
