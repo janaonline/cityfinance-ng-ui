@@ -68,17 +68,17 @@ export class PfmsPreviewComponent implements OnInit {
   }
 
   .qus-h {
-      margin-bottom: .5rem;
-      margin-top: .5rem;
-      font-size: 10px !important;
-  }
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
+}
 
-  .ans-h {
-      margin-bottom: .5rem;
-      margin-left: 1.2rem;
-      margin-top: .5rem;
-      font-size: 10px !important;
-  }
+.ans-h {
+    margin-bottom: .5rem;
+    margin-left: 1.2rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
+}
 .m-r{
   margin-bottom: 1.5rem !important;
 }
@@ -138,7 +138,7 @@ export class PfmsPreviewComponent implements OnInit {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName = this.fileName ? this.fileName : "odf.pdf";
+    let downloadFileName = this.fileName ? this.fileName : "pfms.pdf";
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);

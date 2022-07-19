@@ -26,6 +26,7 @@ export class PfmsComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
+  customDisable:boolean = false
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
@@ -54,10 +55,12 @@ export class PfmsComponent implements OnInit {
   }
   change = ''
   errorMessege: any = '';
+  errorMessegeOther: any = '';
   showIcon: boolean = false;
   pfmsFileName;
   pfmsLinkProgress;
   odfUrl = ''
+  odfUrl2 = ''
   showOtherQuestions: boolean = false;
   showOtherQuestions1:boolean = false;
   linkedToggle: boolean = false;
@@ -86,17 +89,18 @@ export class PfmsComponent implements OnInit {
   otherFileName:any;
   subscription: any;
   previewData:any;
+  next_router='#'
   ngOnInit(): void {
     this.clickedSave = false;
     this.registerForm = this.formBuilder.group({
       linkPFMS: ['', Validators.required],
-      isUlbLinkedWithPFMS: [''],
-      PFMSAccountNumber: [''],
+      isUlbLinkedWithPFMS: ['', Validators.required],
+      PFMSAccountNumber: ['', Validators.required],
       ulb: this.ulbId,
       design_year: this.designYearId,
       cert: this.formBuilder.group({
-        url: [''],
-        name: [''],
+        url: ['', Validators.required],
+        name: ['', Validators.required],
       }),
       otherDocs: this.formBuilder.group({
         url: [''],
@@ -109,6 +113,9 @@ export class PfmsComponent implements OnInit {
     });
     this.accValueChange();
     sessionStorage.setItem("changeInPFMS", "false");
+    this.back_router = '../annual_acc'
+    this.next_router = '../property_tax_operationalisation'
+    console.log(this.registerForm.value)
     // this.getSubmittedFormData();
   }
 
@@ -119,6 +126,8 @@ export class PfmsComponent implements OnInit {
   dataValue:any
   uploadedFile:any
   disableInputs:boolean = false
+  greyInputs:boolean = false
+  back_router= "#"
   getSubmittedFormData(){
     const params ={ulb: this.ulbId,
     design_year: this.designYearId,
@@ -127,13 +136,30 @@ export class PfmsComponent implements OnInit {
       console.log(res)
       this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
       this.dataValue = res
-    
+      this.odfUrl = res?.data?.cert?.url
+      this.odfUrl2 = res?.data?.otherDocs?.url
       this.previewData = res
+      this.patchValues();
       if(this.previewData?.data?.isDraft == false){
         // this.registerForm.disable()
         this.disableInputs = true
+        this.greyInputs = true
+        this.customDisable = true
       }
       console.log(this.previewData)
+      if(this.previewData?.data?.linkPFMS == 'Yes' && this.previewData?.data?.isUlbLinkedWithPFMS == 'No'){
+        this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+        this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
+      }
+      // else{
+      //   this.disableRadioButtonNo = true
+      // }
+      // if(this.previewData?.data?.isUlbLinkedWithPFMS == 'Yes'){
+      //   this.disableRadioButtonLink = true
+      // }else{
+      //   this.disableRadioButtonLinkNo = true
+      // }
+      
       if(this.previewData.data.linkPFMS == 'Yes'){
          this.activeClass = true;
          this.showOtherQuestions = true;
@@ -179,7 +205,24 @@ export class PfmsComponent implements OnInit {
     //  this.showIconOtherDoc = false
     // }
   }
-
+  patchValues(){
+    console.log('this.dataValue', this.dataValue)
+    this.registerForm.patchValue({
+      linkPFMS: this.dataValue?.data?.linkPFMS,
+      isUlbLinkedWithPFMS: this.dataValue?.data?.isUlbLinkedWithPFMS,
+      PFMSAccountNumber: this.dataValue?.data?.PFMSAccountNumber,
+      ulb: this.ulbId,
+      design_year: this.designYearId,
+      cert:{
+         url: this.dataValue?.data?.cert?.url,
+         name: this.dataValue?.data?.cert?.name
+      },
+      otherDocs: {
+        url: this.dataValue?.data?.otherDocs?.url,
+        name: this.dataValue?.data?.otherDocs?.name
+       }
+     })
+  }
   patchFormValue(formControlName: string, value: any) {
     this.registerForm.patchValue({
       [formControlName]: value,
@@ -187,9 +230,11 @@ export class PfmsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.registerForm.patchValue({
+      isDraft: false
+    })
     console.log(this.registerForm)
-    this.showIcon = false
-    this.showIconOtherDoc = false
+    console.log('this.dataValue', this.dataValue)
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {
@@ -334,15 +379,36 @@ export class PfmsComponent implements OnInit {
   
   fileChangeEvent(event, progessType) {
     console.log(progessType)
+    if(progessType == 'pfmsLinkProgress'){
       if (event.target.files[0].size >= 5000000) {
         this.errorMessege = 'File size should be less than 5Mb.'
+        // this.errorMessegeOther = 'File size should be less than 5Mb.'
+
         this.registerForm.controls.cert.reset();
         const error = setTimeout(() => {
           this.showIcon = false
+          // this.showIconOtherDoc = false
           this.errorMessege = ''
+          // this.errorMessegeOther = ''
         }, 4000);
         return;
       }
+    }
+    if(progessType == 'otherProgress'){
+      if (event.target.files[0].size >= 5000000) {
+        // this.errorMessege = 'File size should be less than 5Mb.'
+        this.errorMessegeOther = 'File size should be less than 5Mb.'
+
+        this.registerForm.controls.cert.reset();
+        const error = setTimeout(() => {
+          // this.showIcon = false
+          this.showIconOtherDoc = false
+          // this.errorMessege = ''
+          this.errorMessegeOther = ''
+        }, 4000);
+        return;
+      }
+    }
       const fileName = event.target.files[0].name;
       if(progessType == 'otherProgress'){
         this.otherFileName = event.target.files[0].name;
@@ -464,7 +530,7 @@ export class PfmsComponent implements OnInit {
               console.log(s3URL)
             }
             if (progressType == 'otherProgress') {
-              this.odfUrl = fileAlias;
+              this.odfUrl2 = fileAlias;
               this.registerForm.get('otherDocs').patchValue({
                 url: fileAlias,
                 name: file.name

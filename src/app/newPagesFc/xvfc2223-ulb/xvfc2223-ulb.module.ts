@@ -27,6 +27,7 @@ import { CharacterDirective, PatternDirective } from "./pattern.directive";
 import { IncompleteProfileComponent } from "src/app/shared/components/ulb/incomplete-profile/incomplete-profile.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
+import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
     DurPreviewComponent,
     PatternDirective,
     CharacterDirective,
-    PfmsPreviewComponent
+    PfmsPreviewComponent,
+    PropertyTaxOperationalisationComponent
   ],
   imports: [
     CommonModule,
