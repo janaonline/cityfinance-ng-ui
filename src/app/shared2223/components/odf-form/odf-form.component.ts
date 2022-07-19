@@ -183,7 +183,7 @@ export class OdfFormComponent implements OnInit {
     console.log("this.dateValue", this.dateValue);
     if (data?.certDate) {
       this.dateValue = new Date(data?.certDate);
-      this.dateValue = this.dateValue.toISOString().substring(0, 10);
+      this.dateValue = this.dateValue?.toISOString().substring(0, 10);
     }
 
     // this.dateValue = new DatePipe('en-US').transform(this.dateValue, 'dd/MM/yyyy')

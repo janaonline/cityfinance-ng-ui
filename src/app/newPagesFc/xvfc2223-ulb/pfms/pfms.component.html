@@ -207,7 +207,7 @@
                         <button type="submit" class="btn btnDraft" (click)="onSubmit()"  [ngClass]="{'disabled-form': isDisabled}">Submit</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active">Next Form
+                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]='next_router'>Next Form
                             -></button>
                     </div>
                 </div>

@@ -87,6 +87,7 @@ export class PfmsComponent implements OnInit {
   otherFileName:any;
   subscription: any;
   previewData:any;
+  next_router='#'
   ngOnInit(): void {
     this.clickedSave = false;
     this.registerForm = this.formBuilder.group({
@@ -111,6 +112,7 @@ export class PfmsComponent implements OnInit {
     this.accValueChange();
     sessionStorage.setItem("changeInPFMS", "false");
     this.back_router = '../annual_acc'
+    this.next_router = '../property_tax_operationalisation'
     // this.getSubmittedFormData();
   }
 
