@@ -317,10 +317,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
         receivedDuringYr: data?.grantPosition?.receivedDuringYr,
         expDuringYr: data?.grantPosition?.expDuringYr
           ? data?.grantPosition?.expDuringYr
-          : 0,
+          : null,
         closingBal: data?.grantPosition?.closingBal
           ? data?.grantPosition?.closingBal
-          : 0,
+          : null,
       },
       status: data?.status,
     });
