@@ -26,6 +26,7 @@ export class PfmsComponent implements OnInit {
   clickedSave;
   routerNavigate = null;
   response;
+  customDisable:boolean = false
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
@@ -93,13 +94,13 @@ export class PfmsComponent implements OnInit {
     this.clickedSave = false;
     this.registerForm = this.formBuilder.group({
       linkPFMS: ['', Validators.required],
-      isUlbLinkedWithPFMS: [''],
-      PFMSAccountNumber: [''],
+      isUlbLinkedWithPFMS: ['', Validators.required],
+      PFMSAccountNumber: ['', Validators.required],
       ulb: this.ulbId,
       design_year: this.designYearId,
       cert: this.formBuilder.group({
-        url: [''],
-        name: [''],
+        url: ['', Validators.required],
+        name: ['', Validators.required],
       }),
       otherDocs: this.formBuilder.group({
         url: [''],
@@ -114,6 +115,7 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInPFMS", "false");
     this.back_router = '../annual_acc'
     this.next_router = '../property_tax_operationalisation'
+    console.log(this.registerForm.value)
     // this.getSubmittedFormData();
   }
 
@@ -142,11 +144,14 @@ export class PfmsComponent implements OnInit {
         // this.registerForm.disable()
         this.disableInputs = true
         this.greyInputs = true
+        this.customDisable = true
       }
       console.log(this.previewData)
-      // if(this.previewData?.data?.linkPFMS == 'Yes'){
-      //   this.disableRadioButton = true
-      // }else{
+      if(this.previewData?.data?.linkPFMS == 'Yes' && this.previewData?.data?.isUlbLinkedWithPFMS == 'No'){
+        this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+        this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
+      }
+      // else{
       //   this.disableRadioButtonNo = true
       // }
       // if(this.previewData?.data?.isUlbLinkedWithPFMS == 'Yes'){
@@ -201,6 +206,7 @@ export class PfmsComponent implements OnInit {
     // }
   }
   patchValues(){
+    console.log('this.dataValue', this.dataValue)
     this.registerForm.patchValue({
       linkPFMS: this.dataValue?.data?.linkPFMS,
       isUlbLinkedWithPFMS: this.dataValue?.data?.isUlbLinkedWithPFMS,
@@ -224,9 +230,11 @@ export class PfmsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.registerForm.patchValue({
+      isDraft: false
+    })
     console.log(this.registerForm)
-    // this.showIcon = false
-    // this.showIconOtherDoc = false
+    console.log('this.dataValue', this.dataValue)
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {

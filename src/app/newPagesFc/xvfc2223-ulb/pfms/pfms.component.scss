@@ -270,6 +270,11 @@
     background-color: #c9c9c9;
     color:black;
 }
+.customDisable{
+    cursor: not-allowed;
+    display: inline-block;
+    pointer-events: none;
+}
 .activeClassNo {
     background-color: #c9c9c9;
 }
