@@ -9,6 +9,7 @@ import { Gtc2223Component } from "./gtc2223/gtc2223.component";
 import { OdfComponent } from "./odf/odf.component";
 import { OverviewComponent } from "./overview/overview.component";
 import { PfmsComponent } from "./pfms/pfms.component";
+import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
 import { ResourceComponent } from "./resource/resource.component";
 import { Slbs2223Component } from "./slbs2223/slbs2223.component";
 import { Xvfc2223UlbComponent } from "./xvfc2223-ulb.component";
@@ -55,6 +56,10 @@ const routes: Routes = [
         path: "resources",
         component: ResourceComponent,
       },
+      {
+        path: "property_tax_operationalisation",
+        component: PropertyTaxOperationalisationComponent
+      }
     ],
   },
   {
