@@ -28,10 +28,10 @@ import { NavigationStart, Router } from "@angular/router";
   styleUrls: ["./odf-form.component.scss"],
 })
 export class OdfFormComponent implements OnInit {
-  date = new Date();
-  now;
   noRating: boolean;
+  minDate;
   maxDate;
+
   @Input() isGfcOpen: boolean = false;
   constructor(
     private dataEntryService: DataEntryService,
@@ -44,8 +44,31 @@ export class OdfFormComponent implements OnInit {
     // this.date.setFullYear(this.date.getFullYear() - 1);
     // this.now = new Date(this.date).toISOString().slice(0, 10);
     let today = new Date();
-    this.now =  today.getDate() + '/'+ (today.getMonth()+1) + '/' + (today.getFullYear() - 1);
-    this.maxDate = today.getDate() + '/'+(today.getMonth()+1) + '/' + (today.getFullYear());;
+    // this.minDate =
+    //   today.getFullYear() - 1 + "-" + `0${today.getMonth() + 1}` + "-";
+    // today.getDate();
+    // this.maxDate = today.getFullYear() + "-" + `0${today.getMonth() + 1}` + "-";
+    // today.getDate();
+    var dt = new Date();
+
+    let year = dt.getFullYear();
+    let year1 = dt.getFullYear() - 1;
+    let month = (dt.getMonth() + 1).toString().padStart(2, "0");
+    let day = dt.getDate().toString().padStart(2, "0");
+    this.maxDate = year + "-" + month + "-" + day;
+    this.minDate = year1 + "-" + month + "-" + day;
+
+    console.log(year + "/" + month + "/" + day);
+    // this.maxDate =
+    //   today.getDate() +
+    //   "-" +
+    //   (today.getMonth() + 1 < 9
+    //     ? `0${today.getMonth() + 1}`
+    //     : `${today.getMonth() + 1}`) +
+    //   "-" +
+    //   today.getFullYear();
+
+    console.log("date validation", this.maxDate, this.minDate);
     this.navigationCheck();
   }
 
@@ -130,7 +153,6 @@ export class OdfFormComponent implements OnInit {
         // });
       }
     }
-
     const params = {
       ulb: this.ulb,
       design_year: this.yearValue,
@@ -681,5 +703,8 @@ export class OdfFormComponent implements OnInit {
   }
   alertClose() {
     this.stay();
+  }
+  disableEnterDate() {
+    return false;
   }
 }

@@ -114,7 +114,7 @@ export class CommonFileUploadComponent implements OnInit {
           currency: true,
           doNotAddOnly: true,
         });
-        this.amountObj.value = Number(this.amountObj.value);
+        // this.amountObj.value = parseFloat(this.amountObj.value);
         this.itemError = false;
         if (type == "click") this.amountObj.error = false;
       } else if (this.amountObj.value > 999999999999999.99) {

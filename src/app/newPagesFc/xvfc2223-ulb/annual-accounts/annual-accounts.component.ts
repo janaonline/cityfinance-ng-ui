@@ -576,7 +576,7 @@ export class AnnualAccountsComponent implements OnInit {
       })
       .subscribe(
         async (res) => {
-          this.dataPopulate(res);
+        //  this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
           if (resObj?.isDraft == false) {
@@ -584,6 +584,11 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = false;
           }
+          const toStoreResponse = this.data;
+          sessionStorage.setItem(
+            "annualAccounts",
+            JSON.stringify(toStoreResponse)
+          );
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
         },
@@ -610,8 +615,8 @@ export class AnnualAccountsComponent implements OnInit {
     const toStoreResponse = this.data;
 
     if (
-      !toStoreResponse.audited.submit_annual_accounts &&
-      !toStoreResponse.unAudited.submit_annual_accounts &&
+      !toStoreResponse?.audited?.submit_annual_accounts &&
+      !toStoreResponse?.unAudited?.submit_annual_accounts &&
       this.loggedInUserType != USER_TYPE.ULB
     ) {
       const status = JSON.parse(sessionStorage.getItem("allStatus"));
@@ -622,22 +627,22 @@ export class AnnualAccountsComponent implements OnInit {
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     let proviDataAu = res?.audited?.provisional_data;
-    this.auditQues.forEach((el) => {
+    this.auditQues?.forEach((el) => {
       let key = el?.key;
       if (key && el.type == "file") {
-        el["data"] = proviDataAu[key];
+        el["data"] = proviDataAu[`${key}`];
       } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataAu[key];
+        el["amount"]["value"] = proviDataAu[`${key}`];
       }
     });
 
     let proviDataUn = res?.unAudited?.provisional_data;
-    this.unAuditQues.forEach((el) => {
+    this.unAuditQues?.forEach((el) => {
       let key = el?.key;
       if (key && el.type == "file") {
-        el["data"] = proviDataUn[key];
+        el["data"] = proviDataUn[`${key}`];
       } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataUn[key];
+        el["amount"]["value"] = proviDataUn[`${key}`];
       }
     });
     console.log("data", this.auditQues, this.unAuditQues);
@@ -1324,9 +1329,10 @@ export class AnnualAccountsComponent implements OnInit {
     );
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
+    let value = Number(e?.value)
     console.log("emit", e, fileType, qusName, qusType);
     if (qusType == "input") {
-      this.data[fileType].provisional_data[e?.key] = e?.value;
+      this.data[fileType].provisional_data[e?.key] = value;
     }
     //  sessionStorage.setItem("changeInAnnualAcc", "true");
   }

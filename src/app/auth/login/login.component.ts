@@ -134,6 +134,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
       this.getSideBar(res["user"]);
+      if (res["user"]?.role == "STATE") {
+        this.getStateSideBar(res["user"]);
+      }
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
 
@@ -307,16 +310,33 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   getSideBar(userData) {
     let ulbId = userData?.ulb;
-    let role = userData?.role
+    let role = userData?.role;
     let isUA = false;
-    if(userData?.isUA == 'Yes'){
+    if (userData?.isUA == "Yes") {
       isUA = true;
-    }else {
+    } else {
       isUA = false;
     }
-    this.newCommonService.getULBLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
-      console.log("left responces..", res);
-      localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+    this.newCommonService
+      .getLeftMenu(ulbId, role, isUA)
+      .subscribe((res: any) => {
+        console.log("left responces..", res);
+        localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+        //  this.leftMenu = res;
+      });
+  }
+  getStateSideBar(userData) {
+    let id = userData?.state;
+    let role = userData?.role;
+    let isUA = false;
+    if (userData?.isUA == "Yes") {
+      isUA = true;
+    } else {
+      isUA = false;
+    }
+    this.newCommonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left state responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
       //  this.leftMenu = res;
     });
   }
