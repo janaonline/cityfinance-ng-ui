@@ -54,6 +54,7 @@ export class PfmsComponent implements OnInit {
   }
   change = ''
   errorMessege: any = '';
+  errorMessegeOther: any = '';
   showIcon: boolean = false;
   pfmsFileName;
   pfmsLinkProgress;
@@ -136,6 +137,7 @@ export class PfmsComponent implements OnInit {
       this.odfUrl = res?.data?.cert?.url
       this.odfUrl2 = res?.data?.otherDocs?.url
       this.previewData = res
+      this.patchValues();
       if(this.previewData?.data?.isDraft == false){
         // this.registerForm.disable()
         this.disableInputs = true
@@ -198,7 +200,23 @@ export class PfmsComponent implements OnInit {
     //  this.showIconOtherDoc = false
     // }
   }
-
+  patchValues(){
+    this.registerForm.patchValue({
+      linkPFMS: this.dataValue?.data?.linkPFMS,
+      isUlbLinkedWithPFMS: this.dataValue?.data?.isUlbLinkedWithPFMS,
+      PFMSAccountNumber: this.dataValue?.data?.PFMSAccountNumber,
+      ulb: this.ulbId,
+      design_year: this.designYearId,
+      cert:{
+         url: this.dataValue?.data?.cert?.url,
+         name: this.dataValue?.data?.cert?.name
+      },
+      otherDocs: {
+        url: this.dataValue?.data?.otherDocs?.url,
+        name: this.dataValue?.data?.otherDocs?.name
+       }
+     })
+  }
   patchFormValue(formControlName: string, value: any) {
     this.registerForm.patchValue({
       [formControlName]: value,
@@ -207,8 +225,8 @@ export class PfmsComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm)
-    this.showIcon = false
-    this.showIconOtherDoc = false
+    // this.showIcon = false
+    // this.showIconOtherDoc = false
     this.submitted = true;
     // stop here if form is invalid
     if (this.registerForm.invalid) {
@@ -353,15 +371,36 @@ export class PfmsComponent implements OnInit {
   
   fileChangeEvent(event, progessType) {
     console.log(progessType)
+    if(progessType == 'pfmsLinkProgress'){
       if (event.target.files[0].size >= 5000000) {
         this.errorMessege = 'File size should be less than 5Mb.'
+        // this.errorMessegeOther = 'File size should be less than 5Mb.'
+
         this.registerForm.controls.cert.reset();
         const error = setTimeout(() => {
           this.showIcon = false
+          // this.showIconOtherDoc = false
           this.errorMessege = ''
+          // this.errorMessegeOther = ''
         }, 4000);
         return;
       }
+    }
+    if(progessType == 'otherProgress'){
+      if (event.target.files[0].size >= 5000000) {
+        // this.errorMessege = 'File size should be less than 5Mb.'
+        this.errorMessegeOther = 'File size should be less than 5Mb.'
+
+        this.registerForm.controls.cert.reset();
+        const error = setTimeout(() => {
+          // this.showIcon = false
+          this.showIconOtherDoc = false
+          // this.errorMessege = ''
+          this.errorMessegeOther = ''
+        }, 4000);
+        return;
+      }
+    }
       const fileName = event.target.files[0].name;
       if(progessType == 'otherProgress'){
         this.otherFileName = event.target.files[0].name;

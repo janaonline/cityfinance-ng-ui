@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin1">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')"  [ngClass]="{'disableInputs': disableInputs,'greyInputs': greyInputs }">Upload
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'disableInputs': disableInputs,'greyInputs': greyInputs }">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -163,7 +163,7 @@
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
-                        <p class="errorMessege">{{errorMessege}}</p>
+                        <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
                     <input id="cin2" name="cin2" type="file"
                         (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
