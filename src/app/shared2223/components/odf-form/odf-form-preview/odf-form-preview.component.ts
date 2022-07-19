@@ -200,7 +200,7 @@ export class OdfFormPreviewComponent implements OnInit {
     this.showLoader = true;
     let downloadFileName = "";
     if (this.isGfcOpen) {
-      downloadFileName = "Gdf.pdf";
+      downloadFileName = "Gfc.pdf";
     } else {
       downloadFileName = "Odf.pdf";
     }

@@ -54,7 +54,7 @@
                             <span>No</span>
                         </label>
                         <div *ngIf="submitted && f.linkPFMS.errors" class="text-danger">
-                            <div *ngIf="f.linkPFMS.errors.required">Rating is required</div>
+                            <div *ngIf="f.linkPFMS.errors.required">Please select any option.</div>
                         </div>
                     </span>
                 </div>
@@ -82,7 +82,7 @@
                             <span>No</span>
                         </label>
                         <div *ngIf="submitted && f.isUlbLinkedWithPFMS.errors" class="text-danger">
-                            <div *ngIf="f.isUlbLinkedWithPFMS.errors.required">Rating is required</div>
+                            <div *ngIf="f.isUlbLinkedWithPFMS.errors.required">Please select any option.</div>
                         </div>
                     </span>
                 </div>
@@ -111,7 +111,7 @@
                     
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin1">
+                    <label for="cin1" [ngClass]="{'customDisable': customDisable }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'disableInputs': disableInputs,'greyInputs': greyInputs }">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -157,7 +157,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload" >
-                    <label for="cin2">
+                    <label for="cin2" [ngClass]="{'customDisable': customDisable }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'disableInputs': disableInputs,'greyInputs': greyInputs }">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
