@@ -294,7 +294,7 @@ tr {
   clickedDownloadAsPDF(template) {
     // this.downloadForm();
     let canNavigate = sessionStorage.getItem("changeInUti");
-    if (canNavigate === "true") {
+    if (canNavigate == "true") {
       this.openDialog(template);
       return;
     } else {

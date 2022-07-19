@@ -291,32 +291,15 @@ export class DetailedUtilizationReportComponent implements OnInit {
       (res: any) => {
         console.log("uti report", res);
         this.analytics = res["analytics"];
-        // this.analytics?.forEach((el) => {
-        //   this.categories?.forEach((element) => {
-        //     if (element._id == el["_id"]) {
-        //       el["categoryName"] = element.name;
-        //     }
-        //   });
-        // });
-        // console.log(this.analytics);
-        // this.analytics.forEach((el) => {
-        //   if (
-        //     el.categoryName == "Solid Waste Management" ||
-        //     el.categoryName == "Sanitation"
-        //   ) {
-        //     this.swm.push(el);
-        //   } else {
-        //     this.wm.push(el);
-        //   }
-        // });
         this.setcategoryData(res?.data);
         this.preFilledData(res?.data);
         if (res?.data.isDraft == false) {
-          //  this.isDisabled = true;
-          //  this.utilizationReportForm.disable();
+          this.isDisabled = true;
+          this.utilizationReportForm.disable();
         } else {
           this.isDisabled = false;
         }
+        sessionStorage.setItem("changeInUti", "false");
       },
       (error) => {
         console.log("error", error);
@@ -537,6 +520,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
         //   this.closingBal = 0;
         // }
+
       }
     );
   }
@@ -607,6 +591,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
   }
 
   changeInGrant(type) {
+    this.utilizationReportForm["controls"]["grantPosition"]["controls"][
+      "closingBal"
+    ].patchValue(this.closingBal);
     if (type == "exp") {
       let grantsExp = this.expDuringYear;
       // this.utilizationReportForm?.value?.grantPosition?.expDuringYr;
@@ -746,9 +733,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     );
   }
   onPreview() {
-    this.utilizationReportForm["controls"]["grantPosition"]["controls"][
-      "closingBal"
-    ].patchValue(this.closingBal);
+
     let formdata = {
       status: "",
       isDraft: true,
