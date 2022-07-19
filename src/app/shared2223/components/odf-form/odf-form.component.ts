@@ -40,10 +40,12 @@ export class OdfFormComponent implements OnInit {
     public dialog: MatDialog,
     public _router: Router
   ) {
-    this.date.setDate(this.date.getDate());
-    this.date.setFullYear(this.date.getFullYear() - 1);
-    this.now = new Date(this.date).toISOString().slice(0, 10);
-    this.maxDate = new Date().toISOString().split("T")[0];
+    // this.date.setDate(this.date.getDate());
+    // this.date.setFullYear(this.date.getFullYear() - 1);
+    // this.now = new Date(this.date).toISOString().slice(0, 10);
+    let today = new Date();
+    this.now =  today.getDate() + '/'+ (today.getMonth()+1) + '/' + (today.getFullYear() - 1);
+    this.maxDate = today.getDate() + '/'+(today.getMonth()+1) + '/' + (today.getFullYear());;
     this.navigationCheck();
   }
 
@@ -181,10 +183,10 @@ export class OdfFormComponent implements OnInit {
     console.log(data);
     //curDate = curDate.toISOString();
     console.log("this.dateValue", this.dateValue);
-    if (data?.certDate) {
-      this.dateValue = new Date(data?.certDate);
-      this.dateValue = this.dateValue?.toISOString().substring(0, 10);
-    }
+    // if (data?.certDate) {
+    //   this.dateValue = new Date(data?.certDate);
+    //   this.dateValue = this.dateValue.toISOString().substring(0, 10);
+    // }
 
     // this.dateValue = new DatePipe('en-US').transform(this.dateValue, 'dd/MM/yyyy')
     console.log("this.dateValue 2", this.dateValue);
