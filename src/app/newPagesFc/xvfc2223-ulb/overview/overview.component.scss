@@ -91,12 +91,12 @@
 }
 
 .individualCard {
-    margin: 25px 13px 0px 0px;
+    margin: 2rem 2.5rem 1rem 0px;
     border-radius: 4px;
     // border: 2px solid transparent;
     box-shadow: 0px 3px 6px #00000045;
     height: 176px;
-    width: 125px;
+    width: 10rem;
     text-align: center;
     padding: 18px 12px;
     color: white;
@@ -139,4 +139,15 @@ svg {
 
 .d-n {
     display: none;
+}
+
+.card-title {
+    font-size: 17px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    /* margin-left: 1rem; */
+    /* margin: auto; */
+    margin: 2rem auto 0;
 }

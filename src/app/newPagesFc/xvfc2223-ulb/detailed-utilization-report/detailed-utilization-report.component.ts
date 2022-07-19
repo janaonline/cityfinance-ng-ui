@@ -28,10 +28,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
     private dialog: MatDialog,
     private _router: Router
   ) {
+    this.navigationCheck();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeReport();
   }
   durForm;
+  c;
   ulbName = "";
   userData;
   grantType = "Tied";
@@ -160,9 +162,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
     this.utilizationReportForm = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: new FormControl(0, Validators.required),
-        receivedDuringYr: new FormControl(0, Validators.required),
-        expDuringYr: new FormControl(0, Validators.required),
+        unUtilizedPrevYr: ["", Validators.required],
+        receivedDuringYr: ["", Validators.required],
+        expDuringYr: ["", Validators.required],
         closingBal: [],
       }),
       categoryWiseData_swm: this.fb.array([
@@ -192,33 +194,34 @@ export class DetailedUtilizationReportComponent implements OnInit {
   routerNavigate = null;
   dialogRef;
   modalRef;
+  alertError = "";
   @ViewChild("changeTemplate") template;
+
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
-        console.log("entered into router", this.routerNavigate);
         if (event instanceof NavigationStart) {
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           const canNavigate = sessionStorage.getItem("changeInUti");
-          console.log(canNavigate);
           if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("changeInUti", "true");
+            sessionStorage.setItem("changeInUti", "false");
             return;
           }
-          if (canNavigate === "false" && this.routerNavigate === null) {
-            // this.dialogReference.close();
-
+          if (canNavigate === "true" && this.routerNavigate === null) {
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, {
               skipLocationChange: true,
             });
             this.routerNavigate = event;
+            this.dialog.closeAll();
             this.openDialogBox(this.template);
-            return;
           }
         }
       });
     }
   }
+
   dialogReference;
   openDialogBox(template) {
     const dialogConfig = new MatDialogConfig();
@@ -227,13 +230,14 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
   stay() {
     this.dialog.closeAll();
+    this.dialogReference.close();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
 
   async proceed() {
-    await this.dialogRef.close(true);
+    await this.dialogReference.close(true);
     this.dialog.closeAll();
     if (this.routerNavigate) {
       await this.saveUtiReport("draft");
@@ -254,6 +258,14 @@ export class DetailedUtilizationReportComponent implements OnInit {
     // }
     await this.saveUtiReport("draft");
     return this._router.navigate(["ulbform2223/annual-acc"]);
+  }
+  async discard() {
+    sessionStorage.setItem("changeInUti", "false");
+    await this.dialogReference.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
   }
   alertClose() {
     this.stay();
@@ -734,6 +746,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
     );
   }
   onPreview() {
+    this.utilizationReportForm["controls"]["grantPosition"]["controls"][
+      "closingBal"
+    ].patchValue(this.closingBal);
     let formdata = {
       status: "",
       isDraft: true,
