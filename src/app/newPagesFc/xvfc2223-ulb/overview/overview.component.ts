@@ -185,15 +185,16 @@ export class OverviewComponent implements OnInit {
     console.log("val", this.val, num);
   }
 
-  onHover(num, title, key) {
-    console.log("index-num", num, title);
+  onHover(num, title, key, item) {
+    console.log("index-num", num, title, item);
+    this.message = item?.message;
     if (key == "GTC") {
       //  this.p = (num+1)*135;
       this.val = 0;
       this.hover = true;
       this.i = 1;
       // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
-      this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
+      //  this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
     if (key == "DUR") {
@@ -202,8 +203,8 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 2;
       // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-      this.message = `ULBs are mandated to furnish
-       Detailed Utilisation Report as per prescribed format for the previous installments of 15th FC grants.`;
+      //  this.message = `ULBs are mandated to furnish
+      //   Detailed Utilisation Report as per prescribed format for the previous installments of 15th FC grants.`;
       this.checkPos = true;
     }
 
@@ -214,8 +215,8 @@ export class OverviewComponent implements OnInit {
       this.i = 3;
       //  this.message = "ULBs to upload provisional annual accounts for
       //    previous year and audited annual accounts for year previous year w.r.t. award year."
-      this.message = `ULBs to upload Provisional Annual Accounts for previous year
-      and Audited Annual Accounts for year before previous year with respect to the award year.`;
+      //  this.message = `ULBs to upload Provisional Annual Accounts for previous year
+      //  and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
     if (key == "PFMS") {
@@ -224,7 +225,7 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 4;
       // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-      this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
+      // this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
       this.checkPos = true;
     }
     if (key == "PTO") {
@@ -233,7 +234,7 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 5;
       // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-      this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
+      //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
     if (key == "SLB") {
@@ -242,9 +243,9 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 6;
       //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-      this.message = `Performance condition grants will be recommended by MoHUA based on
-      the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
-      NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
+      //   this.message = `Performance condition grants will be recommended by MoHUA based on
+      //   the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
+      //   NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
       this.checkPos = true;
     }
     if (key == "ODF") {
@@ -253,7 +254,7 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 7;
       //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
+      //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
     if (key == "GFC") {
@@ -262,66 +263,66 @@ export class OverviewComponent implements OnInit {
       this.hover = true;
       this.i = 8;
       //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
+       // this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
 
-    //   if (title == 'Plans for Water and Sanitation') {
-    //     //  this.p = (num+3)*120;
+    // //   if (title == 'Plans for Water and Sanitation') {
+    // //     //  this.p = (num+3)*120;
 
-    //     this.hover = true;
-    //     if (num == 5) {
-    //       this.i = 6;
-    //       this.val = 5;
-    //     }
-    //     else {
-    //       this.i = 7;
-    //       this.val = 6;
-    //     }
-    //     //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-    //     this.message = `Non-Million Plus Cities to select 1 Project for Water
-    //  and 1 Project for Sanitation with clear functional outcomes`;
-    //     this.checkPos = true;
-    //   }
+    // //     this.hover = true;
+    // //     if (num == 5) {
+    // //       this.i = 6;
+    // //       this.val = 5;
+    // //     }
+    // //     else {
+    // //       this.i = 7;
+    // //       this.val = 6;
+    // //     }
+    // //     //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+    // //     this.message = `Non-Million Plus Cities to select 1 Project for Water
+    // //  and 1 Project for Sanitation with clear functional outcomes`;
+    // //     this.checkPos = true;
+    // //   }
   }
-  onHover2(num, title, key) {
-    if (key == "PTO") {
-      //   this.p = (num+1)*80;
-      this.val2 = 0;
-      this.hover = true;
-      this.i2 = 1;
-      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-      this.message2 = `Process of collecting notified floor rates of property tax must be operationalized.`;
-      this.checkPos = true;
-    }
-    if (key == "SLB") {
-      //  this.p = (num+3)*125;
-      this.val2 = 1;
-      this.hover = true;
-      this.i2 = 2;
-      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-      this.message2 = `Performance condition grants will be recommended by MoHUA based on
-      the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
-      NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
-      this.checkPos = true;
-    }
-    if (key == "ODF") {
-      // this.p = (num+3)*125;
-      this.val2 = 2;
-      this.hover = true;
-      this.i2 = 3;
-      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      this.message2 = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
-      this.checkPos = true;
-    }
-    if (key == "GFC") {
-      // this.p = (num+3)*125;
-      this.val2 = 3;
-      this.hover = true;
-      this.i2 = 4;
-      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      this.message2 = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
-      this.checkPos = true;
-    }
-  }
+  // onHover2(num, title, key) {
+  //   if (key == "PTO") {
+  //     //   this.p = (num+1)*80;
+  //     this.val2 = 0;
+  //     this.hover = true;
+  //     this.i2 = 1;
+  //     // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  //     this.message2 = `Process of collecting notified floor rates of property tax must be operationalized.`;
+  //     this.checkPos = true;
+  //   }
+  //   if (key == "SLB") {
+  //     //  this.p = (num+3)*125;
+  //     this.val2 = 1;
+  //     this.hover = true;
+  //     this.i2 = 2;
+  //     //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+  //     this.message2 = `Performance condition grants will be recommended by MoHUA based on
+  //     the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
+  //     NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
+  //     this.checkPos = true;
+  //   }
+  //   if (key == "ODF") {
+  //     // this.p = (num+3)*125;
+  //     this.val2 = 2;
+  //     this.hover = true;
+  //     this.i2 = 3;
+  //     //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+  //     this.message2 = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
+  //     this.checkPos = true;
+  //   }
+  //   if (key == "GFC") {
+  //     // this.p = (num+3)*125;
+  //     this.val2 = 3;
+  //     this.hover = true;
+  //     this.i2 = 4;
+  //     //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+  //     this.message2 = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
+  //     this.checkPos = true;
+  //   }
+  // }
 }
