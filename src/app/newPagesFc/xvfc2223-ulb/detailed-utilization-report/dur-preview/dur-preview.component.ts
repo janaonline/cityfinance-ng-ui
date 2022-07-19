@@ -18,8 +18,10 @@ import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/conf
 import { UlbformService } from "src/app/pages/ulbform/ulbform.service";
 import { UtiReportService } from "src/app/pages/ulbform/utilisation-report/uti-report.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UserUtility } from "src/app/util/user/user";
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-dur-preview",
   templateUrl: "./dur-preview.component.html",
@@ -28,7 +30,7 @@ import { UserUtility } from "src/app/util/user/user";
 export class DurPreviewComponent implements OnInit {
   @Input() parentData: any;
   @ViewChild("previewUti") _html: ElementRef;
-  @ViewChild("template") template;
+  @ViewChild("templateSave") template;
   showLoader;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -36,7 +38,8 @@ export class DurPreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     private UtiReportService: UtiReportService,
     public _ulbformService: UlbformService,
-    public _router: Router
+    public _router: Router,
+    private newCommonService: NewCommonService
   ) {}
   styleForPDF = `<style>
 
@@ -270,7 +273,7 @@ tr {
     });
   }
   ngOnDestroy(): void {
-  //  this.subParentForModal.unsubscribe();
+    //  this.subParentForModal.unsubscribe();
   }
 
   setTotalStatus() {
@@ -289,14 +292,14 @@ tr {
     }
   }
   clickedDownloadAsPDF(template) {
-    this.downloadForm();
-    // let canNavigate = sessionStorage.getItem("canNavigate");
-    // if (canNavigate === "false") {
-    //  this.openDialog(template);
-    //   return;
-    // } else {
-    //   this.downloadForm();
-    // }
+    // this.downloadForm();
+    let canNavigate = sessionStorage.getItem("changeInUti");
+    if (canNavigate === "true") {
+      this.openDialog(template);
+      return;
+    } else {
+      this.downloadForm();
+    }
   }
 
   genrateParentData() {
@@ -356,63 +359,53 @@ tr {
   }
 
   dialogRef;
-  // openDialog(template) {
-  //   const dialogConfig = new MatDialogConfig();
-  //   this.dialogRef = this._matDialog.open(template, dialogConfig);
-  // }
-  // alertClose() {
-  //   this.stay();
-  // }
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
+  alertClose() {
+    this.stay();
+  }
 
   stay() {
     this.dialogRef.close();
   }
-  // errMessage = "";
-  // copyData;
-  // async proceed(uploadedFiles) {
-  //   // await this.modalRef.hide();
-  //   this.dialogRef.close();
-  //   sessionStorage.setItem("canNavigate", "true");
-  //   console.log("preview Data", this.data);
-  //   this.copyData = this.data;
-  //   // delete this.copyData['totalExpCost'];
-  //   // delete this.copyData['totalProCost'];
-  //   // delete this.copyData['ulbName'];
-  //   // delete this.copyData['state_name'];
-  //   this.copyData["designYear"] = this.Years["2021-22"];
-  //   this.copyData["financialYear"] = this.data["useData"]["financialYear"];
-  //   this.copyData["isDraft"] = this.data["useData"]["isDraft"];
-  //   this.copyData["ulb"] = this.data["useData"]["ulb"];
-  //   this.copyData["namedProjects"] = this.data["projects"];
-  //   this.copyData["projects"] = this.data["useData"]["projects"];
-  //   for (let i = 0; i < this.data["projects"].length; i++) {
-  //     this.copyData["projects"][i]["CatName"] =
-  //       this.copyData["namedProjects"][i]["category"];
-  //   }
-  //   this.copyData.projects.forEach(element => {
-  //     element.category = element.category_id
-  //   });
-  //   console.log("copy Data", this.copyData);
-  //   this.UtiReportService.createAndStorePost(this.copyData).subscribe(
-  //     (res) => {
-  //       swal("Record submitted successfully!");
-  //       const status = JSON.parse(sessionStorage.getItem("allStatus"));
-  //       status.utilReport.isSubmit = res["isCompleted"];
-  //       this._ulbformService.allStatus.next(status);
-  //       console.log(res);
-  //       // this.copyData['projects'] = this.data['projects']
-  //     },
-  //     (error) => {
-  //       swal("An error occured!");
-  //       this.errMessage = error.message;
-  //       console.log(this.errMessage);
-  //     }
-  //   );
+  errMessage = "";
+  copyData;
+  async proceed(uploadedFiles) {
+    // await this.modalRef.hide();
+    this.dialogRef.close();
+    sessionStorage.setItem("canNavigate", "true");
+    console.log("preview Data", this.data);
+    this.copyData = this.data;
+    delete this.copyData["categories"];
+    this.data?.projects.forEach((el) => {
+      if (el?.categoryName) {
+        delete el.categoryName;
+      }
+    });
 
-  //   if (this.changeFromOutSide) {
-  //     this._ulbformService.initiateDownload.next(true);
-  //   } else this.downloadForm();
-  // }
+    console.log("copy Data", this.copyData);
+    this.newCommonService.postUtiData(this.copyData).subscribe(
+      (res) => {
+        swal("Saved", "Data save as draft successfully.", "success");
+        console.log("post uti mess", res);
+        sessionStorage.setItem("changeInUti", "false");
+        // this.isSubmitted = false;
+        // this.copyData['projects'] = this.data['projects']
+      },
+      (error) => {
+        swal("An error occured!");
+        sessionStorage.setItem("changeInUti", "false");
+        this.errMessage = error.message;
+        console.log(this.errMessage);
+      }
+    );
+
+    if (this.changeFromOutSide) {
+      this._ulbformService.initiateDownload.next(true);
+    } else this.downloadForm();
+  }
   dialogClose() {
     this._matDialog.closeAll();
   }
