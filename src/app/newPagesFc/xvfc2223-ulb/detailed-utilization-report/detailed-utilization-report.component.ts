@@ -517,6 +517,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
           Number(el?.receivedDuringYr) -
           Number(el?.expDuringYr);
         this.expDuringYear = el?.expDuringYr;
+        this.closingBal = Number(this.closingBal.toFixed(2));
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
         //   this.closingBal = 0;
         // }
@@ -593,7 +594,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
   changeInGrant(type) {
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
-    ].patchValue(this.closingBal);
+    ].patchValue(Number(this.closingBal.toFixed(2)));
     if (type == "exp") {
       let grantsExp = this.expDuringYear;
       // this.utilizationReportForm?.value?.grantPosition?.expDuringYr;
@@ -627,9 +628,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
   }
 
   saveUtiReport(type) {
+    // this.utilizationReportForm["controls"]["grantPosition"]["controls"][
+    //   "closingBal"
+    // ].patchValue(this.closingBal);
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
-    ].patchValue(this.closingBal);
+    ].patchValue(Number(this.closingBal.toFixed(2)));
     this.postBody = {
       status: "",
       isDraft: true,
