@@ -260,21 +260,26 @@
 }
 
 .activeClass {
-    background-color: #ffc500;
+    background-color: #c9c9c9;
 }
 .disableInputs{
     pointer-events: none;
 }
+.greyInputs{
+    pointer-events: none;
+    background-color: #c9c9c9;
+    color:black;
+}
 .activeClassNo {
-    background-color: #ffc500;
+    background-color: #c9c9c9;
 }
 
 .activeClassNoBottom {
-    background-color: #ffc500;
+    background-color: #c9c9c9;
 }
 
 .activeClassBottom {
-    background-color: #ffc500;
+    background-color: #c9c9c9;
 }
 
 .saveBtn {

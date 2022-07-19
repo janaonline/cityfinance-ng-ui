@@ -58,6 +58,7 @@ export class PfmsComponent implements OnInit {
   pfmsFileName;
   pfmsLinkProgress;
   odfUrl = ''
+  odfUrl2 = ''
   showOtherQuestions: boolean = false;
   showOtherQuestions1:boolean = false;
   linkedToggle: boolean = false;
@@ -109,6 +110,7 @@ export class PfmsComponent implements OnInit {
     });
     this.accValueChange();
     sessionStorage.setItem("changeInPFMS", "false");
+    this.back_router = '../annual_acc'
     // this.getSubmittedFormData();
   }
 
@@ -119,6 +121,8 @@ export class PfmsComponent implements OnInit {
   dataValue:any
   uploadedFile:any
   disableInputs:boolean = false
+  greyInputs:boolean = false
+  back_router= "#"
   getSubmittedFormData(){
     const params ={ulb: this.ulbId,
     design_year: this.designYearId,
@@ -127,13 +131,26 @@ export class PfmsComponent implements OnInit {
       console.log(res)
       this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
       this.dataValue = res
-    
+      this.odfUrl = res?.data?.cert?.url
+      this.odfUrl2 = res?.data?.otherDocs?.url
       this.previewData = res
       if(this.previewData?.data?.isDraft == false){
         // this.registerForm.disable()
         this.disableInputs = true
+        this.greyInputs = true
       }
       console.log(this.previewData)
+      // if(this.previewData?.data?.linkPFMS == 'Yes'){
+      //   this.disableRadioButton = true
+      // }else{
+      //   this.disableRadioButtonNo = true
+      // }
+      // if(this.previewData?.data?.isUlbLinkedWithPFMS == 'Yes'){
+      //   this.disableRadioButtonLink = true
+      // }else{
+      //   this.disableRadioButtonLinkNo = true
+      // }
+      
       if(this.previewData.data.linkPFMS == 'Yes'){
          this.activeClass = true;
          this.showOtherQuestions = true;
@@ -464,7 +481,7 @@ export class PfmsComponent implements OnInit {
               console.log(s3URL)
             }
             if (progressType == 'otherProgress') {
-              this.odfUrl = fileAlias;
+              this.odfUrl2 = fileAlias;
               this.registerForm.get('otherDocs').patchValue({
                 url: fileAlias,
                 name: file.name
