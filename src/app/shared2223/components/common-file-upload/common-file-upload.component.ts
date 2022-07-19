@@ -108,23 +108,24 @@ export class CommonFileUploadComponent implements OnInit {
 
   amountKeyUp(type) {
     //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
-    if (this.amountObj.value && this.amountObj.value != "") {
-      if (this.amountObj.value < 999999999999999.99) {
-        this.amount2Type = toWords.convert(Number(this.amountObj?.value), {
-          currency: true,
-          doNotAddOnly: true,
-        });
-        this.amountObj.value = Number(this.amountObj.value);
-        this.itemError = false;
-        if (type == "click") this.amountObj.error = false;
-      } else if (this.amountObj.value > 999999999999999.99) {
-        this.amountObj.error = true;
-        if (type == "click") this.itemError = false;
-      }
-    } else {
-      this.amount2Type = "";
-      if (type == "click") this.itemError = true;
-    }
+     debugger;
+     if (this.amountObj.value && this.amountObj.value != "") {
+       if (this.amountObj.value < 999999999999999.99) {
+         this.amount2Type = toWords.convert(Number(this.amountObj?.value), {
+           currency: true,
+           doNotAddOnly: true,
+         });
+         // this.amountObj.value = parseFloat(this.amountObj.value);
+         this.itemError = false;
+         if (type == "click") this.amountObj.error = false;
+       } else if (this.amountObj.value > 999999999999999.99) {
+         this.amountObj.error = true;
+         if (type == "click") this.itemError = false;
+       }
+     } else {
+       this.amount2Type = "";
+       if (type == "click") this.itemError = true;
+     }
 
     this.fillAmount.emit(this.amountObj);
     if (this.compName == "AnnualAccount" && type == "click")

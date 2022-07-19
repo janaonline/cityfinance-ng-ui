@@ -17,6 +17,7 @@ import { Xvfc2223UlbRoutingModule } from "../newPagesFc/xvfc2223-ulb/xvfc2223-ul
 import { ErrorDisplayComponent } from './components/error-display/error-display.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -37,6 +38,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     Xvfc2223UlbRoutingModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     OdfFormComponent,
