@@ -45,10 +45,9 @@ export class AnnualAccountsCreateComponent implements OnInit {
   @ViewChild("excel17_18") excel17_18: ElementRef;
   @ViewChild("pdf18_19") pdf18_19: ElementRef;
   @ViewChild("excel18_19") excel18_19: ElementRef;
-  @ViewChild("pdf18_19") pdf19_20: ElementRef;
-  @ViewChild("excel18_19") excel19_20: ElementRef;
-  @ViewChild("pdf18_19") pdf20_21: ElementRef;
-  @ViewChild("excel18_19") excel20_21: ElementRef;
+  @ViewChild("pdf19_20") pdf19_20: ElementRef;
+  @ViewChild("excel19_20") excel19_20: ElementRef;
+  
   @ViewChild("template") template: TemplateRef<any>;
   @ViewChild("saveTemplate") saveTemplate: TemplateRef<any>;
   @ViewChild("fileTemplate") fileTemplate: TemplateRef<any>;
@@ -91,10 +90,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
       pdf: [],
       excel: [],
     },
-    financial_year_2020_21: {
-      pdf: [],
-      excel: [],
-    },
   };
   viewMode = false;
   ulb: any;
@@ -125,11 +120,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
       excel: false,
       name: { pdf: null, excel: null },
     },
-    financial_year_2020_21: {
-      pdf: false,
-      excel: false,
-      name: { pdf: null, excel: null },
-    },
+   
   };
 
   historyYear;
@@ -418,6 +409,13 @@ export class AnnualAccountsCreateComponent implements OnInit {
         : ((this.documents.financial_year_2018_19.excel = []),
           (this.excel18_19.nativeElement.value = ""));
     }
+    if (year == "year_19_20") {
+      type == "pdf"
+        ? ((this.documents.financial_year_2019_20.pdf = []),
+          (this.pdf19_20.nativeElement.value = ""))
+        : ((this.documents.financial_year_2019_20.excel = []),
+          (this.excel19_20.nativeElement.value = ""));
+    }
   }
 
   updateSelecteFile(year, type) {
@@ -440,6 +438,11 @@ export class AnnualAccountsCreateComponent implements OnInit {
       type == "pdf"
         ? (this.pdf18_19.nativeElement.value = "")
         : (this.excel18_19.nativeElement.value = "");
+    }
+    if (year == "financial_year_2019_20") {
+      type == "pdf"
+        ? (this.pdf19_20.nativeElement.value = "")
+        : (this.excel19_20.nativeElement.value = "");
     }
   }
 
