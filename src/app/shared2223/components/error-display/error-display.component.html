@@ -10,10 +10,8 @@
             Maximum 50 Characters are allowed*
         </div>
         <div *ngIf="formControlSec.errors['pattern']">
-            Error
-            <span class="material-icons" tooltip="Four digit with 2 decimals point are allowed.eg - 9999.99" style="vertical-align: middle;">
-          info
-        </span>
+            Maximum four digit with two decimals point are allowed. eg - 9999.99
+
         </div>
     </div>
     <div class="col-sm-12" *ngSwitchCase="'table'">
@@ -25,9 +23,10 @@
         </div>
         <div *ngIf="formControlSec.errors['pattern']">
             Error
-            <span class="material-icons" tooltip="Two digit with six decimals point are allowed.eg - 28.123456" style="vertical-align: middle;">
-            info
+            <span class="material-icons" [tooltip]="patternError" style="vertical-align: middle;">
+           info
           </span>
+            <!-- Two digit with six decimals point are allowed.eg - 28.123456 -->
         </div>
         <div *ngIf="formControlSec.errors['maxlength']">
             Maximum 50 Characters are allowed*
