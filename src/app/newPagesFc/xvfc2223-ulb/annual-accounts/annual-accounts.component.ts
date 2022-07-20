@@ -515,7 +515,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((result) => {
       if (result === undefined) {
         if (this.routerNavigate) {
-          this.routerNavigate = null;
+          // this.routerNavigate = null;
         }
       }
     });
