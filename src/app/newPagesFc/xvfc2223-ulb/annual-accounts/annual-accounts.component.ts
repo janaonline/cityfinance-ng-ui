@@ -576,7 +576,7 @@ export class AnnualAccountsComponent implements OnInit {
       })
       .subscribe(
         async (res) => {
-        //  this.dataPopulate(res);
+         this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
           if (resObj?.isDraft == false) {
@@ -584,11 +584,7 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = false;
           }
-          const toStoreResponse = this.data;
-          sessionStorage.setItem(
-            "annualAccounts",
-            JSON.stringify(toStoreResponse)
-          );
+
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
         },
@@ -630,9 +626,9 @@ export class AnnualAccountsComponent implements OnInit {
     this.auditQues?.forEach((el) => {
       let key = el?.key;
       if (key && el.type == "file") {
-        el["data"] = proviDataAu[`${key}`];
+        el["data"] = proviDataAu[key];
       } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataAu[`${key}`];
+        el["amount"]["value"] = proviDataAu[key];
       }
     });
 
@@ -640,9 +636,9 @@ export class AnnualAccountsComponent implements OnInit {
     this.unAuditQues?.forEach((el) => {
       let key = el?.key;
       if (key && el.type == "file") {
-        el["data"] = proviDataUn[`${key}`];
+        el["data"] = proviDataUn[key];
       } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataUn[`${key}`];
+        el["amount"]["value"] = proviDataUn[key];
       }
     });
     console.log("data", this.auditQues, this.unAuditQues);
