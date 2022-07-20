@@ -47,11 +47,9 @@ export class PfmsComponent implements OnInit {
         console.log(this.designYearId)
       }
     }
-    this.getSubmittedFormData()
+    // this.getSubmittedFormData()
     this.navigationCheck();
 
-    // if(this.registerForm.linkP)
-    // console.log(this.registerForm.value)
   }
   change = ''
   errorMessege: any = '';
@@ -90,8 +88,27 @@ export class PfmsComponent implements OnInit {
   subscription: any;
   previewData:any;
   next_router='#'
+  isDisabled:boolean = false;
+  dataValue:any
+  uploadedFile:any
+  disableInputs:boolean = false
+  greyInputs:boolean = false
+  back_router= "#"
+
   ngOnInit(): void {
+    sessionStorage.setItem("changeInPFMS", "false");
+    this.back_router = '../annual_acc'
+    this.next_router = '../property_tax_operationalisation'
     this.clickedSave = false;
+
+    this.initializePmfsForm();
+    this.getSubmittedFormData();
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
+
+  initializePmfsForm() {
     this.registerForm = this.formBuilder.group({
       linkPFMS: ['', Validators.required],
       isUlbLinkedWithPFMS: ['', Validators.required],
@@ -108,103 +125,122 @@ export class PfmsComponent implements OnInit {
       }),
       isDraft: '',
       status:"PENDING",
-      rejectReason:'',
-      responseFile:''
     });
-    this.accValueChange();
-    sessionStorage.setItem("changeInPFMS", "false");
-    this.back_router = '../annual_acc'
-    this.next_router = '../property_tax_operationalisation'
-    console.log(this.registerForm.value)
-    // this.getSubmittedFormData();
+    console.log('initializePmfsForm', this.registerForm)
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
-
-  isDisabled:boolean = false
-  dataValue:any
-  uploadedFile:any
-  disableInputs:boolean = false
-  greyInputs:boolean = false
-  back_router= "#"
   getSubmittedFormData(){
-    const params ={ulb: this.ulbId,
-    design_year: this.designYearId,
-    }
+    const params = { ulb: this.ulbId, design_year: this.designYearId };
     this.commonService.submittedFormData(params).subscribe((res: any) => {
       console.log(res)
-      this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
-      this.dataValue = res
-      this.odfUrl = res?.data?.cert?.url
-      this.odfUrl2 = res?.data?.otherDocs?.url
-      this.previewData = res
+      // this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
+      this.dataValue = res;
       this.patchValues();
-      if(this.previewData?.data?.isDraft == false){
-        // this.registerForm.disable()
-        this.disableInputs = true
-        this.greyInputs = true
-        this.customDisable = true
+      this.odfUrl = res?.data?.cert?.url;
+      this.odfUrl2 = res?.data?.otherDocs?.url;
+      if(this.dataValue?.data?.isDraft == true){
+        this.isDisabled = true;
+      }else if(this.dataValue?.data?.isDraft == false){
+        this.isDisabled = false;
+      }else {
+        this.isDisabled = true;
       }
-      console.log(this.previewData)
-      if(this.previewData?.data?.linkPFMS == 'Yes' && this.previewData?.data?.isUlbLinkedWithPFMS == 'No'){
-        this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
-        this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
-      }
-      // else{
-      //   this.disableRadioButtonNo = true
-      // }
-      // if(this.previewData?.data?.isUlbLinkedWithPFMS == 'Yes'){
-      //   this.disableRadioButtonLink = true
-      // }else{
-      //   this.disableRadioButtonLinkNo = true
-      // }
-      
-      if(this.previewData.data.linkPFMS == 'Yes'){
-         this.activeClass = true;
-         this.showOtherQuestions = true;
-         this.showOtherQuestions1 = true;
-         this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
-         if(this.previewData.data.isUlbLinkedWithPFMS == 'No'){
-            this.activeClassNoBottom = true;
-            this.showIcon = false
-            this.showIconOtherDoc = false
-            this.isDisabled = false
-            this.patchFormValue('isUlbLinkedWithPFMS', res?.data?.isUlbLinkedWithPFMS);
-         }else{
-           this.showOtherQuestions = true
-           this.showOtherQuestions1 = true
-           this.activeClassBottom = true
-           this.linkedToggle = true
-         }
-      }else{
-        this.activeClassNo = true
-        this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
-        // this.patchFormValue('isUlbLinkedWithPFMS', '');
-      }
+     // this.isDisabled = this.dataValue?.data?.isDraft ? this.dataValue?.data?.isDraft : false;
+      // this.previewData = res;
 
-      if(this.previewData.data.cert.name){
-         this.pfmsFileName= this.previewData.data.cert.name
+      // this code will use for disabled property
+      // if (!this.dataValue?.data?.isDraft) {
+      //   // this.registerForm.disable()
+      //   this.disableInputs = true;
+      //   this.greyInputs = true;
+      //   this.customDisable = true;
+      // }
+      // this code will use for disabled property end
+      console.log(this.dataValue)
+
+      if (this.dataValue?.data?.linkPFMS == 'Yes' && this.dataValue?.data?.isUlbLinkedWithPFMS == 'No') {
+        this.removeULBLinkedFormControlValidation();
+        // this.registerForm.get('PFMSAccountNumber').clearValidators();
+        // this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+        // this.removeValidatorInBulk(this.registerForm.get('cert'));
+
+      }
+      
+  // below code will use for active / inactive the child question
+    //   if(this.dataValue.data.linkPFMS == 'Yes'){
+    //      this.activeClass = true;
+    //      this.showOtherQuestions = true;
+    //      this.showOtherQuestions1 = true;
+    //      this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
+    //      if(this.dataValue.data.isUlbLinkedWithPFMS == 'No'){
+    //         this.activeClassNoBottom = true;
+    //         this.showIcon = false
+    //         this.showIconOtherDoc = false
+    //         this.isDisabled = false
+    //         this.patchFormValue('isUlbLinkedWithPFMS', res?.data?.isUlbLinkedWithPFMS);
+    //      }else{
+    //        this.showOtherQuestions = true
+    //        this.showOtherQuestions1 = true
+    //        this.activeClassBottom = true
+    //        this.linkedToggle = true
+    //      }
+    //   }else{
+    //     this.activeClassNo = true
+    //     this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
+    //     this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+    // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
+    //     // this.patchFormValue('isUlbLinkedWithPFMS', '');
+    //   }
+    
+    // below code will use for active / inactive the child question
+
+      if(this.dataValue.data.cert.name){
+         this.pfmsFileName= this.dataValue.data.cert.name
          this.showIcon = true
       }else{
         this.showIcon = false
       }
     
-      if(this.previewData.data.otherDocs.name){
-        this.otherFileName= this.previewData.data.otherDocs.name
+      if(this.dataValue.data.otherDocs.name){
+        this.otherFileName= this.dataValue.data.otherDocs.name
         this.showIconOtherDoc = true
      }else{
        this.showIconOtherDoc = false
      }
-      if(res?.data?.isDraft == false){
-        this.isDisabled = true
-      }
-    })
-    // if(this.previewData.data.isDraft == true){
-    //   this.showIcon = false
-    //  this.showIconOtherDoc = false
-    // }
+
+    },
+    (error)=>{
+      this.isDisabled = true;
+    }
+    )
+
   }
+
+  removeULBLinkedFormControlValidation() {
+    this.registerForm.get('PFMSAccountNumber').clearValidators();
+    this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+    this.removeValidatorInBulk(this.registerForm.get('cert'));
+  }
+
+  setValidators(formFieldName: string) {
+    this.registerForm.controls[formFieldName].setValidators([Validators.required]);    
+    this.registerForm.controls[formFieldName].updateValueAndValidity();
+  }
+
+  removeValidatorsOneByOne(formFieldName: string) {
+    this.registerForm.controls[formFieldName].setValidators([Validators.required]);    
+    this.registerForm.controls[formFieldName].updateValueAndValidity();
+  }
+
+  removeValidatorInBulk(form:any){
+    console.log('form contro',form);
+    for (const field in form.controls) { // 'field' is a string
+     let con = form.get(field); // 'control' is a FormControl
+      con.clearValidators();
+      con.updateValueAndValidity();
+    }
+  }
+
   patchValues(){
     console.log('this.dataValue', this.dataValue)
     this.registerForm.patchValue({
@@ -213,6 +249,7 @@ export class PfmsComponent implements OnInit {
       PFMSAccountNumber: this.dataValue?.data?.PFMSAccountNumber,
       ulb: this.ulbId,
       design_year: this.designYearId,
+      isDraft: this.dataValue?.data?.isDraft,
       cert:{
          url: this.dataValue?.data?.cert?.url,
          name: this.dataValue?.data?.cert?.name
@@ -221,8 +258,10 @@ export class PfmsComponent implements OnInit {
         url: this.dataValue?.data?.otherDocs?.url,
         name: this.dataValue?.data?.otherDocs?.name
        }
-     })
+     });
+     console.log('patchValues', this.registerForm.value);
   }
+
   patchFormValue(formControlName: string, value: any) {
     this.registerForm.patchValue({
       [formControlName]: value,
@@ -230,9 +269,6 @@ export class PfmsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.registerForm.patchValue({
-      isDraft: false
-    })
     console.log(this.registerForm)
     console.log('this.dataValue', this.dataValue)
     this.submitted = true;
@@ -240,25 +276,23 @@ export class PfmsComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
-      if (this.previewData.data.isUlbLinkedWithPFMS == 'Yes') {
-        this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    
-        this.registerForm.controls['cert']['controls']['name'].setValidators([Validators.required]);
-        this.registerForm.controls['cert']['controls']['url'].setValidators([Validators.required]);
-      } else {
-        this.registerForm.controls['PFMSAccountNumber'].clearValidators();
-        this.registerForm.controls['cert']['controls']['name'].clearValidators();
-        this.registerForm.controls['cert']['controls']['url'].clearValidators();
-      }
-      this.registerForm.controls['PFMSAccountNumber'].updateValueAndValidity();
-      this.registerForm.controls['cert']['controls']['name'].updateValueAndValidity();
-        this.registerForm.controls['cert']['controls']['url'].updateValueAndValidity();
+    // this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
+    //   if (this.registerForm.value.isUlbLinkedWithPFMS == 'Yes') {
+    //     this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    
+    //     this.registerForm.controls['cert']['controls']['name'].setValidators([Validators.required]);
+    //     this.registerForm.controls['cert']['controls']['url'].setValidators([Validators.required]);
+    //   } else {
+    //     this.registerForm.controls['PFMSAccountNumber'].clearValidators();
+    //     this.registerForm.controls['cert']['controls']['name'].clearValidators();
+    //     this.registerForm.controls['cert']['controls']['url'].clearValidators();
+    //   }
+    //   this.registerForm.controls['PFMSAccountNumber'].updateValueAndValidity();
+    //   this.registerForm.controls['cert']['controls']['name'].updateValueAndValidity();
+    //   this.registerForm.controls['cert']['controls']['url'].updateValueAndValidity();
 
-    });
+    // });
 
-    this.registerForm.patchValue({
-      isDraft: false
-    })
+    this.patchFormValue('isDraft', false);
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       this.clickedSave = false;
@@ -268,7 +302,6 @@ export class PfmsComponent implements OnInit {
         sessionStorage.setItem("changeInPFMS", "false");
         console.log('success!!!!!!!!!!!!!', res)
         this.getSubmittedFormData();
-        this.isDisabled = true
         swal('Saved', 'Data saved successfully', 'success')
       } else {
         sessionStorage.setItem("changeInPFMS", "false");
@@ -301,13 +334,14 @@ export class PfmsComponent implements OnInit {
       console.error('err', error);
     })
   }
+
   preview() {
     console.log(this.registerForm.value)
     let previewData = {
       dataPreview : this.registerForm.value,
-      preData: this.previewData
+      preData: this.dataValue
     }
-    console.log(this.previewData)
+    console.log(this.dataValue)
     const dialogRef = this.dialog.open(PfmsPreviewComponent, {
       data: previewData,
       width: "85vw",
@@ -318,6 +352,7 @@ export class PfmsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
     });
   }
+
   clickYes() {
     this.showOtherQuestions = true;
     this.showOtherQuestions1 =true
@@ -328,18 +363,36 @@ export class PfmsComponent implements OnInit {
     this.activeClassNoBottom = false
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
+    this.setValidators('isUlbLinkedWithPFMS');
   }
+
   clickNo() {
     this.showOtherQuestions = false
     this.showOtherQuestions1 = false
     this.activeClass = false
     this.activeClassNo = true
-    this.showIcon =false
+    this.showIcon = false
     this.showIconOtherDoc = false
-    this.registerForm.controls['isUlbLinkedWithPFMS'].reset();
+    // this.registerForm.controls['isUlbLinkedWithPFMS'].reset();
+    this.registerForm.patchValue({
+      isUlbLinkedWithPFMS: '',
+      PFMSAccountNumber: '',
+      cert:{
+        url: '',
+        name: ''
+     },
+     otherDocs: {
+       url: '',
+       name: ''
+      }
+    });
+    this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+    this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
     sessionStorage.setItem("changeInGTC", "true")
-    sessionStorage.setItem("changeInPFMS", "true")
+    sessionStorage.setItem("changeInPFMS", "true");
+    console.log('registerForm', this.registerForm)
   }
+
   linkedYes(event) {
     this.linkedToggle = true
     this.activeClass = true
@@ -349,29 +402,50 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
     if(event == 'Yes'){
-      this.registerForm.get('PFMSAccountNumber').setValidators(Validators.required);
-      this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+      // this.registerForm.get('PFMSAccountNumber').setValidators(Validators.required);
+      // this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+      this.setValidators('PFMSAccountNumber');
       this.registerForm.controls.cert['controls'].name.setValidators(Validators.required)
       this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
       // this.isDisabled = true;
-    } else {
-      this.registerForm.get('PFMSAccountNumber').setValidators(null);
-      this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
-      this.registerForm.controls.cert['controls'].name.setValidators(null)
-      this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
-      this.isDisabled = false;
     }
+    //  else {
+    //   this.registerForm.get('PFMSAccountNumber').setValidators(null);
+    //   this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+    //   this.registerForm.controls.cert['controls'].name.setValidators(null)
+    //   this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
+    //   this.isDisabled = false;
+    // }
     console.log('registerForm', this.registerForm, 'isDisabled', this.isDisabled)
   }
+
   linkedNo(event) {
     this.linkedToggle = false
     this.activeClassBottom = false
     this.activeClassNoBottom = true
     this.showIcon =false
-    this.showIconOtherDoc = false
+    this.showIconOtherDoc = false;
+    this.registerForm.patchValue({
+      PFMSAccountNumber: '',
+      cert:{
+        url: '',
+        name: ''
+     },
+     otherDocs: {
+       url: '',
+       name: ''
+      }
+    });
+
+    // this.registerForm.get('PFMSAccountNumber').clearValidators();
+    // this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
+    this.removeValidatorsOneByOne('PFMSAccountNumber');
+    this.removeValidatorInBulk(this.registerForm.get('cert'));
+
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
   }
+
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
@@ -547,15 +621,6 @@ export class PfmsComponent implements OnInit {
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );
-  }
-  accValueChange(){
-    console.log('aaaaaaa', this.registerForm);
-    
-    this.registerForm.controls['isUlbLinkedWithPFMS'].valueChanges.subscribe(
-      (selectedValue) => {
-      console.log(this.registerForm.get('isUlbLinkedWithPFMS').value);    
-      }
-  );
   }
 
   navigationCheck() {
