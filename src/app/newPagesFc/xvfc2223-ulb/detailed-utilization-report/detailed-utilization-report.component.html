@@ -491,12 +491,12 @@
         </div>
         <div class="row mt-4 mb-3">
             <div class="col-sm-6">
-                <button class="btn btn-c-back"><- Previous Form</button>
+                <button class="btn btn-c-back" routerLink="../resources"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
                 <button class="btn btn-primary" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <button class="btn btn-c-next ms-3">Next Form -></button>
+                <button class="btn btn-c-next ms-3" routerLink="../annual_acc">Next Form -></button>
             </div>
         </div>
 

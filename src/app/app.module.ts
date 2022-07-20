@@ -39,6 +39,7 @@ import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { SlickCarouselModule } from "ngx-slick-carousel";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
+import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 
 @NgModule({
   entryComponents: [DialogComponent],
@@ -95,6 +96,7 @@ import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
     HeatMapComponent,
     UlbNotRegisteredComponent,
     NewHomeComponent,
+    ProfileUpdateComponent,
     // InrCurrencyPipe,
   ],
   exports: [],
