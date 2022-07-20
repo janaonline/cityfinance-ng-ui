@@ -1086,7 +1086,6 @@ export class AnnualAccountsComponent implements OnInit {
         "this.data.unAudited.provisional_data",
         this.data.unAudited.provisional_data
       );
-
       for (const key in this.data.unAudited.provisional_data) {
         console.log("keys", this.data?.unAudited?.provisional_data[key]);
         let obj = this.data?.unAudited?.provisional_data[key];
@@ -1170,7 +1169,7 @@ export class AnnualAccountsComponent implements OnInit {
       });
       this.answerError.unAudited.submit_annual_accounts = false;
       this.answerError.unAudited.submit_standardized_data = false;
-      this.manadUploadErrors.audited.standardized_data.error = false;
+      this.manadUploadErrors.unAudited.standardized_data.error = false;
       this.uploadErrors.unAudited.standardized_data.error = false;
       this.annualError = false;
     } else {
