@@ -38,11 +38,18 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
  isULBProfileCompleted: boolean;
  profileData;
  routerlink2223;
+ yearList
   ngOnInit(): void {
      let ulbRecord = JSON.parse(localStorage.getItem('userData'));
      this.ulbName = ulbRecord?.name;
      this.stateName = ulbRecord?.stateName
      console.log(ulbRecord)
+     this._profileService.getAccessYears().subscribe((res)=> {
+     this.yearList = res['data']
+     }, 
+     (err)=> {
+      console.log(err.message)
+     })
   }
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe((res) => {
