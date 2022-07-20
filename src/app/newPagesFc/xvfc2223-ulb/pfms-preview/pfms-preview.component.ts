@@ -30,7 +30,8 @@ export class PfmsPreviewComponent implements OnInit {
   stateName = "";
   fileUrl: any;
   fileName: any;
-  hideUnderline:boolean = false
+  hideUnderline:boolean = false;
+  formStatus:any;
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -105,6 +106,13 @@ export class PfmsPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
+    if(this.data?.dataPreview?.isDraft === true){
+       this.formStatus = "In Progress"
+    }else if(this.data?.dataPreview?.isDraft === false && this.data?.dataPreview?.isDraft != ""){
+      this.formStatus = "Completed"
+    }else {
+      this.formStatus = "Not Started"
+    }
     this.data?.dataPreview?.cert?.url == '' ? this.hideUnderline = true : false
     this.data?.dataPreview?.otherDocs?.url == '' ? this.hideUnderline = true : false
     if (userData.role !== USER_TYPE.ULB) {
