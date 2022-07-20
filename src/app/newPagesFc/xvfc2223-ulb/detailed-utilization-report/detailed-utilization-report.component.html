@@ -164,7 +164,7 @@
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
-                                                    <th scope="col">Sector</th>
+                                                    <th scope="col" class="ct-name">Sector</th>
                                                     <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -184,7 +184,7 @@
                                                         <span>{{rowIndex_wm+1}}</span>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i ct-l" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
+                                                        <input class="t-i ct-l w-100" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
                                                         <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" appNTwoDigitDecimaNumber>
@@ -237,7 +237,7 @@
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
-                                                    <th width="20%" scope="col">Sector</th>
+                                                    <th class="ct-name" scope="col">Sector</th>
                                                     <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -257,7 +257,7 @@
                                                         <span>1</span>
                                                     </td>
                                                     <td>
-                                                        <input formControlName="category_name" class="t-i ct-l" disabled="true" value="{{swmItem.controls.category_name.value}}">
+                                                        <input formControlName="category_name" class="t-i ct-l w-100" disabled="true" value="{{swmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
 
