@@ -75,6 +75,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.initializeAccess();
     this.initializeForm();
     this.initializeLogginUserType();
+    this.enableProfileEdit();
   }
 
   onClickingChangePassword(event: Event) {

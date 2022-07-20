@@ -60,7 +60,7 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
       if(this.isULBProfileCompleted){
         this.routerlink2223 = "/ulbform2223/overview"
       }else{
-        this.routerlink2223 = "/ulbform2223/profileUpdate"
+        this.routerlink2223 = "/profile-update";
       }
     });
   }
