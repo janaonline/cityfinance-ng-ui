@@ -39,6 +39,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
+  // amtRegex = "^(([0-9]{1,4})(.[0-9]{1,2})?)$";
+  // amtRegex = `([0-9]?d{1,3})\\.?\\d{1,2}`;
+
   // postBody = {
   //   grantPosition: {
   //     unUtilizedPrevYr: 0,
@@ -162,9 +165,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
     this.utilizationReportForm = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: ["", Validators.required],
-        receivedDuringYr: ["", Validators.required],
-        expDuringYr: ["", Validators.required],
+        unUtilizedPrevYr: [0, Validators.required],
+        receivedDuringYr: ["", [Validators.required]],
+        expDuringYr: ["", [Validators.required]],
         closingBal: [],
       }),
       categoryWiseData_swm: this.fb.array([
@@ -313,8 +316,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
       designation: data?.designation,
       declaration: data?.declaration,
       grantPosition: {
-        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr ? data?.grantPosition?.unUtilizedPrevYr : null,
-        receivedDuringYr: data?.grantPosition?.receivedDuringYr ? data?.grantPosition?.receivedDuringYr : null,
+        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
+          ? data?.grantPosition?.unUtilizedPrevYr
+          : 0,
+        receivedDuringYr: data?.grantPosition?.receivedDuringYr
+          ? data?.grantPosition?.receivedDuringYr
+          : null,
         expDuringYr: data?.grantPosition?.expDuringYr
           ? data?.grantPosition?.expDuringYr
           : null,
@@ -524,7 +531,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
         //   this.closingBal = 0;
         // }
-
       }
     );
   }
@@ -646,6 +652,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       ulb: this.userData?.ulb,
       ...this.utilizationReportForm?.value,
     };
+    console.log("form", this.utilizationReportForm);
     console.log("body", this.postBody);
     if (type == "draft") {
       this.postBody.isDraft = true;
@@ -740,7 +747,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
     );
   }
   onPreview() {
-
     let formdata = {
       status: "",
       isDraft: true,

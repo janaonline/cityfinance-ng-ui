@@ -9,6 +9,12 @@
         <div *ngIf="formControlSec.errors['maxlength']">
             Maximum 50 Characters are allowed*
         </div>
+        <div *ngIf="formControlSec.errors['pattern']">
+            Error
+            <span class="material-icons" tooltip="Four digit with 2 decimals point are allowed.eg - 9999.99" style="vertical-align: middle;">
+          info
+        </span>
+        </div>
     </div>
     <div class="col-sm-12" *ngSwitchCase="'table'">
         <div *ngIf="formControlSec.errors?.required">
@@ -17,9 +23,12 @@
               info
             </span>
         </div>
-        <!-- <div *ngIf="formControlSec.errors['minlength']">
-          Name must be at least 4 characters long.
-      </div> -->
+        <div *ngIf="formControlSec.errors['pattern']">
+            Error
+            <span class="material-icons" tooltip="Two digit with six decimals point are allowed.eg - 28.123456" style="vertical-align: middle;">
+            info
+          </span>
+        </div>
         <div *ngIf="formControlSec.errors['maxlength']">
             Maximum 50 Characters are allowed*
         </div>
