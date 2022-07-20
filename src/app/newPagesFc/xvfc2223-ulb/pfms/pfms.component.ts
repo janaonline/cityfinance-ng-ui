@@ -501,11 +501,23 @@ export class PfmsComponent implements OnInit {
   clearFile(type: string = '') {
     
     if(type =='cert') {
+      this.registerForm.patchValue({
+        cert:{
+          url: '',
+          name: ''
+       }
+      });
       this.showIcon = false;
       this.pfmsFileName = ''
     } else{
       this.showIconOtherDoc = false;
       this.otherFileName = ''
+      this.registerForm.patchValue({
+        otherDocs:{
+          url: '',
+          name: ''
+       }
+      });
     }
     sessionStorage.setItem("changeInPFMS", "true");
     this.registerForm.patchValue({
