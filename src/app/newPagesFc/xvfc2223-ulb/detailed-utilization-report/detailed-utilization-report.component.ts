@@ -313,8 +313,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
       designation: data?.designation,
       declaration: data?.declaration,
       grantPosition: {
-        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr,
-        receivedDuringYr: data?.grantPosition?.receivedDuringYr,
+        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr ? data?.grantPosition?.unUtilizedPrevYr : null,
+        receivedDuringYr: data?.grantPosition?.receivedDuringYr ? data?.grantPosition?.receivedDuringYr : null,
         expDuringYr: data?.grantPosition?.expDuringYr
           ? data?.grantPosition?.expDuringYr
           : null,
@@ -517,7 +517,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
           Number(el?.receivedDuringYr) -
           Number(el?.expDuringYr);
         this.expDuringYear = el?.expDuringYr;
-        this.closingBal = Number(this.closingBal.toFixed(2));
+        if (this.closingBal) {
+          this.closingBal = Number(this.closingBal.toFixed(2));
+        }
+
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
         //   this.closingBal = 0;
         // }

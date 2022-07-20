@@ -9,10 +9,10 @@ import { Subject } from "rxjs";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
-  getULBLeftMenu(ulbId, role, isUA) {
+  getLeftMenu(ulbId, role, isUA) {
     return this.http.get(
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
-      `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&_id=${ulbId}`
+      `${environment.api.url}menu?role=${role}&year=606aafb14dff55e6c075d3ae&_id=${ulbId}`
     );
   }
   submittedFormData(params) {
@@ -30,11 +30,8 @@ export class NewCommonService {
       body
     );
   }
-  pfmsSubmitForm(body:any){
-    return this.http.post(
-      `${environment.api.url}link-pfms`,
-      body
-    );
+  pfmsSubmitForm(body: any) {
+    return this.http.post(`${environment.api.url}link-pfms`, body);
   }
   getGfcFormData(param) {
     return this.http.get(`${environment.api.url}ratings?formName=${param}`);
@@ -57,7 +54,8 @@ export class NewCommonService {
     return this.http.post(`${environment.api.url}utilization-report`, body);
   }
   getUtiData(ulbId) {
-    return this.http.get(`${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`)
-    
+    return this.http.get(
+      `${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`
+    );
   }
 }

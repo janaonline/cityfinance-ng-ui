@@ -165,7 +165,7 @@ export class OverviewComponent implements OnInit {
     let role = this.userData?.role;
     let isUA = this.userData?.isUA;
     this.newCommonService
-      .getULBLeftMenu(ulbId, role, isUA)
+      .getLeftMenu(ulbId, role, isUA)
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
