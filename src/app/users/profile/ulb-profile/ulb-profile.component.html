@@ -258,8 +258,8 @@
         </div>
 
         <div *ngIf="profile.enabled && canSubmitForm" class="mt-5">
-            <!-- <button type="submit" class="btn btn-primary mr-2">Update Profile</button> -->
-            <button type="submit" class="btn btn-primary mr-2">Verify Profile</button>
+            <button type="submit" class="btn btn-primary mr-2" *ngIf="isVerified2223">Update Profile</button>
+            <button type="submit" class="btn btn-primary mr-2" *ngIf="!isVerified2223">Verify Profile</button>
             <button *ngIf="loggedInUserType === USER_TYPE.ULB" class="btn btn-primary mr-2" style="float: right" (click)="onClickingChangePassword($event)">
         Change Password
       </button>
