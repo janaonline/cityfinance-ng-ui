@@ -39,6 +39,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
+  amtRegex = "^[0-9]{1,4}(?:[.][0-9]{1,2})?$";
+  ptrErr = "Two digit with six decimals point are allowed. eg - 28.123456";
+  ptrErr2 =
+    "Maximum four digit with two decimals point are allowed. eg - 9999.99";
+  // amtRegex = "^(([0-9]{1,4})(.[0-9]{1,2})?)$";
+  // amtRegex = `^\d{0,4}\.?\d{0,2}$`;
+
   // postBody = {
   //   grantPosition: {
   //     unUtilizedPrevYr: 0,
@@ -162,9 +169,15 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
     this.utilizationReportForm = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: ["", Validators.required],
-        receivedDuringYr: ["", Validators.required],
-        expDuringYr: ["", Validators.required],
+        unUtilizedPrevYr: [0, Validators.required],
+        receivedDuringYr: [
+          "",
+          [Validators.required, Validators.pattern(this.amtRegex)],
+        ],
+        expDuringYr: [
+          "",
+          [Validators.required, Validators.pattern(this.amtRegex)],
+        ],
         closingBal: [],
       }),
       categoryWiseData_swm: this.fb.array([
@@ -313,8 +326,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
       designation: data?.designation,
       declaration: data?.declaration,
       grantPosition: {
-        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr ? data?.grantPosition?.unUtilizedPrevYr : null,
-        receivedDuringYr: data?.grantPosition?.receivedDuringYr ? data?.grantPosition?.receivedDuringYr : null,
+        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
+          ? data?.grantPosition?.unUtilizedPrevYr
+          : 0,
+        receivedDuringYr: data?.grantPosition?.receivedDuringYr
+          ? data?.grantPosition?.receivedDuringYr
+          : null,
         expDuringYr: data?.grantPosition?.expDuringYr
           ? data?.grantPosition?.expDuringYr
           : null,
@@ -524,7 +541,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
         //   this.closingBal = 0;
         // }
-
       }
     );
   }
@@ -604,8 +620,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       console.log("expe error", grantsExp);
       let totalUtilised =
         Number(this.wmTotalTiedGrantUti) + Number(this.swmTotalTiedGrantUti);
-      console.log("to", totalUtilised);
-
+      console.log("to", totalUtilised, grantsExp);
       if (totalUtilised != grantsExp && grantsExp != "") {
         // swal(
         //   "Alert",
@@ -646,6 +661,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       ulb: this.userData?.ulb,
       ...this.utilizationReportForm?.value,
     };
+    console.log("form", this.utilizationReportForm);
     console.log("body", this.postBody);
     if (type == "draft") {
       this.postBody.isDraft = true;
@@ -664,10 +680,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
       );
     } else {
       this.isSubmitted = true;
-      this.checkValidation();
       this.changeFormInput("dec");
       this.changeInGrant("exp");
       this.changeInTotalPExp();
+      this.checkValidation();
     }
   }
   decError = false;
@@ -675,12 +691,20 @@ export class DetailedUtilizationReportComponent implements OnInit {
     "One or more required fields are empty or contains invalid data. Please check your input.";
   checkValidation() {
     console.log("validation", this.utilizationReportForm);
+    console.log(
+      "error",
+      this.closingError,
+      this.decError,
+      this.totalPExpErr,
+      this.grantsError
+    );
     this.postBody.isDraft = false;
     if (
       this.utilizationReportForm.invalid ||
       this.decError ||
       this.closingError ||
-      this.totalPExpErr
+      this.totalPExpErr ||
+      this.grantsError
     ) {
       swal("Missing Data !", `${this.errorMsg}`, "error");
       //  return true;
@@ -740,7 +764,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
     );
   }
   onPreview() {
-
     let formdata = {
       status: "",
       isDraft: true,

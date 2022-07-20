@@ -11,6 +11,7 @@ export class ErrorDisplayComponent implements OnInit {
   @Input() formControlSec;
   @Input() fName;
   @Input() errorType;
+  @Input() patternError;
   ngOnInit(): void {
     console.log("form control error", this.formControlSec);
   }

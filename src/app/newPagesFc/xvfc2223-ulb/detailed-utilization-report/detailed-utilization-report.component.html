@@ -164,7 +164,7 @@
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
-                                                    <th scope="col">Sector</th>
+                                                    <th scope="col" class="ct-name">Sector</th>
                                                     <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -184,12 +184,12 @@
                                                         <span>{{rowIndex_wm+1}}</span>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i ct-l" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
+                                                        <input class="t-i ct-l w-100" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" appNTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
                                                         <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'"></app-error-display>
+                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -202,7 +202,7 @@
                                                     <td>
                                                         <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
                                                         <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'"></app-error-display>
+                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                         </div>
                                                     </td>
 
@@ -211,7 +211,7 @@
                                                     <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td class="t-n">{{wmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{wmTotalTiedGrantUti}}</td>
                                                     <td class="t-n">{{wmTotalProjectCost}}</td>
                                                     <td class="t-n">{{wmTotalProjectNum}}</td>
                                                 </tr>
@@ -237,7 +237,7 @@
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
-                                                    <th width="20%" scope="col">Sector</th>
+                                                    <th class="ct-name" scope="col">Sector</th>
                                                     <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -257,13 +257,13 @@
                                                         <span>1</span>
                                                     </td>
                                                     <td>
-                                                        <input formControlName="category_name" class="t-i ct-l" disabled="true" value="{{swmItem.controls.category_name.value}}">
+                                                        <input formControlName="category_name" class="t-i ct-l w-100" disabled="true" value="{{swmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
 
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" appNTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
                                                         <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'"></app-error-display>
+                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -275,7 +275,7 @@
                                                     <td>
                                                         <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
                                                         <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'"></app-error-display>
+                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                         </div>
                                                     </td>
 
@@ -284,7 +284,7 @@
                                                     <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td class="t-n">{{swmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{swmTotalTiedGrantUti}}</td>
                                                     <td class="t-n">{{swmTotalProjectCost}}</td>
                                                     <td class="t-n">{{swmTotalProjectNum}}</td>
                                                 </tr>
@@ -377,22 +377,22 @@
                                                         </mat-icon>
                                                     </a>
                                                     <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat" [fName]="'Lat'" [errorType]="'table'"></app-error-display>
+                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat" [fName]="'Lat'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
                                                     </div>
                                                     <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.long.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.long" [fName]="'Long'" [errorType]="'table'"></app-error-display>
+                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.long" [fName]="'Long'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <input type="text" class="t-i form-control" [disabled]="isDisabled" formControlName="cost" appNTwoDigitDecimaNumber>
                                                     <div *ngIf="tabelRows?.controls[projectIndex].controls?.cost.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.cost" [fName]="'Project cost'" [errorType]="'table'"></app-error-display>
+                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.cost" [fName]="'Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <input type="text" class="t-i form-control" [disabled]="isDisabled" (change)="changeInTotalPExp()" formControlName="expenditure" appNTwoDigitDecimaNumber>
                                                     <div *ngIf="tabelRows?.controls[projectIndex].controls?.expenditure.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.expenditure" [fName]="'Project expenditure'" [errorType]="'table'"></app-error-display>
+                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.expenditure" [fName]="'Project expenditure'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -491,12 +491,12 @@
         </div>
         <div class="row mt-4 mb-3">
             <div class="col-sm-6">
-                <button class="btn btn-c-back"><- Previous Form</button>
+                <button class="btn btn-c-back" routerLink="../resources"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
                 <button class="btn btn-primary" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <button class="btn btn-c-next ms-3">Next Form -></button>
+                <button class="btn btn-c-next ms-3" routerLink="../annual_acc">Next Form -></button>
             </div>
         </div>
 

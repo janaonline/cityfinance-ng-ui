@@ -6,6 +6,7 @@ import { HomeComponent } from "./auth/home/home.component";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
+import { ProfileUpdateComponent } from "./newPagesFc/profile-update/profile-update.component";
 import { AboutIndicatorComponent } from "./shared/components/about-indicator/about-indicator.component";
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
 import { DashboardTabsComponent } from "./shared/components/dashboard-tabs/dashboard-tabs.component";
@@ -28,7 +29,6 @@ export const appRouter: Routes = [
 
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
-
 
   { path: "home", component: NewHomeComponent },
   {
@@ -197,7 +197,16 @@ export const appRouter: Routes = [
         (m) => m.Xvfc2223StateModule
       ),
   },
-  
+  {
+    path: "profile-update",
+    component: ProfileUpdateComponent,
+    // children: [
+    //   {
+    //     path: ": id",
+    //     component: ProfileUpdateComponent,
+    //   },
+    // ],
+  },
 
   { path: "**", redirectTo: "" },
 ];
