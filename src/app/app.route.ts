@@ -190,6 +190,14 @@ export const appRouter: Routes = [
         (m) => m.Xvfc2223UlbModule
       ),
   },
+  {
+    path: "stateform2223",
+    loadChildren: () =>
+      import("./newPagesFc/xvfc2223-state/xvfc2223-state.module").then(
+        (m) => m.Xvfc2223StateModule
+      ),
+  },
+  
 
   { path: "**", redirectTo: "" },
 ];
