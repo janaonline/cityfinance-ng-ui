@@ -204,6 +204,12 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
     this.updateLocalLoggedInData(dataUpdated);
+    if (
+      this.isVerified2223 == false &&
+      this.loggedInUserType === USER_TYPE.ULB
+    ) {
+      this.router.navigateByUrl("/ulbform2223/overview");
+    }
   }
 
   private updateLocalLoggedInData(dataUpdated: IULBProfileData) {
