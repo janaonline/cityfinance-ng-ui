@@ -692,6 +692,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
           console.log("post uti mess", res);
           sessionStorage.setItem("changeInUti", "false");
           this.isSubmitted = false;
+          this.newCommonService.setFormStatus2223.next(true);
         },
         (error) => {
           console.log("error", error);
@@ -781,6 +782,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         console.log("post uti mess", res);
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
+        this.newCommonService.setFormStatus2223.next(true);
       },
       (error) => {
         console.log("error", error);

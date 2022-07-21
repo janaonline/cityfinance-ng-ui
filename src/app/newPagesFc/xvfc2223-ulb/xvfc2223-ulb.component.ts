@@ -149,23 +149,31 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.newCommonService.setFormStatus2223.subscribe((res) => {
+      console.log("form status 2223", res);
+      this.getSideBar();
+    });
   }
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
-
+  userData;
   ngOnInit(): void {
     console.log("left responces..1", this.leftMenu);
   }
-  // getSideBar() {
-  //   this.newCommonService.getULBLeftMenu().subscribe((res: any) => {
-  //     console.log("left responces..", res);
-  //     this.leftMenu = res;
-  //   });
-  // }
+  getSideBar() {
+    let ulb = this.userData?.ulb;
+    let role = this.userData?.role;
+    let isUA = "";
+    this.newCommonService.getLeftMenu(ulb, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      this.leftMenu = res?.data;
+    });
+  }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     // console.log(this._router.url);
