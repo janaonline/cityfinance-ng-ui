@@ -276,12 +276,7 @@ margin-bottom: 0 !important;
   }
 
   formStatusCheck = "";
-  statusArray = [
-    "Not Started",
-    "Under Review By State",
-    "Completed",
-    "In Progress",
-  ];
+  statusArray = ["Not Started", "Completed", "Completed", "In Progress"];
 
   previewStatuSet() {
     console.log(this.preData?.body);
