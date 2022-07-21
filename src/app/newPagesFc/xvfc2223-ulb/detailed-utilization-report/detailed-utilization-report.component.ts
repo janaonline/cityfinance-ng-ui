@@ -33,16 +33,15 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.initializeReport();
   }
   durForm;
-  c;
   ulbName = "";
   userData;
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   amtRegex = "^[0-9]{1,4}(?:[.][0-9]{1,2})?$";
-  ptrErr = "Two digit with six decimals point are allowed. eg - 28.123456";
+  ptrErr = "Two digit upto six decimals point are allowed. eg - 28.123456";
   ptrErr2 =
-    "Maximum four digit with two decimals point are allowed. eg - 9999.99";
+    "Maximum four digit upto two decimals point are allowed. eg - 9999.99";
   // amtRegex = "^(([0-9]{1,4})(.[0-9]{1,2})?)$";
   // amtRegex = `^\d{0,4}\.?\d{0,2}$`;
 
@@ -394,8 +393,11 @@ export class DetailedUtilizationReportComponent implements OnInit {
             [Validators.required, Validators.pattern(this.latLongRegex)],
           ],
         }),
-        cost: ["", Validators.required],
-        expenditure: ["", Validators.required],
+        cost: ["", [Validators.required, Validators.pattern(this.amtRegex)]],
+        expenditure: [
+          "",
+          [Validators.required, Validators.pattern(this.amtRegex)],
+        ],
         // engineerName: ["", [Validators.required, Validators.pattern("^[a-zA-Z]{1,}(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?$")]],
         // engineerContact: ["", [Validators.required, Validators.pattern("[0-9 ]{10}")]]
       })
@@ -433,8 +435,14 @@ export class DetailedUtilizationReportComponent implements OnInit {
             [Validators.required, Validators.pattern(this.latLongRegex)],
           ],
         }),
-        cost: [data?.cost, Validators.required],
-        expenditure: [data?.expenditure, Validators.required],
+        cost: [
+          data?.cost,
+          [Validators.required, Validators.pattern(this.amtRegex)],
+        ],
+        expenditure: [
+          data?.expenditure,
+          [Validators.required, Validators.pattern(this.amtRegex)],
+        ],
       })
     );
     // this.totalProCost(this.tabelRows.length);
@@ -446,18 +454,30 @@ export class DetailedUtilizationReportComponent implements OnInit {
       this.swmProject.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
-          grantUtilised: [data?.grantUtilised, Validators.required],
+          grantUtilised: [
+            data?.grantUtilised,
+            [Validators.required, Validators.pattern(this.amtRegex)],
+          ],
           numberOfProjects: [data?.numberOfProjects, Validators.required],
-          totalProjectCost: [data?.totalProjectCost, Validators.required],
+          totalProjectCost: [
+            data?.totalProjectCost,
+            [Validators.required, Validators.pattern(this.amtRegex)],
+          ],
         })
       );
     } else {
       this.swmProject.push(
         this.fb.group({
           category_name: [data?.categoryName, Validators.required],
-          grantUtilised: [data?.amount, Validators.required],
+          grantUtilised: [
+            data?.amount,
+            [Validators.required, Validators.pattern(this.amtRegex)],
+          ],
           numberOfProjects: [data?.count, Validators.required],
-          totalProjectCost: [data?.totalProjectCost, Validators.required],
+          totalProjectCost: [
+            data?.totalProjectCost,
+            [Validators.required, Validators.pattern(this.amtRegex)],
+          ],
         })
       );
     }
@@ -682,7 +702,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
       this.isSubmitted = true;
       this.changeFormInput("dec");
       this.changeInGrant("exp");
-      this.changeInTotalPExp();
+      if (
+        this.utilizationReportForm["controls"]["projects"]["controls"].length >
+        0
+      ) {
+        this.changeInTotalPExp();
+      }
       this.checkValidation();
     }
   }
