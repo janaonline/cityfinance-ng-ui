@@ -170,8 +170,8 @@ export class OdfFormComponent implements OnInit {
           // })
         }
         this.ratingId = res?.data?.rating;
+        this.getMarks(this.ratingId);
 
-        // this.fetchData();
         console.log(this.ratingId);
         this.prefilledOdf(res?.data);
         if (res?.data?.isDraft == false) {
@@ -185,6 +185,7 @@ export class OdfFormComponent implements OnInit {
       },
       (error) => {
         console.log("odf error", error);
+
       }
     );
 
@@ -213,7 +214,7 @@ export class OdfFormComponent implements OnInit {
     this.draft = data?.isDraft;
     this.profileForm.patchValue({
       rating: data?.rating ? data?.rating : "",
-      certDate: data?.certDate,
+      certDate: data?.certDate ? data?.certDate : ""
       // design_year: this.yearValue,
       // ulbId: this.ulbId,
     });
@@ -256,7 +257,7 @@ export class OdfFormComponent implements OnInit {
         this.ratings = res.data;
         this.dropdownValues = res.data.map((a) => a.name);
         console.log(this.ratings);
-        this.getMarks(this.ratingId);
+      //  this.getMarks(this.ratingId);
       });
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
@@ -266,7 +267,7 @@ export class OdfFormComponent implements OnInit {
         this.dropdownValues = res.data.map((a) => a.name);
         console.log("this.dropdownValues", this.dropdownValues, this.ratings);
         console.log("this.ratingId", this.ratingId);
-        this.getMarks(this.ratingId);
+       // this.getMarks(this.ratingId);
         // this.selectedDropdownValue = res.data.find(res => res._id == this.ratingId);
         // console.log(this.selectedDropdownValue.name)
         // this.profileForm.patchValue({

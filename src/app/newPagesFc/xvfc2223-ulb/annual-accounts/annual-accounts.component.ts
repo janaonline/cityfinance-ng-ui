@@ -1297,6 +1297,7 @@ export class AnnualAccountsComponent implements OnInit {
       (res) => {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
       },
       (error) => {
@@ -1313,6 +1314,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.isDisabled = true;
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
       },
       (error) => {
