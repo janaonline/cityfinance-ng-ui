@@ -203,4 +203,8 @@ export class ProfileService {
   getTokenToChangePassword() {
     return this._htttp.get(`${environment.api.url}change_password`);
   }
+
+  getAccessYears(){
+    return this._htttp.get(`${environment.api.url}access`);
+  }
 }
