@@ -21,7 +21,7 @@ export class NewCommonService {
     );
   }
   getOdfRatings() {
-    return this.http.get(`${environment.api.url}ratings`);
+    return this.http.get(`${environment.api.url}ratings?formName=odf`);
   }
 
   odfSubmitForm(body: any) {
