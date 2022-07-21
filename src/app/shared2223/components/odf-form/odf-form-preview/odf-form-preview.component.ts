@@ -22,7 +22,16 @@ export class OdfFormPreviewComponent implements OnInit {
     public _router: Router,
     private newCommonService: NewCommonService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbId = this.userData?.ulb;
+    this.yearValue = this.design_year["2022-23"];
+  }
+  userData;
+  design_year;
+  ulbId;
+  yearValue;
   @ViewChild("odf") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateSave") template;
@@ -119,6 +128,7 @@ export class OdfFormPreviewComponent implements OnInit {
     </style>`;
   dialogRef;
   download;
+
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log("this.data", this.data);
@@ -262,7 +272,13 @@ export class OdfFormPreviewComponent implements OnInit {
 
   async submit() {
     console.log("odf save", this.data?.formData);
-    let body = { ...this.data?.formData, isDraft: true };
+    // let body = { ...this.data?.formData, isDraft: true };
+    let body = {
+      ...this.data?.formData,
+      isDraft: true,
+      design_year: this.yearValue,
+      ulb: this.ulbId,
+    };
     return new Promise((resolve, rej) => {
       this.newCommonService.odfSubmitForm(body).subscribe(
         (res) => {
