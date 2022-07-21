@@ -1,1 +1,207 @@
-<p>pto works!</p>
+<div class="container">
+    <form [formGroup]="ptoForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    Property Tax Operationalization
+                </h4>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn">Preview</button>
+            </div>
+        </div>
+        <div class="card">
+             <div class="row mt-3 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) State Act/GO/Notification<sup>*</sup>
+                    </span>
+                    
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin3">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                            Pdf
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                    </label>
+                    <input id="cin3" name="cin3" type="file"
+                        (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        
+                </div>
+            </div>
+            <div class="row" *ngIf="showStateAct">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{stateActFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
+                        attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: stateActProgress + '%' }">
+                        {{ stateActProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ stateActUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span>
+                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row mb-4 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (B) Act Page Number<sup>*</sup>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input  type="number" class="form-control customWidth" formControlName="actPage" >
+                    </span>
+                    
+                </div>
+            </div>
+            <div class="row mt-4 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (C) Minimum Floor rate details/Value card
+                    </span>
+                    
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin1">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                            Pdf
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input id="cin1" name="cin1" type="file"
+                        (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
+                        
+                </div>
+            </div>
+            <div class="row" *ngIf="showMinimumFloor">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{minimumFloorFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                    <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar"
+                        attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: minimumFloorProgress + '%' }">
+                        {{ minimumFloorProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ minimumFloorUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span>
+                        <a (click)="clearFile('minimumFloor')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (D) Rules, by laws issued for operationalization of the notification
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin2">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                            Pdf
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeOther}}</p>
+                    </label>
+                    <input id="cin2" name="cin2" type="file"
+                        (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                </div>
+            </div>
+            <div class="row" *ngIf="showRulesLaws">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{rulesLawsFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                    <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar"
+                        attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: rulesByLawsProgress + '%' }">
+                        {{ rulesByLawsProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ rulesLawsUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span>
+                        <a (click)="clearFile('rulesByLaws')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 mt-4">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back">
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" (click)="onSubmit()">Submit</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" >Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>

@@ -272,7 +272,6 @@ export class PfmsComponent implements OnInit {
     console.log(this.registerForm)
     console.log('this.dataValue', this.dataValue)
     if(this.registerForm.value.linkPFMS == 'No' || (this.registerForm.value.linkPFMS == 'Yes' && this.registerForm.value.isUlbLinkedWithPFMS == 'No')){
-      console.log('hello')
       this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
       this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
       this.removeULBLinkedFormControlValidation();
