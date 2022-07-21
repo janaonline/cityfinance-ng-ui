@@ -391,6 +391,7 @@ tr {
         swal("Saved", "Data save as draft successfully.", "success");
         console.log("post uti mess", res);
         sessionStorage.setItem("changeInUti", "false");
+        this.newCommonService.setFormStatus2223.next(true);
         // this.isSubmitted = false;
         // this.copyData['projects'] = this.data['projects']
       },
