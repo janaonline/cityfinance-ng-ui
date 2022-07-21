@@ -351,6 +351,7 @@ export class OdfFormComponent implements OnInit {
           this.isDisabled = true;
           this.clickedSave = false;
           this.draft = false;
+          this.commonService.setFormStatus2223.next(true);
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
@@ -388,6 +389,7 @@ export class OdfFormComponent implements OnInit {
         console.log("successDraftttt!!!!!!!!!!!!!", res);
         this.clickedSave = false;
         this.draft = true;
+        this.commonService.setFormStatus2223.next(true);
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {
