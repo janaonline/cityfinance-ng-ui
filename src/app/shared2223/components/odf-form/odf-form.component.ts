@@ -213,7 +213,7 @@ export class OdfFormComponent implements OnInit {
 
     this.profileForm.patchValue({
       rating: data?.rating ? data?.rating : "",
-      certDate: this.dateValue,
+      certDate: data?.certDate,
       // design_year: this.yearValue,
       // ulbId: this.ulbId,
     });
