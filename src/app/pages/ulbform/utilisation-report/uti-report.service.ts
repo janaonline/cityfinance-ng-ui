@@ -45,7 +45,7 @@ export class UtiReportService {
     utFetchUrl = `${environment.api.url}/utilization-report/${f_yr}/${d_yr}`
    }
 
-  console.log('sanju', utFetchUrl)
+  console.log("s s", utFetchUrl);
   return this.http.get(utFetchUrl);
  // return this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/utilization-report/5ea036c2d6f1c5ee2e702e9e');
 

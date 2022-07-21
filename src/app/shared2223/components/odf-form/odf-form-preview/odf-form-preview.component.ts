@@ -22,7 +22,16 @@ export class OdfFormPreviewComponent implements OnInit {
     public _router: Router,
     private newCommonService: NewCommonService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbId = this.userData?.ulb;
+    this.yearValue = this.design_year["2022-23"];
+  }
+  userData;
+  design_year;
+  ulbId;
+  yearValue;
   @ViewChild("odf") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateSave") template;
@@ -39,6 +48,7 @@ export class OdfFormPreviewComponent implements OnInit {
   isGfcOpen: boolean = true;
   previewData: any;
   uploadCertificate: boolean = true;
+  formStatus = "";
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -118,6 +128,7 @@ export class OdfFormPreviewComponent implements OnInit {
     </style>`;
   dialogRef;
   download;
+
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log("this.data", this.data);
@@ -127,6 +138,13 @@ export class OdfFormPreviewComponent implements OnInit {
     ) {
       this.uploadCertificate = false;
     }
+    if (this.data?.isDraft == true) {
+      this.formStatus = "In Progress";
+    } else if (this.data?.isDraft == false) {
+      this.formStatus = "Completed";
+    } else {
+      this.formStatus = "Not Started";
+    }
     // this.certDate = this.data.formData.certDate;
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
@@ -134,7 +152,7 @@ export class OdfFormPreviewComponent implements OnInit {
     this.fileUrl = this.data?.formData?.cert?.url;
     this.certDate = this.data?.formData?.certDate;
     this.ratingId = this.data?.formData?.rating;
-    let selectedRating = this.data?.ratings.find(
+    let selectedRating = this.data?.ratings?.find(
       ({ _id }) => _id == this.ratingId
     );
     this.ratingName = selectedRating?.name;
@@ -254,7 +272,13 @@ export class OdfFormPreviewComponent implements OnInit {
 
   async submit() {
     console.log("odf save", this.data?.formData);
-    let body = { ...this.data?.formData, isDraft: true };
+    // let body = { ...this.data?.formData, isDraft: true };
+    let body = {
+      ...this.data?.formData,
+      isDraft: true,
+      design_year: this.yearValue,
+      ulb: this.ulbId,
+    };
     return new Promise((resolve, rej) => {
       this.newCommonService.odfSubmitForm(body).subscribe(
         (res) => {

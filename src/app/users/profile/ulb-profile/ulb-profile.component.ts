@@ -62,7 +62,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   apiInProgress = false;
 
   userUtil = new UserUtility();
-
+  isVerified2223 = false;
   ngOnChanges(changes) {}
 
   fetchDatas() {
@@ -72,6 +72,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    console.log("profileData", this.profileData);
+    let data: any = this.profileData;
+    this.isVerified2223 = data?.isVerified2223;
     this.initializeAccess();
     this.initializeForm();
     this.initializeLogginUserType();
@@ -131,7 +134,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         message: "Profile Updated Successfully",
       });
       this.profile.disable({ onlySelf: true, emitEvent: false });
-
       return;
     }
 
@@ -202,6 +204,12 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
     this.updateLocalLoggedInData(dataUpdated);
+    if (
+      this.isVerified2223 == false &&
+      this.loggedInUserType === USER_TYPE.ULB
+    ) {
+      this.router.navigateByUrl("/ulbform2223/overview");
+    }
   }
 
   private updateLocalLoggedInData(dataUpdated: IULBProfileData) {
