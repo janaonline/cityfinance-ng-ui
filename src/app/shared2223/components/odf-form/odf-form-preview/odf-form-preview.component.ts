@@ -128,12 +128,9 @@ export class OdfFormPreviewComponent implements OnInit {
     ) {
       this.uploadCertificate = false;
     }
-    if (this.data?.formData?.isDraft) {
+    if (this.data?.isDraft == true) {
       this.formStatus = "In Progress";
-    } else if (
-      this.data?.formData?.isDraft == "false" &&
-      this.data?.formData?.isDraft != ""
-    ) {
+    } else if (this.data?.isDraft == false) {
       this.formStatus = "Completed";
     } else {
       this.formStatus = "Not Started";

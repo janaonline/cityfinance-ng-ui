@@ -99,7 +99,7 @@ export class OdfFormComponent implements OnInit {
   design_year;
   ratings;
   yearValue;
-  draft = true;
+  draft;
   userData;
   ulbId;
   errorMessege: any = "";
@@ -210,10 +210,10 @@ export class OdfFormComponent implements OnInit {
     console.log(data);
     console.log("this.dateValue", this.dateValue);
     console.log("this.dateValue 2", this.dateValue);
-
+    this.draft = data?.isDraft;
     this.profileForm.patchValue({
       rating: data?.rating ? data?.rating : "",
-      certDate: this.dateValue,
+      certDate: data?.certDate,
       // design_year: this.yearValue,
       // ulbId: this.ulbId,
     });
@@ -349,6 +349,7 @@ export class OdfFormComponent implements OnInit {
         if (res && res.success) {
           this.isDisabled = true;
           this.clickedSave = false;
+          this.draft = false;
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
@@ -385,6 +386,7 @@ export class OdfFormComponent implements OnInit {
       (res: any) => {
         console.log("successDraftttt!!!!!!!!!!!!!", res);
         this.clickedSave = false;
+        this.draft = true;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {
@@ -419,6 +421,7 @@ export class OdfFormComponent implements OnInit {
       ratings: this.ratings,
       score: this.ratingMark,
       uploadText: this.uploadDeclaration,
+      isDraft: this.draft,
     };
     console.log("preData", preData);
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
