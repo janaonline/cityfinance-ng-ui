@@ -9,6 +9,7 @@ import { Subject } from "rxjs";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
+  setFormStatus2223 = new Subject<any>();
   getLeftMenu(ulbId, role, isUA) {
     return this.http.get(
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
@@ -21,7 +22,7 @@ export class NewCommonService {
     );
   }
   getOdfRatings() {
-    return this.http.get(`${environment.api.url}ratings`);
+    return this.http.get(`${environment.api.url}ratings?formName=odf`);
   }
 
   odfSubmitForm(body: any) {
@@ -30,8 +31,8 @@ export class NewCommonService {
       body
     );
   }
-  getPtoData(){
-    return
+  getPtoData() {
+    return;
   }
   pfmsSubmitForm(body: any) {
     return this.http.post(`${environment.api.url}link-pfms`, body);

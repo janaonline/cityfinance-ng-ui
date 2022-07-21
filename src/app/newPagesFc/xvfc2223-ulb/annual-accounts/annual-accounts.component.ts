@@ -264,7 +264,7 @@ export class AnnualAccountsComponent implements OnInit {
   data = {
     ulb: this.userData.ulb,
     design_year: this.Years["2022-23"],
-    isDraft: false,
+    isDraft: null,
     status: null,
     audited: {
       provisional_data: {
@@ -576,7 +576,7 @@ export class AnnualAccountsComponent implements OnInit {
       })
       .subscribe(
         async (res) => {
-         this.dataPopulate(res);
+          this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
           if (resObj?.isDraft == false) {
@@ -1199,7 +1199,7 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
   checkFinalError() {
-    console.log('aaaaaaaaa error', this.annualError);
+    console.log("aaaaaaaaa error", this.annualError);
 
     this.unAuditQues.forEach((el) => {
       if (el.error == true || el.error == null) {
@@ -1297,6 +1297,7 @@ export class AnnualAccountsComponent implements OnInit {
       (res) => {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
       },
       (error) => {
@@ -1313,6 +1314,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.isDisabled = true;
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
       },
       (error) => {
@@ -1324,7 +1326,7 @@ export class AnnualAccountsComponent implements OnInit {
     );
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
-    let value = Number(e?.value)
+    let value = Number(e?.value);
     console.log("emit", e, fileType, qusName, qusType);
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = value;
