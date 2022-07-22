@@ -48,6 +48,7 @@ import { TableComponent } from './components/table/table.component';
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
+    TableComponent
   ],
 })
 export class Shared2223Module {}

@@ -169,6 +169,7 @@ export class OverviewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
+        this.onHover(0, "", "AA", this.cardsOverview[0]);
         // this.leftMenu = res;
       });
   }
@@ -188,7 +189,7 @@ export class OverviewComponent implements OnInit {
   onHover(num, title, key, item) {
     console.log("index-num", num, title, item);
     this.message = item?.message;
-    if (key == "GTC") {
+    if (item?.key == "GTC") {
       //  this.p = (num+1)*135;
       this.val = 0;
       this.hover = true;
@@ -197,7 +198,7 @@ export class OverviewComponent implements OnInit {
       //  this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (key == "DUR") {
+    if (item?.key == "DUR") {
       //  this.p = (num+2)*120;
       this.val = 1;
       this.hover = true;
@@ -208,7 +209,7 @@ export class OverviewComponent implements OnInit {
       this.checkPos = true;
     }
 
-    if (key == "AA") {
+    if (item?.key == "AA") {
       //  this.p = (num+3)*112;
       this.val = 2;
       this.hover = true;
@@ -219,7 +220,7 @@ export class OverviewComponent implements OnInit {
       //  and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
-    if (key == "PFMS") {
+    if (item?.key == "PFMS") {
       //   this.p = (num+1)*80;
       this.val = 3;
       this.hover = true;
@@ -228,7 +229,7 @@ export class OverviewComponent implements OnInit {
       // this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
       this.checkPos = true;
     }
-    if (key == "PTO") {
+    if (item?.key == "PTO") {
       //   this.p = (num+1)*80;
       this.val = 4;
       this.hover = true;
@@ -237,7 +238,7 @@ export class OverviewComponent implements OnInit {
       //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
-    if (key == "SLB") {
+    if (item?.key == "SLB") {
       //  this.p = (num+3)*125;
       this.val = 5;
       this.hover = true;
@@ -248,7 +249,7 @@ export class OverviewComponent implements OnInit {
       //   NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
       this.checkPos = true;
     }
-    if (key == "ODF") {
+    if (item?.key == "ODF") {
       // this.p = (num+3)*125;
       this.val = 6;
       this.hover = true;
@@ -257,13 +258,13 @@ export class OverviewComponent implements OnInit {
       //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
-    if (key == "GFC") {
+    if (item?.key == "GFC") {
       // this.p = (num+3)*125;
       this.val = 7;
       this.hover = true;
       this.i = 8;
       //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-       // this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
+      // this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
 

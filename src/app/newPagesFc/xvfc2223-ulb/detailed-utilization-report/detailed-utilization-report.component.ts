@@ -712,11 +712,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
       this.isSubmitted = true;
       this.changeFormInput("dec");
       this.changeInGrant("exp");
+      this.changeInTotalPExp();
       if (
-        this.utilizationReportForm["controls"]["projects"]["controls"].length >
-        0
+        this.utilizationReportForm["controls"]["projects"]["controls"].length ==
+          0 &&
+        this.totalPExpErr
       ) {
-        this.changeInTotalPExp();
+        this.addRow();
       }
       this.checkValidation();
     }
