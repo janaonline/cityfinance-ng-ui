@@ -72,6 +72,7 @@ export class OdfFormComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbId = this.userData?.ulb;
+    this.fetchData();
   }
 
   uploadDeclaration: boolean = false;
@@ -156,7 +157,7 @@ export class OdfFormComponent implements OnInit {
       design_year: this.yearValue,
       isGfc: this.isGfc,
     };
-    this.fetchData();
+
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
         console.log(res);
@@ -275,7 +276,7 @@ export class OdfFormComponent implements OnInit {
         // })
       });
     }
-    console.log("aaa 4", this.profileForm.value);
+
   }
   alertFormFinalSubmit() {
     this.submitted = true;
@@ -467,7 +468,7 @@ export class OdfFormComponent implements OnInit {
     console.log("id ", id);
     console.log("r", this.ratings);
     if (id) {
-      this.ratings.forEach((el) => {
+      this.ratings?.forEach((el) => {
         if (el?._id == id) {
           this.ratingMark = el?.marks;
           return;
