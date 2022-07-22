@@ -30,7 +30,9 @@ export class PtoComponent implements OnInit {
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
-  apiData = {}
+  apiData = {};
+  body:any;
+  isDisabled:boolean = false;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -38,9 +40,17 @@ export class PtoComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(private formBuilder: FormBuilder,private newService: NewCommonService,private dataEntryService: DataEntryService) { 
+  constructor(private formBuilder: FormBuilder,private ptoService: NewCommonService,private dataEntryService: DataEntryService) { 
     this.initializeForm();
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.stateId = this.userData?.state;
+    this.yearValue = this.design_year["2022-23"];
   }
+  userData;
+  design_year;
+  stateId;
+  yearValue;
 
   ngOnInit(): void {
     this.onload();
@@ -51,7 +61,7 @@ export class PtoComponent implements OnInit {
 
   initializeForm(){
     this.ptoForm = this.formBuilder.group({
-      actPage: '',
+      actPage: ["", Validators.required],
       state: '',
       design_year: '',
       comManual: this.formBuilder.group({
@@ -63,8 +73,8 @@ export class PtoComponent implements OnInit {
         name: '',
       }),
       stateNotification: this.formBuilder.group({
-        url: '',
-        name: '',
+        url: ["", Validators.required],
+        name: ["", Validators.required],
       }),
     });
   }
@@ -74,23 +84,89 @@ export class PtoComponent implements OnInit {
   }
 
   getPtoData(){
+    const params = {
+      state: this.stateId,
+      design_year: this.yearValue,
+    };
+    console.log(params)
     //call api and subscribe and patch here
-    // this.newService.getPtoData().subscribe((res)=>{
-    //   console.log(res)
-    //   this.patchFunction(res);
-    // })
+    this.ptoService.getPtoData(params).subscribe((res:any)=>{
+      console.log(res)
+      res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
+      this.patchFunction(res);
+    })
   }
 
   patchFunction(data){
-
+    console.log(data)
+    this.ptoForm.patchValue({
+      actPage: data?.data?.actPage,
+      state: data?.data?.state,
+      design_year: data?.data?.design_year,
+      comManual: this.formBuilder.group({
+        url: data?.data?.comManual?.url,
+        name: data?.data?.comManual?.name,
+      }),
+      floorRate: this.formBuilder.group({
+        url: data?.data?.floorRate?.url,
+        name: data?.data?.floorRate?.name,
+      }),
+      stateNotification: this.formBuilder.group({
+        url: data?.data?.stateNotification?.url,
+        name: data?.data?.stateNotification?.name,
+      }),
+        });
   }
 
   onSubmit(){
     console.log('submitted',this.ptoForm.value)
+    if (this.ptoForm.invalid) {
+      return;
+    }
+    this.body = {
+      ...this.ptoForm.value,
+      isDraft: false,
+      design_year: this.yearValue,
+      state: this.stateId,
+    };
+    this.ptoService.submitPtoForm(this.body).subscribe((res :any)=>{
+      console.log(res)
+      if (res && res.status) {
+        this.isDisabled = true
+        console.log(res)
+        swal("Saved", "Data saved successfully", "success");
+      } else {
+        swal("Error", res?.message ? res?.message : "Error", "error");
+      }
+    },
+    (error) => {
+      console.error("err", error);
+      swal("Error", error ? error : "Error", "error");
+    })
   }
 
   onDraft(){
     console.log('saved as draft')
+    console.log('submitted',this.ptoForm.value)
+    this.body = {
+      ...this.ptoForm.value,
+      isDraft: true,
+      design_year: this.yearValue,
+      state: this.stateId,
+    };
+    this.ptoService.submitPtoForm(this.body).subscribe((res :any)=>{
+      console.log(res)
+      if (res && res.message) {
+        console.log(res)
+        swal("Saved as Draft", res.message);
+      } else {
+        swal("Error", res?.message ? res?.message : "Error", "error");
+      }
+    },
+    (error) => {
+      console.error("err", error);
+      swal("Error", error ? error : "Error", "error");
+    })
   }
 
   uploadButtonClicked(formName) {

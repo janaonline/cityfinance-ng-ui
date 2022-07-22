@@ -399,6 +399,20 @@ export class PfmsComponent implements OnInit {
   }
 
   linkedYes(event) {
+    // this.registerForm.controls.PFMSAccountNumber.reset();
+    // this.registerForm.get('PFMSAccountNumber')
+    this.registerForm.patchValue({
+      
+      PFMSAccountNumber: '',
+      cert:{
+        url: '',
+        name: ''
+     },
+     otherDocs: {
+       url: '',
+       name: ''
+      }
+    });
     this.linkedToggle = true
     this.activeClass = true
     this.activeClassBottom = true

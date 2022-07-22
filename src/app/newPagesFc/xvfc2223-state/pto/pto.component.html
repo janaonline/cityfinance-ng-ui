@@ -161,10 +161,12 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="submit" class="btn btnDraft" (click)="onSubmit()">Submit</button>
+                        <!-- [disabled]="isDisabled" --> 
+                        <!-- use this for disable button -->
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" >Next Form

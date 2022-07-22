@@ -31,8 +31,14 @@ export class NewCommonService {
       body
     );
   }
-  getPtoData() {
-    return;
+  getPtoData(param) {
+    return this.http.get(`${environment.api.url}property-tax-floor-rate?state=${param.state}&design_year=${param.design_year}`);
+  }
+  submitPtoForm(body){
+    return this.http.post(
+      `${environment.api.url}property-tax-floor-rate`,
+      body
+    );
   }
   pfmsSubmitForm(body: any) {
     return this.http.post(`${environment.api.url}link-pfms`, body);
