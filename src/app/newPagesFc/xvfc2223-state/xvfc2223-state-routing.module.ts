@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PtoComponent } from './pto/pto.component';
+import {ReviewApplicationComponent} from './review-application/review-application.component'
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 
 const routes: Routes = [
@@ -11,6 +12,10 @@ const routes: Routes = [
       {
         path: "pto",
         component: PtoComponent,
+      },
+      {
+        path: "review",
+        component: ReviewApplicationComponent,
       },
     ],
   },

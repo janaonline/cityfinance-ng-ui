@@ -18,6 +18,7 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { TableComponent } from './components/table/table.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -29,6 +30,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
+    TableComponent
   ],
 })
 export class Shared2223Module {}

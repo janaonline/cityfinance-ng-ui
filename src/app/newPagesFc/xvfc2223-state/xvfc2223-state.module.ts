@@ -11,6 +11,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { SharedModule } from "src/app/shared/shared.module";
 
+
 @NgModule({
   declarations: [Xvfc2223StateComponent, PtoComponent],
   imports: [
