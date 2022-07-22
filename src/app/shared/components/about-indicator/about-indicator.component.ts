@@ -394,7 +394,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
               this.ulbList[ulbStateCode].ulbs.find(
                 (innerVal) =>
                   innerVal._id ==
-                  data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
+                  data[forUlbType ? "inStateUlbType" : "totalRevenue"].ulb._id
               ).population
             ) +
             ")";

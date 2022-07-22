@@ -721,7 +721,7 @@ export class CommonService {
             type: "text/json; charset=utf-8",
           });
           const url = window.URL.createObjectURL(blob);
-          fileSaver.saveAs(blob, `Service-Label-Data.xlsx`);
+          fileSaver.saveAs(blob, `Service-Level-Benchmark-Data.xlsx`);
         });
     }
   }

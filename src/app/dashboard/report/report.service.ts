@@ -8,11 +8,12 @@ import { ISummaryReport } from '../../../app/models/summaryReport/summaryReport'
 import { environment } from '../../../environments/environment';
 import { IReportType } from '../../models/reportType';
 import { currencryConversionOptions, ICurrencryConversion } from './basic/conversionTypes';
-
+import { GlobalLoaderService } from "../../shared/services/loaders/global-loader.service";
 @Injectable({
   providedIn: "root",
 })
 export class ReportService {
+  
   public reportResponse: BehaviorSubject<
     | IDetailedReportResponse
     | IDetailedReportResponse["data"]
@@ -28,7 +29,8 @@ export class ReportService {
   currencryConversionInUse: ICurrencryConversion =
     currencryConversionOptions[0];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    public _loaderService : GlobalLoaderService) {}
 
   getNewReportRequest() {
     return this.reportRequestSubject;
@@ -56,7 +58,7 @@ export class ReportService {
     //     alert("Year and ULB selection is mandatory");
     //   }
     // });
-
+this._loaderService.showLoader()
 
     this.setReportRequest(criteria);
 
@@ -67,6 +69,7 @@ export class ReportService {
       )
       .subscribe((res) => {
         if (res["success"]) {
+          this._loaderService.stopLoader()
           if (res["data2"]) {
             this.reportResponse.next(res);
           } else {
@@ -114,14 +117,16 @@ export class ReportService {
     //      alert("Year and ULB selection is mandatory");
     //    }
     //  });
-
+this._loaderService.showLoader()
     this.setReportRequest(criteria);
 
     this.http
       .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
       .subscribe((res) => {
         if (res["success"]) {
+          this._loaderService.stopLoader()
           if (res["data2"]) {
+
             localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
           }
           this.reportResponse.next(res["data"]);
