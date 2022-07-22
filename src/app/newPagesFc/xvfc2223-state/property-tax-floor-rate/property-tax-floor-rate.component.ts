@@ -5,12 +5,14 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
+import { PropertyTaxFloorRatePreviewComponent } from '../propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
+import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 @Component({
-  selector: 'app-pto',
-  templateUrl: './pto.component.html',
-  styleUrls: ['./pto.component.scss']
+  selector: 'app-property-tax-floor-rate',
+  templateUrl: './property-tax-floor-rate.component.html',
+  styleUrls: ['./property-tax-floor-rate.component.scss']
 })
-export class PtoComponent implements OnInit {
+export class PropertyTaxFloorRateComponent implements OnInit {
   ptoForm: FormGroup;
   change = '';
   errorMessege: any = '';
@@ -32,6 +34,7 @@ export class PtoComponent implements OnInit {
   subscription: any;
   apiData = {};
   body:any;
+  submitted :boolean = false
   isDisabled:boolean = false;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -40,7 +43,7 @@ export class PtoComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(private formBuilder: FormBuilder,private ptoService: NewCommonService,private dataEntryService: DataEntryService) { 
+  constructor(public dialog: MatDialog,private formBuilder: FormBuilder,private ptoService: NewCommonService,private dataEntryService: DataEntryService) { 
     this.initializeForm();
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -65,12 +68,12 @@ export class PtoComponent implements OnInit {
       state: '',
       design_year: '',
       comManual: this.formBuilder.group({
-        url: '',
-        name: '',
+        url: [''],
+        name: [''],
       }),
       floorRate: this.formBuilder.group({
-        url: '',
-        name: '',
+        url: [''],
+        name: [''],
       }),
       stateNotification: this.formBuilder.group({
         url: ["", Validators.required],
@@ -82,7 +85,7 @@ export class PtoComponent implements OnInit {
   onload(){
     this.getPtoData();
   }
-
+  previewFormData:any;
   getPtoData(){
     const params = {
       state: this.stateId,
@@ -92,6 +95,7 @@ export class PtoComponent implements OnInit {
     //call api and subscribe and patch here
     this.ptoService.getPtoData(params).subscribe((res:any)=>{
       console.log(res)
+      this.previewFormData = res
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       this.patchFunction(res);
     })
@@ -99,6 +103,16 @@ export class PtoComponent implements OnInit {
 
   patchFunction(data){
     console.log(data)
+    // this.showStateAct = true
+    this.stateActFileName = data?.data?.stateNotification?.name;
+    this.stateActFileName ? this.showStateAct = true : false;
+
+    this.minimumFloorFileName = data?.data?.floorRate?.name;
+    this.minimumFloorFileName ? this.showMinimumFloor = true : false;
+
+    this.rulesLawsFileName = data?.data?.comManual?.name;
+    this.rulesLawsFileName ? this.showRulesLaws = true : false;
+    
     this.ptoForm.patchValue({
       actPage: data?.data?.actPage,
       // state: data?.data?.state,
@@ -120,6 +134,7 @@ export class PtoComponent implements OnInit {
 
   onSubmit(){
     console.log('submitted',this.ptoForm.value)
+    this.submitted =true;
     if (this.ptoForm.invalid) {
       return;
     }
@@ -168,7 +183,22 @@ export class PtoComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-
+  
+  preview(){
+    console.log(this.ptoForm.value)
+    let previewData = {
+      dataPreview : this.previewFormData,
+    }
+    const dialogRef = this.dialog.open(PropertyTaxFloorRatePreviewComponent, {
+      data: previewData,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+    });
+  }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
@@ -176,8 +206,8 @@ export class PtoComponent implements OnInit {
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessege = 'File size should be less than 5Mb.'
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessege = 'File size should be less than 20Mb.'
         this.ptoForm.controls.floorRate.reset();
         const error = setTimeout(() => {
           this.showMinimumFloor = false
@@ -187,8 +217,8 @@ export class PtoComponent implements OnInit {
       }
     }
     if(progessType == 'stateActProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessegeStateAct = 'File size should be less than 5Mb.'
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessegeStateAct = 'File size should be less than 20Mb.'
         this.ptoForm.controls.stateNotification.reset();
         const error = setTimeout(() => {
           this.showStateAct = false
@@ -198,8 +228,8 @@ export class PtoComponent implements OnInit {
       }
     }
     if(progessType == 'rulesByLawsProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessegeOther = 'File size should be less than 5Mb.'
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessegeOther = 'File size should be less than 20Mb.'
         this.ptoForm.controls.comManual.reset();
         const error = setTimeout(() => {
           this.showRulesLaws = false

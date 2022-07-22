@@ -1,0 +1,76 @@
+<div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <!-- <b class="sub-h">{{ulbName}}, {{stateName}}</b> -->
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <!-- <b>Form Current Status:</b><span class="ml-2"><p style="margin-left:1%;">{{formStatus}}</p></span> -->
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" class="btn btn-primary">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            <p>Property Tax Floor Rate Notification</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(A) State Act/GO/Notification<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a  href="{{data?.dataPreview?.data?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.data?.stateNotification?.name ? data?.dataPreview?.data?.stateNotification?.name: 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle">(B) Act Page Number<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.data?.actPage ? data?.dataPreview?.data?.actPage : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(C) Minimum Floor rate details/Value card
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a  href="{{data?.dataPreview?.data?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.data?.floorRate?.name ? data?.dataPreview?.data?.floorRate?.name: 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(D) Rules, by laws issued for operationalization of the notification
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a  href="{{data?.dataPreview?.data?.comManual?.url}}" target="_blank">{{data?.dataPreview?.data?.comManual?.name ? data?.dataPreview?.data?.comManual?.name: 'N/A'}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

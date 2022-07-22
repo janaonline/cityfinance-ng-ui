@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PtoComponent } from './pto/pto.component';
+import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 
 const routes: Routes = [
   // {
   //   path : "", component: 
   // },
   {
-    path : "pto", component: PtoComponent
+    path : "property-tax-floor-rate", component: PropertyTaxFloorRateComponent
   }
 ];
 

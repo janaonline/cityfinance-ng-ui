@@ -3,18 +3,18 @@
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <h4 class="form-header">
-                    Property Tax Operationalization
+                    Property Tax Floor Rate Notification
                 </h4>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
-                <button type="button" class="btn btn-primary" id="prevBtn">Preview</button>
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
             </div>
         </div>
         <div class="card">
              <div class="row mt-3 mb-3 question">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (A) State Act/GO/Notification<sup>*</sup>
+                        (A) State Act/GO/Notification<sup class="text-danger">*</sup>
                     </span>
                     
                 </div>
@@ -27,9 +27,13 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeStateAct}}</p>
                     </label>
-                    <input id="cin3" name="cin3" type="file"
-                        (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
-                        
+                    <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
+                        (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
+                        <div>
+                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                            </div>
+                        </div>            
                 </div>
             </div>
             <div class="row" *ngIf="showStateAct">
@@ -58,7 +62,7 @@
             <div class="row mb-4 question">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (B) Act Page Number<sup>*</sup>
+                        (B) Act Page Number<sup class="text-danger">*</sup>
                     </span>
                     <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification."
 
@@ -68,8 +72,13 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        <input  type="number" class="form-control customWidth" formControlName="actPage" >
+                        <input  type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors }" min="1"
+                        step="1"
+                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     </span>
+                    <div *ngIf="submitted && f.actPage.errors" class="text-danger">
+                        <div *ngIf="f.actPage.errors.required">Act page number is required.</div>
+                    </div>
                     
                 </div>
             </div>
