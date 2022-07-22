@@ -282,6 +282,7 @@ export class OdfFormPreviewComponent implements OnInit {
     return new Promise((resolve, rej) => {
       this.newCommonService.odfSubmitForm(body).subscribe(
         (res) => {
+          this.newCommonService.setFormStatus2223.next(true);
           if (this.isGfcOpen) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {

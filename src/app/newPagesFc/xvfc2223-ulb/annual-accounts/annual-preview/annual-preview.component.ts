@@ -256,6 +256,7 @@ margin-bottom: 0 !important;
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           // status.annualAccounts.isSubmit = res["isCompleted"];
           // this._ulbformService.allStatus.next(status);
+          this.newCommonService.setFormStatus2223.next(true);
           swal("Saved", "Data saved as draft successfully", "success");
           resolve("sucess");
         },
