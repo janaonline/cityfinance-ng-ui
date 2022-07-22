@@ -101,8 +101,8 @@ export class PtoComponent implements OnInit {
     console.log(data)
     this.ptoForm.patchValue({
       actPage: data?.data?.actPage,
-      state: data?.data?.state,
-      design_year: data?.data?.design_year,
+      // state: data?.data?.state,
+      // design_year: data?.data?.design_year,
       comManual: this.formBuilder.group({
         url: data?.data?.comManual?.url,
         name: data?.data?.comManual?.name,
