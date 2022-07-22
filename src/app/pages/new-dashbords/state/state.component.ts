@@ -32,7 +32,7 @@ export class StateComponent implements OnInit {
     });
   }
   frontPanelData = data;
-  revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
+  revenueData = [TaxRevenue, OwnRevenue, Grant ,Revenue, Expense, BalanceSheetSize];
   stateId;
   stateCode;
   cords: any;
@@ -142,21 +142,10 @@ export class StateComponent implements OnInit {
       .dashboardInformation(false, stateId, "state", data?.year)
       .subscribe(
         (res: any) => {
-          let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
+          let obj = {TaxRevenue, OwnRevenue, Grant, Expense, BalanceSheetSize, Revenue };
           for (const key in obj) {
             const element = obj[key];
-            if (key == "Debt") {
-              element.number =
-                "INR " +
-                (res.data.length > 0
-                ?  Math.round(
-                  res.data.find((value) => value._id == "Revenue")?.totalGrant /
-                    10000000
-                )
-                : "0"
-                ) +
-                " Cr";
-            } else
+           
               element.number =
                 "INR " +
                 (res.data.length > 0
@@ -168,12 +157,13 @@ export class StateComponent implements OnInit {
                 " Cr";
           }
           this.revenueData = [
+            obj.TaxRevenue,
+            obj.OwnRevenue,
+            obj.Grant,
             obj.Revenue,
             obj.Expense,
-            obj.Asset,
-            obj.Tax,
-            obj.Liability,
-            obj.Debt,
+            obj.BalanceSheetSize,
+         
           ];
         },
         (error) => {
@@ -268,42 +258,47 @@ const data = {
   disclaimer:
     "*To enable standardization of nomenclature across states, we have reclassified all ULBs into one of the three categories - Municipal Corporation, Municipality or Town Panchayat",
 };
-const Revenue = {
+const TaxRevenue = {
   type: 2,
-  subTitle: "Total Revenue",
+  subTitle: "Total Tax Revenue",
   svg: `../../../../assets/file.svg`,
   number: "0 Cr",
 };
+
+const OwnRevenue = {
+  type: 2,
+  subTitle: "Total Own Revenue",
+  svg: `../../../../assets/file.svg`,
+  number: "0 Cr",
+};
+
+const Grant = {
+  type: 2,
+  subTitle: "Total Grant",
+  svg: `../../../../assets/coinCuren.svg`,
+  number: "0 Cr",
+};
+
+const Revenue = {
+  type: 2,
+  subTitle: "Total Revenue",
+  svg: `../../../../assets/coinCuren.svg`,
+  number: "0 Cr",
+};
+
 const Expense = {
   type: 2,
   subTitle: "Total Expenditure",
   svg: `../../../../assets/coinCuren.svg`,
   number: "0 Cr",
 };
-const Asset = {
+const BalanceSheetSize = {
   type: 2,
-  subTitle: "Total Assets",
+  subTitle: "Total Balance Sheet Size",
   svg: `../../../../assets/Group 15967.svg`,
   number: "0 Cr",
 };
-const Tax = {
-  type: 2,
-  subTitle: "Total Tax Revenue",
-  svg: `../../../../assets/chart.svg`,
-  number: "0 Cr",
-};
-const Liability = {
-  type: 2,
-  subTitle: "Total Liabilities",
-  svg: `../../../../assets/stats.svg`,
-  number: "0 Cr",
-};
-const Debt = {
-  type: 2,
-  subTitle: "Total Grant",
-  svg: `../../../../assets/folder.svg`,
-  number: "0 Cr",
-};
+
 const mapConfig = {
   code: {
     state: "GJ",

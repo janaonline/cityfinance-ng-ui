@@ -31,11 +31,6 @@
                         </mat-radio-button>
                     </mat-radio-group>
                 </div>
-
-                <!-- <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
-                <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
-                <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
-            </mat-radio-group> -->
                 <div class="col-md-3 customFilter">
                     <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
@@ -59,93 +54,6 @@
         </div>
     </div>
 
-    <!-- <div class="row">
-        <div *ngIf="!isLoading" class="col-md-12" style="width: 100px; margin: 0 auto">
-            <mat-spinner></mat-spinner>
-        </div>
-        <div *ngIf="isLoading == true" class="col-md-12">
-            <div *ngIf="showtable == false">
-                <app-shared-table [tableData]="singleTableData" [selectedCurrency]="selectedCurrency"></app-shared-table>
-            </div>
-        </div>
-        <div *ngIf="isLoading == true" class="col-md-12">
-            <div *ngIf="showtable == true">
-                <app-shared-compare-table [tableData]="multipleTableData" [ulbListVal]="ulbListVal" [years]="years" [selectedCurrency]="selectedCurrency"></app-shared-compare-table>
-            </div>
-        </div>
-        <div *ngIf="isLoading == true">
-            <button class="searchButton mb-3 ms-0" (click)="download()">Download</button>
-        </div>
-        <div *ngIf="isLoading == true">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="cd-r">
-                        <div class="card-body cd-h">
-                            <div class="row">
-                                <div class="col-sm-12 col-12">
-                                    <span>Download Report</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body cd-repeat" *ngFor="let item of downLoadArray[0].rows; let i = index;">
-                            <div class="row align-items-md-center">
-                                <div class="col-sm-3 cd-d" style="width: 35vw;">
-                                    {{item?.lineItem}}
-                                </div>
-                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
-
-                                    <a [href]="item['2015-16']" *ngIf="item?.lineItem === 'Raw Pdf'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
-                                    </a>
-                                    <a [href]="item['2015-16']" *ngIf="item?.lineItem === 'Raw Excel'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
-                                    </a>
-                                </div>
-                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
-                                    <a [href]="item['2016-17']" *ngIf="item?.lineItem === 'Row Pdf'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
-                                    </a>
-                                    <a [href]="item['2016-17']" *ngIf="item?.lineItem === 'Raw Excel'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
-                                    </a>
-                                </div>
-                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
-                                    <a [href]="item['2017-18']" *ngIf="item?.lineItem === 'Raw Pdf'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
-                                    </a>
-                                    <a [href]="item['2017-18']" *ngIf="item?.lineItem === 'Raw Excel'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
-                                    </a>
-                                </div>
-                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
-                                    <a [href]="item['2018-19']" *ngIf="item?.lineItem === 'Raw Pdf'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
-                                    </a>
-                                    <a [href]="item['2018-19']" *ngIf="item?.lineItem === 'Raw Excel'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
-                                    </a>
-                                </div>
-                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
-                                    <a [href]="item['2019-20']" *ngIf="item?.lineItem === 'Raw Pdf'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
-                                    </a>
-                                    <a [href]="item['2019-20']" *ngIf="item?.lineItem === 'Raw Excel'">
-                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <p class="pdf-info">
-                        *PDF consists of final financial dataset as published by the ULB. Excel File contains standarized data from this raw PDF to enable comparison and analysis.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <app-basic *ngIf="show &&  !compare"></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
     <div class="tableResponsive" *ngIf="show">

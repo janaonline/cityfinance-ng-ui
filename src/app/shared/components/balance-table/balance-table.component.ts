@@ -336,7 +336,7 @@ export class BalanceTableComponent
   }
 
   createDataForBasicComp(fromBs, filters?) {
-    // this.isLoading = true;
+    this._loaderService.showLoader();
     if (!this.currentUlbFilterData) return;
     let temp2;
     if (filters) {
@@ -358,9 +358,12 @@ export class BalanceTableComponent
     }
     if (fromBs == "Balance Sheet") {
       this.reportService.BSDetailed(temp2);
+      
     } else {
       this.reportService.ieDetailed(temp2);
+    
     }
+    
   }
 
   // newUlbData: any;
@@ -439,8 +442,9 @@ export class BalanceTableComponent
       valueType: this.valueType,
     };
     console.log("filers", filters);
+    this._loaderService.showLoader()
     this.createDataForBasicComp(this.reportGroup, filters);
-
+this._loaderService.stopLoader()
     // setTimeout(() => {
     //   this.invokeHidden();
     // }, 500);
@@ -570,6 +574,7 @@ export class BalanceTableComponent
   ngOnChanges(changes: SimpleChanges): void {
     // this.invokeHidden();
     console.log("balance table", changes, this.data);
+    this._loaderService.showLoader();
     if (this.data.name == "Balance Sheet") {
       this.resetCompare();
       this.reportGroup = "Balance Sheet";
@@ -594,7 +599,7 @@ export class BalanceTableComponent
         this.createUpdateTable(changes.cityId);
       }
     }
-
+this._loaderService.stopLoader();
     // if (changes && changes.cityId) {
     //   this.ExistingValues();
     // }
@@ -603,8 +608,9 @@ export class BalanceTableComponent
     this.compare = false;
     this.valueType = "absolute";
     this.sheetType = "Summary";
+    this._loaderService.showLoader()
     this.createDataForBasicComp(this.reportGroup);
-
+this._loaderService.stopLoader()
     this.ulbListVal = "";
     this.ulbIdval = [];
     this.yearValue = [];
@@ -621,7 +627,9 @@ export class BalanceTableComponent
       this.createMultipleUpdateTable();
       this.selectedYea(this.years);
     } else {
+      this._loaderService.showLoader()
       this.createDataForBasicComp(this.reportGroup);
+      this._loaderService.stopLoader()
     }
     if (this.valueType == "per_capita") {
       this.disableDropDown = true;
@@ -634,12 +642,14 @@ export class BalanceTableComponent
     console.log("radio btn", event, type);
     this.sheetType = event?.value;
     this.valueTypeR = event?.value;
+    this._loaderService.showLoader()
     if (this.years.length > 0) {
       this.createMultipleUpdateTable();
       this.selectedYea(this.years);
     } else {
       this.createDataForBasicComp(this.reportGroup);
     }
+    this._loaderService.stopLoader()
   }
 
   selectCurrencyValue: any;
