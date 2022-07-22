@@ -127,17 +127,25 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     }
 
     // upload files and their value
-    const updatedFields = this.getUpdatedFieldsOnly(form);
+    let updatedFields = this.getUpdatedFieldsOnly(form);
+    if(!updatedFields){
+      updatedFields = {
+        accountantName : this.profileData?.accountantName
+      }
+    }
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
         message: "Profile Updated Successfully",
       });
       this.profile.disable({ onlySelf: true, emitEvent: false });
-      return;
-    }
+     // console.log('profile form values', form);
+     // console.log('updated form values', updatedFields);
 
-    const flatten = this.jsonUtil.convertToFlatJSON(updatedFields);
+       return;
+    }
+    console.log('updated form values 2', updatedFields);
+    const flatten = this.jsonUtil?.convertToFlatJSON(updatedFields);
     if (flatten["_id"]) {
       flatten["ulbType"] = flatten["_id"];
       delete flatten["_id"];
@@ -149,6 +157,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.profile.disable({ onlySelf: true, emitEvent: false });
     this.respone.successMessage = "Updating....";
     this.apiInProgress = true;
+    console.log('profile body', flatten);
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res, flatten as IULBProfileData),
@@ -215,13 +224,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   private updateLocalLoggedInData(dataUpdated: IULBProfileData) {
     if (this.userUtil.getUserType() !== USER_TYPE.ULB) return;
     let newData: Partial<IUserLoggedInDetails>;
-    if (dataUpdated.accountantEmail) {
-      newData = { email: dataUpdated.accountantEmail };
+    if (dataUpdated?.accountantEmail) {
+      newData = { email: dataUpdated?.accountantEmail };
     }
 
-    if (dataUpdated.name) {
+    if (dataUpdated?.name) {
       if (!newData) newData = {};
-      newData.name = dataUpdated.name;
+      newData.name = dataUpdated?.name;
     }
 
     if (!newData) return;

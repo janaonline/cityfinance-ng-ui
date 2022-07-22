@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PtoComponent } from './pto/pto.component';
+import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 
 const routes: Routes = [
-  // {
-  //   path : "", component: 
-  // },
   {
-    path : "pto", component: PtoComponent
-  }
+    path: "",
+    component: Xvfc2223StateComponent,
+    children: [
+      {
+        path: "pto",
+        component: PtoComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
