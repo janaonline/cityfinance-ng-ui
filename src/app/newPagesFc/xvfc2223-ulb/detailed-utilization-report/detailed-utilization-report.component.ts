@@ -297,12 +297,21 @@ export class DetailedUtilizationReportComponent implements OnInit {
   get wmProject() {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
+  action = ''
+  url = ''
+
+  showPrevious = false
   getUtiReport() {
     let ulbId = this.userData?.ulb;
     this.newCommonService.getUtiData(ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
         this.analytics = res["analytics"];
+        this.action = res?.data['action']
+       this.url = res?.data['url']
+       if(this.action && this.url && this.action == 'note'){
+        this.showPrevious = true
+       }
         this.setcategoryData(res?.data);
         this.preFilledData(res?.data);
         if (res?.data.isDraft == false) {

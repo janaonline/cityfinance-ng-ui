@@ -561,6 +561,8 @@ export class AnnualAccountsComponent implements OnInit {
   alertClose() {
     this.stay();
   }
+  action = '';
+  url = ''
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     let ulbId = this.userData.ulb;
@@ -584,6 +586,8 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = false;
           }
+this.action = resObj?.action;
+this.url = resObj?.url;
 
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
@@ -818,6 +822,8 @@ export class AnnualAccountsComponent implements OnInit {
             this.manadUploadErrors[fileType].standardized_data.error = false;
             //  this.checkDiff();
           } catch (error) {
+            console.log('error?.data.message upload error', error?.data.message);
+
             this.uploadErrors[fileType].standardized_data.file = file;
             this.uploadErrors[fileType].standardized_data.error =
               error?.data.message;
@@ -989,7 +995,7 @@ export class AnnualAccountsComponent implements OnInit {
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log(objKeysE);
+          console.log('AAAA', objKeysE, objLength);
         }
         if (
           objLength > 0 &&
@@ -1191,7 +1197,8 @@ export class AnnualAccountsComponent implements OnInit {
       this.uploadErrors,
       this.manadUploadErrors
     );
-    console.log("this. error", this.answerError);
+    console.log("this. answer error", this.answerError);
+    console.log("this. upload error", this.uploadErrors,);
     if (this.annualError) {
       swal("Missing Data !", `${this.errorMsg}`, "error");
     } else {
@@ -1200,7 +1207,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
   checkFinalError() {
     console.log("aaaaaaaaa error", this.annualError);
-
     this.unAuditQues.forEach((el) => {
       if (el.error == true || el.error == null) {
         this.annualError = true;
@@ -1208,10 +1214,21 @@ export class AnnualAccountsComponent implements OnInit {
       }
     });
     this.auditQues.forEach((el) => {
-      if (el.error == true || el.error == null) {
-        this.annualError = true;
-        return;
+      if (
+        el?.key == "auditor_report" &&
+        (el?.data?.url == "" || el?.data?.url == null)
+      ) {
+        if (el.error == true || el.error == null) {
+          this.annualError = true;
+          return;
+        }
+      } else if (el?.key !== "auditor_report") {
+        if (el.error == true || el.error == null) {
+          this.annualError = true;
+          return;
+        }
       }
+
     });
     if (
       this.answerError.audited.submit_annual_accounts == true ||
@@ -1331,6 +1348,10 @@ export class AnnualAccountsComponent implements OnInit {
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = value;
     }
+    console.log(
+      "emit value patch",
+      this.data[fileType].provisional_data[e?.key]
+    );
     //  sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   preview() {
