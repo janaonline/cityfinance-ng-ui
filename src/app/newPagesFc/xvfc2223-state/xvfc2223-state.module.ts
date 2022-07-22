@@ -10,14 +10,18 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { SharedModule } from "src/app/shared/shared.module";
-
+import { ReviewApplicationComponent } from "./review-application/review-application.component";
 
 @NgModule({
-  declarations: [Xvfc2223StateComponent, PtoComponent],
+  declarations: [
+    Xvfc2223StateComponent,
+    PtoComponent,
+    ReviewApplicationComponent,
+  ],
   imports: [
     CommonModule,
-    Xvfc2223StateRoutingModule,
     Shared2223Module,
+    Xvfc2223StateRoutingModule,
     MatIconModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
