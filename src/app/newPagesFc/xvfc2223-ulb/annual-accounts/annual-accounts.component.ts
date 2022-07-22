@@ -561,6 +561,8 @@ export class AnnualAccountsComponent implements OnInit {
   alertClose() {
     this.stay();
   }
+  action = '';
+  url = ''
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     let ulbId = this.userData.ulb;
@@ -584,6 +586,8 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = false;
           }
+this.action = resObj?.action;
+this.url = resObj?.url;
 
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);

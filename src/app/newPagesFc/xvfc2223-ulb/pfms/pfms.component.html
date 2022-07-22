@@ -38,7 +38,7 @@
             <div class="row mt-3 mb-3 question">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (A) Do you wish to submit Details for PFMS Account ?<sup>*</sup>
+                        (A) Do you wish to submit Details for PFMS Account ?<sup class="text-danger">*</sup>
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
@@ -63,7 +63,7 @@
             <div class="row mt-3 mb-3 question" *ngIf="f?.linkPFMS?.value == 'Yes'">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (B) Has the ULB linked its bank account with PFMS?<sup>*</sup>
+                        (B) Has the ULB linked its bank account with PFMS?<sup class="text-danger">*</sup>
                         <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC."
                             matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
@@ -93,12 +93,12 @@
             <div class="row mt-3 mb-3 question" *ngIf="f?.isUlbLinkedWithPFMS?.value == 'Yes'">
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        (C) PFMS Account Number<sup>*</sup>
+                        (C) PFMS Account Number<sup class="text-danger">*</sup>
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
                     <span class="fontStyle">
-                        <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" placeholder="{{dataValue?.data?.PFMSAccountNumber}}">
+                        <input [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
                     </span>
                     <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
                         <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
@@ -110,7 +110,7 @@
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
                         (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
-                        etc<sup>*</sup>
+                        etc<sup class="text-danger">*</sup>
                     </span>
                     
                 </div>

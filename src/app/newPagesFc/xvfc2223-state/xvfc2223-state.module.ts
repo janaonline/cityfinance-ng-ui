@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { Xvfc2223StateRoutingModule } from './xvfc2223-state-routing.module';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Xvfc2223StateRoutingModule } from "./xvfc2223-state-routing.module";
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
-import { PtoComponent } from './pto/pto.component';
+import { PtoComponent } from "./pto/pto.component";
 import { Shared2223Module } from "src/app/shared2223/shared2223.module";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -21,6 +21,8 @@ import { SharedModule } from "src/app/shared/shared.module";
     MatTooltipModule,
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
     // SharedModule,
   ],
 })
