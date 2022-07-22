@@ -508,6 +508,10 @@ div.miniMap {
     color: #FFFFFF;
 }
 
+::ng-deep .my-tooltip {
+    white-space: pre-line;
+}
+
 .data-point-value {
     font-size: 1.8em;
     
