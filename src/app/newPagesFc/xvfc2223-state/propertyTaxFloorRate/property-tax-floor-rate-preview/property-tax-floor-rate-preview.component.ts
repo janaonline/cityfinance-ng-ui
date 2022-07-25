@@ -1,26 +1,29 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from '@angular/material/dialog';
-import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
+import { Component, ElementRef, OnInit, ViewChild, Inject, TemplateRef } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
+//import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 @Component({
   selector: 'app-property-tax-floor-rate-preview',
   templateUrl: './property-tax-floor-rate-preview.component.html',
   styleUrls: ['./property-tax-floor-rate-preview.component.scss']
 })
 export class PropertyTaxFloorRatePreviewComponent implements OnInit {
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private _questionnaireService: QuestionnaireService,
-  private _matDialog: MatDialog) { }
+  constructor(private _questionnaireService: QuestionnaireService,
+    private _matDialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private commonService: NewCommonService) { }
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateSave") template;
   dialogRef;
   download;
   showLoader;
-  ulbName = "";
   stateName = "";
   fileUrl: any;
   fileName: any;
@@ -98,16 +101,27 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
 
     </style>`
   ngOnInit(): void {
+    let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
+    if(this.data?.preData?.data?.isDraft == true){
+       this.formStatus = "In Progress"
+    }else if(this.data?.preData?.data?.isDraft == false){
+      this.formStatus = "Completed"
+    }else {
+      this.formStatus = "Not Started"
+    }
+    this.data?.preData?.data?.stateNotification?.url == '' ? this.hideUnderline = true : false
+    this.data?.preData?.data?.floorRate?.url == '' ? this.hideUnderline = true : false
+    this.data?.preData?.data?.comManual?.url == '' ? this.hideUnderline = true : false
+    
+    this.stateName = userData["stateName"];
+    
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
     
-      // changeHappen = sessionStorage.setItem("changeInPFMS", "false");
-      changeHappen = sessionStorage.getItem("changeInGTC");
       changeHappen = sessionStorage.getItem("changeInPFMS");
-    // let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -160,5 +174,44 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   }
   closeMat() {
     this._matDialog.closeAll();
+  }
+  async proceed(uploadedFiles) {
+    this.dialogRef.close();
+    this._matDialog.closeAll();
+    await this.submit();
+    await this.downloadAsPDF();
+  }
+
+  async submit() {
+    console.log("property save", this.data?.dataPreview);
+    let body = { ...this.data?.dataPreview };
+    return new Promise((resolve, rej) => {
+      this.commonService.submitPtForm(body).subscribe(
+        (res) => {
+         
+            sessionStorage.setItem("changeInPFMS", "false");
+          
+          console.log(res);
+          swal("Saved", "Data saved as draft successfully", "success");
+          resolve("sucess");
+        },
+        (err) => {
+         
+          sessionStorage.setItem("changeInPFMS", "false");
+          
+
+          swal("Error", "Failed To Save", "error");
+          resolve(err);
+        }
+      );
+    });
+  }
+
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
   }
 }

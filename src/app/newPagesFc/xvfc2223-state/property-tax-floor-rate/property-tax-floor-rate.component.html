@@ -1,5 +1,5 @@
 <div class="container">
-    <form [formGroup]="ptoForm">
+    <form [formGroup]="propertyForm">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <h4 class="form-header">
@@ -19,8 +19,8 @@
                     
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin3">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                    <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -48,10 +48,10 @@
                     </div>
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
-                    <a href="{{ stateActUrl }}" target="_blank">
+                    <a href="{{ stateActFileUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
-                    <span>
+                    <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('stateAct')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <span class="fontStyle">
-                        <input  type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors }" min="1"
+                        <input  type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" min="1"
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     </span>
@@ -93,8 +93,8 @@
                         </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin1">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                    <label for="cin1" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -121,7 +121,7 @@
                     <a href="{{ minimumFloorUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
-                    <span>
+                    <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('minimumFloor')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
@@ -139,8 +139,8 @@
                         </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin2">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                    <label for="cin2" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -166,7 +166,7 @@
                     <a href="{{ rulesLawsUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
-                    <span>
+                    <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('rulesByLaws')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
@@ -182,10 +182,10 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" (click)="onSubmit()">Submit</button>
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
                         <!-- [disabled]="isDisabled" --> 
                         <!-- use this for disable button -->
                     </div>

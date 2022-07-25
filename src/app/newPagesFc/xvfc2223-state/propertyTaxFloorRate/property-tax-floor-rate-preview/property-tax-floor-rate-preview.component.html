@@ -10,17 +10,17 @@
                 Submissions for 15th FC grant for FY 2022-23
             </span>
 
-            <!-- <b class="sub-h">{{ulbName}}, {{stateName}}</b> -->
+            <b class="sub-h"> {{stateName}}</b>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-6">
             <p class="form-status">
-                <!-- <b>Form Current Status:</b><span class="ml-2"><p style="margin-left:1%;">{{formStatus}}</p></span> -->
+                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
             </p>
         </div>
         <div class="col-sm-6 text-end">
-            <button id="donwloadButton" class="btn btn-primary">Download as
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as
                 PDF</button>
         </div>
     </div>
@@ -39,7 +39,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a  href="{{data?.dataPreview?.data?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.data?.stateNotification?.name ? data?.dataPreview?.data?.stateNotification?.name: 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.stateNotification?.name ? data?.dataPreview?.stateNotification?.name : 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -48,7 +48,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.data?.actPage ? data?.dataPreview?.data?.actPage : 'N/A'}}
+                            {{data?.dataPreview?.actPage ? data?.dataPreview?.actPage : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
@@ -57,7 +57,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a  href="{{data?.dataPreview?.data?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.data?.floorRate?.name ? data?.dataPreview?.data?.floorRate?.name: 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.floorRate?.name ? data?.dataPreview?.floorRate?.name: 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -66,7 +66,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a  href="{{data?.dataPreview?.data?.comManual?.url}}" target="_blank">{{data?.dataPreview?.data?.comManual?.name ? data?.dataPreview?.data?.comManual?.name: 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}"  href="{{data?.dataPreview?.comManual?.url}}" target="_blank">{{data?.dataPreview?.comManual?.name ? data?.dataPreview?.comManual?.name: 'N/A'}}</a>
                         </div>
                     </div>
                 </div>
@@ -74,3 +74,27 @@
         </div>
     </div>
 </div>
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

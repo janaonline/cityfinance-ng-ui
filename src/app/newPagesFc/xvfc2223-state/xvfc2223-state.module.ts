@@ -12,13 +12,17 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { ReviewApplicationComponent } from "./review-application/review-application.component";
 import { PropertyTaxFloorRateComponent } from "./property-tax-floor-rate/property-tax-floor-rate.component";
 import { PropertyTaxFloorRatePreviewComponent } from "./propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component";
+import { StateFinanceComponent } from './state-finance/state-finance.component';
+import { StateFinancePreviewComponent } from './state-finance-preview/state-finance-preview.component';
 
 @NgModule({
   declarations: [
     Xvfc2223StateComponent,
     ReviewApplicationComponent,
     PropertyTaxFloorRateComponent,
-    PropertyTaxFloorRatePreviewComponent
+    PropertyTaxFloorRatePreviewComponent,
+    StateFinanceComponent,
+    StateFinancePreviewComponent
   ],
   imports: [
     CommonModule,
