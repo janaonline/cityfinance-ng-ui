@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PtoComponent } from './pto/pto.component';
+import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 import {ReviewApplicationComponent} from './review-application/review-application.component'
+import { StateFinanceComponent } from './state-finance/state-finance.component';
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 
 const routes: Routes = [
@@ -10,8 +11,12 @@ const routes: Routes = [
     component: Xvfc2223StateComponent,
     children: [
       {
-        path: "pto",
-        component: PtoComponent,
+        path: "property-tax",
+        component: PropertyTaxFloorRateComponent,
+      },
+      {
+        path: "fc-formation",
+        component: StateFinanceComponent,
       },
       {
         path: "review",

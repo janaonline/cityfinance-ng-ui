@@ -31,10 +31,10 @@ export class NewCommonService {
       body
     );
   }
-  getPtoData(param) {
+  getPtData(param) {
     return this.http.get(`${environment.api.url}property-tax-floor-rate?state=${param.state}&design_year=${param.design_year}`);
   }
-  submitPtoForm(body){
+  submitPtForm(body){
     return this.http.post(
       `${environment.api.url}property-tax-floor-rate`,
       body

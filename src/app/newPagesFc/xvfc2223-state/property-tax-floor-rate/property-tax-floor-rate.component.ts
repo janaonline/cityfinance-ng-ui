@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
+import { PropertyTaxFloorRatePreviewComponent } from '../propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
+import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
+import { NavigationStart, Router } from '@angular/router';
 @Component({
-  selector: 'app-pto',
-  templateUrl: './pto.component.html',
-  styleUrls: ['./pto.component.scss']
+  selector: 'app-property-tax-floor-rate',
+  templateUrl: './property-tax-floor-rate.component.html',
+  styleUrls: ['./property-tax-floor-rate.component.scss']
 })
-export class PtoComponent implements OnInit {
-  ptoForm: FormGroup;
+export class PropertyTaxFloorRateComponent implements OnInit {
+  propertyForm: FormGroup;
   change = '';
   errorMessege: any = '';
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
   errorMessegeOther: any = '';
   minimumFloorFileName;
@@ -32,7 +37,15 @@ export class PtoComponent implements OnInit {
   subscription: any;
   apiData = {};
   body:any;
+  clickedSave;
+  routerNavigate = null;
+  submitted :boolean = false
   isDisabled:boolean = false;
+  dialogRef;
+  stateActFileUrl;
+  // isDisabled:boolean =false
+  previewFormData:any;
+  @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -40,12 +53,13 @@ export class PtoComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(private formBuilder: FormBuilder,private ptoService: NewCommonService,private dataEntryService: DataEntryService) { 
-    this.initializeForm();
+  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) { 
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
     this.yearValue = this.design_year["2022-23"];
+    this.navigationCheck();
+    this.initializeForm();
   }
   userData;
   design_year;
@@ -53,24 +67,26 @@ export class PtoComponent implements OnInit {
   yearValue;
 
   ngOnInit(): void {
+    this.clickedSave = false;
+    
     this.onload();
   }
   
   // convenience getter for easy access to form fields
-  get f() { return this.ptoForm.controls; }
+  get f() { return this.propertyForm.controls; }
 
   initializeForm(){
-    this.ptoForm = this.formBuilder.group({
+    this.propertyForm = this.formBuilder.group({
       actPage: ["", Validators.required],
-      state: '',
-      design_year: '',
+      state: this.stateId,
+      design_year: this.yearValue,
       comManual: this.formBuilder.group({
-        url: '',
-        name: '',
+        url: [''],
+        name: [''],
       }),
       floorRate: this.formBuilder.group({
-        url: '',
-        name: '',
+        url: [''],
+        name: [''],
       }),
       stateNotification: this.formBuilder.group({
         url: ["", Validators.required],
@@ -82,7 +98,7 @@ export class PtoComponent implements OnInit {
   onload(){
     this.getPtoData();
   }
-
+  
   getPtoData(){
     const params = {
       state: this.stateId,
@@ -90,50 +106,70 @@ export class PtoComponent implements OnInit {
     };
     console.log(params)
     //call api and subscribe and patch here
-    this.ptoService.getPtoData(params).subscribe((res:any)=>{
+    this.ptService.getPtData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
-      this.patchFunction(res);
+      this.previewFormData = res
+      this.patchFunction(this.previewFormData);
     })
   }
 
   patchFunction(data){
     console.log(data)
-    this.ptoForm.patchValue({
+    // this.showStateAct = true
+    this.stateActFileName = data?.data?.stateNotification?.name;
+    this.stateActFileUrl = data?.data?.stateNotification?.url;
+    this.stateActFileName ? this.showStateAct = true : false;
+
+    this.minimumFloorFileName = data?.data?.floorRate?.name;
+    this.minimumFloorFileName ? this.showMinimumFloor = true : false;
+
+    this.rulesLawsFileName = data?.data?.comManual?.name;
+    this.rulesLawsFileName ? this.showRulesLaws = true : false;
+    
+    this.propertyForm.patchValue({
       actPage: data?.data?.actPage,
-      // state: data?.data?.state,
-      // design_year: data?.data?.design_year,
-      comManual: this.formBuilder.group({
+      state: data?.data?.state,
+      design_year: data?.data?.design_year,
+      comManual: {
         url: data?.data?.comManual?.url,
         name: data?.data?.comManual?.name,
-      }),
-      floorRate: this.formBuilder.group({
+      },
+      floorRate: {
         url: data?.data?.floorRate?.url,
         name: data?.data?.floorRate?.name,
-      }),
-      stateNotification: this.formBuilder.group({
+      },
+      stateNotification: {
         url: data?.data?.stateNotification?.url,
         name: data?.data?.stateNotification?.name,
-      }),
+      },
         });
+
   }
 
   onSubmit(){
-    console.log('submitted',this.ptoForm.value)
-    if (this.ptoForm.invalid) {
-      return;
-    }
-    this.body = {
-      ...this.ptoForm.value,
+    console.log(this.propertyForm);
+    let body = {
+      ...this.propertyForm.value,
       isDraft: false,
       design_year: this.yearValue,
       state: this.stateId,
     };
-    this.ptoService.submitPtoForm(this.body).subscribe((res :any)=>{
+    console.log(body)
+    console.log('submitted',this.propertyForm.value)
+    this.submitted =true;
+    if (this.propertyForm.invalid) {
+      return;
+    }
+    
+    this.ptService.submitPtForm(body).subscribe((res :any)=>{
       console.log(res)
+      this.clickedSave = false;
       if (res && res.status) {
+        this.clickedSave = false;
         this.isDisabled = true
         console.log(res)
+        this.getPtoData()
         swal("Saved", "Data saved successfully", "success");
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -147,19 +183,22 @@ export class PtoComponent implements OnInit {
 
   onDraft(){
     console.log('saved as draft')
-    console.log('submitted',this.ptoForm.value)
+    console.log('submitted',this.propertyForm.value)
     this.body = {
-      ...this.ptoForm.value,
+      ...this.propertyForm.value,
       isDraft: true,
       design_year: this.yearValue,
       state: this.stateId,
     };
-    this.ptoService.submitPtoForm(this.body).subscribe((res :any)=>{
+    this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
         console.log(res)
+        this.clickedSave = false;
+        this.getPtoData()
         swal("Saved as Draft", res.message);
       } else {
+        this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
     },
@@ -168,7 +207,24 @@ export class PtoComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-
+  
+  preview(){
+    console.log('valuessssssssss',this.propertyForm.value)
+    let previewData = {
+      dataPreview : this.propertyForm.value,
+      preData: this.previewFormData
+    }
+    console.log(previewData)
+    const dialogRef = this.dialog.open(PropertyTaxFloorRatePreviewComponent, {
+      data: previewData,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+    });
+  }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
@@ -176,9 +232,9 @@ export class PtoComponent implements OnInit {
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessege = 'File size should be less than 5Mb.'
-        this.ptoForm.controls.floorRate.reset();
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessege = 'File size should be less than 20Mb.'
+        this.propertyForm.controls.floorRate.reset();
         const error = setTimeout(() => {
           this.showMinimumFloor = false
           this.errorMessege = ''
@@ -187,9 +243,9 @@ export class PtoComponent implements OnInit {
       }
     }
     if(progessType == 'stateActProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessegeStateAct = 'File size should be less than 5Mb.'
-        this.ptoForm.controls.stateNotification.reset();
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessegeStateAct = 'File size should be less than 20Mb.'
+        this.propertyForm.controls.stateNotification.reset();
         const error = setTimeout(() => {
           this.showStateAct = false
           this.errorMessegeStateAct = ''
@@ -198,9 +254,9 @@ export class PtoComponent implements OnInit {
       }
     }
     if(progessType == 'rulesByLawsProgress'){
-      if (event.target.files[0].size >= 5000000) {
-        this.errorMessegeOther = 'File size should be less than 5Mb.'
-        this.ptoForm.controls.comManual.reset();
+      if (event.target.files[0].size >= 20000000) {
+        this.errorMessegeOther = 'File size should be less than 20Mb.'
+        this.propertyForm.controls.comManual.reset();
         const error = setTimeout(() => {
           this.showRulesLaws = false
           this.errorMessegeOther = ''
@@ -318,7 +374,7 @@ export class PtoComponent implements OnInit {
             this[progressType] = 100;
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
-              this.ptoForm.get('floorRate').patchValue({
+              this.propertyForm.get('floorRate').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -328,7 +384,8 @@ export class PtoComponent implements OnInit {
             }
             if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
-              this.ptoForm.get('stateNotification').patchValue({
+              console.log(this.stateActUrl)
+              this.propertyForm.get('stateNotification').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -338,7 +395,7 @@ export class PtoComponent implements OnInit {
             }
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
-              this.ptoForm.get('comManual').patchValue({
+              this.propertyForm.get('comManual').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -353,5 +410,79 @@ export class PtoComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          let changeInForm;
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          
+            changeInForm = sessionStorage.getItem("changeInPFMS");
+          
+          // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
+          if (event.url === "/" || event.url === "/login") {
+           
+              sessionStorage.setItem("changeInPFMS", "false");
+            
+            return;
+          }
+          if (changeInForm === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    await this.dialogRef.close();
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    this.dialogRef.close();
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.onDraft();
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    await this.onDraft();
+    return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  async discard() {
+    
+      sessionStorage.setItem("changeInPFMS", "false");
+    
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
   }
 }

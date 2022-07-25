@@ -267,7 +267,10 @@ export class PfmsComponent implements OnInit {
       [formControlName]: value,
      })
   }
-
+  onChnageSave(){
+    sessionStorage.setItem("changeInGTC", "true")
+    sessionStorage.setItem("changeInPFMS", "true")
+  }
   onSubmit() {
     console.log(this.registerForm)
     console.log('this.dataValue', this.dataValue)
