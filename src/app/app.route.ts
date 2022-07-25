@@ -200,12 +200,6 @@ export const appRouter: Routes = [
   {
     path: "profile-update",
     component: ProfileUpdateComponent,
-    // children: [
-    //   {
-    //     path: ": id",
-    //     component: ProfileUpdateComponent,
-    //   },
-    // ],
   },
 
   { path: "**", redirectTo: "" },
