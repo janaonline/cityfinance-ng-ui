@@ -13,7 +13,7 @@ import { ReviewApplicationComponent } from "./review-application/review-applicat
 import { PropertyTaxFloorRateComponent } from "./property-tax-floor-rate/property-tax-floor-rate.component";
 import { PropertyTaxFloorRatePreviewComponent } from "./propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component";
 import { StateFinanceComponent } from './state-finance/state-finance.component';
-import { StateFinancePreviewComponent } from './state-finance-preview/state-finance-preview.component';
+import { StateFinancePreviewComponent } from './state-finance/state-finance-preview/state-finance-preview.component';
 
 @NgModule({
   declarations: [

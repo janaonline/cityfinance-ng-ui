@@ -1,0 +1,97 @@
+<div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <b class="sub-h"> {{stateName}}</b>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            <p>State Finance Commission Formation Notification</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle">
+                                (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
+                                <sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.constitutedSfc}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle">
+                                (B) State Act/GO/Notification<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.stateNotification.name ? data?.dataPreview?.stateNotification.name : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="data?.previewData?.constitutedSfc == 'No'">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle">
+                                <div class="message-blue">
+                                    <p class="message-content">Please note that this condition is mandatory to recieve grants for 2022-23</p>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

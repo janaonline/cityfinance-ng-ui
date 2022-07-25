@@ -1,1 +1,164 @@
-<p>state-finance works!</p>
+<div class="container">
+    <form [formGroup]="stateFinance">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    State Finance Commission Formation Notification
+                </h4>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row mt-3 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
+                        <sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': isDisabled }">
+                    <span class="fontStyle d-flex">
+                        <label
+                            class="customLabel form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'Yes' && isDisabled),'fadedClass': (f?.constitutedSfc?.value == 'Yes' && isDisabled) }">
+                            <input (change)="onChange($event.target.value)" type="radio" value="Yes" formControlName="constitutedSfc" [ngClass]="{ 'is-invalid': submitted && f.constitutedSfc.errors }">
+                            <span>Yes</span>
+                        </label>
+                        <label class="customLabel ms-3 form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'No' && isDisabled),'fadedClass': (f?.constitutedSfc?.value == 'No' && isDisabled) }">
+                            <input (change)="onChange($event.target.value)" type="radio" value="No" formControlName="constitutedSfc" [ngClass]="{ 'is-invalid': submitted && f.constitutedSfc.errors }">
+                            <span>No</span>
+                        </label>
+                        
+                    </span>
+                    <div *ngIf="submitted && f.constitutedSfc.errors" class="text-danger"><br>
+                        <div *ngIf="f.constitutedSfc.errors.required">Please select any option.</div>
+                    </div>
+                </div>
+            </div>
+             <div *ngIf="f?.constitutedSfc?.value == 'Yes'">
+                <div class="row mt-3 mb-3 question">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <span class="fontStyle">
+                            (B) State Act/GO/Notification<sup class="text-danger">*</sup>
+                        </span>
+                        
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                        <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                                PDF
+                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                    style="margin-left: 4px;">
+                            </a>
+                            <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                        </label>
+                        <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
+                            (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
+                            <div>
+                                <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                    <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                                </div>
+                            </div>            
+                    </div>
+                </div>
+                <div class="row" *ngIf="showStateAct">
+                    <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                        {{stateActFileName}}
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="stateActProgress">
+                        <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
+                            attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                            [ngStyle]="{ width: stateActProgress + '%' }">
+                            {{ stateActProgress }}%
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                        <a href="{{ stateActFileUrl }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        </a>
+                        <span>
+                            <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
+                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            </a>
+                        </span>
+                    </div>
+                </div>
+             </div>
+            
+            <div class="row mb-4 question" *ngIf="f?.constitutedSfc?.value == 'No'">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <span class="fontStyle">
+                        <div class="message-blue">
+                            <p class="message-content">Please note that this condition is mandatory to recieve grants for 2022-23</p>
+                        </div>
+                    </span>
+                    <!-- <span>
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span> -->
+                </div>
+                <!-- <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input  type="number" class="form-control customWidth" formControlName="message" readonly >
+                    </span>
+                    <div *ngIf="submitted && f.actPage.errors" class="text-danger">
+                        <div *ngIf="f.actPage.errors.required">messege error here.</div>
+                    </div>
+                    
+                </div> -->
+            </div>
+        </div>
+        <div class="row mb-3 mt-4">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back">
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
+                        <!-- [disabled]="isDisabled" --> 
+                        <!-- use this for disable button -->
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" >Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>

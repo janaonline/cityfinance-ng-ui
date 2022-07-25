@@ -20,8 +20,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -40,7 +40,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{stateActFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="stateActProgress">
                     <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
                         attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: stateActProgress + '%' }">
@@ -94,8 +94,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin1" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -110,7 +110,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{minimumFloorFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="minimumFloorProgress">
                     <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar"
                         attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: minimumFloorProgress + '%' }">
@@ -140,8 +140,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin2" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -155,7 +155,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{rulesLawsFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="rulesByLawsProgress">
                     <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar"
                         attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: rulesByLawsProgress + '%' }">
