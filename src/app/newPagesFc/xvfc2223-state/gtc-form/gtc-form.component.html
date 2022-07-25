@@ -19,7 +19,46 @@
                             <button type="button" class="btn btn-primary">Select</button>
                         </div>
                     </div>
-
+                    <div class="card mt-2" *ngFor="let quesItem of itemLabel?.quesArray">
+                        <div class="card-body" [matTooltip]="quesItem?.disableMsg" matTooltipClass="tooltip-red" [matTooltipDisabled]="quesItem?.isDisableQues == false">
+                            <div class="ins-h">
+                                {{quesItem?.instlText}}
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-7 q-h">
+                                    {{quesItem?.quesText}}
+                                </div>
+                                <div class="col-sm-5">
+                                    <!-- <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues">Upload PDF*</button> -->
+                                    <button [disabled]="quesItem?.isDisableQues" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
+                                      <sup><span class="wh-s">*</span></sup>
+                                       <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+                                   </button>
+                                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    file name
+                                </div>
+                                <div class="col-sm-2 mt-2">
+                                    <a href="#" target="_blank">
+                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                    </a>
+                                    <span style="cursor:not-allowed;" [ngClass]="{'dis-card': quesItem?.isDisableQues}">
+                                  <a  style="margin-left: 4px;">
+                                      <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                  </a>
+                              </span>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-12 text-end">
+                                    <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </accordion-group>
                 <!-- <accordion-group heading="Another group">
                     <p>Some content</p>
@@ -31,6 +70,14 @@
                     <p>Some content</p>
                 </accordion-group> -->
             </accordion>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" routerLink="#"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next ms-3" routerLink="#">Next Form -></button>
         </div>
     </div>
 </div>
