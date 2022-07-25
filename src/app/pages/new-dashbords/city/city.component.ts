@@ -36,7 +36,7 @@ export class CityComponent implements OnInit {
   cityId;
   stateCode;
   frontPanelData = data;
-  revenueData = [Revenue, Expense, Tax, Liability, Asset, Debt];
+  revenueData =  [TaxRevenue, OwnRevenue, Grant ,Revenue, Expense, BalanceSheetSize];
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
@@ -179,18 +179,10 @@ export class CityComponent implements OnInit {
       .dashboardInformation(false, cityId, "ulb", this.currentYear)
       .subscribe(
         (res: any) => {
-          let obj = { Revenue, Expense, Tax, Liability, Asset, Debt };
+          let obj = { TaxRevenue, OwnRevenue, Grant, Expense, BalanceSheetSize, Revenue };
           for (const key in obj) {
             const element = obj[key];
-            if (key == "Debt") {
-              element.number =
-                "INR " +
-                Math.round(
-                  res.data.find((value) => value._id == "Revenue")?.totalGrant /
-                    10000000
-                ) +
-                "Cr";
-            } else
+            
               element.number =
                 "INR " +
                 (res.data.length > 0
@@ -202,14 +194,15 @@ export class CityComponent implements OnInit {
                 " Cr";
           }
           this.revenueData = [
+            obj.TaxRevenue,
+            obj.OwnRevenue,
+            obj.Grant,
             obj.Revenue,
             obj.Expense,
-            obj.Asset,
-            obj.Tax,
-            obj.Liability,
-            obj.Debt,
+            obj.BalanceSheetSize,
+         
           ];
-          console.log("revenue data", this.revenueData, obj.Liability);
+          
         },
         (error) => {
           console.error(error);
@@ -266,42 +259,47 @@ const data = {
   footer: `Data shown is from audited/provisional financial statements for finacialYear and data was last updated on date`,
 };
 
+const TaxRevenue = {
+  type: 2,
+  subTitle: "Total Tax Revenue",
+  svg: `../../../../assets/file.svg`,
+  number: "0 Cr",
+};
+
+const OwnRevenue = {
+  type: 2,
+  subTitle: "Total Own Revenue",
+  svg: `../../../../assets/file.svg`,
+  number: "0 Cr",
+};
+
+const Grant = {
+  type: 2,
+  subTitle: "Total Grant",
+  svg: `../../../../assets/coinCuren.svg`,
+  number: "0 Cr",
+};
+
 const Revenue = {
   type: 2,
   subTitle: "Total Revenue",
-  svg: `../../../../assets/file.svg`,
-  number: "567 Cr",
+  svg: `../../../../assets/coinCuren.svg`,
+  number: "0 Cr",
 };
+
 const Expense = {
   type: 2,
   subTitle: "Total Expenditure",
   svg: `../../../../assets/coinCuren.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
-const Asset = {
+const BalanceSheetSize = {
   type: 2,
-  subTitle: "Total Assets",
+  subTitle: "Total Balance Sheet Size",
   svg: `../../../../assets/Group 15967.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
-const Tax = {
-  type: 2,
-  subTitle: "Total Tax Revenue",
-  svg: `../../../../assets/chart.svg`,
-  number: "567 Cr",
-};
-const Liability = {
-  type: 2,
-  subTitle: "Total Liabilities",
-  svg: `../../../../assets/stats.svg`,
-  number: "567 Cr",
-};
-const Debt = {
-  type: 2,
-  subTitle: "Total Grant",
-  svg: `../../../../assets/folder.svg`,
-  number: "567 Cr",
-};
+
 function createDesc(type, population = "4M+") {
   return `This urban local body has been classified as a ${type} in the ${population} population category`;
 }

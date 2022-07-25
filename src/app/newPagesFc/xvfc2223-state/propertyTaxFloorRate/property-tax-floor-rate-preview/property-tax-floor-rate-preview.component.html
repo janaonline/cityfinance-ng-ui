@@ -10,13 +10,13 @@
                 Submissions for 15th FC grant for FY 2022-23
             </span>
 
-            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+            <b class="sub-h"> {{stateName}}</b>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-6">
             <p class="form-status">
-                <b>Form Current Status:</b><span class="ml-2"><p style="margin-left:1%;">{{formStatus}}</p></span>
+                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
             </p>
         </div>
         <div class="col-sm-6 text-end">
@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 form-h text-center">
-            <p>Linking of PFMS Account</p>
+            <p>Property Tax Floor Rate Notification</p>
         </div>
     </div>
     <div class="row">
@@ -35,48 +35,38 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(A) Do you wish to submit Details for PFMS Account ?
+                            <span>(A) State Act/GO/Notification<sup class="text-danger">*</sup>
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.linkPFMS ? data?.dataPreview?.linkPFMS : 'N/A'}}
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.stateNotification?.name ? data?.dataPreview?.stateNotification?.name : 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span class="fontStyle">(B) Has the ULB linked its bank account with PFMS?
+                            <span class="fontStyle">(B) Act Page Number<sup class="text-danger">*</sup>
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.isUlbLinkedWithPFMS ? data?.dataPreview?.isUlbLinkedWithPFMS : 'N/A'}}
+                            {{data?.dataPreview?.actPage ? data?.dataPreview?.actPage : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(C) PFMS Account Number
+                            <span>(C) Minimum Floor rate details/Value card
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.PFMSAccountNumber ? data?.dataPreview?.PFMSAccountNumber : 'N/A'}}
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.floorRate?.name ? data?.dataPreview?.floorRate?.name: 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(D) Upload proof of account linkage with PFMS such as Bank account details, Bank
-                                statement copy, etc
+                            <span>(D) Rules, by laws issued for operationalization of the notification
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.cert?.url}}" target="_blank">{{data?.dataPreview?.cert?.name ? data?.dataPreview?.cert?.name: 'N/A'}}</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(E) Upload any other transaction doc from PFMS
-                            </span>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.otherDocs?.url}}" target="_blank">{{data?.dataPreview?.otherDocs?.name ? data?.dataPreview?.otherDocs?.name : 'N/A'}}</a>
+                            <a [ngClass]="{'hideUnderline': hideUnderline}"  href="{{data?.dataPreview?.comManual?.url}}" target="_blank">{{data?.dataPreview?.comManual?.name ? data?.dataPreview?.comManual?.name: 'N/A'}}</a>
                         </div>
                     </div>
                 </div>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PtoComponent } from './pto.component';
+import { StateFinanceComponent } from './state-finance.component';
 
-describe('PtoComponent', () => {
-  let component: PtoComponent;
-  let fixture: ComponentFixture<PtoComponent>;
+describe('StateFinanceComponent', () => {
+  let component: StateFinanceComponent;
+  let fixture: ComponentFixture<StateFinanceComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PtoComponent ]
+      declarations: [ StateFinanceComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PtoComponent);
+    fixture = TestBed.createComponent(StateFinanceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

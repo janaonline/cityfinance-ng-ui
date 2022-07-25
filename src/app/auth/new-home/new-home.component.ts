@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
-
+import {ResourcesDashboardService} from "../../pages/resources-dashboard/resources-dashboard.service"
 
 @Component({
   selector: "app-new-home",
@@ -15,15 +15,35 @@ import { CommonService } from "src/app/shared/services/common.service";
 export class NewHomeComponent implements OnInit {
   constructor(
     protected _commonService: CommonService,
-    private router: Router
+    private router: Router,
+    public resourceDashboard : ResourcesDashboardService
   ) {
-    this._commonService.getPublicFileList().subscribe((res)=>{
-      this.whatNewData = res
+this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
+  let response =  res?.data.map((elem) => {
+    elem.createdAt = elem.createdAt.split("T")[0]
+    return elem
     })
+    console.log("response", response)
+    this.whatNewData = response
+}, (err: any) => {
+  this.whatNewData = []
+})
+  
   }
   globalFormControl = new FormControl();
   globalOptions = [];
   filteredOptions: Observable<any[]>;
+  cardData = []
+  pdfInput: any = {
+    toolKitVisible: "",
+    type: "PDF",
+    header: "reports_%26_publications",
+    subHeader: "",
+    globalName: "",
+    state: "",
+    ulb: "",
+    year: "",
+  }
 
   myInterval = 2000;
   activeSlideIndex = false;
