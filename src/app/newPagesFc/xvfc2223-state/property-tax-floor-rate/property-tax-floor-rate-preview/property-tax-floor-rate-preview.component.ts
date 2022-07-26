@@ -110,9 +110,9 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     }else {
       this.formStatus = "Not Started"
     }
-    this.data?.preData?.data?.stateNotification?.url == '' ? this.hideUnderline = true : false
-    this.data?.preData?.data?.floorRate?.url == '' ? this.hideUnderline = true : false
-    this.data?.preData?.data?.comManual?.url == '' ? this.hideUnderline = true : false
+    this.data?.dataPreview?.stateNotification?.url == undefined ? this.hideUnderline = true : false
+    this.data?.dataPreview?.floorRate?.url == undefined ? this.hideUnderline = true : false
+    this.data?.dataPreview?.comManual?.url == undefined ? this.hideUnderline = true : false
     
     this.stateName = userData["stateName"];
     

@@ -41,7 +41,8 @@
                             </span>
                         </div>
                         <div class="col-3 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.constitutedSfc ? data?.dataPreview?.constitutedSfc : 'N/A'}}
+                            {{data?.dataPreview?.constitutedSfc}}
+                            <span *ngIf="!data?.dataPreview?.constitutedSfc?.name">N/A</span>
                         </div>
                     </div>
                     <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'Yes'">
@@ -51,7 +52,8 @@
                             </span>
                         </div>
                         <div class="col-3 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.stateNotification.name ? data?.dataPreview?.stateNotification.name : 'N/A'}}
+                            {{data?.dataPreview?.stateNotification.name}}
+                            <span *ngIf="!data?.dataPreview?.stateNotification.name">N/A</span>
                         </div>
                     </div>
                     <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'No'">
