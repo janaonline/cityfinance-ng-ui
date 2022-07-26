@@ -189,7 +189,7 @@ export class OverviewComponent implements OnInit {
   onHover(num, title, key, item) {
     console.log("index-num", num, title, item);
     this.message = item?.message;
-    if (item?.key == "GTC") {
+    if (item?.key == "AA") {
       //  this.p = (num+1)*135;
       this.val = 0;
       this.hover = true;
@@ -209,7 +209,7 @@ export class OverviewComponent implements OnInit {
       this.checkPos = true;
     }
 
-    if (item?.key == "AA") {
+    if (item?.key == "SLB") {
       //  this.p = (num+3)*112;
       this.val = 2;
       this.hover = true;
@@ -220,7 +220,7 @@ export class OverviewComponent implements OnInit {
       //  and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
-    if (item?.key == "PFMS") {
+    if (item?.key == "ODF") {
       //   this.p = (num+1)*80;
       this.val = 3;
       this.hover = true;
@@ -229,7 +229,7 @@ export class OverviewComponent implements OnInit {
       // this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
       this.checkPos = true;
     }
-    if (item?.key == "PTO") {
+    if (item?.key == "GFC") {
       //   this.p = (num+1)*80;
       this.val = 4;
       this.hover = true;
@@ -238,7 +238,7 @@ export class OverviewComponent implements OnInit {
       //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
-    if (item?.key == "SLB") {
+    if (item?.key == "PFMS") {
       //  this.p = (num+3)*125;
       this.val = 5;
       this.hover = true;
@@ -249,7 +249,7 @@ export class OverviewComponent implements OnInit {
       //   NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
       this.checkPos = true;
     }
-    if (item?.key == "ODF") {
+    if (item?.key == "") {
       // this.p = (num+3)*125;
       this.val = 6;
       this.hover = true;
@@ -258,7 +258,7 @@ export class OverviewComponent implements OnInit {
       //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
-    if (item?.key == "GFC") {
+    if (item?.key == "") {
       // this.p = (num+3)*125;
       this.val = 7;
       this.hover = true;
