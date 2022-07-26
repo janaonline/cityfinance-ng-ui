@@ -169,7 +169,7 @@ export class OverviewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
-        this.onHover(0, "", "AA", this.cardsOverview[0]);
+        this.onHover(0, "", "AnnualAccounts", this.cardsOverview[0]);
         // this.leftMenu = res;
       });
   }
@@ -189,7 +189,7 @@ export class OverviewComponent implements OnInit {
   onHover(num, title, key, item) {
     console.log("index-num", num, title, item);
     this.message = item?.message;
-    if (item?.key == "AA") {
+    if (item?.key == "AnnualAccounts") {
       //  this.p = (num+1)*135;
       this.val = 0;
       this.hover = true;
@@ -249,7 +249,7 @@ export class OverviewComponent implements OnInit {
       //   NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
       this.checkPos = true;
     }
-    if (item?.key == "") {
+    if (item?.key == "Ab") {
       // this.p = (num+3)*125;
       this.val = 6;
       this.hover = true;
@@ -258,7 +258,7 @@ export class OverviewComponent implements OnInit {
       //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
-    if (item?.key == "") {
+    if (item?.key == "cd") {
       // this.p = (num+3)*125;
       this.val = 7;
       this.hover = true;
