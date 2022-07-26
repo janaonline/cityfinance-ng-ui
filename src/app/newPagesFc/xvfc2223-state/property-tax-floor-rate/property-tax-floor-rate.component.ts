@@ -5,9 +5,9 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { PropertyTaxFloorRatePreviewComponent } from '../propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
+import { PropertyTaxFloorRatePreviewComponent } from './property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 @Component({
   selector: 'app-property-tax-floor-rate',
   templateUrl: './property-tax-floor-rate.component.html',
