@@ -12,16 +12,16 @@
         </div>
         <div class="card">
              <div class="row mt-3 mb-3 question">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-7">
                     <span class="fontStyle">
                         (A) State Act/GO/Notification<sup class="text-danger">*</sup>
                     </span>
                     
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-5 image-upload">
                     <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -37,17 +37,17 @@
                 </div>
             </div>
             <div class="row" *ngIf="showStateAct">
-                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                <div class="col-7 filePadding mb-3">
                     {{stateActFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-3 progressBar" *ngIf="stateActProgress">
                     <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
                         attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: stateActProgress + '%' }">
                         {{ stateActProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                <div class="col-2 filePadding">
                     <a href="{{ stateActFileUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
@@ -60,7 +60,7 @@
             </div>
             
             <div class="row mb-4 question">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-7">
                     <span class="fontStyle">
                         (B) Act Page Number<sup class="text-danger">*</sup>
                     </span>
@@ -70,9 +70,9 @@
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-5">
                     <span class="fontStyle">
-                        <input  type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" min="1"
+                        <input  type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" placeholder="Enter act page number " min="1"
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     </span>
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="row mt-4 mb-3 question">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-7">
                     <span class="fontStyle">
                         (C) Minimum Floor rate details/Value card
                     </span>
@@ -92,10 +92,10 @@
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-5 image-upload">
                     <label for="cin1" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -107,17 +107,17 @@
                 </div>
             </div>
             <div class="row" *ngIf="showMinimumFloor">
-                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                <div class="col-7 filePadding mb-3">
                     {{minimumFloorFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-3 progressBar" *ngIf="minimumFloorProgress">
                     <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar"
                         attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: minimumFloorProgress + '%' }">
                         {{ minimumFloorProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                <div class="col-2 filePadding">
                     <a href="{{ minimumFloorUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
@@ -129,7 +129,7 @@
                 </div>
             </div>
             <div class="row mt-3 mb-3 question">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-7">
                     <span class="fontStyle">
                         (D) Rules, by laws issued for operationalization of the notification
                     </span>
@@ -138,10 +138,10 @@
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-5 image-upload">
                     <label for="cin2" [ngClass]="{'customDisable': isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -152,17 +152,17 @@
                 </div>
             </div>
             <div class="row" *ngIf="showRulesLaws">
-                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                <div class="col-7 filePadding mb-3">
                     {{rulesLawsFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-3 progressBar" *ngIf="rulesByLawsProgress">
                     <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar"
                         attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: rulesByLawsProgress + '%' }">
                         {{ rulesByLawsProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                <div class="col-2 filePadding">
                     <a href="{{ rulesLawsUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
@@ -185,7 +185,7 @@
                         <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
                         <!-- [disabled]="isDisabled" --> 
                         <!-- use this for disable button -->
                     </div>

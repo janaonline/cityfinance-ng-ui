@@ -270,6 +270,13 @@
     pointer-events: none;
     background-color: #c9c9c9;
     color:black;
+    opacity: 0.5;
+}
+.fadedClass{
+    pointer-events: none;
+    background-color: #059b9a;
+    color: white;
+    opacity: 0.5;
 }
 .customDisable{
     cursor: not-allowed;

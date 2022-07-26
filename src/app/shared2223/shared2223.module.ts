@@ -19,6 +19,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { TableComponent } from './components/table/table.component';
+import { CommonActionComponent } from './components/common-action/common-action.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -31,6 +32,7 @@ import { TableComponent } from './components/table/table.component';
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
     TableComponent,
+    CommonActionComponent,
   ],
   imports: [
     CommonModule,

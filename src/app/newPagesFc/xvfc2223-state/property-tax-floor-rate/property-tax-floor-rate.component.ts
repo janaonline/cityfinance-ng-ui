@@ -5,9 +5,9 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { PropertyTaxFloorRatePreviewComponent } from '../propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
+import { PropertyTaxFloorRatePreviewComponent } from './property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 @Component({
   selector: 'app-property-tax-floor-rate',
   templateUrl: './property-tax-floor-rate.component.html',
@@ -32,6 +32,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   showStateAct:boolean = false;
   rulesByLawsProgress;
   rulesLawsFileName:any;
+  activeClass: boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
@@ -146,8 +147,55 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         });
 
   }
-
-  onSubmit(){
+  alertFormFinalSubmit() {
+    this.submitted = true;
+    this.activeClass = true;
+    if (this.propertyForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to Mohua for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.onDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
+  }
+  onSubmit(type){
     console.log(this.propertyForm);
     let body = {
       ...this.propertyForm.value,
@@ -158,9 +206,6 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     console.log(body)
     console.log('submitted',this.propertyForm.value)
     this.submitted =true;
-    if (this.propertyForm.invalid) {
-      return;
-    }
     
     this.ptService.submitPtForm(body).subscribe((res :any)=>{
       console.log(res)
@@ -193,6 +238,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
+        sessionStorage.removeItem("changeInPFMS");
         console.log(res)
         this.clickedSave = false;
         this.getPtoData()
@@ -286,12 +332,30 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     if(type =='minimumFloor') {
       this.showMinimumFloor = false;
       this.minimumFloorFileName = ''
+      this.propertyForm.patchValue({
+        floorRate:{
+          url: '',
+          name: ''
+       }
+      });
     } else if (type =='rulesByLaws'){
       this.showRulesLaws = false;
       this.rulesLawsFileName = ''
+      this.propertyForm.patchValue({
+        comManual:{
+          url: '',
+          name: ''
+       }
+      });
     }else{
       this.showStateAct = false;
       this.stateActFileName = ''
+      this.propertyForm.patchValue({
+        stateNotification:{
+          url: '',
+          name: ''
+       }
+      });
     }
     sessionStorage.setItem("changeInPFMS", "true");
   }
