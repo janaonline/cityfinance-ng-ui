@@ -12,13 +12,13 @@
         </div>
         <div class="card">
             <div class="row mt-3 mb-3 question">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-9">
                     <span class="fontStyle">
                         (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
                         <sup class="text-danger">*</sup>
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': isDisabled }">
+                <div class="col-3" [ngClass]="{'disableInputs': isDisabled }">
                     <span class="fontStyle d-flex">
                         <label
                             class="customLabel form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'Yes'),'fadedClass': (f?.constitutedSfc?.value == 'Yes' && isDisabled) }">
@@ -38,13 +38,13 @@
             </div>
              <div *ngIf="f?.constitutedSfc?.value == 'Yes'">
                 <div class="row mt-3 mb-3 question">
-                    <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="col-9">
                         <span class="fontStyle">
                             (B) State Act/GO/Notification<sup class="text-danger">*</sup>
                         </span>
                         
                     </div>
-                    <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <div class="col-3 image-upload">
                         <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
                             <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
                                 PDF
@@ -63,17 +63,17 @@
                     </div>
                 </div>
                 <div class="row" *ngIf="showStateAct">
-                    <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    <div class="col-9 filePadding mb-3">
                         {{stateActFileName}}
                     </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="stateActProgress">
+                    <div class="col-2 progressBar" *ngIf="stateActProgress">
                         <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
                             attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
                             [ngStyle]="{ width: stateActProgress + '%' }">
                             {{ stateActProgress }}%
                         </div>
                     </div>
-                    <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <div class="col-1 filePadding">
                         <a href="{{ stateActFileUrl }}" target="_blank">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
@@ -87,7 +87,7 @@
              </div>
             
             <div class="row mb-4 question" *ngIf="f?.constitutedSfc?.value == 'No'">
-                <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="col-12">
                     <span class="fontStyle">
                         <div class="message-blue">
                             <p class="message-content">Please note that this condition is mandatory to recieve grants for 2022-23</p>
@@ -119,7 +119,7 @@
                         <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
                         <!-- [disabled]="isDisabled" --> 
                         <!-- use this for disable button -->
                     </div>

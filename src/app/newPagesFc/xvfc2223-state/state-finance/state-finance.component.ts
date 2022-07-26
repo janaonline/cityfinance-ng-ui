@@ -8,6 +8,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { StateFinancePreviewComponent } from './state-finance-preview/state-finance-preview.component';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
+import { I } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-state-finance',
   templateUrl: './state-finance.component.html',
@@ -36,6 +37,7 @@ export class StateFinanceComponent implements OnInit {
   routerNavigate = null;
   submitted :boolean = false
   isDisabled:boolean = false;
+  activeClass:boolean = false;
   dialogRef;
   stateActFileUrl;
   constitutedValue;
@@ -85,8 +87,23 @@ export class StateFinanceComponent implements OnInit {
   }
   onChange(event){
    console.log(event)
-    event == 'No' ? this.removeValidatorInBulk(this.stateFinance.get('stateNotification')) : this.setValidators('stateNotification');  
-    event == 'No' ? this.stateFinance.controls['stateNotification'].reset() : ''
+   this.setValidators('stateNotification')
+   if (event == 'No'){
+    this.stateActFileName = '';
+    this.showStateAct = false
+    this.removeValidatorInBulk(this.stateFinance.get('stateNotification'));
+    this.stateFinance.patchValue({
+      stateNotification:{
+        url: '',
+        name: ''
+     }
+    });
+   }else if(event == 'Yes'){
+    this.setValidators('stateNotification')
+    this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required)
+      this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity()
+   }
+    sessionStorage.setItem('changeInPFMS', 'true');
   }
   removeValidatorInBulk(form:any){
     console.log('form contro',form);
@@ -135,7 +152,56 @@ export class StateFinanceComponent implements OnInit {
 
   }
 
-  onSubmit(){
+  alertFormFinalSubmit() {
+    this.submitted = true;
+    this.activeClass = true;
+    if (this.stateFinance.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to Mohua for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.onDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
+  }
+
+  onSubmit(type){
     console.log(this.stateFinance);
     let body = {
       ...this.stateFinance.value,
@@ -145,15 +211,12 @@ export class StateFinanceComponent implements OnInit {
     };
     console.log(body)
     console.log('submitted',this.stateFinance.value)
-    this.submitted =true;
-    if (this.stateFinance.invalid) {
-      return;
-    }
-    
+    this.submitted =true; 
     this.ptService.submitStateFinance(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
       if (res && res.status) {
+        sessionStorage.setItem("changeInPFMS", "false");
         this.clickedSave = false;
         this.isDisabled = true
         console.log(res)
@@ -185,7 +248,8 @@ export class StateFinanceComponent implements OnInit {
     console.log(this.body)
     this.ptService.submitStateFinance(this.body).subscribe((res :any)=>{
       console.log(res)
-      if (res && res.message) {
+      if (res && res.status) {
+        sessionStorage.removeItem("changeInPFMS");
         console.log(res)
         this.clickedSave = false;
         this.getStateFinanceData()
@@ -249,11 +313,18 @@ export class StateFinanceComponent implements OnInit {
     
   }
   clearFile(type: string = '') {
-    
+    if(type == 'stateAct'){
       this.showStateAct = false;
       this.stateActFileName = ''
-    
+      this.stateFinance.patchValue({
+        stateNotification:{
+          url: '',
+          name: ''
+       }
+      });
+    }
     sessionStorage.setItem("changeInPFMS", "true");
+      
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];

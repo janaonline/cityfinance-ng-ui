@@ -19,8 +19,8 @@
                 <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
             </p>
         </div>
-        <div class="col-sm-6 text-end">
-            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as
+        <div class="col-sm-6 text-end h-cls">
+            <button id="donwloadButton" class="btn btn-primary h-cls" (click)="clickedDownloadAsPDF(templateSave)">Download as
                 PDF</button>
         </div>
     </div>
@@ -34,35 +34,33 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                        <div class="col-9 questionClass qus-h">
                             <span class="fontStyle">
                                 (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
                                 <sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-3 questionClass opacityClass ans-h">
                             {{data?.dataPreview?.constitutedSfc ? data?.dataPreview?.constitutedSfc : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                    <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'Yes'">
+                        <div class="col-9 questionClass qus-h">
                             <span class="fontStyle">
                                 (B) State Act/GO/Notification<sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-3 questionClass opacityClass ans-h">
                             {{data?.dataPreview?.stateNotification.name ? data?.dataPreview?.stateNotification.name : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row" *ngIf="data?.previewData?.constitutedSfc == 'No'">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                    <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'No'">
+                        <div class="col-12 questionClass qus-h">
                             <span class="fontStyle">
                                 <div class="message-blue">
                                     <p class="message-content">Please note that this condition is mandatory to recieve grants for 2022-23</p>
                                 </div>
                             </span>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
                         </div>
                     </div>
                     

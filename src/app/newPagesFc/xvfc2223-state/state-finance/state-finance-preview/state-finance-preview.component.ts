@@ -186,7 +186,9 @@ export class StateFinancePreviewComponent implements OnInit {
 
   async submit() {
     console.log("property save", this.data?.dataPreview);
-    let body = { ...this.data?.dataPreview };
+    let body = { ...this.data?.dataPreview,
+    isDraft: true };
+    console.log(body)
     return new Promise((resolve, rej) => {
       this.commonService.submitStateFinance(body).subscribe(
         (res) => {
