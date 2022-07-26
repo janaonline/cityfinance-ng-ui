@@ -54,7 +54,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) { 
+  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
@@ -72,7 +72,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     sessionStorage.setItem("changeInPropertyTax", "false");
     this.onload();
   }
-  
+
   // convenience getter for easy access to form fields
   get f() { return this.propertyForm.controls; }
 
@@ -99,7 +99,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   onload(){
     this.getPtoData();
   }
-  
+
   getPtoData(){
     const params = {
       state: this.stateId,
@@ -127,7 +127,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
     this.rulesLawsFileName = data?.data?.comManual?.name;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
-    
+
     this.propertyForm.patchValue({
       actPage: data?.data?.actPage,
       state: data?.data?.state,
@@ -206,7 +206,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     console.log(body)
     console.log('submitted',this.propertyForm.value)
     this.submitted =true;
-    
+
     this.ptService.submitPtForm(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
@@ -254,7 +254,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-  
+
   preview(){
     console.log('valuessssssssss',this.propertyForm.value)
     let previewData = {
@@ -327,7 +327,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-    
+
   }
   clearFile(type: string = '') {
     if(type =='minimumFloor') {
