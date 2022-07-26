@@ -9,8 +9,32 @@
 ::ng-deep .card-header {
     padding: 1rem 1rem;
     background-color: #FFFFFF;
+    border-bottom: none;
 }
 
 .al-c {
     align-items: center;
+}
+
+.ins-h {
+    color: #114551;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.q-h {
+    font-size: 16px;
+}
+
+::ng-deep .card-block {
+    padding-top: 0;
+}
+
+.dis-card {
+    //  pointer-events: none;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
 }
