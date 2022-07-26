@@ -123,7 +123,7 @@ export class StateFinancePreviewComponent implements OnInit {
     this.download = true;
     let changeHappen;
     
-      changeHappen = sessionStorage.getItem("changeInPFMS");
+      changeHappen = sessionStorage.getItem("changeInStateFinance");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -193,7 +193,7 @@ export class StateFinancePreviewComponent implements OnInit {
       this.commonService.submitStateFinance(body).subscribe(
         (res) => {
          
-            sessionStorage.setItem("changeInPFMS", "false");
+            sessionStorage.setItem("changeInStateFinance", "false");
           
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
@@ -201,7 +201,7 @@ export class StateFinancePreviewComponent implements OnInit {
         },
         (err) => {
          
-          sessionStorage.setItem("changeInPFMS", "false");
+          sessionStorage.setItem("changeInStateFinance", "false");
           
 
           swal("Error", "Failed To Save", "error");

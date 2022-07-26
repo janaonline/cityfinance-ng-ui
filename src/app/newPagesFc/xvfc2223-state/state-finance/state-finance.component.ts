@@ -65,7 +65,8 @@ export class StateFinanceComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.clickedSave = false;   
+    this.clickedSave = false;
+    sessionStorage.setItem('changeInStateFinance', 'false');   
     this.onload();
   }
   get f() { return this.stateFinance.controls; }
@@ -87,7 +88,6 @@ export class StateFinanceComponent implements OnInit {
   }
   onChange(event){
    console.log(event)
-   this.setValidators('stateNotification')
    if (event == 'No'){
     this.stateActFileName = '';
     this.showStateAct = false
@@ -99,11 +99,10 @@ export class StateFinanceComponent implements OnInit {
      }
     });
    }else if(event == 'Yes'){
-    this.setValidators('stateNotification')
     this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required)
       this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity()
    }
-    sessionStorage.setItem('changeInPFMS', 'true');
+    sessionStorage.setItem('changeInStateFinance', 'true');
   }
   removeValidatorInBulk(form:any){
     console.log('form contro',form);
@@ -216,7 +215,7 @@ export class StateFinanceComponent implements OnInit {
       console.log(res)
       this.clickedSave = false;
       if (res && res.status) {
-        sessionStorage.setItem("changeInPFMS", "false");
+        sessionStorage.setItem("changeInStateFinance", "false");
         this.clickedSave = false;
         this.isDisabled = true
         console.log(res)
@@ -249,7 +248,7 @@ export class StateFinanceComponent implements OnInit {
     this.ptService.submitStateFinance(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.status) {
-        sessionStorage.removeItem("changeInPFMS");
+        sessionStorage.removeItem("changeInStateFinance");
         console.log(res)
         this.clickedSave = false;
         this.getStateFinanceData()
@@ -318,12 +317,15 @@ export class StateFinanceComponent implements OnInit {
       this.stateActFileName = ''
       this.stateFinance.patchValue({
         stateNotification:{
-          url: '',
+          url:'',
           name: ''
        }
       });
+      this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
+      this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
+      console.log(this.stateFinance.controls)
     }
-    sessionStorage.setItem("changeInPFMS", "true");
+    sessionStorage.setItem("changeInStateFinance", "true");
       
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
@@ -411,7 +413,7 @@ export class StateFinanceComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
-              sessionStorage.setItem("changeInPFMS", "true");
+              sessionStorage.setItem("changeInStateFinance", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -431,12 +433,12 @@ export class StateFinanceComponent implements OnInit {
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           
-            changeInForm = sessionStorage.getItem("changeInPFMS");
+            changeInForm = sessionStorage.getItem("changeInStateFinance");
           
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
            
-              sessionStorage.setItem("changeInPFMS", "false");
+              sessionStorage.setItem("changeInStateFinance", "false");
             
             return;
           }
@@ -486,7 +488,7 @@ export class StateFinanceComponent implements OnInit {
   }
   async discard() {
     
-      sessionStorage.setItem("changeInPFMS", "false");
+      sessionStorage.setItem("changeInStateFinance", "false");
     
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
