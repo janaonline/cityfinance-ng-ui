@@ -33,6 +33,9 @@ export class PfmsComponent implements OnInit {
   modalRef;
   formDataPre;
   firstClick = false;
+  sideMenuItem:any;
+  nextRouter;
+  backRouter;
   @ViewChild("templateSave") template;
   constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService,public dialog: MatDialog,public _router: Router) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
@@ -40,6 +43,7 @@ export class PfmsComponent implements OnInit {
     this.ulbId = this.ulbData.ulb
     this.ulbName = this.ulbData?.name
     this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     for (var i in this.design_year) {
       if (i == '2022-23') {
         this.yearValue = i;
@@ -101,7 +105,16 @@ export class PfmsComponent implements OnInit {
     this.back_router = '../annual_acc'
     this.next_router = '../property_tax_operationalisation'
     this.clickedSave = false;
-
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Overview'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.initializePmfsForm();
     this.getSubmittedFormData();
   }

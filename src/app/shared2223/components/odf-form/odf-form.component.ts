@@ -116,8 +116,8 @@ export class OdfFormComponent implements OnInit {
   dateValue;
   activeClass: boolean = false;
   ratingMark = "N/A";
-  backRouter = "#";
-  nextRouter = "#";
+  backRouter;
+  nextRouter;
   clickedSave;
   routerNavigate = null;
   response;
@@ -127,9 +127,24 @@ export class OdfFormComponent implements OnInit {
   modalRef;
   formDataPre;
   firstClick = false;
+  sideMenuItem:any;
   @ViewChild("templateSave") template;
   ngOnInit(): void {
     this.clickedSave = false;
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Open Defecation Free (ODF)'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+        if(element?.name == 'Garbage Free City (GFC)'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.profileForm = this.formBuilder.group({
       rating: ["", Validators.required],
       cert: this.formBuilder.group({
@@ -197,7 +212,7 @@ export class OdfFormComponent implements OnInit {
       this.backRouter = "../odf";
       this.nextRouter = "../overview";
     } else {
-      this.backRouter = "../utilisation-report";
+      this.backRouter = "../slbs";
       this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }

@@ -22,7 +22,7 @@
                         <div class="col-sm-12 h-p">
                             Requirements for 15th FC Grants for FY 2021-22
                         </div>
-                        <div class="col-sm-12 a-s d-none" style="">
+                        <div class="col-sm-12 a-s d-none">
                             Application Status -{{status}}
                         </div>
                         <div class="col-sm-12 mt-2 d-none">
@@ -45,7 +45,7 @@
 
 
                                                 <a [routerLink]="'../' + slide?.link">
-                                                    <div class="card  individualCard" style="" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                                    <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
           index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
           'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
           index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -102,7 +102,7 @@
                                             <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                                             <div *ngIf="index >= 4">
                                                 <a [routerLink]="'../' + slide?.link">
-                                                    <div class="card  individualCard" style="" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                                    <div class="card  individualCard" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
 index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
 'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
 index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -147,10 +147,10 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
 
     <div class="row mt-4 mb-3">
         <div class="col-sm-6 d-none">
-            <button class="btn btn-c-back" routerLink="../fc-home-page"><- Previous Form</button>
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-12 text-end">
-            <button class="btn btn-c-next ms-3" routerLink="../resources">Next Form -></button>
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
 </div>

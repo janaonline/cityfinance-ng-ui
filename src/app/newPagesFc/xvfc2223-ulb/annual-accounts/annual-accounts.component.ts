@@ -24,6 +24,7 @@ export class AnnualAccountsComponent implements OnInit {
     public _router: Router,
     private newCommonService: NewCommonService
   ) {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.navigationCheck();
     this.loggedInUserType = this.loggedInUserDetails.role;
   }
@@ -36,6 +37,7 @@ export class AnnualAccountsComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
+  sideMenuItem: any;
   unAuditQues = [
     {
       name: "Balance Sheet",
@@ -477,9 +479,21 @@ export class AnnualAccountsComponent implements OnInit {
   @ViewChild("templateAnnual") template;
   @ViewChild("template1") template1;
   compName = "AnnualAccount";
+  nextRouter;
+  backRouter;
   ngOnInit(): void {
     this.ulbId = sessionStorage.getItem("ulb_id");
     sessionStorage.setItem("changeInAnnualAcc", "false");
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Annual Accounts'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.clickedSave = false;
     this.onLoad();
   }
