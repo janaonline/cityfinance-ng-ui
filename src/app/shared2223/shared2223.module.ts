@@ -54,7 +54,7 @@ import { CommonActionComponent } from './components/common-action/common-action.
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
     TableComponent,
-    
+    CommonActionComponent
   ],
 })
 export class Shared2223Module {}

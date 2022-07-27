@@ -1,1 +1,60 @@
-<p>common-action works!</p>
+<div class="card">
+    <div class="row">
+        <div class="col-8">
+            <h5 class="heading">{{ userLoggedInDetails?.role }} REVIEW STATUS</h5>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col-6">
+                    <button class="btnCustomGreen btn-success">Approve</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btnCustomRed btn-danger">Return</button>
+                  </div>      
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row mt-3 mb-3 question">
+            <div class="col-3 image-upload">
+                <label for="cin3">
+                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                        PDF
+                        <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                            style="margin-left: 4px;">
+                    </a>
+                    <p class="errorMessege">{{errorMessegeCommonAction}}</p>
+                </label>
+                <input id="cin3" name="cin3" type="file"
+                    (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" /> 
+                    <!-- <div>
+                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                            <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                        </div>
+                    </div>             -->
+            </div>
+        </div>
+        <div class="row" *ngIf="showCommonAct">
+            <div class="col-9 filePadding mb-3">
+                {{commonActFileName}}
+            </div>
+            <div class="col-2 progressBar" *ngIf="commonActProgress">
+                <div class="progress-bar" *ngIf="commonActProgress" role="progressbar"
+                    attr.aria-valuenow="{{ commonActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                    [ngStyle]="{ width: commonActProgress + '%' }">
+                    {{ commonActProgress }}%
+                </div>
+            </div>
+            <div class="col-1 filePadding">
+                <a href="{{ stateActFileUrl }}" target="_blank">
+                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                </a>
+                <span>
+                    <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
+                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                    </a>
+                </span>
+            </div>
+        </div>
+     </div>
+</div>

@@ -44,7 +44,7 @@ export class StateFinanceComponent implements OnInit {
   constitutedValueActive :boolean = false
   memorandum:boolean = false
   noteMessege:boolean = false
-
+  commonActionCondition:boolean = false;
   // isDisabled:boolean =false
   previewFormData:any;
   @ViewChild("templateSave") template;
@@ -126,6 +126,7 @@ export class StateFinanceComponent implements OnInit {
     this.ptService.getStateFinance(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
+      res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false;
       this.previewFormData = res
       this.patchFunction(this.previewFormData);
     })
@@ -217,7 +218,8 @@ export class StateFinanceComponent implements OnInit {
       if (res && res.status) {
         sessionStorage.setItem("changeInStateFinance", "false");
         this.clickedSave = false;
-        this.isDisabled = true
+        this.isDisabled = true;
+        this.commonActionCondition = true;
         console.log(res)
         this.getStateFinanceData()
         swal("Saved", "Data saved successfully", "success");
