@@ -275,6 +275,12 @@
     display: inline-block;
     pointer-events: none;
 }
+.fadedClass{
+    pointer-events: none;
+    background-color: #059b9a;
+    color: white;
+    opacity: 0.5;
+}
 .activeClassNo {
     background-color: #c9c9c9;
 }

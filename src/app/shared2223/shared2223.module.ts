@@ -20,7 +20,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TableComponent } from './components/table/table.component';
-
+import { CommonActionComponent } from './components/common-action/common-action.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -33,8 +33,7 @@ import { TableComponent } from './components/table/table.component';
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
     TableComponent,
-
-
+    CommonActionComponent,
   ],
   imports: [
     CommonModule,

@@ -5,9 +5,9 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { PropertyTaxFloorRatePreviewComponent } from '../propertyTaxFloorRate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
+import { PropertyTaxFloorRatePreviewComponent } from './property-tax-floor-rate-preview/property-tax-floor-rate-preview.component';
 @Component({
   selector: 'app-property-tax-floor-rate',
   templateUrl: './property-tax-floor-rate.component.html',
@@ -32,6 +32,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   showStateAct:boolean = false;
   rulesByLawsProgress;
   rulesLawsFileName:any;
+  activeClass: boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
@@ -53,7 +54,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) { 
+  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
@@ -68,10 +69,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
   ngOnInit(): void {
     this.clickedSave = false;
-    
+    sessionStorage.setItem("changeInPropertyTax", "false");
     this.onload();
   }
-  
+
   // convenience getter for easy access to form fields
   get f() { return this.propertyForm.controls; }
 
@@ -98,7 +99,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   onload(){
     this.getPtoData();
   }
-  
+
   getPtoData(){
     const params = {
       state: this.stateId,
@@ -126,7 +127,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
     this.rulesLawsFileName = data?.data?.comManual?.name;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
-    
+
     this.propertyForm.patchValue({
       actPage: data?.data?.actPage,
       state: data?.data?.state,
@@ -146,8 +147,55 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         });
 
   }
-
-  onSubmit(){
+  alertFormFinalSubmit() {
+    this.submitted = true;
+    this.activeClass = true;
+    if (this.propertyForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to Mohua for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.onDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
+  }
+  onSubmit(type){
     console.log(this.propertyForm);
     let body = {
       ...this.propertyForm.value,
@@ -158,10 +206,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     console.log(body)
     console.log('submitted',this.propertyForm.value)
     this.submitted =true;
-    if (this.propertyForm.invalid) {
-      return;
-    }
-    
+
     this.ptService.submitPtForm(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
@@ -170,6 +215,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.isDisabled = true
         console.log(res)
         this.getPtoData()
+        sessionStorage.setItem("changeInPropertyTax", "false");
         swal("Saved", "Data saved successfully", "success");
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -193,6 +239,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
+        sessionStorage.removeItem("changeInPropertyTax");
         console.log(res)
         this.clickedSave = false;
         this.getPtoData()
@@ -207,7 +254,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-  
+
   preview(){
     console.log('valuessssssssss',this.propertyForm.value)
     let previewData = {
@@ -280,20 +327,38 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-    
+
   }
   clearFile(type: string = '') {
     if(type =='minimumFloor') {
       this.showMinimumFloor = false;
       this.minimumFloorFileName = ''
+      this.propertyForm.patchValue({
+        floorRate:{
+          url: '',
+          name: ''
+       }
+      });
     } else if (type =='rulesByLaws'){
       this.showRulesLaws = false;
       this.rulesLawsFileName = ''
+      this.propertyForm.patchValue({
+        comManual:{
+          url: '',
+          name: ''
+       }
+      });
     }else{
       this.showStateAct = false;
       this.stateActFileName = ''
+      this.propertyForm.patchValue({
+        stateNotification:{
+          url: '',
+          name: ''
+       }
+      });
     }
-    sessionStorage.setItem("changeInPFMS", "true");
+    sessionStorage.setItem("changeInPropertyTax", "true");
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -378,7 +443,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
-              sessionStorage.setItem("changeInPFMS", "true");
+              sessionStorage.setItem("changeInPropertyTax", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -389,7 +454,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
-              sessionStorage.setItem("changeInPFMS", "true");
+              sessionStorage.setItem("changeInPropertyTax", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -419,12 +484,12 @@ export class PropertyTaxFloorRateComponent implements OnInit {
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           
-            changeInForm = sessionStorage.getItem("changeInPFMS");
+            changeInForm = sessionStorage.getItem("changeInPropertyTax");
           
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
            
-              sessionStorage.setItem("changeInPFMS", "false");
+              sessionStorage.setItem("changeInPropertyTax", "false");
             
             return;
           }
@@ -474,7 +539,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   }
   async discard() {
     
-      sessionStorage.setItem("changeInPFMS", "false");
+      sessionStorage.setItem("changeInPropertyTax", "false");
     
     await this.dialogRef.close(true);
     if (this.routerNavigate) {

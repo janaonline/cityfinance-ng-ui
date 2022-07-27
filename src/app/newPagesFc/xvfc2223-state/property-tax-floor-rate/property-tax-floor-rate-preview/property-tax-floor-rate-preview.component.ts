@@ -27,7 +27,6 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   stateName = "";
   fileUrl: any;
   fileName: any;
-  hideUnderline:boolean = false;
   formStatus:any;
   styleForPDF = `<style>
   .header-p {
@@ -110,18 +109,13 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     }else {
       this.formStatus = "Not Started"
     }
-    this.data?.preData?.data?.stateNotification?.url == '' ? this.hideUnderline = true : false
-    this.data?.preData?.data?.floorRate?.url == '' ? this.hideUnderline = true : false
-    this.data?.preData?.data?.comManual?.url == '' ? this.hideUnderline = true : false
-    
     this.stateName = userData["stateName"];
-    
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
     
-      changeHappen = sessionStorage.getItem("changeInPFMS");
+      changeHappen = sessionStorage.getItem("changeInPropertyTax");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -137,7 +131,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName = this.fileName ? this.fileName : "pfms.pdf";
+    let downloadFileName = this.fileName ? this.fileName : "property-tax.pdf";
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);
@@ -189,7 +183,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
       this.commonService.submitPtForm(body).subscribe(
         (res) => {
          
-            sessionStorage.setItem("changeInPFMS", "false");
+            sessionStorage.setItem("changeInPropertyTax", "false");
           
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
@@ -197,7 +191,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
         },
         (err) => {
          
-          sessionStorage.setItem("changeInPFMS", "false");
+          sessionStorage.setItem("changeInPropertyTax", "false");
           
 
           swal("Error", "Failed To Save", "error");

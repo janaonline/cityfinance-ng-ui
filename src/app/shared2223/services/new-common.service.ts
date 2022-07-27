@@ -40,6 +40,15 @@ export class NewCommonService {
       body
     );
   }
+  submitStateFinance(body){
+    return this.http.post(
+      `${environment.api.url}state-finance-commission-formation`,
+      body
+    );
+  }
+  getStateFinance(param) {
+    return this.http.get(`${environment.api.url}state-finance-commission-formation?state=${param.state}&design_year=${param.design_year}`);
+  }
   pfmsSubmitForm(body: any) {
     return this.http.post(`${environment.api.url}link-pfms`, body);
   }

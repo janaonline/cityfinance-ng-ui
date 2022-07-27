@@ -116,8 +116,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="cin1" [ngClass]="{'customDisable': !isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': !isDisabled}">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled}">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -136,7 +136,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{pfmsFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="pfmsLinkProgress">
                     <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar"
                         attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: pfmsLinkProgress + '%' }">
@@ -163,8 +163,8 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload" >
                     <label for="cin2" [ngClass]="{'customDisable': !isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'greyInputs': !isDisabled }">Upload
-                            Pdf
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled }">Upload
+                            PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
@@ -178,7 +178,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{otherFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="col-sm-4 col-md-4 col-lg-4" *ngIf="otherProgress">
                     <div class="progress-bar" *ngIf="otherProgress" role="progressbar"
                         attr.aria-valuenow="{{ otherProgress }}" aria-valuemin="0" aria-valuemax="100"
                         [ngStyle]="{ width: otherProgress + '%' }">

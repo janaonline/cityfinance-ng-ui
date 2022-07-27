@@ -19,14 +19,14 @@
                 <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
             </p>
         </div>
-        <div class="col-sm-6 text-end">
-            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as
+        <div class="col-sm-6 text-end h-cls">
+            <button id="donwloadButton" class="btn btn-primary h-cls" (click)="clickedDownloadAsPDF(templateSave)">Download as
                 PDF</button>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12 form-h text-center">
-            <p>Property Tax Floor Rate Notification</p>
+            <p>State Finance Commission Formation Notification</p>
         </div>
     </div>
     <div class="row">
@@ -34,41 +34,38 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(A) State Act/GO/Notification<sup class="text-danger">*</sup>
+                        <div class="col-9 questionClass qus-h">
+                            <span class="fontStyle">
+                                (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
+                                <sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.stateNotification?.name ? data?.dataPreview?.stateNotification?.name : 'N/A'}}</a>
+                        <div class="col-3 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.constitutedSfc}}
+                            <span *ngIf="!data?.dataPreview?.constitutedSfc?.name">N/A</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span class="fontStyle">(B) Act Page Number<sup class="text-danger">*</sup>
+                    <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'Yes'">
+                        <div class="col-9 questionClass qus-h">
+                            <span class="fontStyle">
+                                (B) State Act/GO/Notification<sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.actPage ? data?.dataPreview?.actPage : 'N/A'}}
+                        <div class="col-3 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.stateNotification.name}}
+                            <span *ngIf="!data?.dataPreview?.stateNotification.name">N/A</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(C) Minimum Floor rate details/Value card
+                    <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'No'">
+                        <div class="col-12 questionClass qus-h">
+                            <span class="fontStyle">
+                                <div class="message-blue">
+                                    <p class="message-content">Please note that this condition is mandatory to recieve grants for 2022-23</p>
+                                </div>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.floorRate?.name ? data?.dataPreview?.floorRate?.name: 'N/A'}}</a>
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
-                            <span>(D) Rules, by laws issued for operationalization of the notification
-                            </span>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
-                            <a [ngClass]="{'hideUnderline': hideUnderline}"  href="{{data?.dataPreview?.comManual?.url}}" target="_blank">{{data?.dataPreview?.comManual?.name ? data?.dataPreview?.comManual?.name: 'N/A'}}</a>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
