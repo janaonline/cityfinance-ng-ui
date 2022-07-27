@@ -1,6 +1,6 @@
-<div style="font-size: 1.5rem; padding: 8rem 8rem;" *ngIf="showPrevious" [innerHTML]="url">
+<div style="font-size: 1.5rem; padding: 8rem 8rem;" *ngIf="!showPrevious" [innerHTML]="url">
 </div>
-<div *ngIf="!showPrevious" class="container-fluid">
+<div *ngIf="showPrevious" class="container-fluid">
     <div class="row header mt-2">
         <div class="col-sm-8 col-lg-8 col-md-8 header2">
             <span>Detailed Utilization Report</span>
