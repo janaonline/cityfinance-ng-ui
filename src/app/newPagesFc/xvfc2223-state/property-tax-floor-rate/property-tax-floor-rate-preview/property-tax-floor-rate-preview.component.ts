@@ -27,7 +27,6 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   stateName = "";
   fileUrl: any;
   fileName: any;
-  hideUnderline:boolean = false;
   formStatus:any;
   styleForPDF = `<style>
   .header-p {
@@ -110,18 +109,13 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     }else {
       this.formStatus = "Not Started"
     }
-    this.data?.dataPreview?.stateNotification?.url == undefined ? this.hideUnderline = true : false
-    this.data?.dataPreview?.floorRate?.url == undefined ? this.hideUnderline = true : false
-    this.data?.dataPreview?.comManual?.url == undefined ? this.hideUnderline = true : false
-    
     this.stateName = userData["stateName"];
-    
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
     
-      changeHappen = sessionStorage.getItem("changeInPFMS");
+      changeHappen = sessionStorage.getItem("changeInPropertyTax");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -189,7 +183,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
       this.commonService.submitPtForm(body).subscribe(
         (res) => {
          
-            sessionStorage.setItem("changeInPFMS", "false");
+            sessionStorage.setItem("changeInPropertyTax", "false");
           
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
@@ -197,7 +191,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
         },
         (err) => {
          
-          sessionStorage.setItem("changeInPFMS", "false");
+          sessionStorage.setItem("changeInPropertyTax", "false");
           
 
           swal("Error", "Failed To Save", "error");

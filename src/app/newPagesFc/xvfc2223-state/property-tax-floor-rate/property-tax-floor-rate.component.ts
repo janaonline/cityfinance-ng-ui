@@ -69,7 +69,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
   ngOnInit(): void {
     this.clickedSave = false;
-
+    sessionStorage.setItem("changeInPropertyTax", "false");
     this.onload();
   }
 
@@ -215,6 +215,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.isDisabled = true
         console.log(res)
         this.getPtoData()
+        sessionStorage.setItem("changeInPropertyTax", "false");
         swal("Saved", "Data saved successfully", "success");
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -238,7 +239,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
-        sessionStorage.removeItem("changeInPFMS");
+        sessionStorage.removeItem("changeInPropertyTax");
         console.log(res)
         this.clickedSave = false;
         this.getPtoData()
@@ -357,7 +358,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
        }
       });
     }
-    sessionStorage.setItem("changeInPFMS", "true");
+    sessionStorage.setItem("changeInPropertyTax", "true");
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -442,7 +443,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
-              sessionStorage.setItem("changeInPFMS", "true");
+              sessionStorage.setItem("changeInPropertyTax", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -453,7 +454,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
                 url: fileAlias,
                 name: file.name
               })
-              sessionStorage.setItem("changeInPFMS", "true");
+              sessionStorage.setItem("changeInPropertyTax", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -482,13 +483,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-
-            changeInForm = sessionStorage.getItem("changeInPFMS");
+          
+            changeInForm = sessionStorage.getItem("changeInPropertyTax");
+          
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-
-              sessionStorage.setItem("changeInPFMS", "false");
-
+           
+              sessionStorage.setItem("changeInPropertyTax", "false");
+            
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -536,9 +538,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-
-      sessionStorage.setItem("changeInPFMS", "false");
-
+    
+      sessionStorage.setItem("changeInPropertyTax", "false");
+    
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
