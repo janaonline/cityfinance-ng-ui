@@ -72,6 +72,14 @@ export class NewCommonService {
   postUtiData(body) {
     return this.http.post(`${environment.api.url}utilization-report`, body);
   }
+
+  getReviewForms(params){
+    return this.http.get(`${environment.api.url}review`, {params})
+  }
+  getFormList(params){
+    return this.http.get(`${environment.api.url}menulist`, {params})
+  }
+
   getUtiData(ulbId) {
     return this.http.get(
       `${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`

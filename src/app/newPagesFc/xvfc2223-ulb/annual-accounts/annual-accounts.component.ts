@@ -607,6 +607,8 @@ this.url = resObj?.url;
           // console.log("annual res---------------", res, this.actionCheck);
         },
         (err) => {
+          this.action = err.error?.action;
+this.url = err.error?.url;
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
