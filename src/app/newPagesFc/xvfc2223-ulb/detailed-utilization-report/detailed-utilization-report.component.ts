@@ -847,7 +847,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
     }
   }
   numberLimitV(e, input) {
-    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft"];
+    // console.log("sss", e, input);
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
 
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
