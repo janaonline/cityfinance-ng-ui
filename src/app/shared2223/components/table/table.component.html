@@ -1,1 +1,112 @@
-<p>table works!</p>
+<div class="example-container mat-elevation-z8">
+
+  <table class="table">
+    <thead  class="bars">
+        <tr *ngFor=" let item of columnNames | keyvalue:keepOriginalOrder" style="background-color: #047474; color: #FFFFFF;">         
+                <th scope="col">{{item.value}}</th>
+        </tr>
+  1
+    <thead>
+        <tr class="filter">
+            <th class="filter" ></th>
+
+            <th class="filter">
+                <span class="s-s"><img
+                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
+                    >
+            </th>
+            <th class="filter" >
+                <span class="s-s"><img
+                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
+                    >
+            </th>
+            <th class="filter">
+              <select class="s-th" [formControl]="ulbType_s"
+                  >
+                  <option selected value="">ULB Type</option>
+                  <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
+              </select>
+          </th>
+            <th class="filter">
+                <select class="s-th" [formControl]="population_type_s"
+                    >
+                    <option selected value="">Population Type</option>
+                    <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
+                </select>
+            </th>
+            <th class="filter">
+                <span class="s-s"><img
+                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                <input type="text" [formControl]="ua_name_s" class="s-th p-s"
+                    >
+            </th>
+            <th class="filter">
+                <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                    >
+                    <option *ngFor = "let item of statusList"  [value]="item">{{item}}</option>
+                </select>
+            </th>
+          
+        </tr>
+
+    </thead>
+
+     <tbody>
+        <tr *ngFor="let resData of data | paginate
+        : {
+          id: 'foo',
+            itemsPerPage: tableDefaultOptions.itemPerPage,
+            currentPage: tableDefaultOptions.currentPage,
+            totalItems: tableDefaultOptions.totalCount
+          }; let tabelIndex=index">
+            <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                tabelIndex+1}}
+            </td>
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+            </td>
+            <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                {{resData.censusCode || resData.sbCode }}</td>
+            
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                {{resData.populationType}}</td>
+            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td> -->
+
+            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
+                <a
+                    (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
+            </td> -->
+
+            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
+                || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+
+                <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
+                    [routerLink]="[
+              '/ulbform/overview', resData?._id  ]">
+                 
+                    <mat-icon aria-hidden="false">
+                        <img src="../../../../assets/ulbform/eye.png">
+                    </mat-icon>
+                </a>
+            </td> -->
+            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
+                 || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
+                <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}'
+                    (click)="viewUlbForm(resData)" [routerLink]="[
+            '/ulbform/overview', resData?._id  ]">
+                    Take Action
+                </a>
+            </td> -->
+        </tr>
+    </tbody> 
+
+</table>
+<pagination-controls style="float: right; position: relative" id="foo"
+(pageChange)="setPage($event)" directionLinks="true" autoHide="false"
+previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+</pagination-controls>
+ 
+  </div>

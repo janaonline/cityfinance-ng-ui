@@ -40,7 +40,7 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
-
+import { NgxPaginationModule } from "ngx-pagination";
 @NgModule({
   entryComponents: [DialogComponent],
 
@@ -74,6 +74,7 @@ import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-upda
     SlickCarouselModule,
     CollapseModule.forRoot(),
     MunicipalLawModule,
+    NgxPaginationModule
   ],
   providers: [
     CustomHttpInterceptor,
@@ -97,6 +98,7 @@ import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-upda
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
+    
     // InrCurrencyPipe,
   ],
   exports: [],
