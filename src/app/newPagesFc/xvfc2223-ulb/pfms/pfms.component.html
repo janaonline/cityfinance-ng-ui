@@ -209,7 +209,7 @@
                         <button type="button" class="btn btnDraft" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" (click)="onSubmit()" [disabled]="!isDisabled">Submit</button>
+                        <button type="submit" class="btn btnDraft" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]='next_router'>Next Form

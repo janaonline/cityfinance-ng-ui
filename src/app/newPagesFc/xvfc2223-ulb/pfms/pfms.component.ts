@@ -59,6 +59,7 @@ export class PfmsComponent implements OnInit {
   pfmsLinkProgress;
   odfUrl = ''
   odfUrl2 = ''
+  alertMessege : boolean = false;
   showOtherQuestions: boolean = false;
   showOtherQuestions1:boolean = false;
   linkedToggle: boolean = false;
@@ -271,7 +272,55 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
   }
-  onSubmit() {
+  alertFormFinalSubmit() {
+    this.submitted = true;
+    this.alertMessege = true;
+    if (this.registerForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to State for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.saveDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
+  }
+  onSubmit(type) {
     console.log(this.registerForm)
     console.log('this.dataValue', this.dataValue)
     if(this.registerForm.value.linkPFMS == 'No' || (this.registerForm.value.linkPFMS == 'Yes' && this.registerForm.value.isUlbLinkedWithPFMS == 'No')){
@@ -281,9 +330,7 @@ export class PfmsComponent implements OnInit {
     }
     this.submitted = true;
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
+    
     // this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
     //   if (this.registerForm.value.isUlbLinkedWithPFMS == 'Yes') {
     //     this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    

@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-3 questionClass opacityClass ans-h">
                             {{data?.dataPreview?.constitutedSfc}}
-                            <span *ngIf="!data?.dataPreview?.constitutedSfc?.name">N/A</span>
+                            <span *ngIf="!data?.dataPreview?.constitutedSfc">N/A</span>
                         </div>
                     </div>
                     <div class="row" *ngIf="data?.dataPreview?.constitutedSfc == 'Yes'">
