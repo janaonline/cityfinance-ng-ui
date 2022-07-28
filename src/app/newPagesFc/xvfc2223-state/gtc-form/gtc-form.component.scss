@@ -31,7 +31,7 @@
 }
 
 .dis-card {
-    //  pointer-events: none;
+    pointer-events: none;
 }
 
 ::ng-deep .tooltip-red {
@@ -45,4 +45,29 @@
 
 .w-c {
     width: 22%;
+}
+
+.st-a {
+    background-color: green;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
+    /* margin-bottom: 1rem; */
+}
+
+.st-r {
+    background-color: red;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
+}
+
+.st-p {
+    background-color: rgb(250, 250, 68);
+    color: green;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
 }
