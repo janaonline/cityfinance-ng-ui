@@ -133,9 +133,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
-      this.getSideBar(res["user"]);
+
       if (res["user"]?.role == "STATE") {
         this.getStateSideBar(res["user"]);
+      } else {
+        this.getSideBar(res["user"]);
       }
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
