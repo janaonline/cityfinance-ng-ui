@@ -272,6 +272,34 @@
                 ><b>view excel</b></a
               >
             </div>
+            <div
+            *ngIf="
+              filteredData.documents.financial_year_2019_20?.pdf.length > 0 ||
+              filteredData.documents.financial_year_2019_20?.excel.length > 0
+            "
+          >
+            <label>Financial year 2019-20:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+              *ngIf="
+                filteredData.documents.financial_year_2019_20.pdf.length > 0
+              "
+              [href]="
+                filteredData.documents.financial_year_2019_20.pdf[0].url
+              "
+              target="_blank"
+              ><b>view pdf</b></a
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+              *ngIf="
+                filteredData.documents.financial_year_2019_20.excel.length > 0
+              "
+              [href]="
+                filteredData.documents.financial_year_2019_20.excel[0].url
+              "
+              target="_blank"
+              ><b>view excel</b></a
+            >
+          </div>
           </div>
         </div>
       </div>

@@ -28,5 +28,9 @@
         "node_modules/exceljs/dist/exceljs.min"
       ]
     }
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "allowEmptyCodegenFiles": true
   }
 }

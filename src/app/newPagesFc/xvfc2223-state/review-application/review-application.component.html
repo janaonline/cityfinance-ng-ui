@@ -1,2 +1,11 @@
-<p>review-application works!</p>
-<app-table></app-table>
+
+<label for="form">Select Form:</label>
+<div>{{title}} </div>
+<select (change)="setFormId($event)" name="form" id="form">
+    <option *ngFor="let element of data" 
+    [value]="element._id">
+  {{element.name}}
+</option>
+</select>
+
+<app-table [formId]="formId"></app-table>

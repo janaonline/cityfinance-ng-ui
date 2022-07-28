@@ -18,6 +18,7 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { NgxPaginationModule } from "ngx-pagination";
 import { TableComponent } from './components/table/table.component';
 import { CommonActionComponent } from './components/common-action/common-action.component';
 @NgModule({
@@ -43,6 +44,8 @@ import { CommonActionComponent } from './components/common-action/common-action.
     MatTooltipModule,
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    NgxPaginationModule
+    
   ],
   exports: [
     OdfFormComponent,
@@ -50,7 +53,8 @@ import { CommonActionComponent } from './components/common-action/common-action.
     FiftTwoDigitNumberDirective,
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
-    TableComponent
+    TableComponent,
+    
   ],
 })
 export class Shared2223Module {}
