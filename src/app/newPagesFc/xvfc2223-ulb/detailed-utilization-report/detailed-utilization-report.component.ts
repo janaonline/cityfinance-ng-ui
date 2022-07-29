@@ -30,11 +30,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
   ) {
     this.navigationCheck();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.initializeReport();
   }
   durForm;
   ulbName = "";
   userData;
+  sideMenuItem:any;
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
@@ -122,8 +124,20 @@ export class DetailedUtilizationReportComponent implements OnInit {
   closingError = false;
   expDuringYear;
   isDisabled = false;
+  nextRouter;
+  backRouter;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Detailed Utilisation Report'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.onLoad();
   }
 

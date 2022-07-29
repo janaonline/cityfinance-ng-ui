@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="row" *ngIf="data?.unAudited?.submit_standardized_data">
-                        <div class="col-sm-12 ms-3" style="">
+                        <div class="col-sm-12 ms-3">
                             <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
                                   Download Template
                               </a>
@@ -142,7 +142,7 @@
 
                             </div>
 
-                            <div class="col-sm-2 col-lg-2 col-md-2" style="">
+                            <div class="col-sm-2 col-lg-2 col-md-2">
                                 <ng-container>
                                     <div *ngIf="data.unAudited.standardized_data?.excel?.url">
                                         <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
@@ -266,7 +266,7 @@
                     </div>
 
                     <div class="row mt-3" *ngIf="data?.audited?.submit_standardized_data">
-                        <div class="col-sm-12 ms-3" style="">
+                        <div class="col-sm-12 ms-3">
                             <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
                                 Download Template
                             </a>
@@ -301,7 +301,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-2 col-lg-2 col-md-2" style="">
+                            <div class="col-sm-2 col-lg-2 col-md-2">
                                 <ng-container>
                                     <div *ngIf="data.audited.standardized_data?.excel?.url">
                                         <a href="{{ data.audited.standardized_data?.excel?.url }}" target="_blank">
@@ -363,12 +363,12 @@
 </div> -->
 <div class="row ms-0 me-0 mt-4 mb-3">
     <div class="col-sm-6">
-        <button class="btn btn-c-back" routerLink="../utilisation-report"><- Previous Form</button>
+        <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
     </div>
     <div class="col-sm-6 text-end">
         <button class="btn btn-primary" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
         <button class="btn btn-primary ms-3" [disabled]="isDisabled" (click)="formSave('save')">Submit</button>
-        <button class="btn btn-c-next ms-3" routerLink="../slbs">Next Form -></button>
+        <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
     </div>
 </div>
 <ng-template #templateAnnual>
@@ -391,7 +391,7 @@
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                 <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" style="" (click)="proceed()">
+                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
                   Save & Proceed
                 </button>
             </div>
