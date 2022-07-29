@@ -430,7 +430,7 @@ export class GtcFormComponent implements OnInit {
     let postBody = { ...this.gtcFormData[i]?.quesArray[j] };
     if (
       (this.gtcFormData[i].quesArray[j].file.name != "" ||
-      this.gtcFormData[i].quesArray[j].file.url != "") 
+      this.gtcFormData[i].quesArray[j].file.url != "")
     ) {
       console.log("111", postBody);
 
@@ -450,6 +450,9 @@ export class GtcFormComponent implements OnInit {
       this.stateService.postGtcForm(postBody).subscribe(
         (res) => {
           this.gtcFormData[i].quesArray[j].isDisableQues = true;
+          this.gtcFormData[i].quesArray[j].status = "PENDING";
+          this.gtcFormData[i].quesArray[j].isDraft = false;
+          this.gtcFormData[i].quesArray[j].rejectReason = null;
           if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
