@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatListModule } from "@angular/material/list";
@@ -75,6 +75,9 @@ import { NgxPaginationModule } from "ngx-pagination";
     CollapseModule.forRoot(),
     MunicipalLawModule,
     NgxPaginationModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
     CustomHttpInterceptor,

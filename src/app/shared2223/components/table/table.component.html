@@ -1,11 +1,11 @@
 <div class="example-container mat-elevation-z8">
 
-  <table class="table">
+  <table class="table table-responsive">
     <thead  class="bars">
-        <tr *ngFor=" let item of columnNames | keyvalue:keepOriginalOrder" style="background-color: #047474; color: #FFFFFF;">         
-                <th scope="col">{{item.value}}</th>
+        <tr *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="background-color: #047474; color: #FFFFFF; width: 100%;table-layout: fixed;">         
+          <th style="text-align: left;" scope="col">{{item.value}}</th>
         </tr>
-  1
+    </thead>
     <thead>
         <tr class="filter">
             <th class="filter" ></th>
@@ -67,20 +67,19 @@
             </td>
             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
             </td>
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.stateName}}</td>
             <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                 {{resData.censusCode || resData.sbCode }}</td>
-            
+                <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                 {{resData.populationType}}</td>
-            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td> -->
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
+            
+            
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled}}</td>
 
-            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
-                <a
-                    (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
-            </td> -->
-
-            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
-                || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
 
                 <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
                     [routerLink]="[
@@ -90,15 +89,14 @@
                         <img src="../../../../assets/ulbform/eye.png">
                     </mat-icon>
                 </a>
-            </td> -->
-            <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
-                 || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
+            </td>
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
                 <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}'
                     (click)="viewUlbForm(resData)" [routerLink]="[
             '/ulbform/overview', resData?._id  ]">
                     Take Action
                 </a>
-            </td> -->
+            </td>
         </tr>
     </tbody> 
 
