@@ -242,7 +242,7 @@ export class PfmsComponent implements OnInit {
   }
 
   removeValidatorsOneByOne(formFieldName: string) {
-    this.registerForm.controls[formFieldName].setValidators([Validators.required]);    
+    this.registerForm.controls[formFieldName].setValidators(null);    
     this.registerForm.controls[formFieldName].updateValueAndValidity();
   }
 
@@ -288,6 +288,7 @@ export class PfmsComponent implements OnInit {
   alertFormFinalSubmit() {
     this.submitted = true;
     this.alertMessege = true;
+    console.log(this.registerForm)
     if (this.registerForm.invalid) {
       swal(
         "Missing Data !",
@@ -458,8 +459,11 @@ export class PfmsComponent implements OnInit {
        name: ''
       }
     });
-    this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
-    this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
+    this.removeValidatorsOneByOne('isUlbLinkedWithPFMS');
+    this.removeValidatorsOneByOne('PFMSAccountNumber');
+    this.removeValidatorInBulk(this.registerForm.get('cert'));
+    // this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+    // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true");
     console.log('registerForm', this.registerForm)
