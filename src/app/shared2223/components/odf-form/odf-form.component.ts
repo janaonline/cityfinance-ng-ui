@@ -31,7 +31,8 @@ export class OdfFormComponent implements OnInit {
   noRating: boolean;
   minDate;
   maxDate;
-
+  positionDraft:boolean = false
+  commonActionCondition: boolean = false;
   @Input() isGfcOpen: boolean = false;
   constructor(
     private dataEntryService: DataEntryService,
@@ -103,6 +104,7 @@ export class OdfFormComponent implements OnInit {
   draft;
   userData;
   ulbId;
+  hideSaveDraft:boolean = true
   errorMessege: any = "";
   dropdownValues: any;
   profileForm: FormGroup;
@@ -127,8 +129,11 @@ export class OdfFormComponent implements OnInit {
   modalRef;
   formDataPre;
   firstClick = false;
+  disableSubmitForm: boolean;
+  actionData:any;
   sideMenuItem:any;
   @ViewChild("templateSave") template;
+  getFormData:any;
   ngOnInit(): void {
     this.clickedSave = false;
     for (const key in this.sideMenuItem) {
@@ -176,6 +181,8 @@ export class OdfFormComponent implements OnInit {
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
         console.log(res);
+        this.getFormData =res
+        res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false
         if (
           res?.data?.rating == "62b2e4c79a6c781a28150d73" ||
           res?.data?.rating == "62b2e4969a6c781a28150d71"
@@ -265,7 +272,6 @@ export class OdfFormComponent implements OnInit {
   get f() {
     return this.profileForm.controls;
   }
-  disableSubmitForm: boolean;
   fetchData() {
     if (this.isGfc == true) {
       this.commonService.getGfcFormData("gfc").subscribe((res: any) => {
@@ -296,52 +302,80 @@ export class OdfFormComponent implements OnInit {
   alertFormFinalSubmit() {
     this.submitted = true;
     this.activeClass = true;
-    if (this.profileForm.invalid) {
-      swal(
-        "Missing Data !",
-        "One or more required fields are empty or contains invalid data. Please check your input.",
-        "error"
-      );
-      return;
-    } else {
-      swal(
-        "Confirmation !",
-        `Are you sure you want to submit this form? Once submitted,
-       it will become uneditable and will be sent to State for Review.
-        Alternatively, you can save as draft for now and submit it later.`,
-        "warning",
-        {
-          buttons: {
-            Submit: {
-              text: "Submit",
-              value: "submit",
-            },
-            Draft: {
-              text: "Save as Draft",
-              value: "draft",
-            },
-            Cancel: {
-              text: "Cancel",
-              value: "cancel",
-            },
-          },
+    console.log(this.getFormData)
+    if(this.getFormData?.data?.isDraft == false){
+      console.log(this.actionData)
+        if(this.actionData.status == 'return'){
+          if(!this.actionData.reason){
+            this.errorSend = 'Please fill any reason'
+            swal(
+              'Failed to save','Failed to save'
+            );
+          }else{
+            this.errorSend = ''
+            this.actionStatus();
+            swal(
+              'Saved','Saved'
+            );
+          }     
         }
-      ).then((value) => {
-        switch (value) {
-          case "submit":
-            this.onSubmit("submit");
-            break;
-          case "draft":
-            this.onDraft();
-            break;
-          case "cancel":
-            break;
+        if(this.actionData.status == 'approve'){
+          this.actionStatus();
+          swal(
+            'Successful','Successful'
+          );
         }
-      });
-      // this.onSubmit('submit');
-    }
+    }else{
+       
+       if (this.profileForm.invalid) {
+        swal(
+          "Missing Data !",
+          "One or more required fields are empty or contains invalid data. Please check your input.",
+          "error"
+        );
+        return;
+      } else {
+        swal(
+          "Confirmation !",
+          `Are you sure you want to submit this form? Once submitted,
+         it will become uneditable and will be sent to State for Review.
+          Alternatively, you can save as draft for now and submit it later.`,
+          "warning",
+          {
+            buttons: {
+              Submit: {
+                text: "Submit",
+                value: "submit",
+              },
+              Draft: {
+                text: "Save as Draft",
+                value: "draft",
+              },
+              Cancel: {
+                text: "Cancel",
+                value: "cancel",
+              },
+            },
+          }
+        ).then((value) => {
+          switch (value) {
+            case "submit":
+              this.onSubmit("submit");
+              break;
+            case "draft":
+              this.onDraft();
+              break;
+            case "cancel":
+              break;
+          }
+        });
+        // this.onSubmit('submit');
+      }
+     }
+   
   }
-
+  
+  errorSend;
   onSubmit(type) {
     // this.submitted = true;
     // this.activeClass = true;
@@ -364,6 +398,7 @@ export class OdfFormComponent implements OnInit {
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
         if (res && res.success) {
+          this.commonActionCondition = true 
           this.isDisabled = true;
           this.clickedSave = false;
           this.draft = false;
@@ -737,5 +772,32 @@ export class OdfFormComponent implements OnInit {
   }
   disableEnterDate() {
     return false;
+  }
+  outputData(event){
+    console.log(event)
+    this.actionData = event
+    console.log(this.actionData)
+    this.actionData.reason ? this.errorSend = '' : ''
+      this.hideSaveDraft = false;
+      this.positionDraft = true;
+     // event.status == 'approve' ? this.isDisabled = false : this.isDisabled = true
+   }
+   actionStatus(){
+    this.body = this.actionData
+    this.commonService.odfSubmitForm(this.body).subscribe(
+      (res: any) => {
+       
+        if (res && res.success) {
+           
+          swal("Saved", "Data saved successfully", "success");
+        } else {
+          swal("Error", res?.message ? res?.message : "Error", "error");
+        }
+      },
+      (error) => {
+        console.error("err", error);
+       
+      }
+    );
   }
 }

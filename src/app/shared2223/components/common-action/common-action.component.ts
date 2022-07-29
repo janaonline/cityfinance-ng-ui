@@ -1,5 +1,6 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { UserUtility } from 'src/app/util/user/user';
@@ -11,9 +12,10 @@ import { SweetAlert } from "sweetalert/typings/core";
   styleUrls: ['./common-action.component.scss']
 })
 export class CommonActionComponent implements OnInit {
+  @Input() item;
+  statusForm: FormGroup;
   change = '';
-  alertError =
-    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  triggerInput:boolean = false;
   errorMessegeCommonAction: any = '';
   commonActFileName;
   stateActUrl = ''
@@ -21,7 +23,15 @@ export class CommonActionComponent implements OnInit {
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
+  approveComment:boolean = false;
+  activeButtonApprove:boolean = false
+  activeButtonReturn:boolean = false
+
   apiData = {};
+  activeClassApprove:boolean = false
+  activeClassReturn:boolean = false
+
+  @Output() newItemEvent = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -30,12 +40,43 @@ export class CommonActionComponent implements OnInit {
     };
   } = {};
   userLoggedInDetails: IUserLoggedInDetails;
-  constructor(private dataEntryService: DataEntryService) {
+  constructor(private dataEntryService: DataEntryService,private formBuilder: FormBuilder) {
     this.initializeLoggedInUserDataFetch();
    }
-
+ toggle:any;
   ngOnInit(): void {
+   this.initializeFormm();
+   this.valueChange();
+   console.log(this.statusForm?.value)
+   
   }
+  get f() { return this.statusForm.controls; }
+
+  valueChange(){
+    this.statusForm.valueChanges.subscribe(value => {
+      console.log('value has changed:', value)
+      if(value.status == 'approve'){
+       this.activeClassApprove = true;
+       this.activeClassReturn = false;
+      }else if(value.status == 'return'){
+       this.activeClassReturn = true;
+       this.activeClassApprove = false;
+      }
+      this.toggle =value
+      this.newItemEvent.emit(this.toggle)
+  });
+  }
+  initializeFormm(){
+    this.statusForm = this.formBuilder.group({
+      status: '',
+      reason: '',
+      document: this.formBuilder.group({
+        url: [''],
+        name: ['']
+      }),
+    });
+  }
+
   private initializeLoggedInUserDataFetch() {
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
@@ -46,13 +87,28 @@ export class CommonActionComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
+  userEvent;
+  onChange(event){
+    console.log(event)
+   if(event == 'approve'){
+     this.item = ''
+     this.userEvent = event
+     this.approveComment = true;
+     this.triggerInput = false;
+   }else if(event == 'return'){
+    this.userEvent = event
+     this.triggerInput = true;
+     this.approveComment = false;
+   }
+  }
+  
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     
     if(progessType == 'commonActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.errorMessegeCommonAction = 'File size should be less than 20Mb.'
-        // this.stateFinance.controls.stateNotification.reset();
+        this.statusForm.controls.document.reset();
         const error = setTimeout(() => {
           this.showCommonAct = false
           this.errorMessegeCommonAction = ''
@@ -76,12 +132,12 @@ export class CommonActionComponent implements OnInit {
     if(type == 'stateAct'){
       this.showCommonAct = false;
       this.commonActFileName = ''
-      // this.stateFinance.patchValue({
-      //   stateNotification:{
-      //     url:'',
-      //     name: ''
-      //  }
-      // });
+      this.statusForm.patchValue({
+        document:{
+          url:'',
+          name: ''
+       }
+      });
       // this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
       // this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
       // console.log(this.stateFinance.controls)
@@ -170,10 +226,10 @@ export class CommonActionComponent implements OnInit {
             if (progressType == 'commonActProgress') {
               this.stateActUrl = fileAlias;
               console.log(this.stateActUrl)
-              // this.stateFinance.get('stateNotification').patchValue({
-              //   url: fileAlias,
-              //   name: file.name
-              // })
+              this.statusForm.get('document').patchValue({
+                url: fileAlias,
+                name: file.name
+              })
               sessionStorage.setItem("changeInStateFinance", "true");
               console.log(file)
               console.log(s3URL)
@@ -186,4 +242,5 @@ export class CommonActionComponent implements OnInit {
         }
       );
   }
+  
 }

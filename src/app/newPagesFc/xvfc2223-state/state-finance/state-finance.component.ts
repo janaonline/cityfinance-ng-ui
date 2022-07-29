@@ -86,6 +86,9 @@ export class StateFinanceComponent implements OnInit {
   onload(){
     this.getStateFinanceData();
   }
+  outputData(event){
+   console.log(event)
+  }
   onChange(event){
    console.log(event)
    if (event == 'No'){

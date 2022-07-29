@@ -21,6 +21,8 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TableComponent } from './components/table/table.component';
 import { CommonActionComponent } from './components/common-action/common-action.component';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -44,7 +46,8 @@ import { CommonActionComponent } from './components/common-action/common-action.
     MatTooltipModule,
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    ButtonsModule.forRoot()
     
   ],
   exports: [

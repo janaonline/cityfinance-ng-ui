@@ -1,6 +1,6 @@
 .card {
     // width: 96%;
-    width:96%;
+    width:100%;
     height: auto;
     margin-bottom: 2rem !important;
     background-color: #FFFFFF;
@@ -106,7 +106,9 @@
     // padding-left: 23px;
     font-style: italic;
 }
-
+.row{
+    align-items: center;
+}
 .textClass {
     text-align: center;
 }
@@ -203,10 +205,10 @@
 
 .btnUpload {
     background-color: #059b9a;
-    margin-left: .3rem;
+    margin-left: 0.7rem;
     margin-bottom: 1pc;
     color: white;
-    width: 200px;
+    width: 266px;
 }
 
 .form-header {
@@ -363,26 +365,47 @@
     background-color: red;
     color: #FFFFFF;
 }
-
+.customApprove{
+    border-radius: 8px !important;
+    width: 135px;
+    margin: 2%;
+    background-color: #a7f7d1;
+    color: black;
+}
+.customReturn{
+    border-radius: 8px !important;
+    width: 135px;
+    margin: 2%;
+    background-color: rgb(255, 194, 194);
+    color: black;
+}
+.customApproveActive{
+    border-radius: 8px !important;
+    width: 135px;
+    margin: 2%;
+    background-color: #25915f;
+    color: black;
+}
+.customReturnActive{
+    border-radius: 8px !important;
+    width: 135px;
+    margin: 2%;
+    background-color: rgb(189, 55, 55);
+    color: black;
+}
 .btn-a {
     background-color: green;
     color: #FFFFFF;
 }
-.btnCustomRed{
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
-    width: -webkit-fill-available;
-    border-radius: 6px;
-    height: 36px;
+
+.approveClass{
+    background-color: #9adf89;
+    cursor: pointer;
 }
-.btnCustomGreen{
-    color: #fff;
-    background-color: #198754;
-    border-color: #198754;
-    width: -webkit-fill-available;
-    border-radius: 6px;
-    height: 36px;
+
+.returnClass{
+    background-color: rgb(247, 199, 199);
+    cursor: pointer;
 }
 .customWidth {
     width: auto;
@@ -452,9 +475,7 @@ input[type='radio'] {
     pointer-events: none;
     background-color: rgb(170, 168, 168);
 }
-.progressBar{
-    padding: 0;
-}
+
 .modal-body {
     position: relative;
     flex: 1 1 auto;
