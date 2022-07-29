@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 h-p">
-                            Requirements for 15th FC Grants for FY 2021-22
+                            Requirements for 15th FC Grants for FY 2022-23
                         </div>
                         <div class="col-sm-12 a-s d-none">
                             Application Status -{{status}}
@@ -45,8 +45,8 @@
 
 
                                                 <a [routerLink]="'../' + slide?.link">
-                                                    <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
-          index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
+                                                    <div class="card  individualCard" style="" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+          index == 0 ?' linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
           'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
           index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
           'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
@@ -84,8 +84,8 @@
 
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)':
-                            i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ?
+                                <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#42C9F6, #21657B)' :
+                            i==2 ? 'linear-gradient(#73C557, #3A632C)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ?
                             'linear-gradient(#549D5E, #2A4F2F)' : i==5?
                             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
                                     {{message}}
