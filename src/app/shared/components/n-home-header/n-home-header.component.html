@@ -114,8 +114,20 @@
           </button>
 
           <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-disabled-menu" style="margin-left: -5rem">
-                                <li role="menuitem"><a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a></li>
+              role="menu" aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
+              <li role="menuitem" style="padding: 0 1rem;" class="mb-3">
+                <div class="user-avt text-center" style="font-size: 2.5rem">
+                  <i class="fa fa-user-circle"></i>
+                </div>
+               <div class="text-center">{{ user?.name }}</div>
+               <div class="mat-card-subtitle text-center" style="font-size: 0.9rem">
+                  {{ user?.email }}
+               </div>
+              </li>
+              <li class="divider dropdown-divider"></li>
+              <li role="menuitem">
+                <a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a>
+                                </li>
                                 <li class="divider dropdown-divider"></li>
                                 <li role="menuitem"><a class="dropdown-item text-center" (click)="loginLogout()">Logout</a>
                                 </li>
