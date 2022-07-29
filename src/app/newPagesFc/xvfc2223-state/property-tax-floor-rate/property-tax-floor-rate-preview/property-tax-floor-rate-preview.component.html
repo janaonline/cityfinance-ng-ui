@@ -34,41 +34,41 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                        <div class="col-6 questionClass qus-h">
                             <span>(A) State Act/GO/Notification<sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-6 questionClass opacityClass ans-h">
                             <a href="{{data?.dataPreview?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.stateNotification?.name}}</a>
                             <span *ngIf="!data?.dataPreview?.stateNotification?.name">N/A</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                        <div class="col-6 questionClass qus-h">
                             <span class="fontStyle">(B) Act Page Number<sup class="text-danger">*</sup>
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-6 questionClass opacityClass ans-h">
                             {{data?.dataPreview?.actPage}}
-                            <span *ngIf="!data?.dataPreview?.actPage?.name">N/A</span>
+                            <span *ngIf="!data?.dataPreview?.actPage">N/A</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                        <div class="col-6 questionClass qus-h">
                             <span>(C) Minimum Floor rate details/Value card
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-6 questionClass opacityClass ans-h">
                             <a href="{{data?.dataPreview?.floorRate?.url}}" target="_blank">{{data?.dataPreview?.floorRate?.name}}</a>
                             <span *ngIf="!data?.dataPreview?.floorRate?.name">N/A</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                        <div class="col-6 questionClass qus-h">
                             <span>(D) Rules, by laws issued for operationalization of the notification
                             </span>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                        <div class="col-6 questionClass opacityClass ans-h">
                             <a href="{{data?.dataPreview?.comManual?.url}}" target="_blank">{{data?.dataPreview?.comManual?.name}}</a>
                             <span *ngIf="!data?.dataPreview?.comManual?.name">N/A</span>
                         </div>

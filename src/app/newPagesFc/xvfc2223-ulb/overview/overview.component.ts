@@ -9,6 +9,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 export class OverviewComponent implements OnInit {
   constructor(public newCommonService: NewCommonService) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.getSideBar();
   }
   userData;
@@ -20,6 +21,7 @@ export class OverviewComponent implements OnInit {
   annualAccountsTitle = "Upload Annual Accounts";
   mpcfTitle = "Fill details for Million Plus Challenge Fund";
   performanceConditionTitle = "Fill details for Performance Condition";
+  sideMenuItem:any;
   cardsOverview = [
     {
       label: "Grant Transfer Certificate",
@@ -133,7 +135,19 @@ export class OverviewComponent implements OnInit {
   count = 0;
   percentage = 0;
   checkPos = true;
+  backRouter;
+  nextRouter;
   ngOnInit(): void {
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Overview'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.onResize();
   }
 
@@ -169,7 +183,7 @@ export class OverviewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
-        this.onHover(0, "", "AnnualAccounts", this.cardsOverview[0]);
+        this.onHover(0, "", "DUR", this.cardsOverview[0]);
         // this.leftMenu = res;
       });
   }

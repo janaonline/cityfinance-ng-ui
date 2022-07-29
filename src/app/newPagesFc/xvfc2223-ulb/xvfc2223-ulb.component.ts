@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
 import { USER_TYPE } from "src/app/models/user/userType";
@@ -141,15 +142,19 @@ export class Xvfc2223UlbComponent implements OnInit {
   //   },
   // };
   leftMenu: any;
+  isUserVerified = true;
+  profileData;
   constructor(
     private newCommonService: NewCommonService,
     private profileService: ProfileService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private router: Router
   ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.fetchProfileData({});
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-    this.userData = JSON.parse(localStorage.getItem("userData"));
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.newCommonService.setFormStatus2223.subscribe((res) => {
@@ -188,6 +193,20 @@ export class Xvfc2223UlbComponent implements OnInit {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
+    });
+  }
+
+  fetchProfileData(params: {}) {
+    this.profileService.getUserProfile(params).subscribe((res) => {
+      this.profileData = res["data"];
+      this.isUserVerified = this.profileData?.isVerified2223;
+      if (this.isUserVerified == false) {
+        this.router.navigateByUrl("/profile-update");
+        return;
+        //  this.routerlink2223 = "/ulbform2223/overview"
+      } else {
+        //  this.routerlink2223 = "/profile-update";
+      }
     });
   }
 }

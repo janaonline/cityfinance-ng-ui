@@ -33,6 +33,9 @@ export class PfmsComponent implements OnInit {
   modalRef;
   formDataPre;
   firstClick = false;
+  sideMenuItem:any;
+  nextRouter;
+  backRouter;
   @ViewChild("templateSave") template;
   constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService,public dialog: MatDialog,public _router: Router) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
@@ -40,6 +43,7 @@ export class PfmsComponent implements OnInit {
     this.ulbId = this.ulbData.ulb
     this.ulbName = this.ulbData?.name
     this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     for (var i in this.design_year) {
       if (i == '2022-23') {
         this.yearValue = i;
@@ -59,6 +63,7 @@ export class PfmsComponent implements OnInit {
   pfmsLinkProgress;
   odfUrl = ''
   odfUrl2 = ''
+  alertMessege : boolean = false;
   showOtherQuestions: boolean = false;
   showOtherQuestions1:boolean = false;
   linkedToggle: boolean = false;
@@ -100,7 +105,16 @@ export class PfmsComponent implements OnInit {
     this.back_router = '../annual_acc'
     this.next_router = '../property_tax_operationalisation'
     this.clickedSave = false;
-
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Overview'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
     this.initializePmfsForm();
     this.getSubmittedFormData();
   }
@@ -228,7 +242,7 @@ export class PfmsComponent implements OnInit {
   }
 
   removeValidatorsOneByOne(formFieldName: string) {
-    this.registerForm.controls[formFieldName].setValidators([Validators.required]);    
+    this.registerForm.controls[formFieldName].setValidators(null);    
     this.registerForm.controls[formFieldName].updateValueAndValidity();
   }
 
@@ -271,7 +285,56 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true")
   }
-  onSubmit() {
+  alertFormFinalSubmit() {
+    this.submitted = true;
+    this.alertMessege = true;
+    console.log(this.registerForm)
+    if (this.registerForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to State for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.saveDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
+  }
+  onSubmit(type) {
     console.log(this.registerForm)
     console.log('this.dataValue', this.dataValue)
     if(this.registerForm.value.linkPFMS == 'No' || (this.registerForm.value.linkPFMS == 'Yes' && this.registerForm.value.isUlbLinkedWithPFMS == 'No')){
@@ -281,9 +344,7 @@ export class PfmsComponent implements OnInit {
     }
     this.submitted = true;
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
+    
     // this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
     //   if (this.registerForm.value.isUlbLinkedWithPFMS == 'Yes') {
     //     this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    
@@ -345,8 +406,12 @@ export class PfmsComponent implements OnInit {
 
   preview() {
     console.log(this.registerForm.value)
+    const formData = JSON.parse(JSON.stringify(this.registerForm.value));
+    if (formData && formData.isDraft.toString() == "") {
+      delete formData.isDraft;
+    }
     let previewData = {
-      dataPreview : this.registerForm.value,
+      dataPreview : formData,
       preData: this.dataValue
     }
     console.log(this.dataValue)
@@ -394,8 +459,11 @@ export class PfmsComponent implements OnInit {
        name: ''
       }
     });
-    this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
-    this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
+    this.removeValidatorsOneByOne('isUlbLinkedWithPFMS');
+    this.removeValidatorsOneByOne('PFMSAccountNumber');
+    this.removeValidatorInBulk(this.registerForm.get('cert'));
+    // this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
+    // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
     sessionStorage.setItem("changeInGTC", "true")
     sessionStorage.setItem("changeInPFMS", "true");
     console.log('registerForm', this.registerForm)

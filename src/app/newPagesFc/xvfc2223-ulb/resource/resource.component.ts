@@ -6,7 +6,12 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./resource.component.scss"],
 })
 export class ResourceComponent implements OnInit {
-  constructor() {}
+  sideMenuItem:any;
+  nextRouter;
+  backRouter;
+  constructor() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+  }
 
   resoucesData = [
     {
@@ -55,5 +60,16 @@ export class ResourceComponent implements OnInit {
   //   "../../../../assets/ulbform/overview/Picture4.png",
   //   "../../../../assets/ulbform/overview/Picture5.png",
   // ];
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if(element?.name == 'Resources'){
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+  }
+  }
 }

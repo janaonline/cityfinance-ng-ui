@@ -28,7 +28,7 @@ import { IncompleteProfileComponent } from "src/app/shared/components/ulb/incomp
 import { SharedModule } from "src/app/shared/shared.module";
 import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
 import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
-
+import { PdfViewerModule } from "ng2-pdf-viewer";
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -48,7 +48,7 @@ import { PropertyTaxOperationalisationComponent } from "./property-tax-operation
     PatternDirective,
     CharacterDirective,
     PfmsPreviewComponent,
-    PropertyTaxOperationalisationComponent
+    PropertyTaxOperationalisationComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +61,7 @@ import { PropertyTaxOperationalisationComponent } from "./property-tax-operation
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
     SharedModule,
+    PdfViewerModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

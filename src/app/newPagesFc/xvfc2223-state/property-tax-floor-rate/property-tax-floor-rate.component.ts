@@ -75,7 +75,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.propertyForm.controls; }
-
+  inputChange(){
+    sessionStorage.setItem("changeInPropertyTax", "true");
+  }
   initializeForm(){
     this.propertyForm = this.formBuilder.group({
       actPage: ["", Validators.required],
