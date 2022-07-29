@@ -72,7 +72,7 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
                     {{odfFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar">
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="odfProgress">
                     <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
                         {{ odfProgress }}%
                     </div>
@@ -113,6 +113,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- <div class="row">
     <div class="col-sm-6">
     </div>
@@ -120,18 +121,22 @@
     </div>
 </div> -->
     </form>
+    <!-- <div class="row mt-3" *ngIf="commonActionCondition">
+        <div class="col-sm-12">
+            <app-common-action [item]="errorSend" (newItemEvent)="outputData($event)"></app-common-action>
+        </div>
+    </div> -->
     <div class="row mb-3 mt-4">
         <div class="col-sm-7 col-md-7 col-lg-7">
             <button type="button" class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
-        <div class="col-sm-5 col-md-5 col-lg-5 rightText">
-            <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-4">
+        <div class="col-sm-5 col-md-5 col-lg-5 text-end">
+            <div class="row" [ngClass]="{'positionDraft' : positionDraft}">
+                <div class="col-sm-4 col-md-4 col-lg-4" *ngIf="hideSaveDraft">
                     <button type="button" [disabled]="isDisabled" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
-
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" [disabled]="isDisabled" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
+                    <button type="submit" [disabled]="isDisabled && hideSaveDraft" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form -></button>
@@ -171,3 +176,4 @@
 
     </div>
 </ng-template>
+

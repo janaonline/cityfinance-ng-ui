@@ -16,7 +16,7 @@
                 Detailed Utilisation report in respect of 15th finance commission tied grants for year
                </span>
                 <span>
-                <select class="form-select d-sel" disabled style="" name="" id="">
+                <select class="form-select d-sel" disabled name="" id="">
                   <option value="606aaf854dff55e6c075d219">2021-22</option>
                  </select>
                </span>
@@ -210,7 +210,7 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="" class="t-n">
+                                                    <td colspan="2" class="t-n">
                                                         Total
                                                     </td>
                                                     <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{wmTotalTiedGrantUti}}</td>
@@ -283,7 +283,7 @@
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="" class="t-n">
+                                                    <td colspan="2" class="t-n">
                                                         Total
                                                     </td>
                                                     <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{swmTotalTiedGrantUti}}</td>
@@ -335,7 +335,7 @@
                                                 <td>--</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" style="" class="t-n">
+                                                <td colspan="4" class="t-n">
                                                     Total
                                                 </td>
                                                 <td class="t-n">0</td>
@@ -347,11 +347,11 @@
                                         </tbody>
                                         <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length > 0" formArrayName="projects">
                                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex" style="">
+                                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex">
                                                 <td>{{projectIndex+1}}.</td>
                                                 <td>
 
-                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" placeholder="Max 200 Characters" formControlName="name" style="" required maxlength="200">
+                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" placeholder="Max 200 Characters" formControlName="name" required maxlength="200">
                                                     <div *ngIf="tabelRows?.controls[projectIndex].controls?.name.invalid && isSubmitted" class="text-danger">
                                                         <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.name" [fName]="'Project name'" [errorType]="'table'"></app-error-display>
                                                     </div>
@@ -409,7 +409,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" style="" class="t-n">
+                                                <td colspan="4" class="t-n">
                                                     Total
                                                 </td>
                                                 <td class="t-n">{{totalProjectCost}}</td>
@@ -493,12 +493,12 @@
         </div>
         <div class="row mt-4 mb-3">
             <div class="col-sm-6">
-                <button class="btn btn-c-back" routerLink="../resources"><- Previous Form</button>
+                <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
                 <button class="btn btn-primary" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <button class="btn btn-c-next ms-3" routerLink="../annual_acc">Next Form -></button>
+                <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>
 
@@ -524,7 +524,7 @@
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                 <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" style="" (click)="proceed()">
+                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
                 Save & Proceed
               </button>
             </div>

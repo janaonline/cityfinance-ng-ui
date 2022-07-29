@@ -106,12 +106,14 @@ export class PfmsPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
-    if(this.data?.dataPreview?.isDraft == true){
-       this.formStatus = "In Progress"
-    }else if(this.data?.dataPreview?.isDraft == false){
-      this.formStatus = "Completed"
-    }else {
+    if (!this.data?.dataPreview.hasOwnProperty('isDraft')) {
       this.formStatus = "Not Started"
+    } else {
+      if(this.data?.dataPreview?.isDraft){
+        this.formStatus = "In Progress"
+      } else if(!this.data?.dataPreview?.isDraft){
+        this.formStatus = "Completed"
+      }
     }
     this.data?.dataPreview?.cert?.url == '' ? this.hideUnderline = true : false
     this.data?.dataPreview?.otherDocs?.url == '' ? this.hideUnderline = true : false

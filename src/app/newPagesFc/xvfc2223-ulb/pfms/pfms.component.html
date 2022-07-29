@@ -200,7 +200,7 @@
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
                 <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
-                    [routerLink]='back_router'>
+                    [routerLink]='backRouter'>
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -209,10 +209,10 @@
                         <button type="button" class="btn btnDraft" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" (click)="onSubmit()" [disabled]="!isDisabled">Submit</button>
+                        <button type="submit" class="btn btnDraft" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]='next_router'>Next Form
+                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form
                             -></button>
                     </div>
                 </div>

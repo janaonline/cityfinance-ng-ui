@@ -1,1 +1,108 @@
-<p>common-action works!</p>
+<div class="card">
+
+    <form *ngIf="statusForm" [formGroup]="statusForm">
+        <div class="row">
+            <div class="col-6">
+                <h5 class="heading">REVIEW STATUS</h5>
+            </div>
+            <div class="col-6">
+                <div class="form-group mb-3">
+                    <div class="btn-group" btnRadioGroup formControlName="status">
+                      <label btnRadio="approve" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove}">Approve</label>
+                      <label btnRadio="return" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn}">Return</label>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6" *ngIf="toggle?.status == 'approve'">
+                <label class="fontStyle">Remark :</label>
+            </div>
+            <div class="col-6" *ngIf="toggle?.status == 'return'">
+                <label class="fontStyle">Reason for return :<sup class="text-danger">*</sup></label>
+                
+            </div>
+           
+            <div class="col-6" *ngIf="toggle?.status == 'approve' || toggle?.status == 'return'">
+                <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" placeholder="Type here ..."></textarea>
+                <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
+                    {{item}}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="toggle?.status == 'approve' || toggle?.status == 'return'">
+                <div class="row mt-3 mb-3 question">
+                    <div class="col-6">
+                        <label class="fontStyle">Uplaod document :</label>
+                    </div>
+                    <div class="col-6 image-upload">
+                        <label for="cin4">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                                PDF
+                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                    style="margin-left: 4px;">
+                            </a>
+                            <p class="errorMessege">{{errorMessegeCommonAction}}</p>
+                        </label>
+                        <input id="cin4" name="cin4" type="file" (change)="fileChangeEvent($event, 'commonActProgress')"
+                            accept=".pdf" />
+                        <!-- <div>
+                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                            </div>
+                        </div>             -->
+                    </div>
+                </div>
+                <div class="row" *ngIf="showCommonAct">
+                    <div class="col-6 filePadding mb-3">
+                        {{commonActFileName}}
+                    </div>
+                    <div class="col-2 progressBar" *ngIf="commonActProgress">
+                        <div class="progress-bar" *ngIf="commonActProgress" role="progressbar"
+                            attr.aria-valuenow="{{ commonActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                            [ngStyle]="{ width: commonActProgress + '%' }">
+                            {{ commonActProgress }}%
+                        </div>
+                    </div>
+                    <div class="col-4 filePadding">
+                        <a href="{{ stateActFileUrl }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        </a>
+                        <span>
+                            <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
+                                [ngClass]="{'disableInputs': isDisabled }">
+                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            </a>
+                        </span>
+                    </div>
+                </div>
+        </div>
+       
+    </form>
+
+
+
+    <!-- <div class="row">
+        <div class="col-6">
+            <h5 class="heading">{{ userLoggedInDetails?.role }} REVIEW STATUS</h5>
+        </div>
+        <div class="col-6">
+            <span class="fontStyle d-flex">
+                <label
+                    class="customLabel form-control approveClass">
+                    <input (click)="onChange($event)" type="radio" value="approve">
+                    <span>Approve</span>
+                </label>
+                <label class="customLabel ms-3 form-control returnClass">
+                    <input (click)="onChange($event)" type="radio" value="return">
+                    <span>Return</span>
+                </label>
+                
+            </span>
+        </div>
+    </div> -->
+   
+</div>
+<div class="card mt-2" *ngIf="loggedInUserType === userTypes.ULB">
+    {{ userLoggedInDetails.name }}
+</div>
