@@ -405,8 +405,12 @@ export class PfmsComponent implements OnInit {
 
   preview() {
     console.log(this.registerForm.value)
+    const formData = JSON.parse(JSON.stringify(this.registerForm.value));
+    if (formData && formData.isDraft.toString() == "") {
+      delete formData.isDraft;
+    }
     let previewData = {
-      dataPreview : this.registerForm.value,
+      dataPreview : formData,
       preData: this.dataValue
     }
     console.log(this.dataValue)

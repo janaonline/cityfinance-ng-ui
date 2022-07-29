@@ -3,7 +3,7 @@
     <form *ngIf="statusForm" [formGroup]="statusForm">
         <div class="row">
             <div class="col-6">
-                <h5 class="heading">{{ userLoggedInDetails?.role }} REVIEW STATUS</h5>
+                <h5 class="heading">REVIEW STATUS</h5>
             </div>
             <div class="col-6">
                 <div class="form-group mb-3">
@@ -102,4 +102,7 @@
         </div>
     </div> -->
    
+</div>
+<div class="card mt-2" *ngIf="loggedInUserType === userTypes.ULB">
+    {{ userLoggedInDetails.name }}
 </div>

@@ -72,6 +72,9 @@ export class OdfFormComponent implements OnInit {
     // debugger;
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    if(this.userData?.role != 'ULB'){
+      this.isDisabled = true;
+    }
     this.ulbId = this.userData?.ulb;
     this.fetchData();
   }
@@ -197,7 +200,7 @@ export class OdfFormComponent implements OnInit {
 
         console.log(this.ratingId);
         this.prefilledOdf(res?.data);
-        if (res?.data?.isDraft == false) {
+        if (res?.data?.isDraft == false && this.userData?.role != 'ULB') {
           console.log(res?.data?.isDraft);
           this.isDisabled = true;
           // this.profileForm.disabled
@@ -397,7 +400,7 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
-        if (res && res.success) {
+        if (res && res.success && this.userData?.role != 'ULB') {
           this.commonActionCondition = true 
           this.isDisabled = true;
           this.clickedSave = false;

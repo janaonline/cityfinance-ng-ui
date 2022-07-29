@@ -3,6 +3,8 @@ import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { UserUtility } from 'src/app/util/user/user';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
@@ -30,7 +32,8 @@ export class CommonActionComponent implements OnInit {
   apiData = {};
   activeClassApprove:boolean = false
   activeClassReturn:boolean = false
-
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
   @Output() newItemEvent = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -40,8 +43,9 @@ export class CommonActionComponent implements OnInit {
     };
   } = {};
   userLoggedInDetails: IUserLoggedInDetails;
-  constructor(private dataEntryService: DataEntryService,private formBuilder: FormBuilder) {
+  constructor(private dataEntryService: DataEntryService,private formBuilder: FormBuilder, private profileService: ProfileService) {
     this.initializeLoggedInUserDataFetch();
+    this.initializeUserType();
    }
  toggle:any;
   ngOnInit(): void {
@@ -82,6 +86,11 @@ export class CommonActionComponent implements OnInit {
       this.userLoggedInDetails = data;
       console.log("hi", data);
     });
+  }
+
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this.loggedInUserType)
   }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true")
