@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
-        <div class="col-sm-6">
+        <div class="col-sm-6 h-cls">
             <p class="form-status d-none">
                 <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
             </p>
@@ -39,10 +39,10 @@
                             <div class="card">
                                 <div class="card-body" *ngFor="let qusItem of item?.quesArray">
                                     <div class="row">
-                                        <div class="col-sm-12 qus">
+                                        <div class="col-sm-12 qus qus-h">
                                             {{qusItem?.question}}
                                         </div>
-                                        <div class="col-sm-12 ms-4 mt-2">
+                                        <div class="col-sm-12 ms-4 mt-2 ans-h">
                                             <span *ngIf="qusItem?.file?.name"><a href="{{qusItem?.file?.url}}">{{qusItem?.file?.name}}</a></span>
                                             <span *ngIf="qusItem?.file?.name == ''">N/A</span>
                                         </div>

@@ -169,7 +169,7 @@ export class OverviewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
-        this.onHover(0, "", "AnnualAccounts", this.cardsOverview[0]);
+        this.onHover(0, "", "DUR", this.cardsOverview[0]);
         // this.leftMenu = res;
       });
   }
