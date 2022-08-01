@@ -17,6 +17,7 @@ import { StateFinancePreviewComponent } from './state-finance/state-finance-prev
 import { GtcFormComponent } from "./gtc-form/gtc-form.component";
 import { PropertyTaxFloorRatePreviewComponent } from "./property-tax-floor-rate/property-tax-floor-rate-preview/property-tax-floor-rate-preview.component";
 import { GtcPreviewComponent } from './gtc-form/gtc-preview/gtc-preview.component';
+import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { GtcPreviewComponent } from './gtc-form/gtc-preview/gtc-preview.componen
     StateFinanceComponent,
     StateFinancePreviewComponent,
     GtcFormComponent,
-    GtcPreviewComponent
+    GtcPreviewComponent,
+    GrantAllocationComponent
   ],
   imports: [
     CommonModule,
