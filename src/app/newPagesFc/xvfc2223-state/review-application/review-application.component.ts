@@ -9,18 +9,20 @@ export class ReviewApplicationComponent implements OnInit {
 
   constructor(
     private commonService: NewCommonService
-  ) { }
+  ) {
+   }
 
   ngOnInit(): void {
+    
     this.onLoad();
-
+    this.formId = this.data[0]['_id']
   }
   title = ''
 params = {
   role : "ULB",
   design_year: "606aafb14dff55e6c075d3ae"
 };
-formId=''
+formId='62aa1b04729673217e5ca3aa'
 data
   onLoad(){
     if(this.params['role'] == 'ULB') {
