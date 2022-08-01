@@ -1,5 +1,6 @@
 import { Component, OnInit,  Input, SimpleChanges, OnChanges, ViewChild, AfterViewInit } from '@angular/core';
 import {NewCommonService} from '../../services/new-common.service'
+import { CommonService } from 'src/app/shared/services/common.service';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort} from '@angular/material/sort';
@@ -16,6 +17,7 @@ export class TableComponent implements OnInit, OnChanges {
   // @ViewChild(MatSort) sort: MatSort;
   constructor(
     private commonService: NewCommonService,
+    private _commonService: CommonService,
     private _fb: FormBuilder,
   ) { 
     this.initializeFilterForm();
@@ -29,8 +31,10 @@ data;
 listType: USER_TYPE;
 filterForm: FormGroup;
 ulb_name_s = new FormControl('');
+state_name_s = new FormControl('');
 ulb_code_s = new FormControl('');
 ulb_type_s = new FormControl('');
+filled_1 = new FormControl('');
 population_type_s = new FormControl('');
 ua_name_s = new FormControl('');
 status_s = new FormControl('');
@@ -62,7 +66,7 @@ params = {
 };
 
   ngOnInit(): void {
-    
+    this.fetchStateList()
 this.callAPI();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -166,7 +170,16 @@ this.callAPI();
         limit: this.tableDefaultOptions.itemPerPage,
       };
     }
-  
+    stateList
+    statesByID
+    private fetchStateList() {
+      this._commonService.getStateUlbCovered().subscribe((res) => {
+        this.stateList = res.data;
+        res.data.forEach((state) => {
+          this.statesByID[state._id] = state;
+        });
+      });
+    }
 }
 
 // export interface UserData {

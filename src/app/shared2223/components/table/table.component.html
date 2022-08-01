@@ -1,57 +1,73 @@
-<div class="example-container mat-elevation-z8">
+<div class="container mat-elevation-z8">
 
   <table class="table table-responsive">
-    <thead  class="bars">
-        <tr *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="background-color: #047474; color: #FFFFFF; width: 100%;table-layout: fixed;">         
-          <th style="text-align: left;" scope="col">{{item.value}}</th>
+    <thead  >
+        <tr  style="background-color: #047474; color: #FFFFFF;">         
+          <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;" >{{item.value}}</th>
         </tr>
     </thead>
-    <thead>
+  <thead>
         <tr class="filter">
             <th class="filter" ></th>
 
             <th class="filter">
-                <span class="s-s"><img
+                <span class=""><img
                         src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
+                <input type="text" class="" [formControl]="ulb_name_s"
                     >
+            </th>
+            <th class="filter">
+                <select class="" [formControl]="state_name_s"
+                    >
+                    <option selected value="">State Name</option>
+                    <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+                </select>
             </th>
             <th class="filter" >
                 <span class="s-s"><img
                         src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
+                <input type="text" class="" [formControl]="ulb_code_s"
                     >
             </th>
             <th class="filter">
-              <select class="s-th" [formControl]="ulbType_s"
+              <select class="" [formControl]="ulbType_s"
                   >
                   <option selected value="">ULB Type</option>
                   <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
               </select>
           </th>
             <th class="filter">
-                <select class="s-th" [formControl]="population_type_s"
+                <select class="" [formControl]="population_type_s"
                     >
                     <option selected value="">Population Type</option>
                     <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                 </select>
             </th>
             <th class="filter">
-                <span class="s-s"><img
+                <span class=""><img
                         src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                <input type="text" [formControl]="ua_name_s" class="s-th p-s"
+                <input type="text" [formControl]="ua_name_s" class=""
                     >
             </th>
+           
             <th class="filter">
-                <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                <select class="" [formControl]="status_s" style="width: 71px;"
                     >
                     <option *ngFor = "let item of statusList"  [value]="item">{{item}}</option>
                 </select>
             </th>
+            <th class="filter">
+                <select class="" [formControl]="filled_1" style="width: 71px;"
+                    >
+                    <option value="Filled">Filled</option>
+                    <option value="Not Filled">Not Filled</option>
+                </select>
+            </th>
+
           
         </tr>
 
-    </thead>
+    </thead> 
 
      <tbody>
         <tr *ngFor="let resData of data | paginate
@@ -77,7 +93,8 @@
             
             
             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
-            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled}}</td>
+            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
+            <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
 
             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
 
@@ -93,7 +110,7 @@
             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
                 <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}'
                     (click)="viewUlbForm(resData)" [routerLink]="[
-            '/ulbform/overview', resData?._id  ]">
+            '/ulbform2223/overview', resData?._id  ]">
                     Take Action
                 </a>
             </td>
