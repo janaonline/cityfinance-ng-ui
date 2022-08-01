@@ -1,7 +1,7 @@
 
 <label for="form">Select Form:</label>
 <div>{{title}} </div>
-<select (change)="setFormId($event)" name="form" id="form">
+<select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form">
     <option *ngFor="let element of data" 
     [value]="element._id">
   {{element.name}}

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
@@ -62,6 +62,9 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
     CarouselModule.forRoot(),
     SharedModule,
     PdfViewerModule,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   exports: [Xvfc2223UlbRoutingModule],
 })
