@@ -15,6 +15,8 @@ import { SweetAlert } from "sweetalert/typings/core";
 })
 export class CommonActionComponent implements OnInit {
   @Input() item;
+  @Input() ulbStatus;
+  @Input() ulbStatusKeys;
   statusForm: FormGroup;
   change = '';
   triggerInput:boolean = false;
@@ -34,6 +36,9 @@ export class CommonActionComponent implements OnInit {
   activeClassReturn:boolean = false
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
+  actionData;
+  @Input() stateApprove;
+  @Input() stateReturn;
   @Output() newItemEvent = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -48,10 +53,14 @@ export class CommonActionComponent implements OnInit {
     this.initializeUserType();
    }
  toggle:any;
+
   ngOnInit(): void {
+    console.log(this.stateApprove)
+    
    this.initializeFormm();
    this.valueChange();
    console.log(this.statusForm?.value)
+   console.log(this.userTypes)
    
   }
   get f() { return this.statusForm.controls; }
@@ -59,6 +68,9 @@ export class CommonActionComponent implements OnInit {
   valueChange(){
     this.statusForm.valueChanges.subscribe(value => {
       console.log('value has changed:', value)
+      
+      this.actionData = value
+      console.log(this.actionData)
       if(value.status == 'approve'){
        this.activeClassApprove = true;
        this.activeClassReturn = false;
@@ -67,6 +79,7 @@ export class CommonActionComponent implements OnInit {
        this.activeClassApprove = false;
       }
       this.toggle =value
+      console.log(this.toggle)
       this.newItemEvent.emit(this.toggle)
   });
   }

@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: "",
     component: Xvfc2223UlbComponent,
-    canActivate: [Ulb2223Guard],
+    // canActivate: [Ulb2223Guard],
     children: [
       {
         path: "odf",

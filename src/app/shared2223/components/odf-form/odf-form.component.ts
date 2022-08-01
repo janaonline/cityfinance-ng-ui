@@ -302,33 +302,35 @@ export class OdfFormComponent implements OnInit {
     }
 
   }
+  stateApprove:boolean = false;
+  stateReturn:boolean = false;
   alertFormFinalSubmit() {
     this.submitted = true;
     this.activeClass = true;
     console.log(this.getFormData)
-    if(this.getFormData?.data?.isDraft == false){
-      console.log(this.actionData)
-        if(this.actionData.status == 'return'){
-          if(!this.actionData.reason){
-            this.errorSend = 'Please fill any reason'
-            swal(
-              'Failed to save','Failed to save'
-            );
-          }else{
-            this.errorSend = ''
-            this.actionStatus();
-            swal(
-              'Saved','Saved'
-            );
-          }     
-        }
-        if(this.actionData.status == 'approve'){
-          this.actionStatus();
-          swal(
-            'Successful','Successful'
-          );
-        }
-    }else{
+    // if(this.getFormData?.data?.isDraft == false){
+    //   console.log(this.actionData)
+    //     if(this.actionData.status == 'return'){
+    //       if(!this.actionData.reason){
+    //         this.errorSend = 'Please fill any reason'
+    //         swal(
+    //           'Failed to save','Failed to save'
+    //         );
+    //       }else{
+    //         this.errorSend = ''
+    //         this.actionStatus();
+    //         swal(
+    //           'Saved','Saved'
+    //         );
+    //       }     
+    //     }
+    //     if(this.actionData.status == 'approve'){
+    //       this.actionStatus();
+    //       swal(
+    //         'Successful','Successful'
+    //       );
+    //     }
+    // }else{
        
        if (this.profileForm.invalid) {
         swal(
@@ -374,7 +376,7 @@ export class OdfFormComponent implements OnInit {
         });
         // this.onSubmit('submit');
       }
-     }
+    //  }
    
   }
   
@@ -384,7 +386,7 @@ export class OdfFormComponent implements OnInit {
     // this.activeClass = true;
     // this.draft = false;
     console.log("profileForm", this.profileForm);
-
+    this.isDisabled = true;
     // if (this.profileForm.invalid) {
     //   return;
     // }
@@ -780,10 +782,20 @@ export class OdfFormComponent implements OnInit {
     console.log(event)
     this.actionData = event
     console.log(this.actionData)
+    if(this.actionData.status == 'approve'){
+      this.stateApprove = true
+      this.stateReturn = false
+      this.isDisabled = this.stateApprove
+    }else if(this.actionData.status == 'return'){
+      this.stateApprove = false
+      this.stateReturn = true
+      this.isDisabled = this.stateApprove
+    }
+    console.log(this.actionData)
     this.actionData.reason ? this.errorSend = '' : ''
       this.hideSaveDraft = false;
       this.positionDraft = true;
-     // event.status == 'approve' ? this.isDisabled = false : this.isDisabled = true
+    //  event.status == 'approve' ? this.isDisabled = true : this.isDisabled = false
    }
    actionStatus(){
     this.body = this.actionData
