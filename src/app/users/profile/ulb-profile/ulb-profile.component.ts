@@ -334,6 +334,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.area.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.population.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.wards.disable();
       return;
     }
   }

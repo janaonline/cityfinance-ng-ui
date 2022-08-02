@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { GrantAllocationComponent } from "./grant-allocation/grant-allocation.component";
 import { GtcFormComponent } from "./gtc-form/gtc-form.component";
 import { PropertyTaxFloorRateComponent } from "./property-tax-floor-rate/property-tax-floor-rate.component";
 import { ReviewApplicationComponent } from "./review-application/review-application.component";
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: "gtCertificate",
         component: GtcFormComponent,
+      },
+      {
+        path: "grant-allocation",
+        component: GrantAllocationComponent,
       },
     ],
   },
