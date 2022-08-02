@@ -1,3 +1,5 @@
+<!-- This form contains four rows. In 2020-21, there was a row level approval and fro 2021-22, there was Form Levle Approval -->
+<!-- in tbody, there are 8 tr, 2 for each Row. 1st Tr is the input TR and 2nd tr is the review status TR.  -->
 <div class="row">
     <div class="card col-sm-12 mb-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
         <form [formGroup]="form" *ngIf="form; else preloader" autocomplete="off" [ngClass]="{
@@ -6,7 +8,8 @@
       (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
   }">
             <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%" class="table">
-                <thead>
+              <!--heading Labels of the form  -->
+              <thead>
                     <th scope="col">Service Level Indicators</th>
                     <th scope="col">Benchmark</th>
                     <th scope="col">
@@ -19,19 +22,23 @@
                 </thead>
 
                 <tbody>
+                  <!-- this is the 1st input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[0] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               form.controls[service.key]['controls']['status'].value ===
               rejectAction
           }">
+          <!-- first element of the row - Question Label -->
                         <td>
                             <span class="service-name">{{ service.name }}
                 <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
                   class="mandatory">*</span></span>
                         </td>
+                        <!-- second element of row -> Benchmark values -->
                         <td>
                             <span class="benchamark-cell">{{ service.benchmark }}</span>
                         </td>
+                        <!-- third element of the row -> actual of 20-21 -->
                         <td formGroupName="baseline">
                             <div class="input-group data-input">
                                 <!-- (mouseover)="setFocusTarget(service.key+'baseline')" -->
@@ -73,6 +80,7 @@
             }} -->
                             </span>
                         </td>
+                        <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
                         <td *ngFor="let year of targets" formGroupName="target">
                             <div class="input-group data-input">
                                 <input (blur)="
@@ -121,6 +129,10 @@
                 {{messages[1]}}
               </span>
                         </td>
+
+
+                        <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
+                        <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
                         <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
                             <div class="actions" [ngClass]="{
                 'action-required':
@@ -162,6 +174,7 @@
                             </div>
                         </td>
                     </tr>
+<!-- Shows the review status of 1st Row-->
                     <tr *ngIf="
             form.controls[services[0].key]['controls']['status'].value ===
             rejectAction
@@ -186,7 +199,7 @@
                             </div>
                         </td>
                     </tr>
-
+<!-- this is the 2nd input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               form.controls[service.key]['controls']['status'].value ===
@@ -329,6 +342,7 @@
                             </div>
                         </td>
                     </tr>
+                    <!-- Shows the review status of 2nd Row-->
                     <tr *ngIf="
             form.controls[services[1].key]['controls']['status'].value ===
             rejectAction
@@ -353,7 +367,7 @@
                             </div>
                         </td>
                     </tr>
-
+<!-- this is the 3rd input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               form.controls[service.key]['controls']['status'].value ===
@@ -497,6 +511,7 @@
                             </div>
                         </td>
                     </tr>
+                    <!-- Shows the review status of 3rd Row-->
                     <tr *ngIf="
             form.controls[services[2].key]['controls']['status'].value ===
             rejectAction
@@ -521,7 +536,7 @@
                             </div>
                         </td>
                     </tr>
-
+<!-- this is the 4th input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               form.controls[service.key]['controls']['status'].value ===
@@ -665,6 +680,7 @@
                             </div>
                         </td>
                     </tr>
+                     <!-- Shows the review status of 4th Row--> 
                     <tr *ngIf="
             form.controls[services[3].key]['controls']['status'].value ===
             rejectAction
@@ -693,11 +709,12 @@
             </table>
 
         </form>
+        <!-- loader -->
         <ng-template #preloader>
             <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
         </ng-template>
     </div>
-
+<!-- Action Component View  -  from 2021-22 onwards-->
     <div class="col-sm-12 card mb-2 mt-1 p-1 box-shadow" *ngIf="(
     (finalSubmitStatus == 'true' && loggedInUserType == USER_TYPE.ULB) ||
     (loggedInUserType != USER_TYPE.ULB && compDis == 'true')
@@ -723,7 +740,7 @@
         </div>
     </div>
 
-
+<!-- save and next -->
     <div class="col-sm-12 footerBtnDiv d-flex" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0;">
             <a type="button" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</a>
