@@ -15,6 +15,9 @@ export class Gtc2223Component implements OnInit {
   userData;
   stateId;
   cardData;
+  nonmillionUntied = [];
+  nonmillionTied = [];
+  millionTied = [];
   ngOnInit(): void {
     this.getGtcData();
   }
@@ -23,6 +26,24 @@ export class Gtc2223Component implements OnInit {
       (res: any) => {
         console.log("res", res);
         this.cardData = res?.data;
+        res?.data.forEach((el) => {
+          if (el?.type == "nonmillion_untied") {
+            this.nonmillionUntied.push(el);
+          }
+          if (el?.type == "nonmillion_tied") {
+            this.nonmillionTied.push(el);
+          }
+          if (el?.type == "million_tied") {
+            this.millionTied.push(el);
+          }
+        });
+        console.log(
+          "array",
+          this.nonmillionUntied,
+
+          this.millionTied,
+          this.nonmillionTied
+        );
       },
       (error) => {
         console.log("err", error);
