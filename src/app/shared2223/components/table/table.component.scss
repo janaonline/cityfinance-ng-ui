@@ -13,7 +13,11 @@
     font-size: 14px;
     width: 100%;
   }
-  
+  .formCheck{
+    opacity: 0.9;
+    border: 1px solid rgb(139, 139, 139);
+    margin-top: 10px;
+  }
   .mat-table {
     overflow: auto;
     max-height: 500px;
@@ -24,7 +28,40 @@
     border: 1px solid rgb(232, 232, 232);
     border-radius: 3px;
 }
-
+select {
+  width: 90px !important;
+  border-radius: 6px;
+  color: gray
+}
+.inputWidth{
+  width:  69% !important;
+}
+input.field {
+  border: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+.hoverCheckbox :hover {
+  background-color: black;
+  width:20px;
+  height:20px;
+  color:red
+}
+.checkboxBackground{
+  background-color: rgb(211, 211, 211);
+}
+input:focus{
+  outline: 0;
+}
+.input-placeholder{
+    display: inline-block;
+    border: 1px solid rgb(143, 143, 143);
+    border-radius: 6px; 
+}
 .bars {
   display: flex;
   flex-direction: row;
