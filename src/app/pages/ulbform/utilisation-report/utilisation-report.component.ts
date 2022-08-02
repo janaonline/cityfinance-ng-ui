@@ -192,9 +192,14 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
       );
     });
 
+
     let form_data = JSON.parse(sessionStorage.getItem("allStatus"));
-    console.log("form-data and this.utilizationReport", form_data.utilReport, this.utilizationReport);
-    let form_status = form_data.utilReport.isSubmit;
+    console.log(
+      "form-data and this.utilizationReport",
+      form_data?.utilReport,
+      this.utilizationReport
+    );
+    let form_status = form_data?.utilReport?.isSubmit;
     console.log("stat", form_status);
     if (form_status == null) {
       this.submitted = false;
