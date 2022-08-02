@@ -117,7 +117,7 @@ export class SlbDashboardComponent
   };
   revenueData = [];
   tabAboutData: any;
-  tabId: any="61e150439ed0e8575c881028";
+  tabId: any = "61e150439ed0e8575c881028";
   component_name;
   tabIndex;
   nationalDataAvailability: Number;
@@ -273,8 +273,8 @@ export class SlbDashboardComponent
     this.getNationalLevelMapData("2020-21");
     this.yearList = this.yearList.reverse();
     this.selectedYear = this.yearList[1];
-    this.frontPanelData['year'] = this.selectedYear;
-    console.log('selectedYear',this.frontPanelData)
+    this.frontPanelData["year"] = this.selectedYear;
+    console.log("selectedYear", this.frontPanelData);
 
     this.getYears();
     this.dashboardDataCall();
@@ -282,6 +282,8 @@ export class SlbDashboardComponent
     // this.subFilterFn("popCat");
     this.getTableData(this.tableType);
     this.getIndicatorData(this.stateId);
+    // for new changes- sbl fornt panel data
+    this.getForntPlaneData();
     this.fetchMinMaxFinancialYears();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout("");
@@ -341,17 +343,18 @@ export class SlbDashboardComponent
     });
 
     this.creditRating = computedData;
-    this.frontPanelData.dataIndicators.map((elem) => {
-      if (elem.key == "ULBCreditRating") {
-        elem.value = computedData?.total.toString();
-      }
-    });
+    // comment for new changes
+    // this.frontPanelData.dataIndicators.map((elem) => {
+    //   if (elem.key == "ULBCreditRating") {
+    //     elem.value = computedData?.total.toString();
+    //   }
+    // });
     this.showCreditInfoByState();
   }
   dashboardLastUpdatedYear() {
-    console.log('dashboardLastUpdatedYear called')
+    console.log("dashboardLastUpdatedYear called");
     this.authService.getLastUpdated().subscribe((res) => {
-      if (res && res['success']) {
+      if (res && res["success"]) {
         Object.assign(this.frontPanelData, {
           year: res["year"],
           date: res["data"],
@@ -390,15 +393,19 @@ export class SlbDashboardComponent
     this.absCreditInfo["title"] = "India";
     this.absCreditInfo["ulbs"] = ulbList;
 
-    console.log("creditRating==>", this.creditRatingAboveA, this.creditRatingAboveBBB_Minus)
-
-    this.frontPanelData.dataIndicators.map((elem) => {
-      if (elem.key == "ulbsWithA") {
-        elem.value = this.creditRatingAboveA;
-      } else if (elem.key == "UlbsWithBBB") {
-        elem.value = this.creditRatingAboveBBB_Minus;
-      }
-    });
+    console.log(
+      "creditRating==>",
+      this.creditRatingAboveA,
+      this.creditRatingAboveBBB_Minus
+    );
+    // comment for new changes
+    // this.frontPanelData.dataIndicators.map((elem) => {
+    //   if (elem.key == "ulbsWithA") {
+    //     elem.value = this.creditRatingAboveA;
+    //   } else if (elem.key == "UlbsWithBBB") {
+    //     elem.value = this.creditRatingAboveBBB_Minus;
+    //   }
+    // });
   }
   calculateRatings(dataObject, ratingValue) {
     if (!dataObject["ratings"][ratingValue]) {
@@ -408,26 +415,27 @@ export class SlbDashboardComponent
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
   }
   getIndicatorData(state) {
-    this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
-      this.frontPanelData.dataIndicators.map((elem) => {
-        switch (elem.key) {
-          case "coveredUlbCount":
-            elem.value = this._commonService.formatNumber(res?.coveredUlbCount);
-            break;
-          case "financialStatements":
-            elem.value = this._commonService.formatNumber(
-              res?.financialStatements
-            );
-            break;
-          case "totalMunicipalBonds":
-            elem.value = this._commonService.formatNumber(
-              res?.totalMunicipalBonds
-            );
-            break;
-        }
-        return elem;
-      });
-    });
+    // comment for new changes
+    // this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
+    //   this.frontPanelData.dataIndicators.map((elem) => {
+    //     switch (elem.key) {
+    //       case "coveredUlbCount":
+    //         elem.value = this._commonService.formatNumber(res?.coveredUlbCount);
+    //         break;
+    //       case "financialStatements":
+    //         elem.value = this._commonService.formatNumber(
+    //           res?.financialStatements
+    //         );
+    //         break;
+    //       case "totalMunicipalBonds":
+    //         elem.value = this._commonService.formatNumber(
+    //           res?.totalMunicipalBonds
+    //         );
+    //         break;
+    //     }
+    //     return elem;
+    //   });
+    // });
   }
   private fetchMinMaxFinancialYears() {
     this._commonService.getFinancialYearBasedOnData().subscribe((res) => {
@@ -435,20 +443,20 @@ export class SlbDashboardComponent
         min: res.data[0],
         max: res.data[res.data.length - 1].slice(2),
       };
-      console.log('financialYearTexts', this.financialYearTexts)
-
-      this.frontPanelData.dataIndicators.map((elem) => {
-        if (elem?.key == "financialStatements") {
-          elem.title = "Financial Statements ";
-          elem.title =
-            elem.title +
-            "( " +
-            this.financialYearTexts.min +
-            " to " +
-            this.financialYearTexts.max +
-            " )";
-        }
-      });
+      console.log("financialYearTexts", this.financialYearTexts);
+      // comment for new changes
+      // this.frontPanelData.dataIndicators.map((elem) => {
+      //   if (elem?.key == "financialStatements") {
+      //     elem.title = "Financial Statements ";
+      //     elem.title =
+      //       elem.title +
+      //       "( " +
+      //       this.financialYearTexts.min +
+      //       " to " +
+      //       this.financialYearTexts.max +
+      //       " )";
+      //   }
+      // });
 
       // console.log(this.financialYearTexts);
     });
@@ -461,15 +469,16 @@ export class SlbDashboardComponent
       } catch (error) {
         this.bondIssueAmount = 0;
       }
-      console.log("this.bondIssueAmount",this.bondIssueAmount)
+      console.log("this.bondIssueAmount", this.bondIssueAmount);
       this.isBondIssueAmountInProgress = false;
-      this.frontPanelData.dataIndicators.map((elem) => {
-        if (elem?.key == "totalMunicipalBonds") {
-          elem.title = `Municipal Bond Issuances Of Rs. ${
-            this.bondIssueAmount || 0
-          }  Cr With Details`;
-        }
-      });
+      // comment for new changes
+      // this.frontPanelData.dataIndicators.map((elem) => {
+      //   if (elem?.key == "totalMunicipalBonds") {
+      //     elem.title = `Municipal Bond Issuances Of Rs. ${
+      //       this.bondIssueAmount || 0
+      //     }  Cr With Details`;
+      //   }
+      // });
     });
   }
   getNationalLevelMapData(year) {
@@ -1186,7 +1195,7 @@ export class SlbDashboardComponent
       _id: "null",
       name: "India",
     };
-    this.stateId = '';
+    this.stateId = "";
     this.updateDropdownStateSelection(obj);
     this.loadSLBComponent();
   }
@@ -1335,7 +1344,7 @@ export class SlbDashboardComponent
     };
     this.slbDashboardService.getUlbTypeDataForTable(apiRequest).subscribe(
       (res: any) => {
-        console.log('getTableData called', res)
+        console.log("getTableData called", res);
         if (res && res.success) {
           this.showLoader = false;
           this._loaderService.stopLoader();
@@ -1351,7 +1360,26 @@ export class SlbDashboardComponent
       }
     );
   }
-
+  //new chages
+  getForntPlaneData() {
+    this._commonService.getSLBdashboardForntData().subscribe(
+      (res: any) => {
+        console.log("slb form panel data", res);
+        // this.frontPanelData.dataIndicators.forEach((el)=>{
+        //   el.title = ''
+        // })
+        let resArr: any = res?.data;
+        this.frontPanelData.dataIndicators = resArr.map((el) => ({
+          value: this._commonService.formatNumber(el.value),
+          title: el.key,
+        }));
+        console.log("mapped", this.frontPanelData.dataIndicators);
+      },
+      (error) => {
+        console.log("error", error);
+      }
+    );
+  }
   ngOnDestroy(): void {
     // let mapReferenceList = ['nationalLevelMap', 'districtMap'];
     // for (const item of mapReferenceList) {
