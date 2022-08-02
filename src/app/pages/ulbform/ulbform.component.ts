@@ -636,7 +636,7 @@ export class UlbformComponent implements OnInit {
   @HostListener("window:scroll", ["$event"])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    console.log("scrolllllll", windowScroll, this.elementPosition);
+    //  console.log("scrolllllll", windowScroll, this.elementPosition);
     if (windowScroll < this.elementPosition) {
       this.sticky = false;
       this.stiHieght = false;
