@@ -1330,6 +1330,7 @@ export class SlbDashboardComponent
     const apiRequest: any = {
       financialYear: this.selectedYear,
       stateId: this.stateId,
+      value: "slb",
       [type]: true,
     };
     this.slbDashboardService.getUlbTypeDataForTable(apiRequest).subscribe(
