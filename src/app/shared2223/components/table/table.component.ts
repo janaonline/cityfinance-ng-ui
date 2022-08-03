@@ -7,6 +7,8 @@ import { MatSort} from '@angular/material/sort';
 import  {MatTableDataSource} from '@angular/material/table'
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { JSONUtility } from 'src/app/util/jsonUtil';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { TableApproveReturnDialogComponent } from './table-approve-return-dialog/table-approve-return-dialog.component';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -19,6 +21,7 @@ export class TableComponent implements OnInit, OnChanges {
     private commonService: NewCommonService,
     private _commonService: CommonService,
     private _fb: FormBuilder,
+    public dialog: MatDialog
   ) { 
     this.initializeFilterForm();
     this.initializeListFetchParams()
@@ -54,10 +57,12 @@ listFetchOption = {
 //  data: UserData[] = [];
 @Input()
 formId
-
+selectedId:any=[];
+checkedStatus;
 ulbType
-
+disableEnableCheckbox:boolean
 statusList
+newArr:any=[]
 populationType
 columnNames = []
 params = {
@@ -89,7 +94,7 @@ this.callAPI();
           this.data = res['data'];
           this.total = res['total'];
           this.columnNames = res['columnNames']
-         
+          this.data = this.data.map(element => ({...element, isChecked: this.isChecked(element)}));
           this.tableDefaultOptions.totalCount = this.total
           this.ulbType =  Object.keys(res['ulbType']).length > 0 ? Object.values(res['ulbType'])  : null,
           this.statusList =  Object.keys(res['statusList']).length > 0 ? Object.values(res['statusList'])  : null
@@ -100,6 +105,13 @@ this.callAPI();
           alert(err.message)
         })
      }
+
+     isChecked(element: any) {
+       console.log('isChecked =====>', element);
+       let isUlbIdExist = this.selectedId.some(item=>item == element.ulbId)
+       return isUlbIdExist
+     }
+
      setPage(pageNoClick: number) {
       this.tableDefaultOptions.currentPage = pageNoClick;
       this.listFetchOption.skip =
@@ -179,6 +191,26 @@ this.callAPI();
           this.statesByID[state._id] = state;
         });
       });
+    }
+    selected_checkbox(id,status: HTMLInputElement){
+      this.checkedStatus = status.checked
+      let selectedIndex = this.selectedId.findIndex(item=> item == id)
+      if(selectedIndex > -1){
+        this.selectedId.splice(selectedIndex,1)
+        this.selectedId.splice()
+      } else{
+        this.selectedId.push(id)
+      }
+      console.log(this.selectedId);
+    }
+    openDialog(): void {
+      const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
+        data: this.selectedId,
+        width: "50vw",
+        height: "auto",
+        panelClass: "no-padding-dialog",
+      });
+      dialogRef.afterClosed().subscribe((result) => {});
     }
 }
 
