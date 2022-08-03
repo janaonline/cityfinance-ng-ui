@@ -61,6 +61,9 @@
                     <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let item of nonmillionTied" style="padding: 1rem 2rem;">
                         <div class="card">
                             <div class="card-body">
+                                <div class="ins-h">
+                                    Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
+                                </div>
                                 <div style="position: relative">
                                     <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
                                     </pdf-viewer>
@@ -89,6 +92,7 @@
                                             <p class="m-0">
                                                 <!-- {{ currentDate }} -->
                                                 <!-- {{ item?.updateDate }} -->
+                                                {{ item?.createdAt | date:'medium' }}
                                             </p>
                                         </div>
                                     </div>
@@ -110,6 +114,9 @@
                     <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let item of nonmillionTied" style="padding: 1rem 2rem;">
                         <div class="card">
                             <div class="card-body">
+                                <div class="ins-h">
+                                    Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
+                                </div>
                                 <div style="position: relative">
                                     <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
                                     </pdf-viewer>
@@ -138,6 +145,7 @@
                                             <p class="m-0">
                                                 <!-- {{ currentDate }} -->
                                                 <!-- {{ item?.updateDate }} -->
+                                                {{ item?.createdAt | date:'medium' }}
                                             </p>
                                         </div>
                                     </div>
