@@ -1,8 +1,64 @@
-<h1 mat-dialog-title>Delete file</h1>
-<div mat-dialog-content>
-  Would you like to delete cat.jpeg?
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+<div class="card">
+    <div class="row mt-3">
+        <div class="col-6">
+            <label>Comments :</label>
+        </div> 
+        <div class="col-6">
+            <textarea name="reason" id="reason" cols="33" rows="2" placeholder="Type here ..."></textarea>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6">
+            <label>Supporting document :</label>
+        </div> 
+        <div class="col-6">
+            
+                <div class="row mt-3 mb-3 question">
+                    <div class="col-12">
+                        <div class="image-upload">
+                            <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                                <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                                    PDF
+                                    <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                        style="margin-left: 4px;">
+                                </a>
+                                <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                            </label>
+                            <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted }"
+                                (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />                            
+                        </div>
+                    </div>
+                    
+                </div>
+                
+             
+        </div>
+    </div>
+    <div class="row" *ngIf="showStateAct">
+        <div class="col-6 filePadding mb-3">
+            {{stateActFileName}}
+        </div>
+        <div class="col-3 progressBar" *ngIf="stateActProgress">
+            <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
+                attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{ width: stateActProgress + '%' }">
+                {{ stateActProgress }}%
+            </div>
+        </div>
+        <div class="col-3 filePadding">
+            <a href="{{ stateActFileUrl }}" target="_blank">
+                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+            </a>
+            <span>
+                <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
+                    <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                </a>
+            </span>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <button class="btn btn-primary" type="submit" (click)="alertSave()">Save</button>
+        </div>
+    </div>
 </div>

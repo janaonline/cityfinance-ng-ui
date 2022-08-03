@@ -205,10 +205,9 @@ this.callAPI();
     }
     openDialog(): void {
       const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
-        data: '',
-        width: "85vw",
-        height: "100%",
-        maxHeight: "90vh",
+        data: this.selectedId,
+        width: "50vw",
+        height: "auto",
         panelClass: "no-padding-dialog",
       });
       dialogRef.afterClosed().subscribe((result) => {});

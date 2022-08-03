@@ -624,7 +624,10 @@ export class PfmsComponent implements OnInit {
       if (fileExtension === "pdf") {
         validFiles.push(file);
       } else {
+        this.showIcon = false;
+        this.showIconOtherDoc = false;
         swal("Only PDF File can be Uploaded.")
+        
         return;
       }
     }
