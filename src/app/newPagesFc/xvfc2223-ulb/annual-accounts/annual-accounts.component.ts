@@ -267,7 +267,7 @@ export class AnnualAccountsComponent implements OnInit {
     ulb: this.userData.ulb,
     design_year: this.Years["2022-23"],
     isDraft: null,
-    status: null,
+    status: "PENDING",
     audited: {
       provisional_data: {
         bal_sheet: {
@@ -486,14 +486,14 @@ export class AnnualAccountsComponent implements OnInit {
     sessionStorage.setItem("changeInAnnualAcc", "false");
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
-        if(element?.name == 'Annual Accounts'){
+      this.sideMenuItem[key].forEach((element) => {
+        console.log("name name", element);
+        if (element?.name == "Annual Accounts") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
         }
       });
-  }
+    }
     this.clickedSave = false;
     this.onLoad();
   }
@@ -575,8 +575,8 @@ export class AnnualAccountsComponent implements OnInit {
   alertClose() {
     this.stay();
   }
-  action = '';
-  url = ''
+  action = "";
+  url = "";
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     let ulbId = this.userData.ulb;
@@ -600,15 +600,15 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = false;
           }
-this.action = resObj?.action;
-this.url = resObj?.url;
+          this.action = resObj?.action;
+          this.url = resObj?.url;
 
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
         },
         (err) => {
           this.action = err.error?.action;
-this.url = err.error?.url;
+          this.url = err.error?.url;
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
@@ -838,7 +838,10 @@ this.url = err.error?.url;
             this.manadUploadErrors[fileType].standardized_data.error = false;
             //  this.checkDiff();
           } catch (error) {
-            console.log('error?.data.message upload error', error?.data.message);
+            console.log(
+              "error?.data.message upload error",
+              error?.data.message
+            );
 
             this.uploadErrors[fileType].standardized_data.file = file;
             this.uploadErrors[fileType].standardized_data.error =
@@ -1011,7 +1014,7 @@ this.url = err.error?.url;
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log('AAAA', objKeysE, objLength);
+          console.log("AAAA", objKeysE, objLength);
         }
         if (
           objLength > 0 &&
@@ -1214,7 +1217,7 @@ this.url = err.error?.url;
       this.manadUploadErrors
     );
     console.log("this. answer error", this.answerError);
-    console.log("this. upload error", this.uploadErrors,);
+    console.log("this. upload error", this.uploadErrors);
     if (this.annualError) {
       swal("Missing Data !", `${this.errorMsg}`, "error");
     } else {
@@ -1244,7 +1247,6 @@ this.url = err.error?.url;
           return;
         }
       }
-
     });
     if (
       this.answerError.audited.submit_annual_accounts == true ||

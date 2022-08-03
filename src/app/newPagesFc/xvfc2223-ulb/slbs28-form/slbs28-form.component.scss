@@ -1,0 +1,28 @@
+.header2 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 0.2rem;
+    font-weight: 600;
+}
+
+.card {
+    padding: 5px 6px;
+    margin-bottom: 25px;
+    // background-color: #F7F7F7;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: none;
+}
+
+.form-control {
+    height: auto;
+}
