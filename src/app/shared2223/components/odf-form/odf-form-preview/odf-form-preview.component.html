@@ -1,0 +1,104 @@
+<div class="container-fluid" id="odf" #odf>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+              Submissions for 15th FC grant for FY 2022-23
+        </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <b>Form Current Status:</b> {{formStatus}}
+            </p>
+        </div>
+        <div class="col-sm-6 text-end d-n">
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(templateSave)">Download as PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- main content -->
+                    <div class="row">
+                        <div class="col-sm-6 questionClass qus-h">
+                            <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating ?*
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{ratingName ? ratingName : 'N/A'}}
+
+                            <!-- <div *ngIf="!isGfcOpen"> -->
+                            <div class="score">
+                                <div>Score = {{this.data?.score}}</div>
+                            </div>
+
+                            <!-- </div> -->
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle" *ngIf="!data?.uploadText">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?*
+                            </span>
+                            <span class="fontStyle qus-h" *ngIf="data?.uploadText">(B) Upload Declaration ?*
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a href="{{fileUrl}}" *ngIf="fileName" target="_blank">{{fileName}}</a>
+                            <span *ngIf="!fileName">N/A</span>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="uploadCertificate">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(C) Certification Issue Date
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{certDate ? certDate : 'N/A'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

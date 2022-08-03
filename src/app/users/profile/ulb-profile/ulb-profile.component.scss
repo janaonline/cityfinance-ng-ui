@@ -1,56 +1,58 @@
 .wrapper {
-  background-attachment: rgb(140, 215, 245);
-  // width: 85%;
-  // margin-left: 10%;
-  display: flex;
-  flex-wrap: wrap;
-  h1 {
-    width: 100%;
-  }
-
-  form {
-    width: 100%;
-
-    .fileName {
-      font-weight: normal;
+    background-attachment: rgb(140, 215, 245);
+    // width: 85%;
+    // margin-left: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    h1 {
+        width: 100%;
     }
-
-    label {
-      display: block;
+    form {
+        width: 100%;
+        .fileName {
+            font-weight: normal;
+        }
+        label {
+            display: block;
+        }
+        input[type="file"] {
+            display: none;
+        }
     }
-
-    input[type="file"] {
-      display: none;
+    .input-group {
+        width: 31%;
+        margin-top: 2%;
+        margin-right: 2%;
+        display: inline-block;
+        .form-control {
+            border-radius: 4px;
+        }
     }
-  }
-
-  .input-group {
-    width: 31%;
-    margin-top: 2%;
-    margin-right: 2%;
-    display: inline-block;
-
-    .form-control {
-      border-radius: 4px;
-    }
-  }
 }
 
 .is-invalid {
-  border-color: red;
+    border-color: red;
 }
 
 .form-group {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 :host {
-  .back-button {
-    padding: 0.5% 3%;
-  }
+    .back-button {
+        padding: 0.5% 3%;
+    }
+    .form-field-error-message {
+        text-align: left;
+    }
+}
 
-  .form-field-error-message {
-    text-align: left;
-  }
+.info-p {
+    // background-color: green;
+    // color: #fff;
+    // border: 1px solid transparent;
+    // border-radius: 4px;
+    padding: 4px;
+    font-weight: 500;
 }

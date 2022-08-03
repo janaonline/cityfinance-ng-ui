@@ -1,0 +1,15 @@
+
+<div class="row">
+    <h2>{{title}}</h2>
+</div>
+<div class="row mt-2">
+  <div class="col-12">
+    <label for="form">Select Form:</label>
+    <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
+      <option *ngFor="let element of data" [value]="element._id">
+         {{element.name}}
+      </option>
+    </select>
+  </div>
+</div>
+<app-table [formId]="formId"></app-table>

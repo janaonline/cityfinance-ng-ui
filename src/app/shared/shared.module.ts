@@ -88,7 +88,7 @@ import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/com
 import { MatRadioModule } from "@angular/material/radio";
 import { MdePopoverModule } from '@material-extended/mde';
 import { BalanceTabledialogComponent } from "./components/balance-table/balance-tabledialog/balance-tabledialog.component";
-
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -111,6 +111,7 @@ import { BalanceTabledialogComponent } from "./components/balance-table/balance-
     MatSelectModule,
     MatCheckboxModule,
     GooglePlaceModule,
+    BsDropdownModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
       libraries: ["places"],
@@ -119,7 +120,7 @@ import { BalanceTabledialogComponent } from "./components/balance-table/balance-
     MatTableModule,
     NgxPaginationModule,
     MatRadioModule,
-    MdePopoverModule
+    MdePopoverModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -176,7 +177,7 @@ import { BalanceTabledialogComponent } from "./components/balance-table/balance-
     ShareDialogComponent,
     BasicComponent,
     ComparativeUlbComponent,
-    BalanceTabledialogComponent
+    BalanceTabledialogComponent,
   ],
   exports: [
     FormsModule,
@@ -221,7 +222,7 @@ import { BalanceTabledialogComponent } from "./components/balance-table/balance-
     SlbChartsComponent,
     StateFilterDataComponent,
     ComparativeUlbComponent,
-    BalanceTabledialogComponent
+    BalanceTabledialogComponent,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
