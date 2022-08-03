@@ -32,7 +32,7 @@ import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.com
     GtcFormComponent,
     GtcPreviewComponent,
     GrantAllocationComponent,
-    DashboardComponent
+    DashboardComponent,
     GaPreviewComponent
   ],
   imports: [
