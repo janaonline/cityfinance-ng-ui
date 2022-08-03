@@ -1,45 +1,42 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
-import { UserUtility } from 'src/app/util/user/user';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 @Component({
-  selector: 'app-common-action',
-  templateUrl: './common-action.component.html',
-  styleUrls: ['./common-action.component.scss']
+  selector: 'app-table-approve-return-dialog',
+  templateUrl: './table-approve-return-dialog.component.html',
+  styleUrls: ['./table-approve-return-dialog.component.scss']
 })
-export class CommonActionComponent implements OnInit {
-  @Input() item;
-  @Input() ulbStatus;
-  @Input() ulbStatusKeys;
-  statusForm: FormGroup;
+export class TableApproveReturnDialogComponent implements OnInit {
   change = '';
-  triggerInput:boolean = false;
-  errorMessegeCommonAction: any = '';
-  commonActFileName;
+  errorMessege: any = '';
+  alertError =
+    "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  errorMessegeStateAct: any = '';
+  stateActFileName;
   stateActUrl = ''
-  showCommonAct:boolean = false;
+  showStateAct:boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
-  approveComment:boolean = false;
-  activeButtonApprove:boolean = false
-  activeButtonReturn:boolean = false
-
   apiData = {};
-  activeClassApprove:boolean = false
-  activeClassReturn:boolean = false
-  loggedInUserType: USER_TYPE;
-  userTypes = USER_TYPE;
-  actionData;
-  @Input() stateApprove;
-  @Input() stateReturn;
-  @Output() newItemEvent = new EventEmitter<string>();
+  body:any;
+  clickedSave;
+  routerNavigate = null;
+  submitted :boolean = false
+  isDisabled:boolean = false;
+  activeClass:boolean = false;
+  stateActFileUrl;
+  constitutedValue;
+  constitutedValueActive :boolean = false
+  memorandum:boolean = false
+  noteMessege:boolean = false
+  commonActionCondition:boolean = false;
+  // isDisabled:boolean =false
+  previewFormData:any;
+  // @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -47,93 +44,31 @@ export class CommonActionComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  userLoggedInDetails: IUserLoggedInDetails;
-  constructor(private dataEntryService: DataEntryService,private formBuilder: FormBuilder, private profileService: ProfileService) {
-    this.initializeLoggedInUserDataFetch();
-    this.initializeUserType();
+  constructor(@Inject(
+    MAT_DIALOG_DATA) public data: any,
+  private dataEntryService: DataEntryService,
+  private _matDialog: MatDialog,
+  ) {
+    console.log(data)
    }
- toggle:any;
 
   ngOnInit(): void {
-    console.log(this.stateApprove)
-    
-   this.initializeFormm();
-   this.valueChange();
-   console.log(this.statusForm?.value)
-   console.log(this.userTypes)
+  }
    
-  }
-  get f() { return this.statusForm.controls; }
-
-  valueChange(){
-    this.statusForm.valueChanges.subscribe(value => {
-      console.log('value has changed:', value)
-      
-      this.actionData = value
-      console.log(this.actionData)
-      if(value.status == 'approve'){
-       this.activeClassApprove = true;
-       this.activeClassReturn = false;
-      }else if(value.status == 'return'){
-       this.activeClassReturn = true;
-       this.activeClassApprove = false;
-      }
-      this.toggle =value
-      console.log(this.toggle)
-      this.newItemEvent.emit(this.toggle)
-  });
-  }
-  initializeFormm(){
-    this.statusForm = this.formBuilder.group({
-      status: '',
-      reason: '',
-      document: this.formBuilder.group({
-        url: [''],
-        name: ['']
-      }),
-    });
-  }
-
-  private initializeLoggedInUserDataFetch() {
-    UserUtility.getUserLoggedInData().subscribe((data) => {
-      this.userLoggedInDetails = data;
-      console.log("hi", data);
-    });
-  }
-
-  private initializeUserType() {
-    this.loggedInUserType = this.profileService.getLoggedInUserType();
-    console.log(this.loggedInUserType)
-  }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
-  userEvent;
-  onChange(event){
-    console.log(event)
-   if(event == 'approve'){
-     this.item = ''
-     this.userEvent = event
-     this.approveComment = true;
-     this.triggerInput = false;
-   }else if(event == 'return'){
-    this.userEvent = event
-     this.triggerInput = true;
-     this.approveComment = false;
-   }
-  }
-  
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     
-    if(progessType == 'commonActProgress'){
+    if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
-        this.errorMessegeCommonAction = 'File size should be less than 20Mb.'
-        this.statusForm.controls.document.reset();
+        this.errorMessegeStateAct = 'File size should be less than 20Mb.'
+        // this.stateFinance.controls.stateNotification.reset();
         const error = setTimeout(() => {
-          this.showCommonAct = false
-          this.errorMessegeCommonAction = ''
+          this.showStateAct = false
+          this.errorMessegeStateAct = ''
         }, 4000);
         return;
       }
@@ -141,9 +76,9 @@ export class CommonActionComponent implements OnInit {
    
       const fileName = event.target.files[0].name;
       
-      if (progessType == 'commonActProgress') {
-        this.commonActFileName = event.target.files[0].name;
-        this.showCommonAct = true;
+      if (progessType == 'stateActProgress') {
+        this.stateActFileName = event.target.files[0].name;
+        this.showStateAct = true;
       }
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
@@ -152,14 +87,14 @@ export class CommonActionComponent implements OnInit {
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
-      this.showCommonAct = false;
-      this.commonActFileName = ''
-      this.statusForm.patchValue({
-        document:{
-          url:'',
-          name: ''
-       }
-      });
+      this.showStateAct = false;
+      this.stateActFileName = ''
+      // this.stateFinance.patchValue({
+      //   stateNotification:{
+      //     url:'',
+      //     name: ''
+      //  }
+      // });
       // this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
       // this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
       // console.log(this.stateFinance.controls)
@@ -245,14 +180,14 @@ export class CommonActionComponent implements OnInit {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
             
-            if (progressType == 'commonActProgress') {
+            if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
               console.log(this.stateActUrl)
-              this.statusForm.get('document').patchValue({
-                url: fileAlias,
-                name: file.name
-              })
-              sessionStorage.setItem("changeInStateFinance", "true");
+              // this.stateFinance.get('stateNotification').patchValue({
+              //   url: fileAlias,
+              //   name: file.name
+              // })
+              // sessionStorage.setItem("changeInStateFinance", "true");
               console.log(file)
               console.log(s3URL)
             }
@@ -264,5 +199,36 @@ export class CommonActionComponent implements OnInit {
         }
       );
   }
+  alertSave(){
   
+    this._matDialog.closeAll();
+    swal(
+      "Confirmation !",
+      `Are you sure you want to save this data ?`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Yes",
+            value: "yes",
+          },
+          Cancel: {
+            text: "No",
+            value: "no",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "yes":
+          this.onSubmit("yes");
+          break;
+        case "no":
+          break;
+      }
+    });
+  }
+  onSubmit(type){
+    swal('Saved Data !!!!!!','Saved Data Successfully !!!')
+  }
 }

@@ -341,6 +341,7 @@ export class StateFinanceComponent implements OnInit {
       if (fileExtension === "pdf") {
         validFiles.push(file);
       } else {
+        this.showStateAct = false
         swal("Only PDF File can be Uploaded.")
         return;
       }
