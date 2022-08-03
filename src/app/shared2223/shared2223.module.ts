@@ -22,6 +22,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { TableComponent } from './components/table/table.component';
 import { CommonActionComponent } from './components/common-action/common-action.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TableApproveReturnDialogComponent } from './components/table/table-approve-return-dialog/table-approve-return-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     ErrorDisplayComponent,
     TableComponent,
     CommonActionComponent,
+    TableApproveReturnDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-2">
 
     <form *ngIf="statusForm" [formGroup]="statusForm">
         <div class="row">
@@ -103,6 +103,85 @@
     </div> -->
    
 </div>
-<div class="card mt-2" *ngIf="loggedInUserType === userTypes.ULB">
-    {{ userLoggedInDetails.name }}
+<div class="card mt-2" *ngIf="loggedInUserType === userTypes.ULB && !stateApprove && !stateReturn">
+    <div class="row">
+        <div class="col-6">
+           <p class="fontStyle">Status :</p>
+        </div>
+        <div class="col-6">
+            <p>Under review by State</p> 
+        </div>
+    </div>
+</div>
+<div class="card mt-2" *ngIf="stateApprove">
+    <div class="row">
+        <div class="col-6">
+           <p class="fontStyle">Status :</p>
+        </div>
+        <div class="col-6">
+            <p>Under review by Mohua</p> 
+        </div>
+    </div>
+    
+        <div class="row">
+        <div class="col-6">
+           <p class="fontStyle">State Review Status :</p>
+        </div>
+        <div class="col-6">
+            <p>Approved</p> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p class="fontStyle">Remarks :</p> 
+        </div>
+        <div class="col-6">
+            <p>If available</p> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p class="fontStyle">Document :</p> 
+        </div>
+        <div class="col-6">
+            <p>If available</p> 
+        </div>
+    </div>
+    
+</div>
+<div class="card mt-2" *ngIf="stateReturn">
+    <div class="row">
+        <div class="col-6">
+           <p class="fontStyle">Status :</p>
+        </div>
+        <div class="col-6">
+            <p>Under review by Mohua</p> 
+        </div>
+    </div>
+    
+        <div class="row">
+        <div class="col-6">
+           <p class="fontStyle">State Review Status :</p>
+        </div>
+        <div class="col-6">
+            <p>Returned</p> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p class="fontStyle">Reason :</p> 
+        </div>
+        <div class="col-6">
+            <p>If available</p> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p class="fontStyle">Document :</p> 
+        </div>
+        <div class="col-6">
+            <p>If available</p> 
+        </div>
+    </div>
+    
 </div>

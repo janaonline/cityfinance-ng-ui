@@ -29,23 +29,29 @@
                                 <div class="col-sm-6 q-h">
                                     {{quesItem?.quesText}}
                                 </div>
-                                <div class="col-sm-3 text-center">
+                                <div class="col-sm-3">
                                     <button class="btn btn-primary">Download Sample</button>
                                 </div>
                                 <div class="col-sm-3" [matTooltip]="quesItem?.disableMsg" matTooltipClass="tooltip-red" [matTooltipDisabled]="quesItem?.isDisableQues == false">
                                     <!-- <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues">Upload PDF*</button> -->
-                                    <button [disabled]="quesItem?.isDisableQues" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
+                                    <!-- <button [disabled]="quesItem?.isDisableQues" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
                                     <sup><span class="wh-s">*</span></sup>
                                      <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
                                  </button>
-                                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf', cIndex, qIndex)" type="file" accept=".pdf" #file>
+                                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel', cIndex, qIndex)" type="file" accept=".pdf" #file> -->
+                                    <button [disabled]="quesItem?.isDisableQues" (click)="bs_excel1.click()" class="btn btn-primary">Upload
+                                      EXCEL<sup><span class="wh-s">*</span></sup>
+                                    <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                      data-height="16"></span>
+                                </button>
+                                    <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel', cIndex, qIndex)" type="file" accept=".xls, .xlsx" #file>
                                 </div>
                             </div>
                             <div class="row mt-3 i-c" *ngIf="quesItem?.file?.name != ''">
                                 <div class="col-sm-6">
                                     <a href="{{quesItem?.file?.url}}" target="_blank"> {{quesItem?.file?.name}} </a>
                                 </div>
-                                <div class="ms-1" [ngClass]="{'w-c' : quesItem?.file?.progress}" *ngIf="quesItem?.file?.progress" style="padding: 0;">
+                                <div class="" [ngClass]="{'w-c' : quesItem?.file?.progress}" *ngIf="quesItem?.file?.progress" style="">
                                     <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ quesItem?.file?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: quesItem?.file?.progress + '%' }">
                                         {{ quesItem?.file?.progress }}%
                                     </div>

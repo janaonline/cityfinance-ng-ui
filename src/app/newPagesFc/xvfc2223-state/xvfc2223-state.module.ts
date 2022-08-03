@@ -19,6 +19,7 @@ import { PropertyTaxFloorRatePreviewComponent } from "./property-tax-floor-rate/
 import { GtcPreviewComponent } from './gtc-form/gtc-preview/gtc-preview.component';
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     GtcPreviewComponent,
     GrantAllocationComponent,
     DashboardComponent
+    GaPreviewComponent
   ],
   imports: [
     CommonModule,

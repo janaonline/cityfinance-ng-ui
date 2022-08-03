@@ -327,7 +327,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.showStateAct = true;
       }
       const filesSelected = <Array<File>>event.target["files"];
-      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected,progessType));
       this.upload(progessType, fileName);
 
   }
@@ -362,14 +362,24 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     }
     sessionStorage.setItem("changeInPropertyTax", "true");
   }
-  filterInvalidFilesForUpload(filesSelected: File[]) {
+  filterInvalidFilesForUpload(filesSelected: File[],progessType) {
     const validFiles = [];
+    console.log(filesSelected)
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
       if (fileExtension === "pdf") {
         validFiles.push(file);
       } else {
+        if(progessType == 'stateActProgress'){
+          this.showStateAct = false
+        }
+        if(progessType == 'minimumFloorProgress'){
+          this.showMinimumFloor = false
+        }
+        if(progessType == 'rulesByLawsProgress'){
+          this.showRulesLaws = false
+        }
         swal("Only PDF File can be Uploaded.")
         return;
       }

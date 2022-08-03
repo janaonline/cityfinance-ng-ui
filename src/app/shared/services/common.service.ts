@@ -735,18 +735,22 @@ export class CommonService {
 
   createCityTooltip(markerDataPoint: any) {
     const tooltipStyle = {
-      color: '#000000',
+      color: "#000000",
       fontWeight: 600,
-      fontSize: '0.7rem'
+      fontSize: "0.7rem",
     };
     if (markerDataPoint && markerDataPoint.name) {
       return `<p style="color: ${tooltipStyle?.color}; font-weight: ${tooltipStyle?.fontWeight}; font-size: ${tooltipStyle?.fontSize};">
         ${markerDataPoint.name}
-        </p>`
+        </p>`;
     }
   }
 
   roundOffValue(data: any) {
-    data ? Math.round(data) : '---';
+    data ? Math.round(data) : "---";
+  }
+
+  getSLBdashboardForntData() {
+    return this.http.get(`${environment.api.url}slb-specific-metrics`);
   }
 }

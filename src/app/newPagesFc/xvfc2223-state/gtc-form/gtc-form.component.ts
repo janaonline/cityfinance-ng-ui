@@ -4,9 +4,10 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
 import { post } from "jquery";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
-import { SweetAlert } from "sweetalert/typings/core";
+
 import { State2223Service } from "../state-services/state2223.service";
 import { GtcPreviewComponent } from "./gtc-preview/gtc-preview.component";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-gtc-form",
@@ -241,7 +242,7 @@ export class GtcFormComponent implements OnInit {
             quesText:
               "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
             question:
-              "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM ( 2021-22)",
+              "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM - FY ( 2021-22)",
             key: "million_tied_2021-22_1",
             qusType: "",
             file: {
@@ -264,7 +265,7 @@ export class GtcFormComponent implements OnInit {
             quesText:
               "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
             question:
-              "(B) Upload Signed Grant Transfer Certificate for  Water Supply and SWM ( 2022-23)",
+              "(B) Upload Signed Grant Transfer Certificate for  Water Supply and SWM - FY ( 2022-23)",
             key: "million_tied_2022-23_1",
             qusType: "",
             file: {
@@ -429,8 +430,8 @@ export class GtcFormComponent implements OnInit {
     console.log("indexes", i, j);
     let postBody = { ...this.gtcFormData[i]?.quesArray[j] };
     if (
-      (this.gtcFormData[i].quesArray[j].file.name != "" ||
-      this.gtcFormData[i].quesArray[j].file.url != "")
+      this.gtcFormData[i].quesArray[j].file.name != "" ||
+      this.gtcFormData[i].quesArray[j].file.url != ""
     ) {
       console.log("111", postBody);
 
