@@ -12,6 +12,7 @@ import { PfmsComponent } from "./pfms/pfms.component";
 import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
 import { ResourceComponent } from "./resource/resource.component";
 import { Slbs2223Component } from "./slbs2223/slbs2223.component";
+import { Slbs28FormComponent } from "./slbs28-form/slbs28-form.component";
 import { Xvfc2223UlbComponent } from "./xvfc2223-ulb.component";
 
 const routes: Routes = [
@@ -58,14 +59,18 @@ const routes: Routes = [
       },
       {
         path: "property_tax_operationalisation",
-        component: PropertyTaxOperationalisationComponent
-      }
+        component: PropertyTaxOperationalisationComponent,
+      },
+      {
+        path: "28SLBsForm",
+        component: Slbs28FormComponent,
+      },
     ],
   },
-  {
-    path: "profileUpdate",
-    component: IncompleteProfileComponent,
-  },
+  // {
+  //   path: "profileUpdate",
+  //   component: IncompleteProfileComponent,
+  // },
 ];
 
 @NgModule({
