@@ -40,7 +40,6 @@ export class Gtc2223Component implements OnInit {
         console.log(
           "array",
           this.nonmillionUntied,
-
           this.millionTied,
           this.nonmillionTied
         );
