@@ -6,12 +6,16 @@ import { PropertyTaxFloorRateComponent } from "./property-tax-floor-rate/propert
 import { ReviewApplicationComponent } from "./review-application/review-application.component";
 import { StateFinanceComponent } from "./state-finance/state-finance.component";
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
-
+import {DashboardComponent} from './dashboard/dashboard.component'
 const routes: Routes = [
   {
     path: "",
     component: Xvfc2223StateComponent,
     children: [
+      {
+        path: "dashboard",
+        component: DashboardComponent,
+      },
       {
         path: "property-tax",
         component: PropertyTaxFloorRateComponent,

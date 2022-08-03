@@ -2,6 +2,7 @@
     position: absolute;
     left: 75%;
     width: 60px;
+    background-color: #0d7c01;
 }
 
 :host {
@@ -152,6 +153,12 @@
     th {
         color: #047474;
     }
+
+    .population {
+        width: 11rem;
+        margin-left: 2%;
+    }
+
     .non-ulb-view-table {
         // width: 115%;
         // transform: translateX(-7%);
