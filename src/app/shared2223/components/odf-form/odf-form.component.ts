@@ -402,7 +402,7 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
-        if (res && res.success && this.userData?.role != 'ULB') {
+        if (res && res.success && this.userData?.role == 'ULB') {
           this.commonActionCondition = true 
           this.isDisabled = true;
           this.clickedSave = false;
