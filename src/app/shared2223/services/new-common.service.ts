@@ -85,4 +85,11 @@ export class NewCommonService {
       `${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`
     );
   }
+
+  postTableApproveRejectData(body){
+    return this.http.post(`${environment.api.url}common-action`, body);
+  }
+  getTableApproveRejectData(body){
+    return this.http.post(`${environment.api.url}common-action`, body);
+  }
 }

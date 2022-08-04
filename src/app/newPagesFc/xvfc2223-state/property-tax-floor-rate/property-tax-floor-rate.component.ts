@@ -66,7 +66,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   design_year;
   stateId;
   yearValue;
-
+  minimumUrl;
+  ruleUrl;
   ngOnInit(): void {
     this.clickedSave = false;
     sessionStorage.setItem("changeInPropertyTax", "false");
@@ -125,9 +126,11 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.stateActFileName ? this.showStateAct = true : false;
 
     this.minimumFloorFileName = data?.data?.floorRate?.name;
+    this.minimumUrl = data?.data?.floorRate?.url;
     this.minimumFloorFileName ? this.showMinimumFloor = true : false;
 
     this.rulesLawsFileName = data?.data?.comManual?.name;
+    this.ruleUrl = data?.data?.floorRate?.url;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
 
     this.propertyForm.patchValue({
@@ -245,7 +248,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         console.log(res)
         this.clickedSave = false;
         this.getPtoData()
-        swal("Saved as Draft", res.message);
+        swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -451,6 +454,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             this[progressType] = 100;
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
+              this.minimumUrl = this.minimumFloorUrl 
               this.propertyForm.get('floorRate').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -461,6 +465,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             }
             if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
+              this.stateActFileUrl = this.stateActUrl
               console.log(this.stateActUrl)
               this.propertyForm.get('stateNotification').patchValue({
                 url: fileAlias,
@@ -472,6 +477,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             }
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
+              this.ruleUrl = this.rulesLawsUrl 
               this.propertyForm.get('comManual').patchValue({
                 url: fileAlias,
                 name: file.name

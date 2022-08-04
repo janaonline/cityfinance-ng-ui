@@ -24,7 +24,8 @@ export class TableComponent implements OnInit, OnChanges {
     public dialog: MatDialog
   ) { 
     this.initializeFilterForm();
-    this.initializeListFetchParams()
+    this.initializeListFetchParams();
+    this.getDesignYear();
   }
   public keepOriginalOrder = (a, b) => a.key
   // dataSource: MatTableDataSource<UserData>;
@@ -203,14 +204,37 @@ this.callAPI();
       }
       console.log(this.selectedId);
     }
-    openDialog(): void {
+    openDialog(type) {
+      const dialogdata = {
+        selectedId : this.selectedId,
+        type: type 
+      }
+      console.log(dialogdata)
       const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
-        data: this.selectedId,
+        data: dialogdata,
         width: "50vw",
         height: "auto",
         panelClass: "no-padding-dialog",
       });
       dialogRef.afterClosed().subscribe((result) => {});
+    }
+
+    download(){
+      const params = {
+        design_year: this.getDesignYear(),
+        formId: this.formId,
+        token: this.getToken()
+      }
+      const endPoint = 'review'
+      console.log(params)
+      this._commonService.openWindowToDownloadCsv(params,endPoint)
+    }
+    getDesignYear(){
+      let design_year = JSON.parse(localStorage.getItem("Years"));
+        return design_year["2022-23"];
+    }
+    getToken(){
+      return JSON.parse(localStorage.getItem("id_token"));
     }
 }
 

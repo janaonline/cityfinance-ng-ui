@@ -257,7 +257,7 @@ export class StateFinanceComponent implements OnInit {
         console.log(res)
         this.clickedSave = false;
         this.getStateFinanceData()
-        swal("Saved as Draft", res.message);
+        swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
