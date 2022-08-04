@@ -11,6 +11,7 @@ export class Gtc2223Component implements OnInit {
   constructor(private stateService: State2223Service, private _router: Router) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
   }
   userData;
   stateId;
@@ -140,9 +141,24 @@ export class Gtc2223Component implements OnInit {
       key: "million_tied_2021-22_1",
     },
   ];
-
+  sideMenuItem: any;
+  backRouter;
+  nextRouter;
   ngOnInit(): void {
     this.getGtcData();
+    this.setRouter();
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach((element) => {
+        //   console.log('name name', element);
+        if (element?.name == "Grant Transfer Certificate") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
   }
   getGtcData() {
     this.stateService.getGtcData(this.stateId).subscribe(
