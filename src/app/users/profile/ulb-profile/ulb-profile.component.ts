@@ -62,7 +62,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   apiInProgress = false;
 
   userUtil = new UserUtility();
-
+  isVerified2223 = false;
   ngOnChanges(changes) {}
 
   fetchDatas() {
@@ -72,9 +72,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    console.log("profileData", this.profileData);
+    let data: any = this.profileData;
+    this.isVerified2223 = data?.isVerified2223;
     this.initializeAccess();
     this.initializeForm();
     this.initializeLogginUserType();
+    this.enableProfileEdit();
   }
 
   onClickingChangePassword(event: Event) {
@@ -123,18 +127,25 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     }
 
     // upload files and their value
-    const updatedFields = this.getUpdatedFieldsOnly(form);
+    let updatedFields = this.getUpdatedFieldsOnly(form);
+    if(!updatedFields){
+      updatedFields = {
+        accountantName : this.profileData?.accountantName
+      }
+    }
 
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
         message: "Profile Updated Successfully",
       });
       this.profile.disable({ onlySelf: true, emitEvent: false });
+     // console.log('profile form values', form);
+     // console.log('updated form values', updatedFields);
 
-      return;
+       return;
     }
-
-    const flatten = this.jsonUtil.convertToFlatJSON(updatedFields);
+    console.log('updated form values 2', updatedFields);
+    const flatten = this.jsonUtil?.convertToFlatJSON(updatedFields);
     if (flatten["_id"]) {
       flatten["ulbType"] = flatten["_id"];
       delete flatten["_id"];
@@ -146,6 +157,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.profile.disable({ onlySelf: true, emitEvent: false });
     this.respone.successMessage = "Updating....";
     this.apiInProgress = true;
+    console.log('profile body', flatten);
 
     this._profileService.createULBUpdateRequest(flatten).subscribe(
       (res) => this.onUpdatingProfileSuccess(res, flatten as IULBProfileData),
@@ -201,18 +213,24 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
     this.updateLocalLoggedInData(dataUpdated);
+    if (
+      this.isVerified2223 == false &&
+      this.loggedInUserType === USER_TYPE.ULB
+    ) {
+      this.router.navigateByUrl("/ulbform2223/overview");
+    }
   }
 
   private updateLocalLoggedInData(dataUpdated: IULBProfileData) {
     if (this.userUtil.getUserType() !== USER_TYPE.ULB) return;
     let newData: Partial<IUserLoggedInDetails>;
-    if (dataUpdated.accountantEmail) {
-      newData = { email: dataUpdated.accountantEmail };
+    if (dataUpdated?.accountantEmail) {
+      newData = { email: dataUpdated?.accountantEmail };
     }
 
-    if (dataUpdated.name) {
+    if (dataUpdated?.name) {
       if (!newData) newData = {};
-      newData.name = dataUpdated.name;
+      newData.name = dataUpdated?.name;
     }
 
     if (!newData) return;
@@ -316,6 +334,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.area.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.population.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.wards.disable();
       return;
     }
   }

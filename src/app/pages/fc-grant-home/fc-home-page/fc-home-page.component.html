@@ -13,9 +13,16 @@ loggedInUserType;" style="padding: 0;">
 
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                <h3 style="margin-bottom: 4rem; opacity: 100%; font-size: 35px;">Select Financial Year</h3>
-                <button type="button" class="btn" style="margin-right: 2rem;" routerLink="/fc_grant">2020-21</button>
-                <button type="button" class="btn" routerLink="/mohua">2021-22</button>
+                <h3 style="margin-bottom: 2rem; opacity: 100%; font-size: 35px;">Select Financial Year</h3>
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <div *ngFor="let item of yearList" class="" style="display: inline-block;">
+                            <button type="button" class="btn" style="margin-right: 2rem;" routerLink="{{item.url}}">{{item.year}} </button>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 

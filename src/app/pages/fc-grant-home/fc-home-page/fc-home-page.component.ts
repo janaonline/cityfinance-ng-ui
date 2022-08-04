@@ -30,16 +30,39 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
             this._router.navigate(["/home"]);
             break;
     }
+    this.fetchProfileData({});
   }
 
  ulbName ='';
  stateName=''
-
+ isULBProfileCompleted: boolean;
+ profileData;
+ routerlink2223;
+ yearList
   ngOnInit(): void {
      let ulbRecord = JSON.parse(localStorage.getItem('userData'));
      this.ulbName = ulbRecord?.name;
      this.stateName = ulbRecord?.stateName
      console.log(ulbRecord)
+     this._profileService.getAccessYears().subscribe((res)=> {
+     this.yearList = res['data']
+     }, 
+     (err)=> {
+      console.log(err.message)
+     })
+  }
+  fetchProfileData(params: {}) {
+    this._profileService.getUserProfile(params).subscribe((res) => {
+      this.profileData = res["data"];
+      console.log('profile data', this.profileData);
+
+      this.isULBProfileCompleted = this.profileData?.isVerified2223;
+      if(this.isULBProfileCompleted){
+        this.routerlink2223 = "/ulbform2223/overview"
+      }else{
+        this.routerlink2223 = "/profile-update";
+      }
+    });
   }
 
 }

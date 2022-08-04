@@ -1,0 +1,137 @@
+.header2 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 0.2rem;
+    font-weight: 600;
+}
+
+.header1 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 15px;
+    margin-top: 10px;
+    // margin-left: .70%;
+    margin-bottom: 8px;
+    font-weight: 500;
+    padding: 7px;
+}
+
+.secDiv {
+    background-color: #124A55;
+}
+
+.square {
+    width: 100%;
+    //  height: 30px;
+    background-color: #DBDBDB;
+}
+
+#checkboxes input[type=radio] {
+    display: none;
+}
+
+#checkboxes input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+#checkboxes2 input[type=radio] {
+    display: none;
+}
+
+#checkboxes2 input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+#checkboxes input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
+.btn-y,
+.btn-n {
+    // width: 72px;
+    background-color: #CFCFCF;
+    padding: .3rem 1rem;
+}
+
+.card {
+    background-color: #F7F7F7;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+}
+
+.q-div {
+    padding: 0 2.5rem;
+}
+
+.btn-c-back {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+.btn-c-next {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}
+
+::ng-deep .swal-button--Cancel {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+::ng-deep .swal-button--Submit {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}
+
+.y-n-err {
+    margin-top: 1rem;
+    display: block;
+}
+
+.disable-btn {
+    pointer-events: none;
+    opacity: .6;
+}
+
+.disable-btn-cur {
+    cursor: not-allowed;
+}
+
+.p-none {
+    pointer-events: none;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+    width: 26rem;
+}

@@ -6,6 +6,7 @@ export interface IFinancialData {
   _id?: string;
   ulb: string;
   waterManagement: WaterManagement;
+  population: number;
   waterPotabilityPlan: waterPotabilityPlan;
   solidWasteManagement: SolidWasteManagement;
   millionPlusCities: MillionPlusCities;

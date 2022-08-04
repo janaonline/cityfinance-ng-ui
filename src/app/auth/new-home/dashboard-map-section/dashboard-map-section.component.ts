@@ -583,9 +583,11 @@ dataAvailTooltip='';
         this.stateselected ? this.stateselected.name : ""
       );
       this.dataForVisualization = { ...res, loading: false };
-
+this.highestYear = '';
+this.highestDataAvailability = '';
 this.highestYear = this.dataForVisualization.ulbDataCount[0].year
 this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB )*100).toFixed(0)
+this.dataAvailTooltip = '';
 this.dataForVisualization.ulbDataCount.forEach(element => {
   this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
 });   

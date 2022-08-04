@@ -1,0 +1,230 @@
+<div class="container">
+    <form [formGroup]="propertyForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    Property Tax Floor Rate Notification
+                </h4>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
+            </div>
+        </div>
+        <div class="card">
+             <div class="row mt-3 mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (A) State Act/GO/Notification<sup class="text-danger">*</sup>
+                    </span>
+                    
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                    </label>
+                    <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
+                        (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
+                        <div>
+                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                            </div>
+                        </div>            
+                </div>
+            </div>
+            <div class="row" *ngIf="showStateAct">
+                <div class="col-7 filePadding mb-3">
+                    {{stateActFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="stateActProgress">
+                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
+                        attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: stateActProgress + '%' }">
+                        {{ stateActProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ stateActFileUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row mb-4 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (B) Act Page Number<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification."
+
+                            matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5">
+                    <span class="fontStyle">
+                        <input (change)="inputChange()" type="number" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" placeholder="Enter act page number " min="1"
+                        step="1"
+                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                    </span>
+                    <div *ngIf="submitted && f.actPage.errors" class="text-danger">
+                        <div *ngIf="f.actPage.errors.required">Act page number is required.</div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row mt-4 mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (C) Minimum Floor rate details/Value card
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Min Floor rate should have different slab-wise property rates with different areas; Classification of Residential, Commercial and Industrial."
+                            matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="cin1" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input id="cin1" name="cin1" type="file"
+                        (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
+                        
+                </div>
+            </div>
+            <div class="row" *ngIf="showMinimumFloor">
+                <div class="col-7 filePadding mb-3">
+                    {{minimumFloorFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="minimumFloorProgress">
+                    <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar"
+                        attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: minimumFloorProgress + '%' }">
+                        {{ minimumFloorProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ minimumFloorUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('minimumFloor')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (D) Rules, by laws issued for operationalization of the notification
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="PT Calculation linked to Guidance Value/ Annual rental Value/ Unit Area Value/Circle Rate."
+                            matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="cin2" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeOther}}</p>
+                    </label>
+                    <input id="cin2" name="cin2" type="file"
+                        (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                </div>
+            </div>
+            <div class="row" *ngIf="showRulesLaws">
+                <div class="col-7 filePadding mb-3">
+                    {{rulesLawsFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="rulesByLawsProgress">
+                    <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar"
+                        attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: rulesByLawsProgress + '%' }">
+                        {{ rulesByLawsProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ rulesLawsUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('rulesByLaws')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 mt-4">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back">
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
+                        <!-- [disabled]="isDisabled" --> 
+                        <!-- use this for disable button -->
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" >Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>

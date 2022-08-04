@@ -210,7 +210,6 @@ body {
     // overflow-x: hidden;
 }
 
-
 // * {
 //   overflow: visible !important;
 // }
@@ -218,11 +217,10 @@ html {
     // overflow-y: auto;
     // min-height: 100vh;
     font-family: 'Archivo', sans-serif;
-
-    &.sm{
+    &.sm {
         font-size: $font-size-base*.8;
     }
-    &.lg{
+    &.lg {
         font-size: $font-size-base*1.3;
     }
 }
@@ -403,7 +401,8 @@ img.align-center {
 }
 
 .card-footer {
-    margin-top: 15px;margin-bottom:4%;
+    margin-top: 15px;
+    margin-bottom: 4%;
 }
 
 .common-container {
@@ -1202,11 +1201,43 @@ img.align-center {
     overflow: auto;
 }
 
+
 /* The above code is changing the color of the India map tooltip. */
+
 .leaflet-popup-content-wrapper {
     background: #FEDA12 !important;
 }
 
 .leaflet-popup-tip {
     background: #FEDA12 !important;
+}
+
+.btn-c-back {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+.btn-c-next {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}
+
+::ng-deep .swal-button--Cancel {
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+::ng-deep .swal-button--Submit {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
 }

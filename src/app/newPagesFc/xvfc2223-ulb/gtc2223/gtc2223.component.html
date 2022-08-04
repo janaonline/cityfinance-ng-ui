@@ -1,0 +1,161 @@
+<div class="container-fluid">
+    <div class="mt-3" style="" *ngIf="cardData?.length > 0">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" *ngIf="nonmillionTied?.length > 0">
+                    <div class="col-sm-12 l-h">
+                        1. View/Upload GTCs for Non-Million Plus Cities Tied Grants
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let item of nonmillionUntied" style="padding: 1rem 2rem;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="ins-h">
+                                    Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
+                                </div>
+                                <div style="position: relative">
+                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    </pdf-viewer>
+                                </div>
+                                <div class="h-c">
+                                    <a href="{{ item?.file?.url }}">{{ item?.file?.name }}</a>
+                                </div>
+                                <!-- <div class="info-c mt-2 mb-3">
+                 {{ item?.info }}
+               </div> -->
+                                <div class="row mt-2" style="align-items: center">
+                                    <div class="col-sm-2 pe-0">
+                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                            <span>
+                              <img
+                                 src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                                 alt=""
+                                 class="p-i"
+                                />
+                           </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="icon-text">
+                                            <p class="m-0">Updated on</p>
+                                            <p class="m-0">
+                                                <!-- {{ currentDate }} -->
+                                                {{ item?.createdAt | date:'medium' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="row" *ngIf="nonmillionUntied?.length > 0">
+                    <div class="col-sm-12 l-h">
+                        2. View/Upload GTCs for Non-Million Plus Cities Untied Grants
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let item of nonmillionTied" style="padding: 1rem 2rem;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="ins-h">
+                                    Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
+                                </div>
+                                <div style="position: relative">
+                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    </pdf-viewer>
+                                </div>
+                                <div class="h-c">
+                                    {{ item?.file?.name }}
+                                </div>
+                                <!-- <div class="info-c mt-2 mb-3">
+                       {{ item?.info }}
+                     </div> -->
+                                <div class="row mt-2" style="align-items: center">
+                                    <div class="col-sm-2 pe-0">
+                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                            <span>
+                                    <img
+                                       src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                                       alt=""
+                                       class="p-i"
+                                      />
+                                 </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="icon-text">
+                                            <p class="m-0">Updated on</p>
+                                            <p class="m-0">
+                                                <!-- {{ currentDate }} -->
+                                                <!-- {{ item?.updateDate }} -->
+                                                {{ item?.createdAt | date:'medium' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="row" *ngIf="millionTied?.length > 0">
+                    <div class="col-sm-12 l-h">
+                        3. View/Upload GTCs for Million Plus Cities Tied Grants
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4" *ngFor="let item of nonmillionTied" style="padding: 1rem 2rem;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="ins-h">
+                                    Installment {{item?.installment}} ({{(item?.key.split('_'))[2]}})
+                                </div>
+                                <div style="position: relative">
+                                    <pdf-viewer [src]="item?.file?.url" [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                                    </pdf-viewer>
+                                </div>
+                                <div class="h-c">
+                                    {{ item?.file?.name }}
+                                </div>
+                                <!-- <div class="info-c mt-2 mb-3">
+                       {{ item?.info }}
+                     </div> -->
+                                <div class="row mt-2" style="align-items: center">
+                                    <div class="col-sm-2 pe-0">
+                                        <a href="{{ item?.file?.url }}" target="_blank">
+                                            <span>
+                                    <img
+                                       src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                                       alt=""
+                                       class="p-i"
+                                      />
+                                 </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="icon-text">
+                                            <p class="m-0">Updated on</p>
+                                            <p class="m-0">
+                                                <!-- {{ currentDate }} -->
+                                                <!-- {{ item?.updateDate }} -->
+                                                {{ item?.createdAt | date:'medium' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

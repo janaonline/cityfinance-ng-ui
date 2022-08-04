@@ -1,0 +1,252 @@
+<div class="container">
+    <form [formGroup]="registerForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    Linking of PFMS Account
+                </h4>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row mt-3 mb-3 question d-none">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) Year of 15th FC Module Design
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input type="text" disabled class="form-control" placeholder="{{yearValue}}">
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question d-none">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (B) ULB
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input type="text" disabled class="form-control" placeholder="{{ulbName}}">
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) Do you wish to submit Details for PFMS Account ?<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
+                    <span class="fontStyle d-flex">
+                        <label (click)="clickYes()" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'Yes' && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'Yes' && !isDisabled) }"
+                            class="customLabel form-control">
+                            <input type="radio" value="Yes" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
+                            <span>Yes</span>
+                        </label>
+                        <label (click)="clickNo()" class="customLabel ms-3 form-control"
+                            [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'No'  && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'No' && !isDisabled) }">
+                            <input type="radio" value="No" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
+                            <span>No</span>
+                        </label>
+                        <div *ngIf="submitted && f.linkPFMS.errors" class="text-danger"><br>
+                            <div *ngIf="f.linkPFMS.errors.required">Please select any option.</div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <!-- <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions1"> -->
+            <div class="row mt-3 mb-3 question" *ngIf="f?.linkPFMS?.value == 'Yes'">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (B) Has the ULB linked its bank account with PFMS?<sup class="text-danger">*</sup>
+                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC."
+                            matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
+                    <span class="fontStyle d-flex">
+                        <label (click)="linkedYes($event.target.value)" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'Yes' && !isDisabled) }"
+                            class="customLabel form-control">
+                            <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
+                            <span>Yes</span>
+                        </label>
+                        <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3"
+                            [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'No' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'No' && !isDisabled) }">
+                            <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
+                            <span>No</span>
+                        </label>
+                        
+                    </span>
+                    <div *ngIf="submitted && f.isUlbLinkedWithPFMS.errors" class="text-danger">
+                        <div *ngIf="f.isUlbLinkedWithPFMS.errors.required">Please select any option.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle"> -->
+            <div class="row mt-3 mb-3 question" *ngIf="f?.isUlbLinkedWithPFMS?.value == 'Yes'">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (C) PFMS Account Number<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
+                    <span class="fontStyle">
+                        <input (change)="onChnageSave()" [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
+                    </span>
+                    <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
+                        <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle"> -->
+            <div class="row mt-3 mb-3 question" *ngIf="f?.isUlbLinkedWithPFMS?.value == 'Yes'">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
+                        etc<sup class="text-danger">*</sup>
+                    </span>
+                    
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin1" [ngClass]="{'customDisable': !isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" id="cin1" name="cin1" type="file"
+                        (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
+                        <div>
+                            <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showIcon">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{pfmsFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="pfmsLinkProgress">
+                    <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar"
+                        attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: pfmsLinkProgress + '%' }">
+                        {{ pfmsLinkProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ odfUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span style="cursor:not-allowed;">
+                        <a (click)="clearFile('cert')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <!-- <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle"> -->
+            <div class="row mt-3 mb-3 question" *ngIf="f?.isUlbLinkedWithPFMS?.value == 'Yes'">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (E) Upload any other transaction doc from PFMS
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload" >
+                    <label for="cin2" [ngClass]="{'customDisable': !isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled }">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeOther}}</p>
+                    </label>
+                    <input id="cin2" name="cin2" type="file"
+                        (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
+                </div>
+            </div>
+            <div class="row" *ngIf="showIconOtherDoc">
+                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                    {{otherFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4" *ngIf="otherProgress">
+                    <div class="progress-bar" *ngIf="otherProgress" role="progressbar"
+                        attr.aria-valuenow="{{ otherProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: otherProgress + '%' }">
+                        {{ otherProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                    <a href="{{ odfUrl2 }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span style="cursor:not-allowed;">
+                        <a (click)="clearFile('otherDocs')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 mt-4">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
+                    [routerLink]='backRouter'>
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>

@@ -1,0 +1,43 @@
+.header-p {
+    background-color: #047474;
+    text-align: center;
+    padding: 10px;
+    // height: 100px;
+}
+
+.opacityClass {
+    opacity: 0.7;
+}
+
+.heading-p {
+    color: #FFFFFF;
+    font-size: 22px;
+    height: auto;
+    font-weight: 700;
+}
+
+.questionClass {
+    padding: 15px;
+    font-weight: 600;
+}
+
+.sub-h {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.form-h {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+
+.score {
+    width: 40%;
+    border: 1px solid transparent;
+    background: limegreen;
+    border-radius: 4px;
+    margin-top: 1rem;
+    padding: 0.2rem 1rem;
+    color: #fff;
+}

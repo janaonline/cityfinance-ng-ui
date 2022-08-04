@@ -98,39 +98,50 @@
         </ul>
       </div>
       <div class="ms-auto">
-        <a
+        <a *ngIf="isLoggedIn == false"
           routerLinkActive="active"
           (click)="loginLogout()"
           class="btn btn-login"
           >{{ btnName }}</a
         >
-      </div>
-      <div
-        class="collapse navbar-collapse mobile-nav"
-        id="navbarSupportedContent"
-      >
-        <div class="container py-3">
-          <button
-            class="navbar-toggler close"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+        <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
+          <button id="button-disabled-menu" dropdownToggle type="button" class="btn btn-login-icon dropdown-toggle"
+                  aria-controls="dropdown-disabled-menu">
+                  <span class="material-icons">
+                    account_circle
+                    </span>
+            <span class="caret"></span>
+          </button>
+
+          <ul id="dropdown-disabled-menu" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-disabled-menu" style="margin-left: -7rem">
+              <li role="menuitem" style="padding: 0 1rem;" class="mb-3">
+                <div class="user-avt text-center" style="font-size: 2.5rem">
+                  <i class="fa fa-user-circle"></i>
+                </div>
+               <div class="text-center">{{ user?.name }}</div>
+               <div class="mat-card-subtitle text-center" style="font-size: 0.9rem">
+                  {{ user?.email }}
+               </div>
+              </li>
+              <li class="divider dropdown-divider"></li>
+              <li role="menuitem">
+                <a class="dropdown-item text-center" routerLink="/user/profile/view">Profile</a>
+                                </li>
+                                <li class="divider dropdown-divider"></li>
+                                <li role="menuitem"><a class="dropdown-item text-center" (click)="loginLogout()">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+                <div class="collapse navbar-collapse mobile-nav" id="navbarSupportedContent">
+                    <div class="container py-3">
+                        <button class="navbar-toggler close" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                aria-current="page"
-                routerLinkActive="active"
-                routerLink="/home"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                >Home</a
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Home</a
               >
             </li>
             <li class="nav-item dropdown">
@@ -143,9 +154,9 @@
               >
                 Dashboard
               </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li>
-                                            <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">National Financial Dashboard</a
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">National Financial Dashboard</a
                   >
                 </li>
                 <li>
@@ -167,10 +178,10 @@
                   >
                 </li>
                 <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a
               >
             </li>
             <li class="nav-item" *ngIf="isLoggedIn">

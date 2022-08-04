@@ -183,6 +183,7 @@ export class PreviewSlbComponentComponent implements OnInit {
     "In Progress",
   ];
   ngOnInit() {
+    console.log(this.data)
     this.subParentForModal = this._commonService.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {
