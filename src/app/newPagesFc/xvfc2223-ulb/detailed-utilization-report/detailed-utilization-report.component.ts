@@ -92,9 +92,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
   setRouter() {
     for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      // console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
-        console.log("name name", element);
+        //   console.log("name name", element);
         if (element?.name == "Detailed Utilisation Report") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;

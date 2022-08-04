@@ -139,9 +139,9 @@ export class OverviewComponent implements OnInit {
   nextRouter;
   ngOnInit(): void {
     for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
+    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
+     //   console.log('name name', element);
         if(element?.name == 'Overview'){
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
@@ -203,44 +203,35 @@ export class OverviewComponent implements OnInit {
   onHover(num, title, key, item) {
     console.log("index-num", num, title, item);
     this.message = item?.message;
-    if (item?.key == "AnnualAccounts") {
-      //  this.p = (num+1)*135;
+    if (item?.key == "DUR") {
+      //  this.p = (num+2)*120;
       this.val = 0;
       this.hover = true;
       this.i = 1;
+      this.checkPos = true;
+    }
+    if (item?.key == "AnnualAccounts") {
+      //  this.p = (num+1)*135;
+      this.val = 1;
+      this.hover = true;
+      this.i = 2;
       // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
       //  this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (item?.key == "DUR") {
-      //  this.p = (num+2)*120;
-      this.val = 1;
-      this.hover = true;
-      this.i = 2;
-      // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-      //  this.message = `ULBs are mandated to furnish
-      //   Detailed Utilisation Report as per prescribed format for the previous installments of 15th FC grants.`;
-      this.checkPos = true;
-    }
 
-    if (item?.key == "SLB") {
-      //  this.p = (num+3)*112;
+    if (item?.key == "PFMS") {
+      //  this.p = (num+3)*125;
       this.val = 2;
       this.hover = true;
       this.i = 3;
-      //  this.message = "ULBs to upload provisional annual accounts for
-      //    previous year and audited annual accounts for year previous year w.r.t. award year."
-      //  this.message = `ULBs to upload Provisional Annual Accounts for previous year
-      //  and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
     if (item?.key == "ODF") {
       //   this.p = (num+1)*80;
-      this.val = 2;
+      this.val = 3;
       this.hover = true;
-      this.i = 3;
-      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-      // this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
+      this.i = 4;
       this.checkPos = true;
     }
     if (item?.key == "GFC") {
@@ -252,17 +243,16 @@ export class OverviewComponent implements OnInit {
       //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
-    if (item?.key == "PFMS") {
-      //  this.p = (num+3)*125;
+    if (item?.key == "SLB") {
+      //  this.p = (num+3)*112;
       this.val = 5;
       this.hover = true;
       this.i = 6;
-      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-      //   this.message = `Performance condition grants will be recommended by MoHUA based on
-      //   the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
-      //   NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
       this.checkPos = true;
     }
+
+
+
     if (item?.key == "Ab") {
       // this.p = (num+3)*125;
       this.val = 6;

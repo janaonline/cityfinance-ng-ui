@@ -484,20 +484,22 @@ export class AnnualAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.ulbId = sessionStorage.getItem("ulb_id");
     sessionStorage.setItem("changeInAnnualAcc", "false");
-    for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach((element) => {
-        console.log("name name", element);
-        if (element?.name == "Annual Accounts") {
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-    }
+    this.setRouter()
     this.clickedSave = false;
     this.onLoad();
   }
-
+setRouter(){
+  for (const key in this.sideMenuItem) {
+    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+    this.sideMenuItem[key].forEach((element) => {
+      //    console.log("name name", element);
+      if (element?.name == "Annual Accounts") {
+        this.nextRouter = element?.nextUrl;
+        this.backRouter = element?.prevUrl;
+      }
+    });
+  }
+}
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
