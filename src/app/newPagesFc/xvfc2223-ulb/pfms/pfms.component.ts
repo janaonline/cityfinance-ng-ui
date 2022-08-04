@@ -395,7 +395,7 @@ export class PfmsComponent implements OnInit {
         this.clickedSave = false;
         this.getSubmittedFormData()
         sessionStorage.setItem("changeInPFMS", "false");
-        swal('Saved as draft', res?.message, 'success')
+        swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         sessionStorage.setItem("changeInPFMS", "false");
         swal('Error', res?.message ? res?.message : 'Error', 'error')

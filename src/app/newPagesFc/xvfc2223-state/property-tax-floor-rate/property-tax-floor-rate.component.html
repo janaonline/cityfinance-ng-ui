@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card">
-             <div class="row mt-3 mb-3 question">
+             <div class="row mt-3 mb-1 question">
                 <div class="col-7">
                     <span class="fontStyle">
                         (A) State Act/GO/Notification<sup class="text-danger">*</sup>
@@ -59,7 +59,7 @@
                 </div>
             </div>
             
-            <div class="row mb-4 question">
+            <div class="row mb-3 question" [ngClass]="{'marginClass' : stateActFileName}">
                 <div class="col-7">
                     <span class="fontStyle">
                         (B) Act Page Number<sup class="text-danger">*</sup>
@@ -82,7 +82,7 @@
                     
                 </div>
             </div>
-            <div class="row mt-4 mb-3 question">
+            <div class="row mt-4 mb-1 question">
                 <div class="col-7">
                     <span class="fontStyle">
                         (C) Minimum Floor rate details/Value card
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ minimumFloorUrl }}" target="_blank">
+                    <a href="{{ minimumUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span [ngClass]="{'customDisable': isDisabled }">
@@ -128,7 +128,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-3 question">
+            <div class="row mt-3 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}">
                 <div class="col-7">
                     <span class="fontStyle">
                         (D) Rules, by laws issued for operationalization of the notification
@@ -163,7 +163,7 @@
                     </div>
                 </div>
                 <div class="col-2 filePadding">
-                    <a href="{{ rulesLawsUrl }}" target="_blank">
+                    <a href="{{ ruleUrl }}" target="_blank">
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span [ngClass]="{'customDisable': isDisabled }">
@@ -176,7 +176,7 @@
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back">
+                <button type="button" class="btn btn-c-back" routerLink="../gtCertificate">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -190,7 +190,7 @@
                         <!-- use this for disable button -->
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" >Next Form
+                        <button type="button" class="btn btn-c-next" routerLink="../fc-formation">Next Form
                             -></button>
                     </div>
                 </div>
