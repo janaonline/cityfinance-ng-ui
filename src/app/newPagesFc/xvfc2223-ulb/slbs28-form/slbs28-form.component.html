@@ -15,80 +15,45 @@
                         <thead>
                             <tr>
                                 <th scope="col"></th>
-                                <th scope="col">Actual Indicator 2021-22</th>
-                                <th scope="col">Target Indicator 2022-23</th>
+                                <th scope="col" class="text-center">Actual Indicator 2021-22</th>
+                                <th scope="col" class="text-center">Target Indicator 2022-23</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngFor="let lineItem of slbData | keyvalue : 0">
+
                             <tr>
-                                <th scope="col" colspan="3" class="th-h">Water Supply</th>
+                                <th scope="row" colspan="3" class="th-h">{{lineItem?.key}}</th>
                             </tr>
-                            <tr>
-                                <th scope="row">Coverage of water supply connections</th>
+                            <tr *ngFor="let item of lineItem?.value">
+                                <th scope="row" class="l-n">{{item?.lineItemName}}</th>
                                 <td>
-                                    <div class="input-group mb-3">
+                                    <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Actual Indicator" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2">%</span>
+                                        <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="input-group mb-3">
+                                    <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Target Indicator" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2">%</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Per capita supply of water(lpcd)</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="" aria-label="Actual Indicator" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2">LPCD</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Target Indicator" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                        <span class="input-group-text" id="basic-addon2">LPCD</span>
+                                        <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-
-                    <!-- <div class="table-responsive">
-
-                        <table class="table table-striped" class="{{table?.tableClass}}" *ngFor="let table of tableData?.data; let tableIndex = index" [attr.border]="table?.border" [ngStyle]="{'background-color': table?.bgColor}">
-                            <thead>
-                                <tr>
-                                    <td [attr.colspan]="table?.columns.length">
-                                        <div class="row">
-                                            <div class="col-md-10" style="font-size: 18px; font-weight: 600;">
-                                                {{table?.name}}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
-                                        {{column?.display_name}}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let row of table?.rows">
-                                    <td *ngFor="let column of table?.columns" class="{{column?.key}}">
-                                        {{column.formula ? evaluate(column.formula, row): row[column.key]}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="row mt-4 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" routerLink="#"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-primary">Save As Draft</button>
+            <button class="btn btn-primary ms-3">Submit</button>
+            <button class="btn btn-c-next ms-3" routerLink="#">Next Form -></button>
+        </div>
+    </div>
 </div>
