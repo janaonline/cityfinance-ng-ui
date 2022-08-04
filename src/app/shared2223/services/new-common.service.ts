@@ -89,7 +89,13 @@ export class NewCommonService {
       `${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`
     );
   }
-  //mock api for table 28slb
+
+  postTableApproveRejectData(body){
+    return this.http.post(`${environment.api.url}common-action`, body);
+  }
+  getTableApproveRejectData(body){
+    return this.http.post(`${environment.api.url}common-action`, body);
+  }
   getTable() {
     console.log("Get API HIt");
     let url = "https://mocki.io/v1/85a41838-b29e-44ce-8a6f-b6bf2c35c8c6";

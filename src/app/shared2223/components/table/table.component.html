@@ -1,8 +1,8 @@
 <div class="row mt-4 text-end">
     <div class="col-12">
-       <button type="submit" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog()">Approve all</button>
-       <button type="submit" class="btn btn-primary ms-3">Return all</button>
-       <button type="submit" class="btn btn-danger ms-3">Download</button>
+       <button type="submit" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
+       <button type="submit" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
+       <button type="submit" class="btn btn-danger ms-3" (click)="download()">Download</button>
     </div>
 </div>
 <div class="container mat-elevation-z8 mt-4">
