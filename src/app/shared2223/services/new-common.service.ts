@@ -32,22 +32,26 @@ export class NewCommonService {
     );
   }
   getPtData(param) {
-    return this.http.get(`${environment.api.url}property-tax-floor-rate?state=${param.state}&design_year=${param.design_year}`);
+    return this.http.get(
+      `${environment.api.url}property-tax-floor-rate?state=${param.state}&design_year=${param.design_year}`
+    );
   }
-  submitPtForm(body){
+  submitPtForm(body) {
     return this.http.post(
       `${environment.api.url}property-tax-floor-rate`,
       body
     );
   }
-  submitStateFinance(body){
+  submitStateFinance(body) {
     return this.http.post(
       `${environment.api.url}state-finance-commission-formation`,
       body
     );
   }
   getStateFinance(param) {
-    return this.http.get(`${environment.api.url}state-finance-commission-formation?state=${param.state}&design_year=${param.design_year}`);
+    return this.http.get(
+      `${environment.api.url}state-finance-commission-formation?state=${param.state}&design_year=${param.design_year}`
+    );
   }
   pfmsSubmitForm(body: any) {
     return this.http.post(`${environment.api.url}link-pfms`, body);
@@ -73,11 +77,11 @@ export class NewCommonService {
     return this.http.post(`${environment.api.url}utilization-report`, body);
   }
 
-  getReviewForms(params){
-    return this.http.get(`${environment.api.url}review`, {params})
+  getReviewForms(params) {
+    return this.http.get(`${environment.api.url}review`, { params });
   }
-  getFormList(params){
-    return this.http.get(`${environment.api.url}menulist`, {params})
+  getFormList(params) {
+    return this.http.get(`${environment.api.url}menulist`, { params });
   }
 
   getUtiData(ulbId) {
@@ -91,5 +95,10 @@ export class NewCommonService {
   }
   getTableApproveRejectData(body){
     return this.http.post(`${environment.api.url}common-action`, body);
+  }
+  getTable() {
+    console.log("Get API HIt");
+    let url = "https://mocki.io/v1/85a41838-b29e-44ce-8a6f-b6bf2c35c8c6";
+    return this.http.get(url);
   }
 }

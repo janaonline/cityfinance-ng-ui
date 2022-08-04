@@ -236,9 +236,9 @@ export class OverviewComponent implements OnInit {
     }
     if (item?.key == "ODF") {
       //   this.p = (num+1)*80;
-      this.val = 3;
+      this.val = 2;
       this.hover = true;
-      this.i = 4;
+      this.i = 3;
       // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
       // this.message = `Linking of ULB account for XVFC Grant with PFMS will be a pre-condition for release of grant.`;
       this.checkPos = true;
