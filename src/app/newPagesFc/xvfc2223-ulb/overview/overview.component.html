@@ -34,11 +34,11 @@
                             </div>
                         </div>
                         <div class="container-cnt">
-                            <div class="row titleCards">
+                            <div class="row titleCards w-100">
                                 <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
                                     <!-- [ngStyle]="{'width': width+'px'}" -->
-                                    <div class="row" style="display: inline-flex; position: relative;">
-                                        <div class="col-sm-3" style="position: relative;" *ngFor="let slide of cardsOverview; let index=index">
+                                    <div class="row" style="">
+                                        <div class="col-sm-3" *ngFor="let slide of cardsOverview; let index=index">
                                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
                                             <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                                             <div *ngIf="index < 4">
@@ -90,11 +90,11 @@
                             </div>
                         </div>
                         <div class="container-cnt">
-                            <div class="row titleCards">
+                            <div class="row titleCards w-100">
                                 <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
                                     <!-- [ngStyle]="{'width': width+'px'}" -->
-                                    <div class="row" style="display: inline-flex; position: relative;">
-                                        <div class="col-sm-3" [ngClass]="{'d-n' : (index < 4)}" style="position: relative;" *ngFor="let slide of cardsOverview; let index=index">
+                                    <div class="row">
+                                        <div class="col-sm-3" [ngClass]="{'d-n' : (index < 4)}" *ngFor="let slide of cardsOverview; let index=index">
                                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
                                             <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                                             <div *ngIf="index >= 4">

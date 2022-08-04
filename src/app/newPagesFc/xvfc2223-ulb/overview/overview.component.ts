@@ -183,7 +183,7 @@ export class OverviewComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("left responces..", res);
         this.cardsOverview = res?.card;
-        this.onHover(0, "", "DUR", this.cardsOverview[0]);
+        this.onHover(0, "", "GTC", this.cardsOverview[0]);
         // this.leftMenu = res;
       });
   }
@@ -203,18 +203,27 @@ export class OverviewComponent implements OnInit {
   onHover(num, title, key, item) {
     console.log("index-num", num, title, item);
     this.message = item?.message;
-    if (item?.key == "DUR") {
-      //  this.p = (num+2)*120;
+    if (item?.link == "grant-tra-certi") {
+      // this.p = (num+3)*125;
       this.val = 0;
       this.hover = true;
       this.i = 1;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
+      this.checkPos = true;
+    }
+    if (item?.key == "DUR") {
+      //  this.p = (num+2)*120;
+      this.val = 1;
+      this.hover = true;
+      this.i = 2;
       this.checkPos = true;
     }
     if (item?.key == "AnnualAccounts") {
       //  this.p = (num+1)*135;
-      this.val = 1;
+      this.val = 2;
       this.hover = true;
-      this.i = 2;
+      this.i = 3;
       // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
       //  this.message = `State Governments to furnish Grant Transfer Certificate for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
@@ -222,46 +231,38 @@ export class OverviewComponent implements OnInit {
 
     if (item?.key == "PFMS") {
       //  this.p = (num+3)*125;
-      this.val = 2;
-      this.hover = true;
-      this.i = 3;
-      this.checkPos = true;
-    }
-    if (item?.key == "ODF") {
-      //   this.p = (num+1)*80;
       this.val = 3;
       this.hover = true;
       this.i = 4;
       this.checkPos = true;
     }
-    if (item?.key == "GFC") {
+    if (item?.key == "ODF") {
       //   this.p = (num+1)*80;
       this.val = 4;
       this.hover = true;
       this.i = 5;
+      this.checkPos = true;
+    }
+    if (item?.key == "GFC") {
+      //   this.p = (num+1)*80;
+      this.val = 5;
+      this.hover = true;
+      this.i = 6;
       // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
       //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
     if (item?.key == "SLB") {
       //  this.p = (num+3)*112;
-      this.val = 5;
-      this.hover = true;
-      this.i = 6;
-      this.checkPos = true;
-    }
-
-
-
-    if (item?.key == "Ab") {
-      // this.p = (num+3)*125;
       this.val = 6;
       this.hover = true;
       this.i = 7;
-      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      //  this.message = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
+
+
+
+
     if (item?.key == "cd") {
       // this.p = (num+3)*125;
       this.val = 7;
