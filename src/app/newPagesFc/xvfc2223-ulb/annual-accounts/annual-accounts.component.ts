@@ -484,20 +484,22 @@ export class AnnualAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.ulbId = sessionStorage.getItem("ulb_id");
     sessionStorage.setItem("changeInAnnualAcc", "false");
-    for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach((element) => {
-        console.log("name name", element);
-        if (element?.name == "Annual Accounts") {
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-    }
+    this.setRouter()
     this.clickedSave = false;
     this.onLoad();
   }
-
+setRouter(){
+  for (const key in this.sideMenuItem) {
+    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+    this.sideMenuItem[key].forEach((element) => {
+      //    console.log("name name", element);
+      if (element?.name == "Annual Accounts") {
+        this.nextRouter = element?.nextUrl;
+        this.backRouter = element?.prevUrl;
+      }
+    });
+  }
+}
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
@@ -595,7 +597,7 @@ export class AnnualAccountsComponent implements OnInit {
           this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
-          if (resObj?.isDraft == false) {
+          if (resObj?.isDraft == false || this.userData.role != "ULB") {
             this.isDisabled = true;
           } else {
             this.isDisabled = false;
@@ -639,7 +641,7 @@ export class AnnualAccountsComponent implements OnInit {
       //  status.annualAccounts.status = "N/A";
       // this._ulbformService.allStatus.next(status);
     }
-    console.log("annnualREs", this.data["status"]);
+ //   console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     let proviDataAu = res?.audited?.provisional_data;
@@ -661,7 +663,7 @@ export class AnnualAccountsComponent implements OnInit {
         el["amount"]["value"] = proviDataUn[key];
       }
     });
-    console.log("data", this.auditQues, this.unAuditQues);
+ //   console.log("data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
     this.audit_status = audit;
@@ -708,7 +710,7 @@ export class AnnualAccountsComponent implements OnInit {
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
-    console.log("eeeeeeeee", e, fileType, quesName, index);
+  //  console.log("eeeeeeeee", e, fileType, quesName, index);
     if (fileType == "audited") {
       this.auditQues.forEach((ele) => {
         if (ele.name === quesName) {
@@ -918,7 +920,7 @@ export class AnnualAccountsComponent implements OnInit {
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log(objKeysE);
+        //  console.log(objKeysE);
         }
         if (
           objLength > 0 &&
@@ -963,7 +965,7 @@ export class AnnualAccountsComponent implements OnInit {
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log(objKeysE);
+        //  console.log(objKeysE);
         }
         if (
           objLength > 0 &&
@@ -1006,15 +1008,15 @@ export class AnnualAccountsComponent implements OnInit {
     // autited
     if (this.data.audited.submit_annual_accounts) {
       for (const key in this.data.audited.provisional_data) {
-        console.log(
-          typeof this.data?.audited?.provisional_data[key] == "object"
-        );
+        // console.log(
+        //   typeof this.data?.audited?.provisional_data[key] == "object"
+        // );
         let obj = this.data?.audited?.provisional_data[key];
         let objLength = 0;
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log("AAAA", objKeysE, objLength);
+          //   console.log("AAAA", objKeysE, objLength);
         }
         if (
           objLength > 0 &&
@@ -1022,11 +1024,11 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.audited?.provisional_data[key]?.pdf?.name == null)
         ) {
           //this.data.unAudited.provisional_data[key].
-          console.log("elel key", key);
+          //  console.log("elel key", key);
           this.auditQues.forEach((el) => {
-            console.log("elel 1", el);
+            //  console.log("elel 1", el);
             if (key == el?.key && el?.type == "file") {
-              console.log("elel", el);
+              //  console.log("elel", el);
               el.error = true;
             }
           });
@@ -1044,7 +1046,7 @@ export class AnnualAccountsComponent implements OnInit {
 
           // this.annualError = true;
         } else {
-          console.log("else", key, objLength, this.auditQues);
+          //  console.log("else", key, objLength, this.auditQues);
           if (objLength > 0) {
             this.auditQues.forEach((el) => {
               // console.log("elel 2", el);
@@ -1107,18 +1109,18 @@ export class AnnualAccountsComponent implements OnInit {
 
     // unAudited
     if (this.data.unAudited.submit_annual_accounts) {
-      console.log(
-        "this.data.unAudited.provisional_data",
-        this.data.unAudited.provisional_data
-      );
+      // console.log(
+      //   "this.data.unAudited.provisional_data",
+      //   this.data.unAudited.provisional_data
+      // );
       for (const key in this.data.unAudited.provisional_data) {
-        console.log("keys", this.data?.unAudited?.provisional_data[key]);
+        //  console.log("keys", this.data?.unAudited?.provisional_data[key]);
         let obj = this.data?.unAudited?.provisional_data[key];
         let objLength = 0;
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-          console.log(objKeysE);
+          //   console.log(objKeysE);
         }
 
         if (
@@ -1127,7 +1129,7 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.unAudited?.provisional_data[key]?.pdf?.name == null)
         ) {
           this.unAuditQues.forEach((el) => {
-            console.log("un a file", el);
+            //  console.log("un a file", el);
 
             if (key == el?.key && el?.type == "file") {
               el.error = true;
@@ -1140,7 +1142,7 @@ export class AnnualAccountsComponent implements OnInit {
             this.data?.unAudited?.provisional_data[key] == null)
         ) {
           this.unAuditQues.forEach((el) => {
-            console.log("un a input", el);
+            //  console.log("un a input", el);
             if (key == el?.key && el?.type == "input") {
               el.error = true;
             }

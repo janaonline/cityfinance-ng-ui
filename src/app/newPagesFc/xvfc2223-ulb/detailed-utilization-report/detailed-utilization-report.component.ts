@@ -36,7 +36,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
   durForm;
   ulbName = "";
   userData;
-  sideMenuItem:any;
+  sideMenuItem: any;
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
@@ -47,63 +47,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
   // amtRegex = "^(([0-9]{1,4})(.[0-9]{1,2})?)$";
   // amtRegex = `^\d{0,4}\.?\d{0,2}$`;
 
-  // postBody = {
-  //   grantPosition: {
-  //     unUtilizedPrevYr: 0,
-  //     receivedDuringYr: 12,
-  //     expDuringYr: 124,
-  //     closingBal: -112,
-  //   },
-  //   categoryWiseData_swm: [
-  //     {
-  //       category_name: "Sanitation",
-  //       grantUtilised: "3",
-  //       numberOfProjects: "3",
-  //       totalProjectCost: "3",
-  //     },
-  //     {
-  //       category_name: "Solid Waste Management",
-  //       grantUtilised: "3",
-  //       numberOfProjects: "3",
-  //       totalProjectCost: "3",
-  //     },
-  //   ],
-  //   categoryWiseData_wm: [
-  //     {
-  //       category_name: "Rejuvenation of Water Bodies",
-  //       grantUtilised: "1",
-  //       numberOfProjects: "2",
-  //       totalProjectCost: "3",
-  //     },
-  //     {
-  //       category_name: "Drinking Water",
-  //       grantUtilised: "3",
-  //       numberOfProjects: "2",
-  //       totalProjectCost: "1",
-  //     },
-  //     {
-  //       category_name: "Rainwater Harvesting",
-  //       grantUtilised: "23",
-  //       numberOfProjects: "3",
-  //       totalProjectCost: "3",
-  //     },
-  //     {
-  //       category_name: "Water Recycling",
-  //       grantUtilised: "12",
-  //       numberOfProjects: "233",
-  //       totalProjectCost: "3",
-  //     },
-  //   ],
-  //   projects: [],
-  //   status: "",
-  //   name: "Aaaaa",
-  //   designation: "abc",
-  //   isDraft: false,
-  //   financialYear: "606aaf854dff55e6c075d219",
-  //   designYear: "606aafb14dff55e6c075d3ae",
-  //   grantType: "Tied",
-  //   ulb: "5dd24728437ba31f7eb42e89",
-  // };
   postBody;
   wm_categories;
   swm_categories;
@@ -126,21 +69,39 @@ export class DetailedUtilizationReportComponent implements OnInit {
   isDisabled = false;
   nextRouter;
   backRouter;
+  clickedSave = false;
+  routerNavigate = null;
+  dialogRef;
+  modalRef;
+  alertError = "";
+  action = "";
+  url = "";
+  setLocation;
+  isSubmitted = false;
+  showPrevious = false;
+  totalPExpErr = false;
+  decError = false;
+  errorMsg =
+    "One or more required fields are empty or contains invalid data. Please check your input.";
+  @ViewChild("changeTemplate") template;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
+    this.setRouter();
+    this.onLoad();
+  }
+
+  setRouter() {
     for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
-        if(element?.name == 'Detailed Utilisation Report'){
+      // console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach((element) => {
+        //   console.log("name name", element);
+        if (element?.name == "Detailed Utilisation Report") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
         }
       });
+    }
   }
-    this.onLoad();
-  }
-
   onLoad() {
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -159,27 +120,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
   public initializeReport() {
     let stName = sessionStorage.getItem("stateName");
     let ulName = sessionStorage.getItem("ulbName");
-    //  console.log("12345", this.userLoggedInDetails.role);
-    // if (this.userLoggedInDetails.role == "ULB") {
-    //   this.utilizationForm = this.fb.group({
-    //     stateName: new FormControl(
-    //       this.states[this.userLoggedInDetails.state]?.name,
-    //       Validators.required
-    //     ),
-    //     ulb: new FormControl(
-    //       this.userLoggedInDetails.name,
-    //       Validators.required
-    //     ),
-    //     grantType: new FormControl("Tied", Validators.required),
-    //   });
-    // } else {
-    //   this.utilizationForm = this.fb.group({
-    //     stateName: new FormControl(stName, Validators.required),
-    //     ulb: new FormControl(ulName, Validators.required),
-    //     grantType: new FormControl("Tied", Validators.required),
-    //   });
-    // }
-
     this.utilizationReportForm = this.fb.group({
       grantPosition: this.fb.group({
         unUtilizedPrevYr: [0, Validators.required],
@@ -216,12 +156,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
       declaration: [false, Validators.required],
     });
   }
-  clickedSave = false;
-  routerNavigate = null;
-  dialogRef;
-  modalRef;
-  alertError = "";
-  @ViewChild("changeTemplate") template;
 
   navigationCheck() {
     if (!this.clickedSave) {
@@ -311,26 +245,22 @@ export class DetailedUtilizationReportComponent implements OnInit {
   get wmProject() {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
-  action = ''
-  url = ''
 
-  showPrevious = false
   getUtiReport() {
     let ulbId = this.userData?.ulb;
     this.newCommonService.getUtiData(ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
         this.analytics = res["analytics"];
-        this.action = res?.data['action']
-       this.url = res?.data['url']
-       if(this.action && this.url && this.action == 'note'){
-        this.showPrevious = true
-       }
+        this.action = res?.data["action"];
+        this.url = res?.data["url"];
+        if (this.action && this.url && this.action == "note") {
+          this.showPrevious = true;
+        }
         this.setcategoryData(res?.data);
         this.preFilledData(res?.data);
-        if (res?.data.isDraft == false) {
-          this.isDisabled = true;
-          this.utilizationReportForm.disable();
+        if (res?.data.isDraft == false || this.userData.role != "ULB") {
+          this.disableFormInputs();
         } else {
           this.isDisabled = false;
         }
@@ -529,7 +459,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       );
     }
   }
-  setLocation;
+
   openDialog(index): void {
     // console.log(this.tabelRows.value[index].location);
     if (
@@ -560,7 +490,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     // this.totalProCost(i);
     // this.totalExpCost(i);
   }
-  isSubmitted = false;
+
   formValueChangeSubs() {
     this.utilizationReportForm?.valueChanges.subscribe((el) => {
       console.log("changes form", el);
@@ -638,7 +568,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       }
     );
   }
-  totalPExpErr = false;
+
   changeInTotalPExp() {
     console.log("expDuringYear", this.expDuringYear);
     if (this.expDuringYear != this.totalProjectExp) {
@@ -737,9 +667,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       this.checkValidation();
     }
   }
-  decError = false;
-  errorMsg =
-    "One or more required fields are empty or contains invalid data. Please check your input.";
+
   checkValidation() {
     console.log("validation", this.utilizationReportForm);
     console.log(
@@ -894,5 +822,10 @@ export class DetailedUtilizationReportComponent implements OnInit {
     const start = input?.selectionStart;
     const end = input?.selectionEnd || input?.selectionStart;
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+
+  disableFormInputs() {
+    this.utilizationReportForm.disable();
+    this.isDisabled = true;
   }
 }

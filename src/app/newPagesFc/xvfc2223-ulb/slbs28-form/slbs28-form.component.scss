@@ -19,7 +19,7 @@
 .table>thead>tr>td,
 .table>thead>tr>th {
     line-height: 1.42857143;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: none;
 }
 
@@ -29,6 +29,7 @@
 
 .th-h {
     color: #059b9a;
+    font-size: 16px;
 }
 
 .input-group-text {
@@ -36,6 +37,7 @@
     background-color: #059b9a;
 }
 
-th {
-    font-weight: 500;
+.l-n {
+    font-weight: 400;
+    font-size: 16px;
 }

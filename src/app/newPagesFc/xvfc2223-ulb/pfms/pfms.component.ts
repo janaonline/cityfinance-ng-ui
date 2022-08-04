@@ -105,20 +105,22 @@ export class PfmsComponent implements OnInit {
     this.back_router = '../annual_acc'
     this.next_router = '../property_tax_operationalisation'
     this.clickedSave = false;
+    this.setRouter()
+    this.initializePmfsForm();
+    this.getSubmittedFormData();
+  }
+  setRouter(){
     for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
+    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
-        if(element?.name == 'Overview'){
+     //   console.log('name name', element);
+        if(element?.name == 'Linking of PFMS Account'){
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
         }
       });
   }
-    this.initializePmfsForm();
-    this.getSubmittedFormData();
   }
-
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
@@ -147,7 +149,7 @@ export class PfmsComponent implements OnInit {
     const params = { ulb: this.ulbId, design_year: this.designYearId };
     this.commonService.submittedFormData(params).subscribe((res: any) => {
       console.log(res)
-      // this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : '' 
+      // this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : ''
       this.dataValue = res;
       this.patchValues();
       this.odfUrl = res?.data?.cert?.url;
@@ -179,7 +181,7 @@ export class PfmsComponent implements OnInit {
         // this.removeValidatorInBulk(this.registerForm.get('cert'));
 
       }
-      
+
   // below code will use for active / inactive the child question
     //   if(this.dataValue.data.linkPFMS == 'Yes'){
     //      this.activeClass = true;
@@ -205,7 +207,7 @@ export class PfmsComponent implements OnInit {
     // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
     //     // this.patchFormValue('isUlbLinkedWithPFMS', '');
     //   }
-    
+
     // below code will use for active / inactive the child question
 
       if(this.dataValue.data.cert.name){
@@ -214,7 +216,7 @@ export class PfmsComponent implements OnInit {
       }else{
         this.showIcon = false
       }
-    
+
       if(this.dataValue.data.otherDocs.name){
         this.otherFileName= this.dataValue.data.otherDocs.name
         this.showIconOtherDoc = true
@@ -237,12 +239,12 @@ export class PfmsComponent implements OnInit {
   }
 
   setValidators(formFieldName: string) {
-    this.registerForm.controls[formFieldName].setValidators([Validators.required]);    
+    this.registerForm.controls[formFieldName].setValidators([Validators.required]);
     this.registerForm.controls[formFieldName].updateValueAndValidity();
   }
 
   removeValidatorsOneByOne(formFieldName: string) {
-    this.registerForm.controls[formFieldName].setValidators(null);    
+    this.registerForm.controls[formFieldName].setValidators(null);
     this.registerForm.controls[formFieldName].updateValueAndValidity();
   }
 
@@ -344,10 +346,10 @@ export class PfmsComponent implements OnInit {
     }
     this.submitted = true;
     // stop here if form is invalid
-    
+
     // this.registerForm.get('isUlbLinkedWithPFMS').valueChanges.subscribe(val => {
     //   if (this.registerForm.value.isUlbLinkedWithPFMS == 'Yes') {
-    //     this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);    
+    //     this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required]);
     //     this.registerForm.controls['cert']['controls']['name'].setValidators([Validators.required]);
     //     this.registerForm.controls['cert']['controls']['url'].setValidators([Validators.required]);
     //   } else {
@@ -473,7 +475,7 @@ export class PfmsComponent implements OnInit {
     // this.registerForm.controls.PFMSAccountNumber.reset();
     // this.registerForm.get('PFMSAccountNumber')
     this.registerForm.patchValue({
-      
+
       PFMSAccountNumber: '',
       cert:{
         url: '',
@@ -540,7 +542,7 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
   }
-  
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'pfmsLinkProgress'){
@@ -578,7 +580,7 @@ export class PfmsComponent implements OnInit {
         this.otherFileName = event.target.files[0].name;
         this.showIconOtherDoc = true;
       }
-      
+
       if (progessType == 'pfmsLinkProgress') {
         this.pfmsFileName = event.target.files[0].name;
         this.showIcon = true;
@@ -586,10 +588,10 @@ export class PfmsComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-    
+
   }
   clearFile(type: string = '') {
-    
+
     if(type =='cert') {
       this.registerForm.patchValue({
         cert:{
@@ -627,7 +629,7 @@ export class PfmsComponent implements OnInit {
         this.showIcon = false;
         this.showIconOtherDoc = false;
         swal("Only PDF File can be Uploaded.")
-        
+
         return;
       }
     }
@@ -682,7 +684,7 @@ export class PfmsComponent implements OnInit {
       );
     })
   }
- 
+
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -735,14 +737,14 @@ export class PfmsComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInPFMS");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInPFMS", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -790,9 +792,9 @@ export class PfmsComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    
+
       sessionStorage.setItem("changeInPFMS", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
