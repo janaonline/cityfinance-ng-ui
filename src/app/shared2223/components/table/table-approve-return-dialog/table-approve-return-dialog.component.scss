@@ -1,12 +1,8 @@
 .card {
     height: auto;
-    margin-bottom: 2rem !important;
     background-color: #FFFFFF;
-    box-shadow: 2px 4px 5px 4px #cecece;
     padding: 15px 15px 15px 15px;
     margin: auto;
-    width: 90%;
-    margin-top: 2rem;
 }
 
 .row{
@@ -201,12 +197,15 @@
 
 .btnUpload {
     background-color: #059b9a;
-    margin-left: .3rem;
-    margin-bottom: 1pc;
+    margin-left: 0rem;
+    margin-bottom: -1pc;
     color: white;
-    width: 200px;
 }
-
+.btnSave{
+    width: 96px;
+    margin-right: 45px;
+    height: 34px;
+}
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
