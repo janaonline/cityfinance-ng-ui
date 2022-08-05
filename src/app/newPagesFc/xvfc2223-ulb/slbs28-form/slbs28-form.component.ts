@@ -96,9 +96,16 @@ export class Slbs28FormComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.newCommonService.getTable().subscribe((res) => {
-      console.log("table DATA", res);
-      this.tableData = res;
+    this.onLoad();
+  }
+  onLoad() {
+    this.newCommonService.get28SlbsData().subscribe((res: any) => {
+      console.log("28 slbs data DATA", res);
+      this.slbData = res?.data;
     });
+  }
+
+  returnZero() {
+    return 0;
   }
 }
