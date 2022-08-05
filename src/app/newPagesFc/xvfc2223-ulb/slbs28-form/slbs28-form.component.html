@@ -19,22 +19,22 @@
                                 <th scope="col" class="text-center">Target Indicator 2022-23</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let lineItem of slbData | keyvalue : 0">
+                        <tbody *ngFor="let lineItem of slbData | keyvalue : returnZero">
 
                             <tr>
-                                <th scope="row" colspan="3" class="th-h">{{lineItem?.key}}</th>
+                                <th scope="row" colspan="3" class="th-h">{{lineItem?.key | titlecase }}</th>
                             </tr>
                             <tr *ngFor="let item of lineItem?.value">
-                                <th scope="row" class="l-n">{{item?.lineItemName}}</th>
+                                <th scope="row" class="l-n">{{item?.indicatorLineItem?.name}}</th>
                                 <td>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Actual Indicator" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" placeholder="Actual Indicator" [value]="item?.actual?.value" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Target Indicator" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" placeholder="Target Indicator" [value]="item?.target_1?.value" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>

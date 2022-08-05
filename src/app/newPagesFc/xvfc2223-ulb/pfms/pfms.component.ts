@@ -372,6 +372,7 @@ export class PfmsComponent implements OnInit {
         this.clickedSave = false;
         sessionStorage.setItem("changeInPFMS", "false");
         console.log('success!!!!!!!!!!!!!', res)
+        this.commonService.setFormStatus2223.next(true);
         this.getSubmittedFormData();
         swal('Saved', 'Data saved successfully', 'success')
       } else {
@@ -395,6 +396,7 @@ export class PfmsComponent implements OnInit {
         this.clickedSave = false;
         this.getSubmittedFormData()
         sessionStorage.setItem("changeInPFMS", "false");
+        this.commonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         sessionStorage.setItem("changeInPFMS", "false");

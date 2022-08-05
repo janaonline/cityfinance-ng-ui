@@ -90,15 +90,16 @@ export class NewCommonService {
     );
   }
 
-  postTableApproveRejectData(body){
+  postTableApproveRejectData(body) {
     return this.http.post(`${environment.api.url}common-action`, body);
   }
-  getTableApproveRejectData(body){
+  getTableApproveRejectData(body) {
     return this.http.post(`${environment.api.url}common-action`, body);
   }
-  getTable() {
-    console.log("Get API HIt");
-    let url = "https://mocki.io/v1/85a41838-b29e-44ce-8a6f-b6bf2c35c8c6";
-    return this.http.get(url);
+
+  get28SlbsData() {
+    return this.http.get(
+      `${environment.api.url}28-slbs?design_year=606aafb14dff55e6c075d3ae&ulb=5dd2474883f0771f8da4da1d`
+    );
   }
 }
