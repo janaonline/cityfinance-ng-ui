@@ -1,0 +1,59 @@
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+
+.dot{
+    display: inline-block;
+    margin-right: $spacer*.5;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+.dot-submitted{
+    @extend .dot;
+    background: #E67E1566;
+}
+.dot-approved{
+    @extend .dot;
+    background: #E67E15;
+}
+
+
+.progress{
+    overflow: unset !important;
+
+    .progress-bar{
+        flex-direction: unset !important;
+        justify-content: end !important;
+        overflow: unset !important;
+    
+        & span{
+            display: block;
+            background: $white;
+            color: $black;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            font-size: 10px;
+            margin-top: -11px;
+            line-height: 24px;
+            margin-right: -5px;
+        }
+
+        &.bg-approved{
+            background: #E67E15;
+
+            & span{
+                border: 5px solid #E67E15;
+            }
+        }
+
+        &.bg-submitted{
+            background: #E67E1566;
+
+            & span{
+                border: 5px solid #E67E1566;
+            }
+        }
+    }
+}
