@@ -828,4 +828,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.utilizationReportForm.disable();
     this.isDisabled = true;
   }
+  actionRes;
+  actionData(e) {
+    console.log("action data..", e);
+  }
 }

@@ -39,7 +39,8 @@ export class CommonActionComponent implements OnInit {
   actionData;
   @Input() stateApprove;
   @Input() stateReturn;
-  @Output() newItemEvent = new EventEmitter<string>();
+  @Input() actionRes;
+  @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -60,7 +61,6 @@ export class CommonActionComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.stateApprove);
-
     this.initializeFormm();
     this.valueChange();
     console.log(this.statusForm?.value);
@@ -85,7 +85,7 @@ export class CommonActionComponent implements OnInit {
       }
       this.toggle = value;
       console.log(this.toggle);
-      this.newItemEvent.emit(this.toggle);
+      this.actionEventEmit.emit(this.statusForm.value);
     });
   }
   initializeFormm() {
@@ -168,7 +168,6 @@ export class CommonActionComponent implements OnInit {
       // this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
       // console.log(this.stateFinance.controls)
     }
-    sessionStorage.setItem("changeInStateFinance", "true");
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
