@@ -13,7 +13,8 @@ export class Slbs28FormComponent implements OnInit {
   slbData = {
     "Water supply": [
       {
-        lineItemName: "Coverage of water supply connections",
+        question: "Coverage of water supply connections",
+        indicatorLineItem: "",
         unit: "%",
         type: "",
         actual: {
