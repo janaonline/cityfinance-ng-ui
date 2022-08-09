@@ -21,7 +21,7 @@ export class Ulb2223Guard implements CanActivate {
     | UrlTree {
     let ulbRecord = JSON.parse(localStorage.getItem("userData"));
     let isUlb = ulbRecord.role;
-    if (isUlb == "ULB") {
+    if (isUlb == "ULB" || isUlb == "STATE") {
       return true;
     }
     return false;

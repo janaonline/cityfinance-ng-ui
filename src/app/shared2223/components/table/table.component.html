@@ -1,11 +1,11 @@
 <div class="row mt-4 text-end">
     <div class="col-12">
-       <button type="submit" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
-       <button type="submit" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
-       <button type="submit" class="btn btn-danger ms-3" (click)="download()">Download</button>
+        <button type="submit" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
+        <button type="submit" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
+        <button type="submit" class="btn btn-danger ms-3" (click)="download()">Download</button>
     </div>
 </div>
-<div class="container mat-elevation-z8 mt-4">
+<div class="mat-elevation-z8 mt-4">
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -24,9 +24,7 @@
                     <input type="text" class="inputWidth" [formControl]="ulb_name_s"
                         > -->
                         <div class="input-placeholder">
-                            <input [formControl]="ulb_name_s" class="inputWidth field" type="text" name="searchroleName"
-                                id="searchroleName" placeholder="Search" /><span
-                                class="fa fa-search form-control-feedback"></span>
+                            <input [formControl]="ulb_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" /><span class="fa fa-search form-control-feedback"></span>
                         </div>
                     </th>
                     <th class="filter">
@@ -41,10 +39,10 @@
                     <input type="text" class="inputWidth" [formControl]="ulb_code_s"
                         > -->
                         <div class="input-placeholder">
-                            <input [formControl]="ulb_code_s" class="inputWidth field" type="text" name="searchroleName"
-                                id="searchroleName" placeholder="Search" /><span
-                                class="fa fa-search form-control-feedback"></span>
+                            <input [formControl]="ulb_code_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                            <span class="fa fa-search form-control-feedback"></span>
                         </div>
+
                     </th>
                     <th class="filter">
                         <select class="" [formControl]="ulbType_s">
@@ -64,9 +62,8 @@
                     <input type="text" [formControl]="ua_name_s" class="inputWidth"
                         > -->
                         <div class="input-placeholder">
-                            <input [formControl]="ua_name_s" class="inputWidth field" type="text" name="searchroleName"
-                                id="searchroleName" placeholder="Search" /><span
-                                class="fa fa-search form-control-feedback"></span>
+                            <input [formControl]="ua_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                            <span class="fa fa-search form-control-feedback"></span>
                         </div>
                     </th>
                     <th class="filter">
@@ -91,8 +88,7 @@
                 totalItems: tableDefaultOptions.totalCount
               }; let tabelIndex=index">
                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
-                        tabelIndex+1}}
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                     </td>
@@ -104,10 +100,8 @@
                         {{resData.populationType}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
-                        resData.filled_audited }}</td>
-                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{
-                        resData.filled_provisional }}</td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
+                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                   '/ulbform/overview', resData?._id  ]">
@@ -117,26 +111,23 @@
                             </mat-icon>
                         </a>
                     </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
-                        <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
-                            [routerLink]="[
-                '/ulbform2223/overview', resData?._id  ]">
+                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
+                        <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
+                             '/ulbform2223/overview', resData?._id  ]">
                             Take Action
                         </a>
                     </td>
                     <td>
-                        <div class="form-check"
-                            [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
-                            <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == true}" [disabled]="resData?.cantakeAction == true"
-                                type="checkbox" value="" id="flexCheckChecked" [checked]="resData?.isChecked">
+                        <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
+                            <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
+                                [checked]="resData?.isChecked">
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
-        directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
-        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page">
     </pagination-controls>
 </div>

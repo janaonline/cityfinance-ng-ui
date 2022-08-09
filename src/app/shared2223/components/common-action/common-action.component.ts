@@ -76,10 +76,10 @@ export class CommonActionComponent implements OnInit {
 
       this.actionData = value;
       console.log(this.actionData);
-      if (value.status == "approve") {
+      if (value.status == "APPROVED") {
         this.activeClassApprove = true;
         this.activeClassReturn = false;
-      } else if (value.status == "return") {
+      } else if (value.status == "REJECTED") {
         this.activeClassReturn = true;
         this.activeClassApprove = false;
       }
@@ -117,12 +117,12 @@ export class CommonActionComponent implements OnInit {
   userEvent;
   onChange(event) {
     console.log(event);
-    if (event == "approve") {
+    if (event == "APPROVED") {
       this.item = "";
       this.userEvent = event;
       this.approveComment = true;
       this.triggerInput = false;
-    } else if (event == "return") {
+    } else if (event == "REJECTED") {
       this.userEvent = event;
       this.triggerInput = true;
       this.approveComment = false;

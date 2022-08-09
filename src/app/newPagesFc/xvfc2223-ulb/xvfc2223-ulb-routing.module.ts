@@ -65,6 +65,10 @@ const routes: Routes = [
         path: "28SLBsForm",
         component: Slbs28FormComponent,
       },
+      {
+        path: "overview/:id",
+        component: OverviewComponent,
+      },
     ],
   },
   // {

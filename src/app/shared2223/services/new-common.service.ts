@@ -102,4 +102,8 @@ export class NewCommonService {
       `${environment.api.url}28-slbs?design_year=606aafb14dff55e6c075d3ae&ulb=5dd2474883f0771f8da4da1d`
     );
   }
+  postCommonAction(body){
+    return this.http.patch(`${environment.api.url}common-action`, body);
+
+  }
 }

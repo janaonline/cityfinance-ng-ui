@@ -31,9 +31,14 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.navigationCheck();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.initializeReport();
   }
   durForm;
+  ulbId;
   ulbName = "";
   userData;
   sideMenuItem: any;
@@ -86,10 +91,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
   @ViewChild("changeTemplate") template;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
+    if (!this.ulbName) {
+      this.ulbName = sessionStorage.getItem("ulbName");
+    }
     this.setRouter();
     this.onLoad();
   }
-
+formId = "";
   setRouter() {
     for (const key in this.sideMenuItem) {
       // console.log(`${key}: ${this.sideMenuItem[key]}`);
@@ -98,6 +106,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         if (element?.name == "Detailed Utilisation Report") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
+          this.formId = element?._id
         }
       });
     }
@@ -118,8 +127,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
     sessionStorage.setItem("changeInUti", "false");
   }
   public initializeReport() {
-    let stName = sessionStorage.getItem("stateName");
-    let ulName = sessionStorage.getItem("ulbName");
     this.utilizationReportForm = this.fb.group({
       grantPosition: this.fb.group({
         unUtilizedPrevYr: [0, Validators.required],
@@ -245,12 +252,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
   get wmProject() {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
-
+  utiData;
   getUtiReport() {
-    let ulbId = this.userData?.ulb;
-    this.newCommonService.getUtiData(ulbId).subscribe(
+    this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
+        this.utiData = res?.data;
         this.analytics = res["analytics"];
         this.action = res?.data["action"];
         this.url = res?.data["url"];
@@ -631,7 +638,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
       grantType: "Tied",
-      ulb: this.userData?.ulb,
+      ulb: this.ulbId,
       ...this.utilizationReportForm?.value,
     };
     console.log("form", this.utilizationReportForm);
@@ -831,5 +838,22 @@ export class DetailedUtilizationReportComponent implements OnInit {
   actionRes;
   actionData(e) {
     console.log("action data..", e);
+    this.actionRes = e;
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      ulb: [this.ulbId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    this.newCommonService.postCommonAction(actionBody).subscribe((res) => {
+      console.log("action respon", res);
+    });
   }
 }

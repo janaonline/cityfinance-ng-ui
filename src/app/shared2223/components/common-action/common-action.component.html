@@ -8,28 +8,28 @@
                 <div class="col-6">
                     <div class="form-group mb-3">
                         <div class="btn-group" btnRadioGroup formControlName="status">
-                            <label btnRadio="approve" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove}">Approve</label>
-                            <label btnRadio="return" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn}">Return</label>
+                            <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove}">Approve</label>
+                            <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn}">Return</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-6" *ngIf="toggle?.status == 'approve'">
+                <div class="col-6" *ngIf="toggle?.status == 'APPROVED'">
                     <label class="fontStyle">Remark :</label>
                 </div>
-                <div class="col-6" *ngIf="toggle?.status == 'return'">
+                <div class="col-6" *ngIf="toggle?.status == 'REJECTED'">
                     <label class="fontStyle">Reason for return :<sup class="text-danger">*</sup></label>
                 </div>
 
-                <div class="col-6" *ngIf="toggle?.status == 'approve' || toggle?.status == 'return'">
+                <div class="col-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
                     <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" placeholder="Type here ..."></textarea>
                     <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
                         {{item}}
                     </div>
                 </div>
             </div>
-            <div *ngIf="toggle?.status == 'approve' || toggle?.status == 'return'">
+            <div *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
                 <div class="row mt-3 mb-3 question">
                     <div class="col-6">
                         <label class="fontStyle">Uplaod document :</label>

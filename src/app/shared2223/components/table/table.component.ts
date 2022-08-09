@@ -22,7 +22,7 @@ export class TableComponent implements OnInit, OnChanges {
     private _commonService: CommonService,
     private _fb: FormBuilder,
     public dialog: MatDialog
-  ) { 
+  ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.getDesignYear();
@@ -56,8 +56,8 @@ listFetchOption = {
   limit: this.tableDefaultOptions.itemPerPage,
 };
 //  data: UserData[] = [];
-@Input()
-formId
+@Input() formId;
+@Input() dropdownData;
 selectedId:any=[];
 checkedStatus;
 ulbType
@@ -70,10 +70,10 @@ params = {
   'design_year': "606aafb14dff55e6c075d3ae",
   'formId': ""
 };
-
+formUrl;
   ngOnInit(): void {
     this.fetchStateList()
-this.callAPI();
+    this.callAPI();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
@@ -82,10 +82,16 @@ this.callAPI();
     this.initializeFilterForm()
     this.initializeListFetchParams()
     this.params['skip'] = 0
-    // this.params['currentPage'] = 1  
+    // this.params['currentPage'] = 1
     // this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1
     this.callAPI();
+    let formData = this.dropdownData.find(({_id})=> {
+      return _id === this.formId
+    });
+    this.formUrl = formData?.url;
+    console.log('form data url', formData);
+
   }
      callAPI(){
       this.params.formId = this.formId
@@ -108,7 +114,7 @@ this.callAPI();
      }
 
      isChecked(element: any) {
-       console.log('isChecked =====>', element);
+     //  console.log('isChecked =====>', element);
        let isUlbIdExist = this.selectedId.some(item=>item == element.ulbId)
        return isUlbIdExist
      }
@@ -123,12 +129,12 @@ this.callAPI();
       this.listFetchOption.filter = filterForm;
       this.listFetchOption.skip =
         skip || skip === 0 ? skip : this.listFetchOption.skip;
-  
+
       this.fetchList({ ...(<any>this.listFetchOption) });
     }
 
     isApiInProgress
-   
+
     private fetchList(
       body: {
         filter: { [key: string]: string };
@@ -139,7 +145,7 @@ this.callAPI();
       this.isApiInProgress = true;
       const util = new JSONUtility();
       body.filter = util.filterEmptyValue(body.filter);
-     
+
      Object.assign( this.params, body)
   this.callAPI();
 
@@ -207,7 +213,7 @@ this.callAPI();
     openDialog(type) {
       const dialogdata = {
         selectedId : this.selectedId,
-        type: type 
+        type: type
       }
       console.log(dialogdata)
       const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -235,6 +241,28 @@ this.callAPI();
     }
     getToken(){
       return JSON.parse(localStorage.getItem("id_token"));
+    }
+    viewUlbForm(data){
+      console.log("data", data)
+      localStorage.setItem("ulb_id", data?.ulbId);
+      this.getULBSideBar(data?.ulbId, "ULB", data?.isUA)
+      sessionStorage.setItem("stateName", data.state);
+      sessionStorage.setItem("ulbName", data.ulbName);
+    }
+    getULBSideBar(ulbId, role, isUA) {
+      if (isUA == "Yes") {
+        isUA = true;
+      } else {
+        isUA = false;
+      }
+      this.commonService
+        .getLeftMenu(ulbId, role, isUA)
+        .subscribe((res: any) => {
+          console.log("left responces..", res);
+          localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+          localStorage.setItem("overViewCard", JSON.stringify(res?.card));
+          //  this.leftMenu = res;
+        });
     }
 }
 

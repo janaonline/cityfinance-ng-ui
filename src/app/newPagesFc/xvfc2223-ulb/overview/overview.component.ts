@@ -10,8 +10,11 @@ export class OverviewComponent implements OnInit {
   constructor(public newCommonService: NewCommonService) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.cardData = JSON.parse(localStorage.getItem("overViewCard"));
+
     this.getSideBar();
   }
+  cardData
   userData;
   width;
   row_width;
@@ -138,19 +141,21 @@ export class OverviewComponent implements OnInit {
   backRouter;
   nextRouter;
   ngOnInit(): void {
-    for (const key in this.sideMenuItem) {
-    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach(element => {
-     //   console.log('name name', element);
-        if(element?.name == 'Overview'){
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-  }
+    this.setRouter();
     this.onResize();
   }
-
+ setRouter(){
+  for (const key in this.sideMenuItem) {
+    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+    this.sideMenuItem[key].forEach((element) => {
+      if (element?.name == "Overview") {
+        console.log('overview name', element);
+        this.nextRouter = element?.nextUrl;
+        this.backRouter = element?.prevUrl;
+      }
+    });
+  }
+ }
   public onResize() {
     this.innerWidth = window.innerWidth;
     console.log("pk agr", this.innerWidth);
@@ -174,18 +179,25 @@ export class OverviewComponent implements OnInit {
   }
   getSideBar() {
     console.log("user Data", this.userData);
+     if (this.userData?.role == "ULB") {
+       let ulbId = this.userData?.ulb;
+       let role = this.userData?.role;
+       let isUA = this.userData?.isUA;
+       this.newCommonService
+         .getLeftMenu(ulbId, role, isUA)
+         .subscribe((res: any) => {
+           console.log("left responces..", res);
+           this.cardsOverview = res?.card;
+           this.onHover(0, "", "GTC", this.cardsOverview[0]);
+           // this.leftMenu = res;
+         });
+     } else {
+       this.cardsOverview = this.cardData;
+       console.log("over ", this.cardsOverview);
 
-    let ulbId = this.userData?.ulb;
-    let role = this.userData?.role;
-    let isUA = this.userData?.isUA;
-    this.newCommonService
-      .getLeftMenu(ulbId, role, isUA)
-      .subscribe((res: any) => {
-        console.log("left responces..", res);
-        this.cardsOverview = res?.card;
-        this.onHover(0, "", "GTC", this.cardsOverview[0]);
-        // this.leftMenu = res;
-      });
+       this.onHover(0, "", "GTC", this.cardsOverview[0]);
+     }
+
   }
   ngAfterViewInit() {
     this.row_width = this.myIdentifier.nativeElement.offsetWidth;

@@ -159,6 +159,7 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.newCommonService.setFormStatus2223.subscribe((res) => {
       console.log("form status 2223", res);
+      if(this.loggedInUserType === this.userTypes.ULB)
       this.getSideBar();
     });
   }
@@ -200,7 +201,10 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.profileService.getUserProfile(params).subscribe((res) => {
       this.profileData = res["data"];
       this.isUserVerified = this.profileData?.isVerified2223;
-      if (this.isUserVerified == false) {
+      if (
+        this.isUserVerified == false &&
+        this.loggedInUserType === this.userTypes.ULB
+      ) {
         this.router.navigateByUrl("/profile-update");
         return;
         //  this.routerlink2223 = "/ulbform2223/overview"
