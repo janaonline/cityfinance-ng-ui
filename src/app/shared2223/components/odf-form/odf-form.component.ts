@@ -200,7 +200,7 @@ export class OdfFormComponent implements OnInit {
 
         console.log(this.ratingId);
         this.prefilledOdf(res?.data);
-        if (res?.data?.isDraft == false && this.userData?.role != 'ULB') {
+        if (res?.data?.isDraft == false) {
           console.log(res?.data?.isDraft);
           this.isDisabled = true;
           // this.profileForm.disabled
