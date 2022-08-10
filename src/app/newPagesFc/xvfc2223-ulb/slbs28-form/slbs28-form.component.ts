@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
 
 @Component({
   selector: "app-slbs28-form",
@@ -7,7 +9,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
   styleUrls: ["./slbs28-form.component.scss"],
 })
 export class Slbs28FormComponent implements OnInit {
-  constructor(private newCommonService: NewCommonService) {}
+  constructor(private newCommonService: NewCommonService,public dialog: MatDialog) {}
 
   tableData;
   slbData = {
@@ -108,5 +110,17 @@ export class Slbs28FormComponent implements OnInit {
 
   returnZero() {
     return 0;
+  }
+
+  onPreview(){
+    const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
+      data:  this.slbData,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+    });
   }
 }

@@ -4,7 +4,7 @@
             <span>28 SLBs FORM</span>
         </div>
         <div class="col-sm-4  text-end">
-            <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn">PREVIEW</button>
+            <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
         </div>
     </div>
     <div class="row mt-3">
@@ -25,7 +25,7 @@
                                 <th scope="row" colspan="3" class="th-h">{{lineItem?.key | titlecase }}</th>
                             </tr>
                             <tr *ngFor="let item of lineItem?.value">
-                                <th scope="row" class="l-n">{{item?.indicatorLineItem?.name}}</th>
+                                <th scope="row" class="l-n">{{item?.question}}</th>
                                 <td>
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Actual Indicator" [value]="item?.actual?.value" aria-label="Recipient's username" aria-describedby="basic-addon2">

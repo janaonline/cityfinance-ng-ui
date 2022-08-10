@@ -1,0 +1,96 @@
+<!-- <div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span class="d-block">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <b>Form Current Status:</b><span class="ml-2"><span style="margin-left:1%;">In Progress</span></span>
+            </p>
+        </div>
+        <div class="col-sm-6 text-end d-n">
+            <button id="donwloadButton" class="btn btn-primary hi" (click)="clickedDownloadAsPDF(templateSave)">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+           28 SLBs FORM
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table downloadTable">
+                        <thead>
+                            <tr class="tableBorder">
+                                <th scope="col"></th>
+                                <th scope="col" class="text-center headingClass">Actual Indicator 2021-22</th>
+                                <th scope="col" class="text-center headingClass">Target Indicator 2022-23</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let lineItem of data | keyvalue : returnZero" class="tableBody">
+
+                            <tr class="tableBorder">
+                                <th scope="row" colspan="3" class="th-h h-h tableBorder fieldHeading">{{lineItem?.key | titlecase }}</th>
+                            </tr>
+                            <tr *ngFor="let item of lineItem?.value" class="tableBorder">
+                                <th scope="row" class="l-n fontClass h-h tableBorder">{{item?.question}}</th>
+                                <td class="tableBorder">
+                                    <div class="input-group h-h">
+                                        <p>{{item?.actual?.value ? item?.actual?.value : 'N/A'}}</p>
+                                        <span class="ms-3" id="basic-addon2">{{item?.unit}}</span>
+                                    </div>
+                                </td>
+                                <td class="tableBorder">
+                                    <div class="input-group h-h">
+                                        <p>{{item?.target_1?.value ? item?.target_1?.value : 'N/A'}}</p>
+                                        <span class="ms-3" id="basic-addon2">{{item?.unit}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+ -->
