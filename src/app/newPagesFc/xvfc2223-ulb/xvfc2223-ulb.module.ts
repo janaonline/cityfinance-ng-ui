@@ -31,6 +31,7 @@ import { PropertyTaxOperationalisationComponent } from "./property-tax-operation
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { Slbs28FormComponent } from './slbs28-form/slbs28-form.component';
 import { CollectFdataComponent } from './collect-fdata/collect-fdata.component';
+import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/slbs28-form-preview.component';
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -53,6 +54,7 @@ import { CollectFdataComponent } from './collect-fdata/collect-fdata.component';
     PropertyTaxOperationalisationComponent,
     Slbs28FormComponent,
     CollectFdataComponent,
+    Slbs28FormPreviewComponent,
   ],
   imports: [
     CommonModule,
