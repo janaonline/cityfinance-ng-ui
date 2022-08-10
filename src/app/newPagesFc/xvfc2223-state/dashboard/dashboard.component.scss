@@ -18,7 +18,15 @@
     background: #E67E15;
 }
 
-
+.card {
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 1.5px #00000029;
+    padding: 10px 10px;
+    height: auto;
+    background-color: #12505A;
+    color:white;
+}
 .progress{
     overflow: unset !important;
 
