@@ -478,10 +478,10 @@ export class AnnualAccountsComponent implements OnInit {
     ) {
       for (const key in form.audited.provisional_data) {
         if (key == undefined || key == "auditor_report") break;
-        form.audited.provisional_data[key].excel.name = null;
-        form.audited.provisional_data[key].excel.url = null;
-        form.audited.provisional_data[key].pdf.url = null;
-        form.audited.provisional_data[key].pdf.name = null;
+        form.audited.provisional_data[key]['excel']['name'] = null;
+        form.audited.provisional_data[key]['excel']['url'] = null;
+        form.audited.provisional_data[key]['pdf']['url'] = null;
+        form.audited.provisional_data[key]['pdf']['name'] = null;
       }
     }
     if (
@@ -490,10 +490,10 @@ export class AnnualAccountsComponent implements OnInit {
     ) {
       for (const key in form.unAudited.provisional_data) {
         if (key == undefined) break;
-        form.unAudited.provisional_data[key].excel.name = null;
-        form.unAudited.provisional_data[key].excel.url = null;
-        form.unAudited.provisional_data[key].pdf.url = null;
-        form.unAudited.provisional_data[key].pdf.name = null;
+        form.unAudited.provisional_data[key]['excel']['name'] = null;
+        form.unAudited.provisional_data[key]['excel']['url'] = null;
+        form.unAudited.provisional_data[key]['pdf']['url'] = null;
+        form.unAudited.provisional_data[key]['pdf']['name'] = null;
       }
     }
     // if (
@@ -574,8 +574,8 @@ export class AnnualAccountsComponent implements OnInit {
         } else {
           if (this.data.audited.submit_standardized_data) {
             if (
-              this.data.audited.standardized_data.declaration != null &&
-              this.data.audited.standardized_data.declaration == true
+              this.data.audited?.standardized_data?.declaration != null &&
+              this.data.audited?.standardized_data?.declaration == true
             ) {
               this.data.isDraft = false;
             } else {
@@ -583,8 +583,8 @@ export class AnnualAccountsComponent implements OnInit {
               return;
             }
             if (
-              this.data.audited.standardized_data.excel.url == null ||
-              this.data.audited.standardized_data.excel.name == null
+              this.data.audited?.standardized_data?.excel?.url == null ||
+              this.data.audited?.standardized_data?.excel?.name == null
             ) {
               this.data.isDraft = true;
             } else {
@@ -781,7 +781,7 @@ export class AnnualAccountsComponent implements OnInit {
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
-        this.data[fileType].standardized_data.excel.name = name;
+        this.data[fileType].standardized_data['excel']['name'] = name;
 
         this.uploadFileToS3(
           file,
@@ -838,7 +838,7 @@ export class AnnualAccountsComponent implements OnInit {
           try {
             await this.checkExcelStatus(res["data"]);
             this.uploadErrors[fileType].standardized_data.progress = 100;
-            this.data[fileType].standardized_data.excel.url = fileAlias;
+            this.data[fileType].standardized_data['excel']['url'] = fileAlias;
 
             this.uploadErrors[fileType].standardized_data.file = null;
             this.uploadErrors[fileType].standardized_data.error = null;
@@ -847,7 +847,7 @@ export class AnnualAccountsComponent implements OnInit {
             this.uploadErrors[fileType].standardized_data.file = file;
             this.uploadErrors[fileType].standardized_data.error =
               error?.data.message;
-            this.data[fileType].standardized_data.excel.url = null;
+            this.data[fileType].standardized_data.excel['url'] = null;
             rej(error);
           }
           resolve("Success");
