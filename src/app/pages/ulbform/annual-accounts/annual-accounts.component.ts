@@ -781,7 +781,7 @@ export class AnnualAccountsComponent implements OnInit {
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
-        this.data[fileType].standardized_data.excel.name = name;
+        this.data[fileType].standardized_data['excel']['name'] = name;
 
         this.uploadFileToS3(
           file,

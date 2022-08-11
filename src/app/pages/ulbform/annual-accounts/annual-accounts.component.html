@@ -202,7 +202,7 @@
                             </span>
                         </div>
                         <div class="row pull-left">
-                            <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled && data.unAudited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
+                            <input type="checkbox" id="agree" [checked]="data?.unAudited?.standardized_data?.declaration" [disabled]="isDisabled && data.unAudited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
                             <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                         </div>
                     </div>
