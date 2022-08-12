@@ -103,19 +103,22 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
                     <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
-                  '/ulbform/overview', resData?._id  ]">
-
+                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                            <!-- [routerLink]="[
+                          '/ulbform/overview', resData?._id  ]" -->
                             <mat-icon aria-hidden="false">
                                 <img src="../../../../assets/ulbform/eye.png">
                             </mat-icon>
                         </a>
                     </td>
                     <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
-                        <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
+                        <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                              '/ulbform2223/overview', resData?._id  ]">
                             Take Action
-                        </a>
+                        </a> -->
+                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                          Take Action
+                      </a>
                     </td>
                     <td>
                         <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">

@@ -25,7 +25,7 @@ const routes: Routes = [
         component: StateFinanceComponent,
       },
       {
-        path: "review",
+        path: "review-ulb-form",
         component: ReviewApplicationComponent,
       },
       {
