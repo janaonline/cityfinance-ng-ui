@@ -45,13 +45,17 @@ export class DashboardComponent implements OnInit {
          formName: 'Annual Account Upload',
          color:'#232334',
          submittedValue:10,
-         approvedValue: 90
+         approvedValue: 90,
+         icon:'',
+         link:''
       },
       {
         formName: 'PFMS Linkage',
         color:'#232323',
         submittedValue:20,
-        approvedValue: 80
+        approvedValue: 80,
+        icon:'',
+        link:''
       }]
     },
     {
@@ -59,14 +63,14 @@ export class DashboardComponent implements OnInit {
       formData :[{
         formName: 'SFC Notification',
         color:'#232334',
-        submittedValue:10,
-        approvedValue: 90
+        submittedValue:100,
+        approvedValue: 100
      },
      {
        formName: 'Property Tax',
        color:'#232323',
-       submittedValue:20,
-       approvedValue: 80
+       submittedValue:100,
+       approvedValue: 100
      }]
     }
   ] 
