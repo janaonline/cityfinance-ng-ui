@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
                     <span class="fontStyle">
-                        <input (change)="onChnageSave()" [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
+                        <input (change)="onChnageSave()" [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" (keydown)="numberLimitV($event, inputText)" #inputText>
                     </span>
                     <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
                         <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
