@@ -6,37 +6,70 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  viewMode = 'tab1';
   cardData : any = {
     title: 'card1',
     cardData: [{
-      icon:'',
+      icon:'../../../../assets/dashboard-state/16-location.svg',
       link:'',
       value:'4600',
       lable:'Total ULBs',
       color:''
     },
     {
-      icon:'',
+      icon:'../../../../assets/dashboard-state/XMLID_1248_.svg',
       link:'',
       value:'500',
       lable:'Non Million Cities',
       color:''
     },
     {
-      icon:'',
+      icon:'../../../../assets/dashboard-state/sustainable.svg',
       link:'',
       value:'60',
       lable:'Million Plus UAs',
       color:''
     },
     {
-      icon:'',
+      icon:'../../../../assets/dashboard-state/16-location.svg',
       link:'',
       value:'600',
       lable:'ULBs in Million-Plus UAs',
       color:''
     }]
   }
+  formData : any = [
+    {
+      formHeader:'ULB Forms',
+      formData :[{
+         formName: 'Annual Account Upload',
+         color:'#232334',
+         submittedValue:10,
+         approvedValue: 90
+      },
+      {
+        formName: 'PFMS Linkage',
+        color:'#232323',
+        submittedValue:20,
+        approvedValue: 80
+      }]
+    },
+    {
+      formHeader:'State Forms',
+      formData :[{
+        formName: 'SFC Notification',
+        color:'#232334',
+        submittedValue:10,
+        approvedValue: 90
+     },
+     {
+       formName: 'Property Tax',
+       color:'#232323',
+       submittedValue:20,
+       approvedValue: 80
+     }]
+    }
+  ] 
   constructor() { }
 
   ngOnInit(): void {
