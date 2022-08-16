@@ -579,6 +579,11 @@ export class AnnualAccountsComponent implements OnInit {
             ) {
               this.data.isDraft = false;
             } else {
+              if(this.data.audited.submit_standardized_data === false){
+                this.data.isDraft = false
+                return;
+              }
+              
               this.data.isDraft = true;
               return;
             }
