@@ -31,7 +31,7 @@ export class OdfFormComponent implements OnInit {
   noRating: boolean;
   minDate;
   maxDate;
-  positionDraft:boolean = false
+  positionDraft: boolean = false;
   commonActionCondition: boolean = false;
   @Input() isGfcOpen: boolean = false;
   constructor(
@@ -44,10 +44,7 @@ export class OdfFormComponent implements OnInit {
     // this.date.setDate(this.date.getDate());
     // this.date.setFullYear(this.date.getFullYear() - 1);
     // this.now = new Date(this.date).toISOString().slice(0, 10);
-    let today = new Date();
-
     var dt = new Date();
-
     let year = dt.getFullYear();
     let year1 = dt.getFullYear() - 1;
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
@@ -69,13 +66,16 @@ export class OdfFormComponent implements OnInit {
         }
       }
     });
-    // debugger;
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    if(this.userData?.role != 'ULB'){
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    if (this.userData?.role != "ULB") {
       this.isDisabled = true;
     }
     this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.fetchData();
   }
 
@@ -107,7 +107,7 @@ export class OdfFormComponent implements OnInit {
   draft;
   userData;
   ulbId;
-  hideSaveDraft:boolean = true
+  hideSaveDraft: boolean = true;
   errorMessege: any = "";
   dropdownValues: any;
   profileForm: FormGroup;
@@ -133,26 +133,16 @@ export class OdfFormComponent implements OnInit {
   formDataPre;
   firstClick = false;
   disableSubmitForm: boolean;
-  actionData:any;
-  sideMenuItem:any;
+
+  sideMenuItem: any;
   @ViewChild("templateSave") template;
-  getFormData:any;
+  getFormData: any;
+  actFormData;
+  formId = "";
+
   ngOnInit(): void {
+    this.setRouter();
     this.clickedSave = false;
-    for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
-        if(element?.name == 'Open Defecation Free (ODF)'){
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-        if(element?.name == 'Garbage Free City (GFC)'){
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-  }
     this.profileForm = this.formBuilder.group({
       rating: ["", Validators.required],
       cert: this.formBuilder.group({
@@ -169,10 +159,6 @@ export class OdfFormComponent implements OnInit {
     for (var i in this.design_year) {
       if (i == "2022-23") {
         this.yearValue = this.design_year[i];
-        // this.profileForm.patchValue({
-        //   design_year: this.yearValue,
-        //   ulbId: this.ulbId:
-        // });
       }
     }
     const params = {
@@ -184,8 +170,14 @@ export class OdfFormComponent implements OnInit {
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
         console.log(res);
-        this.getFormData =res
-        res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false
+        this.getFormData = res;
+        this.actFormData = res?.data;
+        if (res?.data?.status !== "PENDING") {
+          this.actionBtnDis = true;
+        }
+        res?.data?.isDraft == false
+          ? (this.commonActionCondition = true)
+          : (this.commonActionCondition = false);
         if (
           res?.data?.rating == "62b2e4c79a6c781a28150d73" ||
           res?.data?.rating == "62b2e4969a6c781a28150d71"
@@ -211,7 +203,6 @@ export class OdfFormComponent implements OnInit {
       },
       (error) => {
         console.log("odf error", error);
-
       }
     );
 
@@ -219,11 +210,11 @@ export class OdfFormComponent implements OnInit {
 
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "false");
-      this.backRouter = "../odf";
-      this.nextRouter = "../overview";
+      // this.backRouter = "../odf";
+      // this.nextRouter = "../overview";
     } else {
-      this.backRouter = "../slbs";
-      this.nextRouter = "../gfc";
+      //  this.backRouter = "../slbs";
+      //  this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
     console.log(
@@ -233,6 +224,28 @@ export class OdfFormComponent implements OnInit {
     );
   }
 
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach((element) => {
+        //  console.log("name name", element);
+
+        if (
+          element?.name == "Open Defecation Free (ODF)" &&
+          this.isGfc == false
+        ) {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+        if (element?.name == "Garbage Free City (GFC)" && this.isGfc) {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+      });
+    }
+  }
   prefilledOdf(data) {
     console.log(data);
     console.log("this.dateValue", this.dateValue);
@@ -240,7 +253,7 @@ export class OdfFormComponent implements OnInit {
     this.draft = data?.isDraft;
     this.profileForm.patchValue({
       rating: data?.rating ? data?.rating : "",
-      certDate: data?.certDate ? data?.certDate : ""
+      certDate: data?.certDate ? data?.certDate : "",
       // design_year: this.yearValue,
       // ulbId: this.ulbId,
     });
@@ -282,7 +295,7 @@ export class OdfFormComponent implements OnInit {
         this.ratings = res.data;
         this.dropdownValues = res.data.map((a) => a.name);
         console.log(this.ratings);
-      //  this.getMarks(this.ratingId);
+        //  this.getMarks(this.ratingId);
       });
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
@@ -292,7 +305,7 @@ export class OdfFormComponent implements OnInit {
         this.dropdownValues = res.data.map((a) => a.name);
         console.log("this.dropdownValues", this.dropdownValues, this.ratings);
         console.log("this.ratingId", this.ratingId);
-       // this.getMarks(this.ratingId);
+        // this.getMarks(this.ratingId);
         // this.selectedDropdownValue = res.data.find(res => res._id == this.ratingId);
         // console.log(this.selectedDropdownValue.name)
         // this.profileForm.patchValue({
@@ -300,86 +313,60 @@ export class OdfFormComponent implements OnInit {
         // })
       });
     }
-
   }
-  stateApprove:boolean = false;
-  stateReturn:boolean = false;
+  stateApprove: boolean = false;
+  stateReturn: boolean = false;
   alertFormFinalSubmit() {
     this.submitted = true;
     this.activeClass = true;
-    console.log(this.getFormData)
-    // if(this.getFormData?.data?.isDraft == false){
-    //   console.log(this.actionData)
-    //     if(this.actionData.status == 'return'){
-    //       if(!this.actionData.reason){
-    //         this.errorSend = 'Please fill any reason'
-    //         swal(
-    //           'Failed to save','Failed to save'
-    //         );
-    //       }else{
-    //         this.errorSend = ''
-    //         this.actionStatus();
-    //         swal(
-    //           'Saved','Saved'
-    //         );
-    //       }     
-    //     }
-    //     if(this.actionData.status == 'approve'){
-    //       this.actionStatus();
-    //       swal(
-    //         'Successful','Successful'
-    //       );
-    //     }
-    // }else{
-       
-       if (this.profileForm.invalid) {
-        swal(
-          "Missing Data !",
-          "One or more required fields are empty or contains invalid data. Please check your input.",
-          "error"
-        );
-        return;
-      } else {
-        swal(
-          "Confirmation !",
-          `Are you sure you want to submit this form? Once submitted,
+    console.log(this.getFormData);
+    if (this.profileForm.invalid) {
+      swal(
+        "Missing Data !",
+        "One or more required fields are empty or contains invalid data. Please check your input.",
+        "error"
+      );
+      return;
+    } else {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
          it will become uneditable and will be sent to State for Review.
           Alternatively, you can save as draft for now and submit it later.`,
-          "warning",
-          {
-            buttons: {
-              Submit: {
-                text: "Submit",
-                value: "submit",
-              },
-              Draft: {
-                text: "Save as Draft",
-                value: "draft",
-              },
-              Cancel: {
-                text: "Cancel",
-                value: "cancel",
-              },
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
             },
-          }
-        ).then((value) => {
-          switch (value) {
-            case "submit":
-              this.onSubmit("submit");
-              break;
-            case "draft":
-              this.onDraft();
-              break;
-            case "cancel":
-              break;
-          }
-        });
-        // this.onSubmit('submit');
-      }
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit("submit");
+            break;
+          case "draft":
+            this.onDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+      // this.onSubmit('submit');
+    }
     //  }
-   
   }
-  
+
   errorSend;
   onSubmit(type) {
     // this.submitted = true;
@@ -402,8 +389,8 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
-        if (res && res.success && this.userData?.role != 'ULB') {
-          this.commonActionCondition = true 
+        if (res && res.success && this.userData?.role != "ULB") {
+          this.commonActionCondition = true;
           this.isDisabled = true;
           this.clickedSave = false;
           this.draft = false;
@@ -778,40 +765,70 @@ export class OdfFormComponent implements OnInit {
   disableEnterDate() {
     return false;
   }
-  outputData(event){
-    console.log(event)
-    this.actionData = event
-    console.log(this.actionData)
-    if(this.actionData.status == 'approve'){
-      this.stateApprove = true
-      this.stateReturn = false
-      this.isDisabled = this.stateApprove
-    }else if(this.actionData.status == 'return'){
-      this.stateApprove = false
-      this.stateReturn = true
-      this.isDisabled = this.stateApprove
-    }
-    console.log(this.actionData)
-    this.actionData.reason ? this.errorSend = '' : ''
-      this.hideSaveDraft = false;
-      this.positionDraft = true;
-    //  event.status == 'approve' ? this.isDisabled = true : this.isDisabled = false
-   }
-   actionStatus(){
-    this.body = this.actionData
-    this.commonService.odfSubmitForm(this.body).subscribe(
-      (res: any) => {
-       
-        if (res && res.success) {
-           
-          swal("Saved", "Data saved successfully", "success");
-        } else {
-          swal("Error", res?.message ? res?.message : "Error", "error");
-        }
+  // outputData(event){
+  //   console.log(event)
+  //   this.actionData = event
+  //   console.log(this.actionData)
+  //   if(this.actionData.status == 'approve'){
+  //     this.stateApprove = true
+  //     this.stateReturn = false
+  //     this.isDisabled = this.stateApprove
+  //   }else if(this.actionData.status == 'return'){
+  //     this.stateApprove = false
+  //     this.stateReturn = true
+  //     this.isDisabled = this.stateApprove
+  //   }
+  //   console.log(this.actionData)
+  //   this.actionData.reason ? this.errorSend = '' : ''
+  //     this.hideSaveDraft = false;
+  //     this.positionDraft = true;
+  //   //  event.status == 'approve' ? this.isDisabled = true : this.isDisabled = false
+  //  }
+  //  actionStatus(){
+  //   this.body = this.actionData
+  //   this.commonService.odfSubmitForm(this.body).subscribe(
+  //     (res: any) => {
+
+  //       if (res && res.success) {
+
+  //         swal("Saved", "Data saved successfully", "success");
+  //       } else {
+  //         swal("Error", res?.message ? res?.message : "Error", "error");
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error("err", error);
+
+  //     }
+  //   );
+  // }
+  actionRes;
+  actionBtnDis = false;
+
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      ulb: [this.ulbId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    this.commonService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        swal("Saved", "Action saved successfully.", "success");
+        this.actionBtnDis = true;
       },
       (error) => {
-        console.error("err", error);
-       
+        swal("Error", error?.message ? error?.message : "Error", "error");
       }
     );
   }

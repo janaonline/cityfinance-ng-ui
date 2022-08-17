@@ -6,6 +6,7 @@ import { State2223Service } from "../state-services/state2223.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType } from "@angular/common/http";
 import { GaPreviewComponent } from "./ga-preview/ga-preview.component";
+import * as fileSaver from "file-saver";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
@@ -318,5 +319,26 @@ export class GrantAllocationComponent implements OnInit {
       j: j,
     };
     sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+  }
+
+  downloadSample(data) {
+    console.log("data", data);
+
+    let instl = data?.installment;
+    let dType = data?.type;
+    let year = data?.year;
+    this.stateService
+      .getGtaTemplate(instl, dType, year)
+      .subscribe((response: any) => {
+        let blob: any = new Blob([response], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
+        //window.open(url);
+        //window.location.href = response.url;
+        fileSaver.saveAs(blob, "grant-allocation-template.xlsx");
+      }),
+      (error) => console.log("Error downloading the file"),
+      () => console.info("File downloaded successfully");
   }
 }
