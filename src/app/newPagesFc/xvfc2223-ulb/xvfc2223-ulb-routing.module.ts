@@ -69,6 +69,34 @@ const routes: Routes = [
         path: "overview/:id",
         component: OverviewComponent,
       },
+      {
+        path: "odf/:id",
+        component: OdfComponent,
+      },
+      {
+        path: "gfc/:id",
+        component: GfcComponent,
+      },
+      {
+        path: "annual_acc/:id",
+        component: AnnualAccountsComponent,
+      },
+      {
+        path: "utilisation-report/:id",
+        component: DetailedUtilizationReportComponent,
+      },
+      {
+        path: "slbs/:id",
+        component: Slbs2223Component,
+      },
+      {
+        path: "pfms_acc/:id",
+        component: PfmsComponent,
+      },
+      {
+        path: "28SLBsForm/:id",
+        component: Slbs28FormComponent,
+      },
     ],
   },
   // {

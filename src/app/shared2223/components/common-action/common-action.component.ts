@@ -1,11 +1,20 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
-import { UserUtility } from 'src/app/util/user/user';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { UserUtility } from "src/app/util/user/user";
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 @Component({
@@ -13,7 +22,7 @@ import { SweetAlert } from "sweetalert/typings/core";
   templateUrl: "./common-action.component.html",
   styleUrls: ["./common-action.component.scss"],
 })
-export class CommonActionComponent implements OnInit {
+export class CommonActionComponent implements OnInit, OnChanges {
   @Input() item;
   @Input() ulbStatus;
   @Input() ulbStatusKeys;
@@ -40,6 +49,7 @@ export class CommonActionComponent implements OnInit {
   @Input() stateApprove;
   @Input() stateReturn;
   @Input() actionRes;
+  @Input() actBtnDis;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -49,6 +59,11 @@ export class CommonActionComponent implements OnInit {
     };
   } = {};
   userLoggedInDetails: IUserLoggedInDetails;
+  finalStatus = "";
+  stateStatus = "";
+  mohuaStatus = "";
+  @Input() formData: any;
+  formDataChange;
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -56,15 +71,41 @@ export class CommonActionComponent implements OnInit {
   ) {
     this.initializeLoggedInUserDataFetch();
     this.initializeUserType();
+    console.log("form data for action 111", this.formData);
+    console.log("form data for action res", this.actionRes);
   }
   toggle: any;
-
+  mohuaReview = false;
   ngOnInit(): void {
     console.log(this.stateApprove);
     this.initializeFormm();
     this.valueChange();
-    console.log(this.statusForm?.value);
-    console.log(this.userTypes);
+    console.log("form data for action", this.formData);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.formDataChange = this.formData;
+    console.log(
+      "form data for action res changes",
+      this.formData,
+      this.formDataChange
+    );
+    if (
+      this.formData?.status == "APPROVED" &&
+      this.formData?.actionTakenByRole == "STATE"
+    ) {
+      this.finalStatus = "Under Review by MoHUA";
+    } else if (
+      this.formData?.status == "REJECTED" &&
+      this.formData?.actionTakenByRole == "STATE"
+    ) {
+      this.finalStatus = "Returned by State";
+    } else if (
+      this.formData?.status == "APPROVED" &&
+      this.formData?.actionTakenByRole == "MoHUA"
+    ) {
+      this.finalStatus = "Approved by MoHUA";
+      this.mohuaReview = true;
+    }
   }
   get f() {
     return this.statusForm.controls;
@@ -184,7 +225,7 @@ export class CommonActionComponent implements OnInit {
     return validFiles;
   }
   async upload(progessType, fileName) {
-    const formData: FormData = new FormData();
+    // const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
     console.log(files[0].name);
