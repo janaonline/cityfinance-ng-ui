@@ -99,7 +99,7 @@ if(!asDraft){
       arrOfAllData.push(...(this.formData[key]))
   }
   arrOfAllData.forEach(el => {
-    if(el['_id'] == )
+    // if(el['_id'] == )
     if(el['actual']['value'] > el['target_1']['value']){
       this.errorFieldIDs.push(el['indicatorLineItem'])
       this.error = 1;
