@@ -191,7 +191,7 @@ export class GrantAllocationComponent implements OnInit {
           let tabArray = this.gtcFormData[i]?.quesArray;
           let obj;
           this.gtcFormData[i]?.quesArray.forEach((el) => {
-            obj = res?.data.find(({ key }) => {
+            obj = res?.data?.find(({ key }) => {
               //  console.log(key, el);
               return key == el?.key;
             });
