@@ -10,6 +10,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { I } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-login",
@@ -138,6 +139,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.getStateSideBar(res["user"]);
       } else {
         this.getSideBar(res["user"]);
+      }
+      if (res["user"]?.role == "MoHUA" || res["user"]?.role == "ADMIN") {
+        this.getMohuaSideBar(res["user"]);
       }
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
@@ -339,6 +343,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.newCommonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
       console.log("left state responces..", res);
       localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+      //  this.leftMenu = res;
+    });
+  }
+  getMohuaSideBar(userData) {
+    // let role = userData?.role;
+    let role = "MoHUA";
+    this.newCommonService.getLeftMenu("", role, null).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("MohuaLeftMenu", JSON.stringify(res?.data));
       //  this.leftMenu = res;
     });
   }

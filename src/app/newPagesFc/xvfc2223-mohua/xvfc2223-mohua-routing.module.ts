@@ -11,15 +11,15 @@ const routes: Routes = [
     component: Xvfc2223MohuaComponent,
     children: [
       {
-        path: "dashboard",
+        path: "mohua-dashboard",
         component: DashboardComponent,
       },
       {
-        path: "review-ulb",
+        path: "review-grant-app",
         component: ReviewUlbComponent,
       },
       {
-        path: "review-state",
+        path: "review-state-form",
         component: ReviewStateComponent,
       },
     ],
