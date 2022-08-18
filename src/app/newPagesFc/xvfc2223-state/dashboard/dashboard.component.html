@@ -13,17 +13,15 @@
         </div>
     </div>
 </div>
-<div class="container mt-3">
+<div class="container mt-4">
     <div class="tab-slider--nav row">
         <ul class="nav nav-tabs">
-            <li class="col-4 text-center" rel="tab1" [ngClass]="{'navTabFirst' : navTabFirst}" (click)="tabActive(viewMode ='tab1')">NMPC - UnTied</li>
-            <li class="col-4 text-center" rel="tab2" [ngClass]="{'navTabSecond' : navTabSecond}" (click)="tabActive(viewMode ='tab2')">NMPC - Tied</li>
-            <li class="col-4 text-center" rel="tab3" [ngClass]="{'navTabThird' : navTabThird}" (click)="tabActive(viewMode ='tab3')">MPC</li>
+            <li *ngFor="let item of navList" [ngClass]="{'active': selectedItem == item.formType}" class="col-4 text-center" rel="tab1" (click)="tabActive(item)">{{item.title}}</li>
         </ul>
     </div>
     <div *ngIf="viewMode == 'tab1' || viewMode == 'tab2'" class="mt-4">
-        <button class="btn btn-primary" (click)="installmentClick('first')">1st Installment</button>
-        <button class="btn btn-primary ms-2" (click)="installmentClick('second')">2nd Installment</button>
+        <button class="btn" [ngClass]="{'activeFirstInstallment': firstInstallment}" (click)="installmentClick('1')">1st Installment</button>
+        <button class="btn ms-2" [ngClass]="{'activeSecondInstallment': secondInstallment}" (click)="installmentClick('2')">2nd Installment</button>
     </div>
     <div class="tab-slider--container mt-4">
         <div class="tab-slider--body">    
@@ -57,18 +55,26 @@
                                 <span class="formName">{{item?.status}}</span>
                             </div>
                         </div>
-                        <div class="progress mt-2">
-                            <div class="progress-bar bg-approved" role="progressbar" aria-label="Example with label"
-                                [ngStyle]="{'width': item?.submittedValue+'%','background-color': item?.approvedColor}"
-                                aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}">{{item?.submittedValue}}</span>
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="progress mt-2">
+                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="Example with label"
+                                        [ngStyle]="{'width': item?.submittedValue+'%','background-color': item?.approvedColor}"
+                                        aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}">{{item?.submittedValue}}</span>
+                                    </div>
+                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="Example with label"
+                                        [ngStyle]="{'width': item?.approvedValue+'%','background-color': item?.submittedColor}"
+                                        aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}">{{item?.approvedValue}}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="progress-bar bg-submitted" role="progressbar" aria-label="Example with label"
-                                [ngStyle]="{'width': item?.approvedValue+'%','background-color': item?.submittedColor}"
-                                aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}">{{item?.approvedValue}}</span>
+                            <div class="col-1">
+                                <span><i class="fa fa-bullseye" style="font-size:35px;color: #059B9A"></i>100%</span>
                             </div>
                         </div>
+                        
                     </div>             
                 </div>
             </div>

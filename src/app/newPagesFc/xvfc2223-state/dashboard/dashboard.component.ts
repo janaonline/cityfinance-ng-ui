@@ -1,5 +1,6 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { State2223Service } from '../state-services/state2223.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   viewMode = 'tab1';
   formdata: any;
-  navTabFirst: boolean = true;
-  navTabSecond: boolean = false;
-  navTabThird: boolean = false;
+  userData;
+  design_year;
+  stateId;
+  yearValue;
+  navTabActive: boolean = false;
+  selectedItem = 'nmpc_untied';
+  installmentType: string = '1';
   cardData: any = {
     title: 'card1',
     cardData: [{
@@ -43,7 +48,6 @@ export class DashboardComponent implements OnInit {
       color: '#12505A;'
     }]
   }
-
   formDataFirstInstallment: any = [
     {
       formHeader: 'ULB Forms',
@@ -148,29 +152,78 @@ export class DashboardComponent implements OnInit {
       }]
     }
   ]
-  constructor() {
+  navList = [
+    {title: 'NMPC - UnTied', viewMode: 'tab1', formType: 'nmpc_untied', installment : '1'},
+    {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
+    {title: 'MPC', viewMode: 'tab3', formType: 'mpc'}
+  ]
+  constructor(private state_service : State2223Service) {
+    this.getStateAndDesignYear();
     this.formdata = this.formDataFirstInstallment
   }
-
+   params:any = {
+    stateId: '',
+    design_year: '',
+    formType: '',
+    installment: ''
+  };
+  
   ngOnInit(): void {
+    this.params = {
+      stateId: this.stateId,
+      design_year: this.yearValue,
+      formType: 'nmpc_untied',
+      installment: this.installmentType
+    };
+    this.getFormData();  
   }
+
+  getStateAndDesignYear(){
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.stateId = this.userData?.state;
+    this.yearValue = this.design_year["2022-23"];
+  }
+  firstInstallment:boolean = true
+  secondInstallment:boolean = false
   installmentClick(type) {
-    type == 'first' ? this.formdata = this.formDataFirstInstallment : this.formdata = this.formData2ndInstallment
+    this.installmentType = type;
+    type == '1' ? this.formdata = this.formDataFirstInstallment : this.formdata = this.formData2ndInstallment
     console.log(type);
-  }
-  tabActive(tab) {
-    if (tab == 'tab1') {
-      this.navTabFirst = true
-      this.navTabSecond = false
-      this.navTabThird = false
-    } else if (tab == 'tab2') {
-      this.navTabSecond = true
-      this.navTabFirst = false
-      this.navTabThird = false
-    } else if (tab == 'tab3') {
-      this.navTabThird = true
-      this.navTabFirst = false
-      this.navTabSecond = false
+    if(type == '1'){
+      this.firstInstallment = true
+      this.secondInstallment = false
+    }else{
+      this.secondInstallment = true
+      this.firstInstallment = false
     }
+  
+    this.params = {
+      stateId: this.stateId,
+      design_year: this.yearValue,
+      formType: this.viewMode == 'tab1' ? 'nmpc_untied' : this.viewMode == 'tab2' ? 'nmpc_tied' : 'mpc',
+      installment: this.viewMode == 'tab3' ? 1 : this.installmentType
+    };
+    this.getFormData();
+  }
+  
+  tabActive(item) {
+    console.log(item)
+    this.selectedItem = item.formType
+    this.viewMode = item.viewMode
+    item.title == 'MPC' 
+    this.params = {
+      stateId: this.stateId,
+      design_year: this.yearValue,
+      formType: item.formType,
+      installment: this.viewMode == 'tab3' ? 1 : this.installmentType
+    };
+    this.getFormData();
+  }
+
+  getFormData(){  
+    this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
+      console.log(res);
+    })
   }
 }
