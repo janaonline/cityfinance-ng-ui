@@ -40,6 +40,6 @@ export class ReviewApplicationComponent implements OnInit {
 
   setFormId(event) {
     console.log("drop down changes", event);
-    this.formId = event.target.value;
+    this.formId = event?.target?.value;
   }
 }

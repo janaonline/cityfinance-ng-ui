@@ -10,6 +10,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { CarouselModule } from "ngx-bootstrap/carousel";
+import { Shared2223Module } from "src/app/shared2223/shared2223.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -22,10 +24,13 @@ import { CarouselModule } from "ngx-bootstrap/carousel";
   imports: [
     CommonModule,
     Xvfc2223MohuaRoutingModule,
+    Shared2223Module,
     MatIconModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
     CarouselModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class Xvfc2223MohuaModule {}
