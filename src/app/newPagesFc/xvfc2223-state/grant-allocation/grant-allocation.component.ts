@@ -41,6 +41,7 @@ export class GrantAllocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.intializeGtc();
+    this.getGtcData();
   }
   intializeGtc() {
     this.gtcFormData = [
@@ -182,6 +183,62 @@ export class GrantAllocationComponent implements OnInit {
       },
     ];
   }
+  getGtcData() {
+    this.stateService.getGTAFiles(this.stateId).subscribe(
+      (res: any) => {
+        console.log("res", res);
+        for (let i = 0; i < this.gtcFormData.length; i++) {
+          let tabArray = this.gtcFormData[i]?.quesArray;
+          let obj;
+          this.gtcFormData[i]?.quesArray.forEach((el) => {
+            obj = res?.data.find(({ key }) => {
+              //  console.log(key, el);
+              return key == el?.key;
+            });
+            if (obj) {
+              el["file"]["name"] = obj?.file?.name;
+              el["file"]["url"] = obj?.file?.url;
+              console.log("form", this.gtcFormData);
+              el["isDraft"] = false;
+              el["status"] = obj?.status;
+              el["rejectReason"] = obj?.rejectReason;
+            } else {
+              el["isDraft"] = true;
+              el["status"] = "PENDING";
+              el["rejectReason"] = null;
+            }
+          });
+        }
+        this.disableInputs();
+      },
+      (error) => {
+        console.log("err", error);
+      }
+    );
+  }
+  disableInputs() {
+    for (let i = 0; i < this.gtcFormData.length; i++) {
+      let tabArray = this.gtcFormData[i]?.quesArray;
+      for (let j = 0; j < tabArray.length; j++) {
+        let el = tabArray[j];
+        let nextEl = tabArray[j + 1];
+        if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
+          tabArray[0].isDisableQues = false;
+          break;
+        } else if (el?.isDraft == false && el?.status != "REJECTED") {
+          el.isDisableQues = true;
+          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+            nextEl.isDisableQues = false;
+          }
+        } else if (el?.isDraft == false && el?.status == "REJECTED") {
+          el.isDisableQues = false;
+          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+            nextEl.isDisableQues = false;
+          }
+        }
+      }
+    }
+  }
 
   onPreview() {
     let formdata = this.gtcFormData;
@@ -198,7 +255,40 @@ export class GrantAllocationComponent implements OnInit {
       //   this.hidden = true;
     });
   }
-  saveFile(i, j) {}
+  postBody;
+  saveFile(i, j) {
+    if (
+      this.gtcFormData[i].quesArray[j].file.name != "" ||
+      this.gtcFormData[i].quesArray[j].file.url != ""
+    ) {
+      this.postBody = {
+        design_year: "606aafb14dff55e6c075d3ae",
+        url: this.gtcFormData[i].quesArray[j]["file"]["url"],
+        fileName: this.gtcFormData[i].quesArray[j]["file"]["name"],
+        answer: true,
+        isDraft: false,
+      };
+
+      this.stateService.postGTAFile(this.postBody).subscribe(
+        (res: any) => {
+          swal("Saved", "File saved successfully.", "success");
+          console.log("GTA file response", res);
+          this.gtcFormData[i].quesArray[j].isDisableQues = true;
+          this.gtcFormData[i].quesArray[j].status = "PENDING";
+          this.gtcFormData[i].quesArray[j].isDraft = false;
+          this.gtcFormData[i].quesArray[j].rejectReason = null;
+          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
+            this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
+          }
+        },
+        (error) => {
+          swal("Error", `${error?.message}`, "error");
+        }
+      );
+    } else {
+      swal("Error", "Please upload file", "error");
+    }
+  }
   /* for upload excel file */
   async fileChangeEvent(event, fileType, cIndex, qIndex) {
     console.log(fileType, event);
@@ -290,16 +380,37 @@ export class GrantAllocationComponent implements OnInit {
       (res) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 70;
         if (res.type === HttpEventType.Response) {
-          this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
-          // this.gtcFormData[i].quesArray[j]['file'] = file;
-          this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
-          sessionStorage.setItem("changeInGtc", "true");
-          console.log("this.form", this.gtcFormData);
-          let ijData = {
-            i: i,
-            j: j,
-          };
-          sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+          let instl = this.gtcFormData[i].quesArray[j]?.installment;
+          let year = this.gtcFormData[i].quesArray[j]?.year;
+          let type = this.gtcFormData[i].quesArray[j]?.type;
+          this.stateService.checkFile(fileAlias, instl, year, type).subscribe(
+            (response) => {
+              console.log(response);
+              this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
+
+              this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
+              let ijData = {
+                i: i,
+                j: j,
+              };
+              sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+              //  swal('Record Submitted Successfully!')
+              //  resolve(res)
+            },
+            (error) => {
+              // swal(`Error- ${this.err}`)
+              let blob: any = new Blob([error.error], {
+                type: "text/json; charset=utf-8",
+              });
+              const url = window.URL.createObjectURL(blob);
+              this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
+
+              this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
+              this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
+              fileSaver.saveAs(blob, "error-sheet.xlsx");
+              swal("Your file is not correct, Please refer error sheet");
+            }
+          );
         }
       },
       (err) => {
@@ -313,7 +424,7 @@ export class GrantAllocationComponent implements OnInit {
     this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
     this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
-    sessionStorage.setItem("changeInGtc", "true");
+    // sessionStorage.setItem("changeInGtc", "true");
     let ijData = {
       i: i,
       j: j,
