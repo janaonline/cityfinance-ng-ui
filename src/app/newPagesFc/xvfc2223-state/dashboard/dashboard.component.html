@@ -49,24 +49,29 @@
                     <div class="formCard mt-3" *ngFor="let item of element['formData']">
                         <div class="row">
                             <div class="col-6">
-                                <span class="formName">{{item?.formName}}</span>
+                                <img src='{{item.icon}}' width="30" height="30">
+                                <span class="formName ms-3">{{item?.formName}}</span>
                             </div>
                             <div class="col-6 text-end">
                                 <span class="formName">{{item?.status}}</span>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-11">
                                 <div class="progress mt-2">
-                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="Example with label"
-                                        [ngStyle]="{'width': item?.submittedValue+'%','background-color': item?.approvedColor}"
+                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="submitted"
+                                        [ngStyle]="{'width':  item?.submittedValue == 0 ? '3'+'%' : item?.submittedValue+'%','background-color': item?.approvedColor}"
                                         aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}">{{item?.submittedValue}}</span>
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button
+                                        matTooltip="{{item?.submittedValue}}% Approved"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
                                     </div>
-                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="Example with label"
+                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="approved"
                                         [ngStyle]="{'width': item?.approvedValue+'%','background-color': item?.submittedColor}"
                                         aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}">{{item?.approvedValue}}</span>
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValueUpdate' : item?.submittedValue == 0}" mat-raised-button
+                                        matTooltip="{{item?.approvedValue}}% Submitted"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : ''}}</span>
                                     </div>
                                 </div>
                             </div>

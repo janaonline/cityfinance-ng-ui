@@ -1,5 +1,6 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { State2223Service } from '../state-services/state2223.service';
 
 @Component({
@@ -16,6 +17,12 @@ export class DashboardComponent implements OnInit {
   yearValue;
   navTabActive: boolean = false;
   selectedItem = 'nmpc_untied';
+  firstInstallment:boolean = true
+  secondInstallment:boolean = false
+  totalUlbs = 0;
+  nonMillionCities = 0;
+  millionPlusUAs = 0;
+  UlbInMillionPlusUA = 0;
   installmentType: string = '1';
   cardData: any = {
     title: 'card1',
@@ -59,19 +66,23 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#E67E1566',
         submittedValue: 50,
         approvedValue: 10,
-        icon: '',
+        icon: '../../../../assets/dashboard-state/16-location.svg',
         link: '',
-        status: 'Not Started'
+        status: 'In Progress',
+        id: 1,
+        cutOff: 25
       },
       {
         formName: 'PFMS Linkage',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 40,
-        approvedValue: 30,
-        icon: '',
+        submittedValue: 0,
+        approvedValue: 0,
+        icon: '../../../../assets/dashboard-state/16-location.svg',
         link: '',
-        status: 'Not Started'
+        status: 'Not Started',
+        id: 2,
+        cutOff: 20
       }]
     },
     {
@@ -84,9 +95,11 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#ffffff',
         submittedValue: 100,
         approvedValue: null,
-        icon: '',
+        icon: '../../../../assets/dashboard-state/16-location.svg',
         link: '',
-        status: 'Approved'
+        status: 'Approved',
+        id: 3,
+        cutOff: 15
       },
       {
         formName: 'Property Tax',
@@ -94,9 +107,11 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#ffffff',
         submittedValue: 100,
         approvedValue: null,
-        icon: '',
+        icon: '../../../../assets/dashboard-state/16-location.svg',
         link: '',
-        status: 'Approved'
+        status: 'Approved',
+        id: 4,
+        cutOff: 10
       }]
     }
   ]
@@ -157,9 +172,10 @@ export class DashboardComponent implements OnInit {
     {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
     {title: 'MPC', viewMode: 'tab3', formType: 'mpc'}
   ]
-  constructor(private state_service : State2223Service) {
+  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService) {
     this.getStateAndDesignYear();
-    this.formdata = this.formDataFirstInstallment
+    this.formdata = this.formDataFirstInstallment;
+    this.getCardData()
   }
    params:any = {
     stateId: '',
@@ -184,8 +200,7 @@ export class DashboardComponent implements OnInit {
     this.stateId = this.userData?.state;
     this.yearValue = this.design_year["2022-23"];
   }
-  firstInstallment:boolean = true
-  secondInstallment:boolean = false
+  
   installmentClick(type) {
     this.installmentType = type;
     type == '1' ? this.formdata = this.formDataFirstInstallment : this.formdata = this.formData2ndInstallment
@@ -225,5 +240,24 @@ export class DashboardComponent implements OnInit {
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
       console.log(res);
     })
+  }
+  smData
+  getCardData() {
+    this.stateDashboardService.getCardData(this.stateId).subscribe(
+      (res) => {
+        console.log(res);
+        let data = res["data"];
+        this.smData = data
+        console.log(this.smData)
+        this.totalUlbs = data['totalUlb'];
+        this.nonMillionCities = data['totalUlbNonMil'];
+        this.millionPlusUAs = data['totalUa'];
+        this.UlbInMillionPlusUA = data['totalUlbInUas'];
+        
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

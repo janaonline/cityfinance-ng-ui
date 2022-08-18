@@ -47,7 +47,7 @@
                     <div class="col-lg-5 col-md-5 col-sm-5">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 image-upload">
-                                <label for="cin1">
+                                <label for="ipt">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                           >Upload
                           pdf
@@ -57,7 +57,7 @@
                           </a>
                           <p class="errorMessege">{{errorMessege}}</p>
                           </label>
-                                <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
+                                <input #ipt id="ipt" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
                                 <div>
                                     <div *ngIf="submitted && f?.cert?.controls?.url?.errors" class="customDate text-danger">
                                         <div *ngIf="f?.cert?.controls?.url?.errors.required">File is required</div>

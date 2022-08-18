@@ -39,14 +39,26 @@ li{
 .active{
     background-color: #E67E15;
     cursor: pointer;
+    color:rgb(255, 255, 255);
 }
 .activeFirstInstallment{
     background-color: #059B9A;
     cursor: pointer;
+    color:rgb(255, 255, 255);
 }
 .activeSecondInstallment{
     background-color: #059B9A;
     cursor: pointer;
+    color:rgb(255, 255, 255);
+}
+.noValue{
+    border: 1px solid white !important;
+    color:black !important;
+    background-image: url("../../../../assets/dashboard-state/target-svgrepo-com.svg")!important;
+}
+.noValueUpdate{
+    display: none !important;
+    background-color: white;
 }
 .formHeader{
     font-weight: 600;
