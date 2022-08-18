@@ -20,11 +20,12 @@ export class State2223Service {
       `${environment.api.url}grant-transfer-certificate?state=${stateId}&design_year=606aafb14dff55e6c075d3ae`
     );
   }
-<<<<<<< HEAD
+
   getDashboardFormData(params) {
     return this.http.get(
       `${environment.api.url}dashboard?formType=${params.formType}&design_year=${params.design_year}&stateId=${params.stateId}&installment=${params.installment}`
-=======
+    );
+  }
   // getGtaTemplate(ins, type, yr) {
   //   return this.http.get(
   //     `${environment.api.url}grantDistribution/template?type=${type}&year=${yr}&installment=${ins}`
@@ -61,7 +62,7 @@ export class State2223Service {
           return throwError(errMes);
         }
       })
->>>>>>> 4cac3c14761af74071e05008111a56f9613d5abf
+
     );
   }
 }
