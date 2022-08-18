@@ -42,15 +42,15 @@ export class TableComponent implements OnInit, OnChanges {
   data;
   listType: USER_TYPE;
   filterForm: FormGroup;
-  ulb_name_s = new FormControl("");
-  state_name_s = new FormControl("");
-  ulb_code_s = new FormControl("");
-  ulb_type_s = new FormControl("");
-  filled_1 = new FormControl("");
-  population_type_s = new FormControl("");
-  ua_name_s = new FormControl("");
-  status_s = new FormControl("");
-  ulbType_s = new FormControl("");
+  // ulb_name_s = new FormControl("");
+  // state_name_s = new FormControl("");
+  // ulb_code_s = new FormControl("");
+  // ulb_type_s = new FormControl("");
+  // filled_1 = new FormControl("");
+  // population_type_s = new FormControl("");
+  // ua_name_s = new FormControl("");
+  // status_s = new FormControl("");
+  // ulbType_s = new FormControl("");
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -84,19 +84,20 @@ export class TableComponent implements OnInit, OnChanges {
     this.updatedTableData();
     this.fetchStateList();
     this.callAPI();
+    this.valueChanges();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     // this.listFetchOption.skip = 0
-    this.initializeFilterForm();
+    // this.initializeFilterForm();
     this.initializeListFetchParams();
     this.params["skip"] = 0;
     // this.params['currentPage'] = 1
     // this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
     this.callAPI();
-    this.valueChanges();
+
     let formData = this.dropdownData.find(({ _id }) => {
       return _id === this.formId;
     });
@@ -105,9 +106,34 @@ export class TableComponent implements OnInit, OnChanges {
       "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
     console.log("form data url", formData);
   }
+  filterFormValue;
   valueChanges() {
     this.filterForm.valueChanges.subscribe((value) => {
-      console.log(value);
+      console.log("value changes", value);
+      this.filterFormValue = value;
+      this.params["ulbName"] = value?.ulb_name_s;
+      this.params["ulbCode"] = value?.ulb_code_s;
+      this.params["censusCode"] = value?.ulb_code_s;
+      this.params["ulbType"] = value?.ulbType_s;
+      this.params["UA"] = value?.ua_name_s;
+      this.params["status"] = value?.status_s;
+      this.params["filled1"] = value?.filled_1;
+      //   this.params["filled2"] = value?.filled_2;
+      // this.params["stateId"] = value?.state_name_s;
+      this.callAPI();
+      //  this.params = {
+      //   design_year: "606aafb14dff55e6c075d3ae",
+      //   formId: this.formId,
+      //   ulbName: '',
+      //   ulbCode: '',
+      //   censusCode: '',
+      //   ulbType: '',
+      //   UA: '',
+      //   status: '',
+      //   filled1: '',
+      //   filled2: '',
+      //   stateId: ''
+      //  }
     });
   }
   updatedTableData() {

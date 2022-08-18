@@ -262,11 +262,12 @@ export class GrantAllocationComponent implements OnInit {
       this.gtcFormData[i].quesArray[j].file.url != ""
     ) {
       this.postBody = {
-        design_year: "606aafb14dff55e6c075d3ae",
+        design_year: this.gtcFormData[i].quesArray[j]?.year,
         url: this.gtcFormData[i].quesArray[j]["file"]["url"],
         fileName: this.gtcFormData[i].quesArray[j]["file"]["name"],
         answer: true,
         isDraft: false,
+        type: this.gtcFormData[i].quesArray[j]?.type,
       };
 
       this.stateService.postGTAFile(this.postBody).subscribe(
