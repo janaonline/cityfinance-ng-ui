@@ -97,7 +97,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.setRouter();
     this.onLoad();
   }
-formId = "";
+  formId = "";
   setRouter() {
     for (const key in this.sideMenuItem) {
       // console.log(`${key}: ${this.sideMenuItem[key]}`);
@@ -106,7 +106,7 @@ formId = "";
         if (element?.name == "Detailed Utilisation Report") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
-          this.formId = element?._id
+          this.formId = element?._id;
         }
       });
     }
@@ -270,6 +270,9 @@ formId = "";
           this.disableFormInputs();
         } else {
           this.isDisabled = false;
+        }
+        if (res?.data?.status !== "PENDING") {
+          this.actionBtnDis = true;
         }
         sessionStorage.setItem("changeInUti", "false");
       },
@@ -836,6 +839,8 @@ formId = "";
     this.isDisabled = true;
   }
   actionRes;
+  actionBtnDis = false;
+
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
@@ -852,8 +857,15 @@ formId = "";
         name: this.actionRes?.document?.name,
       },
     };
-    this.newCommonService.postCommonAction(actionBody).subscribe((res) => {
-      console.log("action respon", res);
-    });
+    this.newCommonService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        swal("Saved", "Action saved successfully.", "success");
+        this.actionBtnDis = true;
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
   }
 }

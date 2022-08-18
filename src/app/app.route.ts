@@ -198,6 +198,14 @@ export const appRouter: Routes = [
       ),
   },
   {
+    path: "mohua2223",
+    loadChildren: () =>
+      import("./newPagesFc/xvfc2223-mohua/xvfc2223-mohua.module").then(
+        (m) => m.Xvfc2223MohuaModule
+      ),
+  },
+
+  {
     path: "profile-update",
     component: ProfileUpdateComponent,
   },

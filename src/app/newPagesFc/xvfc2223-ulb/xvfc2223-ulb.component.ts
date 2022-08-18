@@ -151,10 +151,11 @@ export class Xvfc2223UlbComponent implements OnInit {
     private router: Router
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.fetchProfileData({});
+
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.newCommonService.setFormStatus2223.subscribe((res) => {
@@ -169,6 +170,7 @@ export class Xvfc2223UlbComponent implements OnInit {
   userTypes = USER_TYPE;
   userData;
   ngOnInit(): void {
+    this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
   }
   getSideBar() {
@@ -182,11 +184,13 @@ export class Xvfc2223UlbComponent implements OnInit {
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
+
     // console.log(this._router.url);
   }
   private initializeLoggedInUserDataFetch() {
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
+
       console.log("hi", data);
     });
   }
