@@ -56,7 +56,7 @@ export class GtcFormComponent implements OnInit {
               //  console.log(key, el);
               return key == el?.key;
             });
-            if (obj) {
+            if (obj && obj?.file?.name != "") {
               el["file"]["name"] = obj?.file?.name;
               el["file"]["url"] = obj?.file?.url;
               console.log("form", this.gtcFormData);
