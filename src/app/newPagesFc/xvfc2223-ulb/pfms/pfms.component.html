@@ -113,7 +113,7 @@
 
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin1" [ngClass]="{'customDisable': !isDisabled }">
+                    <label for="ipt" [ngClass]="{'customDisable': !isDisabled }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled}">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -121,7 +121,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
+                    <input #ipt id="ipt" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
                     <div>
                         <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
                             <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
@@ -157,7 +157,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin2" [ngClass]="{'customDisable': !isDisabled }">
+                    <label for="ipt2" [ngClass]="{'customDisable': !isDisabled }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled }">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -165,7 +165,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                    <input id="cin2" name="cin2" type="file" (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
+                    <input #ipt2 id="ipt2" name="cin2" type="file" (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
                 </div>
             </div>
             <div class="row" *ngIf="showIconOtherDoc">

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { NavigationStart, Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { State2223Service } from "../state-services/state2223.service";
 import { SweetAlert } from "sweetalert/typings/core";
@@ -34,7 +34,7 @@ export class GrantAllocationComponent implements OnInit {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
-    //  this.navigationCheck();
+    this.navigationCheck();
   }
 
   gtcFormData;
@@ -42,6 +42,7 @@ export class GrantAllocationComponent implements OnInit {
   ngOnInit(): void {
     this.intializeGtc();
     this.getGtcData();
+    sessionStorage.setItem("changeInGta", "false");
   }
   intializeGtc() {
     this.gtcFormData = [
@@ -60,13 +61,15 @@ export class GrantAllocationComponent implements OnInit {
             quesText: "Upload Grant Allocation to ULBs",
             isDisableQues: false,
             disableMsg: "",
-            key: "nonmillion_tied_2021-22_2",
+            key: "nonmillion_tied_2022-23_1",
             question:
               "(A) Upload Grant Allocation to ULBs - 1st Installment (2022-23)",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -84,11 +87,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: `1st Installment (2022-23) Grant allocation has to be uploaded first before uploading 2nd Installment (2022-23) Grant allocation to ULBs`,
             question:
               "(B) Upload Grant Allocation to ULBs - 2nd Installment (2022-23)",
-            key: "nonmillion_tied_2022-23_1",
+            key: "nonmillion_tied_2022-23_2",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -115,11 +120,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: "",
             question:
               "(A) Upload Grant Allocation to ULBs - 1st Installment (2022-23)",
-            key: "nonmillion_untied_2021-22_2",
+            key: "nonmillion_untied_2022-23_1",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -137,11 +144,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: `1st Installment (2022-23) Grant allocation has to be uploaded first before uploading 2nd Installment (2022-23) Grant allocation to ULBs`,
             question:
               "(B) Upload Grant Allocation to ULBs - 2nd Installment (2022-23)",
-            key: "nonmillion_untied_2022-23_1",
+            key: "nonmillion_untied_2022-23_2",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -167,11 +176,13 @@ export class GrantAllocationComponent implements OnInit {
             quesText: "Upload Grant Allocation for Water Supply and SWM",
             question:
               "(A) Upload Grant Allocation for  Water Supply and SWM - FY ( 2022-23)",
-            key: "million_tied_2021-22_1",
+            key: "million_tied_2022-23_1",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -196,8 +207,8 @@ export class GrantAllocationComponent implements OnInit {
               return key == el?.key;
             });
             if (obj) {
-              el["file"]["name"] = obj?.file?.name;
-              el["file"]["url"] = obj?.file?.url;
+              el["fileName"] = obj?.fileName;
+              el["url"] = obj?.url;
               console.log("form", this.gtcFormData);
               el["isDraft"] = false;
               el["status"] = obj?.status;
@@ -258,16 +269,17 @@ export class GrantAllocationComponent implements OnInit {
   postBody;
   saveFile(i, j) {
     if (
-      this.gtcFormData[i].quesArray[j].file.name != "" ||
-      this.gtcFormData[i].quesArray[j].file.url != ""
+      this.gtcFormData[i].quesArray[j].fileName != "" ||
+      this.gtcFormData[i].quesArray[j].url != ""
     ) {
       this.postBody = {
         design_year: this.gtcFormData[i].quesArray[j]?.year,
-        url: this.gtcFormData[i].quesArray[j]["file"]["url"],
-        fileName: this.gtcFormData[i].quesArray[j]["file"]["name"],
+        url: this.gtcFormData[i].quesArray[j]["url"],
+        fileName: this.gtcFormData[i].quesArray[j]["fileName"],
         answer: true,
         isDraft: false,
         type: this.gtcFormData[i].quesArray[j]?.type,
+        installment: this.gtcFormData[i].quesArray[j]?.installment,
       };
 
       this.stateService.postGTAFile(this.postBody).subscribe(
@@ -281,6 +293,7 @@ export class GrantAllocationComponent implements OnInit {
           if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
+          sessionStorage.setItem("changeInGta", "false");
         },
         (error) => {
           swal("Error", `${error?.message}`, "error");
@@ -348,7 +361,7 @@ export class GrantAllocationComponent implements OnInit {
       (s3Response) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
         const res = s3Response.data[0];
-        this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
+        this.gtcFormData[i].quesArray[j]["fileName"] = name;
         this.uploadFileToS3(
           file,
           res["url"],
@@ -389,12 +402,13 @@ export class GrantAllocationComponent implements OnInit {
               console.log(response);
               this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
 
-              this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
+              this.gtcFormData[i].quesArray[j]["url"] = fileAlias;
               let ijData = {
                 i: i,
                 j: j,
               };
-              sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+              sessionStorage.setItem("gtaIjData", JSON.stringify(ijData));
+              sessionStorage.setItem("changeInGta", "true");
               //  swal('Record Submitted Successfully!')
               //  resolve(res)
             },
@@ -406,8 +420,8 @@ export class GrantAllocationComponent implements OnInit {
               const url = window.URL.createObjectURL(blob);
               this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
 
-              this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
-              this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
+              this.gtcFormData[i].quesArray[j]["url"] = "";
+              this.gtcFormData[i].quesArray[j]["fileName"] = "";
               fileSaver.saveAs(blob, "error-sheet.xlsx");
               swal("Your file is not correct, Please refer error sheet");
             }
@@ -422,8 +436,8 @@ export class GrantAllocationComponent implements OnInit {
   }
   /* for clear file */
   clearFile(type, i, j) {
-    this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
-    this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
+    this.gtcFormData[i].quesArray[j]["url"] = "";
+    this.gtcFormData[i].quesArray[j]["fileName"] = "";
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
     // sessionStorage.setItem("changeInGtc", "true");
     let ijData = {
@@ -431,6 +445,7 @@ export class GrantAllocationComponent implements OnInit {
       j: j,
     };
     sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+    sessionStorage.setItem("changeInGta", "false");
   }
 
   downloadSample(data) {
@@ -452,5 +467,77 @@ export class GrantAllocationComponent implements OnInit {
       }),
       (error) => console.log("Error downloading the file"),
       () => console.info("File downloaded successfully");
+  }
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          const changeInGtc = sessionStorage.getItem("changeInGta");
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInGta", "false");
+            return;
+          }
+          if (changeInGtc === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    // await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.formSave("draft");
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+
+    await this.formSave("draft");
+    return this._router.navigate(["stateform2223/property-tax"]);
+  }
+  async discard() {
+    sessionStorage.setItem("changeInGta", "false");
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
+  }
+  formSave(type) {
+    let data = JSON.parse(sessionStorage.getItem("gtaIjData"));
+    console.log("i, j data", data);
+
+    this.saveFile(data?.i, data?.j);
   }
 }

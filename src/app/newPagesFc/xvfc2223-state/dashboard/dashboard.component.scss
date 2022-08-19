@@ -22,10 +22,51 @@ ul{
     display: flex;
     width: 66%;
     margin-left: 17%;
+    border-radius: 5px;
 }
 li{
-    background: #cbe8f5 0% 0% no-repeat padding-box;
+    background: #dce4e7 0% 0% no-repeat padding-box;
     cursor: pointer;
+    border-radius: 6px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 500;
+}
+.btn{
+    border-radius: 4px;
+    border: 1px solid rgb(192, 192, 192);
+}
+.active{
+    background-color: #E67E15;
+    cursor: pointer;
+    color:rgb(255, 255, 255);
+}
+.activeFirstInstallment{
+    background-color: #059B9A;
+    cursor: pointer;
+    color:rgb(255, 255, 255);
+}
+.activeSecondInstallment{
+    background-color: #059B9A;
+    cursor: pointer;
+    color:rgb(255, 255, 255);
+}
+.noValue{
+    border: 1px solid white !important;
+    color:black !important;
+    background-image: url("../../../../assets/dashboard-state/target-svgrepo-com.svg")!important;
+}
+.noValueUpdate{
+    display: none !important;
+    background-color: white;
+}
+.formHeader{
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+.formName{
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 .card {
     border: 1px #00000029;
@@ -36,6 +77,16 @@ li{
     background-color: #12505A;
     color:white;
 }
+.formCard {
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 1.5px #00000029;
+    padding: 20px;
+    height: 130px;
+    background-color: white;
+    color:black;
+}
+
 .progress{
     overflow: unset !important;
 
@@ -54,23 +105,22 @@ li{
             font-size: 10px;
             margin-top: -11px;
             line-height: 24px;
-            margin-right: -5px;
+            margin-right: -2px;
         }
-
         &.bg-approved{
             background: #E67E15;
 
-            & span{
-                border: 5px solid #E67E15;
-            }
+            // & span{
+            //     border: 5px solid #E67E15;
+            // }
         }
 
         &.bg-submitted{
             background: #E67E1566;
 
-            & span{
-                border: 5px solid #E67E1566;
-            }
+            // & span{
+            //     border: 5px solid #E67E1566;
+            // }
         }
     }
 }

@@ -136,6 +136,7 @@ export class OdfFormComponent implements OnInit {
 
   sideMenuItem: any;
   @ViewChild("templateSave") template;
+  @ViewChild("ipt") ipt: any;
   getFormData: any;
   actFormData;
   formId = "";
@@ -529,6 +530,7 @@ export class OdfFormComponent implements OnInit {
   fileChangeEvent(event, progessType, fileName) {
     this.firstClick = true;
     if (event.target.files[0].size >= 5000000) {
+      this.ipt.nativeElement.value = "";
       this.errorMessege = "File size should be less than 5Mb.";
       this.profileForm.controls.cert.reset();
       const error = setTimeout(() => {
