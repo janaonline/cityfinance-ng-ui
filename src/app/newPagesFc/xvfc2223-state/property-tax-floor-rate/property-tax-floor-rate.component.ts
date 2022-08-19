@@ -343,6 +343,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   }
   clearFile(type: string = '') {
     if(type =='minimumFloor') {
+      this.ipt2.nativeElement.value = "";
       this.showMinimumFloor = false;
       this.minimumFloorFileName = ''
       this.propertyForm.patchValue({
@@ -352,6 +353,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
        }
       });
     } else if (type =='rulesByLaws'){
+      this.ipt3.nativeElement.value = "";
       this.showRulesLaws = false;
       this.rulesLawsFileName = ''
       this.propertyForm.patchValue({
@@ -362,6 +364,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       });
     }else{
       this.showStateAct = false;
+      this.ipt.nativeElement.value = "";
       this.stateActFileName = ''
       this.propertyForm.patchValue({
         stateNotification:{

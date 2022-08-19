@@ -560,6 +560,7 @@ export class OdfFormComponent implements OnInit {
     }
   }
   clearFile() {
+    this.ipt.nativeElement.value = "";
     this.showIcon = false;
     this.odfFileName = "";
     this.profileForm?.controls?.cert.patchValue({

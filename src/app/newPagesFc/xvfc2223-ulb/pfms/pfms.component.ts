@@ -631,6 +631,7 @@ export class PfmsComponent implements OnInit {
   }
   clearFile(type: string = "") {
     if (type == "cert") {
+      this.ipt.nativeElement.value = "";
       this.registerForm.patchValue({
         cert: {
           url: "",
@@ -640,6 +641,7 @@ export class PfmsComponent implements OnInit {
       this.showIcon = false;
       this.pfmsFileName = "";
     } else {
+      this.ipt2.nativeElement.value = "";
       this.showIconOtherDoc = false;
       this.otherFileName = "";
       this.registerForm.patchValue({

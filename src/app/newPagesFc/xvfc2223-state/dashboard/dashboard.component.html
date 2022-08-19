@@ -1,13 +1,52 @@
 <div class="row mt-3">
-    <div class="col-3" *ngFor="let item of cardData?.cardData">
+    <div class="col-3">
         <div class="card">
             <div class="row">
                 <div class="col-8">
-                    <h3>{{item?.value}}</h3>
-                    <p>{{item?.lable}}</p>
+                    <h3>{{totalUlbs}}</h3>
+                    <p>Total ULBs</p>
                 </div>
                 <div class="col-4 text-end">
-                    <img src="{{item?.icon}}" alt="SVG" />
+                    <img src="../../../../assets/dashboard-state/16-location.svg" alt="SVG" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <h3>{{nonMillionCities}}</h3>
+                    <p>Non Million Cities</p>
+                </div>
+                <div class="col-4 text-end">
+                    <img src="../../../../assets/dashboard-state/XMLID_1248_.svg" alt="SVG" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <h3>{{millionPlusUAs}}</h3>
+                    <p>Million Plus UAs</p>
+                </div>
+                <div class="col-4 text-end">
+                    <img src="../../../../assets/dashboard-state/sustainable.svg" alt="SVG" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <h3>{{UlbInMillionPlusUA}}</h3>
+                    <p>ULBs in Million-Plus UAs</p>
+                </div>
+                <div class="col-4 text-end">
+                    <img src="../../../../assets/dashboard-state/16-location.svg" alt="SVG" />
                 </div>
             </div>
         </div>
@@ -33,15 +72,15 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             <div class="row justify-content-end">
-                                <div class="col-auto">
+                                <div class="col-auto fontClass">
                                     <span class="dot-submitted"
                                         [ngStyle]="{'background-color': element?.submittedColor}"></span>
-                                    Submitted
+                                    {{element?.approvedColor == '#059B05' ? 'Submitted by ULB' : 'Submitted by ULB'}}
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto fontClass">
                                     <span class="dot-approved"
                                         [ngStyle]="{'background-color': element?.approvedColor}"></span>
-                                    Approved
+                                    {{element?.approvedColor == '#059B05' ? 'Approved by MoHUA' : 'Approved by State'}}
                                 </div>
                             </div>
                         </div>
@@ -60,14 +99,14 @@
                             <div class="col-11">
                                 <div class="progress mt-2">
                                     <div class="progress-bar bg-approved" role="progressbar" aria-label="submitted"
-                                        [ngStyle]="{'width':  item?.submittedValue == 0 ? '3'+'%' : item?.submittedValue+'%','background-color': item?.approvedColor}"
+                                        [ngStyle]="{'width':  item?.submittedValue == 0 ? '32'+'px' : item?.submittedValue+'%','background-color': item?.approvedColor}"
                                         aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
                                         <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button
                                         matTooltip="{{item?.submittedValue}}% Approved"
                                         aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
                                     </div>
                                     <div class="progress-bar bg-submitted" role="progressbar" aria-label="approved"
-                                        [ngStyle]="{'width': item?.approvedValue+'%','background-color': item?.submittedColor}"
+                                        [ngStyle]="{'width': item?.approvedValue+'%' ,'background-color': item?.submittedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
                                         aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
                                         <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValueUpdate' : item?.submittedValue == 0}" mat-raised-button
                                         matTooltip="{{item?.approvedValue}}% Submitted"
@@ -76,7 +115,8 @@
                                 </div>
                             </div>
                             <div class="col-1">
-                                <span><i class="fa fa-bullseye" style="font-size:35px;color: #059B9A"></i>100%</span>
+                                <span><i class="fa fa-bullseye" style="font-size:35px;color: #059B9A"></i></span>
+                                <span><p>100%</p></span>
                             </div>
                         </div>
                         
