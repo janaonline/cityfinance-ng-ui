@@ -66,6 +66,7 @@
         "selenium-webdriver": "^4.3.1",
         "slick-carousel": "^1.8.1",
         "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.4.28",
         "to-words": "^3.2.0",
         "topojson": "3.0.2",
         "tslib": "^2.0.0",
