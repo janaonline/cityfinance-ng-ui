@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -17,6 +17,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   propertyForm: FormGroup;
   change = '';
   errorMessege: any = '';
+  @ViewChild("ipt") ipt: any;
+  @ViewChild("ipt2") ipt2: any;
+  @ViewChild("ipt3") ipt3: any;
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
@@ -281,12 +284,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
+ 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
       if (event.target.files[0].size >= 20000000) {
+        this.ipt2.nativeElement.value = "";
         this.errorMessege = 'File size should be less than 20Mb.'
-        this.propertyForm.controls.floorRate.reset();
+        // this.propertyForm.controls.floorRate.reset();
         const error = setTimeout(() => {
           this.showMinimumFloor = false
           this.errorMessege = ''
@@ -296,6 +301,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     }
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
+        this.ipt.nativeElement.value = "";
         this.errorMessegeStateAct = 'File size should be less than 20Mb.'
         this.propertyForm.controls.stateNotification.reset();
         const error = setTimeout(() => {
@@ -307,6 +313,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     }
     if(progessType == 'rulesByLawsProgress'){
       if (event.target.files[0].size >= 20000000) {
+        this.ipt3.nativeElement.value = "";
         this.errorMessegeOther = 'File size should be less than 20Mb.'
         this.propertyForm.controls.comManual.reset();
         const error = setTimeout(() => {
