@@ -43,8 +43,8 @@
                                             {{qusItem?.question}}
                                         </div>
                                         <div class="col-sm-12 ms-4 mt-2 ans-h">
-                                            <span *ngIf="qusItem?.file?.name"><a href="{{qusItem?.file?.url}}">{{qusItem?.file?.name}}</a></span>
-                                            <span *ngIf="qusItem?.file?.name == ''">N/A</span>
+                                            <span *ngIf="qusItem?.fileName"><a href="{{qusItem?.url}}">{{qusItem?.fileName}}</a></span>
+                                            <span *ngIf="qusItem?.fileName == ''">N/A</span>
                                         </div>
                                     </div>
                                 </div>

@@ -50,7 +50,7 @@ export class State2223Service {
   getGTAFiles(state_id) {
     let getFilesUrl =
       environment.api.url +
-      `grantDistribution/get/606aaf854dff55e6c075d219?state_id=${state_id}`;
+      `grantDistribution/get/606aafb14dff55e6c075d3ae?state_id=${state_id}`;
     return this.http.get(getFilesUrl).pipe(
       catchError((error) => {
         let errMes = "An error occured.";

@@ -41,3 +41,17 @@
     font-weight: 400;
     font-size: 16px;
 }
+.red {
+    border: solid 1px red;
+  }
+.errorDis {
+    font-size: 13px;
+    background: black;
+    color: white;
+    padding: 1px 1px;
+    white-space: pre;
+    border: 1px solid black;
+    border-radius: 6px;
+    position: relative;
+    display: inline-block;
+}

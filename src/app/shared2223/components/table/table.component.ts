@@ -34,7 +34,9 @@ export class TableComponent implements OnInit, OnChanges {
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.getDesignYear();
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   }
+  userData;
   public keepOriginalOrder = (a, b) => a.key;
   // dataSource: MatTableDataSource<UserData>;
   title = "";
@@ -42,15 +44,15 @@ export class TableComponent implements OnInit, OnChanges {
   data;
   listType: USER_TYPE;
   filterForm: FormGroup;
-  ulb_name_s = new FormControl("");
-  state_name_s = new FormControl("");
-  ulb_code_s = new FormControl("");
-  ulb_type_s = new FormControl("");
-  filled_1 = new FormControl("");
-  population_type_s = new FormControl("");
-  ua_name_s = new FormControl("");
-  status_s = new FormControl("");
-  ulbType_s = new FormControl("");
+  // ulb_name_s = new FormControl("");
+  // state_name_s = new FormControl("");
+  // ulb_code_s = new FormControl("");
+  // ulb_type_s = new FormControl("");
+  // filled_1 = new FormControl("");
+  // population_type_s = new FormControl("");
+  // ua_name_s = new FormControl("");
+  // status_s = new FormControl("");
+  // ulbType_s = new FormControl("");
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -84,19 +86,21 @@ export class TableComponent implements OnInit, OnChanges {
     this.updatedTableData();
     this.fetchStateList();
     this.callAPI();
+    this.valueChanges();
+ //   this.multiActionM();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     // this.listFetchOption.skip = 0
-    this.initializeFilterForm();
+    // this.initializeFilterForm();
     this.initializeListFetchParams();
     this.params["skip"] = 0;
     // this.params['currentPage'] = 1
     // this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
     this.callAPI();
-    this.valueChanges();
+
     let formData = this.dropdownData.find(({ _id }) => {
       return _id === this.formId;
     });
@@ -105,9 +109,23 @@ export class TableComponent implements OnInit, OnChanges {
       "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
     console.log("form data url", formData);
   }
+  filterFormValue;
   valueChanges() {
     this.filterForm.valueChanges.subscribe((value) => {
-      console.log(value);
+      console.log("value changes", value);
+      this.filterFormValue = value;
+      this.params["ulbName"] = value?.ulb_name_s;
+      this.params["ulbCode"] = value?.ulb_code_s;
+      this.params["censusCode"] = value?.ulb_code_s;
+      this.params["ulbType"] = value?.ulbType_s;
+      this.params["UA"] = value?.ua_name_s;
+      this.params["status"] = value?.status_s;
+      this.params["filled1"] = value?.filled_1;
+      // if(this.formId == '62aa1b04729673217e5ca3aa'){
+      //   this.params["filled2"] = value?.filled_2;
+      // }
+      this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
+      // this.params["stateId"] = value?.state_name_s;
     });
   }
   updatedTableData() {
@@ -152,7 +170,9 @@ export class TableComponent implements OnInit, OnChanges {
       }
     );
   }
-
+  search(){
+    this.callAPI();
+  }
   isChecked(element: any) {
     // console.log('isChecked =====>', element);
     let isUlbIdExist = this.selectedId.some((item) => item == element.ulbId);
@@ -257,7 +277,10 @@ export class TableComponent implements OnInit, OnChanges {
       height: "auto",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('result', result);
+
+    });
   }
 
   download() {
@@ -298,6 +321,10 @@ export class TableComponent implements OnInit, OnChanges {
       localStorage.setItem("overViewCard", JSON.stringify(res?.card));
       //  this.leftMenu = res;
     });
+  }
+  resetFilter(){
+    this.filterForm.reset();
+    this.callAPI();
   }
 }
 

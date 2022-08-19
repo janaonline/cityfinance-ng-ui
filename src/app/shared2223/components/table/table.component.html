@@ -1,136 +1,148 @@
-<div class="row mt-4 text-end">
+<div class="row mt-2 text-end">
     <div class="col-12">
         <button type="submit" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
         <button type="submit" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
         <button type="submit" class="btn btn-danger ms-3" (click)="download()">Download</button>
     </div>
 </div>
-<div class="mat-elevation-z8 mt-4">
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr style="background-color: #047474; color: #FFFFFF;">
-                    <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;">
-                        {{item.value}}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <thead>
-                <tr class="filter">
-                    <th class="filter"></th>
-                    <th class="filter">
-                        <!-- <span class=""><img
+<form [formGroup]="filterForm">
+    <div class="mat-elevation-z8 mt-1">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead>
+                    <tr style="background-color: #047474; color: #FFFFFF;">
+                        <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;">
+                            {{item.value}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="filter">
+                        <th class="filter"></th>
+                        <th class="filter">
+                            <!-- <span class=""><img
                             src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                    <input type="text" class="inputWidth" [formControl]="ulb_name_s"
+                    <input type="text" class="inputWidth" formControlName="ulb_name_s"
                         > -->
-                        <div class="input-placeholder">
-                            <input [formControl]="ulb_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" /><span class="fa fa-search form-control-feedback"></span>
-                        </div>
-                    </th>
-                    <th class="filter">
-                        <select class="" [formControl]="state_name_s">
+                            <div class="input-placeholder">
+                                <input formControlName="ulb_name_s" class="inputWidth field" type="text" (change)="search()" name="searchroleName" id="searchroleName" placeholder="Search" /><span class="fa fa-search form-control-feedback"></span>
+                            </div>
+                        </th>
+                        <th class="filter">
+                            <select class="" formControlName="state_name_s" (change)="search()" *ngIf="userData?.role != 'STATE'">
                             <option selected value="">State Name</option>
                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
                         </select>
-                    </th>
-                    <th class="filter">
-                        <!-- <span class="s-s"><img
+                        </th>
+                        <th class="filter">
+                            <!-- <span class="s-s"><img
                             src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                    <input type="text" class="inputWidth" [formControl]="ulb_code_s"
+                    <input type="text" class="inputWidth" formControlName="ulb_code_s"
                         > -->
-                        <div class="input-placeholder">
-                            <input [formControl]="ulb_code_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
-                            <span class="fa fa-search form-control-feedback"></span>
-                        </div>
+                            <div class="input-placeholder">
+                                <input formControlName="ulb_code_s" class="inputWidth field" (change)="search()" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                                <span class="fa fa-search form-control-feedback"></span>
+                            </div>
 
-                    </th>
-                    <th class="filter">
-                        <select class="" [formControl]="ulbType_s">
+                        </th>
+                        <th class="filter">
+                            <select class="" formControlName="ulbType_s" (change)="search()">
                             <option selected value="">ULB Type</option>
                             <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
                         </select>
-                    </th>
-                    <th class="filter">
-                        <select class="" [formControl]="population_type_s">
+                        </th>
+                        <th class="filter">
+                            <select class="" formControlName="population_type_s" (change)="search()">
                             <option selected value="">Population Type</option>
                             <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                         </select>
-                    </th>
-                    <th class="filter">
-                        <!-- <span class=""><img
+                        </th>
+                        <th class="filter">
+                            <!-- <span class=""><img
                             src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                    <input type="text" [formControl]="ua_name_s" class="inputWidth"
+                    <input type="text" formControlName="ua_name_s" class="inputWidth"
                         > -->
-                        <div class="input-placeholder">
-                            <input [formControl]="ua_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
-                            <span class="fa fa-search form-control-feedback"></span>
-                        </div>
-                    </th>
-                    <th class="filter">
-                        <select class="" [formControl]="status_s" style="width: 71px;">
+                            <div class="input-placeholder">
+                                <input formControlName="ua_name_s" (change)="search()" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                                <span class="fa fa-search form-control-feedback"></span>
+                            </div>
+                        </th>
+                        <th class="filter">
+                            <select class="" formControlName="status_s" style="width: 71px;" (change)="search()">
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
-                    </th>
-                    <th class="filter">
-                        <select class="" [formControl]="filled_1" style="width: 71px;">
+                        </th>
+                        <th class="filter">
+                            <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
                             <option value="Filled">Filled</option>
                             <option value="Not Filled">Not Filled</option>
                         </select>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let resData of data | paginate
+                        </th>
+                        <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
+                            <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
+                          <option value="Filled">Filled</option>
+                          <option value="Not Filled">Not Filled</option>
+                         </select>
+                        </th>
+                        <th class="filter text-center">
+                            <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let resData of data | paginate
             : {
               id: 'foo',
                 itemsPerPage: tableDefaultOptions.itemPerPage,
                 currentPage: tableDefaultOptions.currentPage,
                 totalItems: tableDefaultOptions.totalCount
               }; let tabelIndex=index">
-                    <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
-                    </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
-                    </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.stateName}}</td>
-                    <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData.censusCode || resData.sbCode }}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData.populationType}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
-                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
-                            <!-- [routerLink]="[
+                        <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        </td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                        </td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.stateName}}</td>
+                        <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                            {{resData.censusCode || resData.sbCode }}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                            {{resData.populationType}}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
+                        <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
+                            <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                                <!-- [routerLink]="[
                           '/ulbform/overview', resData?._id  ]" -->
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../../assets/ulbform/eye.png">
-                            </mat-icon>
-                        </a>
-                    </td>
-                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
-                        <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
+                                <mat-icon aria-hidden="false">
+                                    <img src="../../../../assets/ulbform/eye.png">
+                                </mat-icon>
+                            </a>
+                        </td>
+                        <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
+                            <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                              '/ulbform2223/overview', resData?._id  ]">
                             Take Action
                         </a> -->
-                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                            <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
                           Take Action
                       </a>
-                    </td>
-                    <td>
-                        <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
-                            <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
-                                [checked]="resData?.isChecked">
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
+                                <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
+                                    [checked]="resData?.isChecked">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
     </div>
-    <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-        screenReaderCurrentLabel="You're on page">
-    </pagination-controls>
-</div>
+</form>

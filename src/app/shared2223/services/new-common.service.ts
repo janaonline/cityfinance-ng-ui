@@ -10,6 +10,7 @@ export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
   setFormStatus2223 = new Subject<any>();
+  multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   getLeftMenu(ulbId, role, isUA) {
     return this.http.get(
@@ -98,11 +99,16 @@ export class NewCommonService {
     return this.http.post(`${environment.api.url}common-action`, body);
   }
 
-  get28SlbsData() {
+  get28SlbsData(ulbId) {
     return this.http.get(
-      `${environment.api.url}28-slbs?design_year=606aafb14dff55e6c075d3ae&ulb=5dd2474883f0771f8da4da1d`
+      `${environment.api.url}28-slbs?design_year=606aafb14dff55e6c075d3ae&ulb=${ulbId}`
     );
   }
+
+  post28SlbsData(data) {
+    return this.http.post(`${environment.api.url}28-slbs`, data);
+  }
+
   postCommonAction(body) {
     return this.http.patch(`${environment.api.url}common-action`, body);
   }
