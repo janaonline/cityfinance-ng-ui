@@ -27,6 +27,8 @@ export class PfmsComponent implements OnInit {
   routerNavigate = null;
   response;
   customDisable: boolean = false;
+  @ViewChild("ipt") ipt: any;
+  @ViewChild("ipt2") ipt2: any;
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
@@ -578,11 +580,12 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true");
     this.change = "true";
   }
-
+  
   fileChangeEvent(event, progessType) {
     console.log(progessType);
     if (progessType == "pfmsLinkProgress") {
       if (event.target.files[0].size >= 5000000) {
+        this.ipt.nativeElement.value = "";
         this.errorMessege = "File size should be less than 5Mb.";
         // this.errorMessegeOther = 'File size should be less than 5Mb.'
 
@@ -598,6 +601,7 @@ export class PfmsComponent implements OnInit {
     }
     if (progessType == "otherProgress") {
       if (event.target.files[0].size >= 5000000) {
+        this.ipt2.nativeElement.value = "";
         // this.errorMessege = 'File size should be less than 5Mb.'
         this.errorMessegeOther = "File size should be less than 5Mb.";
 
