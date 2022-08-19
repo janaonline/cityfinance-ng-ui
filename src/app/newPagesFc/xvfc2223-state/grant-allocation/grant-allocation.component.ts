@@ -273,7 +273,8 @@ export class GrantAllocationComponent implements OnInit {
       this.gtcFormData[i].quesArray[j].url != ""
     ) {
       this.postBody = {
-        design_year: this.gtcFormData[i].quesArray[j]?.year,
+        design_year: this.years["2022-23"],
+        year: this.gtcFormData[i].quesArray[j]?.year,
         url: this.gtcFormData[i].quesArray[j]["url"],
         fileName: this.gtcFormData[i].quesArray[j]["fileName"],
         answer: true,
