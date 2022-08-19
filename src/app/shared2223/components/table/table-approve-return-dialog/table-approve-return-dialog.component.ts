@@ -7,19 +7,19 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 @Component({
-  selector: 'app-table-approve-return-dialog',
-  templateUrl: './table-approve-return-dialog.component.html',
-  styleUrls: ['./table-approve-return-dialog.component.scss']
+  selector: "app-table-approve-return-dialog",
+  templateUrl: "./table-approve-return-dialog.component.html",
+  styleUrls: ["./table-approve-return-dialog.component.scss"],
 })
 export class TableApproveReturnDialogComponent implements OnInit {
   approveReturnForm: FormGroup;
-  change = '';
-  errorMessege: any = '';
+  change = "";
+  errorMessege: any = "";
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-  errorMessegeStateAct: any = '';
+  errorMessegeStateAct: any = "";
   stateActFileName;
-  stateActUrl = ''
+  stateActUrl = "";
   showStateAct: boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
@@ -28,14 +28,14 @@ export class TableApproveReturnDialogComponent implements OnInit {
   body: any;
   clickedSave;
   routerNavigate = null;
-  submitted: boolean = false
+  submitted: boolean = false;
   isDisabled: boolean = false;
   activeClass: boolean = false;
   stateActFileUrl;
   constitutedValue;
-  constitutedValueActive: boolean = false
-  memorandum: boolean = false
-  noteMessege: boolean = false
+  constitutedValueActive: boolean = false;
+  memorandum: boolean = false;
+  noteMessege: boolean = false;
   commonActionCondition: boolean = false;
   // isDisabled:boolean =false
   previewFormData: any;
@@ -47,8 +47,8 @@ export class TableApproveReturnDialogComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(@Inject(
-    MAT_DIALOG_DATA) public data: any,
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dataEntryService: DataEntryService,
     private _matDialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -62,49 +62,51 @@ export class TableApproveReturnDialogComponent implements OnInit {
     // this.onLoad();
   }
 
-  get f() { return this.approveReturnForm.controls; }
+  get f() {
+    return this.approveReturnForm.controls;
+  }
 
-  initializeForm(){
+  initializeForm() {
     this.approveReturnForm = this.formBuilder.group({
       responseFile: this.formBuilder.group({
-        url: [''],
-        name: ['']
+        url: [""],
+        name: [""],
       }),
-      rejectReason: [''],
+      rejectReason: [""],
       ulb: [this.data.selectedId],
       formId: ["62aa1d6ec9a98b2254632a9a"],
-      design_year: [this.getDesignYear()]
+      design_year: [this.getDesignYear()],
     });
 
     this.onLoad();
   }
 
-  onLoad(){
-    this.getSubmittedReviewData();
+  onLoad() {
+    //  this.getSubmittedReviewData();
   }
 
-  getSubmittedReviewData(){
-    const body = {
-      formId:"62aa1d6ec9a98b2254632a9a",
-      design_year:"606aafb14dff55e6c075d3ae",
-      ulb:["5dd2474883f0771f8da4da1d"]
-    }
-    this.newCommonService.getTableApproveRejectData(body).subscribe((res:any) =>{
-      console.log(res)
-      // this.patchFunction(res);
-    })
-    
-  }
-  getDesignYear(){
+  // getSubmittedReviewData(){
+  //   const body = {
+  //     formId:"62aa1d6ec9a98b2254632a9a",
+  //     design_year:"606aafb14dff55e6c075d3ae",
+  //     ulb:["5dd2474883f0771f8da4da1d"]
+  //   }
+  //   this.newCommonService.getTableApproveRejectData(body).subscribe((res:any) =>{
+  //     console.log(res)
+  //     // this.patchFunction(res);
+  //   })
+
+  // }
+  getDesignYear() {
     let design_year = JSON.parse(localStorage.getItem("Years"));
-      return design_year["2022-23"];
+    return design_year["2022-23"];
   }
-  patchFunction(data){
-    console.log(data)
+  patchFunction(data) {
+    console.log(data);
     // this.showStateAct = true
     this.stateActFileName = data?.data?.responseFile?.name;
     this.stateActFileUrl = data?.data?.responseFile?.url;
-    this.stateActFileName ? this.showStateAct = true : false;
+    this.stateActFileName ? (this.showStateAct = true) : false;
 
     this.approveReturnForm.patchValue({
       // constitutedSfc: data?.data?.constitutedSfc,
@@ -112,32 +114,31 @@ export class TableApproveReturnDialogComponent implements OnInit {
       // design_year: this.yearValue,
       responseFile: {
         url: data?.data?.responseFile?.url,
-        name: data?.data?.responseFile?.name
+        name: data?.data?.responseFile?.name,
       },
-      rejectReason:'',
-      ulb:'',
-      formId:"62aa1d6ec9a98b2254632a9a",
-      design_year:"606aafb14dff55e6c075d3ae",
-      status:"REJECTED"
-        });
-
+      rejectReason: "",
+      ulb: "",
+      formId: "62aa1d6ec9a98b2254632a9a",
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: "REJECTED",
+    });
   }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true")
+    sessionStorage.setItem("changeInPto", "true");
     this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
-    console.log(progessType)
+    console.log(progessType);
 
-    if (progessType == 'stateActProgress') {
+    if (progessType == "stateActProgress") {
       if (event.target.files[0].size >= 20000000) {
-        this.errorMessegeStateAct = 'File size should be less than 20Mb.'
+        this.errorMessegeStateAct = "File size should be less than 20Mb.";
         this.approveReturnForm.controls.responseFile.reset();
         const error = setTimeout(() => {
-          this.showStateAct = false
-          this.errorMessegeStateAct = ''
+          this.showStateAct = false;
+          this.errorMessegeStateAct = "";
         }, 4000);
         return;
       }
@@ -145,32 +146,30 @@ export class TableApproveReturnDialogComponent implements OnInit {
 
     const fileName = event.target.files[0].name;
 
-    if (progessType == 'stateActProgress') {
+    if (progessType == "stateActProgress") {
       this.stateActFileName = event.target.files[0].name;
       this.showStateAct = true;
     }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
-
   }
 
-  clearFile(type: string = '') {
-    if (type == 'stateAct') {
+  clearFile(type: string = "") {
+    if (type == "stateAct") {
       this.showStateAct = false;
-      this.stateActFileName = ''
+      this.stateActFileName = "";
       this.approveReturnForm.patchValue({
-        responseFile:{
-          url:'',
-          name: ''
-       }
+        responseFile: {
+          url: "",
+          name: "",
+        },
       });
       // this.stateFinance.controls.responseFile['controls'].name.setValidators(Validators.required);
       // this.stateFinance.controls.responseFile['controls'].name.updateValueAndValidity();
       // console.log(this.stateFinance.controls)
     }
     sessionStorage.setItem("changeInStateFinance", "true");
-
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -180,7 +179,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       if (fileExtension === "pdf") {
         validFiles.push(file);
       } else {
-        swal("Only PDF File can be Uploaded.")
+        swal("Only PDF File can be Uploaded.");
         return;
       }
     }
@@ -190,9 +189,9 @@ export class TableApproveReturnDialogComponent implements OnInit {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
-    console.log(files[0].name)
-    let fileExtension = files[0].name.split('.').pop();
-    console.log(fileExtension)
+    console.log(files[0].name);
+    let fileExtension = files[0].name.split(".").pop();
+    console.log(fileExtension);
     this[progessType] = 10;
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
@@ -213,35 +212,29 @@ export class TableApproveReturnDialogComponent implements OnInit {
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;
           // }
           const s3URL = s3Response["data"][0].url;
-          this.uploadFileToS3(
-            file,
-            s3URL,
-            fileAlias,
-            fileIndex,
-            progessType
-          );
-          resolve("success")
+          this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
+          resolve("success");
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {
             this.fileUploadTracker[fileIndex] = {
               status: "FAILED",
             };
-            console.log(err)
+            console.log(err);
           } else {
             this.fileUploadTracker[fileIndex].status = "FAILED";
-            console.log(err)
+            console.log(err);
           }
         }
       );
-    })
+    });
   }
   private uploadFileToS3(
     file: File,
     s3URL: string,
     fileAlias: string,
     fileIndex: number,
-    progressType: string = ''
+    progressType: string = ""
   ) {
     this.subscription = this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -250,16 +243,16 @@ export class TableApproveReturnDialogComponent implements OnInit {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
 
-            if (progressType == 'stateActProgress') {
+            if (progressType == "stateActProgress") {
               this.stateActUrl = fileAlias;
-              console.log(this.stateActUrl)
-              this.approveReturnForm.get('responseFile').patchValue({
+              console.log(this.stateActUrl);
+              this.approveReturnForm.get("responseFile").patchValue({
                 url: fileAlias,
-                name: file.name
-              })
+                name: file.name,
+              });
               // sessionStorage.setItem("changeInStateFinance", "true");
-              console.log(file)
-              console.log(s3URL)
+              console.log(file);
+              console.log(s3URL);
             }
           }
         },
@@ -270,11 +263,10 @@ export class TableApproveReturnDialogComponent implements OnInit {
       );
   }
   alertSave() {
-
     this._matDialog.closeAll();
     swal(
       "Confirmation !",
-      `Are you sure you want to save this data ?`,
+      `Are you sure you want to save this action ?`,
       "warning",
       {
         buttons: {
@@ -300,24 +292,29 @@ export class TableApproveReturnDialogComponent implements OnInit {
   }
   obj;
   onSubmit(type) {
-    if(this.data.type == 'Approve'){
-      this.obj ={
+    if (this.data.type == "Approve") {
+      this.obj = {
         ...this.approveReturnForm.value,
-        status: 'APPROVED'
-      }
-    }else{
-       this.obj ={
+        status: "APPROVED",
+      };
+    } else {
+      this.obj = {
         ...this.approveReturnForm.value,
-        status: 'REJECTED'
-      }
+        status: "REJECTED",
+      };
     }
-   
-    this.newCommonService.postTableApproveRejectData(this.obj).subscribe((res:any)=>{
-        console.log('post successful', res);
-         swal('Saved Data !!!!!!', 'Saved Data Successfully !!!')
-    },(error) => {
-      console.error("err", error);
-      swal("Error", error ? error : "Error", "error");
-    })
+
+    this.newCommonService.postTableApproveRejectData(this.obj).subscribe(
+      (res: any) => {
+        console.log("post successful", res);
+        swal("Saved Data !!!!!!", "Saved Data Successfully !!!");
+        //   this.newCommonService.multiAction.next(true);
+        this.newCommonService.reviewStatus.next(true);
+      },
+      (error) => {
+        console.error("err", error);
+        swal("Error", error ? error : "Error", "error");
+      }
+    );
   }
 }

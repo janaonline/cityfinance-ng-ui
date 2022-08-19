@@ -26,11 +26,11 @@
                     <input type="text" class="inputWidth" formControlName="ulb_name_s"
                         > -->
                             <div class="input-placeholder">
-                                <input formControlName="ulb_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" /><span class="fa fa-search form-control-feedback"></span>
+                                <input formControlName="ulb_name_s" class="inputWidth field" type="text" (change)="search()" name="searchroleName" id="searchroleName" placeholder="Search" /><span class="fa fa-search form-control-feedback"></span>
                             </div>
                         </th>
                         <th class="filter">
-                            <select class="" formControlName="state_name_s">
+                            <select class="" formControlName="state_name_s" (change)="search()" *ngIf="userData?.role != 'STATE'">
                             <option selected value="">State Name</option>
                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
                         </select>
@@ -41,19 +41,19 @@
                     <input type="text" class="inputWidth" formControlName="ulb_code_s"
                         > -->
                             <div class="input-placeholder">
-                                <input formControlName="ulb_code_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                                <input formControlName="ulb_code_s" class="inputWidth field" (change)="search()" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
                                 <span class="fa fa-search form-control-feedback"></span>
                             </div>
 
                         </th>
                         <th class="filter">
-                            <select class="" formControlName="ulbType_s">
+                            <select class="" formControlName="ulbType_s" (change)="search()">
                             <option selected value="">ULB Type</option>
                             <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
                         </select>
                         </th>
                         <th class="filter">
-                            <select class="" formControlName="population_type_s">
+                            <select class="" formControlName="population_type_s" (change)="search()">
                             <option selected value="">Population Type</option>
                             <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                         </select>
@@ -64,20 +64,29 @@
                     <input type="text" formControlName="ua_name_s" class="inputWidth"
                         > -->
                             <div class="input-placeholder">
-                                <input formControlName="ua_name_s" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
+                                <input formControlName="ua_name_s" (change)="search()" class="inputWidth field" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
                                 <span class="fa fa-search form-control-feedback"></span>
                             </div>
                         </th>
                         <th class="filter">
-                            <select class="" formControlName="status_s" style="width: 71px;">
+                            <select class="" formControlName="status_s" style="width: 71px;" (change)="search()">
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
                         </th>
                         <th class="filter">
-                            <select class="" formControlName="filled_1" style="width: 71px;">
+                            <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
                             <option value="Filled">Filled</option>
                             <option value="Not Filled">Not Filled</option>
                         </select>
+                        </th>
+                        <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
+                            <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
+                          <option value="Filled">Filled</option>
+                          <option value="Not Filled">Not Filled</option>
+                         </select>
+                        </th>
+                        <th class="filter text-center">
+                            <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                         </th>
                     </tr>
                 </thead>

@@ -34,7 +34,9 @@ export class TableComponent implements OnInit, OnChanges {
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.getDesignYear();
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   }
+  userData;
   public keepOriginalOrder = (a, b) => a.key;
   // dataSource: MatTableDataSource<UserData>;
   title = "";
@@ -85,6 +87,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.fetchStateList();
     this.callAPI();
     this.valueChanges();
+ //   this.multiActionM();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
@@ -118,22 +121,11 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["UA"] = value?.ua_name_s;
       this.params["status"] = value?.status_s;
       this.params["filled1"] = value?.filled_1;
+      // if(this.formId == '62aa1b04729673217e5ca3aa'){
       //   this.params["filled2"] = value?.filled_2;
+      // }
+      this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
       // this.params["stateId"] = value?.state_name_s;
-      this.callAPI();
-      //  this.params = {
-      //   design_year: "606aafb14dff55e6c075d3ae",
-      //   formId: this.formId,
-      //   ulbName: '',
-      //   ulbCode: '',
-      //   censusCode: '',
-      //   ulbType: '',
-      //   UA: '',
-      //   status: '',
-      //   filled1: '',
-      //   filled2: '',
-      //   stateId: ''
-      //  }
     });
   }
   updatedTableData() {
@@ -178,7 +170,9 @@ export class TableComponent implements OnInit, OnChanges {
       }
     );
   }
-
+  search(){
+    this.callAPI();
+  }
   isChecked(element: any) {
     // console.log('isChecked =====>', element);
     let isUlbIdExist = this.selectedId.some((item) => item == element.ulbId);
@@ -283,7 +277,10 @@ export class TableComponent implements OnInit, OnChanges {
       height: "auto",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('result', result);
+
+    });
   }
 
   download() {
@@ -324,6 +321,10 @@ export class TableComponent implements OnInit, OnChanges {
       localStorage.setItem("overViewCard", JSON.stringify(res?.card));
       //  this.leftMenu = res;
     });
+  }
+  resetFilter(){
+    this.filterForm.reset();
+    this.callAPI();
   }
 }
 
