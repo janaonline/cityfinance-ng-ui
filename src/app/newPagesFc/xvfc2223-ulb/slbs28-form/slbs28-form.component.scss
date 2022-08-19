@@ -25,6 +25,8 @@
 
 .form-control {
     height: auto;
+    width: 64%;
+    padding: 4px 6px;
 }
 
 .th-h {
@@ -35,15 +37,21 @@
 .input-group-text {
     color: #FFFFFF;
     background-color: #059b9a;
+    width: 34%;
+    justify-content: center;
+    font-size: 14px;
 }
 
 .l-n {
     font-weight: 400;
     font-size: 16px;
+    width: 45%;
 }
+
 .red {
     border: solid 1px red;
-  }
+}
+
 .errorDis {
     font-size: 13px;
     background: black;

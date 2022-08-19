@@ -28,47 +28,53 @@
                                 <th scope="row" class="l-n">{{item?.question}}</th>
                                 <td>
                                     <div class="input-group">
-                                        <input [disabled]="item.actualDisable" [ngClass]="{'red': actual.invalid  && (actual.dirty || actual.touched)}" required id="actual" name="actual" type="number" class="form-control" placeholder="Actual Indicator" [(ngModel)]="item.actual.value" #actual="ngModel" >
+                                        <input [min]="item.min" [max]="item.max" [disabled]="item.actualDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || actual.invalid  && (actual.dirty || actual.touched)}" required id="actual"
+                                            name="actual" type="number" class="form-control" placeholder="Actual Indicator" [(ngModel)]="item.actual.value" #actual="ngModel">
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
-                                        <div *ngIf="actual.invalid && (actual.dirty || actual.touched)" >
+                                        <div *ngIf="actual.invalid && (actual.dirty || actual.touched)">
 
-  <span class="errorDis" *ngIf="actual.errors['required']">
-    Actual is required.
-  </span>
-  </div>
+                                            <span class="errorDis" *ngIf="actual.errors['required']">
+                                         Actual is required.
+                                    </span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group">
-                                        <input [disabled]="item.targetDisable" [ngClass]="{'red': target.invalid  && (target.dirty || target.touched)}" required id="target" name="target" type="number" class="form-control" placeholder="Target Indicator" [(ngModel)]="item.target_1.value" #target="ngModel">
+                                        <input [min]="item.min" [max]="item.max" [disabled]="item.targetDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || target.invalid  && (target.dirty || target.touched)}" required id="target"
+                                            name="target" type="number" class="form-control" placeholder="Target Indicator" [(ngModel)]="item.target_1.value" #target="ngModel">
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
-                                        <div *ngIf="target.invalid && (target.dirty || target.touched)" >
+                                        <div *ngIf="target.invalid && (target.dirty || target.touched)">
 
                                             <span class="errorDis" *ngIf="target.errors['required']">
                                               Target is required.
                                             </span>
-                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-<div class="input-group">
-    <label for="population"> Population: </label>
-    <input class="form-control" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}"  [(ngModel)]="slbData.population" required id="population" name="population" #population="ngModel" class="form-control"  id="population" type="number"> 
-</div>
+
+                    <div class="row mt-4 ms-0">
+                        <div class="col-sm-12">
+                            <label for="population"> Population: </label>
+                            <input class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population" required id="population" name="population" #population="ngModel" type="number">
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-4 mb-3">
         <div class="col-sm-6">
-            <button class="btn btn-c-back" routerLink="#"><- Previous Form</button>
+            <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-6 text-end">
             <button (click)='save(true)' class="btn btn-primary">Save As Draft</button>
             <button (click)='save(false)' class="btn btn-primary ms-3">Submit</button>
-            <button class="btn btn-c-next ms-3" routerLink="#">Next Form -></button>
+            <button class="btn btn-c-next ms-3" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
 </div>
