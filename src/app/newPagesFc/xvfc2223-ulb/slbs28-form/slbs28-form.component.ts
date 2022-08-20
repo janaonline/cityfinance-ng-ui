@@ -5,11 +5,11 @@ import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-pr
 import { NavigationStart, Router } from '@angular/router';
 
 // ES6 Modules or TypeScript
-import { SweetAlert } from "sweetalert/typings/core";
-const swal: SweetAlert = require("sweetalert");
+// import { SweetAlert } from "sweetalert/typings/core";
+// const swal.fire: SweetAlert = require("sweetalert");
 
 // CommonJS
-// const swal = require('sweetalert2')
+const swal = require('sweetalert2')
 @Component({
   selector: "app-slbs28-form",
   templateUrl: "./slbs28-form.component.html",
@@ -83,11 +83,11 @@ export class Slbs28FormComponent implements OnInit {
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
       (res) => {
         console.log(res);
-        swal("Saved", "Data saved successfully.", "success");
+        swal.fire("Saved", "Data saved successfully.", "success");
         sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
-        swal("Error", `${err.message}`, "error");
+        swal.fire("Error", `${err.error.message}`, "error");
       }
     );
   }
@@ -128,7 +128,7 @@ export class Slbs28FormComponent implements OnInit {
 
         console.log(this.errmsg);
 
-        swal(
+        swal.fire(
           "Form cannot be submitted due to following Errors",
           `${this.errmsg}`,
           "warning"
@@ -176,12 +176,12 @@ export class Slbs28FormComponent implements OnInit {
         el["_id"]?.toString() != "6284d6f65da0fa64b423b516" &&
         el["_id"]?.toString() != "6284d6f65da0fa64b423b540"
       ) {
-        if (el["actual"]["value"] > el["target_1"]["value"]) {
+        if (+el["actual"]["value"] > +el["target_1"]["value"]) {
           this.errorFieldIDs?.push(el["question"]);
           this.error = 1;
         }
       } else {
-        if (el["actual"]["value"] < el["target_1"]["value"]) {
+        if (+el["actual"]["value"] < +el["target_1"]["value"]) {
           this.errorFieldIDs_decrease.push(el["question"]);
           this.error = 1;
         }
