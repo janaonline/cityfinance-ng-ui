@@ -29,6 +29,7 @@ export class Slbs28FormComponent implements OnInit {
     console.log(this.ulbData);
     this.ulbId = this.ulbData.ulb;
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.navigationCheck();
   }
   ulbData;
   ulbId;
@@ -45,6 +46,7 @@ export class Slbs28FormComponent implements OnInit {
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
+    sessionStorage.setItem("changeIn28SLB", "false");
   }
   clickedSave;
 
@@ -82,6 +84,7 @@ export class Slbs28FormComponent implements OnInit {
       (res) => {
         console.log(res);
         swal("Saved", "Data saved successfully.", "success");
+        sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
         swal("Error", `${err.message}`, "error");
@@ -170,11 +173,11 @@ export class Slbs28FormComponent implements OnInit {
     this.counter = 0;
     arrOfAllData.forEach((el) => {
       if (
-        el["_id"].toString() != "6284d6f65da0fa64b423b516" &&
-        el["_id"].toString() != "6284d6f65da0fa64b423b540"
+        el["_id"]?.toString() != "6284d6f65da0fa64b423b516" &&
+        el["_id"]?.toString() != "6284d6f65da0fa64b423b540"
       ) {
         if (el["actual"]["value"] > el["target_1"]["value"]) {
-          this.errorFieldIDs.push(el["question"]);
+          this.errorFieldIDs?.push(el["question"]);
           this.error = 1;
         }
       } else {
@@ -266,12 +269,11 @@ export class Slbs28FormComponent implements OnInit {
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    await this.save(true);
-    return this._router.navigate(["ulbform2223/slbs"]);
+    //await this.save(true);
+    // return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    sessionStorage.setItem("changeInPFMS", "false");
-
+    sessionStorage.setItem("changeIn28SLB", "false");
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
@@ -280,5 +282,46 @@ export class Slbs28FormComponent implements OnInit {
   }
   alertClose() {
     this.stay();
+  }
+  numberLimitV(e, input, minV, maxV) {
+    // console.log("sss", e, input);
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (
+      +newValue > maxV ||
+      newValue.length > maxV?.length ||
+      +newValue < minV
+    ) {
+      e.preventDefault();
+    }
+    sessionStorage.setItem("changeIn28SLB", "true");
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
 }
