@@ -41,20 +41,6 @@ export class OdfFormComponent implements OnInit {
     public dialog: MatDialog,
     public _router: Router
   ) {
-    // this.date.setDate(this.date.getDate());
-    // this.date.setFullYear(this.date.getFullYear() - 1);
-    // this.now = new Date(this.date).toISOString().slice(0, 10);
-    var dt = new Date();
-    let year = dt.getFullYear();
-    let year1 = dt.getFullYear() - 1;
-    let month = (dt.getMonth() + 1).toString().padStart(2, "0");
-    let day = dt.getDate().toString().padStart(2, "0");
-    this.maxDate = year + "-" + month + "-" + day;
-    this.minDate = year1 + "-" + month + "-" + day;
-
-    console.log(year + "/" + month + "/" + day);
-    console.log("date validation", this.maxDate, this.minDate);
-    this.navigationCheck();
     this._router.events.subscribe((event) => {
       let urlArray;
       if (event instanceof NavigationEnd) {
@@ -66,6 +52,18 @@ export class OdfFormComponent implements OnInit {
         }
       }
     });
+    var dt = new Date();
+    let year = dt.getFullYear();
+    let year1 = dt.getFullYear() - 1;
+    let month = (dt.getMonth() + 1).toString().padStart(2, "0");
+    let day = dt.getDate().toString().padStart(2, "0");
+    this.maxDate = year + "-" + month + "-" + day;
+    this.minDate = year1 + "-" + month + "-" + day;
+
+    console.log(year + "/" + month + "/" + day);
+    console.log("date validation", this.maxDate, this.minDate);
+    this.navigationCheck();
+    
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
@@ -76,7 +74,7 @@ export class OdfFormComponent implements OnInit {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-    this.fetchData();
+    
   }
 
   uploadDeclaration: boolean = false;
@@ -143,6 +141,8 @@ export class OdfFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setRouter();
+    this.fetchData();
+
     this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
       rating: ["", Validators.required],
@@ -154,7 +154,7 @@ export class OdfFormComponent implements OnInit {
       status: "PENDING",
       isGfc: this.isGfcOpen,
     });
-    this.isGfc = this.profileForm.value.isGfc;
+    // this.isGfc = this.profileForm.value.isGfc;
     console.log("this.isGfc", this.isGfc);
 
     for (var i in this.design_year) {
@@ -390,7 +390,7 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         console.log("success!!!!!!!!!!!!!", res);
         this.isDisabled = true;
-        if (res && res.success && this.userData?.role != "ULB") {
+        if (res && res.success) {
           this.commonActionCondition = true;
           this.isDisabled = true;
           this.clickedSave = false;
@@ -560,6 +560,7 @@ export class OdfFormComponent implements OnInit {
     }
   }
   clearFile() {
+    this.ipt.nativeElement.value = "";
     this.showIcon = false;
     this.odfFileName = "";
     this.profileForm?.controls?.cert.patchValue({

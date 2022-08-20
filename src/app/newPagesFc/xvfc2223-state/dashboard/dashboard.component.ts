@@ -64,9 +64,9 @@ export class DashboardComponent implements OnInit {
         formName: 'Annual Account Upload',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 50,
+        submittedValue: 10,
         approvedValue: 10,
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: '../../../../assets/dashboard-state/file_upload_black_24dp (2).svg',
         link: '',
         status: 'In Progress',
         id: 1,
@@ -78,9 +78,21 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#E67E1566',
         submittedValue: 0,
         approvedValue: 0,
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: '../../../../assets/dashboard-state/link_black_24dp.svg',
         link: '',
         status: 'Not Started',
+        id: 2,
+        cutOff: 20
+      },
+      {
+        formName: 'Test Form',
+        approvedColor: '#059B05',
+        submittedColor: '#ffffff',
+        submittedValue: 100,
+        approvedValue: 0,
+        icon: '../../../../assets/dashboard-state/link_black_24dp.svg',
+        link: '',
+        status: 'Submitted',
         id: 2,
         cutOff: 20
       }]
@@ -95,7 +107,7 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#ffffff',
         submittedValue: 100,
         approvedValue: null,
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: '../../../../assets/dashboard-state/notifications_black_24dp (1).svg',
         link: '',
         status: 'Approved',
         id: 3,
@@ -107,7 +119,7 @@ export class DashboardComponent implements OnInit {
         submittedColor: '#ffffff',
         submittedValue: 100,
         approvedValue: null,
-        icon: '../../../../assets/dashboard-state/16-location.svg',
+        icon: '../../../../assets/dashboard-state/real_estate_agent_black_24dp.svg',
         link: '',
         status: 'Approved',
         id: 4,
@@ -241,14 +253,14 @@ export class DashboardComponent implements OnInit {
       console.log(res);
     })
   }
-  smData
+  cardApiData
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
-      (res) => {
+      (res :any) => {
         console.log(res);
         let data = res["data"];
-        this.smData = data
-        console.log(this.smData)
+        this.cardApiData = data
+        console.log(this.cardApiData)
         this.totalUlbs = data['totalUlb'];
         this.nonMillionCities = data['totalUlbNonMil'];
         this.millionPlusUAs = data['totalUa'];
