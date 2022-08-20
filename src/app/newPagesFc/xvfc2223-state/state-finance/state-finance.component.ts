@@ -23,6 +23,7 @@ export class StateFinanceComponent implements OnInit {
   change = '';
   errorMessege: any = '';
   @ViewChild("ipt") ipt: any;
+  @ViewChild("clearFiles") clearFiles: any;
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
@@ -321,6 +322,7 @@ export class StateFinanceComponent implements OnInit {
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
+    this.ipt.nativeElement.value = "";
       this.showStateAct = false;
       this.stateActFileName = ''
       this.stateFinance.patchValue({
