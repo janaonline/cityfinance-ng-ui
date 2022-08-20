@@ -19,7 +19,8 @@ const toWords = new ToWords();
 })
 export class CommonFileUploadComponent implements OnInit {
   constructor(private dataEntryService: DataEntryService) {}
-  converter = require("number-to-words");
+  //number to word
+  // converter = require("number-to-words");
   @Input() quesName;
   @Input() quesType;
   @Input() isDisabled;

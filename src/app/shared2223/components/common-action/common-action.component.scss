@@ -1,6 +1,6 @@
 .card {
     // width: 96%;
-    width:100%;
+    width: 100%;
     height: auto;
     margin-bottom: 2rem !important;
     background-color: #FFFFFF;
@@ -8,13 +8,16 @@
     padding: 15px 15px 15px 15px;
     margin: auto;
 }
-.heading{
+
+.heading {
     font-weight: 700;
     opacity: 0.9;
 }
-.btnCustom{
+
+.btnCustom {
     width: -webkit-fill-available;
 }
+
 .container {
     width: 100%;
     height: auto;
@@ -106,9 +109,11 @@
     // padding-left: 23px;
     font-style: italic;
 }
-.row{
+
+.row {
     align-items: center;
 }
+
 .textClass {
     text-align: center;
 }
@@ -244,13 +249,10 @@
     height: auto;
 }
 
-
-
 .uplod_label {
     font-size: 16px;
     font-weight: 700;
 }
-
 
 .image-upload>input {
     display: none;
@@ -269,25 +271,30 @@
 .activeClass {
     background-color: #c9c9c9;
 }
-.disableInputs{
+
+.disableInputs {
     pointer-events: none;
 }
-.greyInputs{
+
+.greyInputs {
     pointer-events: none;
     background-color: #c9c9c9;
-    color:black;
+    color: black;
 }
-.fadedClass{
+
+.fadedClass {
     pointer-events: none;
     background-color: #059b9a;
     color: white;
     opacity: 0.5;
 }
-.customDisable{
+
+.customDisable {
     cursor: not-allowed;
     display: inline-block;
     pointer-events: none;
 }
+
 .activeClassNo {
     background-color: #c9c9c9;
 }
@@ -333,7 +340,6 @@
     font-size: 12px;
 }
 
-
 .pr-btn {
     background-color: #059b9a;
     color: #FFFFFF;
@@ -360,53 +366,50 @@
     text-decoration: underline;
 }
 
-
 .btn-r {
     background-color: red;
     color: #FFFFFF;
 }
-.customApprove{
+
+.customApprove {
     border-radius: 8px !important;
-    width: 135px;
-    margin: 2%;
+    margin-right: 1rem;
     background-color: #a7f7d1;
     color: black;
 }
-.customReturn{
+
+.customReturn {
     border-radius: 8px !important;
-    width: 135px;
-    margin: 2%;
     background-color: rgb(255, 194, 194);
     color: black;
 }
-.customApproveActive{
-    border-radius: 8px !important;
-    width: 135px;
-    margin: 2%;
+
+.customApproveActive {
     background-color: #25915f;
     color: black;
 }
-.customReturnActive{
+
+.customReturnActive {
     border-radius: 8px !important;
-    width: 135px;
-    margin: 2%;
     background-color: rgb(189, 55, 55);
     color: black;
 }
+
 .btn-a {
     background-color: green;
     color: #FFFFFF;
 }
 
-.approveClass{
+.approveClass {
     background-color: #9adf89;
     cursor: pointer;
 }
 
-.returnClass{
+.returnClass {
     background-color: rgb(247, 199, 199);
     cursor: pointer;
 }
+
 .customWidth {
     width: auto;
 }
@@ -415,16 +418,13 @@
     background-color: #ffc500;
 }
 
-input[type='radio'] {
-    -webkit-appearance: none;
-}
-
 .customLabel {
     width: 25%;
     text-align: center;
     border-radius: 8px;
     height: 34px;
 }
+
 .message-blue {
     position: relative;
     margin-bottom: 10px;
@@ -436,10 +436,12 @@ input[type='radio'] {
     border: 1px solid #97C6E3;
     border-radius: 10px;
 }
+
 .message-content {
     padding: 0;
     margin: 0;
 }
+
 .customButtonClass {
     border-radius: 6px;
     padding: 0.3rem 1rem;
@@ -455,22 +457,25 @@ input[type='radio'] {
     align-items: center;
 }
 
-
 .f-url {
     font-size: 14px;
 }
-.constitutedValue{
+
+.constitutedValue {
     background-color: #ffc500;
 }
-.disableInputs{
+
+.disableInputs {
     pointer-events: none;
 }
-.fadedClass{
+
+.fadedClass {
     pointer-events: none;
     background-color: #059b9a;
     color: white;
     opacity: 0.5;
 }
+
 .disabled-form {
     pointer-events: none;
     background-color: rgb(170, 168, 168);
@@ -502,4 +507,8 @@ input[type='radio'] {
     color: #fff;
     background-color: #198754;
     border-color: #198754;
+}
+
+.disCls {
+    pointer-events: none;
 }

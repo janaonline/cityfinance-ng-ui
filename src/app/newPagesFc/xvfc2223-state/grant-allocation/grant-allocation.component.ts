@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { NavigationStart, Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { State2223Service } from "../state-services/state2223.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType } from "@angular/common/http";
 import { GaPreviewComponent } from "./ga-preview/ga-preview.component";
+import * as fileSaver from "file-saver";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
@@ -33,13 +34,15 @@ export class GrantAllocationComponent implements OnInit {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
-    //  this.navigationCheck();
+    this.navigationCheck();
   }
 
   gtcFormData;
 
   ngOnInit(): void {
     this.intializeGtc();
+    this.getGtcData();
+    sessionStorage.setItem("changeInGta", "false");
   }
   intializeGtc() {
     this.gtcFormData = [
@@ -58,13 +61,15 @@ export class GrantAllocationComponent implements OnInit {
             quesText: "Upload Grant Allocation to ULBs",
             isDisableQues: false,
             disableMsg: "",
-            key: "nonmillion_tied_2021-22_2",
+            key: "nonmillion_tied_2022-23_1",
             question:
               "(A) Upload Grant Allocation to ULBs - 1st Installment (2022-23)",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -82,11 +87,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: `1st Installment (2022-23) Grant allocation has to be uploaded first before uploading 2nd Installment (2022-23) Grant allocation to ULBs`,
             question:
               "(B) Upload Grant Allocation to ULBs - 2nd Installment (2022-23)",
-            key: "nonmillion_tied_2022-23_1",
+            key: "nonmillion_tied_2022-23_2",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -113,11 +120,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: "",
             question:
               "(A) Upload Grant Allocation to ULBs - 1st Installment (2022-23)",
-            key: "nonmillion_untied_2021-22_2",
+            key: "nonmillion_untied_2022-23_1",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -135,11 +144,13 @@ export class GrantAllocationComponent implements OnInit {
             disableMsg: `1st Installment (2022-23) Grant allocation has to be uploaded first before uploading 2nd Installment (2022-23) Grant allocation to ULBs`,
             question:
               "(B) Upload Grant Allocation to ULBs - 2nd Installment (2022-23)",
-            key: "nonmillion_untied_2022-23_1",
+            key: "nonmillion_untied_2022-23_2",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -165,11 +176,13 @@ export class GrantAllocationComponent implements OnInit {
             quesText: "Upload Grant Allocation for Water Supply and SWM",
             question:
               "(A) Upload Grant Allocation for  Water Supply and SWM - FY ( 2022-23)",
-            key: "million_tied_2021-22_1",
+            key: "million_tied_2022-23_1",
             qusType: "",
+            fileName: "",
+            url: "",
             file: {
-              name: "",
-              url: "",
+              // name: "",
+              // url: "",
               progress: null,
               error: null,
             },
@@ -180,6 +193,62 @@ export class GrantAllocationComponent implements OnInit {
         ],
       },
     ];
+  }
+  getGtcData() {
+    this.stateService.getGTAFiles(this.stateId).subscribe(
+      (res: any) => {
+        console.log("res", res);
+        for (let i = 0; i < this.gtcFormData.length; i++) {
+          let tabArray = this.gtcFormData[i]?.quesArray;
+          let obj;
+          this.gtcFormData[i]?.quesArray.forEach((el) => {
+            obj = res?.data?.find(({ key }) => {
+              //  console.log(key, el);
+              return key == el?.key;
+            });
+            if (obj) {
+              el["fileName"] = obj?.fileName;
+              el["url"] = obj?.url;
+              console.log("form", this.gtcFormData);
+              el["isDraft"] = false;
+              el["status"] = obj?.status;
+              el["rejectReason"] = obj?.rejectReason;
+            } else {
+              el["isDraft"] = true;
+              el["status"] = "PENDING";
+              el["rejectReason"] = null;
+            }
+          });
+        }
+        this.disableInputs();
+      },
+      (error) => {
+        console.log("err", error);
+      }
+    );
+  }
+  disableInputs() {
+    for (let i = 0; i < this.gtcFormData.length; i++) {
+      let tabArray = this.gtcFormData[i]?.quesArray;
+      for (let j = 0; j < tabArray.length; j++) {
+        let el = tabArray[j];
+        let nextEl = tabArray[j + 1];
+        if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
+          tabArray[0].isDisableQues = false;
+          break;
+        } else if (el?.isDraft == false && el?.status != "REJECTED") {
+          el.isDisableQues = true;
+          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+            nextEl.isDisableQues = false;
+          }
+        } else if (el?.isDraft == false && el?.status == "REJECTED") {
+          el.isDisableQues = false;
+          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+            nextEl.isDisableQues = false;
+          }
+        }
+      }
+    }
   }
 
   onPreview() {
@@ -197,7 +266,44 @@ export class GrantAllocationComponent implements OnInit {
       //   this.hidden = true;
     });
   }
-  saveFile(i, j) {}
+  postBody;
+  saveFile(i, j) {
+    if (
+      this.gtcFormData[i].quesArray[j].fileName != "" ||
+      this.gtcFormData[i].quesArray[j].url != ""
+    ) {
+      this.postBody = {
+        design_year: this.years["2022-23"],
+        year: this.gtcFormData[i].quesArray[j]?.year,
+        url: this.gtcFormData[i].quesArray[j]["url"],
+        fileName: this.gtcFormData[i].quesArray[j]["fileName"],
+        answer: true,
+        isDraft: false,
+        type: this.gtcFormData[i].quesArray[j]?.type,
+        installment: this.gtcFormData[i].quesArray[j]?.installment,
+      };
+
+      this.stateService.postGTAFile(this.postBody).subscribe(
+        (res: any) => {
+          swal("Saved", "File saved successfully.", "success");
+          console.log("GTA file response", res);
+          this.gtcFormData[i].quesArray[j].isDisableQues = true;
+          this.gtcFormData[i].quesArray[j].status = "PENDING";
+          this.gtcFormData[i].quesArray[j].isDraft = false;
+          this.gtcFormData[i].quesArray[j].rejectReason = null;
+          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
+            this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
+          }
+          sessionStorage.setItem("changeInGta", "false");
+        },
+        (error) => {
+          swal("Error", `${error?.message}`, "error");
+        }
+      );
+    } else {
+      swal("Error", "Please upload file", "error");
+    }
+  }
   /* for upload excel file */
   async fileChangeEvent(event, fileType, cIndex, qIndex) {
     console.log(fileType, event);
@@ -256,7 +362,7 @@ export class GrantAllocationComponent implements OnInit {
       (s3Response) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
         const res = s3Response.data[0];
-        this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
+        this.gtcFormData[i].quesArray[j]["fileName"] = name;
         this.uploadFileToS3(
           file,
           res["url"],
@@ -289,16 +395,38 @@ export class GrantAllocationComponent implements OnInit {
       (res) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 70;
         if (res.type === HttpEventType.Response) {
-          this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
-          // this.gtcFormData[i].quesArray[j]['file'] = file;
-          this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
-          sessionStorage.setItem("changeInGtc", "true");
-          console.log("this.form", this.gtcFormData);
-          let ijData = {
-            i: i,
-            j: j,
-          };
-          sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+          let instl = this.gtcFormData[i].quesArray[j]?.installment;
+          let year = this.gtcFormData[i].quesArray[j]?.year;
+          let type = this.gtcFormData[i].quesArray[j]?.type;
+          this.stateService.checkFile(fileAlias, instl, year, type).subscribe(
+            (response) => {
+              console.log(response);
+              this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
+
+              this.gtcFormData[i].quesArray[j]["url"] = fileAlias;
+              let ijData = {
+                i: i,
+                j: j,
+              };
+              sessionStorage.setItem("gtaIjData", JSON.stringify(ijData));
+              sessionStorage.setItem("changeInGta", "true");
+              //  swal('Record Submitted Successfully!')
+              //  resolve(res)
+            },
+            (error) => {
+              // swal(`Error- ${this.err}`)
+              let blob: any = new Blob([error.error], {
+                type: "text/json; charset=utf-8",
+              });
+              const url = window.URL.createObjectURL(blob);
+              this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
+
+              this.gtcFormData[i].quesArray[j]["url"] = "";
+              this.gtcFormData[i].quesArray[j]["fileName"] = "";
+              fileSaver.saveAs(blob, "error-sheet.xlsx");
+              swal("Your file is not correct, Please refer error sheet");
+            }
+          );
         }
       },
       (err) => {
@@ -309,14 +437,108 @@ export class GrantAllocationComponent implements OnInit {
   }
   /* for clear file */
   clearFile(type, i, j) {
-    this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
-    this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
+    this.gtcFormData[i].quesArray[j]["url"] = "";
+    this.gtcFormData[i].quesArray[j]["fileName"] = "";
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = null;
-    sessionStorage.setItem("changeInGtc", "true");
+    // sessionStorage.setItem("changeInGtc", "true");
     let ijData = {
       i: i,
       j: j,
     };
     sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+    sessionStorage.setItem("changeInGta", "false");
+  }
+
+  downloadSample(data) {
+    console.log("data", data);
+
+    let instl = data?.installment;
+    let dType = data?.type;
+    let year = data?.year;
+    this.stateService
+      .getGtaTemplate(instl, dType, year)
+      .subscribe((response: any) => {
+        let blob: any = new Blob([response], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
+        //window.open(url);
+        //window.location.href = response.url;
+        fileSaver.saveAs(blob, "grant-allocation-template.xlsx");
+      }),
+      (error) => console.log("Error downloading the file"),
+      () => console.info("File downloaded successfully");
+  }
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          const changeInGtc = sessionStorage.getItem("changeInGta");
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInGta", "false");
+            return;
+          }
+          if (changeInGtc === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    // await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.formSave("draft");
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+
+    await this.formSave("draft");
+    return this._router.navigate(["stateform2223/property-tax"]);
+  }
+  async discard() {
+    sessionStorage.setItem("changeInGta", "false");
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
+  }
+  formSave(type) {
+    let data = JSON.parse(sessionStorage.getItem("gtaIjData"));
+    console.log("i, j data", data);
+
+    this.saveFile(data?.i, data?.j);
   }
 }
