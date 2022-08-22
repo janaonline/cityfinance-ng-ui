@@ -70,17 +70,20 @@
                         </th>
                         <th class="filter">
                             <select class="" formControlName="status_s" style="width: 71px;" (change)="search()">
+                              <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
                         </th>
                         <th class="filter">
                             <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
+                              <option selected value="">Search</option>
                             <option value="Filled">Filled</option>
                             <option value="Not Filled">Not Filled</option>
                         </select>
                         </th>
                         <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
                             <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
+                              <option selected value="">Search</option>
                           <option value="Filled">Filled</option>
                           <option value="Not Filled">Not Filled</option>
                          </select>
