@@ -121,9 +121,10 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["UA"] = value?.ua_name_s;
       this.params["status"] = value?.status_s;
       this.params["filled1"] = value?.filled_1;
-      // if(this.formId == '62aa1b04729673217e5ca3aa'){
-      //   this.params["filled2"] = value?.filled_2;
-      // }
+      this.params["populationType"] = value?.population_type_s;
+      if(this.userData?.role !== 'STATE'){
+        this.params["stateCode"] = value?.state_name_s;
+      }
       this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
       // this.params["stateId"] = value?.state_name_s;
     });
@@ -222,14 +223,15 @@ export class TableComponent implements OnInit, OnChanges {
   }
   private initializeULBFilterForm() {
     this.filterForm = this._fb.group({
-      ulb_name_s: [],
-      state_name_s: [],
-      ulb_code_s: [],
-      ulbType_s: [],
-      population_type_s: [],
-      ua_name_s: [],
-      status_s: [],
-      filled_1: [],
+      ulb_name_s: [""],
+      state_name_s: [""],
+      ulb_code_s: [""],
+      ulbType_s: [""],
+      population_type_s: [""],
+      ua_name_s: [""],
+      status_s: [""],
+      filled_1: [""],
+      filled_2: [""],
     });
   }
 

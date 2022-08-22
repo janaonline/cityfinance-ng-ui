@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="col-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..."></textarea>
+                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls' : actBtnDis}"></textarea>
                     <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
                         {{item}}
                     </div>
@@ -89,52 +89,52 @@
     <div class="card mb-3 mt-3 ">
         <div class="card-body ">
             <div class="row mb-3 fw-bold ">
-                <div class="col-sm-6 ">Status:</div>
-                <div class="col-sm-6 ">{{finalStatus}}</div>
+                <div class="col-sm-3">Status:</div>
+                <div class="col-sm-9">{{finalStatus}}</div>
             </div>
             <hr>
             <div class="stateRes ">
                 <div class="row ">
-                    <div class="col-sm-6 ">State Review Status:</div>
-                    <div class="col-sm-6 ">{{formDataChange?.status}}</div>
+                    <div class="col-sm-3">State Review Status:</div>
+                    <div class="col-sm-9">{{formDataChange?.status}}</div>
                 </div>
                 <div class="row ">
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-3">
                         {{formDataChange?.status == 'APPROVED' ? 'Remarks:' : 'Reason for return:'}}
                     </div>
-                    <div class="col-sm-6">
-                        {{formDataChange?.rejectReason}}
+                    <div class="col-sm-9">
+                        {{formDataChange?.rejectReason_state}}
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-3">
                         Document:
                     </div>
-                    <div class="col-sm-6 ">
-                        <a href="{{formDataChange?.file?.url}} ">{{formDataChange?.file?.name}}</a>
+                    <div class="col-sm-9">
+                        <a href="{{formDataChange?.responseFile_state?.url}} ">{{formDataChange?.responseFile_state?.name}}</a>
                     </div>
                 </div>
             </div>
             <hr>
             <div class="mohuaRes " *ngIf="mohuaReview">
                 <div class="row ">
-                    <div class="col-sm-6 ">MoHUA Review Status:</div>
-                    <div class="col-sm-6 ">{{mohuaStatus}}</div>
+                    <div class="col-sm-3">MoHUA Review Status:</div>
+                    <div class="col-sm-9">{{mohuaStatus}}</div>
                 </div>
                 <div class="row ">
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-3">
                         {{formDataChange?.status == 'APPROVED' ? 'Remarks:' : 'Reason for return:'}}
                     </div>
-                    <div class="col-sm-6 ">
-                        {{formDataChange?.rejectReason}}
+                    <div class="col-sm-9">
+                        {{formDataChange?.rejectReason_mohua}}
                     </div>
                 </div>
                 <div class="row ">
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-3">
                         Document:
                     </div>
-                    <div class="col-sm-6 ">
-                        <a href="{{formDataChange?.file?.url}} ">{{formDataChange?.file?.name}}</a>
+                    <div class="col-sm-9">
+                        <a href="{{formDataChange?.responseFile_mohua?.url}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,11 @@ import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-pr
 import { NavigationStart, Router } from '@angular/router';
 
 // ES6 Modules or TypeScript
-import { SweetAlert } from "sweetalert/typings/core";
-const swal: SweetAlert = require("sweetalert");
+// import { SweetAlert } from "sweetalert/typings/core";
+// const swal.fire: SweetAlert = require("sweetalert");
 
 // CommonJS
-// const swal = require('sweetalert2')
+const swal = require('sweetalert2')
 @Component({
   selector: "app-slbs28-form",
   templateUrl: "./slbs28-form.component.html",
@@ -29,6 +29,7 @@ export class Slbs28FormComponent implements OnInit {
     console.log(this.ulbData);
     this.ulbId = this.ulbData.ulb;
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.navigationCheck();
   }
   ulbData;
   ulbId;
@@ -45,6 +46,7 @@ export class Slbs28FormComponent implements OnInit {
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
+    sessionStorage.setItem("changeIn28SLB", "false");
   }
   clickedSave;
 
@@ -81,10 +83,11 @@ export class Slbs28FormComponent implements OnInit {
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
       (res) => {
         console.log(res);
-        swal("Saved", "Data saved successfully.", "success");
+        swal.fire("Saved", "Data saved successfully.", "success");
+        sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
-        swal("Error", `${err.message}`, "error");
+        swal.fire("Error", `${err.error.message}`, "error");
       }
     );
   }
@@ -125,7 +128,7 @@ export class Slbs28FormComponent implements OnInit {
 
         console.log(this.errmsg);
 
-        swal(
+        swal.fire(
           "Form cannot be submitted due to following Errors",
           `${this.errmsg}`,
           "warning"
@@ -170,15 +173,15 @@ export class Slbs28FormComponent implements OnInit {
     this.counter = 0;
     arrOfAllData.forEach((el) => {
       if (
-        el["_id"].toString() != "6284d6f65da0fa64b423b516" &&
-        el["_id"].toString() != "6284d6f65da0fa64b423b540"
+        el["_id"]?.toString() != "6284d6f65da0fa64b423b516" &&
+        el["_id"]?.toString() != "6284d6f65da0fa64b423b540"
       ) {
-        if (el["actual"]["value"] > el["target_1"]["value"]) {
-          this.errorFieldIDs.push(el["question"]);
+        if (+el["actual"]["value"] > +el["target_1"]["value"]) {
+          this.errorFieldIDs?.push(el["question"]);
           this.error = 1;
         }
       } else {
-        if (el["actual"]["value"] < el["target_1"]["value"]) {
+        if (+el["actual"]["value"] < +el["target_1"]["value"]) {
           this.errorFieldIDs_decrease.push(el["question"]);
           this.error = 1;
         }
@@ -266,12 +269,11 @@ export class Slbs28FormComponent implements OnInit {
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    await this.save(true);
-    return this._router.navigate(["ulbform2223/slbs"]);
+    //await this.save(true);
+    // return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    sessionStorage.setItem("changeInPFMS", "false");
-
+    sessionStorage.setItem("changeIn28SLB", "false");
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
@@ -280,5 +282,46 @@ export class Slbs28FormComponent implements OnInit {
   }
   alertClose() {
     this.stay();
+  }
+  numberLimitV(e, input, minV, maxV) {
+    // console.log("sss", e, input);
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (
+      +newValue > maxV ||
+      newValue.length > maxV?.length ||
+      +newValue < minV
+    ) {
+      e.preventDefault();
+    }
+    sessionStorage.setItem("changeIn28SLB", "true");
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
 }
