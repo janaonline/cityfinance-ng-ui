@@ -312,7 +312,7 @@ export class Slbs28FormComponent implements OnInit {
     if (
       +newValue > maxV ||
       newValue.length > maxV?.length ||
-      +newValue < minV
+      +newValue < minV || e.key == " "
     ) {
       e.preventDefault();
     }
