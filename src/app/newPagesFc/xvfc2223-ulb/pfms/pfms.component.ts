@@ -179,6 +179,9 @@ export class PfmsComponent implements OnInit {
         if (res?.data?.status !== "PENDING") {
           this.actionBtnDis = true;
         }
+        if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+          this.isDisabled = true;
+        }
         // this.isDisabled = this.dataValue?.data?.isDraft ? this.dataValue?.data?.isDraft : false;
         // this.previewData = res;
 
@@ -580,7 +583,7 @@ export class PfmsComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "true");
     this.change = "true";
   }
-  
+
   fileChangeEvent(event, progessType) {
     console.log(progessType);
     if (progessType == "pfmsLinkProgress") {
@@ -889,6 +892,39 @@ export class PfmsComponent implements OnInit {
         name: this.actionRes?.document?.name,
       },
     };
+    if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
+       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+       return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody){
     this.commonService.postCommonAction(actionBody).subscribe(
       (res) => {
         console.log("action respon", res);
