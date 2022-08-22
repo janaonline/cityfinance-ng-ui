@@ -46,7 +46,7 @@ export class Slbs28FormComponent implements OnInit {
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
-    sessionStorage.setItem("changeIn28SLB", "false");
+    
   }
   clickedSave;
 
@@ -201,6 +201,7 @@ export class Slbs28FormComponent implements OnInit {
     return true;
   }
   onLoad() {
+    sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
@@ -233,7 +234,7 @@ export class Slbs28FormComponent implements OnInit {
 
   onPreview() {
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
-      data: this.slbData,
+      data: this.slbData['data'],
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
@@ -284,6 +285,7 @@ export class Slbs28FormComponent implements OnInit {
     this.stay();
   }
   numberLimitV(e, input, minV, maxV) {
+    sessionStorage.setItem("changeIn28SLB", "true");
     // console.log("sss", e, input);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
 
@@ -314,7 +316,7 @@ export class Slbs28FormComponent implements OnInit {
     ) {
       e.preventDefault();
     }
-    sessionStorage.setItem("changeIn28SLB", "true");
+  
   }
 
   private replaceSelection(input, key) {

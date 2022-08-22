@@ -29,7 +29,7 @@
                                 <td>
                                     <div class="input-group">
                                         <input [min]="item.min" [max]="item.max" [disabled]="item.actualDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || actual.invalid  && (actual.dirty || actual.touched)}" required id="actual"
-                                            name="actual" type="text" class="form-control" placeholder="Actual Indicator" [(ngModel)]="item.actual.value" #actual="ngModel" (keydown)="numberLimitV($event, inputText1, item.min, item.max)" #inputText1>
+                                            name="actual" type="text" class="form-control" placeholder="Actual Indicator Range-{{item.range}}" [(ngModel)]="item.actual.value" #actual="ngModel" (keydown)="numberLimitV($event, inputText1, item.min, item.max)" #inputText1>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                         <div *ngIf="actual.invalid && (actual.dirty || actual.touched)">
 
@@ -42,7 +42,7 @@
                                 <td>
                                     <div class="input-group">
                                         <input [min]="item.min" [max]="item.max" [disabled]="item.targetDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || target.invalid  && (target.dirty || target.touched)}" required id="target"
-                                            name="target" type="text" class="form-control" placeholder="Target Indicator" [(ngModel)]="item.target_1.value" #target="ngModel" (keydown)="numberLimitV($event, inputText2, item.min, item.max)" #inputText2>
+                                            name="target" type="text" class="form-control" placeholder="Target Indicator Range-{{item.range}}" [(ngModel)]="item.target_1.value" #target="ngModel" (keydown)="numberLimitV($event, inputText2, item.min, item.max)" #inputText2>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                         <div *ngIf="target.invalid && (target.dirty || target.touched)">
 
