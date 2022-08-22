@@ -63,7 +63,7 @@ export class OdfFormComponent implements OnInit {
     console.log(year + "/" + month + "/" + day);
     console.log("date validation", this.maxDate, this.minDate);
     this.navigationCheck();
-    
+
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
@@ -74,7 +74,7 @@ export class OdfFormComponent implements OnInit {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-    
+
   }
 
   uploadDeclaration: boolean = false;
@@ -200,6 +200,11 @@ export class OdfFormComponent implements OnInit {
           this.profileForm.controls["cert"]?.disable();
           this.profileForm.controls["certDate"]?.disable();
           // this.profileForm.controls['rating'].disable();
+        }
+        if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
+          this.isDisabled = false;
+          this.profileForm.controls["cert"]?.enable();
+          this.profileForm.controls["certDate"]?.enable();
         }
       },
       (error) => {
@@ -824,11 +829,44 @@ export class OdfFormComponent implements OnInit {
         name: this.actionRes?.document?.name,
       },
     };
+    if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
+       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+       return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody){
     this.commonService.postCommonAction(actionBody).subscribe(
       (res) => {
         console.log("action respon", res);
-        swal("Saved", "Action saved successfully.", "success");
         this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");

@@ -274,6 +274,11 @@ export class DetailedUtilizationReportComponent implements OnInit {
         if (res?.data?.status !== "PENDING") {
           this.actionBtnDis = true;
         }
+        if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
+          this.isDisabled = true;
+         this.utilizationReportForm.enable();
+
+        }
         sessionStorage.setItem("changeInUti", "false");
       },
       (error) => {
@@ -857,11 +862,44 @@ export class DetailedUtilizationReportComponent implements OnInit {
         name: this.actionRes?.document?.name,
       },
     };
+    if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
+       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+       return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody){
     this.newCommonService.postCommonAction(actionBody).subscribe(
       (res) => {
         console.log("action respon", res);
-        swal("Saved", "Action saved successfully.", "success");
         this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");
