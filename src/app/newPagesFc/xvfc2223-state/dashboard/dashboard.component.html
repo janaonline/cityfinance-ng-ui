@@ -112,10 +112,16 @@
                                         matTooltip="{{item?.approvedValue}}% Submitted"
                                         aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : ''}}</span>
                                     </div>
+                                    <div *ngIf="item?.formName == 'Annual Account Upload'" class="progress-bar" role="progressbar" aria-label="cutOff"
+                                        [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)' ,'position': 'absolute'}"
+                                        aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
+                                        <p class="customSpan" matTooltip="25% Target"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'"><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-1">
-                                <span><i class="fa fa-bullseye" style="font-size:35px;color: #059B9A"></i></span>
+                                <span><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></span>
                                 <span><p>100%</p></span>
                             </div>
                         </div>
@@ -125,7 +131,7 @@
             </div>
             <div class="row mt-2 ms-2">
                 <div class="col-12">
-                    <button class="btn btn-primary">Click here to claim grant</button>
+                    <button disabled class="btn btn-primary">Click here to claim grant</button>
                 </div>
             </div>
         </div>
