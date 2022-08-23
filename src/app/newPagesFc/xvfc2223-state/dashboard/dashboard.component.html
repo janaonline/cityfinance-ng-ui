@@ -64,7 +64,7 @@
     </div>
     <div class="tab-slider--container mt-4">
         <div class="tab-slider--body">    
-            <div *ngFor="let element of formdata">
+            <div *ngFor="let element of response?.data">
                 <div>
                     <div class="row mt-4">
                         <div class="col-sm-6">
@@ -96,33 +96,40 @@
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-11">
-                                <div class="progress mt-2">
-                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="submitted"
-                                        [ngStyle]="{'width':  item?.submittedValue == 0 ? '32'+'px' : item?.submittedValue+'%','background-color': item?.approvedColor}"
+                            <div class="col-1">
+                                    <p class="ms-5">0%</p>
+                            </div>
+                            <div class="col-9">
+                                <div class="progress mt-2" (click)="navigateToPage(item)">
+                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="approved"
+                                        [ngStyle]="{'width': item?.approvedValue <= 10 ? '4%' : item?.approvedValue+'%' ,'background-color': item?.approvedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
+                                        aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}"  mat-raised-button
+                                        matTooltip="{{item?.approvedValue}}% Approved"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : '0%'}}</span>
+                                    </div>
+                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="submitted"
+                                        [ngStyle]="{'width':  item?.submittedValue <= 5 ? '4%' : item?.submittedValue+'%','background-color': item?.submittedColor}"
                                         aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.submittedValue}}% Approved"
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button
+                                        matTooltip="{{item?.submittedValue}}% Submitted"
                                         aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
                                     </div>
-                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="approved"
-                                        [ngStyle]="{'width': item?.approvedValue+'%' ,'background-color': item?.submittedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
-                                        aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValueUpdate' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.approvedValue}}% Submitted"
-                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : ''}}</span>
+                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltipCustom">
+                                        <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1" style="font-size:16px;color:black"></i></span></p>
                                     </div>
-                                    <div *ngIf="item?.formName == 'Annual Account Upload'" class="progress-bar" role="progressbar" aria-label="cutOff"
-                                        [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)' ,'position': 'absolute'}"
+                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar" role="progressbar" aria-label="cutOff"
+                                        [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)'}"
                                         aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
-                                        <p class="customSpan" matTooltip="25% Target"
-                                        aria-label="tooltip" [matTooltipPosition]="'above'"><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
+                                        <p class="customSpan"><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-1">
-                                <span><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></span>
-                                <span><p>100%</p></span>
+                            <div class="col-2 targetClass" *ngIf="item?.formName !== 'Annual Accounts'">
+                               <p>
+                                <img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg">100%
+
+                               </p>
                             </div>
                         </div>
                         

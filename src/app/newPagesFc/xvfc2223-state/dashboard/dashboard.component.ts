@@ -1,5 +1,7 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { link } from 'fs';
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { State2223Service } from '../state-services/state2223.service';
 
@@ -61,7 +63,7 @@ export class DashboardComponent implements OnInit {
       approvedColor: '#E67E15',
       submittedColor: '#E67E1566',
       formData: [{
-        formName: 'Annual Account Upload',
+        formName: 'Annual Account',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
         submittedValue: 0,
@@ -184,7 +186,7 @@ export class DashboardComponent implements OnInit {
     {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
     {title: 'MPC', viewMode: 'tab3', formType: 'mpc'}
   ]
-  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService) {
+  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router) {
     this.getStateAndDesignYear();
     this.formdata = this.formDataFirstInstallment;
     this.getCardData()
@@ -247,10 +249,23 @@ export class DashboardComponent implements OnInit {
     };
     this.getFormData();
   }
-
+  response:any;
+  tagetLink:any;
   getFormData(){  
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
-      console.log(res);
+      console.log('formdatadadatatatatta', res);
+      this.response = res
+    //   console.log(this.response);
+    //     this.response?.data.map(function (arrayItem) {
+    //     arrayItem?.formData.forEach(element => {
+    //       element['id'] = element.link.split('/')[2]
+    //       element.link = element.link.split('/')[1]
+    //       this.router.navigate(['/review-ulb-form'],{ queryParams: { id: element.id}})
+    //       // console.log('arrayIsasastem', this.targetLink);
+    //     });
+    //     console.log('arrayItem', arrayItem);
+    // });
+      console.log('responsesaasasa', this.response)
     })
   }
   cardApiData
@@ -271,5 +286,21 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  navigateToPage(selectedRow: any) {
+    console.log('navigateToPage', selectedRow);
+    if (selectedRow && selectedRow.link) {
+      let splitLink = selectedRow.link.split('/');
+      console.log('splitLink', splitLink)
+      if (splitLink?.length > 1) {
+        // this.router.navigate([`/${splitLink[1]}`],{ queryParams: { formId: splitLink[2]}});
+        this.router.navigate(['stateform2223/review-ulb-form'],{ queryParams: { formId: splitLink[2]}});
+      } else {
+        console.log('error');
+      }
+    } else {
+      console.log('error');
+    }
   }
 }

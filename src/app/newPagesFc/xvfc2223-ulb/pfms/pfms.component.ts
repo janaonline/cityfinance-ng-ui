@@ -308,7 +308,7 @@ export class PfmsComponent implements OnInit {
     });
   }
   onChnageSave() {
-    sessionStorage.setItem("changeInGTC", "true");
+    // sessionStorage.setItem("changeInGTC", "true");
     sessionStorage.setItem("changeInPFMS", "true");
   }
   alertFormFinalSubmit() {
@@ -471,7 +471,7 @@ export class PfmsComponent implements OnInit {
     this.activeClassBottom = false;
     this.activeClassNo = false;
     this.activeClassNoBottom = false;
-    sessionStorage.setItem("changeInGTC", "true");
+    // sessionStorage.setItem("changeInGTC", "true");
     sessionStorage.setItem("changeInPFMS", "true");
     this.setValidators("isUlbLinkedWithPFMS");
   }
@@ -501,7 +501,7 @@ export class PfmsComponent implements OnInit {
     this.removeValidatorInBulk(this.registerForm.get("cert"));
     // this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
     // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
-    sessionStorage.setItem("changeInGTC", "true");
+    // sessionStorage.setItem("changeInGTC", "true");
     sessionStorage.setItem("changeInPFMS", "true");
     console.log("registerForm", this.registerForm);
   }
@@ -525,7 +525,7 @@ export class PfmsComponent implements OnInit {
     this.activeClassBottom = true;
     this.activeClassNoBottom = false;
     console.log(event);
-    sessionStorage.setItem("changeInGTC", "true");
+    // sessionStorage.setItem("changeInGTC", "true");
     sessionStorage.setItem("changeInPFMS", "true");
     if (event == "Yes") {
       // this.registerForm.get('PFMSAccountNumber').setValidators(Validators.required);
@@ -575,12 +575,12 @@ export class PfmsComponent implements OnInit {
     this.removeValidatorsOneByOne("PFMSAccountNumber");
     this.removeValidatorInBulk(this.registerForm.get("cert"));
 
-    sessionStorage.setItem("changeInGTC", "true");
+    // sessionStorage.setItem("changeInGTC", "true");
     sessionStorage.setItem("changeInPFMS", "true");
   }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInGTC", "true");
+    sessionStorage.setItem("changeInPFMS", "true");
     this.change = "true";
   }
 
