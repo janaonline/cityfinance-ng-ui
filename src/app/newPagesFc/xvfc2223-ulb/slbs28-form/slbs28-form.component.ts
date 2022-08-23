@@ -46,7 +46,7 @@ export class Slbs28FormComponent implements OnInit {
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
-    sessionStorage.setItem("changeIn28SLB", "false");
+    
   }
   clickedSave;
 
@@ -78,6 +78,10 @@ export class Slbs28FormComponent implements OnInit {
         }
       });
     }
+  }
+  validateDataInput(event, data){
+console.log(data)
+this.validateData()
   }
   callSubmitFormAPI() {
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
@@ -170,22 +174,39 @@ export class Slbs28FormComponent implements OnInit {
     for (let key in this.formData) {
       arrOfAllData.push(...this.formData[key]);
     }
+// if(data.length)
+// arrOfAllData = data;
     this.counter = 0;
+    
     arrOfAllData.forEach((el) => {
-      if (
-        el["_id"]?.toString() != "6284d6f65da0fa64b423b516" &&
-        el["_id"]?.toString() != "6284d6f65da0fa64b423b540"
-      ) {
-        if (+el["actual"]["value"] > +el["target_1"]["value"]) {
-          this.errorFieldIDs?.push(el["question"]);
-          this.error = 1;
-        }
-      } else {
-        if (+el["actual"]["value"] < +el["target_1"]["value"]) {
-          this.errorFieldIDs_decrease.push(el["question"]);
-          this.error = 1;
+      if(el["actual"]["value"] != null && el["target_1"]["value"] != null ){
+        if (
+          el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
+          el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b540"
+        ) {
+          if (+el["actual"]["value"] > +el["target_1"]["value"]) {
+            this.errorFieldIDs?.push(el["question"]);
+            this.error = 1;
+  
+          }else{
+            var index = this.errorFieldIDs.indexOf(el["question"]);
+  if (index !== -1) {
+    this.errorFieldIDs.splice(index, 1);
+  }
+          }
+        } else {
+          if (+el["actual"]["value"] < +el["target_1"]["value"]) {
+            this.errorFieldIDs_decrease.push(el["question"]);
+            this.error = 1;
+          }  else{
+            var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
+  if (index !== -1) {
+    this.errorFieldIDs_decrease.splice(index, 1);
+  }
+          }
         }
       }
+    
 
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
@@ -193,6 +214,7 @@ export class Slbs28FormComponent implements OnInit {
         this.error = 1;
       }
     });
+    console.log('after validating->',arrOfAllData)
     if (this.error) {
       this.slbData["isDraft"] = true;
       return false;
@@ -201,6 +223,7 @@ export class Slbs28FormComponent implements OnInit {
     return true;
   }
   onLoad() {
+    sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
@@ -214,6 +237,7 @@ export class Slbs28FormComponent implements OnInit {
       Object.assign(this.formData, this.slbData["data"]);
       console.log("After processing Range -", this.formData);
     });
+    
   }
   setRouter() {
     for (const key in this.sideMenuItem) {
@@ -231,9 +255,10 @@ export class Slbs28FormComponent implements OnInit {
     return 0;
   }
 
+
   onPreview() {
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
-      data: this.slbData,
+      data: this.slbData['data'],
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
@@ -283,7 +308,13 @@ export class Slbs28FormComponent implements OnInit {
   alertClose() {
     this.stay();
   }
+inputPopulation(e){
+  console.log(e)
+  if(e.key == " " || e.key == "-")
+  e.preventDefault();
+}
   numberLimitV(e, input, minV, maxV) {
+    sessionStorage.setItem("changeIn28SLB", "true");
     // console.log("sss", e, input);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
 
@@ -310,11 +341,11 @@ export class Slbs28FormComponent implements OnInit {
     if (
       +newValue > maxV ||
       newValue.length > maxV?.length ||
-      +newValue < minV
+      +newValue < minV || e.key == " "
     ) {
       e.preventDefault();
     }
-    sessionStorage.setItem("changeIn28SLB", "true");
+  
   }
 
   private replaceSelection(input, key) {
