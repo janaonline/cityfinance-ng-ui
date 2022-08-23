@@ -11,9 +11,10 @@ import { MapDialogComponent } from "src/app/shared/components/map-dialog/map-dia
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 
 import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-report/uti-report.service";
-import { SweetAlert } from "sweetalert/typings/core";
+
 import { DurPreviewComponent } from "./dur-preview/dur-preview.component";
 import { NavigationStart, Router } from "@angular/router";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-detailed-utilization-report",

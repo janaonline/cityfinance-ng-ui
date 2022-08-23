@@ -3,13 +3,14 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
 import { NavigationStart, Router } from '@angular/router';
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal1: SweetAlert = require("sweetalert");
 // ES6 Modules or TypeScript
 // import { SweetAlert } from "sweetalert/typings/core";
 // const swal.fire: SweetAlert = require("sweetalert");
 
 // CommonJS
-const swal = require('sweetalert2')
+const swal = require("sweetalert2");
 @Component({
   selector: "app-slbs28-form",
   templateUrl: "./slbs28-form.component.html",
@@ -39,14 +40,14 @@ export class Slbs28FormComponent implements OnInit {
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
-  slbData = {
-    population: 0,
+  slbData: any = {
+    population: null,
   };
   formData = {};
+  isDisabled = false;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
-    
   }
   clickedSave;
 
@@ -79,15 +80,77 @@ export class Slbs28FormComponent implements OnInit {
       });
     }
   }
-  validateDataInput(event, data){
-console.log(data)
-this.validateData()
+  validateDataInput(event, data) {
+    console.log(data);
+    this.validateData();
   }
   callSubmitFormAPI() {
+    if (this.slbData["isDraft"] == true) {
+      this.finalSubmit("draft");
+    } else {
+      if (
+        this.slbData?.population == "" ||
+        this.slbData?.population == null ||
+        this.slbData?.population == 0
+      ) {
+        this.popError = true;
+        return;
+      } else {
+        this.popError = false;
+      }
+      swal1(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to State for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.finalSubmit("submit");
+            break;
+          case "draft":
+            this.finalSubmit("draft");
+            break;
+          case "cancel":
+            break;
+        }
+      });
+    }
+  }
+  finalSubmit(type) {
+    if (type == "submit") {
+      this.slbData["isDraft"] = false;
+    }
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
       (res) => {
         console.log(res);
-        swal.fire("Saved", "Data saved successfully.", "success");
+        swal1("Saved", "Data saved successfully.", "success");
+        if (type == "submit") {
+          this.isDisabled = true;
+          console.log("slb", this.slbData);
+          this.slbData?.data.forEach((el) => {
+            el["actualDisable"] = true;
+            el["targetDisable"] = true;
+          });
+          console.log("slb22", this.slbData);
+        }
         sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
@@ -174,12 +237,12 @@ this.validateData()
     for (let key in this.formData) {
       arrOfAllData.push(...this.formData[key]);
     }
-// if(data.length)
-// arrOfAllData = data;
+    // if(data.length)
+    // arrOfAllData = data;
     this.counter = 0;
-    
+
     arrOfAllData.forEach((el) => {
-      if(el["actual"]["value"] != null && el["target_1"]["value"] != null ){
+      if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
         if (
           el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
           el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b540"
@@ -187,26 +250,24 @@ this.validateData()
           if (+el["actual"]["value"] > +el["target_1"]["value"]) {
             this.errorFieldIDs?.push(el["question"]);
             this.error = 1;
-  
-          }else{
+          } else {
             var index = this.errorFieldIDs.indexOf(el["question"]);
-  if (index !== -1) {
-    this.errorFieldIDs.splice(index, 1);
-  }
+            if (index !== -1) {
+              this.errorFieldIDs.splice(index, 1);
+            }
           }
         } else {
           if (+el["actual"]["value"] < +el["target_1"]["value"]) {
             this.errorFieldIDs_decrease.push(el["question"]);
             this.error = 1;
-          }  else{
+          } else {
             var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
-  if (index !== -1) {
-    this.errorFieldIDs_decrease.splice(index, 1);
-  }
+            if (index !== -1) {
+              this.errorFieldIDs_decrease.splice(index, 1);
+            }
           }
         }
       }
-    
 
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
@@ -214,7 +275,8 @@ this.validateData()
         this.error = 1;
       }
     });
-    console.log('after validating->',arrOfAllData)
+
+    console.log("after validating->", arrOfAllData);
     if (this.error) {
       this.slbData["isDraft"] = true;
       return false;
@@ -222,12 +284,17 @@ this.validateData()
     this.slbData["isDraft"] = false;
     return true;
   }
+  popError = false;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
-
+      if (res?.data["isDraft"] == false) {
+        this.isDisabled = true;
+      } else {
+        this.isDisabled = false;
+      }
       for (let key in this.slbData["data"]) {
         for (let el of this.slbData["data"][key]) {
           let rangeArr = el["range"].split("-");
@@ -237,7 +304,6 @@ this.validateData()
       Object.assign(this.formData, this.slbData["data"]);
       console.log("After processing Range -", this.formData);
     });
-    
   }
   setRouter() {
     for (const key in this.sideMenuItem) {
@@ -255,10 +321,10 @@ this.validateData()
     return 0;
   }
 
-
   onPreview() {
+    let slbPreData = { ...this.slbData["data"] };
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
-      data: this.slbData['data'],
+      data: slbPreData,
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
@@ -308,11 +374,36 @@ this.validateData()
   alertClose() {
     this.stay();
   }
-inputPopulation(e){
-  console.log(e)
-  if(e.key == " " || e.key == "-")
-  e.preventDefault();
-}
+  inputPopulation(e, input) {
+    console.log(e);
+    sessionStorage.setItem("changeIn28SLB", "true");
+    // console.log("sss", e, input);
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (newValue.length > 10) {
+      e.preventDefault();
+    }
+  }
   numberLimitV(e, input, minV, maxV) {
     sessionStorage.setItem("changeIn28SLB", "true");
     // console.log("sss", e, input);
@@ -341,11 +432,11 @@ inputPopulation(e){
     if (
       +newValue > maxV ||
       newValue.length > maxV?.length ||
-      +newValue < minV || e.key == " "
+      +newValue < minV ||
+      e.key == " "
     ) {
       e.preventDefault();
     }
-  
   }
 
   private replaceSelection(input, key) {
