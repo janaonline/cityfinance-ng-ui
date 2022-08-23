@@ -82,12 +82,13 @@ export class TableComponent implements OnInit, OnChanges {
     formId: "",
   };
   formRouterLink;
+  formStateRouterLink;
   ngOnInit(): void {
     this.updatedTableData();
     this.fetchStateList();
     this.callAPI();
     this.valueChanges();
- //   this.multiActionM();
+    //   this.multiActionM();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
@@ -108,6 +109,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.formRouterLink =
       "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
     console.log("form data url", formData);
+    this.formStateRouterLink =
+      "../../stateform2223/" + this.formUrl + `/${formData?._id}`;
   }
   filterFormValue;
   valueChanges() {
@@ -122,7 +125,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["status"] = value?.status_s;
       this.params["filled1"] = value?.filled_1;
       this.params["populationType"] = value?.population_type_s;
-      if(this.userData?.role !== 'STATE'){
+      if (this.userData?.role !== "STATE") {
         this.params["stateCode"] = value?.state_name_s;
       }
       this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
@@ -171,7 +174,7 @@ export class TableComponent implements OnInit, OnChanges {
       }
     );
   }
-  search(){
+  search() {
     this.callAPI();
   }
   isChecked(element: any) {
@@ -280,8 +283,7 @@ export class TableComponent implements OnInit, OnChanges {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('result', result);
-
+      console.log("result", result);
     });
   }
 
@@ -311,6 +313,18 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("ulbName", data.ulbName);
     // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
+  viewStateForm(data) {
+    console.log("data", data);
+    localStorage.setItem("state_id", data?.state);
+    this.getStateBar(data?.state, "STATE", "");
+    sessionStorage.setItem("stateName", data?.stateData?.name);
+  }
+  getStateBar(id, role, isUA) {
+    this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+    });
+  }
   getULBSideBar(ulbId, role, isUA) {
     if (isUA == "Yes") {
       isUA = true;
@@ -324,7 +338,7 @@ export class TableComponent implements OnInit, OnChanges {
       //  this.leftMenu = res;
     });
   }
-  resetFilter(){
+  resetFilter() {
     this.filterForm.reset();
     this.callAPI();
   }

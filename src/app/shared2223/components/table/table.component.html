@@ -9,7 +9,7 @@
     <div class="mat-elevation-z8 mt-1">
         <div class="table-responsive">
 
-            <table class="table">
+            <table class="table" *ngIf="title == 'Review Grant Application'">
                 <thead>
                     <tr style="background-color: #047474; color: #FFFFFF;">
                         <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;">
@@ -133,6 +133,78 @@
                             <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
                           Take Action
                       </a>
+                        </td>
+                        <td>
+                            <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
+                                <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
+                                    [checked]="resData?.isChecked">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table" *ngIf="title == 'Review State Forms'">
+                <thead>
+                    <tr style="background-color: #047474; color: #FFFFFF;">
+                        <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;">
+                            {{item.value}}</th>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="filter">
+                        <th class="filter"></th>
+                        <th class="filter text-center">
+                            <select class="" formControlName="state_name_s" (change)="search()" *ngIf="userData?.role != 'STATE'" style="width: 75%;">
+                              <option selected value="">State Name</option>
+                              <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+                          </select>
+                        </th>
+                        <th class="filter text-center">
+                            <select class="" formControlName="status_s" style="width: 75%;" (change)="search()">
+                            <option selected value="">Status</option>
+                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                           </select>
+                        </th>
+                        <th class="filter text-center" colspan="2">
+                            <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let resData of data | paginate
+          : {
+            id: 'foo',
+              itemsPerPage: tableDefaultOptions.itemPerPage,
+              currentPage: tableDefaultOptions.currentPage,
+              totalItems: tableDefaultOptions.totalCount
+            }; let tabelIndex=index">
+                        <td style="" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        </td>
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateData?.name}}
+                        </td>
+
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
+
+                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
+                            <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
+                                <!-- [routerLink]="[
+                        '/ulbform/overview', resData?._id  ]" -->
+                                <mat-icon aria-hidden="false">
+                                    <img src="../../../../assets/ulbform/eye.png">
+                                </mat-icon>
+                            </a>
+                        </td>
+                        <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
+                            <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
+                           '/ulbform2223/overview', resData?._id  ]">
+                          Take Action
+                      </a> -->
+                            <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
+                        Take Action
+                    </a>
                         </td>
                         <td>
                             <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">

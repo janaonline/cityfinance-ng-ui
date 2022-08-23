@@ -36,6 +36,26 @@ const routes: Routes = [
         path: "grant-allocation",
         component: GrantAllocationComponent,
       },
+      {
+        path: "dashboard/:id",
+        component: DashboardComponent,
+      },
+      {
+        path: "property-tax/:id",
+        component: PropertyTaxFloorRateComponent,
+      },
+      {
+        path: "fc-formation/:id",
+        component: StateFinanceComponent,
+      },
+      {
+        path: "gtCertificate/:id",
+        component: GtcFormComponent,
+      },
+      {
+        path: "grant-allocation/:id",
+        component: GrantAllocationComponent,
+      },
     ],
   },
 ];
