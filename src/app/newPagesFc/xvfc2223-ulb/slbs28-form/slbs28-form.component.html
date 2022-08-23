@@ -76,7 +76,7 @@
                     <div class="row mt-4 ms-0">
                         <div class="col-sm-12">
                             <label for="population"> Population: </label>
-                            <input [disabled]="slbData['popDisable']"   min="0" class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population" required id="population" name="population" #population="ngModel" type="number">
+                            <input [disabled]="slbData['popDisable']"   min="0" class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population"  required id="population" (keydown)="inputPopulation($event)" name="population" #population="ngModel" type="number">
                         </div>
 
                     </div>

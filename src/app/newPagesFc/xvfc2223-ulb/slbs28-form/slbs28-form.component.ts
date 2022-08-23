@@ -308,7 +308,11 @@ this.validateData()
   alertClose() {
     this.stay();
   }
-
+inputPopulation(e){
+  console.log(e)
+  if(e.key == " " || e.key == "-")
+  e.preventDefault();
+}
   numberLimitV(e, input, minV, maxV) {
     sessionStorage.setItem("changeIn28SLB", "true");
     // console.log("sss", e, input);
