@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { UserUtility } from 'src/app/util/user/user';
+import { Router } from "@angular/router";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { UserUtility } from "src/app/util/user/user";
 
-import { IStateULBCovered } from '../../../shared/models/stateUlbConvered';
-import { CommonService } from '../../../shared/services/common.service';
-import { FormUtil } from '../../../util/formUtil';
-import { UserProfile } from '../model/user-profile';
-import { ProfileService } from '../service/profile.service';
+import { IStateULBCovered } from "../../../shared/models/stateUlbConvered";
+import { CommonService } from "../../../shared/services/common.service";
+import { FormUtil } from "../../../util/formUtil";
+import { UserProfile } from "../model/user-profile";
+import { ProfileService } from "../service/profile.service";
 
 @Component({
   selector: "app-state-profile",
@@ -18,7 +19,8 @@ import { ProfileService } from '../service/profile.service';
 export class StateProfileComponent implements OnInit, OnChanges {
   constructor(
     private _commonService: CommonService,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    private router: Router
   ) {
     this.fetchStateList();
   }
@@ -36,12 +38,20 @@ export class StateProfileComponent implements OnInit, OnChanges {
   formSubmitted = false;
   window = window;
   isApiInProgress = false;
-
+  loggedInUserType: USER_TYPE;
+  USER_TYPE = USER_TYPE;
   userUtil = new UserUtility();
-
-  ngOnInit() {}
+  isProfileVerified = false;
+  ngOnInit() {
+    this.initializeLogginUserType();
+  }
   ngOnChanges() {
     this.initializeForm();
+    console.log("profileData state", this.profileData?.isVerified2223);
+    this.isProfileVerified = this.profileData?.isVerified2223;
+    if (this.profileData?.isVerified2223 == false) {
+      this.enableProfileEdit();
+    }
   }
 
   public enableProfileEdit() {
@@ -120,6 +130,12 @@ export class StateProfileComponent implements OnInit, OnChanges {
         form.enable();
         this.updateLoggedInLocalData(body);
         this.respone.successMessage = "Profile Updated successfully";
+        if (
+          this.isProfileVerified == false &&
+          this.loggedInUserType === USER_TYPE.STATE
+        ) {
+          this.router.navigateByUrl("/stateform2223/dashboard");
+        }
       },
       (err: HttpErrorResponse) => {
         form.enable();
@@ -159,5 +175,8 @@ export class StateProfileComponent implements OnInit, OnChanges {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
     });
+  }
+  private initializeLogginUserType() {
+    this.loggedInUserType = this._profileService.getLoggedInUserType();
   }
 }

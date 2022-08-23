@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 form-h text-center">
-            <p>State Finance Commission Formation Notification</p>
+            <p>State Finance Commission Notification</p>
         </div>
     </div>
     <div class="row">
@@ -52,7 +52,7 @@
                             </span>
                         </div>
                         <div class="col-3 questionClass opacityClass ans-h">
-                            {{data?.dataPreview?.stateNotification.name}}
+                            <a href="{{data?.dataPreview?.stateNotification?.url}}" target="_blank">{{data?.dataPreview?.stateNotification?.name}}</a>
                             <span *ngIf="!data?.dataPreview?.stateNotification.name">N/A</span>
                         </div>
                     </div>

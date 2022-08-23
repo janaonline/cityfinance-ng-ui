@@ -47,15 +47,14 @@
                             class="customLabel form-control">
                             <input type="radio" value="Yes" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>Yes</span>
-                        </label>
-                        <label (click)="clickNo()" class="customLabel ms-3 form-control"
-                            [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'No'  && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'No' && !isDisabled) }">
+                    </label>
+                    <label (click)="clickNo()" class="customLabel ms-3 form-control" [ngClass]="{'activeClassBottom': (f?.linkPFMS?.value == 'No'  && isDisabled), 'greyInputs': (f?.linkPFMS?.value == 'No' && !isDisabled) }">
                             <input type="radio" value="No" formControlName="linkPFMS" [ngClass]="{ 'is-invalid': submitted && f.linkPFMS.errors }">
                             <span>No</span>
                         </label>
-                        <div *ngIf="submitted && f.linkPFMS.errors" class="text-danger"><br>
-                            <div *ngIf="f.linkPFMS.errors.required">Please select any option.</div>
-                        </div>
+                    <div *ngIf="submitted && f.linkPFMS.errors" class="text-danger"><br>
+                        <div *ngIf="f.linkPFMS.errors.required">Please select any option.</div>
+                    </div>
                     </span>
                 </div>
             </div>
@@ -76,13 +75,12 @@
                             class="customLabel form-control">
                             <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>Yes</span>
-                        </label>
-                        <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3"
-                            [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'No' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'No' && !isDisabled) }">
+                    </label>
+                    <label (click)="linkedNo($event.target.value)" class="customLabel form-control ms-3" [ngClass]="{'activeClassBottom': (f?.isUlbLinkedWithPFMS?.value == 'No' && isDisabled), 'greyInputs': (f?.isUlbLinkedWithPFMS?.value == 'No' && !isDisabled) }">
                             <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS" [ngClass]="{ 'is-invalid': submitted && f.isUlbLinkedWithPFMS.errors }">
                             <span>No</span>
                         </label>
-                        
+
                     </span>
                     <div *ngIf="submitted && f.isUlbLinkedWithPFMS.errors" class="text-danger">
                         <div *ngIf="f.isUlbLinkedWithPFMS.errors.required">Please select any option.</div>
@@ -98,7 +96,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6" [ngClass]="{'disableInputs': !isDisabled }">
                     <span class="fontStyle">
-                        <input (change)="onChnageSave()" [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
+                        <input (change)="onChnageSave()" [ngClass]="{ 'is-invalid': submitted && f?.PFMSAccountNumber?.controls?.errors, 'greyInputs': !isDisabled }" type="text" class="form-control customWidth" formControlName="PFMSAccountNumber" (keydown)="numberLimitV($event, inputText)" #inputText>
                     </span>
                     <div *ngIf="submitted && f.PFMSAccountNumber.errors" class="text-danger">
                         <div *ngIf="f.PFMSAccountNumber.errors.required">PFMS Account Number is required</div>
@@ -112,10 +110,10 @@
                         (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
                         etc<sup class="text-danger">*</sup>
                     </span>
-                    
+
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin1" [ngClass]="{'customDisable': !isDisabled }">
+                    <label for="ipt" [ngClass]="{'customDisable': !isDisabled }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled}">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -123,13 +121,12 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" id="cin1" name="cin1" type="file"
-                        (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
-                        <div>
-                            <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
-                                <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
-                            </div>
+                    <input #ipt id="ipt" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
+                            <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
                         </div>
+                    </div>
                 </div>
             </div>
             <div class="row" *ngIf="showIcon">
@@ -137,9 +134,7 @@
                     {{pfmsFileName}}
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="pfmsLinkProgress">
-                    <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar"
-                        attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100"
-                        [ngStyle]="{ width: pfmsLinkProgress + '%' }">
+                    <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar" attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: pfmsLinkProgress + '%' }">
                         {{ pfmsLinkProgress }}%
                     </div>
                 </div>
@@ -161,8 +156,8 @@
                         (E) Upload any other transaction doc from PFMS
                     </span>
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload" >
-                    <label for="cin2" [ngClass]="{'customDisable': !isDisabled }">
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="ipt2" [ngClass]="{'customDisable': !isDisabled }">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled }">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -170,8 +165,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                    <input id="cin2" name="cin2" type="file"
-                        (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
+                    <input #ipt2 id="ipt2" name="cin2" type="file" (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
                 </div>
             </div>
             <div class="row" *ngIf="showIconOtherDoc">
@@ -179,9 +173,7 @@
                     {{otherFileName}}
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4" *ngIf="otherProgress">
-                    <div class="progress-bar" *ngIf="otherProgress" role="progressbar"
-                        attr.aria-valuenow="{{ otherProgress }}" aria-valuemin="0" aria-valuemax="100"
-                        [ngStyle]="{ width: otherProgress + '%' }">
+                    <div class="progress-bar" *ngIf="otherProgress" role="progressbar" attr.aria-valuenow="{{ otherProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: otherProgress + '%' }">
                         {{ otherProgress }}%
                     </div>
                 </div>
@@ -197,19 +189,28 @@
                 </div>
             </div>
         </div>
+        <!-- action components -->
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <app-common-action [actionRes]="actionRes" [formData]="pfmsData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
+                    </app-common-action>
+                </div>
+            </div>
+        </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
-                    [routerLink]='backRouter'>
+                <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]='backRouter'>
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" *ngIf="ulbData?.role != 'STATE'" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
+                        <button type="submit" class="btn btnDraft" *ngIf="ulbData?.role == 'ULB'" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
+                        <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form

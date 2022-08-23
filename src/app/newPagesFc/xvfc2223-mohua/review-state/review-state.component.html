@@ -1,0 +1,23 @@
+<div class="container-fluid pd-c">
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-12">
+            <h2>{{title}}</h2>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <label for="form">Select Form:</label>
+            <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
+            <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
+          <option *ngFor="let element of data" [value]="element._id">
+              {{element.name}}
+          </option>
+        </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <app-table [dropdownData]="data" [formId]="formId"></app-table>
+        </div>
+    </div>
+</div>

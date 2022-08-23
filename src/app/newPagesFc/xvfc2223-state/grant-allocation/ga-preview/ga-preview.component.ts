@@ -122,16 +122,16 @@ export class GaPreviewComponent implements OnInit {
   ngOnInit(): void {}
   clickedDownloadAsPDF(template) {
     this.download = true;
-    this.downloadAsPDF();
-    // let changeHappen;
+    // this.downloadAsPDF();
+    let changeHappen;
 
-    // changeHappen = sessionStorage.getItem("changeInGtc");
-    // console.log(changeHappen);
-    // if (changeHappen === "true") {
-    //   this.openDialog(template);
-    // } else {
-    //   this.downloadAsPDF();
-    // }
+    changeHappen = sessionStorage.getItem("changeInGta");
+    console.log(changeHappen);
+    if (changeHappen === "true") {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
   }
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
@@ -185,34 +185,35 @@ export class GaPreviewComponent implements OnInit {
     await this.saveFile();
     await this.downloadAsPDF();
   }
+
   saveFile() {
-    let data = JSON.parse(sessionStorage.getItem("gtcIjData"));
+    let data = JSON.parse(sessionStorage.getItem("gtaIjData"));
     console.log("i, j data", data);
     this.submit(data?.i, data?.j);
   }
   async submit(i, j) {
-    let postBody = { ...this.data[i]?.quesArray[j] };
+    // let postBody = { ...this.data[i]?.quesArray[j] };
+
+    let postBody = {
+      design_year: this.data[i].quesArray[j]?.year,
+      url: this.data[i].quesArray[j]["url"],
+      fileName: this.data[i].quesArray[j]["fileName"],
+      answer: true,
+      isDraft: false,
+      type: this.data[i].quesArray[j]?.type,
+      installment: this.data[i].quesArray[j]?.installment,
+    };
     if (
-      this.data[i].quesArray[j].file.name != "" ||
-      this.data[i].quesArray[j].file.url != ""
+      this.data[i].quesArray[j].fileName != "" ||
+      this.data[i].quesArray[j].url != ""
     ) {
       console.log("111", postBody);
-
-      postBody.state = this.stateId;
-      postBody.isDraft = false;
-      postBody.status = "PENDING";
-      postBody.design_year = this.years["2022-23"];
-      delete postBody?.instlText;
-      delete postBody?.disableMsg;
-      delete postBody?.isDisableQues;
-      delete postBody?.quesText;
-      delete postBody?.question;
-      delete postBody?.qusType;
-      delete postBody?.file?.progress;
-      delete postBody?.file?.error;
       return new Promise((resolve, rej) => {
-        this.stateService.postGtcForm(postBody).subscribe(
-          (res) => {
+        this.stateService.postGTAFile(postBody).subscribe(
+          (res: any) => {
+            swal("Saved", "File saved successfully.", "success");
+            sessionStorage.setItem("changeInGta", "false");
+            console.log("GTA file response", res);
             this.data[i].quesArray[j].isDisableQues = true;
             this.data[i].quesArray[j].status = "PENDING";
             this.data[i].quesArray[j].isDraft = false;
@@ -220,18 +221,17 @@ export class GaPreviewComponent implements OnInit {
             if (this.data[i]?.quesArray[j + 1]?.isDisableQues) {
               this.data[i].quesArray[j + 1].isDisableQues = false;
             }
-            swal("Saved", "Data saved as draft successfully", "success");
             resolve("sucess");
-            sessionStorage.setItem("changeInGtc", "false");
-            console.log("success responce", res);
           },
-          (err) => {
-            sessionStorage.setItem("changeInGtc", "false");
-            swal("Error", "Failed To Save", "error");
-            resolve(err);
+          (error) => {
+            swal("Error", `${error?.message}`, "error");
+            resolve(error);
           }
         );
       });
+    } else {
+      swal("Error", "Please select valid file", "error");
+      sessionStorage.setItem("changeInGta", "false");
     }
   }
   alertClose() {

@@ -123,12 +123,12 @@ export class PfmsPreviewComponent implements OnInit {
       this.ulbName = userData["name"];
     }
     this.stateName = userData["stateName"];
-    
+
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-    
+
       // changeHappen = sessionStorage.setItem("changeInPFMS", "false");
       changeHappen = sessionStorage.getItem("changeInGTC");
       changeHappen = sessionStorage.getItem("changeInPFMS");
@@ -203,10 +203,10 @@ export class PfmsPreviewComponent implements OnInit {
     return new Promise((resolve, rej) => {
       this.commonService.pfmsSubmitForm(body).subscribe(
         (res) => {
-         
+
             sessionStorage.setItem("changeInPFMS", "false");
             sessionStorage.setItem("changeInGTC", "false");
-          
+
           console.log(res);
           // const status = JSON.parse(sessionStorage.getItem("allStatus"));
           // status.annualAccounts.isSubmit = res["isCompleted"];
@@ -215,10 +215,10 @@ export class PfmsPreviewComponent implements OnInit {
           resolve("sucess");
         },
         (err) => {
-         
+
           sessionStorage.setItem("changeInPFMS", "false");
           sessionStorage.setItem("changeInGTC", "false");
-          
+
 
           swal("Error", "Failed To Save", "error");
           resolve(err);
