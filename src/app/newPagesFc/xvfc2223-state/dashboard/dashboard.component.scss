@@ -82,9 +82,9 @@ li{
     margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 20px;
-    height: 130px;
     background-color: white;
     color:black;
+    cursor: pointer;
 }
 .fontClass{
     font-size: 14px;
@@ -97,11 +97,23 @@ li{
     color: white;
     width: 13%;
     text-align: center;
-    height: 26px;
-    bottom: 29px;
+    height: 20px;
+    bottom: 38px;
+    font-size: 12px;
 }
 .targetClass{
-    margin-left: -24px;
+    margin-left: -20px;
+    position: relative;
+    margin-top: -34px;
+}
+.targetHundred{
+    background-color: #12505A;
+    width: 95px;
+    text-align: center;
+    height: 20px;
+    color: white;
+    font-size: 12px;
+    margin-left: -37px;
 }
 .progress{
     overflow: unset !important;
@@ -119,7 +131,7 @@ li{
             border-radius: 50%;
             width: 34px;
             height: 34px;
-            font-size: 10px;
+            font-size: 9px;
             margin-top: -11px;
             line-height: 24px;
             margin-right: -5px;

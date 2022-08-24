@@ -1,16 +1,18 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { link } from 'fs';
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { State2223Service } from '../state-services/state2223.service';
-
+import { SweetAlert } from "sweetalert/typings/core";
+import { MatTooltip } from '@angular/material/tooltip';
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit,AfterViewInit {
   viewMode = 'tab1';
   formdata: any;
   userData;
@@ -26,6 +28,10 @@ export class DashboardComponent implements OnInit {
   millionPlusUAs = 0;
   UlbInMillionPlusUA = 0;
   installmentType: string = '1';
+  response:any;
+  disableBtn: boolean = false;
+  cardApiData;
+  // @ViewChild("tooltip") tooltip: MatTooltip;
   cardData: any = {
     title: 'card1',
     cardData: [{
@@ -66,7 +72,7 @@ export class DashboardComponent implements OnInit {
         formName: 'Annual Account',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 0,
+        submittedValue: 25,
         approvedValue: 0,
         icon: '../../../../assets/dashboard-state/file_upload_black_24dp (2).svg',
         link: '',
@@ -78,8 +84,8 @@ export class DashboardComponent implements OnInit {
         formName: 'PFMS Linkage',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 0,
-        approvedValue: 0,
+        submittedValue: 60,
+        approvedValue: 70,
         icon: '../../../../assets/dashboard-state/link_black_24dp.svg',
         link: '',
         status: 'Not Started',
@@ -184,13 +190,20 @@ export class DashboardComponent implements OnInit {
   navList = [
     {title: 'NMPC - UnTied', viewMode: 'tab1', formType: 'nmpc_untied', installment : '1'},
     {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
-    {title: 'MPC', viewMode: 'tab3', formType: 'mpc'}
+    {title: 'MPC', viewMode: 'tab3', formType: 'mpc_tied'}
   ]
-  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router) {
+  @ViewChild('tooltip') tooltip: MatTooltip;
+  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router,private cd: ChangeDetectorRef) {
     this.getStateAndDesignYear();
     this.formdata = this.formDataFirstInstallment;
     this.getCardData()
   }
+
+ngAfterViewInit() {
+   this.tooltip.show();
+   this.cd.detectChanges();
+   setTimeout(() => this.tooltip.hide(2000));
+}
    params:any = {
     stateId: '',
     design_year: '',
@@ -249,26 +262,24 @@ export class DashboardComponent implements OnInit {
     };
     this.getFormData();
   }
-  response:any;
-  tagetLink:any;
+  
   getFormData(){  
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
       console.log('formdatadadatatatatta', res);
       this.response = res
-    //   console.log(this.response);
-    //     this.response?.data.map(function (arrayItem) {
-    //     arrayItem?.formData.forEach(element => {
-    //       element['id'] = element.link.split('/')[2]
-    //       element.link = element.link.split('/')[1]
-    //       this.router.navigate(['/review-ulb-form'],{ queryParams: { id: element.id}})
-    //       // console.log('arrayIsasastem', this.targetLink);
-    //     });
-    //     console.log('arrayItem', arrayItem);
-    // });
+    for (const item of this.response?.data) {
+      for (const form of item?.formData) {
+        if ((form?.formName == 'Annual Accounts') && (form?.approvedValue >= 25) && (form?.submittedValue >= 25)) {
+          this.disableBtn = true;
+        } else if ((form?.approvedValue == 100) && (form?.submittedValue == 100)) {
+          this.disableBtn = true;
+        }
+      }
+    }
       console.log('responsesaasasa', this.response)
     })
   }
-  cardApiData
+  
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res :any) => {
@@ -293,14 +304,20 @@ export class DashboardComponent implements OnInit {
     if (selectedRow && selectedRow.link) {
       let splitLink = selectedRow.link.split('/');
       console.log('splitLink', splitLink)
-      if (splitLink?.length > 1) {
+      if (splitLink?.length == 3) {
         // this.router.navigate([`/${splitLink[1]}`],{ queryParams: { formId: splitLink[2]}});
         this.router.navigate(['stateform2223/review-ulb-form'],{ queryParams: { formId: splitLink[2]}});
-      } else {
-        console.log('error');
+      }else if (splitLink?.length == 2) {
+        this.router.navigate(['stateform2223/'+ splitLink[1]]);
+      }
+       else {
+        swal("errer", "error", "error");
       }
     } else {
-      console.log('error');
+      swal("error", "error", "error");
     }
+  }
+  claimGrant(){
+    swal("Saved", "Claimed Grant !!!!.", "success");
   }
 }
