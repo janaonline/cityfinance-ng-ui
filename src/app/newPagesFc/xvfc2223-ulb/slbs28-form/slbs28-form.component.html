@@ -29,7 +29,8 @@
                                 <td>
                                     <div class="input-group">
                                         <input [min]="item.min" [max]="item.max" [disabled]="item.actualDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || actual.invalid  && (actual.dirty || actual.touched)}" required id="actual"
-                                            name="actual" type="text" class="form-control" placeholder="Actual Indicator" [(ngModel)]="item.actual.value" #actual="ngModel" (keydown)="numberLimitV($event, inputText1, item.min, item.max)" #inputText1>
+                                            name="actual" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.actual.value" #actual="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText1, item.min, item.max)"
+                                            #inputText1>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                         <div *ngIf="actual.invalid && (actual.dirty || actual.touched)">
 
@@ -37,18 +38,36 @@
                                          Actual is required.
                                     </span>
                                         </div>
+                                        <div *ngIf="actual.dirty || actual.touched">
+                                            <span class="errorDis" *ngIf="errorFieldIDs.includes(item.question)">
+                                            Actual Value must be less than the Target.
+                                          </span>
+                                            <span class="errorDis" *ngIf="errorFieldIDs_decrease.includes(item.question)">
+                                            Target Value must be less than the Actual.
+                                          </span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group">
                                         <input [min]="item.min" [max]="item.max" [disabled]="item.targetDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || target.invalid  && (target.dirty || target.touched)}" required id="target"
-                                            name="target" type="text" class="form-control" placeholder="Target Indicator" [(ngModel)]="item.target_1.value" #target="ngModel" (keydown)="numberLimitV($event, inputText2, item.min, item.max)" #inputText2>
+                                            name="target" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.target_1.value" #target="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText2, item.min, item.max)"
+                                            #inputText2>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit}}</span>
                                         <div *ngIf="target.invalid && (target.dirty || target.touched)">
 
                                             <span class="errorDis" *ngIf="target.errors['required']">
                                               Target is required.
                                             </span>
+
+                                        </div>
+                                        <div *ngIf="target.dirty || target.touched">
+                                            <span class="errorDis" *ngIf="errorFieldIDs.includes(item.question)">
+                                            Actual Value must be less than the Target.
+                                          </span>
+                                            <span class="errorDis" *ngIf="errorFieldIDs_decrease.includes(item.question)">
+                                            Target Value must be less than the Actual.
+                                          </span>
                                         </div>
                                     </div>
                                 </td>
@@ -58,8 +77,12 @@
 
                     <div class="row mt-4 ms-0">
                         <div class="col-sm-12">
-                            <label for="population"> Population: </label>
-                            <input class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population" required id="population" name="population" #population="ngModel" type="number">
+                            <label for="population"> Population* : </label>
+                            <input [disabled]="isDisabled" class="form-control ms-3 d-inline-block w-auto" [ngClass]="{'red': population.invalid  && (population.dirty || population.touched)}" [(ngModel)]="slbData.population" required id="population" (keydown)="inputPopulation($event, population)"
+                                name="population" #population="ngModel" type="text" #population>
+                            <div class="text-danger" *ngIf="population.invalid  && (population.dirty || population.touched) || popError">
+                                Population is required.
+                            </div>
                         </div>
 
                     </div>
@@ -72,8 +95,8 @@
             <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-6 text-end">
-            <button (click)='save(true)' class="btn btn-primary">Save As Draft</button>
-            <button (click)='save(false)' class="btn btn-primary ms-3">Submit</button>
+            <button (click)='save(true)' [disabled]="isDisabled" class="btn btn-primary">Save As Draft</button>
+            <button (click)='save(false)' [disabled]="isDisabled" class="btn btn-primary ms-3">Submit</button>
             <button class="btn btn-c-next ms-3" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
@@ -98,7 +121,7 @@
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                 <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
                 Save & Proceed
               </button>
             </div>
