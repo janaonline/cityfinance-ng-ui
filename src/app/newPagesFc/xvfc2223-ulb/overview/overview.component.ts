@@ -281,63 +281,6 @@ export class OverviewComponent implements OnInit {
       // this.message = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
       this.checkPos = true;
     }
-
-    // //   if (title == 'Plans for Water and Sanitation') {
-    // //     //  this.p = (num+3)*120;
-
-    // //     this.hover = true;
-    // //     if (num == 5) {
-    // //       this.i = 6;
-    // //       this.val = 5;
-    // //     }
-    // //     else {
-    // //       this.i = 7;
-    // //       this.val = 6;
-    // //     }
-    // //     //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-    // //     this.message = `Non-Million Plus Cities to select 1 Project for Water
-    // //  and 1 Project for Sanitation with clear functional outcomes`;
-    // //     this.checkPos = true;
-    // //   }
   }
-  // onHover2(num, title, key) {
-  //   if (key == "PTO") {
-  //     //   this.p = (num+1)*80;
-  //     this.val2 = 0;
-  //     this.hover = true;
-  //     this.i2 = 1;
-  //     // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-  //     this.message2 = `Process of collecting notified floor rates of property tax must be operationalized.`;
-  //     this.checkPos = true;
-  //   }
-  //   if (key == "SLB") {
-  //     //  this.p = (num+3)*125;
-  //     this.val2 = 1;
-  //     this.hover = true;
-  //     this.i2 = 2;
-  //     //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-  //     this.message2 = `Performance condition grants will be recommended by MoHUA based on
-  //     the publication of Baseline data, annual targets, and achievement thereof. If the targets are achieved,
-  //     NMPCs will be eligible for receiving the undistributed portion of grants meant for MPCs.`;
-  //     this.checkPos = true;
-  //   }
-  //   if (key == "ODF") {
-  //     // this.p = (num+3)*125;
-  //     this.val2 = 2;
-  //     this.hover = true;
-  //     this.i2 = 3;
-  //     //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-  //     this.message2 = `MoHUA will assess performance of MPC in SWM against ODF rating of ULBs based on details provided.`;
-  //     this.checkPos = true;
-  //   }
-  //   if (key == "GFC") {
-  //     // this.p = (num+3)*125;
-  //     this.val2 = 3;
-  //     this.hover = true;
-  //     this.i2 = 4;
-  //     //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-  //     this.message2 = `MoHUA will assess performance of MPC in SWM against GFC rating of ULBs based on details provided.`;
-  //     this.checkPos = true;
-  //   }
-  // }
+
 }
