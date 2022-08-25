@@ -208,7 +208,7 @@
                         </td>
                         <td>
                             <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
-                                <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
+                                <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
                                     [checked]="resData?.isChecked">
                             </div>
                         </td>

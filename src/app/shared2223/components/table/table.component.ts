@@ -86,7 +86,8 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.updatedTableData();
     this.fetchStateList();
-    this.callAPI();
+    this.params["limit"] = 10;
+  //  this.callAPI();
     this.valueChanges();
     //   this.multiActionM();
   }
@@ -274,6 +275,7 @@ export class TableComponent implements OnInit, OnChanges {
     const dialogdata = {
       selectedId: this.selectedId,
       type: type,
+      formId: this.formId,
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {

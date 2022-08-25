@@ -24,21 +24,21 @@ export class TableApproveReturnDialogComponent implements OnInit {
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
-  apiData = {};
-  body: any;
-  clickedSave;
-  routerNavigate = null;
+  // apiData = {};
+  // body: any;
+  // clickedSave;
+  // routerNavigate = nul
   submitted: boolean = false;
   isDisabled: boolean = false;
-  activeClass: boolean = false;
+  // activeClass: boolean = false;
   stateActFileUrl;
-  constitutedValue;
-  constitutedValueActive: boolean = false;
-  memorandum: boolean = false;
-  noteMessege: boolean = false;
+  // constitutedValue;
+  // constitutedValueActive: boolean = false;
+  // memorandum: boolean = false;
+  // noteMessege: boolean = false;
   commonActionCondition: boolean = false;
   // isDisabled:boolean =false
-  previewFormData: any;
+  //  previewFormData: any;
   // @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -73,8 +73,8 @@ export class TableApproveReturnDialogComponent implements OnInit {
         name: [""],
       }),
       rejectReason: [""],
-      ulb: [this.data.selectedId],
-      formId: ["62aa1d6ec9a98b2254632a9a"],
+      ulb: [this.data?.selectedId],
+      formId: [this.data?.formId],
       design_year: [this.getDesignYear()],
     });
 
@@ -101,28 +101,25 @@ export class TableApproveReturnDialogComponent implements OnInit {
     let design_year = JSON.parse(localStorage.getItem("Years"));
     return design_year["2022-23"];
   }
-  patchFunction(data) {
-    console.log(data);
-    // this.showStateAct = true
-    this.stateActFileName = data?.data?.responseFile?.name;
-    this.stateActFileUrl = data?.data?.responseFile?.url;
-    this.stateActFileName ? (this.showStateAct = true) : false;
+  // patchFunction(data) {
+  //   console.log(data);
+  //   // this.showStateAct = true
+  //   this.stateActFileName = data?.data?.responseFile?.name;
+  //   this.stateActFileUrl = data?.data?.responseFile?.url;
+  //   this.stateActFileName ? (this.showStateAct = true) : false;
 
-    this.approveReturnForm.patchValue({
-      // constitutedSfc: data?.data?.constitutedSfc,
-      // state: this.stateId,
-      // design_year: this.yearValue,
-      responseFile: {
-        url: data?.data?.responseFile?.url,
-        name: data?.data?.responseFile?.name,
-      },
-      rejectReason: "",
-      ulb: "",
-      formId: "62aa1d6ec9a98b2254632a9a",
-      design_year: "606aafb14dff55e6c075d3ae",
-      status: "REJECTED",
-    });
-  }
+  //   this.approveReturnForm.patchValue({
+  //     responseFile: {
+  //       url: data?.data?.responseFile?.url,
+  //       name: data?.data?.responseFile?.name,
+  //     },
+  //     rejectReason: "",
+  //     ulb: "",
+  //     formId: "62aa1d6ec9a98b2254632a9a",
+  //     design_year: "606aafb14dff55e6c075d3ae",
+  //     status: "REJECTED",
+  //   });
+  // }
 
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true");
