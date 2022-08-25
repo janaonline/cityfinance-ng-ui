@@ -93,6 +93,7 @@ export class RevenuechartComponent
   @ViewChild("template") template;
   @Input()
   chartTitle = "ULB_NAME total revenues vs State ULB_TYPE Average";
+  @Input() activeButtonChange:any='' ;
   @Input()
   chartData: any = {
     // type: "bar",
@@ -206,7 +207,7 @@ export class RevenuechartComponent
         {
           scaleLabel: {
             display: true,
-            labelString: "Total Revenue (in Cr.)",
+            labelString: this.activeButtonChange == 'Revenue Per Capita' ? 'Total Revenue' : 'Total Revenue (In Cr.)',
             fontStyle: "bold",
           },
           gridLines: {
@@ -439,6 +440,10 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.activeButtonChange == 'Revenue Per Capita' || this.activeButtonChange == 'Own Revenue per Capita' || this.activeButtonChange == 'Capital Expenditure Per Capita'){
+      this.scatterOption.scales.yAxes[0].scaleLabel.labelString = 'Total Revenue'
+    }
+    console.log(this.scatterOption,this.activeButtonChange)
     if (changes.hasOwnProperty("selectedulb")) {
       this.selectedulb = changes.selectedulb.currentValue;
       console.log("selectedulb", this.selectedulb);
