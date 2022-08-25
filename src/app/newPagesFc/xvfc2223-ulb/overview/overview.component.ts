@@ -248,32 +248,29 @@ export class OverviewComponent implements OnInit {
       this.i = 4;
       this.checkPos = true;
     }
-    if (item?.key == "ODF") {
-      //   this.p = (num+1)*80;
+    if (item?.link == "28SLBsForm") {
+      //  this.p = (num+3)*112;
       this.val = 4;
       this.hover = true;
       this.i = 5;
       this.checkPos = true;
     }
-    if (item?.key == "GFC") {
+    if (item?.key == "ODF") {
       //   this.p = (num+1)*80;
       this.val = 5;
       this.hover = true;
       this.i = 6;
+      this.checkPos = true;
+    }
+    if (item?.key == "GFC") {
+      //   this.p = (num+1)*80;
+      this.val = 6;
+      this.hover = true;
+      this.i = 7;
       // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
       //  this.message = `Process of collecting notified floor rates of property tax must be operationalized.`;
       this.checkPos = true;
     }
-    if (item?.key == "SLB") {
-      //  this.p = (num+3)*112;
-      this.val = 6;
-      this.hover = true;
-      this.i = 7;
-      this.checkPos = true;
-    }
-
-
-
 
     if (item?.key == "cd") {
       // this.p = (num+3)*125;
