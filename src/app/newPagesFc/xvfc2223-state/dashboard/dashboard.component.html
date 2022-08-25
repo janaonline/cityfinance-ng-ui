@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="formCard mt-3" *ngFor="let item of element['formData']">
+                    <div class="formCard mt-3" *ngFor="let item of element['formData']" (click)="navigateToPage(item)">
                         <div class="row">
                             <div class="col-6">
                                 <img src='{{item.icon}}' width="30" height="30">
@@ -101,7 +101,7 @@
                                     <p class="ms-5">0%</p>
                             </div>
                             <div class="col-9">
-                                <div class="progress mt-2" (click)="navigateToPage(item)">
+                                <div class="progress mt-2">
                                     <div class="progress-bar bg-approved" role="progressbar" aria-label="approved"
                                         [ngStyle]="{'width': item?.approvedValue <= 10 ? '4%' : item?.approvedValue+'%' ,'background-color': item?.approvedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
                                         aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">

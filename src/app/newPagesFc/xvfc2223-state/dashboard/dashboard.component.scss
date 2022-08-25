@@ -22,12 +22,18 @@ ul{
     display: flex;
     width: 66%;
     margin-left: 17%;
-    border-radius: 5px;
+}
+li:first-child{
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+li:last-child{
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 li{
     background: #dce4e7 0% 0% no-repeat padding-box;
     cursor: pointer;
-    border-radius: 6px;
     height: 40px;
     line-height: 40px;
     font-weight: 500;
