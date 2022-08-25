@@ -20,8 +20,7 @@ export class ReviewApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
-    //pramod sir's code below causing error
-    // this.formId = this.data[0]["_id"];
+    this.formId = this.data[0]["_id"];
   }
 
   onLoad() {

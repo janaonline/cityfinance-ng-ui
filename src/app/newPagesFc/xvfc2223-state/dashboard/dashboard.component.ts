@@ -1,5 +1,5 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { link } from 'fs';
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
@@ -12,7 +12,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit,AfterViewInit {
+export class DashboardComponent implements OnInit {
   viewMode = 'tab1';
   formdata: any;
   userData;
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit,AfterViewInit {
   response:any;
   disableBtn: boolean = false;
   cardApiData;
-  // @ViewChild("tooltip") tooltip: MatTooltip;
+
   cardData: any = {
     title: 'card1',
     cardData: [{
@@ -192,18 +192,12 @@ export class DashboardComponent implements OnInit,AfterViewInit {
     {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
     {title: 'MPC', viewMode: 'tab3', formType: 'mpc_tied'}
   ]
-  @ViewChild('tooltip') tooltip: MatTooltip;
-  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router,private cd: ChangeDetectorRef) {
+  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router) {
     this.getStateAndDesignYear();
     this.formdata = this.formDataFirstInstallment;
     this.getCardData()
   }
 
-ngAfterViewInit() {
-   this.tooltip.show();
-   this.cd.detectChanges();
-   setTimeout(() => this.tooltip.hide(2000));
-}
    params:any = {
     stateId: '',
     design_year: '',
