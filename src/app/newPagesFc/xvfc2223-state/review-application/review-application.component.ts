@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {NewCommonService} from '../../../shared2223/services/new-common.service'
 @Component({
   selector: "app-review-application",
@@ -6,7 +7,7 @@ import {NewCommonService} from '../../../shared2223/services/new-common.service'
   styleUrls: ["./review-application.component.scss"],
 })
 export class ReviewApplicationComponent implements OnInit {
-  constructor(private commonService: NewCommonService) {}
+  constructor(private commonService: NewCommonService,private route: ActivatedRoute) {}
 
   formId = "62aa1b04729673217e5ca3aa";
   formUrl = "";
@@ -18,6 +19,7 @@ export class ReviewApplicationComponent implements OnInit {
   };
   ngOnInit(): void {
     this.onLoad();
+    this.getFormId();
     this.formId = this.data[0]["_id"];
   }
 
@@ -41,5 +43,16 @@ export class ReviewApplicationComponent implements OnInit {
   setFormId(event) {
     console.log("drop down changes", event);
     this.formId = event;
+  }
+  
+  getFormId(){
+    this.route.queryParams.subscribe((params) => {
+      console.log('params',params)
+      if (params && params.formId) {
+        let formId = params['formId'];
+        this.formId = formId
+        console.log('sasasasasasaaaaaaaaaaa' , formId)
+      }
+   })
   }
 }
