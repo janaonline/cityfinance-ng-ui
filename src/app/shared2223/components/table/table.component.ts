@@ -17,6 +17,7 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog/table-approve-return-dialog.component";
+import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
 @Component({
   selector: "app-table",
   templateUrl: "./table.component.html",
@@ -29,12 +30,14 @@ export class TableComponent implements OnInit, OnChanges {
     private commonService: NewCommonService,
     private _commonService: CommonService,
     private _fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private stateServices: State2223Service
   ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.getDesignYear();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.dropdownChanges();
   }
   userData;
   public keepOriginalOrder = (a, b) => a.key;
@@ -44,15 +47,7 @@ export class TableComponent implements OnInit, OnChanges {
   data;
   listType: USER_TYPE;
   filterForm: FormGroup;
-  // ulb_name_s = new FormControl("");
-  // state_name_s = new FormControl("");
-  // ulb_code_s = new FormControl("");
-  // ulb_type_s = new FormControl("");
-  // filled_1 = new FormControl("");
-  // population_type_s = new FormControl("");
-  // ua_name_s = new FormControl("");
-  // status_s = new FormControl("");
-  // ulbType_s = new FormControl("");
+
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -87,7 +82,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.updatedTableData();
     this.fetchStateList();
     this.params["limit"] = 10;
-  //  this.callAPI();
+    //  this.callAPI();
     this.valueChanges();
     //   this.multiActionM();
   }
@@ -343,6 +338,12 @@ export class TableComponent implements OnInit, OnChanges {
   resetFilter() {
     this.filterForm.reset();
     this.callAPI();
+  }
+  dropdownChanges() {
+    this.stateServices.dpReviewChanges.subscribe((res) => {
+      console.log("table alue changes....", res);
+      this.selectedId = [];
+    });
   }
 }
 
