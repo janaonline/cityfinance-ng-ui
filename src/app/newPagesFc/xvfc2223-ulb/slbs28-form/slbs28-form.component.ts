@@ -151,9 +151,11 @@ export class Slbs28FormComponent implements OnInit {
           });
           console.log("slb22", this.slbData);
         }
+        this.newCommonService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
+        sessionStorage.setItem("changeIn28SLB", "false");
         swal.fire("Error", `${err.error.message}`, "error");
       }
     );

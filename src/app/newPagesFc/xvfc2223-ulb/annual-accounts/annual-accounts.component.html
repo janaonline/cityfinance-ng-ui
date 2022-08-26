@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="preview()">PREVIEW</button>
     </div>
     <div [innerHTML]="url">
-        
+
     </div>
 </div>
 <div class="row ms-0 me-0" id="checkboxes">
@@ -65,11 +65,28 @@
                 <div class="row">
                     <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
                         <div *ngFor="let item of unAuditQues; let quesIndex=index">
-                            <ng-container>
-                                <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
-                                    [isDisabled]="isDisabled" [compName]="compName">
-                                </app-common-file-upload>
-                            </ng-container>
+                            <div class="">
+                                <ng-container>
+                                    <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
+                                        [isDisabled]="isDisabled" [compName]="compName">
+                                    </app-common-file-upload>
+                                </ng-container>
+                                <div class="row mb-4 d-none" style="" *ngIf="item?.action == true">
+                                    <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                    <div class="col-sm-7 act-btn" style="width: 50%">
+                                        <button type="button" class="btn btn-success">Approve</button>
+                                        <button type="button" class="btn btn-danger ms-3">Retrun</button>
+                                    </div>
+                                    <div class="col-sm-12 rej mt-3">
+                                        <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                        <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
                                 <label *ngIf="item?.type == 'file'" class='text-danger' style="margin-right: 5px;">
                                    {{pdfError}}

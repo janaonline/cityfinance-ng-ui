@@ -93,10 +93,10 @@ export class NewCommonService {
   }
 
   postTableApproveRejectData(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
   }
   getTableApproveRejectData(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
   }
 
   get28SlbsData(ulbId) {
@@ -110,6 +110,6 @@ export class NewCommonService {
   }
 
   postCommonAction(body) {
-    return this.http.patch(`${environment.api.url}common-action`, body);
+    return this.http.post(`${environment.api.url}common-action`, body);
   }
 }
