@@ -47,6 +47,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   @ViewChild("excel18_19") excel18_19: ElementRef;
   @ViewChild("pdf19_20") pdf19_20: ElementRef;
   @ViewChild("excel19_20") excel19_20: ElementRef;
+  
   @ViewChild("template") template: TemplateRef<any>;
   @ViewChild("saveTemplate") saveTemplate: TemplateRef<any>;
   @ViewChild("fileTemplate") fileTemplate: TemplateRef<any>;
@@ -119,6 +120,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
       excel: false,
       name: { pdf: null, excel: null },
     },
+   
   };
 
   historyYear;

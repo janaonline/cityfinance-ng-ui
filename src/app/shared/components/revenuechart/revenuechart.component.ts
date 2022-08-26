@@ -206,7 +206,7 @@ export class RevenuechartComponent
         {
           scaleLabel: {
             display: true,
-            labelString: "Total Revenue",
+            labelString: "Total Revenue (in Cr.)",
             fontStyle: "bold",
           },
           gridLines: {
@@ -1254,7 +1254,7 @@ export class RevenuechartComponent
   serviceLevelBenchmarkScatterOption: any;
   setServiceLevelBenchmarkScatteredChartOption(
     xAxisLabel: string = "Population",
-    yAxisLabel: string = "Total Revenue"
+    yAxisLabel: string = "Total Revenue (in Cr.)"
   ) {
     this.scatterOption = {};
     let tooltipValue = "";

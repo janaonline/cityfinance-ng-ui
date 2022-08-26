@@ -8,8 +8,8 @@
         <div class="col-sm-12">
             <label for="form">Select Form:</label>
             <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
-            <select [(ngModel)]="formId" (change)="setFormId($event.target.value)" name="form" id="form" class="mt-1 dropdown ms-3">
-              <option *ngFor="let element of data" [value]="element._id">
+            <select (change)="setFormId($event.target.value)" name="form" id="form" class="mt-1 dropdown ms-3">
+              <option *ngFor="let element of data" [value]="element._id" [selected]="element._id == formId">
                   {{element.name}}
               </option>
             </select>

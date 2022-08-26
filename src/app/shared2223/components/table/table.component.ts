@@ -17,6 +17,7 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog/table-approve-return-dialog.component";
+import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
 @Component({
   selector: "app-table",
   templateUrl: "./table.component.html",
@@ -29,12 +30,14 @@ export class TableComponent implements OnInit, OnChanges {
     private commonService: NewCommonService,
     private _commonService: CommonService,
     private _fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private stateServices: State2223Service
   ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.getDesignYear();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.dropdownChanges();
   }
   userData;
   public keepOriginalOrder = (a, b) => a.key;
@@ -44,15 +47,7 @@ export class TableComponent implements OnInit, OnChanges {
   data;
   listType: USER_TYPE;
   filterForm: FormGroup;
-  // ulb_name_s = new FormControl("");
-  // state_name_s = new FormControl("");
-  // ulb_code_s = new FormControl("");
-  // ulb_type_s = new FormControl("");
-  // filled_1 = new FormControl("");
-  // population_type_s = new FormControl("");
-  // ua_name_s = new FormControl("");
-  // status_s = new FormControl("");
-  // ulbType_s = new FormControl("");
+
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -82,12 +77,14 @@ export class TableComponent implements OnInit, OnChanges {
     formId: "",
   };
   formRouterLink;
+  formStateRouterLink;
   ngOnInit(): void {
     this.updatedTableData();
     this.fetchStateList();
-    this.callAPI();
+    this.params["limit"] = 10;
+    //  this.callAPI();
     this.valueChanges();
- //   this.multiActionM();
+    //   this.multiActionM();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
@@ -108,6 +105,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.formRouterLink =
       "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
     console.log("form data url", formData);
+    this.formStateRouterLink =
+      "../../stateform2223/" + this.formUrl + `/${formData?._id}`;
   }
   filterFormValue;
   valueChanges() {
@@ -122,7 +121,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["status"] = value?.status_s;
       this.params["filled1"] = value?.filled_1;
       this.params["populationType"] = value?.population_type_s;
-      if(this.userData?.role !== 'STATE'){
+      if (this.userData?.role !== "STATE") {
         this.params["stateCode"] = value?.state_name_s;
       }
       this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
@@ -171,7 +170,7 @@ export class TableComponent implements OnInit, OnChanges {
       }
     );
   }
-  search(){
+  search() {
     this.callAPI();
   }
   isChecked(element: any) {
@@ -271,6 +270,7 @@ export class TableComponent implements OnInit, OnChanges {
     const dialogdata = {
       selectedId: this.selectedId,
       type: type,
+      formId: this.formId,
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -280,8 +280,7 @@ export class TableComponent implements OnInit, OnChanges {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('result', result);
-
+      console.log("result", result);
     });
   }
 
@@ -311,6 +310,18 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("ulbName", data.ulbName);
     // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
+  viewStateForm(data) {
+    console.log("data", data);
+    localStorage.setItem("state_id", data?.state);
+    this.getStateBar(data?.state, "STATE", "");
+    sessionStorage.setItem("stateName", data?.stateData?.name);
+  }
+  getStateBar(id, role, isUA) {
+    this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+    });
+  }
   getULBSideBar(ulbId, role, isUA) {
     if (isUA == "Yes") {
       isUA = true;
@@ -324,9 +335,15 @@ export class TableComponent implements OnInit, OnChanges {
       //  this.leftMenu = res;
     });
   }
-  resetFilter(){
+  resetFilter() {
     this.filterForm.reset();
     this.callAPI();
+  }
+  dropdownChanges() {
+    this.stateServices.dpReviewChanges.subscribe((res) => {
+      console.log("table alue changes....", res);
+      this.selectedId = [];
+    });
   }
 }
 
