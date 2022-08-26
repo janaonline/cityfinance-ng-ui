@@ -632,6 +632,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         (res) => {
           this.notfound = false;
           console.log("response data", res);
+          console.log("activeButtonStateDashboard", this.ActiveButton);
           //scatter plots center
           let apiData = res["data"];
           if (!this.filterName.includes("mix")) {
@@ -950,7 +951,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // }
 
   }
-
+  changeAlertTab:any;
   changeActiveBtn(i) {
     this.reset();
     this.ulbArr = [];
@@ -965,6 +966,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     );
     this.ActiveButton = this.data.btnLabels[i];
     console.log('this.ActiveButton', this.ActiveButton)
+    this.changeAlertTab = this.ActiveButton
     this.currentActiveTab = this.data.btnLabels[i];
     this.createDynamicChartTitle(this.currentActiveTab);
     this.lastSelectedId = i;
