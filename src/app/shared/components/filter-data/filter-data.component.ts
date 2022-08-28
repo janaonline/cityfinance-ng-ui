@@ -345,6 +345,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       multipleDoughnutCharts: this.multipleDoughnutCharts,
       notFoundMessage: "Please Select Year With at Least Two Years of Data",
       chartOptions: this.chartOptions,
+      mySelectedYears: this.mySelectedYears
     };
   }
 

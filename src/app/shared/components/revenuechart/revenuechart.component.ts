@@ -405,6 +405,8 @@ export class RevenuechartComponent
         : "";
       console.log("apiParamData", this.apiParamData);
       if (this.apiParamData.hasOwnProperty("cityId")) {
+        this.cityChart = true;
+        this.mySelectedYears = this.apiParamData?.mySelectedYears ? this.apiParamData?.mySelectedYears.split(",") : this.mySelectedYears;
         this.getCityChartData();
       } else {
         let stateServiceLabel = this.apiParamData?.stateServiceLabel
@@ -926,10 +928,17 @@ export class RevenuechartComponent
     tabType: string,
     yAxisLabel: string
   ) {
-    let sortBy = (this.apiParamData?.sortBy && (this.apiParamData?.sortBy != 'true' || this.apiParamData?.sortBy != 'false')) ? this.apiParamData?.sortBy : this.apiParamData?.hasOwnProperty("sortBy")
-      ? JSON.parse(this.apiParamData?.sortBy)
-      : false;
-    let sortingType = sortBy ? "top" : "bottom";
+    let sortingType: string = 'top';
+    if (this.apiParamData?.hasOwnProperty("sortBy")) {
+      if (this.apiParamData?.sortBy == 'true') {
+        sortingType = 'top';
+      } else if (this.apiParamData?.sortBy == 'false') {
+        sortingType = 'bottom';
+      } else {
+        sortingType = this.apiParamData?.sortBy;
+      }
+    }
+    console.log('sortingType', sortingType)
     responseData = this.sortData(sortingType, responseData);
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
@@ -1075,7 +1084,8 @@ export class RevenuechartComponent
         : "",
       compareCategory: this.apiParamData?.compareCategory,
       compareType: stateServiceLabel ? undefined : "",
-      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb : [],
+      // ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb : [],
+      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb.split(",") : [],
       widgetMode: this.widgetMode,
     };
     let apiEndPoint = stateServiceLabel ? "state-slb" : "state-revenue";
@@ -1610,23 +1620,25 @@ export class RevenuechartComponent
           // this.calculateRevenue(res["data"]);
         } else {
           multiPie = false;
+          this.multipleCharts = multiPie;
           console.log(JSON.stringify(res["data"]), body.ulb);
           if (body.ulb.length == 1) this.createBarChart(res);
           else
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
-          if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
-            this.calculateCagr(res["data"], hideElements);
-          if (
-            showPerCapita.includes(this.apiParamData?.selectedTab.toLowerCase())
-          )
-            this.calculatePerCapita(res["data"]);
-          if (
-            this.apiParamData?.selectedTab.toLowerCase() ==
-            "total surplus/deficit"
-          )
-            this.calculateCagrOfDeficit(res["data"]);
+          /** we are not showing the city dashboard right side info panel in iFrame.*/ 
+          // if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
+          //   this.calculateCagr(res["data"], hideElements);
+          // if (
+          //   showPerCapita.includes(this.apiParamData?.selectedTab.toLowerCase())
+          // )
+          //   this.calculatePerCapita(res["data"]);
+          // if (
+          //   this.apiParamData?.selectedTab.toLowerCase() ==
+          //   "total surplus/deficit"
+          // )
+          //   this.calculateCagrOfDeficit(res["data"]);
 
           this.disableFirstYear = disableFirstYear;
           this.createChart();
@@ -1778,9 +1790,10 @@ export class RevenuechartComponent
           },
         ],
       };
+      this.multiChartLabel = [];
       data[key].forEach((value, index) => {
         doughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[index]
+          value.colour
         );
         doughnutChartData.datasets[0].data.push(
           value.amount == 0 ? "0.1" : value.amount
@@ -1788,13 +1801,24 @@ export class RevenuechartComponent
         if (key != "compData")
           this.multiChartLabel.push({
             text: value._id.lineItem,
-            color: pieBackGroundColor[index],
+            color: value.colour
           });
         doughnutChartData.datasets[0].label = value._id.lineItem;
       });
-      doughnutChartData.labels = this.multiChartLabel.map(
-        (value) => value.text
-      );
+      // doughnutChartData.labels = this.multiChartLabel.map(
+      //   (value) => value.text
+      // );
+      this.multiChartLabel = this.multiChartLabel.reduce(
+        (res, val) => {
+          if (!res.stack.includes(val.text)) {
+            res.unique.push(val);
+            res.stack.push(val.text);
+          }
+          return res;
+        },
+        { stack: [], unique: [] }
+      ).unique;
+      doughnutChartData.labels = this.multiChartLabel
       let config = {
         type: "doughnut",
         data: doughnutChartData,
@@ -1829,17 +1853,11 @@ export class RevenuechartComponent
       this.multipleDoughnutCharts.push(val);
     }
 
-    this.multiChartLabel = this.multiChartLabel.reduce(
-      (res, val) => {
-        if (!res.stack.includes(val.text)) {
-          res.unique.push(val);
-          res.stack.push(val.text);
-        }
-        return res;
-      },
-      { stack: [], unique: [] }
-    ).unique;
     this.multipleCharts = true;
+
+    setTimeout(() => {
+      this.createMultipleChart();
+    }, 500);
   }
 
   createPieChart(data, body) {
@@ -2309,8 +2327,9 @@ export class RevenuechartComponent
         ],
       },
     };
-    this.chartData = obj;
-    this.ChartOptions = this.barChartStaticOptions;
+    this.chartData = Object.assign({}, obj);
+    this.barChartStaticOptions.scales.xAxes[0].barThickness = 50;
+    this.ChartOptions = Object.assign({}, this.barChartStaticOptions);
   }
 
   calculateCagr(data, hideCAGR) {
@@ -2742,7 +2761,7 @@ const barChartStatic = {
 const backgroundColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgba(54, 162, 235, 0.2)",
   "rgba(153, 102, 255, 0.2)",
@@ -2751,7 +2770,7 @@ const backgroundColor = [
 const borderColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgb(54, 162, 235)",
   "rgb(153, 102, 255)",
