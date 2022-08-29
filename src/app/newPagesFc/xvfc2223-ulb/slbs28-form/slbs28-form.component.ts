@@ -338,11 +338,20 @@ export class Slbs28FormComponent implements OnInit {
   }
 
   onPreview() {
+    this.slbData["design_year"] = "606aafb14dff55e6c075d3ae";
+    this.slbData["ulb"] = this.ulbId;
+    let arr = [];
+    for (let key in this.formData) {
+      arr.push(...this.formData[key]);
+    }
+    this.slbData["data"] = arr;
+    delete this.slbData["obj"];
     this.previewData['population'] = this.slbData?.population
      let slbPreData = {
       perData: this.previewData,
       ulbId : this.ulbId,
-      isDraft : this.slbData?.isDraft ? this.slbData?.isDraft : this.previewData?.isDraft
+      isDraft : this.slbData?.isDraft ? this.slbData?.isDraft : this.previewData?.isDraft,
+      saveDataJson : this.slbData
      };
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
       data: slbPreData,
