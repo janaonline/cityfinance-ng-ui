@@ -1,79 +1,93 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
-
-.dot{
+.dot {
     display: inline-block;
     margin-right: $spacer*.5;
     width: 12px;
     height: 12px;
     border-radius: 50%;
 }
-.dot-submitted{
+
+.dot-submitted {
     @extend .dot;
     background: #E67E1566;
 }
-.dot-approved{
+
+.dot-approved {
     @extend .dot;
     background: #E67E15;
 }
-ul{
+
+ul {
     list-style: none;
     display: flex;
     width: 66%;
     margin-left: 17%;
 }
-li:first-child{
+
+li:first-child {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
-li:last-child{
+
+li:last-child {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-li{
+
+li {
     background: #dce4e7 0% 0% no-repeat padding-box;
     cursor: pointer;
     height: 40px;
     line-height: 40px;
     font-weight: 500;
 }
-.btn{
+
+.btn {
     border-radius: 4px;
     border: 1px solid rgb(192, 192, 192);
 }
-.active{
+
+.active {
     background-color: #E67E15;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.activeFirstInstallment{
+
+.activeFirstInstallment {
     background-color: #059B9A;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.activeSecondInstallment{
+
+.activeSecondInstallment {
     background-color: #059B9A;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.noValue{
+
+.noValue {
     border: 1px solid white !important;
-    color:black !important;
+    color: black !important;
     background-image: url("../../../../assets/dashboard-state/Group 13698.svg")!important;
 }
-.noValueUpdate{
+
+.noValueUpdate {
     display: none !important;
     background-color: white;
 }
-.formHeader{
+
+.formHeader {
     font-weight: 600;
     font-size: 1.5rem;
 }
-.formName{
+
+.formName {
     font-weight: 600;
     font-size: 1.1rem;
 }
+
 .card {
     border: 1px #00000029;
     margin-left: 20px;
@@ -81,22 +95,26 @@ li{
     padding: 20px;
     height: 130px;
     background-color: #12505A;
-    color:white;
+    color: white;
 }
+
 .formCard {
     border: 1px #00000029;
     margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 20px;
     background-color: white;
-    color:black;
+    color: black;
     cursor: pointer;
+    border-radius: 6px;
 }
-.fontClass{
+
+.fontClass {
     font-size: 14px;
     font-weight: 500;
 }
-.tooltipCustom{
+
+.tooltipCustom {
     position: absolute;
     left: 16%;
     background-color: #12505A;
@@ -107,12 +125,14 @@ li{
     bottom: 38px;
     font-size: 12px;
 }
-.targetClass{
+
+.targetClass {
     margin-left: -20px;
     position: relative;
     margin-top: -34px;
 }
-.targetHundred{
+
+.targetHundred {
     background-color: #12505A;
     width: 95px;
     text-align: center;
@@ -121,16 +141,17 @@ li{
     font-size: 12px;
     margin-left: -37px;
 }
-.progress{
+
+.progress {
     overflow: unset !important;
     position: relative;
-    .progress-bar{
+    .progress-bar {
         flex-direction: unset !important;
         justify-content: end !important;
         overflow: unset !important;
         position: absolute;
         height: 15px;
-        & span{
+        & span {
             display: block;
             background: $white;
             color: $black;
@@ -143,26 +164,23 @@ li{
             margin-right: -5px;
             z-index: 99;
         }
-        &.bg-approved{
+        &.bg-approved {
             background: #E67E15;
-
             // & span{
             //     border: 5px solid #E67E15;
             // }
         }
-
-        &.bg-submitted{
+        &.bg-submitted {
             background: #E67E1566;
-
             // & span{
             //     border: 5px solid #E67E1566;
             // }
         }
     }
 }
-.customSpan{
+
+.customSpan {
     display: block;
-    
     color: $black;
     border-radius: 50%;
     width: 34px;

@@ -64,6 +64,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
+  canTakeAction = 'false';
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -73,6 +74,9 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeUserType();
     console.log("form data for action 111", this.formData);
     console.log("form data for action res", this.actionRes);
+    this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    console.log('take action.........', this.canTakeAction);
+
   }
   toggle: any;
   mohuaReview = false;
