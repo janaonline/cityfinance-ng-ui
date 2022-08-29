@@ -29,6 +29,9 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { PfmsPreviewComponent } from './pfms-preview/pfms-preview.component';
 import { PropertyTaxOperationalisationComponent } from "./property-tax-operationalisation/property-tax-operationalisation.component";
 import { PdfViewerModule } from "ng2-pdf-viewer";
+import { Slbs28FormComponent } from './slbs28-form/slbs28-form.component';
+import { CollectFdataComponent } from './collect-fdata/collect-fdata.component';
+import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/slbs28-form-preview.component';
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -49,6 +52,9 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
     CharacterDirective,
     PfmsPreviewComponent,
     PropertyTaxOperationalisationComponent,
+    Slbs28FormComponent,
+    CollectFdataComponent,
+    Slbs28FormPreviewComponent,
   ],
   imports: [
     CommonModule,

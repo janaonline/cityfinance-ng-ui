@@ -491,13 +491,23 @@
                 </div>
             </div>
         </div>
+        <!-- action components -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <app-common-action [actionRes]="actionRes" [formData]="utiData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
+                    </app-common-action>
+                </div>
+            </div>
+        </div>
         <div class="row mt-4 mb-3">
             <div class="col-sm-6">
                 <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
-                <button class="btn btn-primary" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
-                <button class="btn btn-primary ms-3" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
+                <button class="btn btn-primary" *ngIf="userData?.role != 'STATE'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>

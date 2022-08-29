@@ -151,14 +151,16 @@ export class Xvfc2223UlbComponent implements OnInit {
     private router: Router
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.fetchProfileData({});
+
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.newCommonService.setFormStatus2223.subscribe((res) => {
       console.log("form status 2223", res);
+      if(this.loggedInUserType === this.userTypes.ULB)
       this.getSideBar();
     });
   }
@@ -168,6 +170,7 @@ export class Xvfc2223UlbComponent implements OnInit {
   userTypes = USER_TYPE;
   userData;
   ngOnInit(): void {
+    this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
   }
   getSideBar() {
@@ -181,11 +184,13 @@ export class Xvfc2223UlbComponent implements OnInit {
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
+
     // console.log(this._router.url);
   }
   private initializeLoggedInUserDataFetch() {
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
+
       console.log("hi", data);
     });
   }
@@ -200,7 +205,10 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.profileService.getUserProfile(params).subscribe((res) => {
       this.profileData = res["data"];
       this.isUserVerified = this.profileData?.isVerified2223;
-      if (this.isUserVerified == false) {
+      if (
+        this.isUserVerified == false &&
+        this.loggedInUserType === this.userTypes.ULB
+      ) {
         this.router.navigateByUrl("/profile-update");
         return;
         //  this.routerlink2223 = "/ulbform2223/overview"

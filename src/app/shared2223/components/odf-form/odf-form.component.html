@@ -47,7 +47,7 @@
                     <div class="col-lg-5 col-md-5 col-sm-5">
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 image-upload">
-                                <label for="cin1">
+                                <label for="ipt">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                           >Upload
                           pdf
@@ -57,7 +57,7 @@
                           </a>
                           <p class="errorMessege">{{errorMessege}}</p>
                           </label>
-                                <input [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
+                                <input #ipt id="ipt" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.url?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
                                 <div>
                                     <div *ngIf="submitted && f?.cert?.controls?.url?.errors" class="customDate text-danger">
                                         <div *ngIf="f?.cert?.controls?.url?.errors.required">File is required</div>
@@ -113,7 +113,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- <div class="row">
     <div class="col-sm-6">
     </div>
@@ -126,17 +126,27 @@
             <app-common-action [item]="errorSend" (newItemEvent)="outputData($event)" [stateReturn]="stateReturn" [stateApprove]="stateApprove"></app-common-action>
         </div>
     </div> -->
+    <!-- action components -->
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-12">
+            <div class="col-sm-12">
+                <app-common-action [actionRes]="actionRes" [formData]="actFormData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
+                </app-common-action>
+            </div>
+        </div>
+    </div>
     <div class="row mb-3 mt-4">
         <div class="col-sm-7 col-md-7 col-lg-7">
             <button type="button" class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-5 col-md-5 col-lg-5 text-end">
             <div class="row" [ngClass]="{'positionDraft' : positionDraft}">
-                <div class="col-sm-4 col-md-4 col-lg-4" *ngIf="hideSaveDraft">
-                    <button type="button" [disabled]="isDisabled" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <button type="button" *ngIf="userData?.role != 'STATE'" [disabled]="isDisabled" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" [disabled]="isDisabled" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
+                    <button type="submit" [disabled]="isDisabled" *ngIf="userData?.role == 'ULB'" (click)="alertFormFinalSubmit()" class="btn btnDraft">Submit</button>
+                    <button type="submit" [disabled]="actionBtnDis" *ngIf="userData?.role == 'STATE'" (click)="saveAction()" class="btn btnDraft">Submit</button>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form -></button>
@@ -176,4 +186,3 @@
 
     </div>
 </ng-template>
-

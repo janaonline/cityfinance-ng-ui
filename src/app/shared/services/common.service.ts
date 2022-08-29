@@ -634,9 +634,9 @@ export class CommonService {
    * @returns
    * http://localhost:4200/revenuchart?widgetMode=true&startDate=2019-01-01&endDate=2019-01-31&chartType=line&chartTitle=Revenue%20Chart&chartSubtitle=Revenue%20Chart%20Subtitle&chartXAxisTitle=Revenue%20Chart
    */
-  createEmbedUrl(paramContent: any) {
+  createEmbedUrl(paramContent: any, embeddedRoute: string = '') {
     let queryString = new URLSearchParams(paramContent).toString();
-    let embeddedRoute = "revenuchart";
+    // let embeddedRoute = "revenuchart";
     console.log("queryString", queryString);
     let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&${queryString}`;
     // let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&data=${btoa(queryString)}`;

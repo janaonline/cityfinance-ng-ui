@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <h4 class="form-header">
-                    State Finance Commission Formation Notification
+                    State Finance Commission Notification
                 </h4>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
@@ -45,7 +45,7 @@
                         
                     </div>
                     <div class="col-3 image-upload">
-                        <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                        <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
                             <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
                                 PDF
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -53,7 +53,7 @@
                             </a>
                             <p class="errorMessege">{{errorMessegeStateAct}}</p>
                         </label>
-                        <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
+                        <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
                             (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
                             <div>
                                 <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-1 filePadding">
-                        <a href="{{ stateActFileUrl }}" target="_blank">
+                        <a href="{{ stateActUrl }}" target="_blank">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
                         <span>
@@ -115,7 +115,7 @@
         </div> -->
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back">
+                <button type="button" class="btn btn-c-back" routerLink="../property-tax">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -129,7 +129,7 @@
                         <!-- use this for disable button -->
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" >Next Form
+                        <button type="button" class="btn btn-c-next" routerLink="../grant-allocation">Next Form
                             -></button>
                     </div>
                 </div>

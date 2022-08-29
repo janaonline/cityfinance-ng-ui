@@ -22,6 +22,8 @@ export class StateFinanceComponent implements OnInit {
   stateFinance: FormGroup;
   change = '';
   errorMessege: any = '';
+  @ViewChild("ipt") ipt: any;
+  @ViewChild("clearFiles") clearFiles: any;
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
@@ -257,7 +259,7 @@ export class StateFinanceComponent implements OnInit {
         console.log(res)
         this.clickedSave = false;
         this.getStateFinanceData()
-        swal("Saved as Draft", res.message);
+        swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -290,11 +292,13 @@ export class StateFinanceComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
+ 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
+        this.ipt.nativeElement.value = "";
         this.errorMessegeStateAct = 'File size should be less than 20Mb.'
         this.stateFinance.controls.stateNotification.reset();
         const error = setTimeout(() => {
@@ -318,6 +322,7 @@ export class StateFinanceComponent implements OnInit {
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
+    this.ipt.nativeElement.value = "";
       this.showStateAct = false;
       this.stateActFileName = ''
       this.stateFinance.patchValue({

@@ -1,4 +1,6 @@
-<div class="container-fluid">
+<ng-container *ngIf="!widgetMode">
+
+  <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <p>
@@ -370,3 +372,43 @@
     </div>
   </div>
 </div>
+
+</ng-container>
+
+<ng-container *ngIf="widgetMode">
+  <div *ngIf="!stateServiceLabel">
+    <div *ngIf="apiParamData?.filterName?.includes('mix') && !apiParamData?.compareType">
+      <app-revenue-mix
+        [chartId]="'doughnutDataChartId'"
+        [chartData]="multiChart ? mainDoughnutArr : doughnutData"
+        [chartOptions]="doughnutChartOptions"
+        (compType)="getCompType($event)"
+        [multiChart]="multiChart"
+        (dounghnuChartLabels)="labels($event)"
+        [chartTitle]="mainChartTitle"
+        [returnCompType]="apiParamData?.compareType"
+        (actionClicked)="getClickedAction($event)"
+        [getChartPayload]="scatterChartPayload"
+        [SelecetedUlb]="apiParamData?.ulb"
+      ></app-revenue-mix>
+    </div>
+  </div>
+  
+  <div *ngIf="!stateServiceLabel">
+    <div *ngIf="apiParamData?.filterName?.includes('mix') && apiParamData?.compareType">
+      <app-revenue-mix
+        [chartId]="'doughnutDataChartId'"
+        [chartData]="doughnutDataArr"
+        [chartOptions]="doughnutChartOptions"
+        (compType)="getCompType($event)"
+        [multiChart]="multiChart"
+        (dounghnuChartLabels)="labels($event)"
+        [chartTitle]="''"
+        [returnCompType]="apiParamData?.compareType"
+        (actionClicked)="getClickedAction($event)"
+        [multipleTitle]="multipleChartTitle"
+        [SelecetedUlb]="ulbId"
+      ></app-revenue-mix>
+    </div>
+  </div>
+</ng-container>
