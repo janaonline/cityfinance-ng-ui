@@ -27,6 +27,10 @@ export class AnnualAccountsComponent implements OnInit {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.navigationCheck();
     this.loggedInUserType = this.loggedInUserDetails.role;
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
   }
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
@@ -505,7 +509,7 @@ export class AnnualAccountsComponent implements OnInit {
   nextRouter;
   backRouter;
   ngOnInit(): void {
-    this.ulbId = sessionStorage.getItem("ulb_id");
+
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
     this.clickedSave = false;
@@ -604,7 +608,6 @@ export class AnnualAccountsComponent implements OnInit {
   url = "";
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
-    let ulbId = this.userData.ulb;
     // if (ulbId != null || this.finalSubmitUtiStatus == "true") {
     //   this.isDisabled = true;
     //   this.provisionDisable = true
@@ -613,7 +616,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.newCommonService
       .getAnnualData({
         design_year: this.Years["2022-23"],
-        ulb: ulbId,
+        ulb: this.ulbId,
       })
       .subscribe(
         async (res) => {
