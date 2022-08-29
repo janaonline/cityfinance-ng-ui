@@ -5,7 +5,12 @@ import {
   OnInit,
   SimpleChanges,
   EventEmitter,
+  AfterViewInit,
 } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { CommonService } from "src/app/shared/services/common.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { StateFilterDataService } from "../state-filter-data.service";
 
 @Component({
   selector: "app-revenue-mix",
@@ -635,13 +640,39 @@ export class RevenueMixComponent implements OnInit {
     { text: "test", color: "#FF608B" },
     { text: "test", color: "#FF608B" },
   ];
-  constructor() {}
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    private commonService: CommonService,
+    private stateFilterDataService: StateFilterDataService,
+    public _loaderService: GlobalLoaderService,
+  ) {}
 
   ulbTab: boolean = false;
   populationTab: boolean = false;
 
   finalMultipleDoughnut = [];
   stateName: string = "";
+  @Input() getChartPayload: any = {};
+  headerActions = [
+    {
+      name: "Download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    },
+    {
+      name: "Share/Embed",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    },
+  ];
+  iFrameHeaderActions = [
+    {
+      name: "Download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    }
+  ];
+  embeddedRoute: string = 'state-mix';
+  widgetMode: boolean = false;
+  apiParamData: any;
+
   getChartLabel(event) {
     console.log(event);
     let data = [];
@@ -697,6 +728,11 @@ export class RevenueMixComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      console.log("param", params);
+      this.widgetMode = params?.widgetMode ? JSON.parse(params?.widgetMode) : false;
+    });
+
     this.getMultipleDoughnutCharts();
     console.log(
       "doughnutArray====>",
@@ -1174,6 +1210,9 @@ export class RevenueMixComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("revenue chages", changes);
+    if (changes && changes.getChartPayload && changes.getChartPayload.currentValue ) {
+      this.getChartPayload = changes.getChartPayload.currentValue;
+    }
     const statesList = localStorage.getItem("stateIdsMap")
       ? JSON.parse(localStorage.getItem("stateIdsMap"))
       : null;

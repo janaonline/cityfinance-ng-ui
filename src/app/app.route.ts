@@ -16,6 +16,7 @@ import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
 import { SharedCardComponent } from "./shared/components/shared-card/shared-card.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
+import { StateFilterDataComponent } from "./shared/components/state-filter-data/state-filter-data.component";
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -26,7 +27,7 @@ export const appRouter: Routes = [
   { path: "tab", component: DashboardTabsComponent },
   { path: "about", component: AboutIndicatorComponent },
   { path: "filter", component: FilterDataComponent },
-
+  { path: "state-mix", component: StateFilterDataComponent },
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
 

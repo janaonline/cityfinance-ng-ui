@@ -369,6 +369,7 @@ export class RevenuechartComponent
   @Input() sourceDashboardName: string = '';
   percentLabel: string = '';
   @Input() selectedFinancialYear: any;
+  @Input() embeddedRoute: string = 'revenuchart';
   ngOnInit(): void {
     console.log(
       "multiChartLabelsss===>",
@@ -683,9 +684,9 @@ export class RevenuechartComponent
       this.getImage();
       return;
     } else if (value.name == "Share/Embed") {
-      console.log("getChartPayload", this.getChartPayload);
+      console.log("getChartPayload", this.getChartPayload, 'embeddedRoute', this.embeddedRoute);
       this.iFrameApiPayload = this.commonService.createEmbedUrl(
-        this.getChartPayload
+        this.getChartPayload, this.embeddedRoute
       );
       this._loaderService.stopLoader();
       this.openDialog();
@@ -1220,34 +1221,103 @@ export class RevenuechartComponent
         } //donught charts center
         // else if (this.apiParamData?.filterName.includes("mix")) {
         //   this._loaderService.stopLoader();
-        //   let data = res["data"];
-        //   // this.chartDropdownList = data;
-        //   // if (this.chartDropdownList?.length > 0) {
+        //   console.log("mix Data", res);
+        //   let data;
+        //   let ulbData;
+        //   if (
+        //     this.apiParamData?.ulb &&
+        //     this.apiParamData.compareType !== "ulbType" &&
+        //     this.apiParamData.compareType !== "popType"
+        //   ) {
+        //     data = res["state"];
+        //     ulbData = res["ulb"];
+        //     this.multiChart = true;
+        //     this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
+        //   } else {
+        //     data = res["data"];
+        //     this.mainDoughnutArr = [];
+        //     this.multiChart = false;
+        //   }
+
+        //   console.log("initial data", data);
+
+        //   // if (data?.length > 0) {
+        //   //   this.chartDropdownList = data;
         //   //   this.getStateRevenue();
         //   // }
-        //   // console.log('chartDropdownList', this.chartDropdownList)
+        //   // console.log("chartDropdownList", this.chartDropdownList);
         //   this.initializeDonughtData();
-        //   if (payload.compareType == "") {
+        //   if (this.apiParamData?.compareType == "") {
         //     if (data.length) {
+        //       console.log("mixdata==>", data);
+        //       data = data.sort((a, b) => b.code - a.code);
+        //       if (data[0].hasOwnProperty("colour"))
+        //         this.doughnutData.data.datasets[0].backgroundColor = [];
         //       data.forEach((el) => {
         //         this.doughnutData.data.labels.push(el._id);
         //         this.doughnutData.data.datasets[0].data.push(el.amount);
+        //         if (el.colour) {
+        //           this.doughnutData.data.datasets[0].backgroundColor.push(
+        //             el.colour
+        //           );
+        //         }
         //       });
         //       console.log(this.doughnutData);
 
         //       this.doughnutData = { ...this.doughnutData };
         //     }
-        //   } else if (payload.compareType == "ulbType") {
-        //     let mData = res["mData"];
-        //     let mcData = res["mcData"];
-        //     let tpData = res["tpData"];
+        //   } else if (this.apiParamData?.compareType == "ulbType") {
+        //     console.log("apiData", data);
+
+        //     let mData = data["mData"][0];
+        //     let mcData = data["mcData"][0];
+        //     let tpData = data["tpData"][0];
+        //     let ulbStateData = data["state"];
+
         //     this.multiChart = true;
         //     this.doughnutDataArr = [
         //       { mData: mData },
         //       { mcData: mcData },
         //       { tpData: tpData },
+        //       { ulbStateData: ulbStateData },
         //     ];
+        //     if (data["ulb"].length > 0) {
+        //       this.doughnutDataArr = [
+        //         ...this.doughnutDataArr,
+        //         { ulb: data["ulb"] },
+        //       ];
+        //     }
+
         //     this.doughnutDataArr = [...this.doughnutDataArr];
+
+        //     console.log("doughnutDataArr", this.doughnutDataArr);
+        //   } else if (this.apiParamData?.compareType == "popType") {
+        //     let lessThan100k = data["<100k"];
+        //     let between100kTo500k = data["100k-500k"];
+        //     let between500kTo1m = data["500k-1M"];
+        //     let between1mTo4m = data["1m-4m"];
+        //     let greaterThan4m = data["4m+"];
+        //     let popStateData = data["state"];
+
+        //     this.multiChart = true;
+        //     this.doughnutDataArr = [];
+        //     this.doughnutDataArr = [
+        //       { "<100k": lessThan100k },
+        //       { "100k-500k": between100kTo500k },
+        //       { "500k-1M": between500kTo1m },
+        //       { "1m-4m": between1mTo4m },
+        //       { "4m+": greaterThan4m },
+        //       { popStateData: popStateData },
+        //     ];
+        //     if (data["ulb"].length > 0) {
+        //       this.doughnutDataArr = [
+        //         ...this.doughnutDataArr,
+        //         { ulb: data["ulb"] },
+        //       ];
+        //     }
+
+        //     this.doughnutDataArr = [...this.doughnutDataArr];
+        //     console.log("doughnutDataArr", this.doughnutDataArr);
         //   }
         // }
         console.log("done");
