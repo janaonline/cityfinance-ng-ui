@@ -299,7 +299,8 @@ export class ExcelService {
 
     // Footer Row
     this.setFooter(worksheet);
-
+    
+    
     // Generate Excel File with given name
     // workbook.xlsx.writeBuffer().then((data: any) => {
     //   const blob = new Blob([data], {
@@ -370,8 +371,9 @@ export class ExcelService {
   }
 
   setFooter(worksheet: ExcelJs.Worksheet) {
+    
     const footerRow = worksheet.addRow([
-      "This is system generated excel sheet.",
+      "This is system generated excel sheet. Can't find what you are looking for? Reach out to us at contact@cityfinance.in",
     ]);
     footerRow.getCell(1).fill = {
       type: "pattern",
