@@ -4,6 +4,9 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-slbs28-form-preview',
   templateUrl: './slbs28-form-preview.component.html',
@@ -11,7 +14,10 @@ import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/conf
 })
 export class Slbs28FormPreviewComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private _matDialog: MatDialog,private _questionnaireService: QuestionnaireService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  private _matDialog: MatDialog,
+  private _questionnaireService: QuestionnaireService,
+  private newCommonService: NewCommonService,) {
     console.log(data)
   }
   ulbName = "";
@@ -80,10 +86,20 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
+.pop-t {
+  font-size: 10px;
+  margin-top: 10px;
+}
   </style>`;
   ngOnInit(): void {
-    this.getUserData()
+    this.getUserData();
+    if(this.data?.isDraft == true){
+      this.formStatus = "In Progress";
+    }else if(this.data?.isDraft == false){
+      this.formStatus = "Completed";
+    }else{
+      this.formStatus = "Not Started";
+    }
   }
   getUserData() {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -100,15 +116,11 @@ tr:nth-child(even) {
   dialogRef;
   download;
   showLoader;
+  formStatus= "";
   @ViewChild("gtcpre") _html: ElementRef;
   clickedDownloadAsPDF(template) {
     this.download = true;
-    let changeHappen;
-
-      // changeHappen = sessionStorage.setItem("changeInPFMS", "false");
-      // changeHappen = sessionStorage.getItem("changeInGTC");
-      // changeHappen = sessionStorage.getItem("changeInPFMS");
-    // let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
+    let changeHappen = sessionStorage.getItem("changeIn28SLB");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -171,29 +183,20 @@ tr:nth-child(even) {
   }
 
   async submit() {
-    let body = { ...this.data?.dataPreview, isDraft: true };
+    let body = { ...this.data?.saveDataJson };
     return new Promise((resolve, rej) => {
-      // this.commonService.pfmsSubmitForm(body).subscribe(
-      //   (res) => {
-
-      //       sessionStorage.setItem("changeInPFMS", "false");
-      //       sessionStorage.setItem("changeInGTC", "false");
-
-      //     console.log(res);
-      //     swal("Saved", "Data saved as draft successfully", "success");
-      //     resolve("sucess");
-      //   },
-      //   (err) => {
-
-      //     sessionStorage.setItem("changeInPFMS", "false");
-      //     sessionStorage.setItem("changeInGTC", "false");
-
-
-      //     swal("Error", "Failed To Save", "error");
-      //     resolve(err);
-      //   }
-      // );
-      alert('hello')
+      this.newCommonService.post28SlbsData(body).subscribe(
+        (res) => {
+          swal("Saved", "Data saved as draft successfully", "success");
+          sessionStorage.setItem("changeIn28SLB", "false");
+          resolve("sucess");
+        },
+        (err) => {
+          swal("Error", "Failed To Save", "error");
+          sessionStorage.setItem("changeIn28SLB", "false");
+          resolve(err);
+        }
+      );
     });
   }
 
