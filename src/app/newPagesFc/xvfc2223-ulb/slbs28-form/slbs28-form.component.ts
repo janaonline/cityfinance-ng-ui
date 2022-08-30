@@ -28,7 +28,10 @@ export class Slbs28FormComponent implements OnInit {
   ) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData);
-    this.ulbId = this.ulbData.ulb;
+    this.ulbId = this.ulbData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.navigationCheck();
   }
@@ -45,6 +48,7 @@ export class Slbs28FormComponent implements OnInit {
   };
   formData = {};
   isDisabled = false;
+  previewData;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -232,7 +236,7 @@ export class Slbs28FormComponent implements OnInit {
     this.errorFieldIDs = [];
     this.errorFieldIDs_decrease = [];
     this.requiredFieldIDs = [];
-    this.error = 0;
+
     let errorType = "";
     let arrOfAllData = [];
 
@@ -242,6 +246,7 @@ export class Slbs28FormComponent implements OnInit {
     // if(data.length)
     // arrOfAllData = data;
     this.counter = 0;
+    this.error = 0;
 
     arrOfAllData.forEach((el) => {
       if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
@@ -261,6 +266,7 @@ export class Slbs28FormComponent implements OnInit {
         } else {
           if (+el["actual"]["value"] < +el["target_1"]["value"]) {
             this.errorFieldIDs_decrease.push(el["question"]);
+
             this.error = 1;
           } else {
             var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
@@ -274,11 +280,12 @@ export class Slbs28FormComponent implements OnInit {
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
         this.requiredFieldIDs.push(el["question"]);
+
         this.error = 1;
       }
     });
 
-    console.log("after validating->", arrOfAllData);
+    console.log("after validating->", arrOfAllData, this.error);
     if (this.error) {
       this.slbData["isDraft"] = true;
       return false;
@@ -292,6 +299,7 @@ export class Slbs28FormComponent implements OnInit {
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
+      this.previewData = { ...res?.data}
       if (res?.data["isDraft"] == false) {
         this.isDisabled = true;
       } else {
@@ -299,6 +307,12 @@ export class Slbs28FormComponent implements OnInit {
       }
       for (let key in this.slbData["data"]) {
         for (let el of this.slbData["data"][key]) {
+          console.log('state login checking.......', el)
+          if(this.ulbData?.role !== "ULB"){
+            el["actualDisable"] = true;
+            el["targetDisable"] = true;
+            this.isDisabled = true;
+          }
           let rangeArr = el["range"].split("-");
           (el["min"] = Number(rangeArr[0])), (el["max"] = Number(rangeArr[1]));
         }
@@ -324,7 +338,21 @@ export class Slbs28FormComponent implements OnInit {
   }
 
   onPreview() {
-    let slbPreData = { ...this.slbData["data"] };
+    this.slbData["design_year"] = "606aafb14dff55e6c075d3ae";
+    this.slbData["ulb"] = this.ulbId;
+    let arr = [];
+    for (let key in this.formData) {
+      arr.push(...this.formData[key]);
+    }
+    this.slbData["data"] = arr;
+    delete this.slbData["obj"];
+    this.previewData['population'] = this.slbData?.population
+     let slbPreData = {
+      perData: this.previewData,
+      ulbId : this.ulbId,
+      isDraft : this.slbData?.isDraft ? this.slbData?.isDraft : this.previewData?.isDraft,
+      saveDataJson : this.slbData
+     };
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
       data: slbPreData,
       width: "85vw",

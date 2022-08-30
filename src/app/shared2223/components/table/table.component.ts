@@ -308,6 +308,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
     sessionStorage.setItem("stateName", data.state);
     sessionStorage.setItem("ulbName", data.ulbName);
+    sessionStorage.setItem("canTakeAction", data?.cantakeAction);
     // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
   viewStateForm(data) {
@@ -315,6 +316,7 @@ export class TableComponent implements OnInit, OnChanges {
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
     sessionStorage.setItem("stateName", data?.stateData?.name);
+    sessionStorage.setItem("canTakeAction", data?.cantakeAction);
   }
   getStateBar(id, role, isUA) {
     this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
