@@ -82,14 +82,16 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   get f() { return this.propertyTaxForm.controls; }
 
   dropdownContent = [
-    {value: 'uav', viewValue: 'Unit Area Value(UAV) System', tooltip: "Unit area value (UAV) system : Property's annual value is determined on the basis of base unit area (linked to property's location and guideline value) and factors like structure of the building, property usage, etc."},
-    {value: 'arv', viewValue: 'Annual Rental Value(ARV) System', tooltip: "Annual Rental Value (ARV): Property's annual value is determined on the basis of perceived rent"},
-    {value: 'cvs', viewValue: 'Capital Value (CV) System', tooltip: "Capital Value System: Property's annual value is calculated as a percentage of its guidance value/capital value/circle rates"},
-    {value: 'other', viewValue: 'Other', tooltip: "Please mention in detail the property tax method used"},
+    {value: 'Unit Area Value(UAV) System', viewValue: 'Unit Area Value(UAV) System', tooltip: "Unit area value (UAV) system : Property's annual value is determined on the basis of base unit area (linked to property's location and guideline value) and factors like structure of the building, property usage, etc."},
+    {value: 'Annual Rental Value(ARV) System', viewValue: 'Annual Rental Value(ARV) System', tooltip: "Annual Rental Value (ARV): Property's annual value is determined on the basis of perceived rent"},
+    {value: 'Capital Value (CV) System', viewValue: 'Capital Value (CV) System', tooltip: "Capital Value System: Property's annual value is calculated as a percentage of its guidance value/capital value/circle rates"},
+    {value: 'Other', viewValue: 'Other', tooltip: "Please mention in detail the property tax method used"},
     ];
+
   inputChange(){
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
   }
+
   initializeForm(){
     this.propertyTaxForm = this.formBuilder.group({
       ulb: this.ulbId,
@@ -97,7 +99,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       toCollect: ["", Validators.required],
       operationalize: ["", Validators.required],
       method: ["", Validators.required],
-      other: ["", Validators.required],
+      other: [""],
       collection2019_20: ["", Validators.required],
       collection2020_21: ["", Validators.required],
       collection2021_22: ["", Validators.required],
@@ -107,19 +109,52 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         name: [""],
       }),
       rateCard: this.formBuilder.group({
-        url: [''],
-        name: [''],
+        url: ['', Validators.required],
+        name: ['', Validators.required],
       }),
       ptCollection: this.formBuilder.group({
-        url: [''],
-        name: [''],
+        url: ['', Validators.required],
+        name: ['', Validators.required],
       })
-      
     });
   }
+  
+  removeFormControlValidation() {
+    this.removeValidatorsOneByOne('operationalize');
+    this.removeValidatorsOneByOne('method');
+    this.removeValidatorsOneByOne('collection2019_20');
+    this.removeValidatorsOneByOne('collection2020_21');
+    this.removeValidatorsOneByOne('collection2021_22');  
+    this.removeValidatorInBulk(this.propertyTaxForm.get("rateCard"));
+    this.removeValidatorInBulk(this.propertyTaxForm.get("ptCollection"));
+  }
+
+  setValidators(formFieldName: string) {
+    this.propertyTaxForm.controls[formFieldName].setValidators([
+      Validators.required,
+    ]);
+    this.propertyTaxForm.controls[formFieldName].updateValueAndValidity();
+  }
+
+  removeValidatorsOneByOne(formFieldName: string) {
+    this.propertyTaxForm.controls[formFieldName].setValidators(null);
+    this.propertyTaxForm.controls[formFieldName].updateValueAndValidity();
+  }
+
+  removeValidatorInBulk(form: any) {
+    console.log("form contro", form);
+    for (const field in form.controls) {
+      // 'field' is a string
+      let con = form.get(field); // 'control' is a FormControl
+      con.clearValidators();
+      con.updateValueAndValidity();
+    }
+  }
+
   updateFormvalue(type){
-    console.log('type of ye no tabs', type)
+    console.log('type of yes no tabs', type)
     if(type == 'collectPropertyNo'){
+     this.removeFormControlValidation();
      this.propertyTaxForm.patchValue({
       operationalize: "",
       method:  "",
@@ -141,7 +176,12 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         name:  "",
       }
       });
-    }else if(type == 'operationalizeYes' || type == 'operationalizeNo'){
+      this.showMinimumFloor = false;
+      this.showRulesLaws = false;
+      this.showStateAct = false; 
+    }
+    else if(type == 'collectPropertyYes' || (type == 'collectPropertyYes' && type == 'operationalizeNo')){
+      
       this.propertyTaxForm.patchValue({
        method:  "",
        other:  "",
@@ -162,8 +202,12 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
          name:  "",
        }
        });
+       this.showMinimumFloor = false;
+       this.showRulesLaws = false;
+       this.showStateAct = false;
      }
   }
+
   getUlbDesignYear(){
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.yearValue = this.design_year["2022-23"];
@@ -172,13 +216,11 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.ulbId = this.ulbData.ulb;
     console.log('this.ulbId------->', this.ulbId)
   }
+
   onload(){
-    // this.getPtoData();
+    this.getPtoData();
   }
-  submitForm(){
-    console.log('this.propertyTaxForm.value', this.propertyTaxForm.value);
-    
-  }
+
   getPtoData(){
     const params = {
       ulb: this.ulbId,
@@ -186,7 +228,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     };
     console.log(params)
     //call api and subscribe and patch here
-    this.ptService.getPtData(params).subscribe((res:any)=>{
+    this.ptService.getPropertyTaxUlbData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       this.previewFormData = res
@@ -206,13 +248,20 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.minimumFloorFileName ? this.showMinimumFloor = true : false;
 
     this.rulesLawsFileName = data?.data?.rateCard?.name;
-    this.ruleUrl = data?.data?.ptCollection?.url;
+    this.ruleUrl = data?.data?.rateCard?.url;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
 
-    this.propertyTaxForm.patchValue({
-      actPage: data?.data?.actPage,
+    this.propertyTaxForm.patchValue({  
       ulb: data?.data?.ulb,
       design_year: data?.data?.design_year,
+      toCollect: data?.data?.toCollect,
+      operationalize: data?.data?.operationalize,
+      method: data?.data?.method,
+      other: data?.data?.other,
+      collection2019_20: data?.data?.collection2019_20,
+      collection2020_21: data?.data?.collection2020_21,
+      collection2021_22: data?.data?.collection2021_22,
+      target2022_23: data?.data?.target2022_23,
       rateCard: {
         url: data?.data?.rateCard?.url,
         name: data?.data?.rateCard?.name,
@@ -226,11 +275,12 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         name: data?.data?.proof?.name,
       },
         });
-
   }
+
   alertFormFinalSubmit() {
     this.submitted = true;
     this.activeClass = true;
+    console.log('this.propertyTaxForm?.value', this.propertyTaxForm?.value)
     if (this.propertyTaxForm.invalid) {
       swal(
         "Missing Data !",
@@ -277,35 +327,36 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
   }
   onSubmit(type){
-    // console.log(this.propertyTaxForm);
-    // let body = {
-    //   ...this.propertyTaxForm.value,
-    //   isDraft: false,
-    //   design_year: this.yearValue,
-    //   ulb: this.ulbId,
-    // };
-    // console.log(body)
-    // console.log('submitted',this.propertyTaxForm.value)
-    // this.submitted =true;
+    console.log('this.propertyTaxForm?.value', this.propertyTaxForm?.value)
+    console.log(this.propertyTaxForm.value);
+    let body = {
+      ...this.propertyTaxForm.value,
+      isDraft: false,
+    };
+    console.log(body)
+    console.log('submitted',this.propertyTaxForm.value)
+    this.submitted =true;
 
-    // this.ptService.submitPtForm(body).subscribe((res :any)=>{
-    //   console.log(res)
-    //   this.clickedSave = false;
-    //   if (res && res.status) {
-    //     this.clickedSave = false;
-    //     this.isDisabled = true
-    //     console.log(res)
-    //     this.getPtoData()
-    //     sessionStorage.setItem("changeInPropertyTaxOp", "false");
-    //     swal("Saved", "Data saved successfully", "success");
-    //   } else {
-    //     swal("Error", res?.message ? res?.message : "Error", "error");
-    //   }
-    // },
-    // (error) => {
-    //   console.error("err", error);
-    //   swal("Error", error ? error : "Error", "error");
-    // })
+    this.ptService.postPropertyTaxUlb(body).subscribe((res :any)=>{
+      return
+      console.log(res)
+      this.clickedSave = false;
+      
+      if (res && res.status) {
+        this.clickedSave = false;
+        this.isDisabled = true
+        console.log(res)
+        this.getPtoData();
+        sessionStorage.setItem("changeInPropertyTaxOp", "false");
+        swal("Saved", "Data saved successfully", "success");
+      } else {
+        swal("Error", res?.message ? res?.message : "Error", "error");
+      }
+    },
+    (error) => {
+      console.error("err", error);
+      swal("Error", error ? error : "Error", "error");
+    })
   }
 
   onDraft(){
@@ -317,7 +368,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       design_year: this.yearValue,
       ulb: this.ulbId,
     };
-    this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
+    this.ptService.postPropertyTaxUlb(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
         sessionStorage.removeItem("changeInPropertyTaxOp");
@@ -353,6 +404,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     // dialogRef.afterClosed().subscribe((result) => {
     // });
   }
+
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
@@ -364,7 +416,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       if (event.target.files[0].size >= 20000000) {
         this.ipt2.nativeElement.value = "";
         this.errorMessege = 'File size should be less than 20Mb.'
-        // this.propertyTaxForm.controls.ptCollection.reset();
+        this.propertyTaxForm.controls.rateCard.reset();
         const error = setTimeout(() => {
           this.showMinimumFloor = false
           this.errorMessege = ''
@@ -388,7 +440,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       if (event.target.files[0].size >= 20000000) {
         this.ipt3.nativeElement.value = "";
         this.errorMessegeOther = 'File size should be less than 20Mb.'
-        this.propertyTaxForm.controls.rateCard.reset();
+        this.propertyTaxForm.controls.ptCollection.reset();
         const error = setTimeout(() => {
           this.showRulesLaws = false
           this.errorMessegeOther = ''
@@ -414,13 +466,14 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       this.upload(progessType, fileName);
 
   }
+
   clearFile(type: string = '') {
     if(type =='minimumFloor') {
       this.ipt2.nativeElement.value = "";
       this.showMinimumFloor = false;
       this.minimumFloorFileName = ''
       this.propertyTaxForm.patchValue({
-        ptCollection:{
+        rateCard:{
           url: '',
           name: ''
        }
@@ -430,7 +483,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       this.showRulesLaws = false;
       this.rulesLawsFileName = ''
       this.propertyTaxForm.patchValue({
-        rateCard:{
+        ptCollection:{
           url: '',
           name: ''
        }
@@ -448,6 +501,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
   }
+
   filterInvalidFilesForUpload(filesSelected: File[],progessType) {
     const validFiles = [];
     console.log(filesSelected)
@@ -472,6 +526,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     return validFiles;
   }
+
   async upload(progessType, fileName) {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
@@ -522,6 +577,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       );
     })
   }
+
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -538,7 +594,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
               this.minimumUrl = this.minimumFloorUrl 
-              this.propertyTaxForm.get('ptCollection').patchValue({
+              this.propertyTaxForm.get('rateCard').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -561,7 +617,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
               this.ruleUrl = this.rulesLawsUrl 
-              this.propertyTaxForm.get('rateCard').patchValue({
+              this.propertyTaxForm.get('ptCollection').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -577,6 +633,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         }
       );
   }
+
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
@@ -607,6 +664,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       });
     }
   }
+
   openDialog(template) {
     if (template == undefined) return;
     const dialogConfig = new MatDialogConfig();
@@ -620,6 +678,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       }
     });
   }
+
   async stay() {
     await this.dialogRef.close();
     this.dialog.closeAll();
@@ -627,6 +686,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       this.routerNavigate = null;
     }
   }
+
   async proceed() {
     this.dialogRef.close();
     this.dialog.closeAll();
@@ -638,6 +698,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     await this.onDraft();
     return this._router.navigate(["ulbform2223/slbs"]);
   }
+
   async discard() {
     
       sessionStorage.setItem("changeInPropertyTaxOp", "false");
@@ -648,9 +709,11 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       return;
     }
   }
+
   alertClose() {
     this.stay();
   }
+
   numberLimitV(e, input) {
     // console.log("sss", e, input);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];

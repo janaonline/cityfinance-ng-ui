@@ -18,7 +18,7 @@
                     </span>
                 </div>
                 <div class="col-5">
-                    <span class="d-flex">
+                    <span class="d-flex" [ngClass]="{'customDisable': isDisabled , 'is-invalid': submitted && f?.toCollect?.controls?.errors, 'opacity': isDisabled}">
                         <label
                             class="form-control radioButton" [ngClass]="{'activeField' : f?.toCollect?.value =='Yes'}">
                             <input type="radio" value="Yes" formControlName="toCollect" (change)="updateFormvalue('collectPropertyYes')">
@@ -30,6 +30,9 @@
                         </label>
                         
                     </span>
+                    <div *ngIf="submitted && f.toCollect.errors" class="text-danger">
+                        <div *ngIf="f.toCollect.errors.required">Please select any option.</div>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
@@ -46,7 +49,7 @@
                         </span>
                 </div>
                 <div class="col-5">
-                    <span class="d-flex">
+                    <span class="d-flex" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.operationalize?.controls?.errors , 'opacity': isDisabled }">
                         <label
                             class="form-control radioButton" [ngClass]="{'activeField' : f?.operationalize?.value =='Yes'}">
                             <input type="radio" value="Yes" formControlName="operationalize" (change)="updateFormvalue('operationalizeYes')">
@@ -58,6 +61,9 @@
                         </label>
                         
                     </span>
+                    <div *ngIf="submitted && f.operationalize.errors" class="text-danger">
+                        <div *ngIf="f.operationalize.errors.required">Please select any option.</div>
+                    </div>
                 </div>
             </div>
              <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
@@ -110,34 +116,40 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (D) Property Tax Valuation Method?<sup class="text-danger">*</sup>
                     </span>
                 </div>
                 <div class="col-5">
-                    <mat-select class="tooltipDropdown" placeholder="Select any method" formControlName="method">
+                    <mat-select class="tooltipDropdown" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.method?.controls?.errors }" placeholder="Select any method" formControlName="method">
                         <mat-option  *ngFor="let item of dropdownContent"
                           [value]="item.value"
                           [matTooltip]="item.tooltip">
                           {{item.viewValue}}
                         </mat-option>
-                    </mat-select>    
+                    </mat-select>  
+                    <div *ngIf="submitted && f.method.errors" class="text-danger">
+                        <div *ngIf="f.method.errors.required">Please select any method.</div>
+                    </div>  
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.method?.value == 'other' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.method?.value == 'Other'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (E) Please specify, Others?<sup class="text-danger">*</sup>
                     </span>
                 </div>
                 <div class="col-5">
-                    <input type="text" class="form-control customWidth" placeholder="Type here" formControlName="other">
+                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.other?.controls?.errors }" type="text" class="form-control customWidth" placeholder="Type here" formControlName="other">
+                    <div *ngIf="submitted && f.other.errors" class="text-danger">
+                        <div *ngIf="f.other.errors.required">Please specify other.</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="row mt-4 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-4 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (F) Upload a copy of Property Tax Rate Card?<sup class="text-danger">*</sup>
@@ -153,9 +165,13 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input #ipt2 id="ipt2" name="cin1" type="file"
+                    <input #ipt2 id="ipt2" name="cin1" type="file" [ngClass]="{ 'is-invalid': submitted && f?.rateCard?.controls?.name?.errors }" 
                         (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
-                        
+                        <div>
+                            <div *ngIf="submitted && f?.rateCard?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.rateCard?.controls?.name?.errors.required">File is required</div>
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="row" *ngIf="showMinimumFloor">
@@ -180,7 +196,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (G) Property Tax Collection for 2019-20?<sup class="text-danger">*</sup>
@@ -189,14 +205,18 @@
                             matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
+                        
                 </div>
                 <div class="col-5">
-                    <input (change)="inputChange()" formControlName='collection2019_20' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2019_20?.controls?.errors }" (change)="inputChange()" formControlName='collection2019_20' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                        <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
+                            <div *ngIf="f.collection2019_20.errors.required">Please type any number.</div>
+                        </div>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (H) Property Tax Collection for 2020-21?<sup class="text-danger">*</sup>
@@ -205,14 +225,18 @@
                             matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
+                        
                 </div>
                 <div class="col-5">
-                    <input (change)="inputChange()" formControlName='collection2020_21' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2020_21?.controls?.errors }" (change)="inputChange()" formControlName='collection2020_21' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                        <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
+                            <div *ngIf="f.collection2020_21.errors.required">Please type any number.</div>
+                        </div>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (I) Property Tax Collection for 2021-22?<sup class="text-danger">*</sup>
@@ -223,12 +247,15 @@
                         </span>
                 </div>
                 <div class="col-5">
-                    <input (change)="inputChange()" formControlName='collection2021_22' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2021_22?.controls?.errors }" (change)="inputChange()" formControlName='collection2021_22' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                        <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
+                            <div *ngIf="f.collection2021_22.errors.required">Please type any number.</div>
+                        </div>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (J) Property Tax Collection Target for 2022-23?
@@ -239,12 +266,12 @@
                         </span>
                 </div>
                 <div class="col-5">
-                    <input (change)="inputChange()" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input [ngClass]="{'customDisable': isDisabled}" (change)="inputChange()" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="Type here" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+            <div class="row mt-3 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (K) Upload proof for property tax collection for 2021-22?<sup class="text-danger">*</sup>
@@ -263,8 +290,13 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                    <input #ipt3 id="ipt3" name="cin2" type="file"
+                    <input #ipt3 id="ipt3" name="cin2" type="file" [ngClass]="{ 'is-invalid': submitted && f?.ptCollection?.controls?.name?.errors }"
                         (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                        <div>
+                            <div *ngIf="submitted && f?.ptCollection?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.ptCollection?.controls?.name?.errors.required">File is required</div>
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="row" *ngIf="showRulesLaws">
@@ -301,7 +333,7 @@
                         <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="submitForm()">Submit</button>
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
                         <!-- [disabled]="isDisabled" --> 
                         <!-- use this for disable button -->
                     </div>
