@@ -62,7 +62,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   ulbId;
   promptAlert;
   dataValue;
-
+  inputType;
   @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -115,12 +115,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   
   refillInput(){
     this.promptAlert.close();
-    this.propertyTaxForm.patchValue({
-     collection2019_20: '',
-     collection2020_21: '',
-     collection2021_22: '',
-     target2022_23: '',
-    })
+    this.inputType == 'collection2019_20' ? this.propertyTaxForm.patchValue({collection2019_20: ''}) : ''
+    this.inputType == 'collection2020_21' ? this.propertyTaxForm.patchValue({collection2020_21: ''}) : ''
+    this.inputType == 'collection2021_22' ? this.propertyTaxForm.patchValue({collection2021_22: ''}) : ''
+    this.inputType == 'target2022_23' ? this.propertyTaxForm.patchValue({target2022_23: ''}) : ''
   }
 
   addValidator(event){
@@ -131,9 +129,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
   }
-  
+
   inputPrompt(event,type){
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
+    this.inputType = type
     console.log('input prompt', event, type);
     if((type == 'collection2019_20' && event == 0) || (type == 'collection2020_21' && event == 0) || (type == 'collection2021_22' && event == 0) || (type == 'target2022_23' && event == 0))
     {

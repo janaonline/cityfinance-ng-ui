@@ -42,7 +42,7 @@
                             {{data?.dataPreview?.toCollect ? data?.dataPreview?.toCollect : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span class="fontStyle">(B) Has the Property Tax collection process been operationalized as per the state notification?
                             </span>
@@ -51,7 +51,7 @@
                             {{data?.dataPreview?.operationalize ? data?.dataPreview?.operationalize : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes' && data?.dataPreview?.operationalize == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(C) Proof of operationalization of Property Tax Collection Process as per state notification?
                             </span>
@@ -60,7 +60,7 @@
                             <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.proof?.url}}" target="_blank">{{data?.dataPreview?.proof?.name ? data?.dataPreview?.proof?.name : 'N/A'}}</a>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(D) Property Tax Valuation Method?
                             </span>
@@ -69,7 +69,7 @@
                             {{data?.dataPreview?.method ? data?.dataPreview?.method : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes' && data?.dataPreview?.method == 'other'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(E) Please specify, Others?
                             </span>
@@ -78,7 +78,7 @@
                             {{data?.dataPreview?.other ? data?.dataPreview?.other : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(F) Upload a copy of Property Tax Rate Card?
                             </span>
@@ -87,7 +87,7 @@
                             <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.rateCard?.url}}" target="_blank">{{data?.dataPreview?.rateCard?.name ? data?.dataPreview?.rateCard?.name: 'N/A'}}</a>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(G) Property Tax Collection for 2019-20?
                             </span>
@@ -96,7 +96,7 @@
                             {{data?.dataPreview?.collection2019_20 ? data?.dataPreview?.collection2019_20 : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(H) Property Tax Collection for 2020-21?
                             </span>
@@ -105,7 +105,7 @@
                             {{data?.dataPreview?.collection2020_21 ? data?.dataPreview?.collection2020_21 : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(I) Property Tax Collection for 2021-22?
                             </span>
@@ -114,7 +114,7 @@
                             {{data?.dataPreview?.collection2021_22 ? data?.dataPreview?.collection2021_22 : 'N/A'}}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(J) Property Tax Collection Target for 2022-23?
                             </span>
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     
-                    <div class="row">
+                    <div class="row" *ngIf="data?.dataPreview?.toCollect == 'Yes'">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
                             <span>(K) Upload proof for property tax collection for 2021-22?
                             </span>
