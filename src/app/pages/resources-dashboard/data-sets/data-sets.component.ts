@@ -295,9 +295,19 @@ export class DataSetsComponent implements OnInit {
     if (event) {
       console.log(this.selectedUsersList);
       for (let data of this.selectedUsersList) {
-        const pdfUrl = data?.fileUrl;
-        const pdfName = data?.fileName;
-        FileSaver.saveAs(pdfUrl, pdfName);
+        if(data.hasOwnProperty('section') && data['section']=="standardised"){
+this._resourcesDashboardService.getStandardizedExcel(data).subscribe((res)=> {
+console.log('File Download Done')
+return
+}, (err)=> {
+  console.log(err)
+})
+        }else{
+          const pdfUrl = data?.fileUrl;
+          const pdfName = data?.fileName;
+          FileSaver.saveAs(pdfUrl, pdfName);
+        }
+        
       }
     }
   }
@@ -305,19 +315,24 @@ export class DataSetsComponent implements OnInit {
   newArray = [];
   checkValue = false;
   toggleRowSelection(event, row, i) {
-    if (event.checked) {
-      this.selectedUsersList.push(row);
-      this.checkValue = true;
-      row.isSelected = true;
-    } else {
-      let index = this.selectedUsersList.indexOf(row);
-      this.selectedUsersList.splice(index, 1);
+    // if(row.hasOwnProperty("section") && row['section']=="standardised"){
 
-      row.isSelected = false;
-    }
-
-    console.log("hhhhh", this.selectedUsersList);
-
-    this.checkIsDisabled(this.selectedUsersList);
+    // }else{
+      if (event.checked) {
+        this.selectedUsersList.push(row);
+        this.checkValue = true;
+        row.isSelected = true;
+      } else {
+        let index = this.selectedUsersList.indexOf(row);
+        this.selectedUsersList.splice(index, 1);
+  
+        row.isSelected = false;
+      }
+  
+      console.log("hhhhh", this.selectedUsersList);
+  
+      this.checkIsDisabled(this.selectedUsersList);
+    
+ 
   }
 }

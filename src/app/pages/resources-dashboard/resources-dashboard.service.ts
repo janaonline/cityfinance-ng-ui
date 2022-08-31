@@ -53,6 +53,12 @@ getPdfData(pdfInput) {
   )
 }
 
+getStandardizedExcel(body){
+  return this.https.post(
+    `${environment.api.url}annual-accounts/datasets`, body, { responseType: 'blob'}
+  )
+}
+
 getYearsList() {
   return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
 }
