@@ -1,0 +1,164 @@
+<div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" class="btn btn-primary h-cls" (click)="clickedDownloadAsPDF(templateSave)">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            <p>Property Tax Operationalisation</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(A) Are you collecting Property Taxes in 2022-23?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.toCollect ? data?.dataPreview?.toCollect : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span class="fontStyle">(B) Has the Property Tax collection process been operationalized as per the state notification?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.operationalize ? data?.dataPreview?.operationalize : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(C) Proof of operationalization of Property Tax Collection Process as per state notification?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.proof?.url}}" target="_blank">{{data?.dataPreview?.proof?.name ? data?.dataPreview?.proof?.name : 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(D) Property Tax Valuation Method?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.method ? data?.dataPreview?.method : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(E) Please specify, Others?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.other ? data?.dataPreview?.other : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(F) Upload a copy of Property Tax Rate Card?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.rateCard?.url}}" target="_blank">{{data?.dataPreview?.rateCard?.name ? data?.dataPreview?.rateCard?.name: 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(G) Property Tax Collection for 2019-20?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.collection2019_20 ? data?.dataPreview?.collection2019_20 : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(H) Property Tax Collection for 2020-21?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.collection2020_21 ? data?.dataPreview?.collection2020_21 : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(I) Property Tax Collection for 2021-22?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.collection2021_22 ? data?.dataPreview?.collection2021_22 : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(J) Property Tax Collection Target for 2022-23?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.target2022_23 ? data?.dataPreview?.target2022_23 : 'N/A'}}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass qus-h">
+                            <span>(K) Upload proof for property tax collection for 2021-22?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass ans-h">
+                            <a [ngClass]="{'hideUnderline': hideUnderline}" href="{{data?.dataPreview?.ptCollection?.url}}" target="_blank">{{data?.dataPreview?.ptCollection?.name ? data?.dataPreview?.ptCollection?.name : 'N/A'}}</a>
+                        </div>
+                    </div>             
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

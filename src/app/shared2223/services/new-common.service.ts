@@ -122,4 +122,10 @@ export class NewCommonService {
       `${environment.api.url}propTaxOp?ulb=${param.ulb}&design_year=${param.design_year}`
     );
   }
+
+  getPropertyTaxDropdownList() {
+    return this.http.get(
+      `${environment.api.url}propTaxOpDropDown`
+    );
+  }
 }

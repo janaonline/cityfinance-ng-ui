@@ -116,18 +116,18 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (D) Property Tax Valuation Method?<sup class="text-danger">*</sup>
                     </span>
                 </div>
                 <div class="col-5">
-                    <mat-select class="tooltipDropdown" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.method?.controls?.errors }" placeholder="Select any method" formControlName="method">
-                        <mat-option  *ngFor="let item of dropdownContent"
-                          [value]="item.value"
-                          [matTooltip]="item.tooltip">
-                          {{item.viewValue}}
+                    <mat-select class="tooltipDropdown" (selectionChange)="addValidator($event.value)" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.method?.controls?.errors }" placeholder="Select any method" formControlName="method">
+                        <mat-option  *ngFor="let item of dropdownItems"
+                          [value]="item.name"
+                          [matTooltip]="item.value">
+                          {{item.name}}
                         </mat-option>
                     </mat-select>  
                     <div *ngIf="submitted && f.method.errors" class="text-danger">
@@ -149,7 +149,7 @@
                 </div>
             </div>
             
-            <div class="row mt-4 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mt-3 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (F) Upload a copy of Property Tax Rate Card?<sup class="text-danger">*</sup>
@@ -196,7 +196,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mb-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (G) Property Tax Collection for 2019-20?<sup class="text-danger">*</sup>
@@ -208,7 +208,7 @@
                         
                 </div>
                 <div class="col-5">
-                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2019_20?.controls?.errors }" (change)="inputChange()" formControlName='collection2019_20' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input (change)="inputPrompt($event.target.value,'collection2019_20')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2019_20?.controls?.errors }" formControlName='collection2019_20' type="text" class="form-control customWidth" placeholder="0-999999999" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
@@ -228,7 +228,7 @@
                         
                 </div>
                 <div class="col-5">
-                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2020_21?.controls?.errors }" (change)="inputChange()" formControlName='collection2020_21' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input (change)="inputPrompt($event.target.value,'collection2020_21')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2020_21?.controls?.errors }" formControlName='collection2020_21' type="text" class="form-control customWidth" placeholder="0-999999999" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
@@ -247,7 +247,7 @@
                         </span>
                 </div>
                 <div class="col-5">
-                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2021_22?.controls?.errors }" (change)="inputChange()" formControlName='collection2021_22' type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input (change)="inputPrompt($event.target.value,'collection2021_22')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2021_22?.controls?.errors }" formControlName='collection2021_22' type="text" class="form-control customWidth" placeholder="0-999999999" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
@@ -266,7 +266,7 @@
                         </span>
                 </div>
                 <div class="col-5">
-                    <input [ngClass]="{'customDisable': isDisabled}" (change)="inputChange()" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="Type here" min="1" 
+                    <input (change)="inputPrompt($event.target.value,'target2022_23')" [ngClass]="{'customDisable': isDisabled}" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="0-999999999" min="1" 
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                 </div>
@@ -324,7 +324,7 @@
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back" routerLink="../gtCertificate">
+                <button type="button" class="btn btn-c-back" routerLink="../grant-tra-certi">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -338,7 +338,7 @@
                         <!-- use this for disable button -->
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLink="../fc-formation">Next Form
+                        <button type="button" class="btn btn-c-next" routerLink="../utilisation-report">Next Form
                             -></button>
                     </div>
                 </div>
@@ -375,4 +375,15 @@
         </div>
 
     </div>
+</ng-template>
+<ng-template #prompt>
+  <p class="alertInfo">Are you sure you have collected 0 property tax ?</p>
+  <div class="row text-center">
+    <div class="col-6">
+      <button class="btn ms-2 m-btn" (click)="confirmInput()">Yes</button>
+    </div>
+    <div class="col-6">
+      <button class="btn ms-2 r-btn" (click)="refillInput()">No</button>
+    </div>
+  </div>    
 </ng-template>

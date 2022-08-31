@@ -278,8 +278,11 @@
     color: white;
     opacity: 0.5;
 }
-.marginClass{
-    margin-top: 1.9rem !important;
+// .marginClass{
+//     margin-top: 1.9rem !important;
+// }
+.customMargin{
+    margin-top: -11px;
 }
 .customDisable{
     cursor: not-allowed;
@@ -476,4 +479,15 @@ input[type='radio'] {
     color: #fff;
     background-color: #198754;
     border-color: #198754;
+}
+
+.r-btn {
+    color: #fff;
+    background-color: rgb(248, 48, 48);
+    border-color: rgb(248, 48, 48);
+}
+
+.alertInfo{
+    font-size: medium;
+    font-weight: 600;
 }
