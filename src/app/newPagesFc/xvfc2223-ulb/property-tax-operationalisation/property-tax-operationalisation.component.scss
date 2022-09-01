@@ -121,6 +121,7 @@
 
 .question {
     width: 100%;
+    padding: 1%;
     // height: 75px;
     // box-shadow: 2px 4px 5px #cecece;
 }
@@ -304,7 +305,9 @@
     // background-color: #c9c9c9;
     background-color: #ffc500;
 }
-
+::ng-deep .mat-tooltip {
+    font-size: 12px !important;
+}
 .saveBtn {
     width: auto;
     height: 36px;

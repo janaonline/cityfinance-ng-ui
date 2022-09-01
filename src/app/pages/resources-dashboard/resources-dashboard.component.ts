@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { CommonService } from "src/app/shared/services/common.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { ResourcesDashboardService } from "./resources-dashboard.service";
 
@@ -15,7 +16,8 @@ export class ResourcesDashboardComponent implements OnInit {
   constructor(
     private router: Router,
     protected resourcedashboard: ResourcesDashboardService,
-    public globalLoader: GlobalLoaderService
+    public globalLoader: GlobalLoaderService,
+    private _commonService : CommonService
   ) {}
   resourcesFilter = new FormControl();
   autoCompleteData: string[] = [
@@ -37,6 +39,11 @@ export class ResourcesDashboardComponent implements OnInit {
       startWith(""),
       map((value) => this._filter(value))
     );
+    this._commonService.castSearchItem.subscribe((res:any)=>{
+      console.log('searched item in resource', res)
+      this.resourcesFilter.setValue(res)
+    })
+    console.log("resource Filter", this.resourcesFilter)
   }
   private _filter(value: string): string[] {
     if (value != "") {
@@ -102,7 +109,7 @@ export class ResourcesDashboardComponent implements OnInit {
 
     this.globalLoader.showLoader();
     this.searchedValue = searchFilter;
-
+    console.log('this.searchedValue', this.searchedValue)
     this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe(
       (res: any) => {
         console.log("gloabal response", res);
