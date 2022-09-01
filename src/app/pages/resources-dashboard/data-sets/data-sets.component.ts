@@ -300,7 +300,7 @@ this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res)=> {
   const blob = new Blob([res], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
-  FileSaver.saveAs(blob, "fileName");
+  FileSaver.saveAs(blob, data.fileName );
 console.log('File Download Done')
 return
 }, (err)=> {
