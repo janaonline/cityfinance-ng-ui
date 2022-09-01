@@ -110,7 +110,7 @@ export class NewCommonService {
   }
 
   postCommonAction(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
   }
 
   postPropertyTaxUlb(body) {

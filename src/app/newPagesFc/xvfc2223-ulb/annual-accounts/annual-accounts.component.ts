@@ -50,6 +50,9 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "bal_sheet",
       action: false,
+      status: null,
+      rejectReason: null,
+
     },
     {
       name: "Please enter total amount of Assets",
@@ -63,6 +66,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -76,6 +81,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -89,6 +96,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -102,6 +111,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Balance Sheet Schedule",
@@ -110,6 +121,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "bal_sheet_schedules",
       action: true,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Income Expenditure",
@@ -118,6 +131,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "inc_exp",
       action: false,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Revenue",
@@ -131,6 +146,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Expenses",
@@ -144,6 +161,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Income Expenditure Schedule",
@@ -152,6 +171,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "inc_exp_schedules",
       action: true,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Cash flow Statement",
@@ -160,6 +181,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "cash_flow",
       action: true,
+      status: null,
+      rejectReason: null,
     },
   ];
   auditQues = [
@@ -170,6 +193,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "bal_sheet",
       action: false,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Assets",
@@ -183,6 +208,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -196,6 +223,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -209,6 +238,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -222,6 +253,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Balance Sheet Schedule",
@@ -230,6 +263,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "bal_sheet_schedules",
       action: true,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Income Expenditure",
@@ -238,6 +273,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "inc_exp",
       action: false,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Revenue",
@@ -251,6 +288,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Please enter total amount of Expenses",
@@ -264,6 +303,8 @@ export class AnnualAccountsComponent implements OnInit {
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Income Expenditure Schedule",
@@ -272,6 +313,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "inc_exp_schedules",
       action: true,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Cash flow Statement",
@@ -280,6 +323,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "cash_flow",
       action: true,
+      status: null,
+      rejectReason: null,
     },
     {
       name: "Auditors Report",
@@ -288,6 +333,8 @@ export class AnnualAccountsComponent implements OnInit {
       type: "file",
       key: "auditor_report",
       action: true,
+      status: null,
+      rejectReason: null,
     },
   ];
   data = {
@@ -1420,5 +1467,76 @@ export class AnnualAccountsComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       //   this.hidden = true;
     });
+  }
+  actReturn = false;
+  actRemarks = ''
+  actionFileData;
+  actionBtnClick(actType, fileType, item, quesIndex) {
+    console.log('action parts', actType, fileType, item, quesIndex);
+    let actRes = '';
+    let reason = false;
+    if (actType == 'Approve') {
+      actRes = "APPROVED";
+      this.actReturn = false;
+    } else if (actType == 'Return') {
+      actRes = "REJECTED"
+      this.actReturn = true;
+    } else if (actType == 'returnRes') {
+      reason = true;
+    }
+    item['status'] = actRes;
+    switch (item?.key) {
+      case "c_grant":
+        if (reason) {
+          this.data[fileType].provisional_data.bal_sheet['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.bal_sheet['status'] = actRes;
+        }
+        break;
+      case "bal_sheet_schedules":
+        if (reason) {
+          this.data[fileType].provisional_data.bal_sheet_schedules['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.bal_sheet_schedules['status'] = actRes;
+        }
+        break;
+      case "expense":
+        if (reason) {
+          this.data[fileType].provisional_data.inc_exp['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.inc_exp['status'] = actRes;
+        }
+        break;
+      case "inc_exp_schedules":
+        if (reason) {
+          this.data[fileType].provisional_data.inc_exp_schedules['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.inc_exp_schedules['status'] = actRes;
+        }
+        break;
+      case "cash_flow":
+        if (reason) {
+          this.data[fileType].provisional_data.cash_flow['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.cash_flow['status'] = actRes;
+        }
+        break;
+      case "auditor_report":
+        if (reason) {
+          this.data[fileType].provisional_data.auditor_report['returnReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.auditor_report['status'] = actRes;
+        }
+        break;
+
+      //
+    }
+    console.log('after action...', this.unAuditQues, this.auditQues);
+    console.log('after action data...', this.data);
+  }
+
+  getUploadActionFileData(e, type) {
+    console.log('action......', e, type);
+    this.actionFileData = e;
   }
 }
