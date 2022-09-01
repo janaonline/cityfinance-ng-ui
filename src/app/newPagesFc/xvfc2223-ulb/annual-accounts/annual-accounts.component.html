@@ -71,30 +71,75 @@
                                         [isDisabled]="isDisabled" [compName]="compName">
                                     </app-common-file-upload>
                                 </ng-container>
-                                <div class="row mb-4 d-none" style="" *ngIf="item?.action == true">
-                                    <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
-                                    <div class="col-sm-7 act-btn" style="width: 50%">
-                                        <button type="button" class="btn btn-success">Approve</button>
-                                        <button type="button" class="btn btn-danger ms-3">Retrun</button>
-                                    </div>
-                                    <div class="col-sm-12 rej mt-3">
-                                        <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
-                                        <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2"></textarea>
-                                        </div>
+                                <!-- && userData?.role != 'ULB' && data?.status == 'PENDING' -->
+                                <div class="card mb-5" *ngIf="item?.action == true && userData?.role != 'ULB' && data?.status == 'PENDING'">
+                                    <div class="card-body">
+                                        <div class="row" style="">
+                                            <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                            <div class="col-sm-7 act-btn" style="width: 50%">
+                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Approve</button>
+                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Retrun</button>
+                                            </div>
+                                            <div class="col-sm-12 rej mt-3">
+                                                <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                                <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex)"></textarea>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- *ngIf="item?.action == true &&
+                                data?.status != 'PENDING' && data?.isDraft == false" -->
+                                <div class="card mb-4" *ngIf="item?.action == true && data?.status != 'PENDING' && data?.isDraft == false">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                Status:
+                                            </div>
+                                            <div class="col-sm-10">
+                                                Under review by state
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                State Review:
+                                            </div>
+                                            <div class="col-sm-10">
+                                                APPROVED
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                MoHUA Review:
+                                            </div>
+                                            <div class="col-sm-10">
+                                                APPROVED
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
-                                <label *ngIf="item?.type == 'file'" class='text-danger' style="margin-right: 5px;">
-                                   {{pdfError}}
-                                 </label>
-                                <label *ngIf="item?.type == 'input'" class='text-danger' style="margin-right: 5px;">
-                                  {{inputNumberError}}
-                                </label>
-                            </div> -->
+                        </div>
+                        <!-- userData?.role != 'ULB' && data?.status == 'PENDING' -->
+                        <div class="card-body" *ngIf="userData?.role != 'ULB' && data?.status == 'PENDING' && data?.isDraft == false">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
+                                    </app-common-file-upload>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" *ngIf="data?.status != 'PENDING' && data?.isDraft == false">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Supporting Document
+                                </div>
+                                <div class="col-sm-10">
+                                    <a href="#">fileName</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -251,10 +296,76 @@
                                     [isDisabled]="isDisabled" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
+                            <div class="card mb-5" *ngIf="item?.action == true && userData?.role != 'ULB' && data?.status == 'PENDING'">
+                                <div class="card-body">
+                                    <div class="row" style="">
+                                        <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                        <div class="col-sm-7 act-btn" style="width: 50%">
+                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Approve</button>
+                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Retrun</button>
+                                        </div>
+                                        <div class="col-sm-12 rej mt-3">
+                                            <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                            <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex)"></textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- *ngIf="item?.action == true &&
+                          data?.status != 'PENDING' && data?.isDraft == false" -->
+                            <div class="card mb-4" *ngIf="item?.action == true && data?.status != 'PENDING' && data?.isDraft == false">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            Status:
+                                        </div>
+                                        <div class="col-sm-10">
+                                            Under review by state
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            State Review:
+                                        </div>
+                                        <div class="col-sm-10">
+                                            APPROVED
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            MoHUA Review:
+                                        </div>
+                                        <div class="col-sm-10">
+                                            APPROVED
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
                                 <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
                               {{pdfError}}</label>
                             </div> -->
+                        </div>
+                        <div class="card-body" *ngIf="userData?.role != 'ULB' && data?.status == 'PENDING'">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
+                                    </app-common-file-upload>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" *ngIf="data?.status != 'PENDING' && data?.isDraft == false">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    Supporting Document
+                                </div>
+                                <div class="col-sm-10">
+                                    <a href="#">fileName</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
