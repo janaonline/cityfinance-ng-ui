@@ -20,6 +20,8 @@ import { GtcPreviewComponent } from './gtc-form/gtc-preview/gtc-preview.componen
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
+import { WaterSupplyComponent } from './water-supply/water-supply.component';
+import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.com
     GtcPreviewComponent,
     GrantAllocationComponent,
     DashboardComponent,
-    GaPreviewComponent
+    GaPreviewComponent,
+    WaterSupplyComponent,
+    WaterSupplyPreviewComponent
   ],
   imports: [
     CommonModule,
