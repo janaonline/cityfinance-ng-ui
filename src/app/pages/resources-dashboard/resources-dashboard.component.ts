@@ -42,6 +42,7 @@ export class ResourcesDashboardComponent implements OnInit {
     this._commonService.castSearchItem.subscribe((res:any)=>{
       console.log('searched item in resource', res)
       this.resourcesFilter.setValue(res)
+      this.searchFilter(res);
     })
     console.log("resource Filter", this.resourcesFilter)
   }

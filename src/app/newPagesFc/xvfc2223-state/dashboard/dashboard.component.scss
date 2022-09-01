@@ -23,7 +23,6 @@ ul {
     list-style: none;
     display: flex;
     width: 66%;
-    margin-left: 17%;
 }
 
 li:first-child {
@@ -71,6 +70,11 @@ li {
     border: 1px solid white !important;
     color: black !important;
     background-image: url("../../../../assets/dashboard-state/Group 13698.svg")!important;
+}
+
+.responsiveClass{
+    display: flex;
+    justify-content: center;
 }
 
 .noValueUpdate {

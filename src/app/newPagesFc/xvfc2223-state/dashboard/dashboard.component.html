@@ -54,8 +54,8 @@
     </div>
 </div>
 <div class="container mt-4">
-    <div class="tab-slider--nav row">
-        <ul class="nav nav-tabs">
+    <div class="tab-slider--nav row responsiveClass">
+        <ul class="nav">
             <li *ngFor="let item of navList" [ngClass]="{'active': selectedItem == item.formType}" class="col-4 text-center" rel="tab1" (click)="tabActive(item)">{{item.title}}</li>
         </ul>
     </div>
