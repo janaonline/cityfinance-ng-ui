@@ -196,7 +196,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mb-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mb-1 mt-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (G) Property Tax Collection for 2019-20?<sup class="text-danger">*</sup>
@@ -212,7 +212,7 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
-                            <div *ngIf="f.collection2019_20.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2019_20.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
@@ -232,7 +232,7 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
-                            <div *ngIf="f.collection2020_21.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2020_21.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
@@ -251,7 +251,7 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
-                            <div *ngIf="f.collection2021_22.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2021_22.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
