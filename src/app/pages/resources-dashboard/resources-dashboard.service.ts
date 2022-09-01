@@ -55,7 +55,7 @@ getPdfData(pdfInput) {
 
 getStandardizedExcel(body){
   return this.https.post(
-    `${environment.api.url}annual-accounts/datasets`, body, { responseType: 'blob'}
+    `${environment.api.url}annual-accounts/datasets`, body, { responseType: "blob"}
   )
 }
 

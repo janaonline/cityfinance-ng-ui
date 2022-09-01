@@ -296,7 +296,11 @@ export class DataSetsComponent implements OnInit {
       console.log(this.selectedUsersList);
       for (let data of this.selectedUsersList) {
         if(data.hasOwnProperty('section') && data['section']=="standardised"){
-this._resourcesDashboardService.getStandardizedExcel(data).subscribe((res)=> {
+this._resourcesDashboardService.getStandardizedExcel([data]).subscribe((res)=> {
+  const blob = new Blob([res], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  FileSaver.saveAs(blob, "fileName");
 console.log('File Download Done')
 return
 }, (err)=> {
