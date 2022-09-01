@@ -58,7 +58,7 @@ const routes: Routes = [
         component: ResourceComponent,
       },
       {
-        path: "property_tax_operationalisation",
+        path: "ptax",
         component: PropertyTaxOperationalisationComponent,
       },
       {
