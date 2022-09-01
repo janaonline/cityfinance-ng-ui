@@ -862,7 +862,7 @@ export class PfmsComponent implements OnInit {
       newValue = input?.value + keyValue?.toString();
     }
 
-    if (+newValue > 1000000000000000 || newValue.length > 15) {
+    if (+newValue > 100000000000000000000 || newValue.length > 20) {
       e.preventDefault();
     }
   }
