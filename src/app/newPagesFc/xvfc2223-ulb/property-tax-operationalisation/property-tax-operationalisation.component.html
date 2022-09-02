@@ -196,7 +196,7 @@
                     </span>
                 </div>
             </div>
-            <div class="row mb-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mb-1 mt-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (G) Property Tax Collection for 2019-20?<sup class="text-danger">*</sup>
@@ -212,7 +212,7 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
-                            <div *ngIf="f.collection2019_20.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2019_20.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
@@ -232,7 +232,7 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
-                            <div *ngIf="f.collection2020_21.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2020_21.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
@@ -251,11 +251,11 @@
                         step="1"
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
-                            <div *ngIf="f.collection2021_22.errors.required">Please type any number.</div>
+                            <div *ngIf="f.collection2021_22.errors.required">Number is required.</div>
                         </div>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mt-4 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (J) Property Tax Collection Target for 2022-23?
@@ -271,7 +271,7 @@
                         onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
+            <div class="row mt-4 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
                 <div class="col-7">
                     <span class="fontStyle">
                         (K) Upload proof for property tax collection for 2021-22?<sup class="text-danger">*</sup>
@@ -324,7 +324,7 @@
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back" routerLink="../grant-tra-certi">
+                <button type="button" class="btn btn-c-back" [routerLink]="backRouter">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -338,7 +338,7 @@
                         <!-- use this for disable button -->
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLink="../utilisation-report">Next Form
+                        <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form
                             -></button>
                     </div>
                 </div>

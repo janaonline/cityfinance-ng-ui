@@ -192,10 +192,11 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   }
   globalSearchClick(){
     console.log('filterOptions', this.filteredOptions)
-    console.log('form control', this.globalFormControl)
+    console.log('form control', this.globalFormControl.value)
     let searchArray:any = this.filteredOptions;
     let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
     console.log(searchValue);
+    this._commonService.updateSearchItem(this.globalFormControl.value);
     // let postBody = {
     //   type: searchValue.type,
     //   searchKeyword: searchValue._id

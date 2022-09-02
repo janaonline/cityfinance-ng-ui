@@ -62,7 +62,11 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   ulbId;
   promptAlert;
   dataValue;
-
+  inputType;
+  sideMenuItem : any;
+  dropdownItems;
+  nextRouter;
+  backRouter;
   @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -74,7 +78,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
     this.getUlbDesignYear();
     this.navigationCheck();
-    this.initializeForm();  
+    this.initializeForm();
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));  
   }
   
   ngOnInit(): void {
@@ -82,6 +87,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     sessionStorage.setItem("changeInPropertyTaxOp", "false");
     this.onload();
     this.getUlbPropertyTaxDropdown();
+    this.setRouter();
   }
 
   // convenience getter for easy access to form fields
@@ -93,7 +99,20 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     {value: 'Capital Value (CV) System', viewValue: 'Capital Value (CV) System', tooltip: "Capital Value System: Property's annual value is calculated as a percentage of its guidance value/capital value/circle rates"},
     {value: 'Other', viewValue: 'Other', tooltip: "Please mention in detail the property tax method used"},
     ];
-  dropdownItems;
+
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach((element) => {
+        //   console.log('name name', element);
+        if (element?.name == "Property Tax Operationalisation") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
+  }
+
   getUlbPropertyTaxDropdown(){
     this.ptService.getPropertyTaxDropdownList().subscribe((res:any)=>{
       console.log('dropdownList', res)
@@ -115,12 +134,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   
   refillInput(){
     this.promptAlert.close();
-    this.propertyTaxForm.patchValue({
-     collection2019_20: '',
-     collection2020_21: '',
-     collection2021_22: '',
-     target2022_23: '',
-    })
+    this.inputType == 'collection2019_20' ? this.propertyTaxForm.patchValue({collection2019_20: ''}) : ''
+    this.inputType == 'collection2020_21' ? this.propertyTaxForm.patchValue({collection2020_21: ''}) : ''
+    this.inputType == 'collection2021_22' ? this.propertyTaxForm.patchValue({collection2021_22: ''}) : ''
+    this.inputType == 'target2022_23' ? this.propertyTaxForm.patchValue({target2022_23: ''}) : ''
   }
 
   addValidator(event){
@@ -131,9 +148,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
   }
-  
+
   inputPrompt(event,type){
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
+    this.inputType = type
     console.log('input prompt', event, type);
     if((type == 'collection2019_20' && event == 0) || (type == 'collection2020_21' && event == 0) || (type == 'collection2021_22' && event == 0) || (type == 'target2022_23' && event == 0))
     {
