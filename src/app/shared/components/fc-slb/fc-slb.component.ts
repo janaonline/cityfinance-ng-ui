@@ -802,12 +802,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
               // console.log(mainValue, actualData)
               invalid = increse
                 ? !(
-                  mainValue > 0 &&
+                  mainValue >= 0 &&
                   mainValue < upperLimit &&
                   mainValue >= otherValue
                 )
                 : !(
-                  mainValue > 0 &&
+                  mainValue >= 0 &&
                   mainValue < upperLimit &&
                   mainValue <= otherValue
                 );
