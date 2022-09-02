@@ -52,6 +52,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: false,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
 
     },
     {
@@ -68,6 +72,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -83,6 +91,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -98,6 +110,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -113,6 +129,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Balance Sheet Schedule",
@@ -123,6 +143,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure",
@@ -133,6 +157,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: false,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Revenue",
@@ -148,6 +176,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Expenses",
@@ -163,6 +195,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure Schedule",
@@ -173,6 +209,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Cash flow Statement",
@@ -183,6 +223,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
   ];
   auditQues = [
@@ -195,6 +239,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: false,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Assets",
@@ -210,6 +258,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -225,6 +277,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -240,6 +296,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -255,6 +315,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Balance Sheet Schedule",
@@ -265,6 +329,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure",
@@ -275,6 +343,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: false,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Revenue",
@@ -290,6 +362,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Expenses",
@@ -305,6 +381,10 @@ export class AnnualAccountsComponent implements OnInit {
       },
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure Schedule",
@@ -315,6 +395,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Cash flow Statement",
@@ -325,6 +409,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Auditors Report",
@@ -335,6 +423,10 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
   ];
   data = {
@@ -356,6 +448,10 @@ export class AnnualAccountsComponent implements OnInit {
           // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         assets: "",
         f_assets: "",
@@ -369,6 +465,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         inc_exp: {
           pdf: {
@@ -378,6 +478,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         revenue: "",
         expense: "",
@@ -389,6 +493,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         cash_flow: {
           pdf: {
@@ -398,6 +506,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         auditor_report: {
           pdf: {
@@ -406,6 +518,10 @@ export class AnnualAccountsComponent implements OnInit {
           },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
       },
       standardized_data: {
@@ -434,6 +550,10 @@ export class AnnualAccountsComponent implements OnInit {
           // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         assets: "",
         f_assets: "",
@@ -447,6 +567,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         inc_exp: {
           pdf: {
@@ -458,6 +582,10 @@ export class AnnualAccountsComponent implements OnInit {
           // expense: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         revenue: "",
         expense: "",
@@ -469,6 +597,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         cash_flow: {
           pdf: {
@@ -478,6 +610,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
       },
       standardized_data: {
