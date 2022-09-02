@@ -132,6 +132,12 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   recentSearchArray = [
 
   ];
+  dummyData:any = [
+    { 
+      name: 'newDataSet',
+      type: 'new'
+    }
+  ]
   ngOnInit() {
     this.loadRecentSearchValue();
 
@@ -257,6 +263,10 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
     if(option?.type == 'ulb'){
       this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+    }
+    
+    if(option?.type == 'newDataSet'){
+      this.router.navigateByUrl(`/resources-dashboard/learning-center/toolkits`)
     }
 
   }
