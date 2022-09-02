@@ -173,14 +173,16 @@ export class PfmsComponent implements OnInit {
           this.isDisabled = true;
         } else if (this.dataValue?.data?.isDraft == false) {
           this.isDisabled = false;
+        } else if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+          this.isDisabled = true;
         } else {
           this.isDisabled = true;
         }
         if (res?.data?.status !== "PENDING") {
           this.actionBtnDis = true;
         }
-        if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
-          this.isDisabled = true;
+        if (this.ulbData?.role !== "ULB") {
+          this.isDisabled = false;
         }
         // this.isDisabled = this.dataValue?.data?.isDraft ? this.dataValue?.data?.isDraft : false;
         // this.previewData = res;
@@ -862,7 +864,7 @@ export class PfmsComponent implements OnInit {
       newValue = input?.value + keyValue?.toString();
     }
 
-    if (+newValue > 1000000000000000 || newValue.length > 15) {
+    if (+newValue > 100000000000000000000 || newValue.length > 20) {
       e.preventDefault();
     }
   }
