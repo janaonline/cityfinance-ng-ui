@@ -807,7 +807,15 @@ export class AnnualAccountsComponent implements OnInit {
           this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
-          this.isDisabled = this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['actionTakenByRole'], this.loggedInUserType, resObj['status'] )
+          this.isDisabled = this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['actionTakenByRole'], this.loggedInUserType, resObj['status'])
+          if (resObj['isDraft'] == false) {
+            this.isDisabled = true;
+          } else {
+            this.isDisabled = true;
+          }
+          if (this.userData?.role != "ULB") {
+            this.isDisabled = true;
+          }
           this.action = resObj?.action;
           this.url = resObj?.url;
           this.canTakeAction = resObj?.canTakeAction;
@@ -891,25 +899,31 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     //   console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
-    let proviDataAu = res?.audited?.provisional_data;
-    this.auditQues?.forEach((el) => {
-      let key = el?.key;
-      if (key && el.type == "file") {
-        el["data"] = proviDataAu[key];
-      } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataAu[key];
-      }
-    });
 
-    let proviDataUn = res?.unAudited?.provisional_data;
-    this.unAuditQues?.forEach((el) => {
-      let key = el?.key;
-      if (key && el.type == "file") {
-        el["data"] = proviDataUn[key];
-      } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataUn[key];
-      }
-    });
+    if (res?.audited?.submit_annual_accounts == true) {
+      let proviDataAu = res?.audited?.provisional_data;
+      this.auditQues?.forEach((el) => {
+        let key = el?.key;
+        if (key && el.type == "file") {
+          el["data"] = proviDataAu[key];
+        } else if (key && el.type == "input") {
+          el["amount"]["value"] = proviDataAu[key];
+        }
+      });
+    }
+    if (res?.unAudited?.submit_annual_accounts == true) {
+      let proviDataUn = res?.unAudited?.provisional_data;
+      this.unAuditQues?.forEach((el) => {
+        let key = el?.key;
+        if (key && el.type == "file") {
+          el["data"] = proviDataUn[key];
+        } else if (key && el.type == "input") {
+          el["amount"]["value"] = proviDataUn[key];
+        }
+      });
+    }
+
+
     console.log("pop data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
@@ -1644,7 +1658,11 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
   }
   actReturn = false;
   actRemarks = ''
-  actionFileData;
+  actionFileData = {
+    audited: null,
+    unAudited: null
+
+  };
   actionBtnClick(actType, fileType, item, quesIndex, value) {
     console.log('action parts', actType, fileType, item, quesIndex, value);
     let actRes = '';
@@ -1712,16 +1730,25 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
 
   getUploadActionFileData(e, type) {
     console.log('action......file', e, type);
-    this.actionFileData = e;
+    this.actionFileData[type] = e;
     // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
     for (const key in this.data[type].provisional_data) {
-      //  debugger
-      if (typeof (this.data[type].provisional_data[key].responseFile) == 'object') {
-        this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
-        this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;
+
+      if (typeof (this.data[type].provisional_data[key]) == 'object') {
+        let actionFile = {
+          responseFile: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+        Object.assign(this.data[type].provisional_data[key], actionFile);
+        // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
+        // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
       }
 
     }
+    console.log('this. data for action', this.data);
+
   }
   actionBtnDis = false;
   saveAction() {

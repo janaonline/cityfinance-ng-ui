@@ -654,7 +654,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       "closingBal"
     ].patchValue(Number(this.closingBal.toFixed(2)));
     this.postBody = {
-      status: "",
+      status: "PENDING",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
