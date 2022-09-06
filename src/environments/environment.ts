@@ -17,7 +17,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
-  //url = "https://staging.cityfinance.in/api/v1/";
+  
   GoogleTagID = "UA-171288029-2";
 } else {
   url = "https://cityfinance.in/api/v1/";
