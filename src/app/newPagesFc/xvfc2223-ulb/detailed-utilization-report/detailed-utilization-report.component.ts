@@ -900,6 +900,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },
       (error) => {
