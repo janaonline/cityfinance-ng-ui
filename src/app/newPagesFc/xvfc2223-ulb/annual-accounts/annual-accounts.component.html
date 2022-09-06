@@ -78,12 +78,12 @@
                                             <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
                                                 <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Retrun</button>
+                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                                 <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -134,7 +134,7 @@
                         <div class="card-body" *ngIf="canTakeAction == true">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
                                     </app-common-file-upload>
                                 </div>
                             </div>
@@ -310,12 +310,12 @@
                                         <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
                                             <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Retrun</button>
+                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                             <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (change)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
                                         </div>
@@ -368,7 +368,7 @@
                         <div class="card-body" *ngIf="canTakeAction == true">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
                                     </app-common-file-upload>
                                 </div>
                             </div>
