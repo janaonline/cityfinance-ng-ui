@@ -534,7 +534,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Audited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2020-21"],
+      year: this.Years["2021-22"],
     },
     unAudited: {
       provisional_data: {
@@ -626,7 +626,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Unaudited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2019-20"],
+      year: this.Years["2020-21"],
     },
   };
 
@@ -789,6 +789,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
   action = "";
   url = "";
+  canTakeAction = false;
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     // if (ulbId != null || this.finalSubmitUtiStatus == "true") {
@@ -813,7 +814,10 @@ export class AnnualAccountsComponent implements OnInit {
           }
           this.action = resObj?.action;
           this.url = resObj?.url;
-
+          this.canTakeAction = resObj?.canTakeAction;
+          if (!this.canTakeAction) {
+            this.actionBtnDis = true;
+          }
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
         },
@@ -1620,46 +1624,47 @@ export class AnnualAccountsComponent implements OnInit {
     } else if (actType == 'returnRes') {
       reason = true;
     }
+    debugger
     item['status'] = actRes;
     switch (item?.key) {
       case "c_grant":
         if (reason) {
-          this.data[fileType].provisional_data.bal_sheet['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.bal_sheet['rejectReason'] = this.actRemarks
         } else {
           this.data[fileType].provisional_data.bal_sheet['status'] = actRes;
         }
         break;
       case "bal_sheet_schedules":
         if (reason) {
-          this.data[fileType].provisional_data.bal_sheet_schedules['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.bal_sheet_schedules['rejectReason'] = this.actRemarks
         } else {
           this.data[fileType].provisional_data.bal_sheet_schedules['status'] = actRes;
         }
         break;
       case "expense":
         if (reason) {
-          this.data[fileType].provisional_data.inc_exp['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.inc_exp['rejectReason'] = this.actRemarks
         } else {
           this.data[fileType].provisional_data.inc_exp['status'] = actRes;
         }
         break;
       case "inc_exp_schedules":
         if (reason) {
-          this.data[fileType].provisional_data.inc_exp_schedules['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.inc_exp_schedules['rejectReason'] = this.actRemarks
         } else {
           this.data[fileType].provisional_data.inc_exp_schedules['status'] = actRes;
         }
         break;
       case "cash_flow":
         if (reason) {
-          this.data[fileType].provisional_data.cash_flow['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.cash_flow['rejectReason'] = this.actRemarks
         } else {
           this.data[fileType].provisional_data.cash_flow['status'] = actRes;
         }
         break;
       case "auditor_report":
         if (reason) {
-          this.data[fileType].provisional_data.auditor_report['returnReason'] = this.actRemarks
+          this.data[fileType].provisional_data.auditor_report['rejectReason'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.auditor_report['status'] = actRes;
         }
@@ -1672,7 +1677,76 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   getUploadActionFileData(e, type) {
-    console.log('action......', e, type);
+    console.log('action......file', e, type);
     this.actionFileData = e;
+    // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
+    for (const key in this.data[type].provisional_data) {
+      if (this.data[type].provisional_data[key].responseFile) {
+        this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
+        this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;
+      }
+
+
+    }
+
+  }
+
+  actionBtnDis = false;
+  saveAction() {
+    // let actionBody = {
+    //   formId: this.formId,
+    //   design_year: "606aafb14dff55e6c075d3ae",
+    //   status: this.actionRes?.status,
+    //   ulb: [this.ulbId],
+    //   rejectReason: this.actionRes?.reason,
+    //   responseFile: {
+    //     url: this.actionRes?.document?.url,
+    //     name: this.actionRes?.document?.name,
+    //   },
+    // };
+    // if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
+    //    swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+    //    return;
+    // }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(this.data);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+
+    this.newCommonService.postActionDataAA(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
   }
 }
