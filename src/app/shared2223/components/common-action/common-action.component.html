@@ -1,6 +1,4 @@
-<div class="card mt-2" *ngIf="loggedInUserType !== userTypes.ULB &&
-formDataChange?.isDraft == false &&
- (formDataChange?.status == 'PENDING')">
+<div class="card mt-2" *ngIf="loggedInUserType !== userTypes.ULB && canTakeAction == true">
     <div class="card-body">
         <form *ngIf="statusForm" [formGroup]="statusForm">
             <div class="row">

@@ -67,9 +67,6 @@ export class OdfFormComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
-    if (this.userData?.role != "ULB") {
-      this.isDisabled = true;
-    }
     this.ulbId = this.userData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
@@ -196,15 +193,23 @@ export class OdfFormComponent implements OnInit {
         if (res?.data?.isDraft == false) {
           console.log(res?.data?.isDraft);
           this.isDisabled = true;
-          // this.profileForm.disabled
           this.profileForm.controls["cert"]?.disable();
           this.profileForm.controls["certDate"]?.disable();
-          // this.profileForm.controls['rating'].disable();
         }
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
           this.isDisabled = false;
           this.profileForm.controls["cert"]?.enable();
           this.profileForm.controls["certDate"]?.enable();
+        }
+        if (this.userData?.role !== "ULB") {
+          this.isDisabled = true;
+          let action = 'false';
+          if (res?.data?.cantakeAction) {
+            action = 'true';
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
         }
       },
       (error) => {
@@ -216,11 +221,7 @@ export class OdfFormComponent implements OnInit {
 
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "false");
-      // this.backRouter = "../odf";
-      // this.nextRouter = "../overview";
     } else {
-      //  this.backRouter = "../slbs";
-      //  this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
     console.log(
@@ -234,8 +235,6 @@ export class OdfFormComponent implements OnInit {
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
-        //  console.log("name name", element);
-
         if (
           element?.name == "Open Defecation Free (ODF)" &&
           this.isGfc == false
@@ -393,8 +392,6 @@ export class OdfFormComponent implements OnInit {
     this.commonService.odfSubmitForm(this.body).subscribe(
       (res: any) => {
         this.clickedSave = false;
-        console.log("success!!!!!!!!!!!!!", res);
-        this.isDisabled = true;
         if (res && res.success) {
           this.commonActionCondition = true;
           this.isDisabled = true;

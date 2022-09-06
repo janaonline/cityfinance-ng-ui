@@ -50,6 +50,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() stateReturn;
   @Input() actionRes;
   @Input() actBtnDis;
+  // @Input() canTakeAction;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -64,7 +65,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
-  canTakeAction = 'false';
+  canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -110,6 +111,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
       this.finalStatus = "Approved by MoHUA";
       this.mohuaReview = true;
     }
+    this.canTakeAction = sessionStorage.getItem("canTakeAction");
   }
   get f() {
     return this.statusForm.controls;
