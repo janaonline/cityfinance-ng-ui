@@ -157,7 +157,7 @@ export class PfmsComponent implements OnInit {
     });
     console.log("initializePmfsForm", this.registerForm);
   }
-
+  canTakeAction = false;
   getSubmittedFormData() {
     const params = { ulb: this.ulbId, design_year: this.designYearId };
     this.commonService.submittedFormData(params).subscribe(
@@ -185,8 +185,9 @@ export class PfmsComponent implements OnInit {
         if (this.ulbData?.role !== "ULB") {
           this.isDisabled = false;
           let action = 'false';
-          if (this.dataValue?.data?.cantakeAction) {
+          if (this.dataValue?.data?.canTakeAction) {
             action = 'true';
+            this.canTakeAction = true;
           } else {
             action = 'false';
           }
