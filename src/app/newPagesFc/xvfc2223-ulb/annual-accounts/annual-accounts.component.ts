@@ -415,7 +415,7 @@ export class AnnualAccountsComponent implements OnInit {
       }
     },
     {
-      name: "Auditors Report",
+      name: "Auditor Report",
       error: false,
       data: null,
       type: "file",
@@ -807,11 +807,7 @@ export class AnnualAccountsComponent implements OnInit {
           this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
-          if (resObj?.isDraft == false || this.userData.role != "ULB") {
-            this.isDisabled = true;
-          } else {
-            this.isDisabled = false;
-          }
+          this.isDisabled = this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['actionTakenByRole'], this.loggedInUserType, resObj['status'] )
           this.action = resObj?.action;
           this.url = resObj?.url;
           this.canTakeAction = resObj?.canTakeAction;
@@ -834,6 +830,44 @@ export class AnnualAccountsComponent implements OnInit {
       );
   }
 
+checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
+  if(isDraft && actionTakenByRole == "ULB"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  } else if(!isDraft && actionTakenByRole == "ULB"){
+    if(loggedInUser == "STATE"){
+      return false;
+    }else{
+      return true;
+    }
+  } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
+    if(loggedInUser == "MoHUA"){
+      return false;
+    }else{
+      return true;
+    }
+  }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
+   return true;
+  }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  } else{
+    return true;
+  }
+
+}
   dataPopulate(res) {
     delete res.modifiedAt;
     delete res.createdAt;
