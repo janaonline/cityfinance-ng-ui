@@ -1611,10 +1611,11 @@ export class AnnualAccountsComponent implements OnInit {
   actReturn = false;
   actRemarks = ''
   actionFileData;
-  actionBtnClick(actType, fileType, item, quesIndex) {
-    console.log('action parts', actType, fileType, item, quesIndex);
+  actionBtnClick(actType, fileType, item, quesIndex, value) {
+    console.log('action parts', actType, fileType, item, quesIndex, value);
     let actRes = '';
     let reason = false;
+    this.actRemarks = value;
     if (actType == 'Approve') {
       actRes = "APPROVED";
       this.actReturn = false;
@@ -1624,7 +1625,6 @@ export class AnnualAccountsComponent implements OnInit {
     } else if (actType == 'returnRes') {
       reason = true;
     }
-    debugger
     item['status'] = actRes;
     switch (item?.key) {
       case "c_grant":
@@ -1681,11 +1681,10 @@ export class AnnualAccountsComponent implements OnInit {
     this.actionFileData = e;
     // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
     for (const key in this.data[type].provisional_data) {
-      if (this.data[type].provisional_data[key].responseFile) {
+      if ((this.data[type].provisional_data[key].responseFile).typeof == 'object') {
         this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
         this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;
       }
-
 
     }
 

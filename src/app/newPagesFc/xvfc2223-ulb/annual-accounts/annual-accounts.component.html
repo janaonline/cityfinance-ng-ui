@@ -77,13 +77,13 @@
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
-                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Approve</button>
-                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Retrun</button>
+                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                                 <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -301,13 +301,13 @@
                                     <div class="row" style="">
                                         <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
-                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex)">Approve</button>
-                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'audited', item, quesIndex)">Retrun</button>
+                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                             <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'audited', item, quesIndex)"></textarea>
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (change)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
                                         </div>
