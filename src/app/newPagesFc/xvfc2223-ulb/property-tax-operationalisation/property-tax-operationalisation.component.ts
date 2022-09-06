@@ -251,6 +251,18 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     else if(type == 'collectPropertyYes' || (type == 'collectPropertyYes' && type == 'operationalizeNo')){
       this.setValidators('operationalize');
+      this.setValidators('method');
+      this.setValidators('collection2019_20');
+      this.setValidators('collection2020_21');
+      this.setValidators('collection2021_22');
+      this.propertyTaxForm.controls.rateCard["controls"].name.setValidators(
+        Validators.required
+      );
+      this.propertyTaxForm.controls.ptCollection["controls"].name.setValidators(
+        Validators.required
+      );
+      this.propertyTaxForm.controls.rateCard["controls"].name.updateValueAndValidity();
+      this.propertyTaxForm.controls.ptCollection["controls"].name.updateValueAndValidity();
       this.propertyTaxForm.patchValue({
        method:  "",
        other:  "",
@@ -271,9 +283,9 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
          name:  "",
        }
        });
-       this.showMinimumFloor = false;
-       this.showRulesLaws = false;
-       this.showStateAct = false;
+      //  this.showMinimumFloor = false;
+      //  this.showRulesLaws = false;
+      //  this.showStateAct = false;
      }
   }
 
@@ -312,12 +324,12 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.stateActFileUrl = this.dataValue?.data?.proof?.url;
     this.stateActFileName ? this.showStateAct = true : false;
 
-    this.minimumFloorFileName = this.dataValue?.data?.ptCollection?.name;
-    this.minimumUrl = this.dataValue?.data?.ptCollection?.url;
+    this.minimumFloorFileName = this.dataValue?.data?.rateCard?.name;
+    this.minimumUrl = this.dataValue?.data?.rateCard?.url;
     this.minimumFloorFileName ? this.showMinimumFloor = true : false;
 
-    this.rulesLawsFileName = this.dataValue?.data?.rateCard?.name;
-    this.ruleUrl = this.dataValue?.data?.rateCard?.url;
+    this.rulesLawsFileName = this.dataValue?.data?.ptCollection?.name;
+    this.ruleUrl = this.dataValue?.data?.ptCollection?.url;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
 
     this.propertyTaxForm.patchValue({  
@@ -418,6 +430,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         this.getPtoData();
         sessionStorage.setItem("changeInPropertyTaxOp", "false");
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
@@ -540,7 +553,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       this.upload(progessType, fileName);
 
   }
-
   clearFile(type: string = '') {
     if(type =='minimumFloor') {
       this.ipt2.nativeElement.value = "";
@@ -575,7 +587,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     sessionStorage.setItem("changeInPropertyTaxOp", "true");
   }
-
   filterInvalidFilesForUpload(filesSelected: File[],progessType) {
     const validFiles = [];
     console.log(filesSelected)
@@ -600,7 +611,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     }
     return validFiles;
   }
-
   async upload(progessType, fileName) {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
@@ -651,7 +661,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       );
     })
   }
-
   private uploadFileToS3(
     file: File,
     s3URL: string,
