@@ -281,6 +281,16 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
         }
         sessionStorage.setItem("changeInUti", "false");
+        if (this.userData?.role !== "ULB") {
+          let action = 'false';
+          if (this.utiData?.cantakeAction) {
+            action = 'true';
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
+        }
+
       },
       (error) => {
         console.log("error", error);
