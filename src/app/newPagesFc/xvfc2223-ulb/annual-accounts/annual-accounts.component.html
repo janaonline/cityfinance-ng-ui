@@ -94,7 +94,7 @@
                                 data?.status != 'PENDING' && data?.isDraft == false" -->
                                 <div class="card mb-4" *ngIf="item?.action == true && data?.isDraft == false && canTakeAction == false">
                                     <div class="card-body">
-                                        <div class="row">
+                                        <div class="row" *ngIf=" data?.status == 'PENDING'">
                                             <div class="col-sm-2">
                                                 Status:
                                             </div>
@@ -102,22 +102,30 @@
                                                 Under review by state
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" *ngIf=" data?.status !== 'PENDING'">
                                             <div class="col-sm-2">
                                                 State Review:
                                             </div>
                                             <div class="col-sm-10">
-                                                APPROVED
+                                                {{item?.status}}
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" *ngIf=" data?.status !== 'PENDING'">
+                                            <div class="col-sm-2">
+                                                Return Reason:
+                                            </div>
+                                            <div class="col-sm-10">
+                                                {{item?.rejectReason}}
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
                                             <div class="col-sm-2">
                                                 MoHUA Review:
                                             </div>
                                             <div class="col-sm-10">
                                                 APPROVED
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +326,7 @@
                           data?.status != 'PENDING' && data?.isDraft == false" -->
                             <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == false && data?.isDraft == false">
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row" *ngIf=" data?.status == 'PENDING'">
                                         <div class="col-sm-2">
                                             Status:
                                         </div>
@@ -326,22 +334,30 @@
                                             Under review by state
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf=" data?.status !== 'PENDING'">
                                         <div class="col-sm-2">
                                             State Review:
                                         </div>
                                         <div class="col-sm-10">
-                                            APPROVED
+                                            {{item?.status}}
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf=" data?.status !== 'PENDING'">
                                         <div class="col-sm-2">
-                                            MoHUA Review:
+                                            Return Reason:
                                         </div>
                                         <div class="col-sm-10">
-                                            APPROVED
+                                            {{item?.rejectReason}}
                                         </div>
                                     </div>
+                                    <!-- <div class="row">
+                                    <div class="col-sm-2">
+                                        MoHUA Review:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        APPROVED
+                                    </div>
+                                </div> -->
                                 </div>
                             </div>
                             <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
