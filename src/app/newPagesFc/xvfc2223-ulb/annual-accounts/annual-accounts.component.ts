@@ -1715,16 +1715,14 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     this.actionFileData = e;
     // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
     for (const key in this.data[type].provisional_data) {
-      debugger
-      if (typeof (this.data[type].provisional_data.key.responseFile) == 'object') {
-        this.data[type].provisional_data.key.responseFile.url = e?.pdf?.url;
-        this.data[type].provisional_data.key.responseFile.name = e?.pdf?.name;
+      //  debugger
+      if (typeof (this.data[type].provisional_data[key].responseFile) == 'object') {
+        this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
+        this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;
       }
 
     }
-
   }
-
   actionBtnDis = false;
   saveAction() {
     // let actionBody = {
