@@ -1681,6 +1681,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.actionFileData = e;
     // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
     for (const key in this.data[type].provisional_data) {
+      debugger
       if ((this.data[type].provisional_data[key].responseFile).typeof == 'object') {
         this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
         this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;

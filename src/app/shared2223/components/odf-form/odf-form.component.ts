@@ -135,7 +135,7 @@ export class OdfFormComponent implements OnInit {
   getFormData: any;
   actFormData;
   formId = "";
-
+  canTakeAction = false;
   ngOnInit(): void {
     this.setRouter();
     this.fetchData();
@@ -204,8 +204,9 @@ export class OdfFormComponent implements OnInit {
         if (this.userData?.role !== "ULB") {
           this.isDisabled = true;
           let action = 'false';
-          if (res?.data?.cantakeAction) {
+          if (res?.data?.canTakeAction) {
             action = 'true';
+            this.canTakeAction = true;
           } else {
             action = 'false';
           }

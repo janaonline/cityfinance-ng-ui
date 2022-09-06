@@ -50,7 +50,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() stateReturn;
   @Input() actionRes;
   @Input() actBtnDis;
-  // @Input() canTakeAction;
+  @Input() canTakeAction;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -65,7 +65,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
-  canTakeAction;
+ // canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -75,8 +75,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeUserType();
     console.log("form data for action 111", this.formData);
     console.log("form data for action res", this.actionRes);
-    this.canTakeAction = sessionStorage.getItem("canTakeAction");
-    console.log('take action.........', this.canTakeAction);
+
 
   }
   toggle: any;
@@ -86,6 +85,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeFormm();
     this.valueChange();
     console.log("form data for action", this.formData);
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    // console.log('take action.........', this.canTakeAction);
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
@@ -111,7 +112,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
       this.finalStatus = "Approved by MoHUA";
       this.mohuaReview = true;
     }
-    this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    // debugger
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
   }
   get f() {
     return this.statusForm.controls;
