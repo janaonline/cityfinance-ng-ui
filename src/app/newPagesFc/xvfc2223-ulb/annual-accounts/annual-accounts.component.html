@@ -72,18 +72,18 @@
                                     </app-common-file-upload>
                                 </ng-container>
                                 <!-- && userData?.role != 'ULB' && data?.status == 'PENDING' -->
-                                <div class="card mb-5" *ngIf="item?.action == true && userData?.role != 'ULB' && data?.status == 'PENDING'">
+                                <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
                                     <div class="card-body">
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
-                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Approve</button>
-                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Retrun</button>
+                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                                 <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -92,7 +92,7 @@
                                 </div>
                                 <!-- *ngIf="item?.action == true &&
                                 data?.status != 'PENDING' && data?.isDraft == false" -->
-                                <div class="card mb-4" *ngIf="item?.action == true && data?.status != 'PENDING' && data?.isDraft == false">
+                                <div class="card mb-4" *ngIf="item?.action == true && data?.isDraft == false && canTakeAction == false">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-2">
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <!-- userData?.role != 'ULB' && data?.status == 'PENDING' -->
-                        <div class="card-body" *ngIf="userData?.role != 'ULB' && data?.status == 'PENDING' && data?.isDraft == false">
+                        <div class="card-body" *ngIf="canTakeAction == true">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
@@ -131,12 +131,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body" *ngIf="data?.status != 'PENDING' && data?.isDraft == false">
+                        <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false">
                             <div class="row">
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     Supporting Document
                                 </div>
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <a href="#">fileName</a>
                                 </div>
                             </div>
@@ -296,18 +296,18 @@
                                     [isDisabled]="isDisabled" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
-                            <div class="card mb-5" *ngIf="item?.action == true && userData?.role != 'ULB' && data?.status == 'PENDING'">
+                            <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
                                 <div class="card-body">
                                     <div class="row" style="">
                                         <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
-                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Approve</button>
-                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex)">Retrun</button>
+                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Retrun</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
                                             <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keydown)="actionBtnClick('returnRes', 'unAudited', item, quesIndex)"></textarea>
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (change)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
                                         </div>
@@ -316,7 +316,7 @@
                             </div>
                             <!-- *ngIf="item?.action == true &&
                           data?.status != 'PENDING' && data?.isDraft == false" -->
-                            <div class="card mb-4" *ngIf="item?.action == true && data?.status != 'PENDING' && data?.isDraft == false">
+                            <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == false && data?.isDraft == false">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -349,7 +349,7 @@
                               {{pdfError}}</label>
                             </div> -->
                         </div>
-                        <div class="card-body" *ngIf="userData?.role != 'ULB' && data?.status == 'PENDING'">
+                        <div class="card-body" *ngIf="canTakeAction == true">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <app-common-file-upload [dataFromParentN]="actionFileData" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
@@ -357,12 +357,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body" *ngIf="data?.status != 'PENDING' && data?.isDraft == false">
+                        <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false">
                             <div class="row">
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     Supporting Document
                                 </div>
-                                <div class="col-sm-10">
+                                <div class="col-sm-8">
                                     <a href="#">fileName</a>
                                 </div>
                             </div>
@@ -494,8 +494,9 @@
         <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
     </div>
     <div class="col-sm-6 text-end">
-        <button class="btn btn-primary" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
-        <button class="btn btn-primary ms-3" [disabled]="isDisabled" (click)="formSave('save')">Submit</button>
+        <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
+        <button class="btn btn-primary ms-3" [disabled]="isDisabled" *ngIf="userData?.role == 'ULB'" (click)="formSave('save')">Submit</button>
+        <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
         <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
     </div>
 </div>

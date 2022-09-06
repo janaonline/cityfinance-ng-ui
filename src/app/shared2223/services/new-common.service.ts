@@ -128,4 +128,7 @@ export class NewCommonService {
       `${environment.api.url}propTaxOpDropDown`
     );
   }
+  postActionDataAA(body) {
+    return this.http.post(`${environment.api.url}annual-accounts/action`, body);
+  }
 }
