@@ -277,7 +277,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
           this.actionBtnDis = true;
         }
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
-          this.isDisabled = true;
+          this.isDisabled = false;
          this.utilizationReportForm.enable();
 
         }

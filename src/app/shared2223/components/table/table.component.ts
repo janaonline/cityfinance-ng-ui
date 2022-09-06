@@ -360,7 +360,17 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
   resetFilter() {
-    this.filterForm.reset();
+    this.filterForm = this._fb.group({
+      ulb_name_s: [""],
+      state_name_s: [""],
+      ulb_code_s: [""],
+      ulbType_s: [""],
+      population_type_s: [""],
+      ua_name_s: [""],
+      status_s: [""],
+      filled_1: [""],
+      filled_2: [""],
+    });
     this.callAPI();
   }
   dropdownChanges() {

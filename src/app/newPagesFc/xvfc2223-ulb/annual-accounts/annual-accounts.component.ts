@@ -910,7 +910,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         el["amount"]["value"] = proviDataUn[key];
       }
     });
-    //   console.log("data", this.auditQues, this.unAuditQues);
+    console.log("pop data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
     this.audit_status = audit;
@@ -1716,9 +1716,9 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
     for (const key in this.data[type].provisional_data) {
       debugger
-      if ((this.data[type].provisional_data[key].responseFile).typeof == 'object') {
-        this.data[type].provisional_data[key].responseFile.url = e?.pdf?.url;
-        this.data[type].provisional_data[key].responseFile.name = e?.pdf?.name;
+      if (typeof (this.data[type].provisional_data.key.responseFile) == 'object') {
+        this.data[type].provisional_data.key.responseFile.url = e?.pdf?.url;
+        this.data[type].provisional_data.key.responseFile.name = e?.pdf?.name;
       }
 
     }
