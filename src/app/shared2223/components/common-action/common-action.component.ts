@@ -188,17 +188,15 @@ export class CommonActionComponent implements OnInit, OnChanges {
         const error = setTimeout(() => {
           this.showCommonAct = false;
           this.errorMessegeCommonAction = "";
-        }, 4000);
+        }, 2000);
         return;
       }
     }
-
     const fileName = event.target.files[0].name;
-
-    if (progessType == "commonActProgress") {
-      this.commonActFileName = event.target.files[0].name;
-      this.showCommonAct = true;
-    }
+    // if (progessType == "commonActProgress") {
+    //   this.commonActFileName = event.target.files[0].name;
+    //   this.showCommonAct = true;
+    // }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
@@ -234,6 +232,10 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
   async upload(progessType, fileName) {
     // const formData: FormData = new FormData();
+    if (progessType == "commonActProgress") {
+      this.commonActFileName = fileName;
+      this.showCommonAct = true;
+    }
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
     console.log(files[0].name);

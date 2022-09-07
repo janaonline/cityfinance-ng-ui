@@ -328,7 +328,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log("data", data);
     localStorage.setItem("ulb_id", data?.ulbId);
     this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
-    sessionStorage.setItem("stateName", data.state);
+    sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
     // this.router.navigateByUrl(`${this.formRouterLink}`)
@@ -337,7 +337,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log("data", data);
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
-    sessionStorage.setItem("stateName", data?.stateData?.name);
+    sessionStorage.setItem("stateName", data?.stateName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
   }
   getStateBar(id, role, isUA) {
