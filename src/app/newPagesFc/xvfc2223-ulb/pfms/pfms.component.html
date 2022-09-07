@@ -209,8 +209,13 @@
                         <button type="button" class="btn btnDraft" *ngIf="ulbData?.role == 'ULB'" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
+
                         <button type="submit" class="btn btnDraft" *ngIf="ulbData?.role == 'ULB'" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
-                        <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
+
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form
