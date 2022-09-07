@@ -507,7 +507,10 @@
             <div class="col-sm-6 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                <span *ngIf="canTakeAction">
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" 
+                [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+               </span>
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>
