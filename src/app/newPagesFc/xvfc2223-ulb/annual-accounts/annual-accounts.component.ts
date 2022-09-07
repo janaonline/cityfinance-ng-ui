@@ -876,6 +876,22 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
   }
 
 }
+  auditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
+  unAuditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
   dataPopulate(res) {
     delete res.modifiedAt;
     delete res.createdAt;
@@ -899,6 +915,10 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     //   console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
+    this.unAuditedActionResponse.status = res?.status;
+    this.unAuditedActionResponse.rejectReason = res?.rejectReason;
+    this.auditedActionResponse.status = res?.status;
+    this.auditedActionResponse.rejectReason = res?.rejectReason;
 
     if (res?.audited?.submit_annual_accounts == true) {
       let proviDataAu = res?.audited?.provisional_data;
@@ -913,7 +933,6 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         }
       });
       for (let i = 0; i < this.auditQues.length; i++) {
-
         if (i > 0 && i < 5) {
           let stObj = {
             status: this.auditQues[0]?.data?.status,
@@ -937,6 +956,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
           // this.auditQues[i]['data'].responseFile = this.auditQues[6]?.data?.responseFile;
         }
       }
+      this.auditedActionResponse.responseFile = proviDataAu?.bal_sheet?.responseFile;
     }
     if (res?.unAudited?.submit_annual_accounts == true) {
 
@@ -967,7 +987,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
           this.unAuditQues[i]['data'] = stObj;
         }
       }
-
+      this.unAuditedActionResponse.responseFile = proviDataUn?.bal_sheet?.responseFile;
     }
 
 

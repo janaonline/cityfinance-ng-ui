@@ -103,7 +103,7 @@
                                         </div>
                                         <div class="row" *ngIf="item?.data?.status != 'PENDING'">
                                             <div class="col-sm-2">
-                                                State Review:
+                                                Review Status:
                                             </div>
                                             <div class="col-sm-10">
                                                 {{item?.data?.status}}
@@ -140,11 +140,11 @@
                         </div>
                         <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    Supporting Document
+                                <div class="col-sm-4 s-h">
+                                    Supporting Document :
                                 </div>
                                 <div class="col-sm-8">
-                                    <a href="#">fileName</a>
+                                    <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url}}">{{unAuditedActionResponse?.responseFile?.name}}</a>
                                 </div>
                             </div>
                         </div>
@@ -384,7 +384,7 @@
                                     </div>
                                     <div class="row" *ngIf=" data?.status !== 'PENDING'">
                                         <div class="col-sm-2">
-                                            State Review:
+                                            Review Status:
                                         </div>
                                         <div class="col-sm-10">
                                             {{item?.status}}
@@ -423,11 +423,11 @@
                         </div>
                         <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    Supporting Document
+                                <div class="col-sm-4 s-h">
+                                    Supporting Document:
                                 </div>
                                 <div class="col-sm-8">
-                                    <a href="#">fileName</a>
+                                    <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url}}">{{auditedActionResponse?.responseFile?.name}}</a>
                                 </div>
                             </div>
                         </div>
