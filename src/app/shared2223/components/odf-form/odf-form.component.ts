@@ -215,6 +215,9 @@ export class OdfFormComponent implements OnInit {
       },
       (error) => {
         console.log("odf error", error);
+        if (this.userData?.role !== "ULB") {
+          this.isDisabled = true;
+        }
       }
     );
 
