@@ -254,6 +254,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
   utiData;
+  canTakeAction = false;
   getUtiReport() {
     this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
@@ -272,15 +273,26 @@ export class DetailedUtilizationReportComponent implements OnInit {
         } else {
           this.isDisabled = false;
         }
-        if (res?.data?.status !== "PENDING") {
+        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
           this.actionBtnDis = true;
         }
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
-          this.isDisabled = true;
+          this.isDisabled = false;
          this.utilizationReportForm.enable();
 
         }
         sessionStorage.setItem("changeInUti", "false");
+        if (this.userData?.role !== "ULB") {
+          let action = 'false';
+          if (this.utiData?.canTakeAction) {
+            action = 'true';
+            this.canTakeAction = true;
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
+        }
+
       },
       (error) => {
         console.log("error", error);
@@ -587,7 +599,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
 
   changeInTotalPExp() {
     console.log("expDuringYear", this.expDuringYear);
-    if (this.expDuringYear != this.totalProjectExp) {
+    if (Math.round(Number(this.expDuringYear)) != Math.round(Number(this.totalProjectExp))) {
       // swal(
       //   "Alert",
       //   `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
@@ -642,7 +654,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       "closingBal"
     ].patchValue(Number(this.closingBal.toFixed(2)));
     this.postBody = {
-      status: "",
+      status: "PENDING",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -900,6 +912,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },
       (error) => {

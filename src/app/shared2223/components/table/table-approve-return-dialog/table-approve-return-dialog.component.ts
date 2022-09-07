@@ -312,4 +312,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       }
     );
   }
+  close() {
+    this._matDialog.closeAll();
+  }
 }

@@ -93,15 +93,15 @@
                     <th class="filter">
                         <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
                               <option selected value="">Search</option>
-                            <option value="Filled">Filled</option>
-                            <option value="Not Filled">Not Filled</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                     </th>
                     <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
                         <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
                               <option selected value="">Search</option>
-                          <option value="Filled">Filled</option>
-                          <option value="Not Filled">Not Filled</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
                          </select>
                     </th>
                     <th class="filter text-center">
@@ -151,7 +151,7 @@
                       </a>
                     </td>
                     <td>
-                        <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
+                        <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
                             <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
                                 [checked]="resData?.isChecked">
                         </div>
@@ -223,7 +223,7 @@
                     </a>
                     </td>
                     <td>
-                        <div class="form-check" [matTooltip]="resData?.cantakeAction == true ? 'Not eligible to take action' : ''">
+                        <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
                             <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
                                 [checked]="resData?.isChecked">
                         </div>

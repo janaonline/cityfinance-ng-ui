@@ -431,6 +431,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         this.ptService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeInPropertyTaxOp", "false");
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }

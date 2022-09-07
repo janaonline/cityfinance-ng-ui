@@ -1,6 +1,4 @@
-<div class="card mt-2" *ngIf="loggedInUserType !== userTypes.ULB &&
-formDataChange?.isDraft == false &&
- (formDataChange?.status == 'PENDING')">
+<div class="card mt-2" *ngIf="loggedInUserType != userTypes.ULB && canTakeAction == true">
     <div class="card-body">
         <form *ngIf="statusForm" [formGroup]="statusForm">
             <div class="row">
@@ -114,7 +112,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a href="{{formDataChange?.responseFile_state?.url}} ">{{formDataChange?.responseFile_state?.name}}</a>
+                        <a target="_blank" href="{{formDataChange?.responseFile_state?.url}} ">{{formDataChange?.responseFile_state?.name}}</a>
                     </div>
                 </div>
             </div>
@@ -137,7 +135,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a href="{{formDataChange?.responseFile_mohua?.url}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
+                        <a target="_blank" href="{{formDataChange?.responseFile_mohua?.url}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
                     </div>
                 </div>
             </div>

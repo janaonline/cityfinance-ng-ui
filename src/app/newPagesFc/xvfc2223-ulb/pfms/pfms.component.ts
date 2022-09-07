@@ -157,12 +157,13 @@ export class PfmsComponent implements OnInit {
     });
     console.log("initializePmfsForm", this.registerForm);
   }
-
+  canTakeAction = false;
   getSubmittedFormData() {
     const params = { ulb: this.ulbId, design_year: this.designYearId };
     this.commonService.submittedFormData(params).subscribe(
       (res: any) => {
         console.log(res);
+
         // this.uploadedFile = res?.data?.cert?.name ? res?.data?.cert?.name : ''
         this.dataValue = res;
         this.patchValues();
@@ -173,16 +174,25 @@ export class PfmsComponent implements OnInit {
           this.isDisabled = true;
         } else if (this.dataValue?.data?.isDraft == false) {
           this.isDisabled = false;
-        } else if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
-          this.isDisabled = true;
         } else {
           this.isDisabled = true;
         }
-        if (res?.data?.status !== "PENDING") {
+        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
           this.actionBtnDis = true;
+        }
+        if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+          this.isDisabled = true;
         }
         if (this.ulbData?.role !== "ULB") {
           this.isDisabled = false;
+          let action = 'false';
+          if (this.dataValue?.data?.canTakeAction) {
+            action = 'true';
+            this.canTakeAction = true;
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
         }
         // this.isDisabled = this.dataValue?.data?.isDraft ? this.dataValue?.data?.isDraft : false;
         // this.previewData = res;

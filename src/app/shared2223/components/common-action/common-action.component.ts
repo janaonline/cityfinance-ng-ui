@@ -50,6 +50,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() stateReturn;
   @Input() actionRes;
   @Input() actBtnDis;
+  @Input() canTakeAction;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -64,7 +65,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
-  canTakeAction = 'false';
+ // canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -74,8 +75,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeUserType();
     console.log("form data for action 111", this.formData);
     console.log("form data for action res", this.actionRes);
-    this.canTakeAction = sessionStorage.getItem("canTakeAction");
-    console.log('take action.........', this.canTakeAction);
+
 
   }
   toggle: any;
@@ -85,6 +85,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeFormm();
     this.valueChange();
     console.log("form data for action", this.formData);
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    // console.log('take action.........', this.canTakeAction);
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
@@ -110,6 +112,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
       this.finalStatus = "Approved by MoHUA";
       this.mohuaReview = true;
     }
+    // debugger
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
   }
   get f() {
     return this.statusForm.controls;
@@ -184,17 +188,15 @@ export class CommonActionComponent implements OnInit, OnChanges {
         const error = setTimeout(() => {
           this.showCommonAct = false;
           this.errorMessegeCommonAction = "";
-        }, 4000);
+        }, 2000);
         return;
       }
     }
-
     const fileName = event.target.files[0].name;
-
-    if (progessType == "commonActProgress") {
-      this.commonActFileName = event.target.files[0].name;
-      this.showCommonAct = true;
-    }
+    // if (progessType == "commonActProgress") {
+    //   this.commonActFileName = event.target.files[0].name;
+    //   this.showCommonAct = true;
+    // }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
@@ -230,6 +232,10 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
   async upload(progessType, fileName) {
     // const formData: FormData = new FormData();
+    if (progessType == "commonActProgress") {
+      this.commonActFileName = fileName;
+      this.showCommonAct = true;
+    }
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
     console.log(files[0].name);
