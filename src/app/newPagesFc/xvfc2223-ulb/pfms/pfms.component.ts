@@ -177,7 +177,7 @@ export class PfmsComponent implements OnInit {
         } else {
           this.isDisabled = true;
         }
-        if (res?.data?.status !== "PENDING") {
+        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
           this.actionBtnDis = true;
         }
         if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {

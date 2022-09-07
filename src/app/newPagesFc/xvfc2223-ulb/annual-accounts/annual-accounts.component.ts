@@ -818,12 +818,12 @@ export class AnnualAccountsComponent implements OnInit {
           }
           this.action = resObj?.action;
           this.url = resObj?.url;
-          this.canTakeAction = resObj?.canTakeAction;
+          if (resObj?.canTakeAction) this.canTakeAction = resObj?.canTakeAction;
           if (!this.canTakeAction) {
             this.actionBtnDis = true;
           }
           // this.actionCheck = res['status'];
-          // console.log("annual res---------------", res, this.actionCheck);
+          console.log("annual res---------------", this.canTakeAction);
         },
         (err) => {
           this.action = err.error?.action;
@@ -876,6 +876,22 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
   }
 
 }
+  auditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
+  unAuditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
   dataPopulate(res) {
     delete res.modifiedAt;
     delete res.createdAt;
@@ -899,6 +915,10 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     //   console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
+    this.unAuditedActionResponse.status = res?.status;
+    this.unAuditedActionResponse.rejectReason = res?.rejectReason;
+    this.auditedActionResponse.status = res?.status;
+    this.auditedActionResponse.rejectReason = res?.rejectReason;
 
     if (res?.audited?.submit_annual_accounts == true) {
       let proviDataAu = res?.audited?.provisional_data;
@@ -906,12 +926,40 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         let key = el?.key;
         if (key && el.type == "file") {
           el["data"] = proviDataAu[key];
+
         } else if (key && el.type == "input") {
           el["amount"]["value"] = proviDataAu[key];
+
         }
       });
+      for (let i = 0; i < this.auditQues.length; i++) {
+        if (i > 0 && i < 5) {
+          let stObj = {
+            status: this.auditQues[0]?.data?.status,
+            rejectReason: this.auditQues[0]?.data?.rejectReason,
+            responseFile: this.auditQues[0]?.data?.responseFile
+          }
+          this.auditQues[i]['data'] = stObj;
+          // this.auditQues[i]['data'].status = this.auditQues[0]?.data?.status;
+          // this.auditQues[i]['data'].rejectReason = this.auditQues[0]?.data?.rejectReason;
+          // this.auditQues[i]['data'].responseFile = this.auditQues[0]?.data?.responseFile;
+        }
+        if (i > 6 && i < 9) {
+          let stObj = {
+            status: this.auditQues[6]?.data?.status,
+            rejectReason: this.auditQues[6]?.data?.rejectReason,
+            responseFile: this.auditQues[6]?.data?.responseFile
+          }
+          this.auditQues[i]['data'] = stObj;
+          // this.auditQues[i]['data'].status = this.auditQues[6]?.data?.status;
+          // this.auditQues[i]['data'].rejectReason = this.auditQues[6]?.data?.rejectReason;
+          // this.auditQues[i]['data'].responseFile = this.auditQues[6]?.data?.responseFile;
+        }
+      }
+      this.auditedActionResponse.responseFile = proviDataAu?.bal_sheet?.responseFile;
     }
     if (res?.unAudited?.submit_annual_accounts == true) {
+
       let proviDataUn = res?.unAudited?.provisional_data;
       this.unAuditQues?.forEach((el) => {
         let key = el?.key;
@@ -921,6 +969,25 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
           el["amount"]["value"] = proviDataUn[key];
         }
       });
+      for (let i = 0; i < this.unAuditQues.length; i++) {
+        if (i > 0 && i < 5) {
+          let stObj = {
+            status: this.unAuditQues[0]?.data?.status,
+            rejectReason: this.unAuditQues[0]?.data?.rejectReason,
+            responseFile: this.unAuditQues[0]?.data?.responseFile
+          }
+          this.unAuditQues[i]['data'] = stObj;
+        }
+        if (i > 6 && i < 9) {
+          let stObj = {
+            status: this.unAuditQues[6]?.data?.status,
+            rejectReason: this.unAuditQues[6]?.data?.rejectReason,
+            responseFile: this.unAuditQues[6]?.data?.responseFile
+          }
+          this.unAuditQues[i]['data'] = stObj;
+        }
+      }
+      this.unAuditedActionResponse.responseFile = proviDataUn?.bal_sheet?.responseFile;
     }
 
 
