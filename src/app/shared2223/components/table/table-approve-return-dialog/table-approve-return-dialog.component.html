@@ -1,9 +1,18 @@
 <div class="card">
-    <form [formGroup]="approveReturnForm">
-        <div class="row mt-3 text-center">
-            <h4>Action Form</h4>
+    <div class="row">
+        <div class="col-sm-12 text-end">
+            <a (click)="close()">
+                <img width="22px" src="../../../../../assets/form-icon/cancel.svg" alt="">
+            </a>
         </div>
-        <div class="row mt-4">
+        <div class="col-sm-12 text-center">
+            <div class="a-h">
+                <h4>Action Form</h4>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="approveReturnForm">
+        <div class="row mt-3">
             <div class="col-6" *ngIf="data.type == 'Approve'">
                 <label>Comments :</label>
             </div>
