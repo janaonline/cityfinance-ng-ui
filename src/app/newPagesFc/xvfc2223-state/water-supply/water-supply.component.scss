@@ -1,6 +1,6 @@
 h5 {
     font-size: 15px;
-    color: #373737;
+    color: #000000;
     font-family: Roboto;
     font-weight: 500;
 }
@@ -8,6 +8,7 @@ h5 {
 h6 {
     color: #373737;
     font-weight: 600;
+    font-size: 14px;
 }
 
 p {
@@ -67,8 +68,16 @@ p {
     padding: 5px 5px 5px 5px;
 }
 
-table {
-    width: 98%;
+
+.pointerEvent{
+    pointer-events: none;
+    border-radius: 7px;
+    border: 1px solid rgb(229, 214, 245);
+}
+
+.vl{
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .selectBtn {
@@ -105,7 +114,8 @@ table {
         width: 100%;
     }
     table {
-        width: 98%;
+        width: 96%;
+        margin-left: 20px;
     }
     th {
         color: #047474;
@@ -127,7 +137,7 @@ table {
         position: absolute;
         //  height: 100%;
         left: 70%;
-        width: 62px;
+        width: 53px;
     }
     .form-control {
         border-color: var(--greenish);
@@ -214,7 +224,8 @@ table {
         width: 100%;
     }
     table {
-        width: 98%;
+        width: 96%;
+        margin-left: 20px;
     }
     th {
         color: #047474;
@@ -367,10 +378,69 @@ td {
     position: relative;
     display: table;
     border-collapse: separate;
+    width: 115px;
 }
 
 .form-control {
     display: inline-flex;
-    width: 60%;
+    width: 55%;
     font-size: 14px;
+}
+
+.indicators{
+    width: 55%;
+    background-color: #059b9a;
+    margin: auto;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 37px;
+}
+
+.indicatorsTableSummary{
+    width: 96%;
+    background-color: #ade9e9;
+    margin: auto;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 37px;
+}
+
+.indicatorsSummary{
+    width: 55%;
+    background-color: #ade9e9;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 37px;
+}
+
+.tableBorder{
+    border: 1px solid #b8b8b8;;
+    margin-left: 22px !important;
+}
+
+.highlighted{
+    font-weight: 700;
+}
+.hrClass{
+    width: 99%;
+    height: 4px;
+}
+.tableDataSummary{
+    width: 55%;
+    background-color: #ade9e9;
+    height: auto;
+    vertical-align: middle;
+    line-height: 37px;
+}
+.solidWasteSummary{
+    border: 1px solid rgb(184, 184, 184);
+    height: auto;
+    width: 99%;
+}
+
+.disableAction{
+    pointer-events: none;
 }
