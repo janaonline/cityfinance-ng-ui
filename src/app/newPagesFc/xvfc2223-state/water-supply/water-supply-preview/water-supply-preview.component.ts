@@ -7,13 +7,16 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
+import { WaterManagement } from "src/app/users/data-upload/models/financial-data.interface";
+import { services, targets } from "src/app/users/data-upload/components/configs/water-waste-management";
 const swal: SweetAlert = require("sweetalert");
+
 @Component({
-  selector: 'app-property-tax-floor-rate-preview',
-  templateUrl: './property-tax-floor-rate-preview.component.html',
-  styleUrls: ['./property-tax-floor-rate-preview.component.scss']
+  selector: 'app-water-supply-preview',
+  templateUrl: './water-supply-preview.component.html',
+  styleUrls: ['./water-supply-preview.component.scss']
 })
-export class PropertyTaxFloorRatePreviewComponent implements OnInit {
+export class WaterSupplyPreviewComponent implements OnInit {
   constructor(private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -28,6 +31,17 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   fileUrl: any;
   fileName: any;
   formStatus:any;
+  focusTargetKey: any = {}
+  focusTargetKeyForErrorMessages: any = {}
+  targets = targets;
+  // @ViewChild("template") template;
+  benchmarks = []
+  services: {
+    key: keyof WaterManagement;
+    name: string;
+    benchmark: string;
+  }[] = services;
+  uasList;
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -110,12 +124,32 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
       this.formStatus = "Not Started"
     }
     this.stateName = userData["stateName"];
+
+    this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
+    console.log(this.uasList)
+
+
+
+    this.services.forEach(data => {
+      this.focusTargetKey[data.key + 'baseline'] = false
+      this.targets.forEach(item => {
+        this.focusTargetKey[data.key + item.key] = false
+      })
+    })
+    this.services.forEach(data => {
+      this.focusTargetKeyForErrorMessages[data.key + 'baseline'] = false
+      this.targets.forEach(item => {
+        this.focusTargetKeyForErrorMessages[data.key + item.key] = false
+      })
+    })
+
+    this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
     
-      changeHappen = sessionStorage.getItem("changeInPropertyTax");
+      // changeHappen = sessionStorage.getItem("changeInPropertyTax");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -131,7 +165,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName = this.fileName ? this.fileName : "property-tax.pdf";
+    let downloadFileName = this.fileName ? this.fileName : "water-supply.pdf";
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);
@@ -177,14 +211,14 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   }
 
   async submit() {
-    console.log("property save", this.data?.dataPreview);
+    console.log("water supply preview", this.data?.dataPreview);
     let body = { ...this.data?.dataPreview,
       isDraft: true };
     return new Promise((resolve, rej) => {
       this.commonService.submitPtForm(body).subscribe(
         (res) => {
          
-            sessionStorage.setItem("changeInPropertyTax", "false");
+            // sessionStorage.setItem("changeInPropertyTax", "false");
           
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
@@ -192,7 +226,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
         },
         (err) => {
          
-          sessionStorage.setItem("changeInPropertyTax", "false");
+          // sessionStorage.setItem("changeInPropertyTax", "false");
           
 
           swal("Error", "Failed To Save", "error");

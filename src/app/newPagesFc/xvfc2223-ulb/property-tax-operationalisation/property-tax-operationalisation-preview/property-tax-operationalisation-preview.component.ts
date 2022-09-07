@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, Inject, TemplateRef } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { USER_TYPE } from "src/app/models/user/userType";
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
@@ -8,12 +9,14 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
+
 @Component({
-  selector: 'app-property-tax-floor-rate-preview',
-  templateUrl: './property-tax-floor-rate-preview.component.html',
-  styleUrls: ['./property-tax-floor-rate-preview.component.scss']
+  selector: 'app-property-tax-operationalisation-preview',
+  templateUrl: './property-tax-operationalisation-preview.component.html',
+  styleUrls: ['./property-tax-operationalisation-preview.component.scss']
 })
-export class PropertyTaxFloorRatePreviewComponent implements OnInit {
+export class PropertyTaxOperationalisationPreviewComponent implements OnInit {
+
   constructor(private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,10 +27,13 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   dialogRef;
   download;
   showLoader;
+  ulbName = "";
   stateName = "";
   fileUrl: any;
   fileName: any;
+  hideUnderline:boolean = false;
   formStatus:any;
+
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -57,6 +63,9 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
 }
 .form-status {
   font-size: 10px;
+}
+.h-cls{
+  display: none;
 }
   .card {
       margin-top: 10px !important;
@@ -102,20 +111,33 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
-    if(this.data?.preData?.data?.isDraft == true){
-       this.formStatus = "In Progress"
-    }else if(this.data?.preData?.data?.isDraft == false){
-      this.formStatus = "Completed"
-    }else {
+    if (!this.data?.dataPreview.hasOwnProperty('isDraft')) {
       this.formStatus = "Not Started"
+    } else {
+      if(this.data?.dataPreview?.isDraft){
+        this.formStatus = "In Progress"
+      } else if(!this.data?.dataPreview?.isDraft){
+        this.formStatus = "Completed"
+      }
+    }
+    this.data?.dataPreview?.rateCard?.url == '' ? this.hideUnderline = true : false
+    this.data?.dataPreview?.ptCollection?.url == '' ? this.hideUnderline = true : false
+    this.data?.dataPreview?.proof?.url == '' ? this.hideUnderline = true : false
+
+    if (userData.role !== USER_TYPE.ULB) {
+      this.ulbName = sessionStorage.getItem("ulbName");
+    } else {
+      this.ulbName = userData["name"];
     }
     this.stateName = userData["stateName"];
+
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-    
-      changeHappen = sessionStorage.getItem("changeInPropertyTax");
+
+      changeHappen = sessionStorage.getItem("changeInPropertyTaxOp");
+
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -123,6 +145,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
       this.downloadAsPDF();
     }
   }
+ 
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -131,7 +154,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;
-    let downloadFileName = this.fileName ? this.fileName : "property-tax.pdf";
+    let downloadFileName = this.fileName ? this.fileName : "propertyTaxOperationalisation.pdf";
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         this.downloadFile(res.slice(0), "pdf", downloadFileName);
@@ -173,27 +196,32 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
     this.dialogRef.close();
     this._matDialog.closeAll();
     await this.submit();
+
     await this.downloadAsPDF();
+    //  if (this.changeFromOutSide)
+    // this._ulbformService.initiateDownload.next(true);
+    //  else await this.downloadAsPDF();
   }
 
   async submit() {
-    console.log("property save", this.data?.dataPreview);
-    let body = { ...this.data?.dataPreview,
-      isDraft: true };
+    console.log("propertytaxop save", this.data?.formData);
+    let body = { ...this.data?.dataPreview, isDraft: true };
     return new Promise((resolve, rej) => {
-      this.commonService.submitPtForm(body).subscribe(
+      this.commonService.postPropertyTaxUlb(body).subscribe(
         (res) => {
-         
-            sessionStorage.setItem("changeInPropertyTax", "false");
-          
+            sessionStorage.setItem("changeInPropertyTaxOp", "false");
           console.log(res);
+          // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          // status.annualAccounts.isSubmit = res["isCompleted"];
+          // this._ulbformService.allStatus.next(status);
           swal("Saved", "Data saved as draft successfully", "success");
           resolve("sucess");
         },
         (err) => {
+
          
-          sessionStorage.setItem("changeInPropertyTax", "false");
-          
+          sessionStorage.setItem("changeInPropertyTaxOp", "false");
+
 
           swal("Error", "Failed To Save", "error");
           resolve(err);

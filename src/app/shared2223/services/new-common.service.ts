@@ -110,6 +110,25 @@ export class NewCommonService {
   }
 
   postCommonAction(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
+  }
+
+  postPropertyTaxUlb(body) {
+    return this.http.post(`${environment.api.url}propTaxOp`, body);
+  }
+
+  getPropertyTaxUlbData(param) {
+    return this.http.get(
+      `${environment.api.url}propTaxOp?ulb=${param.ulb}&design_year=${param.design_year}`
+    );
+  }
+
+  getPropertyTaxDropdownList() {
+    return this.http.get(
+      `${environment.api.url}propTaxOpDropDown`
+    );
+  }
+  postActionDataAA(body) {
+    return this.http.post(`${environment.api.url}annual-accounts/action`, body);
   }
 }

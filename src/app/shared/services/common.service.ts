@@ -47,6 +47,13 @@ export class CommonService {
     private snackbar: MatSnackBar
   ) {}
 
+  private searchItem : BehaviorSubject<any> = new BehaviorSubject([]);
+  castSearchItem = this.searchItem.asObservable();
+
+  updateSearchItem(searchItem){
+     this.searchItem.next(searchItem)
+  }
+
   searchUlb(body, type, state = "") {
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}&state=${state}`,

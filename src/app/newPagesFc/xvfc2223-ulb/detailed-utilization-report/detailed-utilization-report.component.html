@@ -495,7 +495,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-12">
-                    <app-common-action [actionRes]="actionRes" [formData]="utiData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
+                    <app-common-action [actionRes]="actionRes" [formData]="utiData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
                     </app-common-action>
                 </div>
             </div>
@@ -505,9 +505,12 @@
                 <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
-                <button class="btn btn-primary" *ngIf="userData?.role != 'STATE'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
+                <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                <span *ngIf="canTakeAction">
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" 
+                [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+               </span>
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>

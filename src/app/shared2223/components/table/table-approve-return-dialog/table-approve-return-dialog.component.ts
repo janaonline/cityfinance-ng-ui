@@ -24,22 +24,12 @@ export class TableApproveReturnDialogComponent implements OnInit {
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   subscription: any;
-  // apiData = {};
-  // body: any;
-  // clickedSave;
-  // routerNavigate = nul
   submitted: boolean = false;
   isDisabled: boolean = false;
-  // activeClass: boolean = false;
   stateActFileUrl;
-  // constitutedValue;
-  // constitutedValueActive: boolean = false;
-  // memorandum: boolean = false;
-  // noteMessege: boolean = false;
   commonActionCondition: boolean = false;
-  // isDisabled:boolean =false
-  //  previewFormData: any;
-  // @ViewChild("templateSave") template;
+  retuenErrorMsg = 'Return reason is mandatory.';
+  retuenError = false;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -260,32 +250,40 @@ export class TableApproveReturnDialogComponent implements OnInit {
       );
   }
   alertSave() {
-    this._matDialog.closeAll();
-    swal(
-      "Confirmation !",
-      `Are you sure you want to save this action ?`,
-      "warning",
-      {
-        buttons: {
-          Submit: {
-            text: "Yes",
-            value: "yes",
+    console.log('save data', this.approveReturnForm.value)
+    if (this.data.type == "Return" && this.approveReturnForm.value?.rejectReason == "") {
+      this.retuenError = true;
+      return;
+    } else {
+      this.retuenError = false;
+      this._matDialog.closeAll();
+      swal(
+        "Confirmation !",
+        `Are you sure you want to save this action ?`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Yes",
+              value: "yes",
+            },
+            Cancel: {
+              text: "No",
+              value: "no",
+            },
           },
-          Cancel: {
-            text: "No",
-            value: "no",
-          },
-        },
-      }
-    ).then((value) => {
-      switch (value) {
-        case "yes":
-          this.onSubmit("yes");
-          break;
-        case "no":
-          break;
-      }
-    });
+        }
+      ).then((value) => {
+        switch (value) {
+          case "yes":
+            this.onSubmit("yes");
+            break;
+          case "no":
+            break;
+        }
+      });
+    }
+
   }
   obj;
   onSubmit(type) {
@@ -313,5 +311,8 @@ export class TableApproveReturnDialogComponent implements OnInit {
         swal("Error", error ? error : "Error", "error");
       }
     );
+  }
+  close() {
+    this._matDialog.closeAll();
   }
 }

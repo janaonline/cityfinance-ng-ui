@@ -1,14 +1,12 @@
-<div class="card mt-2" *ngIf="loggedInUserType !== userTypes.ULB &&
-formDataChange?.isDraft == false &&
- (formDataChange?.status == 'PENDING')">
+<div class="card mt-2" *ngIf="loggedInUserType != userTypes.ULB && canTakeAction == true">
     <div class="card-body">
         <form *ngIf="statusForm" [formGroup]="statusForm">
             <div class="row">
-                <div class="col-6">
+                <div class="col-sm-6">
                     <h5 class="heading">REVIEW STATUS</h5>
                 </div>
-                <div class="col-6">
-                    <div class="form-group mb-3">
+                <div class="col-sm-6">
+                    <div class="form-group mb-2">
                         <div class="btn-group" btnRadioGroup formControlName="status">
                             <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
                             <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
@@ -17,14 +15,14 @@ formDataChange?.isDraft == false &&
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-6" *ngIf="toggle?.status == 'APPROVED'">
+                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED'">
                     <label class="fontStyle">Remark :</label>
                 </div>
-                <div class="col-6" *ngIf="toggle?.status == 'REJECTED'">
+                <div class="col-sm-6" *ngIf="toggle?.status == 'REJECTED'">
                     <label class="fontStyle">Reason for return :<sup class="text-danger">*</sup></label>
                 </div>
 
-                <div class="col-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
+                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
                     <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls' : actBtnDis}"></textarea>
                     <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
                         {{item}}
@@ -32,18 +30,18 @@ formDataChange?.isDraft == false &&
                 </div>
             </div>
             <div *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                <div class="row mt-3 mb-3 question">
-                    <div class="col-6">
-                        <label class="fontStyle">Uplaod document :</label>
+                <div class="row">
+                    <div class="col-sm-6 fontStyle">
+                        Uplaod document :
                     </div>
-                    <div class="col-6 image-upload">
+                    <div class="col-sm-6 image-upload">
                         <label for="cin4">
-                          <a class="btn btnUpload" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
+                          <a class="btn btn-primary" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
                               PDF
                               <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                   style="margin-left: 4px;">
                           </a>
-                          <p class="errorMessege">{{errorMessegeCommonAction}}</p>
+                          <p class="errorMessege" *ngIf="errorMessegeCommonAction">{{errorMessegeCommonAction}}</p>
                       </label>
                         <input id="cin4" name="cin4" type="file" [disabled]="actBtnDis" (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" />
                         <!-- <div>
@@ -53,16 +51,16 @@ formDataChange?.isDraft == false &&
                       </div>             -->
                     </div>
                 </div>
-                <div class="row" *ngIf="showCommonAct">
-                    <div class="col-6 filePadding mb-3">
+                <div class="row mt-3" *ngIf="showCommonAct">
+                    <div class="col-sm-6 filePadding">
                         {{commonActFileName}}
                     </div>
-                    <div class="col-2 progressBar" *ngIf="commonActProgress">
+                    <div class="col-sm-2 progressBar" *ngIf="commonActProgress">
                         <div class="progress-bar" *ngIf="commonActProgress" role="progressbar" attr.aria-valuenow="{{ commonActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: commonActProgress + '%' }">
                             {{ commonActProgress }}%
                         </div>
                     </div>
-                    <div class="col-4 filePadding">
+                    <div class="col-sm-4 filePadding">
                         <a href="{{ stateActFileUrl }}" target="_blank">
                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                         </a>
@@ -79,7 +77,8 @@ formDataChange?.isDraft == false &&
         </form>
     </div>
 </div>
-<div class="card" *ngIf="loggedInUserType === userTypes.ULB && formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
+<div class="card" *ngIf="loggedInUserType === userTypes.ULB &&
+formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
     <div class="card-body">
         <div class="row fw-bold">
             <div class="col-sm-3">Status:</div>
@@ -113,7 +112,7 @@ formDataChange?.isDraft == false &&
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a href="{{formDataChange?.responseFile_state?.url}} ">{{formDataChange?.responseFile_state?.name}}</a>
+                        <a target="_blank" href="{{formDataChange?.responseFile_state?.url}} ">{{formDataChange?.responseFile_state?.name}}</a>
                     </div>
                 </div>
             </div>
@@ -136,7 +135,7 @@ formDataChange?.isDraft == false &&
                         Document:
                     </div>
                     <div class="col-sm-9">
-                        <a href="{{formDataChange?.responseFile_mohua?.url}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
+                        <a target="_blank" href="{{formDataChange?.responseFile_mohua?.url}} ">{{formDataChange?.responseFile_mohua?.name}}</a>
                     </div>
                 </div>
             </div>

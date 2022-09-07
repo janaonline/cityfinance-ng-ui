@@ -132,6 +132,12 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   recentSearchArray = [
 
   ];
+  dummyData:any = [
+    { 
+      name: 'newDataSet',
+      type: 'new'
+    }
+  ]
   ngOnInit() {
     this.loadRecentSearchValue();
 
@@ -192,10 +198,11 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   }
   globalSearchClick(){
     console.log('filterOptions', this.filteredOptions)
-    console.log('form control', this.globalFormControl)
+    console.log('form control', this.globalFormControl.value)
     let searchArray:any = this.filteredOptions;
     let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
     console.log(searchValue);
+    this._commonService.updateSearchItem(this.globalFormControl.value);
     // let postBody = {
     //   type: searchValue.type,
     //   searchKeyword: searchValue._id
@@ -256,6 +263,10 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
     if(option?.type == 'ulb'){
       this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+    }
+    
+    if(option?.type == 'newDataSet'){
+      this.router.navigateByUrl(`/resources-dashboard/learning-center/toolkits`)
     }
 
   }

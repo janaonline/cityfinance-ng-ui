@@ -294,6 +294,7 @@ export class Slbs28FormComponent implements OnInit {
     return true;
   }
   popError = false;
+  formId = '';
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
@@ -329,6 +330,7 @@ export class Slbs28FormComponent implements OnInit {
         if (element?.name == "28 SLBs") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
         }
       });
     }
@@ -475,5 +477,68 @@ export class Slbs28FormComponent implements OnInit {
     const end = input?.selectionEnd || input?.selectionStart;
 
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+  actionRes;
+  actionBtnDis = false;
+
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      ulb: [this.ulbId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+    this.newCommonService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
   }
 }

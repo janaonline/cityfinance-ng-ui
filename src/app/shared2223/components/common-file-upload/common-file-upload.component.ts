@@ -77,7 +77,9 @@ export class CommonFileUploadComponent implements OnInit {
   inputNumberError = "Fields can not be blank!";
   ngOnInit(): void {
     // debugger;
-    if (this.quesName == "Auditors Report") {
+    console.log("isDisabled", this.isDisabled);
+
+    if (this.quesName == "Auditor Report" || this.quesName == 'Supporting Document') {
       this.showExcel = false;
     } else {
       this.showExcel = true;
@@ -98,6 +100,7 @@ export class CommonFileUploadComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChange) {
     console.log("chnages", changes);
+    console.log("chnages isDisabled", this.isDisabled);
     if (this.delFileType) {
       this.clearFile(this.delFileType, "onLoad");
     }

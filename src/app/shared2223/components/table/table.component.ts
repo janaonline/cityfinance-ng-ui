@@ -18,6 +18,9 @@ import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog/table-approve-return-dialog.component";
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+
 @Component({
   selector: "app-table",
   templateUrl: "./table.component.html",
@@ -78,6 +81,7 @@ export class TableComponent implements OnInit, OnChanges {
   };
   formRouterLink;
   formStateRouterLink;
+  isLoader = false;
   ngOnInit(): void {
     this.updatedTableData();
     this.fetchStateList();
@@ -110,23 +114,24 @@ export class TableComponent implements OnInit, OnChanges {
   }
   filterFormValue;
   valueChanges() {
-    this.filterForm.valueChanges.subscribe((value) => {
-      console.log("value changes", value);
-      this.filterFormValue = value;
-      this.params["ulbName"] = value?.ulb_name_s;
-      this.params["ulbCode"] = value?.ulb_code_s;
-      this.params["censusCode"] = value?.ulb_code_s;
-      this.params["ulbType"] = value?.ulbType_s;
-      this.params["UA"] = value?.ua_name_s;
-      this.params["status"] = value?.status_s;
-      this.params["filled1"] = value?.filled_1;
-      this.params["populationType"] = value?.population_type_s;
-      if (this.userData?.role !== "STATE") {
-        this.params["stateCode"] = value?.state_name_s;
-      }
-      this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
-      // this.params["stateId"] = value?.state_name_s;
-    });
+    //debugger
+    // this.filterForm.valueChanges.subscribe((value) => {
+    //   console.log("value changes", value);
+    //   this.filterFormValue = value;
+    //   this.params["ulbName"] = value?.ulb_name_s;
+    //   this.params["ulbCode"] = value?.ulb_code_s;
+    //   this.params["censusCode"] = value?.ulb_code_s;
+    //   this.params["ulbType"] = value?.ulbType_s;
+    //   this.params["UA"] = value?.ua_name_s;
+    //   this.params["status"] = value?.status_s;
+    //   this.params["filled1"] = value?.filled_1;
+    //   this.params["populationType"] = value?.population_type_s;
+    //   if (this.userData?.role !== "STATE") {
+    //     this.params["state"] = value?.state_name_s;
+    //   }
+    //   this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
+    //   // this.params["stateId"] = value?.state_name_s;
+    // });
   }
   updatedTableData() {
     this.commonService.reviewStatus.subscribe((result) => {
@@ -138,9 +143,11 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
   callAPI() {
+    this.isLoader = true;
     this.params.formId = this.formId;
     this.commonService.getReviewForms(this.params).subscribe(
       (res) => {
+        this.isLoader = false;
         this.title = res["title"];
         this.data = res["data"];
         this.total = res["total"];
@@ -166,11 +173,26 @@ export class TableComponent implements OnInit, OnChanges {
         // this.dataSource = new MatTableDataSource(this.data);
       },
       (err) => {
-        alert(err.message);
+        swal('Error', `${err.message}`, 'error');
+        this.isLoader = false;
       }
     );
   }
   search() {
+    console.log("value changes", this.filterForm?.value);
+    this.filterFormValue = this.filterForm?.value;
+    this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+    this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+    this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+    this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+    this.params["UA"] = this.filterForm?.value?.ua_name_s;
+    this.params["status"] = this.filterForm?.value?.status_s;
+    this.params["filled1"] = this.filterForm?.value?.filled_1;
+    this.params["populationType"] = this.filterForm?.value?.population_type_s;
+    if (this.userData?.role !== "STATE") {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+    }
+    this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
     this.callAPI();
   }
   isChecked(element: any) {
@@ -306,7 +328,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log("data", data);
     localStorage.setItem("ulb_id", data?.ulbId);
     this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
-    sessionStorage.setItem("stateName", data.state);
+    sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
     // this.router.navigateByUrl(`${this.formRouterLink}`)
@@ -315,7 +337,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log("data", data);
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
-    sessionStorage.setItem("stateName", data?.stateData?.name);
+    sessionStorage.setItem("stateName", data?.stateName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
   }
   getStateBar(id, role, isUA) {
@@ -338,6 +360,13 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
   resetFilter() {
+    this.params = {
+      design_year: "606aafb14dff55e6c075d3ae",
+      formId: this.formId,
+
+    };
+    this.params["limit"] = 10;
+    this.params["skip"] = 0;
     this.filterForm.reset();
     this.callAPI();
   }

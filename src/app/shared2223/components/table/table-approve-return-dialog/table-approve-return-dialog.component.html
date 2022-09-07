@@ -1,9 +1,18 @@
 <div class="card">
-    <form [formGroup]="approveReturnForm">
-        <div class="row mt-3 text-center">
-            <h4>Action Form</h4>
+    <div class="row">
+        <div class="col-sm-12 text-end">
+            <a (click)="close()">
+                <img width="22px" src="../../../../../assets/form-icon/cancel.svg" alt="">
+            </a>
         </div>
-        <div class="row mt-4">
+        <div class="col-sm-12 text-center">
+            <div class="a-h">
+                <h4>Action Form</h4>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="approveReturnForm">
+        <div class="row mt-3">
             <div class="col-6" *ngIf="data.type == 'Approve'">
                 <label>Comments :</label>
             </div>
@@ -12,6 +21,9 @@
             </div>
             <div class="col-6">
                 <textarea formControlName="rejectReason" id="reason" cols="34" rows="2" placeholder="Type here ..."></textarea>
+                <div class="text-danger" *ngIf="retuenError">
+                    {{retuenErrorMsg}}
+                </div>
             </div>
         </div>
         <div class="row mt-3">
@@ -24,13 +36,13 @@
                     <div class="col-12">
                         <div class="image-upload">
                             <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
-                                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
+                                    <a class="btn btn-primary" (click)="uploadButtonClicked('A')"
                                     [ngClass]="{'fadedClass': isDisabled}">Upload
                                         PDF
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
-                                    <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                                    <p class="errorMessege" *ngIf="errorMessegeStateAct">{{errorMessegeStateAct}}</p>
                                 </label>
                             <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         </div>
