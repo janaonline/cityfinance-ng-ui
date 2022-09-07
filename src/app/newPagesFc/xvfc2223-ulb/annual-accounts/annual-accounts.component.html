@@ -78,7 +78,7 @@
                                             <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
                                                 <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Retrun</button>
+                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
@@ -90,11 +90,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- *ngIf="item?.action == true &&
-                                data?.status != 'PENDING' && data?.isDraft == false" -->
+                                <!-- {{item?.data?.status}} {{canTakeAction}} -->
                                 <div class="card mb-4" *ngIf="item?.action == true && data?.isDraft == false && canTakeAction == false">
                                     <div class="card-body">
-                                        <div class="row" *ngIf=" data?.status == 'PENDING'">
+                                        <div class="row" *ngIf="data?.status == 'PENDING'">
                                             <div class="col-sm-2">
                                                 Status:
                                             </div>
@@ -102,20 +101,20 @@
                                                 Under review by state
                                             </div>
                                         </div>
-                                        <div class="row" *ngIf=" data?.status !== 'PENDING'">
+                                        <div class="row" *ngIf="item?.data?.status != 'PENDING'">
                                             <div class="col-sm-2">
                                                 State Review:
                                             </div>
                                             <div class="col-sm-10">
-                                                {{item?.status}}
+                                                {{item?.data?.status}}
                                             </div>
                                         </div>
-                                        <div class="row" *ngIf=" data?.status !== 'PENDING'">
+                                        <div class="row" *ngIf="item?.data?.status != 'PENDING'">
                                             <div class="col-sm-2">
                                                 Return Reason:
                                             </div>
                                             <div class="col-sm-10">
-                                                {{item?.rejectReason}}
+                                                {{item?.data?.rejectReason}}
                                             </div>
                                         </div>
                                         <!-- <div class="row">
@@ -150,6 +149,55 @@
                             </div>
                         </div>
                     </div>
+                    <!-- action in case of no no -->
+                    <!-- <div class="actNO" *ngIf="!data?.unAudited?.submit_annual_accounts">
+                        <div class="card mb-5" *ngIf="canTakeAction == true">
+                            <div class="card-body">
+                                <div class="row" style="">
+                                    <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                    <div class="col-sm-7 act-btn" style="width: 50%">
+                                        <button type="button" class="btn btn-success" (click)="actionBtnClickNo('Approve', 'unAudited', $event?.target?.value)">Approve</button>
+                                        <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClickNo('Return', 'unAudited', $event?.target?.value)">Return</button>
+                                    </div>
+                                    <div class="col-sm-12 rej mt-3">
+                                        <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                        <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4" *ngIf="data?.isDraft == false && canTakeAction == false">
+                            <div class="card-body">
+                                <div class="row" *ngIf=" data?.status == 'PENDING'">
+                                    <div class="col-sm-2">
+                                        Status:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        Under review by state
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf=" data?.status !== 'PENDING'">
+                                    <div class="col-sm-2">
+                                        State Review:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {{item?.status}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf=" data?.status !== 'PENDING'">
+                                    <div class="col-sm-2">
+                                        Return Reason:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        {{item?.rejectReason}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
                 <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
                     <div class="row mt-3 mb-3">
@@ -310,7 +358,7 @@
                                         <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
                                             <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Retrun</button>
+                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>

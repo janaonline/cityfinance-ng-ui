@@ -170,7 +170,7 @@ export class OdfFormComponent implements OnInit {
         console.log(res);
         this.getFormData = res;
         this.actFormData = res?.data;
-        if (res?.data?.status !== "PENDING") {
+        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
           this.actionBtnDis = true;
         }
         res?.data?.isDraft == false

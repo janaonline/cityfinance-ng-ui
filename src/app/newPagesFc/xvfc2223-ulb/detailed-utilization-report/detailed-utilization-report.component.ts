@@ -273,7 +273,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         } else {
           this.isDisabled = false;
         }
-        if (res?.data?.status !== "PENDING") {
+        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
           this.actionBtnDis = true;
         }
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
