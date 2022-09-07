@@ -23,7 +23,8 @@ const swal: SweetAlert = require("sweetalert");
 import {
   services,
   targets,
-  achieved
+  achieved,
+  score
 } from "src/app/users/data-upload/components/configs/slb2223";
 @Component({
   selector: 'app-slbs2223',
@@ -40,6 +41,7 @@ export class Slbs2223Component implements OnInit {
   USER_TYPE = USER_TYPE;
   targets = targets;
   achieved = achieved;
+  score = score
 
 
   services: {
@@ -87,10 +89,10 @@ export class Slbs2223Component implements OnInit {
     });
   }
   protected readonly formBuilder = new FormBuilder();
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.isMillionPlusOrNot()
     this.setPreviousAndNextUrl();
-     this.getSlbData();
+    await this.getSlbData();
      this.createDataForms(this.preFilledWaterManagement)
   }
   dialogRef
@@ -162,6 +164,8 @@ export class Slbs2223Component implements OnInit {
     return new Promise((resolve, reject) => {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
+      params += "&from=2223"
+      params += `&ulb=${this.ulbId}`
       this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
 
         this.preFilledWaterManagement =
@@ -205,7 +209,7 @@ export class Slbs2223Component implements OnInit {
         console.log("asdfghj", actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res));
         console.log("slbsResppppppppp", res);
-
+console.log("important---> ", this.preFilledWaterManagement)
         resolve(res);
       });
     });
@@ -213,6 +217,8 @@ export class Slbs2223Component implements OnInit {
   }
   createDataForms(data?: IFinancialData) {
     this.waterWasteManagementForm = this.createWasteWaterUploadForm(data);
+    this.waterWasteManagementForm.disable()
+    console.log("check here--------> ", this.waterWasteManagementForm)
   }
   answer(ans) {
     this.clickAnswer = ans
