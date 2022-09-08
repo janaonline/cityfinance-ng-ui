@@ -835,9 +835,7 @@ export class AnnualAccountsComponent implements OnInit {
           } else {
             this.isDisabled = true;
           }
-          if (this.userData?.role != "ULB") {
-            this.isDisabled = true;
-          }
+
           this.action = resObj?.action;
           this.url = resObj?.url;
           if (resObj?.canTakeAction) this.canTakeAction = resObj?.canTakeAction;
@@ -858,6 +856,10 @@ export class AnnualAccountsComponent implements OnInit {
           console.error(err.message);
         }
       );
+
+    if (this.userData?.role != "ULB") {
+      this.isDisabled = true;
+    }
   }
 
 checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){

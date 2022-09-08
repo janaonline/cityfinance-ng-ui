@@ -212,38 +212,9 @@ export class PfmsComponent implements OnInit {
           this.dataValue?.data?.isUlbLinkedWithPFMS == "No"
         ) {
           this.removeULBLinkedFormControlValidation();
-          // this.registerForm.get('PFMSAccountNumber').clearValidators();
-          // this.registerForm.get('PFMSAccountNumber').updateValueAndValidity();
-          // this.removeValidatorInBulk(this.registerForm.get('cert'));
+
         }
 
-        // below code will use for active / inactive the child question
-        //   if(this.dataValue.data.linkPFMS == 'Yes'){
-        //      this.activeClass = true;
-        //      this.showOtherQuestions = true;
-        //      this.showOtherQuestions1 = true;
-        //      this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
-        //      if(this.dataValue.data.isUlbLinkedWithPFMS == 'No'){
-        //         this.activeClassNoBottom = true;
-        //         this.showIcon = false
-        //         this.showIconOtherDoc = false
-        //         this.isDisabled = false
-        //         this.patchFormValue('isUlbLinkedWithPFMS', res?.data?.isUlbLinkedWithPFMS);
-        //      }else{
-        //        this.showOtherQuestions = true
-        //        this.showOtherQuestions1 = true
-        //        this.activeClassBottom = true
-        //        this.linkedToggle = true
-        //      }
-        //   }else{
-        //     this.activeClassNo = true
-        //     this.patchFormValue('linkPFMS', res?.data?.linkPFMS);
-        //     this.registerForm.get('isUlbLinkedWithPFMS').clearValidators();
-        // this.registerForm.get('isUlbLinkedWithPFMS').updateValueAndValidity();
-        //     // this.patchFormValue('isUlbLinkedWithPFMS', '');
-        //   }
-
-        // below code will use for active / inactive the child question
 
         if (this.dataValue.data.cert.name) {
           this.pfmsFileName = this.dataValue.data.cert.name;
