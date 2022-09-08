@@ -232,14 +232,13 @@
             </tbody>
         </table>
     </div>
-    <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo" *ngIf="data" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+    <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo" *ngIf="!(data?.length == 0)" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
         screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
 </div>
 <!-- </form> -->
 
-
-<div class="row" *ngIf="!data && !isLoader">
+<div class="row" *ngIf="(data?.length == 0) && !isLoader">
     <div class="col-sm-12 text-danger text-center p-3 nodata">
         No Data Found.
     </div>
