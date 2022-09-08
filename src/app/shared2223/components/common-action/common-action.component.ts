@@ -73,8 +73,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   ) {
     this.initializeLoggedInUserDataFetch();
     this.initializeUserType();
-    console.log("form data for action 111", this.formData);
-    console.log("form data for action res", this.actionRes);
+   // console.log("form data for action 111", this.formData);
+   // console.log("form data for action res", this.actionRes);
 
 
   }
@@ -90,11 +90,11 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
-    console.log(
-      "form data for action res changes",
-      this.formData,
-      this.formDataChange
-    );
+    // console.log(
+    //   "form data for action res changes",
+    //   this.formData,
+    //   this.formDataChange
+    // );
     if (
       this.formData?.status == "APPROVED" &&
       this.formData?.actionTakenByRole == "STATE"

@@ -18,9 +18,12 @@ const toWords = new ToWords();
   styleUrls: ["./common-file-upload.component.scss"],
 })
 export class CommonFileUploadComponent implements OnInit {
-  constructor(private dataEntryService: DataEntryService) {}
+  constructor(private dataEntryService: DataEntryService) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+  }
   //number to word
   // converter = require("number-to-words");
+  userData;
   @Input() quesName;
   @Input() quesType;
   @Input() isDisabled;
@@ -99,14 +102,14 @@ export class CommonFileUploadComponent implements OnInit {
     }
   }
   ngOnChanges(changes: SimpleChange) {
-    console.log("chnages", changes);
-    console.log("chnages isDisabled", this.isDisabled);
+    // console.log("chnages", changes);
+    // console.log("chnages isDisabled", this.isDisabled);
     if (this.delFileType) {
       this.clearFile(this.delFileType, "onLoad");
     }
     if (this.dataFromParentN) {
       this.data = this.dataFromParentN;
-      console.log("changes..........", this.dataFromParentN);
+     // console.log("changes..........", this.dataFromParentN);
     }
   }
 
@@ -131,7 +134,7 @@ export class CommonFileUploadComponent implements OnInit {
     }
 
     this.fillAmount.emit(this.amountObj);
-    if (this.compName == "AnnualAccount" && type == "click")
+    if (this.compName == "AnnualAccount" && type == "click" && this.userData?.role == 'ULB')
       sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   async fileChangeEvent(event, fileType) {
@@ -208,7 +211,7 @@ export class CommonFileUploadComponent implements OnInit {
           this.data[fileType].progress = 100;
           this.data[fileType].file = file;
           this.data[fileType].url = fileAlias;
-          if (this.compName == "AnnualAccount")
+          if (this.compName == "AnnualAccount" && this.userData?.role == 'ULB')
             sessionStorage.setItem("changeInAnnualAcc", "true");
           this.getFileUploadResult.emit(this.data);
         }
@@ -227,7 +230,7 @@ export class CommonFileUploadComponent implements OnInit {
       this.data[fileType][key] = null;
     }
     this.getFileUploadResult.emit(this.data);
-    if (type == "click") {
+    if (type == "click" && this.userData?.role == 'ULB') {
       sessionStorage.setItem("changeInAnnualAcc", "true");
     }
   }

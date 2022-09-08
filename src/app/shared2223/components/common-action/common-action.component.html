@@ -2,10 +2,10 @@
     <div class="card-body">
         <form *ngIf="statusForm" [formGroup]="statusForm">
             <div class="row">
-                <div class="col-sm-6">
-                    <h5 class="heading">REVIEW STATUS</h5>
+                <div class="col-sm-5">
+                    <h5 class="heading">Review Status :</h5>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <div class="form-group mb-2">
                         <div class="btn-group" btnRadioGroup formControlName="status">
                             <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
@@ -15,14 +15,14 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED'">
-                    <label class="fontStyle">Remark :</label>
+                <div class="col-sm-5 fontStyle" *ngIf="toggle?.status == 'APPROVED'">
+                    Remark :
                 </div>
-                <div class="col-sm-6" *ngIf="toggle?.status == 'REJECTED'">
-                    <label class="fontStyle">Reason for return :<sup class="text-danger">*</sup></label>
+                <div class="col-sm-5 fontStyle" *ngIf="toggle?.status == 'REJECTED'">
+                    Reason for return<sup class="text-danger">*</sup> :
                 </div>
 
-                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
+                <div class="col-sm-7" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
                     <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls' : actBtnDis}"></textarea>
                     <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
                         {{item}}
@@ -30,11 +30,11 @@
                 </div>
             </div>
             <div *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                <div class="row">
-                    <div class="col-sm-6 fontStyle">
+                <div class="row mt-3">
+                    <div class="col-sm-5 fontStyle">
                         Uplaod document :
                     </div>
-                    <div class="col-sm-6 image-upload">
+                    <div class="col-sm-7 image-upload">
                         <label for="cin4">
                           <a class="btn btn-primary" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
                               PDF
@@ -142,6 +142,4 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
 
         </div>
     </div>
-
-
 </div>
