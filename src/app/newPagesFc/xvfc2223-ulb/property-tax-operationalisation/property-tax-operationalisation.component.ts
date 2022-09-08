@@ -428,6 +428,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         this.isDisabled = true
         console.log(res)
         this.getPtoData();
+        this.ptService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeInPropertyTaxOp", "false");
         swal("Saved", "Data saved successfully", "success");
         this.ptService.setFormStatus2223.next(true);
@@ -456,7 +457,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         sessionStorage.removeItem("changeInPropertyTaxOp");
         console.log(res)
         this.clickedSave = false;
-        this.getPtoData()
+        this.getPtoData();
+        this.ptService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully.", "success");
       } else {
         this.clickedSave = false;
