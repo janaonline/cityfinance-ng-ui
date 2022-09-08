@@ -205,6 +205,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     if (type == "stateAct") {
       this.showCommonAct = false;
       this.commonActFileName = "";
+      this.stateActUrl = "";
       this.statusForm.patchValue({
         document: {
           url: "",
