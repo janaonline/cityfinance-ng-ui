@@ -654,7 +654,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       "closingBal"
     ].patchValue(Number(this.closingBal.toFixed(2)));
     this.postBody = {
-      status: "PENDING",
+      status: "",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -673,6 +673,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
           console.log("post uti mess", res);
           sessionStorage.setItem("changeInUti", "false");
           this.isSubmitted = false;
+          this.utiData['status'] = "PENDING";
           this.newCommonService.setFormStatus2223.next(true);
         },
         (error) => {
@@ -763,6 +764,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         console.log("post uti mess", res);
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
+        this.utiData['status'] = "PENDING";
         this.newCommonService.setFormStatus2223.next(true);
       },
       (error) => {
