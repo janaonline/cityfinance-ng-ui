@@ -9,9 +9,10 @@ import { BehaviorSubject, Subject } from "rxjs";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
-  setFormStatus2223 = new Subject<any>();
+  setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);;
   multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+
   getLeftMenu(ulbId, role, isUA) {
     return this.http.get(
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
