@@ -261,6 +261,9 @@ export class PfmsComponent implements OnInit {
       },
       (error) => {
         this.isDisabled = true;
+        if (this.ulbData?.role !== "ULB") {
+          this.isDisabled = false;
+        }
       }
     );
   }
