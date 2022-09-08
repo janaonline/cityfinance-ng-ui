@@ -138,6 +138,7 @@ export class TableComponent implements OnInit, OnChanges {
       console.log("review Status ===>", result);
       if (result) {
         this.callAPI();
+        this.selectedId = [];
         return;
       }
     });
