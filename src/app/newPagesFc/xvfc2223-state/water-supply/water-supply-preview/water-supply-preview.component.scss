@@ -7,6 +7,9 @@
 .opacityClass{
     opacity: 0.5;
 }
+.formHeading{
+    font-size: inherit !important;
+}
 .heading-p {
     color: #FFFFFF;
     font-size: 22px;
@@ -423,6 +426,7 @@ td {
     text-align: center;
     vertical-align: middle;
     line-height: 37px;
+    color:white;
 }
 
 .indicatorsTableSummary{
