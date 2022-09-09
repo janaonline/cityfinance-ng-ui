@@ -77,15 +77,19 @@
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
-                                                <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
-                                                <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                                <!-- Return reason: -->
+                                                <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
                                                 <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
+                                            </div>
+                                            <div class="text-danger acterr" *ngIf="item?.actError">
+                                                Action required.(in case of return, Return reason is also mandatory.)
                                             </div>
                                         </div>
                                     </div>
@@ -110,10 +114,10 @@
                                             </div>
                                         </div>
                                         <div class="row" *ngIf="item?.data?.status != 'PENDING'">
-                                            <div class="col-sm-2">
-                                                Return Reason:
+                                            <div class="col-sm-4">
+                                                Remarks/Return reason:
                                             </div>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-8">
                                                 {{item?.data?.rejectReason}}
                                             </div>
                                         </div>
@@ -131,7 +135,7 @@
                         </div>
                         <!-- userData?.role != 'ULB' && data?.status == 'PENDING' -->
                         <div class="card-body" *ngIf="canTakeAction == true">
-                            <div class="row">
+                            <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
                                 <div class="col-sm-12">
                                     <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
                                     </app-common-file-upload>
@@ -357,15 +361,18 @@
                                     <div class="row" style="">
                                         <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
-                                            <button type="button" class="btn btn-success" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn btn-danger ms-3" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
+                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
-                                            <div class="d-inline-block a-h h-aa" style="width: 46%">Return reason:</div>
+                                            <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
                                             <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
+                                        </div>
+                                        <div class="text-danger acterr" *ngIf="item?.actError">
+                                            Action required.(in case of return, Return reason is also mandatory.)
                                         </div>
                                     </div>
                                 </div>
@@ -374,7 +381,7 @@
                           data?.status != 'PENDING' && data?.isDraft == false" -->
                             <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == false && data?.isDraft == false">
                                 <div class="card-body">
-                                    <div class="row" *ngIf=" data?.status == 'PENDING'">
+                                    <div class="row" *ngIf="data?.status == 'PENDING'">
                                         <div class="col-sm-2">
                                             Status:
                                         </div>
@@ -382,20 +389,20 @@
                                             Under review by state
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf=" data?.status !== 'PENDING'">
-                                        <div class="col-sm-2">
+                                    <div class="row" *ngIf="item?.data?.status !== 'PENDING'">
+                                        <div class="col-sm-4">
                                             Review Status:
                                         </div>
-                                        <div class="col-sm-10">
-                                            {{item?.status}}
+                                        <div class="col-sm-8">
+                                            {{item?.data?.status}}
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf=" data?.status !== 'PENDING'">
-                                        <div class="col-sm-2">
-                                            Return Reason:
+                                    <div class="row" *ngIf="item?.data?.status !== 'PENDING'">
+                                        <div class="col-sm-4">
+                                            Remarks/Return reason :
                                         </div>
-                                        <div class="col-sm-10">
-                                            {{item?.rejectReason}}
+                                        <div class="col-sm-8">
+                                            {{item?.data?.rejectReason}}
                                         </div>
                                     </div>
                                     <!-- <div class="row">
@@ -414,7 +421,7 @@
                             </div> -->
                         </div>
                         <div class="card-body" *ngIf="canTakeAction == true">
-                            <div class="row">
+                            <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
                                 <div class="col-sm-12">
                                     <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
                                     </app-common-file-upload>

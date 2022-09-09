@@ -167,12 +167,9 @@ export class OdfFormComponent implements OnInit {
 
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
-        console.log(res);
+        console.log('odfresponsedata', res);
         this.getFormData = res;
         this.actFormData = res?.data;
-        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
-          this.actionBtnDis = true;
-        }
         res?.data?.isDraft == false
           ? (this.commonActionCondition = true)
           : (this.commonActionCondition = false);
@@ -181,6 +178,8 @@ export class OdfFormComponent implements OnInit {
           res?.data?.rating == "62b2e4969a6c781a28150d71"
         ) {
           this.uploadCertificate = false;
+          this.profileForm.get("certDate").clearValidators();
+          this.profileForm.get("certDate").updateValueAndValidity();
           // this.profileForm.patchValue({
           //   certDate: ['',Validators.required]
           // })
@@ -211,6 +210,13 @@ export class OdfFormComponent implements OnInit {
             action = 'false';
           }
           sessionStorage.setItem("canTakeAction", action);
+        }
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.userData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
+          this.actionBtnDis = true;
         }
       },
       (error) => {
@@ -402,6 +408,9 @@ export class OdfFormComponent implements OnInit {
           this.clickedSave = false;
           this.draft = false;
           this.commonService.setFormStatus2223.next(true);
+          this.canTakeAction = false;
+          console.log('responseODf', res)
+         // this.actFormData['status'] = "PENDING";
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
@@ -440,6 +449,8 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         this.draft = true;
         this.commonService.setFormStatus2223.next(true);
+        // this.actFormData['status'] = "PENDING";
+        this.canTakeAction = false;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {

@@ -302,8 +302,9 @@ export class TableApproveReturnDialogComponent implements OnInit {
     this.newCommonService.postTableApproveRejectData(this.obj).subscribe(
       (res: any) => {
         console.log("post successful", res);
-        swal("Saved Data !!!!!!", "Saved Data Successfully !!!");
+        swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
+        this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);
       },
       (error) => {

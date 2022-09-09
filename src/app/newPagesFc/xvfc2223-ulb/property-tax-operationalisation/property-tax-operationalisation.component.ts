@@ -313,6 +313,9 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       this.dataValue = res;
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       this.previewFormData = res
+      if(res?.data?.toCollect == 'No'){
+        this.removeFormControlValidation() 
+      }
       this.patchFunction();
     })
   }
