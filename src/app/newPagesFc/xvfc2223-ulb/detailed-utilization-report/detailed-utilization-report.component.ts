@@ -273,14 +273,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
         } else {
           this.isDisabled = false;
         }
-        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
-          this.actionBtnDis = true;
-        }
+
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
           this.isDisabled = false;
-         this.utilizationReportForm.enable();
-
+          this.utilizationReportForm.enable();
         }
+
         sessionStorage.setItem("changeInUti", "false");
         if (this.userData?.role !== "ULB") {
           let action = 'false';
@@ -291,6 +289,13 @@ export class DetailedUtilizationReportComponent implements OnInit {
             action = 'false';
           }
           sessionStorage.setItem("canTakeAction", action);
+        }
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.userData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
+          this.actionBtnDis = true;
         }
 
       },
@@ -653,8 +658,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
     ].patchValue(Number(this.closingBal.toFixed(2)));
+    this.utilizationReportForm.value.status = 'PENDING';
     this.postBody = {
-      status: "",
+      // status: "PENDING",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -764,7 +770,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
         console.log("post uti mess", res);
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
-        this.utiData['status'] = "PENDING";
         this.newCommonService.setFormStatus2223.next(true);
       },
       (error) => {
@@ -914,6 +919,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
+
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },

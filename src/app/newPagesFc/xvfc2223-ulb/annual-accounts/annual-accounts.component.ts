@@ -713,6 +713,7 @@ export class AnnualAccountsComponent implements OnInit {
   compName = "AnnualAccount";
   nextRouter;
   backRouter;
+
   ngOnInit(): void {
 
     sessionStorage.setItem("changeInAnnualAcc", "false");
