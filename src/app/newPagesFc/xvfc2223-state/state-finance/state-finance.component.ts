@@ -129,10 +129,16 @@ export class StateFinanceComponent implements OnInit {
     console.log(params)
     //call api and subscribe and patch here
     this.ptService.getStateFinance(params).subscribe((res:any)=>{
-      console.log(res)
+      console.log('responswedadadad', res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false;
       this.previewFormData = res
+      if(res?.data?.constitutedSfc == 'No'){
+        this.removeValidatorInBulk(this.stateFinance.get('stateNotification'));
+      }else{
+        this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
+        this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
+      }
       this.patchFunction(this.previewFormData);
     })
   }
