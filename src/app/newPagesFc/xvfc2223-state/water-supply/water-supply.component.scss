@@ -142,78 +142,11 @@ table {
     .form-control {
         border-color: var(--greenish);
     }
-    .question-table {
-        width: 98%;
-        margin-bottom: 3%;
-        tr:not(:last-child) td {
-            padding: 1% 1%;
-            border-bottom: 0.5px solid rgb(224, 224, 224);
-            position: relative;
-        }
-        tbody tr td:nth-child(1) {
-            padding: 0.5% 0.1%;
-            width: 2%;
-        }
-        tbody tr td:nth-child(3) {
-            padding: 0.5% 0.1%;
-            width: 15%;
-        }
-        .question {
-            width: 83%;
-            margin: 0%;
-        }
-    }
-    li {
-        padding: 2% 1%;
-        border-bottom: 0.5px solid rgb(221, 221, 221);
-        position: relative;
-        // display: flex;
-        align-items: center;
-        p {
-            margin: 1px;
-        }
-    }
+   
     button.btn-primary {
         outline: none;
     }
-    .myFile {
-        position: absolute;
-        overflow: hidden;
-        float: left;
-        clear: left;
-        top: 4px;
-    }
-    .myFile input[type="file"] {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        opacity: 0;
-        font-size: 100px;
-        filter: alpha(opacity=0);
-        cursor: pointer;
-    }
-    .myFile input[type="file"]:disabled {
-        cursor: not-allowed;
-    }
-    .myFile:disabled {
-        cursor: not-allowed !important;
-    }
-    .left {
-        width: 75%;
-        // background: red;
-        display: inline-block;
-    }
-    .right {
-        width: 15%;
-        right: 0%;
-        // background: green;
-        display: inline-block;
-        position: absolute;
-        button {
-            float: right;
-        }
-    }
+ 
 }
 
 :host {
@@ -230,36 +163,7 @@ table {
     th {
         color: #047474;
     }
-    .non-ulb-view-table {
-        // width: 115%;
-        // transform: translateX(-7%);
-        .data-input,
-        .service-name,
-        .benchamark-cell {
-            position: absolute;
-            top: 1rem;
-        }
-        table {
-            tbody tr td:nth-child(3),
-            thead th:nth-child(3) {
-                width: 14%;
-            }
-            th,
-            td {
-                padding: 1% 1%;
-            }
-            tbody td:nth-child(1) {
-                width: 21%;
-            }
-            tbody td:last-child {
-                width: 15%;
-            }
-        }
-    }
-    form.ulb-view-table {
-        width: 101%;
-        transform: none;
-    }
+
     table tbody td,
     table thead th {
         padding: 0.5%;
@@ -294,31 +198,6 @@ table {
     }
 }
 
-.align-vertical {
-    vertical-align: text-top;
-}
-
-.btn-next {
-    background-color: #059b9a;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-.s-th {
-    border-radius: 4px;
-    width: 96px;
-    height: 28px;
-    border-color: #00000029;
-    font-weight: 400;
-    font-size: 12px;
-}
-
-.p-s {
-    padding-left: 20px;
-}
 
 .table>tbody>tr>td,
 .table>tbody>tr>th,
@@ -330,28 +209,7 @@ table {
     text-align: center;
 }
 
-.btn-d {
-    background-color: #059B9A;
-    color: #FFFFFF;
-}
 
-.s-s {
-    position: relative;
-    margin-right: -21px;
-}
-
-.filter {
-    border: none;
-}
-
-.btn-action {
-    background-color: #059B9A;
-    color: #FFFFFF;
-    border-radius: 3px;
-    height: 28px;
-    font-size: 12px;
-    width: 85px;
-}
 
 .tracking-history-table {
     thead tr th {
