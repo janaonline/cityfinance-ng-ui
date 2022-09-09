@@ -177,9 +177,6 @@ export class PfmsComponent implements OnInit {
         } else {
           this.isDisabled = true;
         }
-        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
-          this.actionBtnDis = true;
-        }
         if (res?.data?.status === "REJECTED" && this.ulbData?.role == "ULB") {
           this.isDisabled = true;
         }
@@ -194,17 +191,14 @@ export class PfmsComponent implements OnInit {
           }
           sessionStorage.setItem("canTakeAction", action);
         }
-        // this.isDisabled = this.dataValue?.data?.isDraft ? this.dataValue?.data?.isDraft : false;
-        // this.previewData = res;
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.ulbData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
+          this.actionBtnDis = true;
+        }
 
-        // this code will use for disabled property
-        // if (!this.dataValue?.data?.isDraft) {
-        //   // this.registerForm.disable()
-        //   this.disableInputs = true;
-        //   this.greyInputs = true;
-        //   this.customDisable = true;
-        // }
-        // this code will use for disabled property end
         console.log(this.dataValue);
 
         if (

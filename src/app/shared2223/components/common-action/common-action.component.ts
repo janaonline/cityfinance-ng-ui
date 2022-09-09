@@ -88,6 +88,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
     // console.log('take action.........', this.canTakeAction);
   }
+  state_status = '';
+  mohua_status = ''
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
     // console.log(
@@ -100,17 +102,32 @@ export class CommonActionComponent implements OnInit, OnChanges {
       this.formData?.actionTakenByRole == "STATE"
     ) {
       this.finalStatus = "Under Review by MoHUA";
+      this.state_status = 'APPROVED';
+
     } else if (
       this.formData?.status == "REJECTED" &&
       this.formData?.actionTakenByRole == "STATE"
     ) {
       this.finalStatus = "Returned by State";
+      this.state_status = 'REJECTED';
     } else if (
       this.formData?.status == "APPROVED" &&
       this.formData?.actionTakenByRole == "MoHUA"
     ) {
       this.finalStatus = "Approved by MoHUA";
       this.mohuaReview = true;
+      this.state_status = 'APPROVED';
+      this.mohua_status = 'APPROVED';
+
+    }
+    else if (
+      this.formData?.status == "REJECTED" &&
+      this.formData?.actionTakenByRole == "MoHUA"
+    ) {
+      this.finalStatus = "Returned by MoHUA";
+      this.mohuaReview = true;
+      this.state_status = 'APPROVED';
+      this.mohua_status = 'REJECTED';
     }
     // debugger
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
