@@ -167,7 +167,7 @@ export class OdfFormComponent implements OnInit {
 
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
-        console.log(res);
+        console.log('odfresponsedata', res);
         this.getFormData = res;
         this.actFormData = res?.data;
         res?.data?.isDraft == false
@@ -178,6 +178,8 @@ export class OdfFormComponent implements OnInit {
           res?.data?.rating == "62b2e4969a6c781a28150d71"
         ) {
           this.uploadCertificate = false;
+          this.profileForm.get("certDate").clearValidators();
+          this.profileForm.get("certDate").updateValueAndValidity();
           // this.profileForm.patchValue({
           //   certDate: ['',Validators.required]
           // })
@@ -407,6 +409,7 @@ export class OdfFormComponent implements OnInit {
           this.draft = false;
           this.commonService.setFormStatus2223.next(true);
           this.canTakeAction = false;
+          console.log('responseODf', res)
          // this.actFormData['status'] = "PENDING";
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
