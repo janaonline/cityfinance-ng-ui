@@ -406,7 +406,8 @@ export class OdfFormComponent implements OnInit {
           this.clickedSave = false;
           this.draft = false;
           this.commonService.setFormStatus2223.next(true);
-          this.actFormData['status'] = "PENDING";
+          this.canTakeAction = false;
+         // this.actFormData['status'] = "PENDING";
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
@@ -445,7 +446,8 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         this.draft = true;
         this.commonService.setFormStatus2223.next(true);
-        this.actFormData['status'] = "PENDING";
+        // this.actFormData['status'] = "PENDING";
+        this.canTakeAction = false;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {
