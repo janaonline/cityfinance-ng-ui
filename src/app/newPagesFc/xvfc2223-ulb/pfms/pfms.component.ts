@@ -136,7 +136,13 @@ export class PfmsComponent implements OnInit {
   get f() {
     return this.registerForm.controls;
   }
-
+  checkValidation(){
+    console.log('this.registerForm.value', this.dataValue)
+    if(this.dataValue?.data?.linkPFMS == 'No'){
+      this.removeULBLinkedFormControlValidation();
+      this.removeValidatorsOneByOne("isUlbLinkedWithPFMS");
+    }
+  }
   initializePmfsForm() {
     this.registerForm = this.formBuilder.group({
       linkPFMS: ["", Validators.required],
@@ -209,6 +215,9 @@ export class PfmsComponent implements OnInit {
 
         }
 
+        if(this.dataValue?.data?.linkPFMS == "No"){
+            this.checkValidation();
+        }
 
         if (this.dataValue.data.cert.name) {
           this.pfmsFileName = this.dataValue.data.cert.name;

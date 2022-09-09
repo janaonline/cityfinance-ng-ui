@@ -55,6 +55,15 @@ export class WaterSupplyPreviewComponent implements OnInit {
     font-weight: 700;
 
 }
+.formHeading{
+  font-size: inherit !important;
+}
+p{
+  font-size : 10px !important;
+}
+h5{
+  font-size: 10px !important;
+}
 .sub-h {
   font-weight: 600 !important;
   font-size: 14px;
@@ -111,7 +120,72 @@ export class WaterSupplyPreviewComponent implements OnInit {
         color: black;
         pointer-events: none;
     }
+    .indicators{
+      width: 100%;
+      background-color: #059b9a;
+      margin: auto;
+      height: auto;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 37px;
+      color:white;
+  }
+  
+  .indicatorsTableSummary{
+      width: 100%;
+      background-color: #ade9e9;
+      margin: auto;
+      height: auto;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 37px;
+  }
 
+  .indicatorsSummary{
+      width: 100%;
+      background-color: #ade9e9;
+      height: auto;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 37px;
+  }
+  
+  .tableBorder{
+      border: 1px solid #b8b8b8;;
+      width: 98% !important;
+  }
+  
+  .highlighted{
+      font-weight: 700;
+  }
+  .hrClass{
+      width: 99%;
+      height: 4px;
+  }
+  .tableDataSummary{
+      width: 100%;
+      background-color: #ade9e9;
+      height: auto;
+      vertical-align: middle;
+      line-height: 37px;
+  }
+  .solidWasteSummary{
+      border: 1px solid rgb(184, 184, 184);
+      height: auto;
+      width: 99%;
+  }
+  .disableAction{
+      pointer-events: none;
+  }
+  .indicators{
+    margin-top: 8% !important;
+  }
+  .pdfSuitable{
+    width: 33% !important;
+    position: relative !important;
+    display: inline-block !important;
+    text-align: center !important;
+  }
     </style>`
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));

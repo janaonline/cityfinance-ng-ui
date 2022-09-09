@@ -5,7 +5,7 @@
       
     </div>
 </div>
-<div >
+<div class="row">
     <div class="col-sm-12" style="margin-bottom: 1rem;">
         <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
             <!-- <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span> -->
@@ -13,13 +13,13 @@
       ULB: {{ financialData?.ulbName }}</span> -->
 
             <button [style.position]="loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
+        " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="preview()">
                 Preview
             </button>
         </h3>
     </div>
 <div class="row">
-    <div class="card col-sm-12 mb-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
+    <div class="card col-sm-12 mb-2 ms-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
         <form [formGroup]="waterWasteManagementForm" *ngIf="waterWasteManagementForm; else preloader" autocomplete="off" [ngClass]="{
     'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
     'ulb-view-table':
@@ -538,16 +538,11 @@
 
 <!-- save and next -->
 <div class="row mt-4 mb-3">
-  <div class="col-sm-6">
-      <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
-  </div>
-  <div class="col-sm-6 text-end">
-      <button class="btn btn-c-next ms-3" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
-  </div>
+  
 </div>
 </div>
 
-<ng-template #template1>
+<!-- <ng-template #template1>
     <div class="modal-body text-center">
         <div class="modal-header">
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
@@ -566,13 +561,20 @@
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
         </div>
     </div>
-</ng-template>
-
-
-
+</ng-template> -->
+  <div class="row">
+    
+      <div class="col-sm-6">
+        <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
+      </div>
+      <div class="col-sm-6 text-end">
+        <button class="btn btn-c-next next-btn" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
+      </div>
+   
+  </div>
 </div>
 
-
+<!-- 
 
 <ng-template #previewPopup>
 <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
@@ -621,4 +623,4 @@
     </div>
 
 </div>
-</ng-template>
+</ng-template> -->
