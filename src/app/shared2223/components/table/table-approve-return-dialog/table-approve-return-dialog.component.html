@@ -13,13 +13,13 @@
     </div>
     <form [formGroup]="approveReturnForm">
         <div class="row mt-3">
-            <div class="col-6" *ngIf="data.type == 'Approve'">
-                <label>Comments :</label>
+            <div class="col-sm-4 h-l" *ngIf="data.type == 'Approve'">
+                Comments :
             </div>
-            <div class="col-6" *ngIf="data.type == 'Return'">
-                <label>Return reason :<sup class="text-danger">*</sup></label>
+            <div class="col-sm-4 h-l" *ngIf="data.type == 'Return'">
+                Return reason :<sup class="text-danger">*</sup>
             </div>
-            <div class="col-6">
+            <div class="col-sm-8">
                 <textarea formControlName="rejectReason" id="reason" cols="34" rows="2" placeholder="Type here ..."></textarea>
                 <div class="text-danger" *ngIf="retuenError">
                     {{retuenErrorMsg}}
@@ -27,10 +27,10 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-6">
-                <label>Supporting document :</label>
+            <div class="col-sm-4 h-l">
+                Supporting document :
             </div>
-            <div class="col-6">
+            <div class="col-sm-8">
 
                 <div class="row mt-3 mb-3 question">
                     <div class="col-12">
@@ -53,7 +53,7 @@
 
             </div>
         </div>
-        <div class="row" *ngIf="showStateAct">
+        <div class="row mt-3" *ngIf="showStateAct">
             <div class="col-6 filePadding mb-3">
                 {{stateActFileName}}
             </div>
@@ -74,8 +74,8 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-12 text-end">
-                <button class="btn btn-primary btnSave" type="submit" (click)="alertSave()">Save</button>
+            <div class="col-12 text-end pe-3">
+                <button class="btn btn-primary" type="submit" (click)="alertSave()">Save</button>
             </div>
         </div>
     </form>

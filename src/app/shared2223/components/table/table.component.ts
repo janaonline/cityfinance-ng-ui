@@ -107,10 +107,10 @@ export class TableComponent implements OnInit, OnChanges {
     });
     this.formUrl = formData?.url;
     this.formRouterLink =
-      "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
+      "../../ulbform2223/" + this.formUrl;
     console.log("form data url", formData);
     this.formStateRouterLink =
-      "../../stateform2223/" + this.formUrl + `/${formData?._id}`;
+      "../../stateform2223/" + this.formUrl;
   }
   filterFormValue;
   valueChanges() {
@@ -138,6 +138,7 @@ export class TableComponent implements OnInit, OnChanges {
       console.log("review Status ===>", result);
       if (result) {
         this.callAPI();
+        this.selectedId = [];
         return;
       }
     });

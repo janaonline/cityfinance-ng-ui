@@ -1,82 +1,3 @@
-<div class="card mt-2" *ngIf="loggedInUserType != userTypes.ULB && canTakeAction == true">
-    <div class="card-body">
-        <form *ngIf="statusForm" [formGroup]="statusForm">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h5 class="heading">REVIEW STATUS</h5>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group mb-2">
-                        <div class="btn-group" btnRadioGroup formControlName="status">
-                            <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
-                            <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED'">
-                    <label class="fontStyle">Remark :</label>
-                </div>
-                <div class="col-sm-6" *ngIf="toggle?.status == 'REJECTED'">
-                    <label class="fontStyle">Reason for return :<sup class="text-danger">*</sup></label>
-                </div>
-
-                <div class="col-sm-6" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls' : actBtnDis}"></textarea>
-                    <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
-                        {{item}}
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                <div class="row">
-                    <div class="col-sm-6 fontStyle">
-                        Uplaod document :
-                    </div>
-                    <div class="col-sm-6 image-upload">
-                        <label for="cin4">
-                          <a class="btn btn-primary" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
-                              PDF
-                              <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                  style="margin-left: 4px;">
-                          </a>
-                          <p class="errorMessege" *ngIf="errorMessegeCommonAction">{{errorMessegeCommonAction}}</p>
-                      </label>
-                        <input id="cin4" name="cin4" type="file" [disabled]="actBtnDis" (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" />
-                        <!-- <div>
-                          <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
-                              <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
-                          </div>
-                      </div>             -->
-                    </div>
-                </div>
-                <div class="row mt-3" *ngIf="showCommonAct">
-                    <div class="col-sm-6 filePadding">
-                        {{commonActFileName}}
-                    </div>
-                    <div class="col-sm-2 progressBar" *ngIf="commonActProgress">
-                        <div class="progress-bar" *ngIf="commonActProgress" role="progressbar" attr.aria-valuenow="{{ commonActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: commonActProgress + '%' }">
-                            {{ commonActProgress }}%
-                        </div>
-                    </div>
-                    <div class="col-sm-4 filePadding">
-                        <a href="{{ stateActFileUrl }}" target="_blank">
-                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
-                        </a>
-                        <span>
-                          <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
-                          [ngClass]="{'disCls' : actBtnDis}">
-                              <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
-                          </a>
-                      </span>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-    </div>
-</div>
 <div class="card" *ngIf="loggedInUserType === userTypes.ULB &&
 formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
     <div class="card-body">
@@ -94,10 +15,12 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                 <div class="col-sm-9">{{finalStatus}}</div>
             </div>
             <hr>
-            <div class="stateRes ">
+            <div class="stateRes">
                 <div class="row ">
                     <div class="col-sm-3">State Review Status:</div>
-                    <div class="col-sm-9">{{formDataChange?.status}}</div>
+                    <!-- <div class="col-sm-9">{{formDataChange?.status}}</div> -->
+                    <div class="col-sm-9">{{state_status}}</div>
+
                 </div>
                 <div class="row ">
                     <div class="col-sm-3">
@@ -120,7 +43,8 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
             <div class="mohuaRes " *ngIf="mohuaReview">
                 <div class="row ">
                     <div class="col-sm-3">MoHUA Review Status:</div>
-                    <div class="col-sm-9">{{mohuaStatus}}</div>
+                    <!-- <div class="col-sm-9">{{mohuaStatus}}</div> -->
+                    <div class="col-sm-9">{{mohua_status}}</div>
                 </div>
                 <div class="row ">
                     <div class="col-sm-3">
@@ -129,6 +53,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                     <div class="col-sm-9">
                         {{formDataChange?.rejectReason_mohua}}
                     </div>
+
                 </div>
                 <div class="row ">
                     <div class="col-sm-3">
@@ -142,6 +67,83 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
 
         </div>
     </div>
+</div>
+<div class="card mt-2" *ngIf="loggedInUserType != userTypes.ULB && canTakeAction == true">
+    <div class="card-body">
+        <form *ngIf="statusForm" [formGroup]="statusForm">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h5 class="heading">Review Status :</h5>
+                </div>
+                <div class="col-sm-7">
+                    <div class="form-group mb-2">
+                        <div class="btn-group" btnRadioGroup formControlName="status">
+                            <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                            <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-5 fontStyle" *ngIf="toggle?.status == 'APPROVED'">
+                    Remark :
+                </div>
+                <div class="col-sm-5 fontStyle" *ngIf="toggle?.status == 'REJECTED'">
+                    Reason for return<sup class="text-danger">*</sup> :
+                </div>
 
+                <div class="col-sm-7" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
+                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls disGray' : actBtnDis}"></textarea>
+                    <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
+                        {{item}}
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
+                <div class="row mt-3">
+                    <div class="col-sm-5 fontStyle">
+                        Uplaod document :
+                    </div>
+                    <div class="col-sm-7 image-upload">
+                        <label for="cin4">
+                        <a class="btn btn-primary" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege" *ngIf="errorMessegeCommonAction">{{errorMessegeCommonAction}}</p>
+                    </label>
+                        <input id="cin4" name="cin4" type="file" [disabled]="actBtnDis" (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" />
+                        <!-- <div>
+                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                            <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                        </div>
+                    </div>             -->
+                    </div>
+                </div>
+                <div class="row mt-3" *ngIf="showCommonAct">
+                    <div class="col-sm-5 filePadding">
+                        {{commonActFileName}}
+                    </div>
+                    <div class="col-sm-2 progressBar" *ngIf="commonActProgress">
+                        <div class="progress-bar" *ngIf="commonActProgress" role="progressbar" attr.aria-valuenow="{{ commonActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: commonActProgress + '%' }">
+                            {{ commonActProgress }}%
+                        </div>
+                    </div>
+                    <div class="col-sm-4 filePadding">
+                        <a href="{{ stateActUrl }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        </a>
+                        <span>
+                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
+                        [ngClass]="{'disCls' : actBtnDis}">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                    </div>
+                </div>
+            </div>
 
+        </form>
+    </div>
 </div>

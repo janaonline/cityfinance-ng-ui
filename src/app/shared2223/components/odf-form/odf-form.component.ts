@@ -170,9 +170,6 @@ export class OdfFormComponent implements OnInit {
         console.log(res);
         this.getFormData = res;
         this.actFormData = res?.data;
-        if (res?.data?.status !== "PENDING" || res?.data?.status == null || res?.data?.status == undefined) {
-          this.actionBtnDis = true;
-        }
         res?.data?.isDraft == false
           ? (this.commonActionCondition = true)
           : (this.commonActionCondition = false);
@@ -211,6 +208,13 @@ export class OdfFormComponent implements OnInit {
             action = 'false';
           }
           sessionStorage.setItem("canTakeAction", action);
+        }
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.userData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
+          this.actionBtnDis = true;
         }
       },
       (error) => {
@@ -402,6 +406,8 @@ export class OdfFormComponent implements OnInit {
           this.clickedSave = false;
           this.draft = false;
           this.commonService.setFormStatus2223.next(true);
+          this.canTakeAction = false;
+         // this.actFormData['status'] = "PENDING";
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
@@ -440,6 +446,8 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         this.draft = true;
         this.commonService.setFormStatus2223.next(true);
+        // this.actFormData['status'] = "PENDING";
+        this.canTakeAction = false;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {

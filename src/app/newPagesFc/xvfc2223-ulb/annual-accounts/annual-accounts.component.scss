@@ -153,3 +153,33 @@
 .s-f {
     color: blue !important;
 }
+
+.btnA {
+    background-color: #75fdbe;
+    color: #000000;
+}
+
+.btnAAc {
+    background-color: green;
+    color: #fff
+}
+
+.btnR {
+    background-color: rgb(255, 194, 194);
+    color: #000000;
+}
+
+.btnRAc {
+    background-color: rgb(250, 37, 37);
+    color: #fff
+}
+
+.disCls {
+    pointer-events: none;
+    opacity: .8;
+}
+
+.disGray {
+    background-color: #e9ecef;
+    color: #000
+}

@@ -73,8 +73,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   ) {
     this.initializeLoggedInUserDataFetch();
     this.initializeUserType();
-    console.log("form data for action 111", this.formData);
-    console.log("form data for action res", this.actionRes);
+   // console.log("form data for action 111", this.formData);
+   // console.log("form data for action res", this.actionRes);
 
 
   }
@@ -88,29 +88,46 @@ export class CommonActionComponent implements OnInit, OnChanges {
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
     // console.log('take action.........', this.canTakeAction);
   }
+  state_status = '';
+  mohua_status = ''
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
-    console.log(
-      "form data for action res changes",
-      this.formData,
-      this.formDataChange
-    );
+    // console.log(
+    //   "form data for action res changes",
+    //   this.formData,
+    //   this.formDataChange
+    // );
     if (
       this.formData?.status == "APPROVED" &&
       this.formData?.actionTakenByRole == "STATE"
     ) {
       this.finalStatus = "Under Review by MoHUA";
+      this.state_status = 'APPROVED';
+
     } else if (
       this.formData?.status == "REJECTED" &&
       this.formData?.actionTakenByRole == "STATE"
     ) {
       this.finalStatus = "Returned by State";
+      this.state_status = 'REJECTED';
     } else if (
       this.formData?.status == "APPROVED" &&
       this.formData?.actionTakenByRole == "MoHUA"
     ) {
       this.finalStatus = "Approved by MoHUA";
       this.mohuaReview = true;
+      this.state_status = 'APPROVED';
+      this.mohua_status = 'APPROVED';
+
+    }
+    else if (
+      this.formData?.status == "REJECTED" &&
+      this.formData?.actionTakenByRole == "MoHUA"
+    ) {
+      this.finalStatus = "Returned by MoHUA";
+      this.mohuaReview = true;
+      this.state_status = 'APPROVED';
+      this.mohua_status = 'REJECTED';
     }
     // debugger
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
@@ -205,6 +222,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     if (type == "stateAct") {
       this.showCommonAct = false;
       this.commonActFileName = "";
+      this.stateActUrl = "";
       this.statusForm.patchValue({
         document: {
           url: "",
