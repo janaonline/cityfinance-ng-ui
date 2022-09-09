@@ -89,7 +89,14 @@ export class DataSetsComponent implements OnInit {
     console.log("changes===//>", changes);
   }
 
-  openNewTab(data) {
+  openNewTab(data, fullData) {
+    if(fullData.hasOwnProperty("section") && fullData.section == "standardised"){
+      this.selectedUsersList = []
+      this.selectedUsersList.push(fullData);
+      this.download(1)
+      this.selectedUsersList = []
+      return;
+    }
     console.log("file data", data);
     window.open(data, "_blank");
     // window.open(data?.fileUrl, "_blank");
