@@ -38,6 +38,7 @@ export class TableComponent implements OnInit, OnChanges {
   ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
+    this.fetchStateList();
     this.getDesignYear();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.dropdownChanges();
@@ -82,30 +83,41 @@ export class TableComponent implements OnInit, OnChanges {
   formRouterLink;
   formStateRouterLink;
   isLoader = false;
+  formName;
   ngOnInit(): void {
     this.updatedTableData();
-    this.fetchStateList();
+
     this.params["limit"] = 10;
     //  this.callAPI();
     this.valueChanges();
     //   this.multiActionM();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     // this.listFetchOption.skip = 0
     // this.initializeFilterForm();
     this.initializeListFetchParams();
-    this.params["skip"] = 0;
+    let skValue = sessionStorage.getItem('skipValue')
+    if (skValue) {
+      this.params["skip"] = Number(skValue);
+      let page = Math.round(Number(skValue) / 10);
+      this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
+    } else {
+      this.params["skip"] = 0;
+      this.tableDefaultOptions.currentPage = 1;
+    }
+
     // this.params['currentPage'] = 1
     // this.listFetchOption.skip = 0;
-    this.tableDefaultOptions.currentPage = 1;
     this.callAPI();
 
-    let formData = this.dropdownData.find(({ _id }) => {
+    let formData = this.dropdownData?.find(({ _id }) => {
       return _id === this.formId;
     });
     this.formUrl = formData?.url;
+    this.formName = formData?.name;
     this.formRouterLink =
       "../../ulbform2223/" + this.formUrl;
     console.log("form data url", formData);
@@ -171,6 +183,7 @@ export class TableComponent implements OnInit, OnChanges {
             ? Object.values(res["populationType"])
             : null;
         console.log("jjjjjjjj", this.data);
+        sessionStorage.removeItem('skipValue')
         // this.dataSource = new MatTableDataSource(this.data);
       },
       (err) => {
@@ -273,8 +286,8 @@ export class TableComponent implements OnInit, OnChanges {
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
-      res.data.forEach((state) => {
-        this.statesByID[state._id] = state;
+      res.data?.forEach((state) => {
+      //  this.statesByID[state?._id] = state;
       });
     });
   }
@@ -332,6 +345,12 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
+    sessionStorage.setItem("path1", 'Review Grant');
+    sessionStorage.setItem("form_id", this.formId);
+    sessionStorage.setItem("form_name", this.formName);
+    let skipValue: any = this.listFetchOption.skip
+    sessionStorage.setItem("skipValue", skipValue);
+
     // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
   viewStateForm(data) {
@@ -361,6 +380,17 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
   resetFilter() {
+    this.setParams();
+    this.callAPI();
+  }
+  dropdownChanges() {
+    this.stateServices.dpReviewChanges.subscribe((res) => {
+      console.log("table value changes....", res);
+      this.selectedId = [];
+      this.setParams();
+    });
+  }
+  setParams() {
     this.params = {
       design_year: "606aafb14dff55e6c075d3ae",
       formId: this.formId,
@@ -369,13 +399,6 @@ export class TableComponent implements OnInit, OnChanges {
     this.params["limit"] = 10;
     this.params["skip"] = 0;
     this.filterForm.reset();
-    this.callAPI();
-  }
-  dropdownChanges() {
-    this.stateServices.dpReviewChanges.subscribe((res) => {
-      console.log("table alue changes....", res);
-      this.selectedId = [];
-    });
   }
 }
 

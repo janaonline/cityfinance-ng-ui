@@ -25,6 +25,7 @@ export class ReviewApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
+    if (this.data?.length > 0)
     this.formId = this.data[0]["_id"];
   }
 
