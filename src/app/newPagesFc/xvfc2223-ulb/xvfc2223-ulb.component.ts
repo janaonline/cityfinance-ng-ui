@@ -224,6 +224,9 @@ export class Xvfc2223UlbComponent implements OnInit {
     });
   }
   backStatePage() {
-    this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+    if (this.loggedInUserType === this.userTypes.STATE) {
+      this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+    } else { }
+    this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
   }
 }

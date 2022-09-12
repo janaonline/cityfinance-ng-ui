@@ -99,14 +99,14 @@ export class TableComponent implements OnInit, OnChanges {
       this.params = sesParams;
       if (sesParams) {
         this.filterForm.patchValue({
-          ulb_name_s: sesParams?.ulbName,
-          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : sesParams?.censusCode,
-          ulbType_s: sesParams?.ulbType,
-          population_type_s: sesParams?.populationType,
-          ua_name_s: sesParams?.UA,
-          status_s: sesParams?.status,
-          filled_1: sesParams?.filled1,
-          filled_2: sesParams?.filled2,
+          ulb_name_s: sesParams?.ulbName ? sesParams?.ulbName : '',
+          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : (sesParams?.censusCode ? sesParams?.censusCode : ''),
+          ulbType_s: sesParams?.ulbType ? sesParams?.ulbType : '',
+          population_type_s: sesParams?.populationType ? sesParams?.populationType : '',
+          ua_name_s: sesParams?.UA ? sesParams?.UA : '',
+          status_s: sesParams?.status ? sesParams?.status : '',
+          filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
+          filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
         })
       }
       this.params["skip"] = Number(skValue);
