@@ -309,7 +309,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   onload(){
     this.getPtoData();
   }
-  formData;
+  formDataPto;
   getPtoData(){
     const params = {
       ulb: this.ulbId,
@@ -320,7 +320,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.ptService.getPropertyTaxUlbData(params).subscribe((res:any)=>{
       console.log(res)
       this.dataValue = res;
-      this.formData = res?.data;
+      this.formDataPto = res?.data;
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       this.previewFormData = res
       if(res?.data?.toCollect == 'No'){
