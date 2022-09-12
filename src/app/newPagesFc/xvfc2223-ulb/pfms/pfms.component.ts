@@ -48,7 +48,7 @@ export class PfmsComponent implements OnInit {
   ) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData);
-    this.ulbId = this.ulbData.ulb;
+    this.ulbId = this.ulbData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }

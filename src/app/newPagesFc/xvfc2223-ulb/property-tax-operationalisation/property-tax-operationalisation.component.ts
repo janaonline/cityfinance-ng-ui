@@ -75,13 +75,17 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
+  constructor(public _router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private ptService: NewCommonService,
+    private dataEntryService: DataEntryService) {
     this.getUlbDesignYear();
     this.navigationCheck();
     this.initializeForm();
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));  
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
   }
-  
+
   ngOnInit(): void {
     this.clickedSave = false;
     sessionStorage.setItem("changeInPropertyTaxOp", "false");
@@ -99,7 +103,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     {value: 'Capital Value (CV) System', viewValue: 'Capital Value (CV) System', tooltip: "Capital Value System: Property's annual value is calculated as a percentage of its guidance value/capital value/circle rates"},
     {value: 'Other', viewValue: 'Other', tooltip: "Please mention in detail the property tax method used"},
     ];
-
+  formId = "";
   setRouter() {
     for (const key in this.sideMenuItem) {
       //  console.log(`${key}: ${this.sideMenuItem[key]}`);
@@ -108,6 +112,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
         if (element?.name == "Property Tax Operationalisation") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
         }
       });
     }
@@ -131,7 +136,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   confirmInput(){
      this.promptAlert.close();
    }
-  
+
   refillInput(){
     this.promptAlert.close();
     this.inputType == 'collection2019_20' ? this.propertyTaxForm.patchValue({collection2019_20: ''}) : ''
@@ -186,13 +191,13 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       })
     });
   }
-  
+
   removeFormControlValidation() {
     this.removeValidatorsOneByOne('operationalize');
     this.removeValidatorsOneByOne('method');
     this.removeValidatorsOneByOne('collection2019_20');
     this.removeValidatorsOneByOne('collection2020_21');
-    this.removeValidatorsOneByOne('collection2021_22');  
+    this.removeValidatorsOneByOne('collection2021_22');
     this.removeValidatorInBulk(this.propertyTaxForm.get("rateCard"));
     this.removeValidatorInBulk(this.propertyTaxForm.get("ptCollection"));
   }
@@ -247,7 +252,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       });
       this.showMinimumFloor = false;
       this.showRulesLaws = false;
-      this.showStateAct = false; 
+      this.showStateAct = false;
     }
     else if(type == 'collectPropertyYes' || (type == 'collectPropertyYes' && type == 'operationalizeNo')){
       this.setValidators('operationalize');
@@ -294,13 +299,17 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.yearValue = this.design_year["2022-23"];
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData);
-    this.ulbId = this.ulbData.ulb;
+    this.ulbId = this.ulbData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     console.log('this.ulbId------->', this.ulbId)
   }
 
   onload(){
     this.getPtoData();
   }
+  formData;
   getPtoData(){
     const params = {
       ulb: this.ulbId,
@@ -311,13 +320,23 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.ptService.getPropertyTaxUlbData(params).subscribe((res:any)=>{
       console.log(res)
       this.dataValue = res;
+      this.formData = res?.data;
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       this.previewFormData = res
       if(res?.data?.toCollect == 'No'){
-        this.removeFormControlValidation() 
+        this.removeFormControlValidation()
       }
       this.patchFunction();
-    })
+      this.checkActionDisable(this.dataValue?.data);
+    },
+      (error) => {
+        console.log(error);
+        if (this.ulbData?.role != "ULB") {
+          this.isDisabled = false
+        }
+
+      }
+    )
   }
 
   patchFunction(){
@@ -335,7 +354,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.ruleUrl = this.dataValue?.data?.ptCollection?.url;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
 
-    this.propertyTaxForm.patchValue({  
+    this.propertyTaxForm.patchValue({
       ulb: this.dataValue?.data?.ulb,
       design_year: this.dataValue?.data?.design_year,
       toCollect: this.dataValue?.data?.toCollect,
@@ -425,10 +444,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     this.ptService.postPropertyTaxUlb(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
-      
+
       if (res && res.status) {
         this.clickedSave = false;
-        this.isDisabled = true
+        this.isDisabled = true;
         console.log(res)
         this.getPtoData();
         this.ptService.setFormStatus2223.next(true);
@@ -501,7 +520,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
- 
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
@@ -681,7 +700,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
             this[progressType] = 100;
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
-              this.minimumUrl = this.minimumFloorUrl 
+              this.minimumUrl = this.minimumFloorUrl
               this.propertyTaxForm.get('rateCard').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -704,7 +723,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
             }
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
-              this.ruleUrl = this.rulesLawsUrl 
+              this.ruleUrl = this.rulesLawsUrl
               this.propertyTaxForm.get('ptCollection').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -729,14 +748,14 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInPropertyTaxOp");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInPropertyTaxOp", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -788,9 +807,9 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
   }
 
   async discard() {
-    
+
       sessionStorage.setItem("changeInPropertyTaxOp", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
@@ -835,5 +854,95 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     const start = input?.selectionStart;
     const end = input?.selectionEnd || input?.selectionStart;
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+
+  // action related
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      ulb: [this.ulbId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+    this.ptService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+
+        this.ptService.setFormStatus2223.next(true);
+        swal("Saved", "Action saved successfully.", "success");
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+      this.isDisabled = false;
+    }
+    if (this.ulbData?.role !== "ULB") {
+      let action = 'false';
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        action = 'true';
+        this.canTakeAction = true;
+      } else {
+        action = 'false';
+      }
+      sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.ulbData?.role !== "ULB" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
   }
 }

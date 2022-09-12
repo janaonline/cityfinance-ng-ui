@@ -680,6 +680,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
           sessionStorage.setItem("changeInUti", "false");
           this.isSubmitted = false;
           this.utiData['status'] = "PENDING";
+          this.utiData['isDraft'] = true;
           this.newCommonService.setFormStatus2223.next(true);
         },
         (error) => {
@@ -771,6 +772,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
         this.newCommonService.setFormStatus2223.next(true);
+        this.utiData['status'] = "PENDING";
+        this.utiData['isDraft'] = false;
       },
       (error) => {
         console.log("error", error);
