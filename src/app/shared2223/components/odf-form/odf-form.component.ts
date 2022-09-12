@@ -410,13 +410,17 @@ export class OdfFormComponent implements OnInit {
           this.commonService.setFormStatus2223.next(true);
           this.canTakeAction = false;
           console.log('responseODf', res)
-         // this.actFormData['status'] = "PENDING";
+         //
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
             sessionStorage.setItem("changeInODf", "false");
           }
           swal("Saved", "Data saved successfully", "success");
+          console.log('form data', this.actFormData);
+
+          this.actFormData['status'] = "PENDING";
+          this.actFormData['isDraft'] = false;
         } else {
           swal("Error", res?.message ? res?.message : "Error", "error");
         }
@@ -449,7 +453,7 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         this.draft = true;
         this.commonService.setFormStatus2223.next(true);
-        // this.actFormData['status'] = "PENDING";
+
         this.canTakeAction = false;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
@@ -459,6 +463,9 @@ export class OdfFormComponent implements OnInit {
         console.log(this.profileForm.value);
         // this.fetchData();
         swal("Saved", "Data saved as draft successfully", "success");
+        console.log('form data', this.actFormData);
+        this.actFormData['status'] = "PENDING";
+        this.actFormData['isDraft'] = true;
       },
       (error) => {
         this.clickedSave = false;
