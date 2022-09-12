@@ -44,19 +44,6 @@ h6 {
     padding: 5px 5px 5px 5px;
 }
 
-
-.pointerEvent{
-    pointer-events: none;
-    border-radius: 7px;
-    border: 1px solid rgb(229, 214, 245);
-}
-
-.vl{
-    font-size: 13px;
-    font-weight: 600;
-}
-
-
 th {
     color: #047474;
 }
@@ -251,6 +238,3 @@ td {
     width: 99%;
 }
 
-.disableAction{
-    pointer-events: none;
-}
