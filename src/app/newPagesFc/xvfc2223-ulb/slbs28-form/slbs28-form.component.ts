@@ -322,6 +322,10 @@ export class Slbs28FormComponent implements OnInit {
             el["actualDisable"] = true;
             el["targetDisable"] = true;
             this.isDisabled = true;
+          } else if (this.ulbData?.role == "ULB" && this.slbFormData?.status === "REJECTED") {
+            el["actualDisable"] = false;
+            el["targetDisable"] = false;
+            this.isDisabled = false;
           }
           let rangeArr = el["range"].split("-");
           (el["min"] = Number(rangeArr[0])), (el["max"] = Number(rangeArr[1]));
@@ -511,10 +515,10 @@ export class Slbs28FormComponent implements OnInit {
       },
     };
     if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
-      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      swal1("Alert!", "Return reason is mandatory in case of Returned a file", "error");
       return;
     }
-    swal(
+    swal1(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,
        it will become uneditable and will be sent to MoHUA for Review.`,
@@ -549,10 +553,10 @@ export class Slbs28FormComponent implements OnInit {
         this.actionBtnDis = true;
 
         this.newCommonService.setFormStatus2223.next(true);
-        swal("Saved", "Action saved successfully.", "success");
+        swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
-        swal("Error", error?.message ? error?.message : "Error", "error");
+        swal1("Error", error?.message ? error?.message : "Error", "error");
       }
     );
   }
