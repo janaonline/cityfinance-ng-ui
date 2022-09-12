@@ -163,7 +163,13 @@ export class Xvfc2223UlbComponent implements OnInit {
       if(this.loggedInUserType === this.userTypes.ULB)
       this.getSideBar();
     });
+    this.path = sessionStorage.getItem("path1");
+    this.ulbFormId = sessionStorage.getItem("form_id");
+    this.ulbFormName = sessionStorage.getItem("form_name");
   }
+  path = null;
+  ulbFormId = null;
+  ulbFormName = null;
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
@@ -216,5 +222,8 @@ export class Xvfc2223UlbComponent implements OnInit {
         //  this.routerlink2223 = "/profile-update";
       }
     });
+  }
+  backStatePage() {
+    this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
   }
 }

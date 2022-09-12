@@ -22,6 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
+import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview
     DashboardComponent,
     GaPreviewComponent,
     WaterSupplyComponent,
-    WaterSupplyPreviewComponent
+    WaterSupplyPreviewComponent,
+
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview
     ReactiveFormsModule,
     FormsModule,
     AccordionModule.forRoot(),
+    // BreadcrumbComponent
     // SharedModule,
   ],
 })

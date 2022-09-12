@@ -24,6 +24,7 @@ import { CommonActionComponent } from './components/common-action/common-action.
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TableApproveReturnDialogComponent } from './components/table/table-approve-return-dialog/table-approve-return-dialog.component';
 
+
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -38,6 +39,7 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
     TableComponent,
     CommonActionComponent,
     TableApproveReturnDialogComponent,
+    // BreadcrumbComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,7 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
     ButtonsModule.forRoot()
-    
+
   ],
   exports: [
     OdfFormComponent,
@@ -59,7 +61,8 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
     FourTwoDigitNumberDirective,
     ErrorDisplayComponent,
     TableComponent,
-    CommonActionComponent
+    CommonActionComponent,
+    // BreadcrumbComponent,
   ],
 })
 export class Shared2223Module {}
