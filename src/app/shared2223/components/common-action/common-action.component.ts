@@ -24,8 +24,6 @@ import { SweetAlert } from "sweetalert/typings/core";
 })
 export class CommonActionComponent implements OnInit, OnChanges {
   @Input() item;
-  @Input() ulbStatus;
-  @Input() ulbStatusKeys;
   statusForm: FormGroup;
   change = "";
   triggerInput: boolean = false;
@@ -39,8 +37,6 @@ export class CommonActionComponent implements OnInit, OnChanges {
   approveComment: boolean = false;
   activeButtonApprove: boolean = false;
   activeButtonReturn: boolean = false;
-
-  apiData = {};
   activeClassApprove: boolean = false;
   activeClassReturn: boolean = false;
   loggedInUserType: USER_TYPE;
@@ -51,6 +47,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() actionRes;
   @Input() actBtnDis;
   @Input() canTakeAction;
+  @Input() actionFor;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -90,45 +87,67 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
   state_status = '';
   mohua_status = ''
+  stateReview = false;
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
-    // console.log(
-    //   "form data for action res changes",
-    //   this.formData,
-    //   this.formDataChange
-    // );
-    if (
-      this.formData?.status == "APPROVED" &&
-      this.formData?.actionTakenByRole == "STATE"
-    ) {
-      this.finalStatus = "Under Review by MoHUA";
-      this.state_status = 'APPROVED';
+    if (this.actionFor == 'ULBForm') {
+      this.stateReview = true;
+      if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "STATE"
+      ) {
+        this.finalStatus = "Under Review by MoHUA";
+        this.state_status = 'APPROVED';
 
-    } else if (
-      this.formData?.status == "REJECTED" &&
-      this.formData?.actionTakenByRole == "STATE"
-    ) {
-      this.finalStatus = "Returned by State";
-      this.state_status = 'REJECTED';
-    } else if (
-      this.formData?.status == "APPROVED" &&
-      this.formData?.actionTakenByRole == "MoHUA"
-    ) {
-      this.finalStatus = "Approved by MoHUA";
-      this.mohuaReview = true;
-      this.state_status = 'APPROVED';
-      this.mohua_status = 'APPROVED';
+      } else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "STATE"
+      ) {
+        this.finalStatus = "Returned by State";
+        this.state_status = 'REJECTED';
+      } else if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Approved by MoHUA";
+        this.mohuaReview = true;
+        this.state_status = 'APPROVED';
+        this.mohua_status = 'APPROVED';
 
+      }
+      else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Returned by MoHUA";
+        this.mohuaReview = true;
+        this.state_status = 'APPROVED';
+        this.mohua_status = 'REJECTED';
+      }
     }
-    else if (
-      this.formData?.status == "REJECTED" &&
-      this.formData?.actionTakenByRole == "MoHUA"
-    ) {
-      this.finalStatus = "Returned by MoHUA";
-      this.mohuaReview = true;
-      this.state_status = 'APPROVED';
-      this.mohua_status = 'REJECTED';
+    if (this.actionFor == 'StateForm') {
+      this.stateReview = false;
+      if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Approved by MoHUA";
+        this.mohuaReview = true;
+        // this.state_status = 'APPROVED';
+        this.mohua_status = 'APPROVED';
+
+      }
+      else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Returned by MoHUA";
+        this.mohuaReview = true;
+        // this.state_status = 'APPROVED';
+        this.mohua_status = 'REJECTED';
+      }
     }
+
     // debugger
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
   }

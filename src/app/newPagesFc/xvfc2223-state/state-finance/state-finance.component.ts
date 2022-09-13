@@ -43,9 +43,6 @@ export class StateFinanceComponent implements OnInit {
   dialogRef;
   stateActFileUrl;
   constitutedValue;
-  constitutedValueActive :boolean = false
-  memorandum:boolean = false
-  noteMessege:boolean = false
   commonActionCondition:boolean = false;
   // isDisabled:boolean =false
   previewFormData:any;
@@ -57,10 +54,19 @@ export class StateFinanceComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
+  constructor(
+    public _router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private ptService: NewCommonService,
+    private dataEntryService: DataEntryService
+  ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
@@ -68,11 +74,11 @@ export class StateFinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.clickedSave = false;
-    sessionStorage.setItem('changeInStateFinance', 'false');   
+    sessionStorage.setItem('changeInStateFinance', 'false');
     this.onload();
   }
   get f() { return this.stateFinance.controls; }
-  
+
   initializeForm(){
     this.stateFinance = this.formBuilder.group({
       constitutedSfc: [this.constitutedValue, Validators.required],
@@ -118,7 +124,7 @@ export class StateFinanceComponent implements OnInit {
     }
   }
   setValidators(formFieldName: string) {
-    this.stateFinance.controls[formFieldName].setValidators([Validators.required]);    
+    this.stateFinance.controls[formFieldName].setValidators([Validators.required]);
     this.stateFinance.controls[formFieldName].updateValueAndValidity();
   }
   getStateFinanceData(){
@@ -222,7 +228,7 @@ export class StateFinanceComponent implements OnInit {
     };
     console.log(body)
     console.log('submitted',this.stateFinance.value)
-    this.submitted =true; 
+    this.submitted = true;
     this.ptService.submitStateFinance(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
@@ -276,7 +282,7 @@ export class StateFinanceComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-  
+
   preview(){
     console.log('valuessssssssss',this.stateFinance.value)
     let previewData = {
@@ -298,10 +304,10 @@ export class StateFinanceComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
- 
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
-    
+
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt.nativeElement.value = "";
@@ -314,9 +320,9 @@ export class StateFinanceComponent implements OnInit {
         return;
       }
     }
-   
+
       const fileName = event.target.files[0].name;
-      
+
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
@@ -324,7 +330,7 @@ export class StateFinanceComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-    
+
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
@@ -342,7 +348,7 @@ export class StateFinanceComponent implements OnInit {
       console.log(this.stateFinance.controls)
     }
     sessionStorage.setItem("changeInStateFinance", "true");
-      
+
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -422,7 +428,7 @@ export class StateFinanceComponent implements OnInit {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
-            
+
             if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
               console.log(this.stateActUrl)
@@ -449,14 +455,14 @@ export class StateFinanceComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInStateFinance");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInStateFinance", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -504,9 +510,9 @@ export class StateFinanceComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    
+
       sessionStorage.setItem("changeInStateFinance", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
