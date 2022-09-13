@@ -11,7 +11,6 @@ import { EventEmitter } from "@angular/core";
 import { CustomizedCellComponent } from "./customized-cell/customized-cell.component";
 import { CustomTooltipComponent } from "./custom-tooltip/custom-tooltip.component";
 import { CustomizedHeaderComponent } from "./customized-header/customized-header.component";
-import { BtnCellRendererComponent } from "./btn-cell-renderer/btn-cell-renderer.component";
 @Component({
   selector: "app-ag-grid",
   templateUrl: "./ag-grid.component.html",
@@ -238,11 +237,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         rows: "6",
       },
       suppressMovable: true,
-    },{
-      field: 'Action',
-        cellRenderer: 'buttonRenderer',
-        minWidth: 50,
-    },
+    }
   ];
   fund = [
     {
@@ -679,8 +674,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       customizedCell: CustomizedCellComponent,
       agColumnHeader: CustomizedHeaderComponent,
       customTooltip: CustomTooltipComponent,
-      buttonRenderer: BtnCellRendererComponent,
-
     };
   }
 

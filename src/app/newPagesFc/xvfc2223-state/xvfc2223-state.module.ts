@@ -22,6 +22,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
+import { ActionPlanComponent } from './action-plan/action-plan.component';
+import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
+import { AgGridStateComponent } from './ag-grid-state/ag-grid-state.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview
     DashboardComponent,
     GaPreviewComponent,
     WaterSupplyComponent,
-    WaterSupplyPreviewComponent
+    WaterSupplyPreviewComponent,
+    ActionPlanComponent,
+    AgGridStateComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +55,8 @@ import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview
     ReactiveFormsModule,
     FormsModule,
     AccordionModule.forRoot(),
-    // SharedModule,
+    SharedModule,
+    StateformsModule,
   ],
 })
 export class Xvfc2223StateModule {}
