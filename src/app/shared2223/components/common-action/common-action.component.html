@@ -1,9 +1,18 @@
-<div class="card" *ngIf="loggedInUserType === userTypes.ULB &&
-formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
+<div class="card" *ngIf="loggedInUserType === userTypes.ULB && formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
     <div class="card-body">
         <div class="row fw-bold">
             <div class="col-sm-3">Status:</div>
             <div class="col-sm-9">Under Review by State</div>
+
+        </div>
+    </div>
+</div>
+<div class="card" *ngIf="loggedInUserType === userTypes.STATE && !stateReview &&
+formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
+    <div class="card-body">
+        <div class="row fw-bold">
+            <div class="col-sm-3">Status:</div>
+            <div class="col-sm-9">Under Review by MoHUA</div>
         </div>
     </div>
 </div>
@@ -15,7 +24,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                 <div class="col-sm-9">{{finalStatus}}</div>
             </div>
             <hr>
-            <div class="stateRes">
+            <div class="stateRes" *ngIf="stateReview">
                 <div class="row ">
                     <div class="col-sm-3">State Review Status:</div>
                     <!-- <div class="col-sm-9">{{formDataChange?.status}}</div> -->

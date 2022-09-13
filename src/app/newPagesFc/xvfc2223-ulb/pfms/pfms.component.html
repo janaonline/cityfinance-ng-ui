@@ -192,10 +192,8 @@
         <!-- action components -->
         <div class="row mt-3">
             <div class="col-sm-12">
-                <div class="col-sm-12">
-                    <app-common-action [actionRes]="actionRes" [formData]="pfmsData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
-                    </app-common-action>
-                </div>
+                <app-common-action [actionRes]="actionRes" [formData]="pfmsData" [actionFor]="'ULBForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
+                </app-common-action>
             </div>
         </div>
         <div class="row mb-3 mt-4">
