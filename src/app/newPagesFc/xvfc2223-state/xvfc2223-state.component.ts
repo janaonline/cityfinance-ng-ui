@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
 import { USER_TYPE } from "src/app/models/user/userType";
@@ -30,7 +30,13 @@ export class Xvfc2223StateComponent implements OnInit {
   userTypes = USER_TYPE;
   userData;
   leftMenu;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.leftMenu) {
+      setTimeout(() => {
+        this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+      }, 1000)
+    }
+  }
 
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -48,4 +54,8 @@ export class Xvfc2223StateComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
     });
   }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   debugger
+  //   this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+  // }
 }

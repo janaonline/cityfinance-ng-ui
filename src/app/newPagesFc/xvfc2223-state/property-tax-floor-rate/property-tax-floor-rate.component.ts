@@ -57,9 +57,15 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
+  constructor(public _router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private ptService: NewCommonService,
+    private dataEntryService: DataEntryService
+  ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -68,6 +74,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.navigationCheck();
     this.initializeForm();
   }
+  sideMenuItem;
   userData;
   design_year;
   stateId;
@@ -119,9 +126,15 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.getPtData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
-      this.previewFormData = res
+      this.previewFormData = res;
+      this.actionFormData = res?.data;
       this.patchFunction(this.previewFormData);
-    })
+      this.checkActionDisable(res?.data);
+    },
+      (error) => {
+
+      }
+    )
   }
 
   patchFunction(data){
@@ -614,5 +627,107 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     const start = input?.selectionStart;
     const end = input?.selectionEnd || input?.selectionStart;
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+
+
+  // action related
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  formId = ''
+  actionFormData;
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      state: [this.stateId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      return;
+    }
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+    this.ptService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        this.ptService.setFormStatus2223.next(true);
+        swal("Saved", "Action saved successfully.", "success");
+        this.ptService.setFormStatus2223.next(true);
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.userData?.role == "STATE") {
+      this.isDisabled = false;
+    }
+    if (this.userData?.role !== "STATE") {
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        this.canTakeAction = true;
+      } else {
+        this.canTakeAction = false;
+      }
+      // sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.userData?.role !== "STATE" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.name == "Property tax floor rate Notification") {
+          // this.nextRouter = element?.nextUrl;
+          // this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+      });
+    }
   }
 }

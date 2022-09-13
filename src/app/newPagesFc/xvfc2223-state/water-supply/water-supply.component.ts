@@ -210,8 +210,8 @@ export class WaterSupplyComponent implements OnInit {
   totalULBsInUA = 0;
   totalCompletedUlb = 0
   totalPendingUlb = 0
-  approvedStatusData = []
-  statusData = []
+  approvedStatusData = [];
+  statusData = [];
   foldCard(index, ua_id) {
     console.log(ua_id)
     this._WaterSupplyService.getslbsData(ua_id).subscribe(
@@ -227,7 +227,6 @@ export class WaterSupplyComponent implements OnInit {
           data[0]?.total
 
         this.totalCompletedUlb = data[0]?.total;
-
         this.totalPendingUlb = data[1]?.completedAndpendingSubmission.length +
           data[1]?.pendingCompletion.length +
           data[1]?.underStateReview.length
@@ -244,7 +243,6 @@ export class WaterSupplyComponent implements OnInit {
                   }
                 )
               })
-
             }
 
           } else if (key === 'pendingCompletion') {
@@ -259,9 +257,7 @@ export class WaterSupplyComponent implements OnInit {
                   }
                 )
               })
-
             }
-
           } else if (key === 'underStateReview') {
             if (this.getData[1][key].length > 0) {
               this.getData[1][key].forEach(el => {
