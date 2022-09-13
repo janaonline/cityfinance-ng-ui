@@ -332,7 +332,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
       (error) => {
         console.log(error);
         if (this.ulbData?.role != "ULB") {
-          this.isDisabled = false
+          this.isDisabled = true;
         }
 
       }
