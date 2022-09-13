@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Xvfc2223StateRoutingModule } from "./xvfc2223-state-routing.module";
@@ -25,6 +25,9 @@ import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview
 import { ActionPlanComponent } from './action-plan/action-plan.component';
 import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
 import { AgGridStateComponent } from './ag-grid-state/ag-grid-state.component';
+import { AgGridModule } from "ag-grid-angular";
+import { BrowserModule } from "@angular/platform-browser";
+import { AgGridComponent } from "src/app/shared/components/ag-grid/ag-grid.component";
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { AgGridStateComponent } from './ag-grid-state/ag-grid-state.component';
     ActionPlanComponent,
     AgGridStateComponent
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+],
   imports: [
     CommonModule,
     Shared2223Module,
@@ -57,6 +63,8 @@ import { AgGridStateComponent } from './ag-grid-state/ag-grid-state.component';
     AccordionModule.forRoot(),
     SharedModule,
     StateformsModule,
+    AgGridModule.withComponents([ActionPlanComponent, AgGridComponent])
+    
   ],
 })
 export class Xvfc2223StateModule {}
