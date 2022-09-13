@@ -1925,6 +1925,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         console.log("action respon", res);
         this.actionBtnDis = true;
         swal("Saved", "Action saved successfully.", "success");
+        this.newCommonService.setFormStatus2223.next(true);
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");

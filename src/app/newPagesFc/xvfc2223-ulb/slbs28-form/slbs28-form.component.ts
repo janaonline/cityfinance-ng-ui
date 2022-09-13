@@ -154,7 +154,14 @@ export class Slbs28FormComponent implements OnInit {
             el["targetDisable"] = true;
           });
           console.log("slb22", this.slbData);
+          //action comp
+          this.slbFormData["isDraft"] = false;
+          this.slbFormData["status"] = "PENDING";
+        } else {
+          this.slbFormData["isDraft"] = true;
+          this.slbFormData["status"] = "PENDING";
         }
+
         this.newCommonService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeIn28SLB", "false");
       },
@@ -295,11 +302,13 @@ export class Slbs28FormComponent implements OnInit {
   }
   popError = false;
   formId = '';
+  slbFormData;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
+      this.slbFormData = { ...res?.data };
       this.previewData = { ...res?.data}
       if (res?.data["isDraft"] == false) {
         this.isDisabled = true;
@@ -313,12 +322,17 @@ export class Slbs28FormComponent implements OnInit {
             el["actualDisable"] = true;
             el["targetDisable"] = true;
             this.isDisabled = true;
+          } else if (this.ulbData?.role == "ULB" && this.slbFormData?.status === "REJECTED") {
+            el["actualDisable"] = false;
+            el["targetDisable"] = false;
+            this.isDisabled = false;
           }
           let rangeArr = el["range"].split("-");
           (el["min"] = Number(rangeArr[0])), (el["max"] = Number(rangeArr[1]));
         }
       }
       Object.assign(this.formData, this.slbData["data"]);
+      this.checkActionDisable(res?.data);
       console.log("After processing Range -", this.formData);
     });
   }
@@ -478,9 +492,12 @@ export class Slbs28FormComponent implements OnInit {
 
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
+
+
+   // action related
   actionRes;
   actionBtnDis = false;
-
+  canTakeAction = false;
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
@@ -498,13 +515,13 @@ export class Slbs28FormComponent implements OnInit {
       },
     };
     if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
-      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      swal1("Alert!", "Return reason is mandatory in case of Returned a file", "error");
       return;
     }
-    swal(
+    swal1(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,
-      it will become uneditable and will be sent to MoHUA for Review.`,
+       it will become uneditable and will be sent to MoHUA for Review.`,
       "warning",
       {
         buttons: {
@@ -534,11 +551,35 @@ export class Slbs28FormComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
-        swal("Saved", "Action saved successfully.", "success");
+        this.newCommonService.setFormStatus2223.next(true);
+        swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
-        swal("Error", error?.message ? error?.message : "Error", "error");
+        swal1("Error", error?.message ? error?.message : "Error", "error");
       }
     );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+      this.isDisabled = false;
+    }
+    if (this.ulbData?.role !== "ULB") {
+      let action = 'false';
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        action = 'true';
+        this.canTakeAction = true;
+      } else {
+        action = 'false';
+      }
+      sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.ulbData?.role !== "ULB" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
   }
 }

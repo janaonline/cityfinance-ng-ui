@@ -41,6 +41,7 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 import { NgxPaginationModule } from "ngx-pagination";
+
 @NgModule({
   entryComponents: [DialogComponent],
 
@@ -101,10 +102,11 @@ import { NgxPaginationModule } from "ngx-pagination";
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
-    
     // InrCurrencyPipe,
   ],
-  exports: [],
+  exports: [
+
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

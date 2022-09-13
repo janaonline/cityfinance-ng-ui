@@ -38,6 +38,7 @@ export class TableComponent implements OnInit, OnChanges {
   ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
+    this.fetchStateList();
     this.getDesignYear();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.dropdownChanges();
@@ -82,30 +83,45 @@ export class TableComponent implements OnInit, OnChanges {
   formRouterLink;
   formStateRouterLink;
   isLoader = false;
+  formName;
   ngOnInit(): void {
     this.updatedTableData();
-    this.fetchStateList();
     this.params["limit"] = 10;
-    //  this.callAPI();
-    this.valueChanges();
-    //   this.multiActionM();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
-    // this.listFetchOption.skip = 0
-    // this.initializeFilterForm();
     this.initializeListFetchParams();
-    this.params["skip"] = 0;
-    // this.params['currentPage'] = 1
-    // this.listFetchOption.skip = 0;
-    this.tableDefaultOptions.currentPage = 1;
+    let skValue = sessionStorage.getItem('skipValue')
+    let sesParams = JSON.parse(sessionStorage.getItem("params"));
+    if (skValue) {
+      this.params = sesParams;
+      if (sesParams) {
+        this.filterForm.patchValue({
+          ulb_name_s: sesParams?.ulbName ? sesParams?.ulbName : '',
+          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : (sesParams?.censusCode ? sesParams?.censusCode : ''),
+          ulbType_s: sesParams?.ulbType ? sesParams?.ulbType : '',
+          population_type_s: sesParams?.populationType ? sesParams?.populationType : '',
+          ua_name_s: sesParams?.UA ? sesParams?.UA : '',
+          status_s: sesParams?.status ? sesParams?.status : '',
+          filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
+          filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
+        })
+      }
+      this.params["skip"] = Number(skValue);
+      let page = Math.round(Number(skValue) / 10);
+      this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
+    } else {
+      // this.params["skip"] = 0;
+      // this.tableDefaultOptions.currentPage = 1;
+    }
     this.callAPI();
-
-    let formData = this.dropdownData.find(({ _id }) => {
+    let formData = this.dropdownData?.find(({ _id }) => {
       return _id === this.formId;
     });
     this.formUrl = formData?.url;
+    this.formName = formData?.name;
     this.formRouterLink =
       "../../ulbform2223/" + this.formUrl;
     console.log("form data url", formData);
@@ -113,26 +129,6 @@ export class TableComponent implements OnInit, OnChanges {
       "../../stateform2223/" + this.formUrl;
   }
   filterFormValue;
-  valueChanges() {
-    //debugger
-    // this.filterForm.valueChanges.subscribe((value) => {
-    //   console.log("value changes", value);
-    //   this.filterFormValue = value;
-    //   this.params["ulbName"] = value?.ulb_name_s;
-    //   this.params["ulbCode"] = value?.ulb_code_s;
-    //   this.params["censusCode"] = value?.ulb_code_s;
-    //   this.params["ulbType"] = value?.ulbType_s;
-    //   this.params["UA"] = value?.ua_name_s;
-    //   this.params["status"] = value?.status_s;
-    //   this.params["filled1"] = value?.filled_1;
-    //   this.params["populationType"] = value?.population_type_s;
-    //   if (this.userData?.role !== "STATE") {
-    //     this.params["state"] = value?.state_name_s;
-    //   }
-    //   this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
-    //   // this.params["stateId"] = value?.state_name_s;
-    // });
-  }
   updatedTableData() {
     this.commonService.reviewStatus.subscribe((result) => {
       console.log("review Status ===>", result);
@@ -171,6 +167,9 @@ export class TableComponent implements OnInit, OnChanges {
             ? Object.values(res["populationType"])
             : null;
         console.log("jjjjjjjj", this.data);
+        sessionStorage.removeItem('skipValue');
+        sessionStorage.removeItem('params');
+
         // this.dataSource = new MatTableDataSource(this.data);
       },
       (err) => {
@@ -273,8 +272,8 @@ export class TableComponent implements OnInit, OnChanges {
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
-      res.data.forEach((state) => {
-        this.statesByID[state._id] = state;
+      res.data?.forEach((state) => {
+      //  this.statesByID[state?._id] = state;
       });
     });
   }
@@ -332,6 +331,13 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
+    sessionStorage.setItem("path1", 'Review Grant');
+    sessionStorage.setItem("form_id", this.formId);
+    sessionStorage.setItem("form_name", this.formName);
+    let skipValue: any = this.listFetchOption.skip
+    sessionStorage.setItem("skipValue", skipValue);
+    sessionStorage.setItem("params", JSON.stringify(this.params));
+
     // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
   viewStateForm(data) {
@@ -361,6 +367,17 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
   resetFilter() {
+    this.setParams();
+    this.callAPI();
+  }
+  dropdownChanges() {
+    this.stateServices.dpReviewChanges.subscribe((res) => {
+      console.log("table value changes....", res);
+      this.selectedId = [];
+      this.setParams();
+    });
+  }
+  setParams() {
     this.params = {
       design_year: "606aafb14dff55e6c075d3ae",
       formId: this.formId,
@@ -369,13 +386,6 @@ export class TableComponent implements OnInit, OnChanges {
     this.params["limit"] = 10;
     this.params["skip"] = 0;
     this.filterForm.reset();
-    this.callAPI();
-  }
-  dropdownChanges() {
-    this.stateServices.dpReviewChanges.subscribe((res) => {
-      console.log("table alue changes....", res);
-      this.selectedId = [];
-    });
   }
 }
 

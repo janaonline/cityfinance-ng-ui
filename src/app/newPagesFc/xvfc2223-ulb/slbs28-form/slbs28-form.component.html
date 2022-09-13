@@ -90,11 +90,14 @@
             </div>
         </div>
     </div>
+
     <!-- action components -->
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-sm-12">
-            <app-common-action [actionRes]="actionRes" [formData]="slbData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
-            </app-common-action>
+            <div class="col-sm-12">
+                <app-common-action [actionRes]="actionRes" [formData]="slbFormData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
+                </app-common-action>
+            </div>
         </div>
     </div>
     <div class="row mt-4 mb-3">
@@ -102,8 +105,12 @@
             <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-6 text-end">
-            <button (click)='save(true)' [disabled]="isDisabled" class="btn btn-primary">Save As Draft</button>
-            <button (click)='save(false)' [disabled]="isDisabled" class="btn btn-primary ms-3">Submit</button>
+            <button (click)='save(true)' [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" class="btn btn-primary">Save As Draft</button>
+            <button (click)='save(false)' [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" class="btn btn-primary ms-3">Submit</button>
+            <span *ngIf="canTakeAction">
+              <button class="btn btn-primary ms-3" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
+              [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+             </span>
             <button class="btn btn-c-next ms-3" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>

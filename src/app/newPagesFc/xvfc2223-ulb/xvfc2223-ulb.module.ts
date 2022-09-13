@@ -34,6 +34,7 @@ import { CollectFdataComponent } from './collect-fdata/collect-fdata.component';
 import { Slbs28FormPreviewComponent } from './slbs28-form/slbs28-form-preview/slbs28-form-preview.component';
 import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-operationalisation/property-tax-operationalisation-preview/property-tax-operationalisation-preview.component';
 import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-preview.component';
+
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -72,6 +73,7 @@ import { Slbs2223PreviewComponent } from './slbs2223/slbs2223-preview/slbs2223-p
     CarouselModule.forRoot(),
     SharedModule,
     PdfViewerModule,
+
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

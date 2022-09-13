@@ -48,7 +48,7 @@ export class PfmsComponent implements OnInit {
   ) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData);
-    this.ulbId = this.ulbData.ulb;
+    this.ulbId = this.ulbData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
@@ -919,6 +919,7 @@ export class PfmsComponent implements OnInit {
         console.log("action respon", res);
         this.actionBtnDis = true;
         swal("Saved", "Action saved successfully.", "success");
+        this.commonService.setFormStatus2223.next(true);
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");
