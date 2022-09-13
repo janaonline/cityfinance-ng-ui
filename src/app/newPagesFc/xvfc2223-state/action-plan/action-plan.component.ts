@@ -76,6 +76,207 @@ export class ActionPlanComponent implements OnInit {
   allStatus;
   formDisable = false;
   backButtonClicked = false
+  dummyRowData={
+    "rejectReason": "",
+    "status": "",
+    "ua": "6130d5a5f9c6d7756b174484",
+    "projectExecute": [
+        {
+            "index": {
+                "value": 1,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Code": {
+                "value": "MP/UA_28/2021-22/1",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Name": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Details": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Cost": {
+                "value": null,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Executing_Agency": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Parastatal_Agency": {
+                "value": "N/A",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Sector": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Type": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Estimated_Outcome": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            }
+        }
+    ],
+    "sourceFund": [
+        {
+            "index": {
+                "value": 1,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Code": {
+                "value": "MP/UA_28/2021-22/1",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Name": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Cost": {
+                "value": null,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "XV_FC": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Other": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Total": {
+                "value": null,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2021-22": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2022-23": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2023-24": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2024-25": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2025-26": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            }
+        }
+    ],
+    "yearOutlay": [
+        {
+            "index": {
+                "value": 1,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Code": {
+                "value": "MP/UA_28/2021-22/1",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Project_Name": {
+                "value": "",
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Cost": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Funding": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "Amount": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2021-22": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2022-23": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2023-24": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2024-25": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            },
+            "2025-26": {
+                "value": 0,
+                "isEmpty": null,
+                "lastValidation": true
+            }
+        }
+    ],
+    "name": "Indore U.A.",
+    "ulbList": [
+        "Indore Municipal Corporation",
+        "Parastatal Agency"
+    ],
+    "code": "MP/UA_28/2021-22",
+    "fold": true
+}
+dummyUlb=[
+    "Indore Municipal Corporation",
+    "Parastatal Agency"
+]
+dummyCatList=[
+    "Drinking Water",
+    "Rainwater Harvesting",
+    "Rejuvenation of Water Bodies",
+    "Sanitation",
+    "Solid Waste Management",
+    "Water Recycling"
+]
   dummyData2 = { 
     uaData: [
       {

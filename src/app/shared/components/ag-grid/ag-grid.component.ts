@@ -644,6 +644,11 @@ export class AgGridComponent implements OnInit, OnChanges {
   ];
 
   ngOnInit(): void {
+    console.log(this.rowData);
+    console.log(this.ulbList);
+    console.log(this.catList);
+    
+
     if (this.isDisabled) {
       this.project.forEach((element) => {
         element.editable = false;

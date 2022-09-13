@@ -32,7 +32,7 @@
                  style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
             </div>
             <div  *ngIf="item?.fold">
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
+                <app-ag-grid [catList]="dummyCatList" (gridData)="getDataFromGrid($event)" [ulbList]="dummyUlb" [rowData]="dummyUlb">
                 </app-ag-grid>         
             </div>
         </div>
