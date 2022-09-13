@@ -132,7 +132,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       this.checkActionDisable(res?.data);
     },
       (error) => {
-
+        if (this.userData?.role !== "STATE") {
+          this.isDisabled = true;
+        }
       }
     )
   }
@@ -594,10 +596,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   alertClose() {
     this.stay();
   }
-  omit_special_char(event) {   
-    var k;  
+  omit_special_char(event) {
+    var k;
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
 
 
