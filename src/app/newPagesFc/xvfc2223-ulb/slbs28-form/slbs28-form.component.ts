@@ -551,7 +551,6 @@ export class Slbs28FormComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
-
         this.newCommonService.setFormStatus2223.next(true);
         swal1("Saved", "Action saved successfully.", "success");
       },
