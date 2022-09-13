@@ -919,6 +919,7 @@ export class PfmsComponent implements OnInit {
         console.log("action respon", res);
         this.actionBtnDis = true;
         swal("Saved", "Action saved successfully.", "success");
+        this.commonService.setFormStatus2223.next(true);
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");
