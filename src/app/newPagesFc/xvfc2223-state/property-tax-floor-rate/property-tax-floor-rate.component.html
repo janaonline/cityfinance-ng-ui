@@ -16,7 +16,9 @@
                     <span class="fontStyle">
                         (A) Upload a copy of notification/Memorandum<sup class="text-danger">*</sup>
                     </span>
-                    
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case of multiple notifications, kindly merge the documents and upload." matTooltipPosition="above">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                    </span> 
                 </div>
                 <div class="col-5 image-upload">
                     <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
@@ -72,14 +74,14 @@
                 </div>
                 <div class="col-5">
                     <span class="fontStyle">
-                        <input (change)="inputChange()" type="text" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" placeholder="Enter act page number " min="1" 
+                        <input (change)="inputChange()" type="text" class="form-control customWidth" formControlName="actPage" [ngClass]="{ 'is-invalid': submitted && f?.actPage?.controls?.errors,'greyInputs': isDisabled }" placeholder="Enter act page number " min="1"
                         step="1"
-                        onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                        (keypress)="omit_special_char($event)" maxlength="50">
                     </span>
                     <div *ngIf="submitted && f.actPage.errors" class="text-danger">
                         <div *ngIf="f.actPage.errors.required">Act page number is required.</div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="row mt-4 mb-1 question">
