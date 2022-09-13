@@ -192,10 +192,8 @@
         <!-- action components -->
         <div class="row mt-3">
             <div class="col-sm-12">
-                <div class="col-sm-12">
-                    <app-common-action [actionRes]="actionRes" [formData]="pfmsData" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)">
-                    </app-common-action>
-                </div>
+                <app-common-action [actionRes]="actionRes" [formData]="pfmsData" [actionFor]="'ULBForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
+                </app-common-action>
             </div>
         </div>
         <div class="row mb-3 mt-4">
@@ -206,11 +204,16 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" *ngIf="ulbData?.role != 'STATE'" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" *ngIf="ulbData?.role == 'ULB'" (click)="saveDraft()" [disabled]="!isDisabled">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
+
                         <button type="submit" class="btn btnDraft" *ngIf="ulbData?.role == 'ULB'" (click)="alertFormFinalSubmit()" [disabled]="!isDisabled">Submit</button>
-                        <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
+
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form

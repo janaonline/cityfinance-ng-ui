@@ -180,21 +180,30 @@
     </p>
 
     <div class="input-group d-block" *ngIf="profileForm.disabled" style="display: block">
-        <button type="button" class="btn btn-primary" (click)="enableProfileEdit()" *ngIf="isProfileVerified">
+        <button type="button" class="btn btn-primary" (click)="enableProfileEdit()" *ngIf="isProfileVerified && loggedInUserType === USER_TYPE.STATE">
             Edit
         </button>
+        <button type="button" class="btn btn-primary" (click)="enableProfileEdit()" *ngIf="loggedInUserType !== USER_TYPE.STATE">
+          Edit
+      </button>
         <!-- <button type="submit" class="btn btn-primary" *ngIf="isProfileVerified == false">
              Verify Profile
         </button> -->
     </div>
 
-    <div *ngIf="profileForm.enabled" class="mt-2" style="display: block">
+    <div *ngIf="profileForm.enabled && loggedInUserType === USER_TYPE.STATE" class="mt-2" style="display: block">
         <button type="submit" class="btn btn-primary mr-2" *ngIf="isProfileVerified" [disabled]="!profileForm.valid || isApiInProgress">
          {{ profileData ? "Update Profile" : "Create" }}
         </button>
         <button type="submit" class="btn btn-primary" *ngIf="isProfileVerified == false" [disabled]="!profileForm.valid || isApiInProgress">
           Verify Profile
         </button>
+    </div>
+    <div *ngIf="profileForm.enabled" class="mt-2" style="display: block">
+        <button type="submit" class="btn btn-primary mr-2" *ngIf="loggedInUserType !== USER_TYPE.STATE" [disabled]="!profileForm.valid || isApiInProgress">
+       {{ profileData ? "Update Profile" : "Create" }}
+      </button>
+
     </div>
     <p *ngIf="respone.successMessage" class="success-message">
         {{ respone.successMessage }}

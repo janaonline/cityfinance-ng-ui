@@ -24,8 +24,6 @@ import { SweetAlert } from "sweetalert/typings/core";
 })
 export class CommonActionComponent implements OnInit, OnChanges {
   @Input() item;
-  @Input() ulbStatus;
-  @Input() ulbStatusKeys;
   statusForm: FormGroup;
   change = "";
   triggerInput: boolean = false;
@@ -39,8 +37,6 @@ export class CommonActionComponent implements OnInit, OnChanges {
   approveComment: boolean = false;
   activeButtonApprove: boolean = false;
   activeButtonReturn: boolean = false;
-
-  apiData = {};
   activeClassApprove: boolean = false;
   activeClassReturn: boolean = false;
   loggedInUserType: USER_TYPE;
@@ -50,6 +46,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() stateReturn;
   @Input() actionRes;
   @Input() actBtnDis;
+  @Input() canTakeAction;
+  @Input() actionFor;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -64,6 +62,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
+ // canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,
@@ -71,8 +70,10 @@ export class CommonActionComponent implements OnInit, OnChanges {
   ) {
     this.initializeLoggedInUserDataFetch();
     this.initializeUserType();
-    console.log("form data for action 111", this.formData);
-    console.log("form data for action res", this.actionRes);
+   // console.log("form data for action 111", this.formData);
+   // console.log("form data for action res", this.actionRes);
+
+
   }
   toggle: any;
   mohuaReview = false;
@@ -81,31 +82,74 @@ export class CommonActionComponent implements OnInit, OnChanges {
     this.initializeFormm();
     this.valueChange();
     console.log("form data for action", this.formData);
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    // console.log('take action.........', this.canTakeAction);
   }
+  state_status = '';
+  mohua_status = ''
+  stateReview = false;
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
-    console.log(
-      "form data for action res changes",
-      this.formData,
-      this.formDataChange
-    );
-    if (
-      this.formData?.status == "APPROVED" &&
-      this.formData?.actionTakenByRole == "STATE"
-    ) {
-      this.finalStatus = "Under Review by MoHUA";
-    } else if (
-      this.formData?.status == "REJECTED" &&
-      this.formData?.actionTakenByRole == "STATE"
-    ) {
-      this.finalStatus = "Returned by State";
-    } else if (
-      this.formData?.status == "APPROVED" &&
-      this.formData?.actionTakenByRole == "MoHUA"
-    ) {
-      this.finalStatus = "Approved by MoHUA";
-      this.mohuaReview = true;
+    if (this.actionFor == 'ULBForm') {
+      this.stateReview = true;
+      if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "STATE"
+      ) {
+        this.finalStatus = "Under Review by MoHUA";
+        this.state_status = 'APPROVED';
+
+      } else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "STATE"
+      ) {
+        this.finalStatus = "Returned by State";
+        this.state_status = 'REJECTED';
+      } else if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Approved by MoHUA";
+        this.mohuaReview = true;
+        this.state_status = 'APPROVED';
+        this.mohua_status = 'APPROVED';
+
+      }
+      else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Returned by MoHUA";
+        this.mohuaReview = true;
+        this.state_status = 'APPROVED';
+        this.mohua_status = 'REJECTED';
+      }
     }
+    if (this.actionFor == 'StateForm') {
+      this.stateReview = false;
+      if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Approved by MoHUA";
+        this.mohuaReview = true;
+        // this.state_status = 'APPROVED';
+        this.mohua_status = 'APPROVED';
+
+      }
+      else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Returned by MoHUA";
+        this.mohuaReview = true;
+        // this.state_status = 'APPROVED';
+        this.mohua_status = 'REJECTED';
+      }
+    }
+
+    // debugger
+    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
   }
   get f() {
     return this.statusForm.controls;
@@ -180,17 +224,15 @@ export class CommonActionComponent implements OnInit, OnChanges {
         const error = setTimeout(() => {
           this.showCommonAct = false;
           this.errorMessegeCommonAction = "";
-        }, 4000);
+        }, 2000);
         return;
       }
     }
-
     const fileName = event.target.files[0].name;
-
-    if (progessType == "commonActProgress") {
-      this.commonActFileName = event.target.files[0].name;
-      this.showCommonAct = true;
-    }
+    // if (progessType == "commonActProgress") {
+    //   this.commonActFileName = event.target.files[0].name;
+    //   this.showCommonAct = true;
+    // }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
@@ -199,6 +241,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     if (type == "stateAct") {
       this.showCommonAct = false;
       this.commonActFileName = "";
+      this.stateActUrl = "";
       this.statusForm.patchValue({
         document: {
           url: "",
@@ -226,6 +269,10 @@ export class CommonActionComponent implements OnInit, OnChanges {
   }
   async upload(progessType, fileName) {
     // const formData: FormData = new FormData();
+    if (progessType == "commonActProgress") {
+      this.commonActFileName = fileName;
+      this.showCommonAct = true;
+    }
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
     console.log(files[0].name);

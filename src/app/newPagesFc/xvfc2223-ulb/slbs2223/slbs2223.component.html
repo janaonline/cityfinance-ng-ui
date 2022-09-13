@@ -2,38 +2,24 @@
 <!-- in tbody, there are 8 tr, 2 for each Row. 1st Tr is the input TR and 2nd tr is the review status TR.  -->
 <div class="row">
     <div class="col-sm-12">
-        <div class="card-body" style="" *ngIf="isMillionPlus == 'No' && isUA == 'No'">
-            <div style="">
-                <span class="quesIn"><b>Do you wish to submit Details for Performance Conditions ?<span
-              style="color: red;"></span>
-                </b>
-                </span>
-            </div>
-            <!-- <div style="margin-bottom: 2pc;"> -->
-
-            <div style="">
-                <button [disabled]="isDisabled" [ngClass]="{'btnClick': clickAnswer}" value="1" id="yes" class="btn" style="margin: 1pc 2pc; width: 8%" (click)="answer(true)">Yes</button>
-                <button [disabled]="isDisabled" [ngClass]="{'btnClick': !clickAnswer}" value="1" id="no" class="btn" style="margin: 1pc 2pc; width: 8%" (click)="answer(false)">No</button>
-            </div>
-            <!-- </div> -->
-        </div>
+      
     </div>
 </div>
-<div *ngIf="clickAnswer || isMillionPlus == 'Yes' || isUA == 'Yes'">
+<div class="row">
     <div class="col-sm-12" style="margin-bottom: 1rem;">
         <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
-            <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
+            <!-- <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span> -->
             <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
       ULB: {{ financialData?.ulbName }}</span> -->
 
             <button [style.position]="loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
+        " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="preview()">
                 Preview
             </button>
         </h3>
     </div>
 <div class="row">
-    <div class="card col-sm-12 mb-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
+    <div class="card col-sm-12 mb-2 ms-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
         <form [formGroup]="waterWasteManagementForm" *ngIf="waterWasteManagementForm; else preloader" autocomplete="off" [ngClass]="{
     'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
     'ulb-view-table':
@@ -48,21 +34,19 @@
                         Actual Indicator<br /> 2020-21
                     </th>
 
-                    <th *ngFor="let column of targets" scope="col">
-                        <span style="padding: 0;" [innerHTML]="column.name"></span>
+                    <th *ngFor="let column of targets;  index as i"  scope="col">
+                      
+                        <span  style="padding: 0;" [innerHTML]="column.name"></span>
                     </th>
                     <th *ngFor="let column of achieved" scope="col">
                         <span style="padding: 0;" [innerHTML]="column.name"></span>
                     </th>
+                    <th  scope="col"> Score</th>
                 </thead>
 
                 <tbody>
                   <!-- this is the 1st input <tr> of this Form where data will be entered -->
-                    <tr *ngIf="services[0] as service" [formGroupName]="service.key" [ngClass]="{
-            'rejected-row':
-              waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-              rejectAction
-          }">
+                    <tr *ngIf="services[0] as service" [formGroupName]="service.key">
           <!-- first element of the row - Question Label -->
                         <td>
                             <span class="service-name">{{ service.name }}
@@ -76,21 +60,8 @@
                         <!-- third element of the row -> actual of 20-21 -->
                         <td formGroupName="baseline">
                             <div class="input-group data-input">
-                                <!-- (mouseover)="setFocusTarget(service.key+'baseline')" -->
-                                <input (blur)="
-                  onBlur(
-                    waterWasteManagementForm['controls'][service.key]['controls']['baseline']['controls'][
-                      '2021'
-                    ], '', 'actual', service.key
-                  )" (mouseover)="setFocusTargetForErrorMessages(service.key+'baseline')" [id]="service.key +
-                  'baseline'" type="text" class="form-control" formControlName="2021" [ngClass]="{
-                  'is-invalid':
-                    (isSubmitButtonClick &&
-                      waterWasteManagementForm.controls[service.key].controls['baseline']?.invalid) ||
-                    (waterWasteManagementForm.controls[service.key].controls['baseline']?.touched &&
-                     ( waterWasteManagementForm.controls[service.key].controls['baseline'].status == 'INVALID' ||
-                     waterWasteManagementForm.controls[service.key].controls['baseline']?.invalid) )
-                }" />
+                              
+                                <input  [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021"  />
                                 <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
@@ -118,7 +89,8 @@
                         <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
                      
                         <td *ngFor="let year of targets;  index as i"  formGroupName="target">
-                            <div class="input-group data-input">
+                         
+                          <div class="input-group data-input">
                                 <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
@@ -176,77 +148,21 @@
                             </div>
                      
                         </td>
+                        <td *ngFor="let year of score;  index as i"  formGroupName="score">
+                          <div class="input-group data-input">
+                              <input  [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key"  />
+                             
+                          </div>
                    
+                      </td>
 
 
                         <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
                         <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
-                        <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-                            <div class="actions" [ngClass]="{
-                'action-required':
-                  isSubmitButtonClick &&
-                  waterWasteManagementForm.controls[service.key].controls['status'].invalid
-              }">
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    approveAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="approveAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Approved"
-                      : actionNames[approveAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    rejectAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="rejectAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Rejected"
-                      : actionNames[rejectAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                            </div>
-                        </td>
+                 
                     </tr>
-<!-- Shows the review status of 1st Row-->
-                    <tr *ngIf="
-            waterWasteManagementForm.controls[services[0].key]['controls']['status'].value ===
-            rejectAction
-          ">
-                        <td></td>
-                        <td></td>
-                        <td colspan="5" style="text-align: left">
-                            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-                            <div class="input-group" style="width: 100%">
-                                <div *ngIf="waterWasteManagementForm.controls[services[0].key]['controls']['rejectReason']?.disabled">
-                                    {{waterWasteManagementForm.controls[services[0].key]['controls']['rejectReason'].value}}
-                                </div>
-                                <textarea *ngIf="waterWasteManagementForm.controls[services[0].key]['controls']['rejectReason'].enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
-                  waterWasteManagementForm.controls[services[0].key]['controls']['rejectReason']
-                " [ngClass]="{
-                  'is-invalid':
-                    isSubmitButtonClick &&
-                    waterWasteManagementForm.controls[services[0].key].controls['rejectReason']
-                      .invalid
-                }">
-              </textarea>
-                            </div>
-                        </td>
-                    </tr>
+
+                  
 <!-- this is the 2nd input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
@@ -296,10 +212,7 @@
                             <span *ngIf="error.required"> {{ messages[0] }} </span>
                             </ng-container>
 
-                            <!-- {{
-              waterWasteManagementForm.controls[service.key].controls["baseline"]
-                .controls["2021"].errors | json
-            }} -->
+               
                             </span>
                         </td>
                         <td *ngFor="let year of targets" formGroupName="target">
@@ -359,72 +272,15 @@
                             </div>
                      
                         </td>
-                        <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-                            <div class="actions" [ngClass]="{
-                'action-required':
-                  isSubmitButtonClick &&
-                  waterWasteManagementForm.controls[service.key].controls['status'].invalid
-              }">
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    approveAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="approveAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Approved"
-                      : actionNames[approveAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    rejectAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="rejectAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Rejected"
-                      : actionNames[rejectAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                            </div>
-                        </td>
+                        <td *ngFor="let year of score;  index as i"  formGroupName="score">
+                          <div class="input-group data-input">
+                              <input  [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key"  />
+                             
+                          </div>
+                   
+                      </td>
                     </tr>
-                    <!-- Shows the review status of 2nd Row-->
-                    <tr *ngIf="
-            waterWasteManagementForm.controls[services[1].key]['controls']['status'].value ===
-            rejectAction
-          ">
-                        <td></td>
-                        <td></td>
-                        <td colspan="5" style="text-align: left">
-                            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-                            <div class="input-group" style="width: 100%">
-                                <div *ngIf="waterWasteManagementForm.controls[services[1].key]['controls']['rejectReason']?.disabled">
-                                    {{waterWasteManagementForm.controls[services[1].key]['controls']['rejectReason'].value}}
-                                </div>
-                                <textarea *ngIf="waterWasteManagementForm.controls[services[1].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
-                  waterWasteManagementForm.controls[services[1].key]['controls']['rejectReason']
-                " placeholder="Reason for Reject" [ngClass]="{
-                  'is-invalid':
-                    isSubmitButtonClick &&
-                    waterWasteManagementForm.controls[services[1].key].controls['rejectReason']
-                      .invalid
-                }">
-              </textarea>
-                            </div>
-                        </td>
-                    </tr>
+                  
 <!-- this is the 3rd input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
@@ -537,72 +393,15 @@
                             </div>
                      
                         </td>
-                        <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-                            <div class="actions" [ngClass]="{
-                'action-required':
-                  isSubmitButtonClick &&
-                  waterWasteManagementForm.controls[service.key].controls['status'].invalid
-              }">
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    approveAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="approveAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Approved"
-                      : actionNames[approveAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    rejectAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="rejectAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Rejected"
-                      : actionNames[rejectAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                            </div>
-                        </td>
+                        <td *ngFor="let year of score;  index as i"  formGroupName="score">
+                          <div class="input-group data-input">
+                              <input  [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key"  />
+                             
+                          </div>
+                   
+                      </td>
                     </tr>
-                    <!-- Shows the review status of 3rd Row-->
-                    <tr *ngIf="
-            waterWasteManagementForm.controls[services[2].key]['controls']['status'].value ===
-            rejectAction
-          ">
-                        <td></td>
-                        <td></td>
-                        <td colspan="5" style="text-align: left">
-                            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-                            <div class="input-group" style="width: 100%">
-                                <div *ngIf="waterWasteManagementForm.controls[services[2].key]['controls']['rejectReason']?.disabled">
-                                    {{waterWasteManagementForm.controls[services[2].key]['controls']['rejectReason'].value}}
-                                </div>
-                                <textarea *ngIf="waterWasteManagementForm.controls[services[2].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
-                  waterWasteManagementForm.controls[services[2].key]['controls']['rejectReason']
-                " placeholder="Reason for Reject" [ngClass]="{
-                  'is-invalid':
-                    isSubmitButtonClick &&
-                    waterWasteManagementForm.controls[services[2].key].controls['rejectReason']
-                      .invalid
-                }">
-              </textarea>
-                            </div>
-                        </td>
-                    </tr>
+                  
 <!-- this is the 4th input <tr> of this Form where data will be entered -->
                     <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
@@ -715,78 +514,18 @@
                             </div>
                      
                         </td>
-                        <td *ngIf="canSeeApproveActionTaken || canTakeApproveAction">
-                            <div class="actions" [ngClass]="{
-                'action-required':
-                  isSubmitButtonClick &&
-                  waterWasteManagementForm.controls[service.key].controls['status'].invalid
-              }">
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    approveAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="approveAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Approved"
-                      : actionNames[approveAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                                <div class="action" *ngIf="
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].enabled ||
-                  waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
-                    rejectAction
-                ">
-                                    <label>
-                    <input type="radio" [value]="rejectAction" formControlName="status" />
-                    <span>
-                      {{
-                      waterWasteManagementForm.controls[service.key]["controls"]["status"].disabled
-                      ? "Rejected"
-                      : actionNames[rejectAction]
-                      }}
-                    </span>
-                  </label>
-                                </div>
-                            </div>
-                        </td>
+                        <td *ngFor="let year of score;  index as i"  formGroupName="score">
+                          <div class="input-group data-input">
+                              <input  [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key"  />
+                             
+                          </div>
+                   
+                      </td>
                     </tr>
-                     <!-- Shows the review status of 4th Row--> 
-                    <tr *ngIf="
-            waterWasteManagementForm.controls[services[3].key]['controls']['status'].value ===
-            rejectAction
-          ">
-                        <td></td>
-                        <td></td>
-                        <td colspan="5" style="text-align: left">
-                            <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-                            <div class="input-group" style="width: 100%">
-                                <div *ngIf="waterWasteManagementForm.controls[services[3].key]['controls']['rejectReason']?.disabled">
-                                    {{waterWasteManagementForm.controls[services[3].key]['controls']['rejectReason'].value}}
-                                </div>
-                                <textarea *ngIf="waterWasteManagementForm.controls[services[3].key]['controls']['rejectReason']?.enabled" rows="3" style="width: 100%" class="form-control" [formControl]="
-                  waterWasteManagementForm.controls[services[3].key]['controls']['rejectReason']
-                " placeholder="Reason for Reject" [ngClass]="{
-                  'is-invalid':
-                    isSubmitButtonClick &&
-                    waterWasteManagementForm.controls[services[3].key].controls['rejectReason']
-                      .invalid
-                }">
-              </textarea>
-                            </div>
-                        </td>
-                    </tr>
+                   
                 </tbody>
             </table>
-            <div style="margin-left: 2%; margin-bottom: 2%;">
-            <label for="population">Population: </label>
-            <input class="form-control population" type="number" id="population" name="population">
-        </div>
+          
         </form>
         
         <!-- loader -->
@@ -795,45 +534,15 @@
         </ng-template>
     </div>
 <!-- Action Component View  -  from 2021-22 onwards-->
-    <div class="col-sm-12 card mb-2 mt-1 p-1 box-shadow" *ngIf="(
-    (finalSubmitStatus == 'true' && loggedInUserType == USER_TYPE.ULB) ||
-    (loggedInUserType != USER_TYPE.ULB && compDis == 'true')
-    )" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : 'auto'">
-        <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
-            <!-- <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p> -->
-            <p><b style="padding-right: 25px;">State Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
-        'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStaus == 'PENDING' )}">
-        {{ulbFormStaus | titlecase}}</label>
-            </p>
-            <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status
-            :</b> {{ulbFormStatusMoHUA | titlecase}}</p> -->
-            <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')">
-                <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
-             'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
-        {{ulbFormStatusMoHUA | titlecase}}</label>
-            </p>
-            <p *ngIf="ulbFormStaus == 'REJECTED'">
-                <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
-            </p>
-        </div>
-    </div>
+
 
 <!-- save and next -->
-    <div class="col-sm-12 footerBtnDiv d-flex" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
-        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0;">
-            <a type="button" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</a>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 text-end" style="padding-right: 0;">
-            <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-            <!--  -->
-            <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE</button>
-        </div>
-    </div>
+<div class="row mt-4 mb-3">
+  
+</div>
 </div>
 
-<ng-template #template1>
+<!-- <ng-template #template1>
     <div class="modal-body text-center">
         <div class="modal-header">
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
@@ -852,39 +561,20 @@
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Proceed</button>
         </div>
     </div>
-</ng-template>
-
-<div class="col-sm-12 mb-1">
-    <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
-loggedInUserType === USER_TYPE.MoHUA) &&
-(takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
-        <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
-(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
-        <div class="card-body">
-            <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
-            </app-state-action-ulb>
-        </div>
-    </div>
-</div>
-<div class="col-sm-12 footerBtnDiv" *ngIf="
-(loggedInUserDetails.role === USER_TYPE.STATE) ||
-(loggedInUserDetails.role === USER_TYPE.ADMIN) ||
-(loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true" [routerLink]="['../annual_acc']">BACK</a>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <!-- <button type="button" class="btn footerBtn" id="saveDraft"
-              (click)="saveAsDraft()">SAVE AS DRAFT</button>
-          -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
-    </div>
+</ng-template> -->
+  <div class="row">
+    
+      <div class="col-sm-6">
+        <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
+      </div>
+      <div class="col-sm-6 text-end">
+        <button class="btn btn-c-next next-btn" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
+      </div>
+   
+  </div>
 </div>
 
-</div>
-
-<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn backbtn" (click)="submitBlank()">BACK</button>
-<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn footerBtn" style="float: right;" (click)="submitBlank()">SAVE</button>
+<!-- 
 
 <ng-template #previewPopup>
 <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
@@ -933,4 +623,4 @@ loggedInUserType === USER_TYPE.MoHUA) &&
     </div>
 
 </div>
-</ng-template>
+</ng-template> -->

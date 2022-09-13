@@ -11,13 +11,18 @@ import { EventEmitter } from "@angular/core";
 import { CustomizedCellComponent } from "./customized-cell/customized-cell.component";
 import { CustomTooltipComponent } from "./custom-tooltip/custom-tooltip.component";
 import { CustomizedHeaderComponent } from "./customized-header/customized-header.component";
+import { BtnCellRendererComponent } from "./btn-cell-renderer/btn-cell-renderer.component";
 @Component({
   selector: "app-ag-grid",
   templateUrl: "./ag-grid.component.html",
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  constructor() {}
+  frameworkComponents:any;
+  constructor() {
+    // this.frameworkComponents = {
+    // }
+  }
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
   @ViewChild("agGrid3") agGrid3: AgGridAngular;
@@ -33,7 +38,7 @@ export class AgGridComponent implements OnInit, OnChanges {
   @Output()
   gridData = new EventEmitter();
 
-  frameworkComponents;
+
   yearErrorMsg =
     "All years value sum should be a positive integer equal to amount";
   fundErrorMsg =
@@ -233,6 +238,10 @@ export class AgGridComponent implements OnInit, OnChanges {
         rows: "6",
       },
       suppressMovable: true,
+    },{
+      field: 'Action',
+        cellRenderer: 'buttonRenderer',
+        minWidth: 50,
     },
   ];
   fund = [
@@ -670,6 +679,8 @@ export class AgGridComponent implements OnInit, OnChanges {
       customizedCell: CustomizedCellComponent,
       agColumnHeader: CustomizedHeaderComponent,
       customTooltip: CustomTooltipComponent,
+      buttonRenderer: BtnCellRendererComponent,
+
     };
   }
 

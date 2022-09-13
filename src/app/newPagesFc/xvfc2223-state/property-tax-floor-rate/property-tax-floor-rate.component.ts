@@ -61,6 +61,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
@@ -284,7 +287,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
- 
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
@@ -464,7 +467,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             this[progressType] = 100;
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
-              this.minimumUrl = this.minimumFloorUrl 
+              this.minimumUrl = this.minimumFloorUrl
               this.propertyForm.get('floorRate').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -487,7 +490,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             }
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
-              this.ruleUrl = this.rulesLawsUrl 
+              this.ruleUrl = this.rulesLawsUrl
               this.propertyForm.get('comManual').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -511,14 +514,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInPropertyTax");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInPropertyTax", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -566,9 +569,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    
+
       sessionStorage.setItem("changeInPropertyTax", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);

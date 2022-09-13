@@ -31,9 +31,9 @@
 }
 
 select {
-    width: 90px !important;
+    width: 90px;
     border-radius: 6px;
-    color: gray
+    //   color: gray
 }
 
 .inputWidth {
@@ -86,4 +86,10 @@ td {
 
 .btn-td {
     width: 16%;
+}
+
+.nodata {
+    font-size: 20px;
+    font-family: "Roboto", Medium;
+    font-weight: 600;
 }

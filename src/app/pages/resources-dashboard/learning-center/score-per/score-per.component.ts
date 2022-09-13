@@ -254,30 +254,6 @@ export class ScorePerComponent implements OnInit {
       }
     })
     this.prescription = presItem?.prescription;
-
-    // if (presItem?.isClicked) {
-    //   this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
-    //     false;
-    //   this.scoreReportData.currentUlb.partcularAnswerValues[index][
-    //     "isClicked"
-    //   ] = false;
-    //   this.prescribeText = this.clonePrescribeText;
-    // } else {
-    //   this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
-    //     (el, i) => {
-    //       el["selected"] = false;
-    //     }
-    //   );
-    //   this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
-    //     true;
-    //   this.scoreReportData.currentUlb.partcularAnswerValues[index][
-    //     "isClicked"
-    //   ] = true;
-    //   this.prescribeText =
-    //     this.scoreReportData.currentUlb.partcularAnswerValues[index][
-    //       "prescription"
-    //     ];
-    // }
   }
 
   prescribeText: string = "";
@@ -341,6 +317,7 @@ export class ScorePerComponent implements OnInit {
   }
   processLinks(e) {
     console.log("router click", e);
+    this.prescription = ""
     const element: HTMLElement = e.target;
     if (element.nodeName === "A") {
       e.preventDefault();

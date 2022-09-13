@@ -178,7 +178,8 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
 
   async submit() {
     console.log("property save", this.data?.dataPreview);
-    let body = { ...this.data?.dataPreview };
+    let body = { ...this.data?.dataPreview,
+      isDraft: true };
     return new Promise((resolve, rej) => {
       this.commonService.submitPtForm(body).subscribe(
         (res) => {

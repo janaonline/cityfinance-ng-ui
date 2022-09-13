@@ -67,9 +67,6 @@ export class OdfFormComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
-    if (this.userData?.role != "ULB") {
-      this.isDisabled = true;
-    }
     this.ulbId = this.userData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
@@ -138,7 +135,7 @@ export class OdfFormComponent implements OnInit {
   getFormData: any;
   actFormData;
   formId = "";
-
+  canTakeAction = false;
   ngOnInit(): void {
     this.setRouter();
     this.fetchData();
@@ -170,12 +167,9 @@ export class OdfFormComponent implements OnInit {
 
     this.commonService.getOdfFormData(params).subscribe(
       (res: any) => {
-        console.log(res);
+        console.log('odfresponsedata', res);
         this.getFormData = res;
         this.actFormData = res?.data;
-        if (res?.data?.status !== "PENDING") {
-          this.actionBtnDis = true;
-        }
         res?.data?.isDraft == false
           ? (this.commonActionCondition = true)
           : (this.commonActionCondition = false);
@@ -184,6 +178,8 @@ export class OdfFormComponent implements OnInit {
           res?.data?.rating == "62b2e4969a6c781a28150d71"
         ) {
           this.uploadCertificate = false;
+          this.profileForm.get("certDate").clearValidators();
+          this.profileForm.get("certDate").updateValueAndValidity();
           // this.profileForm.patchValue({
           //   certDate: ['',Validators.required]
           // })
@@ -196,19 +192,38 @@ export class OdfFormComponent implements OnInit {
         if (res?.data?.isDraft == false) {
           console.log(res?.data?.isDraft);
           this.isDisabled = true;
-          // this.profileForm.disabled
           this.profileForm.controls["cert"]?.disable();
           this.profileForm.controls["certDate"]?.disable();
-          // this.profileForm.controls['rating'].disable();
         }
         if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
           this.isDisabled = false;
           this.profileForm.controls["cert"]?.enable();
           this.profileForm.controls["certDate"]?.enable();
         }
+        if (this.userData?.role !== "ULB") {
+          this.isDisabled = true;
+          let action = 'false';
+          if (res?.data?.canTakeAction) {
+            action = 'true';
+            this.canTakeAction = true;
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
+        }
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.userData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
+          this.actionBtnDis = true;
+        }
       },
       (error) => {
         console.log("odf error", error);
+        if (this.userData?.role !== "ULB") {
+          this.isDisabled = true;
+        }
       }
     );
 
@@ -216,11 +231,7 @@ export class OdfFormComponent implements OnInit {
 
     if (this.isGfc) {
       sessionStorage.setItem("changeInGfc", "false");
-      // this.backRouter = "../odf";
-      // this.nextRouter = "../overview";
     } else {
-      //  this.backRouter = "../slbs";
-      //  this.nextRouter = "../gfc";
       sessionStorage.setItem("changeInODf", "false");
     }
     console.log(
@@ -234,8 +245,6 @@ export class OdfFormComponent implements OnInit {
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
-        //  console.log("name name", element);
-
         if (
           element?.name == "Open Defecation Free (ODF)" &&
           this.isGfc == false
@@ -393,20 +402,25 @@ export class OdfFormComponent implements OnInit {
     this.commonService.odfSubmitForm(this.body).subscribe(
       (res: any) => {
         this.clickedSave = false;
-        console.log("success!!!!!!!!!!!!!", res);
-        this.isDisabled = true;
         if (res && res.success) {
           this.commonActionCondition = true;
           this.isDisabled = true;
           this.clickedSave = false;
           this.draft = false;
           this.commonService.setFormStatus2223.next(true);
+          this.canTakeAction = false;
+          console.log('responseODf', res)
+         //
           if (this.isGfc) {
             sessionStorage.setItem("changeInGfc", "false");
           } else {
             sessionStorage.setItem("changeInODf", "false");
           }
           swal("Saved", "Data saved successfully", "success");
+          console.log('form data', this.actFormData);
+
+          this.actFormData['status'] = "PENDING";
+          this.actFormData['isDraft'] = false;
         } else {
           swal("Error", res?.message ? res?.message : "Error", "error");
         }
@@ -439,6 +453,8 @@ export class OdfFormComponent implements OnInit {
         this.clickedSave = false;
         this.draft = true;
         this.commonService.setFormStatus2223.next(true);
+
+        this.canTakeAction = false;
         if (this.isGfc) {
           sessionStorage.setItem("changeInGfc", "false");
         } else {
@@ -447,6 +463,9 @@ export class OdfFormComponent implements OnInit {
         console.log(this.profileForm.value);
         // this.fetchData();
         swal("Saved", "Data saved as draft successfully", "success");
+        console.log('form data', this.actFormData);
+        this.actFormData['status'] = "PENDING";
+        this.actFormData['isDraft'] = true;
       },
       (error) => {
         this.clickedSave = false;
@@ -867,6 +886,7 @@ export class OdfFormComponent implements OnInit {
         console.log("action respon", res);
         this.actionBtnDis = true;
         swal("Saved", "Action saved successfully.", "success");
+        this.commonService.setFormStatus2223.next(true);
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");

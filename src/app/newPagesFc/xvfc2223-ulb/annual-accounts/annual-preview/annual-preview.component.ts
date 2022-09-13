@@ -239,6 +239,7 @@ margin-bottom: 0 !important;
   async proceed(uploadedFiles) {
     this.dialogRef.close();
     this._matDialog.closeAll();
+    this.preData.body["isDraft"] = true;
     await this.submit();
     sessionStorage.setItem("changeInAnnualAcc", "false");
     await this.downloadAsPDF();

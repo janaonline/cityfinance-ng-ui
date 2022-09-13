@@ -1,59 +1,69 @@
 <div class="card">
-    <form [formGroup]="approveReturnForm">
-        <div class="row mt-3 text-center">
-            <h4>Action Form</h4>
+    <div class="row">
+        <div class="col-sm-12 text-end">
+            <a (click)="close()">
+                <img width="22px" src="../../../../../assets/form-icon/cancel.svg" alt="">
+            </a>
         </div>
-        <div class="row mt-4">
-            <div class="col-6" *ngIf="data.type == 'Approve'">
-                <label>Comments :</label>
+        <div class="col-sm-12 text-center">
+            <div class="a-h">
+                <h4>Action Form</h4>
             </div>
-            <div class="col-6" *ngIf="data.type == 'Return'">
-                <label>Return reason :<sup class="text-danger">*</sup></label>
-            </div> 
-            <div class="col-6">
+        </div>
+    </div>
+    <form [formGroup]="approveReturnForm">
+        <div class="row mt-3">
+            <div class="col-sm-4 h-l" *ngIf="data.type == 'Approve'">
+                Comments :
+            </div>
+            <div class="col-sm-4 h-l" *ngIf="data.type == 'Return'">
+                Return reason :<sup class="text-danger">*</sup>
+            </div>
+            <div class="col-sm-8">
                 <textarea formControlName="rejectReason" id="reason" cols="34" rows="2" placeholder="Type here ..."></textarea>
+                <div class="text-danger" *ngIf="retuenError">
+                    {{retuenErrorMsg}}
+                </div>
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-6">
-                <label>Supporting document :</label>
-            </div> 
-            <div class="col-6">
-                
-                    <div class="row mt-3 mb-3 question">
-                        <div class="col-12">
-                            <div class="image-upload">
-                                <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
-                                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+            <div class="col-sm-4 h-l">
+                Supporting document :
+            </div>
+            <div class="col-sm-8">
+
+                <div class="row mt-3 mb-3 question">
+                    <div class="col-12">
+                        <div class="image-upload">
+                            <label for="cin3" [ngClass]="{'customDisable': isDisabled }">
+                                    <a class="btn btn-primary" (click)="uploadButtonClicked('A')"
+                                    [ngClass]="{'fadedClass': isDisabled}">Upload
                                         PDF
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
-                                    <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                                    <p class="errorMessege" *ngIf="errorMessegeStateAct">{{errorMessegeStateAct}}</p>
                                 </label>
-                                <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted }"
-                                    (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />                            
-                            </div>
+                            <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         </div>
-                        
                     </div>
-                    
-                 
+
+                </div>
+
+
             </div>
         </div>
-        <div class="row" *ngIf="showStateAct">
+        <div class="row mt-3" *ngIf="showStateAct">
             <div class="col-6 filePadding mb-3">
                 {{stateActFileName}}
             </div>
             <div class="col-3 progressBar" *ngIf="stateActProgress">
-                <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
-                    attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
-                    [ngStyle]="{ width: stateActProgress + '%' }">
+                <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
                     {{ stateActProgress }}%
                 </div>
             </div>
             <div class="col-3 filePadding">
-                <a href="{{ stateActFileUrl }}" target="_blank">
+                <a href="{{ stateActUrl }}" target="_blank">
                     <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                 </a>
                 <span>
@@ -64,9 +74,9 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-12 text-end">
-                <button class="btn btn-primary btnSave" type="submit" (click)="alertSave()">Save</button>
+            <div class="col-12 text-end pe-3">
+                <button class="btn btn-primary" type="submit" (click)="alertSave()">Save</button>
             </div>
         </div>
-    </form>  
+    </form>
 </div>

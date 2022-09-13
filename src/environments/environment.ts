@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 let url;
 let GoogleTagID: string;
-if (window.location.hostname.includes("new-cityfinance.dhwaniris.in")) {
+if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "UA-171288029-2";
@@ -17,6 +17,7 @@ if (window.location.hostname.includes("new-cityfinance.dhwaniris.in")) {
 
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
+  
   GoogleTagID = "UA-171288029-2";
 } else {
   url = "https://cityfinance.in/api/v1/";

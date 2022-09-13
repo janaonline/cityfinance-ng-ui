@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { Observable, throwError } from "rxjs";
+import { Observable, Subject, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 @Injectable({
   providedIn: "root",
@@ -9,6 +9,7 @@ import { catchError } from "rxjs/operators";
 export class State2223Service {
   constructor(private http: HttpClient) {}
 
+  dpReviewChanges = new Subject<any>();
   postGtcForm(body) {
     return this.http.post(
       `${environment.api.url}grant-transfer-certificate`,
@@ -62,7 +63,6 @@ export class State2223Service {
           return throwError(errMes);
         }
       })
-
     );
   }
 }
