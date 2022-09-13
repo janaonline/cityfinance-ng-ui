@@ -1,3 +1,4 @@
+import { I } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
@@ -178,6 +179,11 @@ export class Xvfc2223UlbComponent implements OnInit {
   ngOnInit(): void {
     this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
+    if (!this.leftMenu) {
+      setTimeout(() => {
+        this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
+      }, 1000)
+    }
   }
   getSideBar() {
     let ulb = this.userData?.ulb;
@@ -226,7 +232,9 @@ export class Xvfc2223UlbComponent implements OnInit {
   backStatePage() {
     if (this.loggedInUserType === this.userTypes.STATE) {
       this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
-    } else { }
-    this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+    } else {
+      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+    }
+
   }
 }

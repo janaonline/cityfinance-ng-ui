@@ -345,6 +345,7 @@ export class TableComponent implements OnInit, OnChanges {
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
     sessionStorage.setItem("stateName", data?.stateName);
+    // sessionStorage.setItem("stateFormId", this.formId);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
   }
   getStateBar(id, role, isUA) {
@@ -387,6 +388,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.params["skip"] = 0;
     this.filterForm.reset();
   }
+
 }
 
 // export interface UserData {
