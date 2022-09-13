@@ -594,39 +594,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   alertClose() {
     this.stay();
   }
-  numberLimitV(e, input) {
-    // console.log("sss", e, input);
-    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
-
-    if (functionalKeys.indexOf(e.key) !== -1) {
-      return;
-    }
-
-    const keyValue = +e.key;
-    if (isNaN(keyValue)) {
-      e.preventDefault();
-      return;
-    }
-
-    const hasSelection =
-      input?.selectionStart !== input?.selectionEnd &&
-      input?.selectionStart !== null;
-    let newValue;
-    if (hasSelection) {
-      newValue = this.replaceSelection(input, e.key);
-    } else {
-      newValue = input?.value + keyValue?.toString();
-    }
-
-    if (+newValue > 1000 || newValue.length > 3) {
-      e.preventDefault();
-    }
-  }
-  private replaceSelection(input, key) {
-    const inputValue = input?.value;
-    const start = input?.selectionStart;
-    const end = input?.selectionEnd || input?.selectionStart;
-    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  omit_special_char(event) {   
+    var k;  
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
   }
 
 
