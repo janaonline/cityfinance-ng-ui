@@ -737,7 +737,7 @@ export class AnnualAccountsComponent implements OnInit {
   compName = "AnnualAccount";
   nextRouter;
   backRouter;
-
+  overAllFormDis = true;
   ngOnInit(): void {
 
     sessionStorage.setItem("changeInAnnualAcc", "false");
@@ -866,6 +866,11 @@ export class AnnualAccountsComponent implements OnInit {
           if (resObj?.canTakeAction) this.canTakeAction = resObj?.canTakeAction;
           if (!this.canTakeAction) {
             this.actionBtnDis = true;
+          }
+          if (resObj['status'] == 'REJECTED') {
+            this.overAllFormDis = false;
+          } else {
+            this.overAllFormDis = true;
           }
           // this.actionCheck = res['status'];
           console.log("annual res---------------", this.canTakeAction);
@@ -1688,6 +1693,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.isDisabled = true;
+        this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
       },
@@ -1991,6 +1997,25 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
         }
       }
     }
+    this.setDisableField();
 
+  }
+  setDisableField() {
+    this.auditQues.forEach((el) => {
+      if (el?.data?.status == 'REJECTED') {
+        el['qusDis'] = true;
+      } else {
+        el['qusDis'] = false;
+      }
+    });
+    this.unAuditQues.forEach((el) => {
+      if (el?.data?.status == 'REJECTED') {
+        el['qusDis'] = true;
+      } else {
+        el['qusDis'] = false;
+      }
+    })
+    console.log('aud rejected case', this.auditQues);
+    console.log('unA rejected case', this.unAuditQues);
   }
 }
