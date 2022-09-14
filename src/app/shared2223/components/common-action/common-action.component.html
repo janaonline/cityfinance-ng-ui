@@ -152,7 +152,11 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                     </div>
                 </div>
             </div>
-
+            <div class="row" *ngIf="errorF">
+                <div class="col-sm-12 text-danger">
+                    Required*
+                </div>
+            </div>
         </form>
     </div>
 </div>

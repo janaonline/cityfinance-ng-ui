@@ -53,10 +53,12 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
       }
+
     },
     {
       name: "Please enter total amount of Assets",
@@ -66,6 +68,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "assets",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "assets",
         value: "",
@@ -86,6 +89,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "f_assets",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "f_assets",
         value: "",
@@ -106,6 +110,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "s_grant",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "s_grant",
         value: "",
@@ -126,6 +131,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "c_grant",
       action: true,
       actError: false,
+      qusDis: false,
       amount: {
         key: "c_grant",
         value: "",
@@ -148,6 +154,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -163,6 +170,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -176,6 +184,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "revenue",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "revenue",
         value: "",
@@ -196,6 +205,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "expense",
       action: true,
       actError: false,
+      qusDis: false,
       amount: {
         key: "expense",
         value: "",
@@ -218,6 +228,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -233,6 +244,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -249,6 +261,7 @@ export class AnnualAccountsComponent implements OnInit {
       action: false,
       status: null,
       actError: false,
+      qusDis: false,
       rejectReason: null,
       responseFile: {
         url: '',
@@ -263,6 +276,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "assets",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "assets",
         value: "",
@@ -283,6 +297,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "f_assets",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "f_assets",
         value: "",
@@ -303,6 +318,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "s_grant",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "s_grant",
         value: "",
@@ -323,6 +339,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "c_grant",
       action: true,
       actError: false,
+      qusDis: false,
       amount: {
         key: "c_grant",
         value: "",
@@ -345,6 +362,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -360,6 +378,7 @@ export class AnnualAccountsComponent implements OnInit {
       status: null,
       actError: false,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -373,6 +392,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "revenue",
       action: false,
       actError: false,
+      qusDis: false,
       amount: {
         key: "revenue",
         value: "",
@@ -393,6 +413,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "expense",
       action: true,
       actError: false,
+      qusDis: false,
       amount: {
         key: "expense",
         value: "",
@@ -415,6 +436,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -430,6 +452,7 @@ export class AnnualAccountsComponent implements OnInit {
       action: true,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -445,6 +468,7 @@ export class AnnualAccountsComponent implements OnInit {
       actError: false,
       status: null,
       rejectReason: null,
+      qusDis: false,
       responseFile: {
         url: '',
         name: '',
@@ -1724,15 +1748,17 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
       actRes = "APPROVED";
       this.actReturn = false;
       item.actError = false;
+      item['status'] = actRes;
     } else if (actType == 'Return') {
       actRes = "REJECTED"
       // item.actError = false;
+      item['status'] = actRes;
       this.actReturn = true;
     } else if (actType == 'returnRes') {
       reason = true;
       item.actError = false;
     }
-    item['status'] = actRes;
+
 
     switch (item?.key) {
       case "c_grant":
@@ -1900,21 +1926,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
       swal('Error', "One or more required fields are empty. Please check your input.", 'error');
       return;
     }
-    // let actionBody = {
-    //   formId: this.formId,
-    //   design_year: "606aafb14dff55e6c075d3ae",
-    //   status: this.actionRes?.status,
-    //   ulb: [this.ulbId],
-    //   rejectReason: this.actionRes?.reason,
-    //   responseFile: {
-    //     url: this.actionRes?.document?.url,
-    //     name: this.actionRes?.document?.name,
-    //   },
-    // };
-    // if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
-    //    swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
-    //    return;
-    // }
+
 
 
   }

@@ -75,8 +75,9 @@
                                 <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
                                     <div class="card-body">
                                         <div class="row" style="">
-                                            <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                            <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
+
                                                 <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
                                                 <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
@@ -106,10 +107,10 @@
                                             </div>
                                         </div>
                                         <div class="row" *ngIf="item?.data?.status != 'PENDING'">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 Review Status:
                                             </div>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-8">
                                                 {{item?.data?.status}}
                                             </div>
                                         </div>
@@ -359,7 +360,7 @@
                             <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
                                 <div class="card-body">
                                     <div class="row" style="">
-                                        <div class="col-sm-5 a-h" style="width: 46%">State Review Status:</div>
+                                        <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
                                         <div class="col-sm-7 act-btn" style="width: 50%">
                                             <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
                                             <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
