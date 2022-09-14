@@ -48,6 +48,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() actBtnDis;
   @Input() canTakeAction;
   @Input() actionFor;
+  @Input() commonActionError;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -88,8 +89,10 @@ export class CommonActionComponent implements OnInit, OnChanges {
   state_status = '';
   mohua_status = ''
   stateReview = false;
+  errorF = false;
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
+    this.errorF = this.commonActionError;
     if (this.actionFor == 'ULBForm') {
       this.stateReview = true;
       if (
