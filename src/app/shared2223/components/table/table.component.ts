@@ -95,6 +95,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.initializeListFetchParams();
     let skValue = sessionStorage.getItem('skipValue')
     let sesParams = JSON.parse(sessionStorage.getItem("params"));
+    console.log('default pages', this.tableDefaultOptions);
+
     if (skValue) {
       this.params = sesParams;
       if (sesParams) {
@@ -375,6 +377,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.stateServices.dpReviewChanges.subscribe((res) => {
       console.log("table value changes....", res);
       this.selectedId = [];
+      // this.params["skip"] = 0;
+      this.tableDefaultOptions.currentPage = 1;
       this.setParams();
     });
   }
