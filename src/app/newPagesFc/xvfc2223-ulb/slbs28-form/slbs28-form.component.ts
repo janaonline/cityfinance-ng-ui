@@ -523,7 +523,7 @@ export class Slbs28FormComponent implements OnInit {
       this.actionError = true;
       return;
     } else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
-      swal("Alert!", "Action is mandatory", "error");
+      swal1("Alert!", "Action is mandatory", "error");
       this.actionError = true;
       return;
     }
