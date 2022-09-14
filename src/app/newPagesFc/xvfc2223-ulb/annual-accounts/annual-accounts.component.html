@@ -68,7 +68,7 @@
                             <div class="">
                                 <ng-container>
                                     <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
-                                        [isDisabled]="isDisabled" [compName]="compName">
+                                        [isDisabled]="isDisabled && !(item?.qusDis)" [compName]="compName">
                                     </app-common-file-upload>
                                 </ng-container>
                                 <!-- && userData?.role != 'ULB' && data?.status == 'PENDING' -->
@@ -354,7 +354,7 @@
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
                                 <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
-                                    [isDisabled]="isDisabled" [compName]="compName">
+                                    [isDisabled]="isDisabled && !(item?.qusDis)" [compName]="compName">
                                 </app-common-file-upload>
                             </ng-container>
                             <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
@@ -546,7 +546,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -566,8 +565,8 @@
         <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
     </div>
     <div class="col-sm-6 text-end">
-        <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
-        <button class="btn btn-primary ms-3" [disabled]="isDisabled" *ngIf="userData?.role == 'ULB'" (click)="formSave('save')">Submit</button>
+        <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" [disabled]="isDisabled && overAllFormDis" (click)="formSave('draft')">Save As Draft</button>
+        <button class="btn btn-primary ms-3" [disabled]="isDisabled && overAllFormDis" *ngIf="userData?.role == 'ULB'" (click)="formSave('save')">Submit</button>
         <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
         <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
     </div>
