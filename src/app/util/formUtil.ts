@@ -504,11 +504,12 @@ export class FormUtil {
       ? departmentEmailID.trim()
       : departmentEmailID;
 
-    if (departmentEmailID == stateEmailID) {
-      errors.push("State Email ID and Department Email ID cannot be same");
-      form.controls.email.setErrors({ sameEmail: true });
-      form.controls.departmentEmail.setErrors({ sameEmail: true });
-    }
+    // new changes --   departmentEmailID and stateEmailID can be same 09-2022
+    // if (departmentEmailID == stateEmailID) {
+    //   errors.push("State Email ID and Department Email ID cannot be same");
+    //   form.controls.email.setErrors({ sameEmail: true });
+    //   form.controls.departmentEmail.setErrors({ sameEmail: true });
+    // }
 
     Object.keys(form.controls).forEach((controlName) => {
       const control = form.controls[controlName];
