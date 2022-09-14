@@ -161,7 +161,6 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.newCommonService.setFormStatus2223.subscribe((res) => {
       console.log("form status 2223", res);
-      if(this.loggedInUserType === this.userTypes.ULB)
       this.getSideBar();
     });
     this.path = sessionStorage.getItem("path1");
@@ -186,8 +185,16 @@ export class Xvfc2223UlbComponent implements OnInit {
     }
   }
   getSideBar() {
-    let ulb = this.userData?.ulb;
-    let role = this.userData?.role;
+    let ulb;
+    let role
+    if (this.loggedInUserType === this.userTypes.ULB) {
+      ulb = this.userData?.ulb;
+      role = this.userData?.role;
+    } else {
+      ulb = localStorage.getItem("ulb_id");;
+      role = 'ULB';
+    }
+
     let isUA = "";
     this.newCommonService.getLeftMenu(ulb, role, isUA).subscribe((res: any) => {
       console.log("left responces..", res);
