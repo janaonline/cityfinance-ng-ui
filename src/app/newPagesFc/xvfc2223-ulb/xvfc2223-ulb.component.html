@@ -74,45 +74,50 @@
                   font-size: 1.5rem;
                 " *ngIf="loggedInUserType !== userTypes.USER">
                         <span *ngIf="loggedInUserType === userTypes.ULB">
-                  {{ userLoggedInDetails.name }},
-                </span>
-                        <span *ngIf="
-                    loggedInUserType === userTypes.ADMIN ||
-                    loggedInUserType === userTypes.MoHUA ||
-                    loggedInUserType === userTypes.PARTNER
-                  ">
-                  {{ userLoggedInDetails.role }}
-                </span>
-                        <span *ngIf="
-                    states &&
-                    (loggedInUserType === userTypes.STATE ||
-                      loggedInUserType === userTypes.ULB)
-                  ">
-                  {{ states[userLoggedInDetails["state"]]?.name }}
-                </span>
-                    </h3>
-
+                            {{ userLoggedInDetails.name }},
+                        </span>
+                        <span *ngIf="loggedInUserType === userTypes.ADMIN ||
+                                      loggedInUserType === userTypes.MoHUA ||
+                                      loggedInUserType === userTypes.PARTNER">
+                           {{ userLoggedInDetails.role }}
+                           <div>
+                            <span style="font-size: 18px; font-weight: 600;">
+                              {{ulbName}}<span *ngIf="ulbName != ''">,</span> {{stateName}}
+                        </span>
                 </div>
+                </span>
+                <span *ngIf="states &&
+                              (loggedInUserType === userTypes.STATE ||
+                                loggedInUserType === userTypes.ULB)">
+                                <span *ngIf="loggedInUserType !== userTypes.ULB">
+                                    {{ulbName}}<span *ngIf="ulbName != ''">,</span>
+                </span> {{ states[userLoggedInDetails["state"]]?.name }}
+
+
+                </span>
+                </h3>
+
             </div>
-            <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
-                <div class="col-sm-12">
-                    <!-- <nav aria-label="breadcrumb">
+        </div>
+        <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
+            <div class="col-sm-12">
+                <!-- <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a class="act-l" (click)="backStatePage()">{{path}}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ulbFormName}}</li>
                         </ol>
                     </nav> -->
-                    <button type="button" (click)="backStatePage()" class="btn btn-bkS">
+                <button type="button" (click)="backStatePage()" class="btn btn-bkS">
                       <span class="material-icons" style="font-size: 13px">
                         arrow_back
                        </span>
                         Review Grant App
                       </button>
 
-                </div>
             </div>
-            <router-outlet></router-outlet>
         </div>
+        <router-outlet></router-outlet>
     </div>
+</div>
 
 </div>

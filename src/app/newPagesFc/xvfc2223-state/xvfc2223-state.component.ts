@@ -23,6 +23,7 @@ export class Xvfc2223StateComponent implements OnInit {
     this.initializeLoggedInUserDataFetch();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.stateName = sessionStorage.getItem("stateName");
   }
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -30,6 +31,7 @@ export class Xvfc2223StateComponent implements OnInit {
   userTypes = USER_TYPE;
   userData;
   leftMenu;
+  stateName = ''
   ngOnInit(): void {
     if (!this.leftMenu) {
       setTimeout(() => {

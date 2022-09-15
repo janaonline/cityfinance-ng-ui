@@ -464,8 +464,10 @@ export class OdfFormComponent implements OnInit {
         // this.fetchData();
         swal("Saved", "Data saved as draft successfully", "success");
         console.log('form data', this.actFormData);
+        if (this.actFormData) {
         this.actFormData['status'] = "PENDING";
         this.actFormData['isDraft'] = true;
+       }
       },
       (error) => {
         this.clickedSave = false;
