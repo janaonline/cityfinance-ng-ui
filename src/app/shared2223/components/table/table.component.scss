@@ -93,3 +93,26 @@ td {
     font-family: "Roboto", Medium;
     font-weight: 600;
 }
+
+.in-se-s {
+    width: 60%;
+    font-size: 14px;
+}
+
+.in-sel {
+    width: 6rem;
+    padding: 0 2.25rem 0 0.75rem;
+    height: 30px;
+    font-size: 14px;
+}
+
+.input-group-text {
+    padding: 0.375rem 0.25rem !important;
+}
+
+th[scope=row] {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}

@@ -1,5 +1,5 @@
 import { I } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
@@ -13,7 +13,7 @@ import { NewCommonService } from "../../shared2223/services/new-common.service";
   templateUrl: "./xvfc2223-ulb.component.html",
   styleUrls: ["./xvfc2223-ulb.component.scss"],
 })
-export class Xvfc2223UlbComponent implements OnInit {
+export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   // leftMenu: any = {
   //   success: true,
   //   data: {
@@ -159,14 +159,21 @@ export class Xvfc2223UlbComponent implements OnInit {
 
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
-    this.newCommonService.setFormStatus2223.subscribe((res) => {
-      console.log("form status 2223", res);
-      this.getSideBar();
+    this.subscription = this.newCommonService.setFormStatus2223.subscribe((res) => {
+      if (res == true) {
+        console.log("form status 2223", res);
+        this.getSideBar();
+      }
     });
+
     this.path = sessionStorage.getItem("path1");
     this.ulbFormId = sessionStorage.getItem("form_id");
     this.ulbFormName = sessionStorage.getItem("form_name");
+    this.ulbName = sessionStorage.getItem("ulbName");
+    this.stateName = sessionStorage.getItem("stateName");
+
   }
+  subscription;
   path = null;
   ulbFormId = null;
   ulbFormName = null;
@@ -175,6 +182,8 @@ export class Xvfc2223UlbComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
   userData;
+  ulbName = '';
+  stateName = '';
   ngOnInit(): void {
     this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
@@ -183,6 +192,10 @@ export class Xvfc2223UlbComponent implements OnInit {
         this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
       }, 1000)
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   getSideBar() {
     let ulb;
