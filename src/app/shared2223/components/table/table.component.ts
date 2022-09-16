@@ -340,7 +340,6 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("skipValue", skipValue);
     sessionStorage.setItem("params", JSON.stringify(this.params));
 
-    // this.router.navigateByUrl(`${this.formRouterLink}`)
   }
   viewStateForm(data) {
     console.log("data", data);
@@ -348,7 +347,12 @@ export class TableComponent implements OnInit, OnChanges {
     this.getStateBar(data?.state, "STATE", "");
     sessionStorage.setItem("stateName", data?.stateName);
     // sessionStorage.setItem("stateFormId", this.formId);
+    sessionStorage.setItem("path2", 'Review State Form');
+    sessionStorage.setItem("Stateform_id", this.formId);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
+    let skipValue: any = this.listFetchOption.skip
+    sessionStorage.setItem("skipValue", skipValue);
+    sessionStorage.setItem("params", JSON.stringify(this.params));
   }
   getStateBar(id, role, isUA) {
     this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
@@ -362,12 +366,14 @@ export class TableComponent implements OnInit, OnChanges {
     } else {
       isUA = false;
     }
-    this.commonService.getLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
-      console.log("left responces..", res);
-      localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
-      localStorage.setItem("overViewCard", JSON.stringify(res?.card));
-      //  this.leftMenu = res;
-    });
+    this.commonService.setFormStatus2223.next(true);
+    // this.commonService.getLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
+    //   console.log("left responces..", res);
+    //   localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+    //   this.commonService.setFormStatus2223.next(true);
+    //   localStorage.setItem("overViewCard", JSON.stringify(res?.card));
+    //   //  this.leftMenu = res;
+    // });
   }
   resetFilter() {
     this.setParams();

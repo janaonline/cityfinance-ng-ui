@@ -101,18 +101,20 @@
         </div>
         <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
             <div class="col-sm-12">
-                <!-- <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="act-l" (click)="backStatePage()">{{path}}</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ulbFormName}}</li>
-                        </ol>
-                    </nav> -->
-                <button type="button" (click)="backStatePage()" class="btn btn-bkS">
-                      <span class="material-icons" style="font-size: 13px">
-                        arrow_back
+                <button type="button" (click)="backStatePage()" class="btn btn-c-back br-e">
+                       &laquo;
+                       BACK
+                       <span *ngIf="loggedInUserType === userTypes.STATE">
+                        (STATE)
                        </span>
-                        Review Grant App
-                      </button>
+                       <span *ngIf="loggedInUserType === userTypes.MoHUA">
+                        (MoHUA)
+                       </span>
+                </button>
+                <button type="button" (click)="backStatePage2()" class="btn btn-c-back br-f" *ngIf="pathMohua && loggedInUserType !== userTypes.STATE">
+                 &laquo;
+                BACK(STATE)
+            </button>
 
             </div>
         </div>
