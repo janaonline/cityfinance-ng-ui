@@ -7,6 +7,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType } from "@angular/common/http";
 import { GaPreviewComponent } from "./ga-preview/ga-preview.component";
 import * as fileSaver from "file-saver";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
@@ -29,7 +30,8 @@ export class GrantAllocationComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
     private dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private newCommonService: NewCommonService
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -295,6 +297,7 @@ export class GrantAllocationComponent implements OnInit {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
           sessionStorage.setItem("changeInGta", "false");
+          this.newCommonService.setStateFormStatus2223.next(true);
         },
         (error) => {
           swal("Error", `${error?.message}`, "error");

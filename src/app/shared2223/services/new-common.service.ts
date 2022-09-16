@@ -9,7 +9,8 @@ import { BehaviorSubject, Subject } from "rxjs";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
-  setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);;
+  setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);;
   multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
