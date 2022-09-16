@@ -251,6 +251,7 @@ export class StateFinanceComponent implements OnInit {
         console.log(res)
         this.getStateFinanceData()
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
@@ -283,6 +284,7 @@ export class StateFinanceComponent implements OnInit {
         this.clickedSave = false;
         this.getStateFinanceData()
         swal("Saved", "Data saved as draft successfully.", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");

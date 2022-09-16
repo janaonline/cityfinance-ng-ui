@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
@@ -13,7 +13,7 @@ import { UserUtility } from "src/app/util/user/user";
   templateUrl: "./xvfc2223-state.component.html",
   styleUrls: ["./xvfc2223-state.component.scss"],
 })
-export class Xvfc2223StateComponent implements OnInit {
+export class Xvfc2223StateComponent implements OnInit, OnDestroy {
   constructor(
     private newCommonService: NewCommonService,
     private profileService: ProfileService,
@@ -26,6 +26,11 @@ export class Xvfc2223StateComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateName = sessionStorage.getItem("stateName");
+    this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
+
   }
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -35,17 +40,24 @@ export class Xvfc2223StateComponent implements OnInit {
   leftMenu;
   stateName = '';
   stateFormId = '';
-  path = ''
+  path = '';
+  stateSubs;
+  stateId;
   ngOnInit(): void {
     this.path = sessionStorage.getItem("path2");
     this.stateFormId = sessionStorage.getItem("Stateform_id");
-    if (!this.leftMenu) {
-      setTimeout(() => {
-        this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
-      }, 1000)
-    }
-  }
+    this.stateSubs = this.newCommonService.setStateFormStatus2223.subscribe((res) => {
+      if (res == true) {
+        this.getStateBar(this.stateId, "STATE", "");
+        // console.log("form status 2", res);
+        //  this.getSideBar();
+      }
+    });
 
+  }
+  ngOnDestroy() {
+    this.stateSubs.unsubscribe();
+  }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     // console.log(this._router.url);
@@ -71,4 +83,12 @@ export class Xvfc2223StateComponent implements OnInit {
       this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
     }
   }
+  getStateBar(id, role, isUA) {
+    this.newCommonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      this.leftMenu = res?.data;
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+    });
+  }
+
 }
