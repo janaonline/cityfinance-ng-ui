@@ -244,6 +244,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.getPtoData()
         sessionStorage.setItem("changeInPropertyTax", "false");
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
@@ -271,6 +272,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.clickedSave = false;
         this.getPtoData()
         swal("Saved", "Data saved as draft successfully.", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");

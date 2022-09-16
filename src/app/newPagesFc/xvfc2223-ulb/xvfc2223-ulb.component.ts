@@ -248,7 +248,6 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
     });
   }
   backStatePage() {
-    debugger
     if (this.loggedInUserType === this.userTypes.STATE) {
       this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
     } else {

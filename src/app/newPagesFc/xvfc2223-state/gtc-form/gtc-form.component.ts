@@ -8,6 +8,7 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { State2223Service } from "../state-services/state2223.service";
 import { GtcPreviewComponent } from "./gtc-preview/gtc-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-gtc-form",
@@ -30,7 +31,8 @@ export class GtcFormComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
     private dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private newCommonService: NewCommonService
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -662,9 +664,10 @@ export class GtcFormComponent implements OnInit {
           if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
-
+          swal("Saved", "File saved successfully", "success");
           sessionStorage.setItem("changeInGtc", "false");
           console.log("success responce", res);
+          this.newCommonService.setStateFormStatus2223.next(true);
         },
         (error) => {
           console.log("error", error);
