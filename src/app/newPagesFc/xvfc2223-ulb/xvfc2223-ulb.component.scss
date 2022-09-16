@@ -101,7 +101,18 @@ a {
     font-size: 13px;
     padding: 6px;
     // background: #E67E15;
-    // color: #fff;
+    // color: #ff;
     // border-color: #E67E15;
-    // box-shadow: 0px 2px 6px #f7c199;
+    // box-shadofw: 0px 2px 6px #f7c199;
+}
+
+.br-e {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 2px solid;
+}
+
+.br-f {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
