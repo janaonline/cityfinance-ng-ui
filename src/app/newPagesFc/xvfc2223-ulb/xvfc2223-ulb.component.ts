@@ -1,5 +1,5 @@
 import { I } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from "@angular/router";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
@@ -13,7 +13,7 @@ import { NewCommonService } from "../../shared2223/services/new-common.service";
   templateUrl: "./xvfc2223-ulb.component.html",
   styleUrls: ["./xvfc2223-ulb.component.scss"],
 })
-export class Xvfc2223UlbComponent implements OnInit {
+export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   // leftMenu: any = {
   //   success: true,
   //   data: {
@@ -156,17 +156,23 @@ export class Xvfc2223UlbComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-
-    console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
-    this.newCommonService.setFormStatus2223.subscribe((res) => {
-      console.log("form status 2223", res);
-      this.getSideBar();
+    this.subscription = this.newCommonService.setFormStatus2223.subscribe((res) => {
+      if (res == true) {
+        console.log("form status 2223", res);
+        this.getSideBar();
+      }
     });
+
     this.path = sessionStorage.getItem("path1");
     this.ulbFormId = sessionStorage.getItem("form_id");
     this.ulbFormName = sessionStorage.getItem("form_name");
+    this.ulbName = sessionStorage.getItem("ulbName");
+    this.stateName = sessionStorage.getItem("stateName");
+    this.pathMohua = sessionStorage.getItem("path2");
+    this.stateFormId = sessionStorage.getItem("Stateform_id");
   }
+  subscription;
   path = null;
   ulbFormId = null;
   ulbFormName = null;
@@ -175,14 +181,17 @@ export class Xvfc2223UlbComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
   userData;
+  ulbName = '';
+  stateName = '';
+  pathMohua = null;
+  stateFormId = '';
   ngOnInit(): void {
     this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
-    if (!this.leftMenu) {
-      setTimeout(() => {
-        this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
-      }, 1000)
-    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   getSideBar() {
     let ulb;
@@ -198,6 +207,8 @@ export class Xvfc2223UlbComponent implements OnInit {
     let isUA = "";
     this.newCommonService.getLeftMenu(ulb, role, isUA).subscribe((res: any) => {
       console.log("left responces..", res);
+      localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+      localStorage.setItem("overViewCard", JSON.stringify(res?.card));
       this.leftMenu = res?.data;
     });
   }
@@ -237,11 +248,21 @@ export class Xvfc2223UlbComponent implements OnInit {
     });
   }
   backStatePage() {
+    debugger
     if (this.loggedInUserType === this.userTypes.STATE) {
       this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
     } else {
-      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+      if (this.stateFormId == '' || this.stateFormId == null || this.stateFormId == undefined) {
+        this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+      } else {
+        this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
+      }
+      sessionStorage.removeItem("path2");
+      sessionStorage.removeItem("Stateform_id");
     }
 
+  }
+  backStatePage2() {
+    this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
   }
 }

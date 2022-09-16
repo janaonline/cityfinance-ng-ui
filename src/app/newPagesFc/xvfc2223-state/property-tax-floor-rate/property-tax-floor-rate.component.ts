@@ -73,6 +73,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
+    this.setRouter();
   }
   sideMenuItem;
   userData;
@@ -609,9 +610,13 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   canTakeAction = false;
   formId = ''
   actionFormData;
+  actionError = false;
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
   }
   saveAction() {
     let actionBody = {
@@ -627,8 +632,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     };
     if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
+      return;
+    } else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
       return;
     }
+    this.actionError = false;
     swal(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,

@@ -872,7 +872,11 @@ export class DetailedUtilizationReportComponent implements OnInit {
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
   }
+  actionError = false;
   saveAction() {
     let actionBody = {
       formId: this.formId,
@@ -887,8 +891,15 @@ export class DetailedUtilizationReportComponent implements OnInit {
     };
     if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
        swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
        return;
     }
+    else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
     swal(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,

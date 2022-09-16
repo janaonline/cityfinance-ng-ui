@@ -77,20 +77,33 @@
                   loggedInUserType === userTypes.PARTNER
                 ">
                 {{ userLoggedInDetails.role }}
-              </span>
-                        <span *ngIf="
-                  states &&
-                  (loggedInUserType === userTypes.STATE ||
-                    loggedInUserType === userTypes.ULB)
-                ">
+                <div>
+                  <span style="font-size: 1.2rem; font-weight:600;">
+                     {{stateName}}
+                  </span>
+                </div>
+                </span>
+                <span *ngIf="states && (loggedInUserType === userTypes.STATE)">
                 {{ states[userLoggedInDetails["state"]]?.name }}
               </span>
-                    </h3>
+                </h3>
 
-                </div>
             </div>
-            <router-outlet></router-outlet>
         </div>
+        <div class="row" *ngIf="loggedInUserType !== userTypes.STATE && path">
+            <div class="col-sm-12">
+                <button type="button" (click)="backStatePage()" class="btn btn-c-back">
+                    <!-- <span class="material-icons" style="font-size: 13px">
+                      arrow_back
+                     </span> -->
+                     &laquo;
+                     BACK
+              </button>
+
+            </div>
+        </div>
+        <router-outlet></router-outlet>
     </div>
+</div>
 
 </div>

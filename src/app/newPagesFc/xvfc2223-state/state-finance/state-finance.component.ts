@@ -72,6 +72,7 @@ export class StateFinanceComponent implements OnInit {
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
+    this.setRouter();
    }
 
   ngOnInit(): void {
@@ -537,11 +538,15 @@ export class StateFinanceComponent implements OnInit {
   actionRes;
   actionBtnDis = false;
   canTakeAction = false;
-  formId = ''
+  formId = '';
+  actionError = false;
   actionFormData;
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
   }
   saveAction() {
     let actionBody = {
@@ -557,8 +562,15 @@ export class StateFinanceComponent implements OnInit {
     };
     if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
       return;
     }
+    else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
     swal(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,
@@ -625,7 +637,7 @@ export class StateFinanceComponent implements OnInit {
   setRouter() {
     for (const key in this.sideMenuItem) {
       this.sideMenuItem[key].forEach((element) => {
-        if (element?.name == "Property tax floor rate Notification") {
+        if (element?.name == "State Finance Commission Notification") {
           // this.nextRouter = element?.nextUrl;
           // this.backRouter = element?.prevUrl;
           this.formId = element?._id;

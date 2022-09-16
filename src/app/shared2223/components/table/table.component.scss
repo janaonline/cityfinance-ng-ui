@@ -93,3 +93,52 @@ td {
     font-family: "Roboto", Medium;
     font-weight: 600;
 }
+
+.in-se-s {
+    width: 60%;
+    font-size: 14px;
+}
+
+.in-sel {
+    width: 6rem;
+    padding: 0 2.25rem 0 0.75rem;
+    height: 30px;
+    font-size: 14px;
+}
+
+.input-group-text {
+    padding: 0.375rem 0.25rem !important;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+.ulb-table {
+    th:nth-last-child(2) {
+        width: 10% !important;
+    }
+    td:nth-last-child(2) {
+        width: 10% !important;
+    }
+    th:first-child {
+        width: 2% !important;
+    }
+    th:nth-child(2) {
+        width: 14% !important;
+    }
+    td:nth-child(2) {
+        width: 14% !important;
+    }
+    th:nth-child(3) {
+        width: 12% !important;
+    }
+}

@@ -464,8 +464,10 @@ export class OdfFormComponent implements OnInit {
         // this.fetchData();
         swal("Saved", "Data saved as draft successfully", "success");
         console.log('form data', this.actFormData);
+        if (this.actFormData) {
         this.actFormData['status'] = "PENDING";
         this.actFormData['isDraft'] = true;
+       }
       },
       (error) => {
         this.clickedSave = false;
@@ -831,10 +833,13 @@ export class OdfFormComponent implements OnInit {
   // }
   actionRes;
   actionBtnDis = false;
-
+  actionError = false;
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
   }
   saveAction() {
     let actionBody = {
@@ -850,8 +855,14 @@ export class OdfFormComponent implements OnInit {
     };
     if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
        swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
-       return;
+      this.actionError = true;
+      return;
+    } else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
     }
+    this.actionError = false;
     swal(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,

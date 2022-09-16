@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { IState } from "src/app/models/state/state";
 import { USER_TYPE } from "src/app/models/user/userType";
@@ -16,13 +17,15 @@ export class Xvfc2223StateComponent implements OnInit {
   constructor(
     private newCommonService: NewCommonService,
     private profileService: ProfileService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private router: Router
   ) {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.stateName = sessionStorage.getItem("stateName");
   }
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -30,7 +33,12 @@ export class Xvfc2223StateComponent implements OnInit {
   userTypes = USER_TYPE;
   userData;
   leftMenu;
+  stateName = '';
+  stateFormId = '';
+  path = ''
   ngOnInit(): void {
+    this.path = sessionStorage.getItem("path2");
+    this.stateFormId = sessionStorage.getItem("Stateform_id");
     if (!this.leftMenu) {
       setTimeout(() => {
         this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
@@ -45,7 +53,7 @@ export class Xvfc2223StateComponent implements OnInit {
   private initializeLoggedInUserDataFetch() {
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
-      console.log("hi", data);
+      //console.log("hi", data);
     });
   }
   private fetchStateList() {
@@ -58,4 +66,9 @@ export class Xvfc2223StateComponent implements OnInit {
   //   debugger
   //   this.leftMenu = JSON.parse(localStorage.getItem("leftStateMenuRes"));
   // }
+  backStatePage() {
+    if (this.loggedInUserType !== this.userTypes.STATE) {
+      this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
+    }
+  }
 }

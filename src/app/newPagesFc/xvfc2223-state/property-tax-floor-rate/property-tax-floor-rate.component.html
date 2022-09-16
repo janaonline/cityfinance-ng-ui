@@ -18,7 +18,7 @@
                     </span>
                     <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case of multiple notifications, kindly merge the documents and upload." matTooltipPosition="above">
                         <img src="../../../../assets/ticks/info_black_18dp.svg">
-                    </span>                
+                    </span>
                 </div>
                 <div class="col-5 image-upload">
                     <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
@@ -167,7 +167,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-12">
-                    <app-common-action [actionRes]="actionRes" [formData]="actionFormData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction">
+                    <app-common-action [actionRes]="actionRes" [formData]="actionFormData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError">
                     </app-common-action>
                 </div>
             </div>
@@ -180,12 +180,14 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
-                        <!-- [disabled]="isDisabled" -->
-                        <!-- use this for disable button -->
+                        <button type="submit" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="userData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLink="../fc-formation">Next Form
