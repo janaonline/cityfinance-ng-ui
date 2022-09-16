@@ -25,10 +25,10 @@
         </div>
 
 
-        <table class="table table-striped" *ngIf="title == 'Review Grant Application'">
+        <table class="table table-striped ulb-table" *ngIf="title == 'Review Grant Application'">
             <thead>
                 <tr style="background-color: #047474; color: #FFFFFF;">
-                    <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder" style="text-align: center;">
+                    <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder">
                         {{item.value}}</th>
                     <th></th>
                 </tr>
@@ -106,9 +106,9 @@
                               <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select> -->
-                        <select class="form-select in-sel" formControlName="population_type_s" (change)="search()">
-                            <option selected value="">Population Type</option>
-                            <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
+                        <select class="form-select in-sel" formControlName="status_s" (change)="search()">
+                          <option selected value="">Status</option>
+                            <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
                     </th>
                     <th class="filter">
