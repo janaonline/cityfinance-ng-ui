@@ -22,12 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
-import { ActionPlanComponent } from './action-plan/action-plan.component';
 import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
-import { AgGridStateComponent } from './ag-grid-state/ag-grid-state.component';
-import { AgGridModule } from "ag-grid-angular";
-import { BrowserModule } from "@angular/platform-browser";
-import { AgGridComponent } from "src/app/shared/components/ag-grid/ag-grid.component";
 
 @NgModule({
   declarations: [
@@ -44,12 +39,7 @@ import { AgGridComponent } from "src/app/shared/components/ag-grid/ag-grid.compo
     GaPreviewComponent,
     WaterSupplyComponent,
     WaterSupplyPreviewComponent,
-    ActionPlanComponent,
-    AgGridStateComponent
   ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-],
   imports: [
     CommonModule,
     Shared2223Module,
@@ -62,9 +52,7 @@ import { AgGridComponent } from "src/app/shared/components/ag-grid/ag-grid.compo
     FormsModule,
     AccordionModule.forRoot(),
     SharedModule,
-    StateformsModule,
-    AgGridModule.withComponents([ActionPlanComponent, AgGridComponent])
-    
+    StateformsModule
   ],
 })
 export class Xvfc2223StateModule {}

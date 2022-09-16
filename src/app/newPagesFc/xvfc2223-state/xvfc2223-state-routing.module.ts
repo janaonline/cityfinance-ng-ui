@@ -8,7 +8,6 @@ import { StateFinanceComponent } from "./state-finance/state-finance.component";
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 import {DashboardComponent} from './dashboard/dashboard.component'
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
-import { ActionPlanComponent } from './action-plan/action-plan.component';
 const routes: Routes = [
   {
     path: "",
@@ -61,11 +60,7 @@ const routes: Routes = [
       {
         path: "water-supply",
         component: WaterSupplyComponent,
-      },
-      {
-        path: "action-plan-state2223",
-        component: ActionPlanComponent ,
-      },
+      }
     ],
   },
 ];
