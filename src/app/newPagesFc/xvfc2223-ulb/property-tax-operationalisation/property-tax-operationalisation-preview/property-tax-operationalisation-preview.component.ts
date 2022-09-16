@@ -145,7 +145,7 @@ export class PropertyTaxOperationalisationPreviewComponent implements OnInit {
       this.downloadAsPDF();
     }
   }
- 
+
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -215,11 +215,12 @@ export class PropertyTaxOperationalisationPreviewComponent implements OnInit {
           // status.annualAccounts.isSubmit = res["isCompleted"];
           // this._ulbformService.allStatus.next(status);
           swal("Saved", "Data saved as draft successfully", "success");
+          this.commonService.setFormStatus2223.next(true);
           resolve("sucess");
         },
         (err) => {
 
-         
+
           sessionStorage.setItem("changeInPropertyTaxOp", "false");
 
 

@@ -675,9 +675,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
-        this.ptService.setFormStatus2223.next(true);
+        this.ptService.setStateFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
-        this.ptService.setFormStatus2223.next(true);
+
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");
