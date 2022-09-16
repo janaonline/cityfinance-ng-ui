@@ -15,8 +15,8 @@
     </div>
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-6">
-            <p class="form-status">
-                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
+            <p class="form-status d-none">
+                <b>Form Current Status:</b>&nbsp;&nbsp;
             </p>
         </div>
         <div class="col-sm-6 text-end h-cls">
@@ -44,17 +44,17 @@
                                 style="border-right: 2px solid #70707030">
                                 <h6>
                                     Total Number of ULBs in UA</h6>
-                                <p>1</p>
+                                <p>{{data?.getData?.totalUlbs}}</p>
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 pdfSuitable"
                                 style="border-right: 2px solid #70707030">
                                 <h6>Approved by State
                                 </h6>
-                                <a>
+                               
                                     <p>
-                                        1
+                                        {{data?.getData?.fourSLB?.approved?.count ? data?.getData?.fourSLB?.approved?.count : 0}}
                                     </p>
-                                </a>
+                                
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 pdfSuitable">
         
@@ -62,20 +62,17 @@
                                     Submission/Approval
                                 </h6>
         
-                                <a>
-                                    <p>0
+                               
+                                    <p>{{data?.getData?.fourSLB?.pending?.count ? data?.getData?.fourSLB?.pending?.count : 0}}
                                     </p>
-                                </a>
+                              
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row ms-1">
-                <h5 class="indicatorsSummary">Total UA Score for Water Supply and Sanitation : 30(out of maximum 60)
-                </h5>
-            </div>
-            <div class="row">
+            
+            <div class="row" *ngIf="!data?.noDataFound">
                 <div class="col-sm-12">
                     <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow table-responsive">
                         <table aria-describedby="Water Waste Management Form" class="table">
@@ -83,18 +80,10 @@
                             <thead>
                                 <th scope="col">Service Level Indicators</th>
                                 <th scope="col">Benchmark</th>
-                                <th scope="col">
-                                    Actual Indicator<br /> 2020-21
-                                </th>
-                                <th scope="col">
-                                    Actual Indicator<br /> 2021-22
-                                </th>
-                                <th *ngFor="let column of targets" scope="col">
+                                <th *ngFor="let column of data?.combinedActualTarget" scope="col">
                                     <span style="padding: 0;" [innerHTML]="column.name"></span>
                                 </th>
-                                <th scope="col">
-                                    Weighted Score
-                                </th>
+                                <th scope="col">Weighted Score</th>
                             </thead>
         
                             <tbody>
@@ -109,42 +98,23 @@
                                     <td>
                                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                                     </td>
-                                    <!-- third element of the row -> actual of 20-21 -->
-                                    <td>
-                                        1
-                                    </td>
-                                    <td>
-                                       1
-        
-        
-                                    </td>
-                                    
-                                    <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
-                                    <td *ngFor="let year of targets">
-                                       1
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-        
-                                    <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
-                                    <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
-                                    <!-- <td>
-                                        <div class="actions">
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="approveAction" />
-        
-                                                </label>
-                                            </div>
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="rejectAction" />
-        
-                                                </label>
-                                            </div>
+                                    <td *ngFor="let year of data?.firstRowData">
+                                        <div class="input-group data-input">
+                                           
+                                            {{year}}
+                                            <span class=" spanCustom"><em class="glyphicon">
+                                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                                </em></span>
                                         </div>
-                                    </td> -->
+                                    </td>  
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <span>
+                                                {{data?.firstWeightedScore}}
+                                            </span>
+                                                        
+                                        </div>
+                                    </td>
                                 </tr>
                                
                                 
@@ -156,39 +126,22 @@
                                     <td>
                                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                                     </td>
-                                    <td>
-                                        1
-        
-        
-                                    </td>
-                                    <td>
-                                       1
-        
-        
-                                    </td>
-                                   
-                                    <td *ngFor="let year of targets">
-                                        1
-                                    </td>
-                                    <td>
-                                        1
-                                        </td>
-                                    <!-- <td>
-                                        <div class="actions">
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="approveAction" />
-        
-                                                </label>
-                                            </div>
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="rejectAction" />
-        
-                                                </label>
-                                            </div>
+                                    <td *ngFor="let year of data?.secondRowData">
+                                        <div class="input-group data-input">
+                                           {{year}}
+                                            <span class="spanCustom"><em class="glyphicon">
+                                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                                </em></span>
                                         </div>
-                                    </td> -->
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <span>
+                                                {{data?.secondWeightedScore}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    
                                 </tr>
                                 
                                 <tr *ngIf="services[2] as service">
@@ -199,39 +152,23 @@
                                     <td>
                                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                                     </td>
-                                    <td>
-                                       1
-        
-                                    </td>
-                                    <td>
-                                        1
-        
-                                    </td>
-                                   
-                                    <td *ngFor="let year of targets">
-                                        1
-        
-        
-                                    </td>
-                                    <td>
-                                       1
-                                        </td>
-                                    <!-- <td>
-                                        <div class="actions">
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="approveAction" />
-        
-                                                </label>
-                                            </div>
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="rejectAction" />
-        
-                                                </label>
-                                            </div>
+                                    <td *ngFor="let year of data?.thirdRowData">
+                                        <div class="input-group data-input">
+                                           
+                                            {{year}}
+                                            <span class="spanCustom"><em class="glyphicon">
+                                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                                </em></span>
                                         </div>
-                                    </td> -->
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <span>
+                                                {{data?.thirdWeightedScore}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    
                                 </tr>
                                 
                                 <tr *ngIf="services[3] as service">
@@ -242,45 +179,31 @@
                                     <td>
                                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                                     </td>
-                                    <td>
-                                       1
-        
-        
+                                    <td *ngFor="let year of data?.fourthRowData">
+                                        <div class="input-group data-input">
+                                           
+                                            {{year}}
+                                            <span class="spanCustom"><em class="glyphicon">
+                                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                                </em></span>
+                                        </div>
                                     </td>
                                     <td>
-                                        1
-        
-        
+                                        <div class="input-group data-input">
+                                            <span>
+                                                {{data?.fourthWeightedScore}}
+                                            </span>
+                                        </div>
                                     </td>
                                     
-                                    <td *ngFor="let year of targets">
-                                       1
-        
-        
-                                    </td>
-                                    <td>
-                                        1
-                                        </td>
-                                    <!-- <td>
-                                        <div class="actions">
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="approveAction" />
-        
-                                                </label>
-                                            </div>
-                                            <div class="action">
-                                                <label>
-                                                    <input type="radio" [value]="rejectAction" />
-        
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </td> -->
                                 </tr>
                              
                             </tbody>
                         </table>
+                    </div>
+                    <div class="row ms-1">
+                        <h5 class="indicatorsSummary">Total UA Score for Water Supply and Sanitation : {{data?.totalWeightedScore}}(out of maximum 60)
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -289,98 +212,115 @@
             <div class="row text-center mt-5">
                 <h5 class="indicators">Indicators for Solid Waste Management(B)</h5>
             </div>
-            <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 pdfSuitable"
-                                style="border-right: 2px solid #70707030">
-                                <h6>
-                                    Total Number of ULBs in UA</h6>
-                                <p>1</p>
-                            </div>
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 pdfSuitable"
-                                style="border-right: 2px solid #70707030">
-                                <h6>Approved by State
-                                </h6>
-                                <a>
-                                    <p>
-                                        1
-                                    </p>
-                                </a>
-                            </div>
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 pdfSuitable">
+            <div class="row">
+                <div class="col-6">
+                    <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <h5>GFC</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                        style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                            Total Number of ULBs in UA</h6>
+                                        <p style="display: inline-flex;">{{data?.getData?.totalUlbs ? data?.getData?.totalUlbs : 0}}</p>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                        style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                        </h6>
+                                        
+                                        <p>
+                                            {{data?.getData?.gfc?.approved?.count ? data?.getData?.gfc?.approved?.count : 0}}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
     
-                                <h6>Pending for
-                                    Submission/Approval
-                                </h6>
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
+                                            Submission/Approval
+                                        </h6>
+                            
+                                          <p>
+                                            {{data?.getData?.gfc?.pending?.count ? data?.getData?.gfc?.pending?.count : 0}}
+                                          </p>
+                                    </div>
+                                </div>           
+                            </div>
+                            <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!data?.noDataFound">
+                                <div class="row mt-3 mb-3">
+                                    <div class="col-6">
+                                        <input type="text" placeholder="GFC Rating" class="pointerEvent form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>
+                                            {{data?.getData?.gfc?.score ? data?.getData?.gfc?.score : 0}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <h5>ODF</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                        style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                            Total Number of ULBs in UA</h6>
+                                        <p>{{data?.getData?.totalUlbs ? data?.getData?.totalUlbs : 0}}</p>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                        style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                        </h6>
+                                      
+                                        <p>
+                                            {{data?.getData?.odf?.approved?.count ? data?.getData?.odf?.approved?.count : 0}}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
     
-                                <a>
-                                    <p>0
-                                    </p>
-                                </a>
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
+                                            Submission/Approval
+                                        </h6>
+                                          <br>
+                                        <p>
+                                            {{data?.getData?.odf?.pending?.count ? data?.getData?.odf?.pending?.count : 0}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!data?.noDataFound">
+                                <div class="row mt-3 mb-3">
+                                    <div class="col-6">
+                                        <input type="text" placeholder="ODF Rating" class="pointerEvent form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <p>
+                                            {{data?.getData?.odf?.score ? data?.getData?.odf?.score : 0}}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr class="hrClass">
-            <div class="row p-2 solidWasteSummary ms-1 card">
-                <div class="row mt-3">
-                    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 pdfSuitable">
-                        <h6>GFC Rating</h6>
-                    </div>
-                    <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 pdfSuitable">
-                        <p>36.4</p>
-                    </div>
-                </div>
-    
-                <!-- <div class="row mt-3" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                                    <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
-                                        Total Number of ULBs in UA</h6>
-                                    <h6 style="display: inline-flex;">{{totalULBsInUA}}</h6>
-                                </div>
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                                    <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
-                                    <a (click)="openDialog(template, uaDetails.data)">
-                                        <h6 style="display: inline-flex; color: #337AB7;">
-                                            {{totalCompletedUlb}}
-                                        </h6>
-                                    </a>
-                                </div>
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
-    
-                                    <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
-                                    </h6>
-    
-                                    <a (click)="openDialog2(template1, getData[1])">
-                                        <h6 style="display: inline-flex; color: #337AB7;">{{totalPendingUlb}}
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="row mt-3 mb-3">
-                    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 pdfSuitable">
-                        <h6>ODF Rating</h6>
-                    </div>
-                    <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 pdfSuitable">
-                        <p>7.2</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row ms-2 mt-2">
-                <h5 class="indicatorsSummary">Total UA Score for Solid Waste Management : 33.6(out of maximum 40
+            <div class="row ms-2 mt-2" *ngIf="!data?.noDataFound">
+                <h5 class="indicatorsSummary">Total UA Score for Solid Waste Management : {{data?.getData?.odf?.score + data?.getData?.gfc?.score}}(out of maximum 40
                     marks)</h5>
             </div>
         </div>
-        <div class="card mt-3">
+        <div class="card mt-3" *ngIf="!data?.noDataFound">
             <div class="row text-center mt-5">
                 <h5 class="indicators">Performance Assessment</h5>
             </div>
@@ -409,8 +349,8 @@
                 </table>
             </div>
             <div class="row mt-2">
-                <h5 class="tableDataSummary ms-4">Total UA Score for Solid Waste Management : 72.6(out of maximum
-                    100 marks) <br>% of Recommended tied grant : 90%</h5>
+                <h5 class="tableDataSummary ms-4">Total UA Score : {{data?.totalAplusB}}(out of maximum
+                    100 marks) <br>% of Recommended tied grant : {{data?.recommendedData}}</h5>
             </div>
         </div>
     </div>

@@ -65,4 +65,8 @@ export class State2223Service {
       })
     );
   }
+  getWaterSupplyData(params) {
+    console.log(params);
+    return this.http.get(`${environment.api.url}/UA/get2223?ua=${params.ua}&design_year=${params.design_year}`);
+  }
 }
