@@ -175,7 +175,6 @@ export class ActionPlanUAComponent implements OnInit {
           status: res["data"]["status"] ?? "PENDING",
           isDraft: res["data"]["isDraft"],
         };
-        console.log('this.data', this.data)
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
 
         this.addKeys(this.data);

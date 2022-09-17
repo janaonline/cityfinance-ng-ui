@@ -2,8 +2,6 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { services } from '../../../users/data-upload/components/configs/water-waste-management';
 import { WaterManagement } from '../../../users/data-upload/models/financial-data.interface';
-
-import { IState } from "../../../models/state/state";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { WaterSupplyPreviewComponent } from './water-supply-preview/water-supply-preview.component';
 import { State2223Service } from '../state-services/state2223.service';
@@ -19,7 +17,6 @@ export class WaterSupplyComponent implements OnInit {
   yearValue;
   getData = null
   odfGfcTotalScore;
-  states: { [staeId: string]: IState };
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
