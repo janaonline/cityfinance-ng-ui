@@ -189,6 +189,7 @@ tr:nth-child(even) {
         (res) => {
           swal("Saved", "Data saved as draft successfully", "success");
           sessionStorage.setItem("changeIn28SLB", "false");
+          this.newCommonService.setFormStatus2223.next(true);
           resolve("sucess");
         },
         (err) => {
