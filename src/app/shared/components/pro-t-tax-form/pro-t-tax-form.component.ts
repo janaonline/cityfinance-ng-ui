@@ -95,17 +95,58 @@ taxCollected_2021:["", [Validators.required, Validators.maxLength(10), Validator
   onload(){
     this.getPtoData();
   }
- 
-  submitForm(){
+  isZero = false
+  checkSubmit(){
+   this.isZero = false
+      for(let key in  this.propertyTaxForm.value){
+        if(this.propertyTaxForm.value[key] == 0 && typeof this.propertyTaxForm.value[key] == "number" ){
+          this.isZero = true;
+          return;
+          // swal('info',"You have entered 0 in some of the fields. Are you sure you want to proceed?",'info')
+        }
+      }
+     // this.onSubmit();
+    
+   
     console.log(this.propertyTaxForm)
+  
+  }
+  submitForm(){
     if(this.propertyTaxForm.status == "INVALID"){
       swal('Error',   "One or more required fields are empty or contains invalid data. Please check your input.", 'error')
+      return
+    }
+    this.checkSubmit();
+    if(this.isZero){
+      swal(
+        'Confirmation',"You have entered 0 in some of the fields. Are you sure you want to proceed?",
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+           
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.onSubmit();
+            break;
+          case "cancel":
+            break;
+        }
+      });
     }else{
       this.onSubmit();
     }
-    for(let key in this.propertyTaxForm.value){
-
-    }
+   
   }
 
   formDataPto;
@@ -315,13 +356,11 @@ taxCollected_2021:this.dataValue?.data?.taxCollected_2021,
         console.log(res)
  this.propertyTaxForm.disable()
         swal("Saved", "Data saved successfully", "success");
-      } else {
-        swal("Error", res?.message ? res?.message : "Error", "error");
-      }
+      } 
     },
     (error) => {
       console.error("err", error);
-      swal("Error", error ? error : "Error", "error");
+      swal("Error",  "Error", "error");
     })
   }
 
