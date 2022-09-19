@@ -1,0 +1,65 @@
+.question {
+    width: 100%;
+    padding: 1%;
+    // height: 75px;
+    // box-shadow: 2px 4px 5px #cecece;
+}
+.fontStyle {
+    font-weight: 500;
+}
+.tooltipDropdown{
+    width: 51%;
+    border: 1px solid rgb(212, 212, 212);
+    border-radius: 6px;
+    height: 32px;
+    padding: 5px;
+    padding-left: 11px;
+    opacity: 0.8;
+}
+.customDisable{
+    cursor: not-allowed;
+    display: inline-block;
+    pointer-events: none;
+}
+.btnDraft {
+    background-color: #059b9a;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 6rem;
+}
+thead, tbody, tfoot, tr, td, th {
+    padding: 18px;
+    vertical-align: baseline;
+}
+.card {
+    margin: 0 4rem;
+}
+tr {
+    border: none !important;
+}
+td{
+    width : 20rem !important;
+}
+
+.header2 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 30px;
+    margin: 4rem;
+    font-weight: 600;
+}
+
+.tdQues{
+    font-weight: bold;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

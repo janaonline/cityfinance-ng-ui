@@ -95,6 +95,15 @@
               >Users</a
             >
           </li>
+          <li class="nav-item" *ngIf="isLoggedIn && user.role == 'ULB'">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/prop-tax"
+              >Property Tax Form</a
+            >
+          </li>
+          
         </ul>
       </div>
       <div class="ms-auto">

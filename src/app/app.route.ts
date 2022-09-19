@@ -16,7 +16,7 @@ import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
 import { SharedCardComponent } from "./shared/components/shared-card/shared-card.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
-
+import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
@@ -31,6 +31,7 @@ export const appRouter: Routes = [
   { path: "compareDialog", component: CompareDialogComponent },
 
   { path: "home", component: NewHomeComponent },
+  { path: "prop-tax", component: ProTTaxFormComponent },
   {
     path: "dashboard",
     loadChildren: () =>

@@ -112,4 +112,24 @@ export class NewCommonService {
   postCommonAction(body) {
     return this.http.patch(`${environment.api.url}common-action`, body);
   }
+
+
+  //property tax open form
+  getPropertyTaxOpenData(params){
+    return this.http.get(
+      `${environment.api.url}pTaxOpen?design_year=606aafb14dff55e6c075d3ae&ulb=${params.ulb}`
+    );
+  }
+  postPropertyTaxOpenData(body){
+    return this.http.post(
+      `${environment.api.url}pTaxOpen`, body
+    );
+  }
+
+  getPropertyTaxDropdownList() {
+    return this.http.get(
+      `${environment.api.url}propTaxOpDropDown`
+    );
+  }
+  
 }
