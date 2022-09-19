@@ -8,6 +8,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
+const swal2 = require("sweetalert2");
 @Component({
   selector: "app-pfms",
   templateUrl: "./pfms.component.html",
@@ -64,6 +65,7 @@ export class PfmsComponent implements OnInit {
     }
     // this.getSubmittedFormData()
     this.navigationCheck();
+   // this.actNavAlert();
   }
   change = "";
   errorMessege: any = "";
@@ -871,6 +873,7 @@ export class PfmsComponent implements OnInit {
     if (e?.status == "APPROVED" || e?.status == "REJECTED") {
       this.actionError = false;
     }
+  //  sessionStorage.setItem("isActChangePfms", "true");
   }
   saveAction() {
     let actionBody = {
@@ -935,5 +938,52 @@ export class PfmsComponent implements OnInit {
       }
     );
   }
+  // actNavAlert() {
+  //   let canActChange = sessionStorage.getItem("isActChangePfms");
+  //   if (this.canTakeAction == true) {
+  //     this._router.events.subscribe((event) => {
+  //       debugger
+  //       if (event instanceof NavigationStart) {
+  //         if (event.url === "/" || event.url === "/login") {
+  //           sessionStorage.setItem("isActChangePfms", "false");
+  //           return;
+  //         }
+  //         if (canActChange === "true" && this.routerNavigate === null) {
+  //           const currentRoute = this._router.routerState;
+  //           this._router.navigateByUrl(currentRoute.snapshot.url, {
+  //             skipLocationChange: true,
+  //           });
+  //           this.routerNavigate = event;
+  //           // this.dialog.closeAll();
+  //           this.actionAlert();
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+  // actErrMsg = "You have some unsaved changes on this page. Do you wish to save your data?";
+  // isActChange = false;
+  // actionAlert() {
+  //   swal2.fire({
+  //     title: `${this.actErrMsg}`,
+  //     showDenyButton: true,
+  //     showCancelButton: true,
+  //     showConfirmButton: false,
+  //     cancelButtonText: 'Stay',
+  //     denyButtonText: `Discard`,
+  //   }).then((result) => {
+  //     /* Read more about isConfirmed, isDenied below */
+  //     if (result?.isCancel) {
+  //       swal2.fire('Saved!', '', 'success')
+  //     } else if (result.isDenied) {
+
+  //       if (this.routerNavigate) {
+  //         sessionStorage.setItem("isActChangePfms", "false");
+  //         this._router.navigate([this.routerNavigate.url]);
+  //         return;
+  //       }
+  //     }
+  //   })
+  // }
 }
 

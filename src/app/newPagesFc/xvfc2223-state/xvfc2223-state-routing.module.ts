@@ -8,6 +8,7 @@ import { StateFinanceComponent } from "./state-finance/state-finance.component";
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 import {DashboardComponent} from './dashboard/dashboard.component'
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
+import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
 const routes: Routes = [
   {
     path: "",
@@ -60,7 +61,12 @@ const routes: Routes = [
       {
         path: "water-supply",
         component: WaterSupplyComponent,
+      },
+      {
+        path: "edit-ulb-profile",
+        component: EditUlbComponent,
       }
+
     ],
   },
 ];

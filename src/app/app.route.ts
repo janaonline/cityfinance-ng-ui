@@ -19,18 +19,16 @@ import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvati
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
-
-  { path: "oldhome", component: HomeComponent },
-  { path: "card", component: SharedCardComponent },
-  { path: "front", component: FrontPanelComponent },
-  { path: "tab", component: DashboardTabsComponent },
-  { path: "about", component: AboutIndicatorComponent },
-  { path: "filter", component: FilterDataComponent },
-
-  { path: "revenuchart", component: RevenuechartComponent },
-  { path: "compareDialog", component: CompareDialogComponent },
+  // { path: "oldhome", component: HomeComponent },
+  // { path: "card", component: SharedCardComponent },
+  // { path: "front", component: FrontPanelComponent },
+  // { path: "tab", component: DashboardTabsComponent },
+  // { path: "about", component: AboutIndicatorComponent },
+  // { path: "filter", component: FilterDataComponent },
 
   { path: "home", component: NewHomeComponent },
+  { path: "revenuchart", component: RevenuechartComponent },
+  { path: "compareDialog", component: CompareDialogComponent },
   {
     path: "dashboard",
     loadChildren: () =>
@@ -204,7 +202,6 @@ export const appRouter: Routes = [
         (m) => m.Xvfc2223MohuaModule
       ),
   },
-
   {
     path: "profile-update",
     component: ProfileUpdateComponent,
