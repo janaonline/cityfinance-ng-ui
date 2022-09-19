@@ -89,7 +89,6 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MdePopoverModule } from '@material-extended/mde';
 import { BalanceTabledialogComponent } from "./components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
-import { BtnCellRendererComponent } from './components/ag-grid/btn-cell-renderer/btn-cell-renderer.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -178,9 +177,8 @@ import { BtnCellRendererComponent } from './components/ag-grid/btn-cell-renderer
     ShareDialogComponent,
     BasicComponent,
     ComparativeUlbComponent,
-    BalanceTabledialogComponent,
-    BtnCellRendererComponent,
-  ],
+    BalanceTabledialogComponent
+    ],
   exports: [
     FormsModule,
     PreLoaderComponent,

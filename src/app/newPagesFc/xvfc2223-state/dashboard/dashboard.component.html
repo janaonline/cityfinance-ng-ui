@@ -100,12 +100,12 @@
                                 <div class="progress mt-2">
                                     <div class="progress-bar bg-approved" role="progressbar" aria-label="approved" [ngStyle]="{'width': item?.approvedValue <= 10 ? '4%' : item?.approvedValue+'%' ,'background-color': item?.approvedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
                                         aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} {{element?.formHeader == 'ULB Forms' ? item?.totalApproved + '& ULB Approved' : ''}}"
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} & {{element?.formHeader == 'ULB Forms' ? item?.totalApproved + ' ULB Approved' : ''}}"
                                             aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : '0%'}}</span>
                                     </div>
                                     <div class="progress-bar bg-submitted" role="progressbar" aria-label="submitted" [ngStyle]="{'width':  item?.submittedValue <= 5 ? '4%' : item?.submittedValue+'%','background-color': item?.submittedColor}" aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0"
                                         aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}}  {{element?.formHeader == 'ULB Forms' ? item?.totalSubmitted + '& ULB Submitted' : ''}}"
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}} & {{element?.formHeader == 'ULB Forms' ? item?.totalSubmitted + ' ULB Submitted' : ''}}"
                                             aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
                                     </div>
                                     <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltipCustom">

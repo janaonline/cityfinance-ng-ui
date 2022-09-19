@@ -22,7 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
-import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
+import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
 
 @NgModule({
   declarations: [
@@ -39,7 +39,6 @@ import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
     GaPreviewComponent,
     WaterSupplyComponent,
     WaterSupplyPreviewComponent,
-
   ],
   imports: [
     CommonModule,
@@ -52,8 +51,8 @@ import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
     ReactiveFormsModule,
     FormsModule,
     AccordionModule.forRoot(),
-    // BreadcrumbComponent
-    // SharedModule,
+    SharedModule,
+    StateformsModule
   ],
 })
 export class Xvfc2223StateModule {}

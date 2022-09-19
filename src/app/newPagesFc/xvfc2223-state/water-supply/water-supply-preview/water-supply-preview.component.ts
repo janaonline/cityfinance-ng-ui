@@ -6,9 +6,9 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
 //import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
-import { SweetAlert } from "sweetalert/typings/core";
 import { WaterManagement } from "src/app/users/data-upload/models/financial-data.interface";
 import { services, targets } from "src/app/users/data-upload/components/configs/water-waste-management";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -20,21 +20,17 @@ export class WaterSupplyPreviewComponent implements OnInit {
   constructor(private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private commonService: NewCommonService) { }
+    private commonService: NewCommonService) {
+      this.getData = data
+     }
   @ViewChild("gtcpre") _html: ElementRef;
-  // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateSave") template;
   dialogRef;
   download;
+  getData;
   showLoader;
   stateName = "";
-  fileUrl: any;
   fileName: any;
-  formStatus:any;
-  focusTargetKey: any = {}
-  focusTargetKeyForErrorMessages: any = {}
-  targets = targets;
-  // @ViewChild("template") template;
   benchmarks = []
   services: {
     key: keyof WaterManagement;
@@ -189,41 +185,13 @@ h5{
     </style>`
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
-    console.log(this.data)
-    if(this.data?.preData?.data?.isDraft == true){
-       this.formStatus = "In Progress"
-    }else if(this.data?.preData?.data?.isDraft == false){
-      this.formStatus = "Completed"
-    }else {
-      this.formStatus = "Not Started"
-    }
     this.stateName = userData["stateName"];
-
     this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
-    console.log(this.uasList)
-
-
-
-    this.services.forEach(data => {
-      this.focusTargetKey[data.key + 'baseline'] = false
-      this.targets.forEach(item => {
-        this.focusTargetKey[data.key + item.key] = false
-      })
-    })
-    this.services.forEach(data => {
-      this.focusTargetKeyForErrorMessages[data.key + 'baseline'] = false
-      this.targets.forEach(item => {
-        this.focusTargetKeyForErrorMessages[data.key + item.key] = false
-      })
-    })
-
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-    
-      // changeHappen = sessionStorage.getItem("changeInPropertyTax");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -262,13 +230,9 @@ h5{
   }
   private downloadFile(blob: any, type: string, filename: string): string {
     const url = window.URL.createObjectURL(blob); // <-- work with blob directly
-
-    // create hidden dom element (so it works in all browsers)
     const a = document.createElement("a");
     a.setAttribute("style", "display:none;");
     document.body.appendChild(a);
-
-    // create file, attach to hidden element and open hidden element
     a.href = url;
     a.download = filename;
     a.click();
@@ -280,34 +244,7 @@ h5{
   async proceed(uploadedFiles) {
     this.dialogRef.close();
     this._matDialog.closeAll();
-    await this.submit();
     await this.downloadAsPDF();
-  }
-
-  async submit() {
-    console.log("water supply preview", this.data?.dataPreview);
-    let body = { ...this.data?.dataPreview,
-      isDraft: true };
-    return new Promise((resolve, rej) => {
-      this.commonService.submitPtForm(body).subscribe(
-        (res) => {
-         
-            // sessionStorage.setItem("changeInPropertyTax", "false");
-          
-          console.log(res);
-          swal("Saved", "Data saved as draft successfully", "success");
-          resolve("sucess");
-        },
-        (err) => {
-         
-          // sessionStorage.setItem("changeInPropertyTax", "false");
-          
-
-          swal("Error", "Failed To Save", "error");
-          resolve(err);
-        }
-      );
-    });
   }
 
   alertClose() {

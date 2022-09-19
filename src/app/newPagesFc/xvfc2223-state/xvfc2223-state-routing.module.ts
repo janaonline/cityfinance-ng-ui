@@ -60,7 +60,7 @@ const routes: Routes = [
       {
         path: "water-supply",
         component: WaterSupplyComponent,
-      },
+      }
     ],
   },
 ];

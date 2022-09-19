@@ -5,10 +5,18 @@ h5 {
     font-weight: 500;
 }
 
+.closeIcon{
+    font-size:30px;
+    color:red;
+    cursor:pointer;
+}
+
 h6 {
     color: #373737;
     font-weight: 600;
     font-size: 14px;
+    height: 27px;
+    margin-left: 10px;
 }
 
 p {
@@ -267,7 +275,7 @@ td {
 }
 
 .indicatorsSummary{
-    width: 55%;
+    width: auto;
     background-color: #ade9e9;
     height: 35px;
     text-align: center;
