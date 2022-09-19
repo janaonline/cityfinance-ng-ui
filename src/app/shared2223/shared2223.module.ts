@@ -23,6 +23,7 @@ import { TableComponent } from './components/table/table.component';
 import { CommonActionComponent } from './components/common-action/common-action.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TableApproveReturnDialogComponent } from './components/table/table-approve-return-dialog/table-approve-return-dialog.component';
+import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-table.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
     TableComponent,
     CommonActionComponent,
     TableApproveReturnDialogComponent,
+    EditUlbTableComponent,
     // BreadcrumbComponent,
   ],
   imports: [
@@ -62,6 +64,7 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
     ErrorDisplayComponent,
     TableComponent,
     CommonActionComponent,
+    EditUlbTableComponent
     // BreadcrumbComponent,
   ],
 })

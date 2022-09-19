@@ -23,6 +23,9 @@ import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.com
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
 import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
+import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
+import { EditUlbProfileComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-ulb-profile.component";
+import { EditViewComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-view/edit-view.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
     GaPreviewComponent,
     WaterSupplyComponent,
     WaterSupplyPreviewComponent,
+    EditUlbComponent,
   ],
   imports: [
     CommonModule,
@@ -52,7 +56,7 @@ import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
     FormsModule,
     AccordionModule.forRoot(),
     SharedModule,
-    StateformsModule
+    StateformsModule,
   ],
 })
 export class Xvfc2223StateModule {}
