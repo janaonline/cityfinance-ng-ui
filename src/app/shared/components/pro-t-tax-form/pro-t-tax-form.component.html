@@ -1,0 +1,190 @@
+
+<div class="container-fluid mt-4">
+    <div class="row header mt-2">
+        <div class="col-sm-12 col-lg-12 col-md-12 header2 text-center">
+            <span>Property Tax Form</span>
+        </div>
+       
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <form [formGroup]="propertyTaxForm">
+                        <div class="row mb-1 question">
+                        <div class="col-7">
+                            <span class="fontStyle">
+                                -> Property Tax Valuation Method?<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-5">
+                            <mat-select class="tooltipDropdown" (selectionChange)="addValidator($event.value)" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.method?.controls?.errors }" placeholder="Select any method" formControlName="method">
+                                <mat-option *ngFor="let item of dropdownItems" [value]="item.name" [matTooltip]="item.value">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                            <div *ngIf="submitted && f.method.errors" class="text-danger">
+                                <div *ngIf="f.method.errors.required">Please select any method.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-1 question" *ngIf=" f?.method?.value == 'Other'">
+                        <div class="col-7">
+                            <span class="fontStyle">
+                                -> Please specify, Others?<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-5">
+                            <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.other?.controls?.errors }" type="text" class="form-control  " placeholder="Type here" formControlName="other">
+                            <div *ngIf="submitted && f.other.errors" class="text-danger">
+                                <div *ngIf="f.other.errors.required">Please specify other.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-responsive">
+                        <tr>
+                            <th></th>
+                          <th scope="col" class="text-center">2018-19</th>
+                          <th scope="col" class="text-center">2019-20</th>
+                          <th scope="col" class="text-center">2020-21</th>
+                        </tr>
+                        <tr class="rowSpace">
+                          <td class="tdQues">Number of properties in the ULB </td>
+                    
+                          <td > <input  class="form-control  "  formControlName="noOfProp_1819" type="number" (keydown)="numberLimitV($event, inputText)" #inputText >
+                            <div *ngIf="f?.noOfProp_1819?.status == 'INVALID' && f?.noOfProp_1819.touched " class="text-danger">
+                                <app-error-display [formControlSec]="f.noOfProp_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                            </div>
+                        </td>
+                          <td> <input class="form-control  " formControlName="noOfProp_1920" type="number" (keydown)="numberLimitV($event, inputText1)" #inputText1 required>
+                            <div *ngIf="f?.noOfProp_1920?.status == 'INVALID' && f?.noOfProp_1920.touched " class="text-danger">
+                                <app-error-display [formControlSec]="f.noOfProp_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                            </div>
+                        </td>
+                          
+                          <td> <input class="form-control  " formControlName="noOfProp_2021" type="number" (keydown)="numberLimitV($event, inputText2)" #inputText2>
+                            <div *ngIf="f?.noOfProp_2021?.status == 'INVALID' && f?.noOfProp_2021.touched " class="text-danger">
+                                <app-error-display [formControlSec]="f.noOfProp_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                            </div>
+                        </td>
+                         
+                         
+                      
+                        
+                        
+                        </tr>
+                        <tr>
+                            <td class="tdQues">Number of properties as per Property Tax Register</td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxReg_1819" type="number" (keydown)="numberLimitV($event, inputText3)" #inputText3>
+                                <div *ngIf="f?.noOfPropTaxReg_1819?.status == 'INVALID' && f?.noOfPropTaxReg_1819.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxReg_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxReg_1920" type="number" (keydown)="numberLimitV($event, inputText4)" #inputText4>
+                                <div *ngIf="f?.noOfPropTaxReg_1920?.status == 'INVALID' && f?.noOfPropTaxReg_1920.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxReg_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxReg_2021" type="number" (keydown)="numberLimitV($event, inputText5)" #inputText5>
+                                <div *ngIf="f?.noOfPropTaxReg_2021?.status == 'INVALID' && f?.noOfPropTaxReg_2021.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxReg_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdQues">Number of properties for which Billed issued</td>
+                            <td> <input class="form-control  " formControlName="noOfPropBilled_1819"  type="number" (keydown)="numberLimitV($event, inputText6)" #inputText6>
+                                <div *ngIf="f?.noOfPropBilled_1819?.status == 'INVALID' && f?.noOfPropBilled_1819.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropBilled_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropBilled_1920" type="number" (keydown)="numberLimitV($event, inputText7)" #inputText7>
+                                <div *ngIf="f?.noOfPropBilled_1920?.status == 'INVALID' && f?.noOfPropBilled_1920.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropBilled_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropBilled_2021" type="number" (keydown)="numberLimitV($event, inputText8)" #inputText8>
+                                <div *ngIf="f?.noOfPropBilled_2021?.status == 'INVALID' && f?.noOfPropBilled_2021.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropBilled_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                    
+                        </tr>
+                        <tr>
+                            <td class="tdQues">Number of properties for which Property Tax has been paid</td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxPaid_1819" type="number" (keydown)="numberLimitV($event, inputText9)" #inputText9>
+                                <div *ngIf="f?.noOfPropTaxPaid_1819?.status == 'INVALID' && f?.noOfPropTaxPaid_1819.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxPaid_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxPaid_1920" type="number" (keydown)="numberLimitV($event, inputText10)" #inputText10>
+                                <div *ngIf="f?.noOfPropTaxPaid_1920?.status == 'INVALID' && f?.noOfPropTaxPaid_1920.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxPaid_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                            <td> <input class="form-control  " formControlName="noOfPropTaxPaid_2021" type="number" (keydown)="numberLimitV($event, inputText11)" #inputText11>
+                                <div *ngIf="f?.noOfPropTaxPaid_2021?.status == 'INVALID' && f?.noOfPropTaxPaid_2021.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.noOfPropTaxPaid_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdQues">Property tax Demand</td>
+                            <td> <input class="form-control  " formControlName="taxDemand_1819" (keyup)="numToWord(f?.taxDemand_1819)" type="number" (keydown)="numberLimitV($event, inputText12)" #inputText12>
+                                <div *ngIf="f?.taxDemand_1819?.status == 'INVALID' && f?.taxDemand_1819.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxDemand_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxDemand_1819?.words}}</span>
+                            </td>
+                            <td> <input class="form-control  " formControlName="taxDemand_1920" (keyup)="numToWord(f?.taxDemand_1920)" type="number" (keydown)="numberLimitV($event, inputText13)" #inputText13>
+                                <div *ngIf="f?.taxDemand_1920?.status == 'INVALID' && f?.taxDemand_1920.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxDemand_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxDemand_1920?.words}}</span>
+                            </td>
+                            <td> <input class="form-control  " formControlName="taxDemand_2021" (keyup)="numToWord(f?.taxDemand_2021)" type="number" (keydown)="numberLimitV($event, inputText14)" #inputText14>
+                                <div *ngIf="f?.taxDemand_2021?.status == 'INVALID' && f?.taxDemand_2021.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxDemand_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxDemand_2021?.words}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdQues">Property tax Collected</td>
+                            <td> <input class="form-control  " formControlName="taxCollected_1819" type="number" (keyup)="numToWord(f?.taxCollected_1819)" (keydown)="numberLimitV($event, inputText15)" #inputText15>
+                                <div *ngIf="f?.taxCollected_1819?.status == 'INVALID' && f?.taxCollected_1819.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxCollected_1819" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxCollected_1819?.words}}</span>
+                            </td>
+                            <td> <input class="form-control  " formControlName="taxCollected_1920" type="number" (keyup)="numToWord(f?.taxCollected_1920)"  (keydown)="numberLimitV($event, inputText16)" #inputText16>
+                                <div *ngIf="f?.taxCollected_1920?.status == 'INVALID' && f?.taxCollected_1920.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxCollected_1920" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxCollected_1920?.words}}</span>
+                            </td>
+                            <td> <input class="form-control  " formControlName="taxCollected_2021" type="number" (keyup)="numToWord(f?.taxCollected_2021)"  (keydown)="numberLimitV($event, inputText17)" #inputText17>
+                                <div *ngIf="f?.taxCollected_2021?.status == 'INVALID' && f?.taxCollected_2021.touched " class="text-danger">
+                                    <app-error-display [formControlSec]="f.taxCollected_2021" [fName]="'This field'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <span>{{f?.taxCollected_2021?.words}}</span>
+                            </td>
+                        </tr>
+                    
+                      </table>
+                      <div class="row mt-4 mb-3">
+                        <div class="col-sm-12 me-2 text-end">
+                            <button class="btn btn-primary" [disabled]="isDisabled" (click)="submitForm()">SUBMIT</button>
+                        </div>
+                      </div>
+                      
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
