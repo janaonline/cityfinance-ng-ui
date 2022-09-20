@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { WaterSupplyPreviewComponent } from './water-supply-preview/water-supply-preview.component';
 import { State2223Service } from '../state-services/state2223.service';
 import { SweetAlert } from "sweetalert/typings/core";
+import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-water-supply',
@@ -56,7 +57,8 @@ export class WaterSupplyComponent implements OnInit {
   fourthRowData = []
   checkIndex: boolean = false;
   totalAplusB;
-
+  UANames = [];
+  id;
   targetActual = [{ key: "1", name: "Actual Indicator <br> 2020-21" },
   { key: "2", name: "Target <br> 2021-22" },
   { key: "3", name: "Actual Indicator <br> 2021-22" },
@@ -67,19 +69,35 @@ export class WaterSupplyComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private stateService: State2223Service
+    private stateService: State2223Service,
+    public stateDashboardService: StateDashboardService,
   ) {
     this.getDesignYear();
+    this.id = sessionStorage.getItem("sessionID");
+    this.setUaList()
   }
   
 
   ngOnInit() {
-    this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
-    console.log(this.uasList)
-    this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
-
+    
   }
-  
+  setUaList(){
+    this.stateDashboardService.getCardData(this.id).subscribe(
+      (res) => {
+        let newList = {};
+        res["data"]["uaList"].forEach((element) => {
+          this.UANames.push(element.name)
+          newList[element._id] = element;
+        });
+        sessionStorage.setItem("UasList", JSON.stringify(newList));
+        this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
+        this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =

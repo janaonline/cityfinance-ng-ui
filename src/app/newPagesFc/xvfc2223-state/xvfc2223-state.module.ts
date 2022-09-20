@@ -26,6 +26,8 @@ import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
 import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
 import { EditUlbProfileComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-ulb-profile.component";
 import { EditViewComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-view/edit-view.component";
+import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
+import { WaterRejenuvations2223PreviewComponent } from './water-rejenuvations2223/water-rejenuvations2223-preview/water-rejenuvations2223-preview.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { EditViewComponent } from "src/app/pages/stateforms/edit-ulb-profile/edi
     WaterSupplyComponent,
     WaterSupplyPreviewComponent,
     EditUlbComponent,
+    WaterRejenuvations2223Component,
+    WaterRejenuvations2223PreviewComponent,
   ],
   imports: [
     CommonModule,
