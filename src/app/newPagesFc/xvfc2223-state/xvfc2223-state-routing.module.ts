@@ -9,6 +9,7 @@ import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 import {DashboardComponent} from './dashboard/dashboard.component'
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
+import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
 const routes: Routes = [
   {
     path: "",
@@ -65,6 +66,10 @@ const routes: Routes = [
       {
         path: "edit-ulb-profile",
         component: EditUlbComponent,
+      },
+      {
+        path: "water-rejenuvation",
+        component: WaterRejenuvations2223Component
       }
 
     ],
