@@ -37,6 +37,9 @@ export class GtcFormComponent implements OnInit {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.navigationCheck();
   }
 
@@ -73,6 +76,7 @@ export class GtcFormComponent implements OnInit {
           });
         }
         this.disableInputs();
+        this.checkAction();
       },
       (error) => {
         console.log("err", error);
@@ -313,6 +317,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -335,6 +340,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 2,
@@ -357,6 +363,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -387,6 +394,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -409,6 +417,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 2,
@@ -431,6 +440,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -461,6 +471,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -484,6 +495,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -765,5 +777,27 @@ export class GtcFormComponent implements OnInit {
     console.log("i, j data", data);
 
     this.saveFile(data?.i, data?.j);
+  }
+
+  checkAction() {
+    for (let i = 0; i < this.gtcFormData.length; i++) {
+      let tabArray = this.gtcFormData[i]?.quesArray;
+      tabArray.forEach((el) => {
+        if (el?.isDraft == false && el?.status == "PENDING") {
+          el['canTakeAction'] = true;
+        } else if (el?.isDraft == false && (el?.status == "APPROVED" || el?.status == "REJECTED")) {
+          el['canTakeAction'] = false;
+        } else {
+          el['canTakeAction'] = false;
+        }
+      })
+    }
+  }
+  actionBtnDis = false;
+  actionBtnClick(type, qItem, lItem, val) {
+    console.log('clicked..', type, qItem, lItem);
+    if (type == 'returnRes') {
+      qItem.rejectReason = val;
+    }
   }
 }

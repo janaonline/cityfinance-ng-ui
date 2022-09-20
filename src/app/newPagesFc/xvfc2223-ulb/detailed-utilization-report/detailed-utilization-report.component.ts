@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -21,7 +21,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./detailed-utilization-report.component.html",
   styleUrls: ["./detailed-utilization-report.component.scss"],
 })
-export class DetailedUtilizationReportComponent implements OnInit {
+export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   constructor(
     private newCommonService: NewCommonService,
     private fb: FormBuilder,
@@ -941,5 +941,17 @@ export class DetailedUtilizationReportComponent implements OnInit {
         swal("Error", error?.message ? error?.message : "Error", "error");
       }
     );
+  }
+  formSubs;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs.unsubscribe();
   }
 }
