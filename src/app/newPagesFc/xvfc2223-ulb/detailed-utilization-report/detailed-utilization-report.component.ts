@@ -942,7 +942,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       }
     );
   }
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -952,6 +952,6 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }

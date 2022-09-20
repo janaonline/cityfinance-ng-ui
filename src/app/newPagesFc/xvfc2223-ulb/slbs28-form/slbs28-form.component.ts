@@ -592,7 +592,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       this.actionBtnDis = true;
     }
   }
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -602,6 +602,6 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }
