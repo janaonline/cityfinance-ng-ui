@@ -122,6 +122,16 @@ export class NewCommonService {
   getPropertyTaxUlbData(param) {
     return this.http.get(
       `${environment.api.url}propTaxOp?ulb=${param.ulb}&design_year=${param.design_year}`
+   ) }
+  //property tax open form
+  getPropertyTaxOpenData(params){
+    return this.http.get(
+      `${environment.api.url}pTaxOpen?design_year=606aafb14dff55e6c075d3ae&ulb=${params.ulb}`
+    );
+  }
+  postPropertyTaxOpenData(body){
+    return this.http.post(
+      `${environment.api.url}pTaxOpen`, body
     );
   }
 
