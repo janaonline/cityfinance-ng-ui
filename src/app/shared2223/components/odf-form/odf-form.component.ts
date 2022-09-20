@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -27,7 +28,7 @@ import { NavigationEnd, NavigationStart, Router } from "@angular/router";
   templateUrl: "./odf-form.component.html",
   styleUrls: ["./odf-form.component.scss"],
 })
-export class OdfFormComponent implements OnInit {
+export class OdfFormComponent implements OnInit, OnDestroy {
   noRating: boolean;
   minDate;
   maxDate;
@@ -903,5 +904,17 @@ export class OdfFormComponent implements OnInit {
         swal("Error", error?.message ? error?.message : "Error", "error");
       }
     );
+  }
+  formSubs;
+  setFormIdRouter() {
+    this.formSubs = this.commonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs.unsubscribe();
   }
 }

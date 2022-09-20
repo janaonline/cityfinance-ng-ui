@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 const swal: SweetAlert = require("sweetalert");
@@ -14,7 +14,7 @@ const swal2 = require("sweetalert2");
   templateUrl: "./pfms.component.html",
   styleUrls: ["./pfms.component.scss"],
 })
-export class PfmsComponent implements OnInit {
+export class PfmsComponent implements OnInit, OnDestroy {
   ulbData: any;
   ulbName: any;
   design_year: any;
@@ -66,6 +66,7 @@ export class PfmsComponent implements OnInit {
     // this.getSubmittedFormData()
     this.navigationCheck();
    // this.actNavAlert();
+    this.setFormIdRouter()
   }
   change = "";
   errorMessege: any = "";
@@ -985,5 +986,17 @@ export class PfmsComponent implements OnInit {
   //     }
   //   })
   // }
+  formSubs;
+  setFormIdRouter() {
+    this.formSubs = this.commonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs.unsubscribe();
+  }
 }
 

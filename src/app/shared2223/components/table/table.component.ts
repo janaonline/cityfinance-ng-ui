@@ -329,8 +329,8 @@ export class TableComponent implements OnInit, OnChanges {
   viewUlbForm(data) {
     console.log("data", data);
     localStorage.setItem("ulb_id", data?.ulbId);
-    // this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
-    this.commonService.setFormStatus2223.next(true);
+    this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
+    //this.commonService.setFormStatus2223.next(true);
     sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
@@ -345,8 +345,8 @@ export class TableComponent implements OnInit, OnChanges {
   viewStateForm(data) {
     console.log("data", data);
     localStorage.setItem("state_id", data?.state);
-    // this.getStateBar(data?.state, "STATE", "");
-    this.commonService.setStateFormStatus2223.next(true);
+    this.getStateBar(data?.state, "STATE", "");
+  //  this.commonService.setStateFormStatus2223.next(true);
     sessionStorage.setItem("stateName", data?.stateName);
     // sessionStorage.setItem("stateFormId", this.formId);
     sessionStorage.setItem("path2", 'Review State Form');
@@ -356,29 +356,30 @@ export class TableComponent implements OnInit, OnChanges {
     sessionStorage.setItem("skipValue", skipValue);
     sessionStorage.setItem("params", JSON.stringify(this.params));
   }
-  // getStateBar(id, role, isUA) {
+  getStateBar(id, role, isUA) {
 
-  //   this.commonService.setStateFormStatus2223.next(true);
-  //   this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
-  //     console.log("left responces..", res);
-  //     localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
-  //   });
-  // }
-  // getULBSideBar(ulbId, role, isUA) {
-  //   if (isUA == "Yes") {
-  //     isUA = true;
-  //   } else {
-  //     isUA = false;
-  //   }
-  //   this.commonService.setFormStatus2223.next(true);
-  //   // this.commonService.getLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
-  //   //   console.log("left responces..", res);
-  //   //   localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
-  //   //   this.commonService.setFormStatus2223.next(true);
-  //   //   localStorage.setItem("overViewCard", JSON.stringify(res?.card));
-  //   //   //  this.leftMenu = res;
-  //   // });
-  // }
+    this.commonService.setStateFormStatus2223.next(true);
+    this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+      this.commonService.setStateRouter.next(true);
+    });
+  }
+  getULBSideBar(ulbId, role, isUA) {
+    if (isUA == "Yes") {
+      isUA = true;
+    } else {
+      isUA = false;
+    }
+    this.commonService.setFormStatus2223.next(true);
+    this.commonService.getLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+      this.commonService.setULBRouter.next(true);
+      localStorage.setItem("overViewCard", JSON.stringify(res?.card));
+      //  this.leftMenu = res;
+    });
+  }
   resetFilter() {
     this.setParams();
     this.callAPI();

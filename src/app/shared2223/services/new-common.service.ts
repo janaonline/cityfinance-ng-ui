@@ -10,7 +10,9 @@ export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
   setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
-  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);;
+  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setULBRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setStateRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
