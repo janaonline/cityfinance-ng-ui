@@ -986,7 +986,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   //     }
   //   })
   // }
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.commonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -996,7 +996,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }
 

@@ -2019,7 +2019,7 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     console.log('unA rejected case', this.unAuditQues);
   }
 
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -2029,6 +2029,6 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }

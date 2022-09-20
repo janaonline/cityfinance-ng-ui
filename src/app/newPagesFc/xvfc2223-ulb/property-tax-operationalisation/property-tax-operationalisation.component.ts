@@ -955,7 +955,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
       this.actionBtnDis = true;
     }
   }
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.ptService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -965,6 +965,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }

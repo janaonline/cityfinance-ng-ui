@@ -65,8 +65,27 @@
         </div>
 
         <div class="col-sm-10">
+            <div class="row mt-1" *ngIf="loggedInUserType !== userTypes.ULB && path">
+                <div class="col-sm-12">
+                    <a type="button" (click)="backStatePage()" class="breadLink">
+                       &laquo;
+                       BACK
+                       <span *ngIf="loggedInUserType === userTypes.STATE">
+                        (STATE)
+                       </span>
+                       <span *ngIf="loggedInUserType === userTypes.MoHUA">
+                        (MoHUA)
+                       </span>
+                      </a>
+                    <a type="button" (click)="backStatePage2()" class="breadLink ms-2" *ngIf="pathMohua && loggedInUserType !== userTypes.STATE">
+                 &laquo;
+                BACK(STATE)
+                    </a>
+
+                </div>
+            </div>
             <div class="row">
-                <div class="col header1">
+                <div class="col header1" [ngClass]="{'mt-0': (loggedInUserType !== userTypes.ULB && path)}">
                     <h3 class="text-center" style="
                   text-align: center;
                   margin-bottom: 5px;
@@ -99,7 +118,7 @@
 
             </div>
         </div>
-        <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
+        <!-- <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
             <div class="col-sm-12">
                 <button type="button" (click)="backStatePage()" class="btn btn-c-back br-e">
                        &laquo;
@@ -117,7 +136,7 @@
             </button>
 
             </div>
-        </div>
+        </div> -->
         <router-outlet></router-outlet>
     </div>
 </div>

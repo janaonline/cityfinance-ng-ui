@@ -905,7 +905,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  formSubs;
+  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.commonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -915,6 +915,6 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    this.formSubs.unsubscribe();
+    this.formSubs?.unsubscribe();
   }
 }
