@@ -309,9 +309,11 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   download() {
+    let csvParams: any = { ...this.params }
+    delete csvParams.limit;
+    delete csvParams.skip;
     const params = {
-      design_year: this.getDesignYear(),
-      formId: this.formId,
+      ...csvParams,
       token: this.getToken(),
     };
     const endPoint = "review";
