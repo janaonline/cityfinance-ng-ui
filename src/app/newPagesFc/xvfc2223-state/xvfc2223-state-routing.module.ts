@@ -10,10 +10,12 @@ import {DashboardComponent} from './dashboard/dashboard.component'
 import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
 import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
+import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
 const routes: Routes = [
   {
     path: "",
     component: Xvfc2223StateComponent,
+    canActivate: [State2223Guard],
     children: [
       {
         path: "dashboard",

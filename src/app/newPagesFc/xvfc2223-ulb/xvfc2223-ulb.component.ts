@@ -247,21 +247,24 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
       }
     });
   }
-  backStatePage() {
-    if (this.loggedInUserType === this.userTypes.STATE) {
+  backStatePage(type) {
+    if (type == 'ULB Review' && !this.pathMohua) {
+      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+      this.path = null;
+    } else if (type == 'ULB Review' && this.pathMohua) {
       this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
-    } else {
-      if (this.stateFormId == '' || this.stateFormId == null || this.stateFormId == undefined) {
-        this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
-      } else {
-        this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
-      }
+      this.path = null;
+    } else if (type == 'State Review') {
+      this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
       sessionStorage.removeItem("path2");
+      this.pathMohua = null;
+      this.stateFormId = ''
       sessionStorage.removeItem("Stateform_id");
     }
 
   }
   backStatePage2() {
     this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+    this.path = null;
   }
 }
