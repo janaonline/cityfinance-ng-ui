@@ -199,6 +199,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.getSideBar();
   }
   getSideBar() {
     let ulb;
