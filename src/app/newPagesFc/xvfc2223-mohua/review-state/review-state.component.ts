@@ -27,6 +27,8 @@ export class ReviewStateComponent implements OnInit {
     this.getFormId();
     if (this.data?.length > 0)
     this.formId = this.data[0]["_id"];
+    sessionStorage.removeItem("path2");
+    sessionStorage.removeItem("Stateform_id");
   }
 
   onLoad() {

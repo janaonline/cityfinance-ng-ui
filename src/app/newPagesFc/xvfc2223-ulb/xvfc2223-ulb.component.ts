@@ -145,6 +145,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   leftMenu: any;
   isUserVerified = true;
   profileData;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   constructor(
     private newCommonService: NewCommonService,
     private profileService: ProfileService,
@@ -156,6 +157,11 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    if (!this.loggedInUserType) {
+      this.router.navigate(["/home"]);
+      // this.showLoader = false;
+    }
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.subscription = this.newCommonService.setFormStatus2223.subscribe((res) => {
       if (res == true) {
@@ -163,6 +169,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
         this.getSideBar();
       }
     });
+
 
     this.path = sessionStorage.getItem("path1");
     this.ulbFormId = sessionStorage.getItem("form_id");
