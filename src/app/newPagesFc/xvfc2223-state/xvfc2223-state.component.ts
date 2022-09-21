@@ -30,7 +30,6 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
     }
-
   }
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -57,6 +56,7 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.stateSubs.unsubscribe();
+    this.getStateBar(this.stateId, "STATE", "");
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();

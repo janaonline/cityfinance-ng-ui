@@ -395,7 +395,7 @@ export class DashboardMapSectionComponent
       this.districtMap = districtMap;
 
       options.dataPoints.forEach((dataPoint: any) => {
-        /* Creating a popup without a close button. 
+        /* Creating a popup without a close button.
         * available option are {closeOnClick: false, closeButton: true, autoClose: true }
         * if you know other option too please add into this object for future reference
         */
@@ -585,12 +585,14 @@ dataAvailTooltip='';
       this.dataForVisualization = { ...res, loading: false };
 this.highestYear = '';
 this.highestDataAvailability = '';
-this.highestYear = this.dataForVisualization.ulbDataCount[0].year
-this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB )*100).toFixed(0)
+      if (this.dataForVisualization?.ulbDataCount?.length > 0) {
+        this.highestYear = this.dataForVisualization.ulbDataCount[0].year
+        this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB) * 100).toFixed(0)
+      }
 this.dataAvailTooltip = '';
-this.dataForVisualization.ulbDataCount.forEach(element => {
+      this.dataForVisualization?.ulbDataCount?.forEach(element => {
   this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
-});   
+      });
 this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.animateValues(1);
