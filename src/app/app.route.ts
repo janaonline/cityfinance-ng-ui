@@ -1,4 +1,4 @@
-import { ModuleWithProviders } from "@angular/core";
+import { ModuleWithProviders, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthModule } from "./auth/auth.module";
 
@@ -19,18 +19,16 @@ import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvati
 import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
-
-  { path: "oldhome", component: HomeComponent },
-  { path: "card", component: SharedCardComponent },
-  { path: "front", component: FrontPanelComponent },
-  { path: "tab", component: DashboardTabsComponent },
-  { path: "about", component: AboutIndicatorComponent },
-  { path: "filter", component: FilterDataComponent },
+  { path: "home", component: NewHomeComponent },
+  // { path: "oldhome", component: HomeComponent },
+  // { path: "card", component: SharedCardComponent },
+  // { path: "front", component: FrontPanelComponent },
+  // { path: "tab", component: DashboardTabsComponent },
+  // { path: "about", component: AboutIndicatorComponent },
+  // { path: "filter", component: FilterDataComponent },
 
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
-
-  { path: "home", component: NewHomeComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
   {
     path: "dashboard",
@@ -211,8 +209,12 @@ export const appRouter: Routes = [
     component: ProfileUpdateComponent,
   },
 
-  { path: "**", redirectTo: "" },
+  { path: "**", redirectTo: "home" },
 ];
-
-export const AppRouter: ModuleWithProviders<RouterModule> =
-  RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });
+@NgModule({
+  imports: [RouterModule.forRoot(appRouter)],
+  exports: [RouterModule]
+})
+export class AppRouter { }
+// export const AppRouter: ModuleWithProviders<RouterModule> =
+//   RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });
