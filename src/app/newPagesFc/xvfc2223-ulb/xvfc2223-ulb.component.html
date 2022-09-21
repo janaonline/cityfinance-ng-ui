@@ -65,22 +65,44 @@
         </div>
 
         <div class="col-sm-10">
-            <div class="row mt-1" *ngIf="loggedInUserType !== userTypes.ULB && path">
+            <!-- <div class="row mt-1" *ngIf="loggedInUserType !== userTypes.ULB && path">
+                {{path}}, {{pathMohua}}
                 <div class="col-sm-12">
                     <a type="button" (click)="backStatePage()" class="breadLink">
                        &laquo;
-                       BACK
-                       <span *ngIf="loggedInUserType === userTypes.STATE">
-                        (STATE)
+                       <span *ngIf="loggedInUserType === userTypes.STATE && !pathMohua">
+                        ULB Review
                        </span>
-                       <span *ngIf="loggedInUserType === userTypes.MoHUA">
-                        (MoHUA)
+                       <span *ngIf="loggedInUserType === userTypes.MoHUA && pathMohua">
+                        State Review
                        </span>
                       </a>
                     <a type="button" (click)="backStatePage2()" class="breadLink ms-2" *ngIf="pathMohua && loggedInUserType !== userTypes.STATE">
-                 &laquo;
-                BACK(STATE)
+                      &laquo;
+                       ULB Review
                     </a>
+
+                </div>
+            </div> -->
+            <div class="row mt-1" *ngIf="loggedInUserType !== userTypes.ULB">
+                <div class="col-sm-12 br-cd">
+                    <span class="" *ngIf="loggedInUserType === userTypes.MoHUA || loggedInUserType === userTypes.ADMIN">
+
+                        <a type="button" *ngIf="path" class="breadLink" (click)="backStatePage('ULB Review')">
+                       ULB Review
+                     </a>
+                     <span *ngIf="pathMohua">
+                      /
+                     </span>
+                    <a type="button" *ngIf="pathMohua" class="breadLink ms-2" (click)="backStatePage('State Review')">
+                       State Review
+                     </a>
+                    </span>
+                    <a type="button" (click)="backStatePage2()" class="breadLink" *ngIf="loggedInUserType === userTypes.STATE && path">
+                    &laquo;
+              <!-- BACK(STATE) -->
+                     ULB Review
+                  </a>
 
                 </div>
             </div>
