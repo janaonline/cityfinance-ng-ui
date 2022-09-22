@@ -16,14 +16,15 @@ const targets = [
   { key: "2324", name: "Target <br> 2023-24" },
   { key: "2425", name: "Target<br> 2024-25" },
 ];
+const score = [
+  { key: "2122", name: "Scores" },
+  
+];
 
 const achieved = [
     { key: "2122", name: "Achieved <br> 2021-22" },
 ]
 
-const population = [
-    { key: "population", name: "Population" },
-]
 
 const maxValidator = (control: AbstractControl) => {
   if (!control.value) return;
@@ -65,13 +66,14 @@ const services: {
   ];
 
 
-  const populationControl = _fb.group({});
+ 
 
 // Dynamically create and map all the controls for earch service.
 services.forEach((service) => {
   // Dynamically create controls for each target.
   const targetControls = _fb.group({});
   const achievedControls = _fb.group({});
+  const scoreControls = _fb.group({});
   targets.forEach((tg) => {
     if (service.customValidator) {
       targetControls.addControl(
@@ -124,6 +126,33 @@ services.forEach((service) => {
       );
     }
   });
+  score.forEach((tg) => {
+    if (service.customValidator) {
+      scoreControls.addControl(
+        tg.key,
+        new FormControl("", {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+            service.customValidator,
+          ],
+          updateOn: "blur",
+        })
+      );
+    } else {
+      scoreControls.addControl(
+        tg.key,
+        new FormControl("", {
+          validators: [
+            Validators.required,
+            Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          ],
+          updateOn: "blur",
+        })
+      );
+    }
+  });
+
   let baselineControl: FormGroup;
   if (service.customValidator) {
     // Create Baseline control.
@@ -160,8 +189,8 @@ services.forEach((service) => {
     {
       target: targetControls,
       achieved: achievedControls,
-      population: populationControl,
       baseline: baselineControl,
+      score: scoreControls,
       status: [null],
       rejectReason: [null],
     },
@@ -188,5 +217,6 @@ export {
   waterWasteManagementForm,
   services,
   targets,
+  score,
   achieved
 };

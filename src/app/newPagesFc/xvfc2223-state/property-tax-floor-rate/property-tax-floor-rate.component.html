@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card">
-             <div class="row mt-3 mb-1 question">
+            <div class="row mt-3 mb-1 question">
                 <div class="col-7">
                     <span class="fontStyle">
                         (A) Upload a copy of notification/Memorandum<sup class="text-danger">*</sup>
@@ -29,13 +29,12 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeStateAct}}</p>
                     </label>
-                    <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
-                        (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
-                        <div>
-                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors && (!errorMessegeStateAct)" class="customDate text-danger">
-                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
-                            </div>
-                        </div>            
+                    <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors && (!errorMessegeStateAct)" class="customDate text-danger">
+                            <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" *ngIf="showStateAct">
@@ -43,9 +42,7 @@
                     {{stateActFileName}}
                 </div>
                 <div class="col-3 progressBar" *ngIf="stateActProgress">
-                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
-                        attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
-                        [ngStyle]="{ width: stateActProgress + '%' }">
+                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
                         {{ stateActProgress }}%
                     </div>
                 </div>
@@ -60,15 +57,13 @@
                     </span>
                 </div>
             </div>
-            
+
             <div class="row mb-3 question" [ngClass]="{'marginClass' : stateActFileName}">
                 <div class="col-7">
                     <span class="fontStyle">
                         (B) Act Page Number<sup class="text-danger">*</sup>
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification."
-
-                            matTooltipPosition="above">
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -89,8 +84,7 @@
                     <span class="fontStyle">
                         (C) Minimum Floor rate details/Value card
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Min Floor rate should have different slab-wise property rates with different areas; Classification of Residential, Commercial and Industrial."
-                            matTooltipPosition="above">
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Min Floor rate should have different slab-wise property rates with different areas; Classification of Residential, Commercial and Industrial." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -103,9 +97,8 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input #ipt2 id="ipt2" name="cin1" type="file"
-                        (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
-                        
+                    <input #ipt2 id="ipt2" name="cin1" type="file" (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
+
                 </div>
             </div>
             <div class="row" *ngIf="showMinimumFloor">
@@ -113,9 +106,7 @@
                     {{minimumFloorFileName}}
                 </div>
                 <div class="col-3 progressBar" *ngIf="minimumFloorProgress">
-                    <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar"
-                        attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100"
-                        [ngStyle]="{ width: minimumFloorProgress + '%' }">
+                    <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar" attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: minimumFloorProgress + '%' }">
                         {{ minimumFloorProgress }}%
                     </div>
                 </div>
@@ -135,8 +126,7 @@
                     <span class="fontStyle">
                         (D) Rules, by laws issued for operationalization of the notification
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="PT Calculation linked to Guidance Value/ Annual rental Value/ Unit Area Value/Circle Rate."
-                            matTooltipPosition="above">
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="PT Calculation linked to Guidance Value/ Annual rental Value/ Unit Area Value/Circle Rate." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -149,8 +139,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                    <input #ipt3 id="ipt3" name="cin2" type="file"
-                        (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                    <input #ipt3 id="ipt3" name="cin2" type="file" (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
                 </div>
             </div>
             <div class="row" *ngIf="showRulesLaws">
@@ -158,9 +147,7 @@
                     {{rulesLawsFileName}}
                 </div>
                 <div class="col-3 progressBar" *ngIf="rulesByLawsProgress">
-                    <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar"
-                        attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100"
-                        [ngStyle]="{ width: rulesByLawsProgress + '%' }">
+                    <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar" attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: rulesByLawsProgress + '%' }">
                         {{ rulesByLawsProgress }}%
                     </div>
                 </div>
@@ -176,6 +163,15 @@
                 </div>
             </div>
         </div>
+        <!-- action related work -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <app-common-action [actionRes]="actionRes" [formData]="actionFormData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError">
+                    </app-common-action>
+                </div>
+            </div>
+        </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
                 <button type="button" class="btn btn-c-back" routerLink="../gtCertificate">
@@ -184,12 +180,14 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
-                        <!-- [disabled]="isDisabled" --> 
-                        <!-- use this for disable button -->
+                        <button type="submit" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="userData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLink="../fc-formation">Next Form

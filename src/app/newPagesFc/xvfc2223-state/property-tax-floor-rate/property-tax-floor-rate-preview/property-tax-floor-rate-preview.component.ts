@@ -114,7 +114,7 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-    
+
       changeHappen = sessionStorage.getItem("changeInPropertyTax");
     console.log(changeHappen)
     if (changeHappen === "true") {
@@ -178,21 +178,23 @@ export class PropertyTaxFloorRatePreviewComponent implements OnInit {
 
   async submit() {
     console.log("property save", this.data?.dataPreview);
-    let body = { ...this.data?.dataPreview };
+    let body = { ...this.data?.dataPreview,
+      isDraft: true };
     return new Promise((resolve, rej) => {
       this.commonService.submitPtForm(body).subscribe(
         (res) => {
-         
+
             sessionStorage.setItem("changeInPropertyTax", "false");
-          
+
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
+          this.commonService.setStateFormStatus2223.next(true);
           resolve("sucess");
         },
         (err) => {
-         
+
           sessionStorage.setItem("changeInPropertyTax", "false");
-          
+
 
           swal("Error", "Failed To Save", "error");
           resolve(err);

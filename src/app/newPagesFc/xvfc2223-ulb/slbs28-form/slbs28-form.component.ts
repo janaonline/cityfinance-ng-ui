@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
@@ -16,7 +16,7 @@ const swal = require("sweetalert2");
   templateUrl: "./slbs28-form.component.html",
   styleUrls: ["./slbs28-form.component.scss"],
 })
-export class Slbs28FormComponent implements OnInit {
+export class Slbs28FormComponent implements OnInit, OnDestroy {
   @ViewChild("templateSave") template;
   sideMenuItem: any;
   nextRouter;
@@ -28,7 +28,10 @@ export class Slbs28FormComponent implements OnInit {
   ) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.ulbData);
-    this.ulbId = this.ulbData.ulb;
+    this.ulbId = this.ulbData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.navigationCheck();
   }
@@ -45,6 +48,7 @@ export class Slbs28FormComponent implements OnInit {
   };
   formData = {};
   isDisabled = false;
+  previewData;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -150,10 +154,19 @@ export class Slbs28FormComponent implements OnInit {
             el["targetDisable"] = true;
           });
           console.log("slb22", this.slbData);
+          //action comp
+          this.slbFormData["isDraft"] = false;
+          this.slbFormData["status"] = "PENDING";
+        } else {
+          this.slbFormData["isDraft"] = true;
+          this.slbFormData["status"] = "PENDING";
         }
+
+        this.newCommonService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeIn28SLB", "false");
       },
       (err) => {
+        sessionStorage.setItem("changeIn28SLB", "false");
         swal.fire("Error", `${err.error.message}`, "error");
       }
     );
@@ -230,7 +243,7 @@ export class Slbs28FormComponent implements OnInit {
     this.errorFieldIDs = [];
     this.errorFieldIDs_decrease = [];
     this.requiredFieldIDs = [];
-    this.error = 0;
+
     let errorType = "";
     let arrOfAllData = [];
 
@@ -240,6 +253,7 @@ export class Slbs28FormComponent implements OnInit {
     // if(data.length)
     // arrOfAllData = data;
     this.counter = 0;
+    this.error = 0;
 
     arrOfAllData.forEach((el) => {
       if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
@@ -259,6 +273,7 @@ export class Slbs28FormComponent implements OnInit {
         } else {
           if (+el["actual"]["value"] < +el["target_1"]["value"]) {
             this.errorFieldIDs_decrease.push(el["question"]);
+
             this.error = 1;
           } else {
             var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
@@ -272,11 +287,12 @@ export class Slbs28FormComponent implements OnInit {
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
         this.requiredFieldIDs.push(el["question"]);
+
         this.error = 1;
       }
     });
 
-    console.log("after validating->", arrOfAllData);
+    console.log("after validating->", arrOfAllData, this.error);
     if (this.error) {
       this.slbData["isDraft"] = true;
       return false;
@@ -285,11 +301,15 @@ export class Slbs28FormComponent implements OnInit {
     return true;
   }
   popError = false;
+  formId = '';
+  slbFormData;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
+      this.slbFormData = { ...res?.data };
+      this.previewData = { ...res?.data}
       if (res?.data["isDraft"] == false) {
         this.isDisabled = true;
       } else {
@@ -297,11 +317,22 @@ export class Slbs28FormComponent implements OnInit {
       }
       for (let key in this.slbData["data"]) {
         for (let el of this.slbData["data"][key]) {
+          console.log('state login checking.......', el)
+          if(this.ulbData?.role !== "ULB"){
+            el["actualDisable"] = true;
+            el["targetDisable"] = true;
+            this.isDisabled = true;
+          } else if (this.ulbData?.role == "ULB" && this.slbFormData?.status === "REJECTED") {
+            el["actualDisable"] = false;
+            el["targetDisable"] = false;
+            this.isDisabled = false;
+          }
           let rangeArr = el["range"].split("-");
           (el["min"] = Number(rangeArr[0])), (el["max"] = Number(rangeArr[1]));
         }
       }
       Object.assign(this.formData, this.slbData["data"]);
+      this.checkActionDisable(res?.data);
       console.log("After processing Range -", this.formData);
     });
   }
@@ -313,6 +344,7 @@ export class Slbs28FormComponent implements OnInit {
         if (element?.name == "28 SLBs") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
         }
       });
     }
@@ -322,7 +354,21 @@ export class Slbs28FormComponent implements OnInit {
   }
 
   onPreview() {
-    let slbPreData = { ...this.slbData["data"] };
+    this.slbData["design_year"] = "606aafb14dff55e6c075d3ae";
+    this.slbData["ulb"] = this.ulbId;
+    let arr = [];
+    for (let key in this.formData) {
+      arr.push(...this.formData[key]);
+    }
+    this.slbData["data"] = arr;
+    delete this.slbData["obj"];
+    this.previewData['population'] = this.slbData?.population
+     let slbPreData = {
+      perData: this.previewData,
+      ulbId : this.ulbId,
+      isDraft : this.slbData?.isDraft ? this.slbData?.isDraft : this.previewData?.isDraft,
+      saveDataJson : this.slbData
+     };
     const dialogRef = this.dialog.open(Slbs28FormPreviewComponent, {
       data: slbPreData,
       width: "85vw",
@@ -445,5 +491,117 @@ export class Slbs28FormComponent implements OnInit {
     const end = input?.selectionEnd || input?.selectionStart;
 
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+
+
+   // action related
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  actionError = false
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      ulb: [this.ulbId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal1("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
+      return;
+    } else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal1("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
+    swal1(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+       it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+    this.newCommonService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        this.newCommonService.setFormStatus2223.next(true);
+        swal1("Saved", "Action saved successfully.", "success");
+      },
+      (error) => {
+        swal1("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.ulbData?.role == "ULB") {
+      this.isDisabled = false;
+    }
+    if (this.ulbData?.role !== "ULB") {
+      let action = 'false';
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        action = 'true';
+        this.canTakeAction = true;
+      } else {
+        action = 'false';
+      }
+      sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.ulbData?.role !== "ULB" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
+  }
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

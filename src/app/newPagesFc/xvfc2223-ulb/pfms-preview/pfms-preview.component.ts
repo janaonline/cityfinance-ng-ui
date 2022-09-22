@@ -128,11 +128,7 @@ export class PfmsPreviewComponent implements OnInit {
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-
-      // changeHappen = sessionStorage.setItem("changeInPFMS", "false");
-      changeHappen = sessionStorage.getItem("changeInGTC");
-      changeHappen = sessionStorage.getItem("changeInPFMS");
-    // let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
+    changeHappen = sessionStorage.getItem("changeInPFMS");
     console.log(changeHappen)
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -203,23 +199,14 @@ export class PfmsPreviewComponent implements OnInit {
     return new Promise((resolve, rej) => {
       this.commonService.pfmsSubmitForm(body).subscribe(
         (res) => {
-
-            sessionStorage.setItem("changeInPFMS", "false");
-            sessionStorage.setItem("changeInGTC", "false");
-
+          sessionStorage.setItem("changeInPFMS", "false");
           console.log(res);
-          // const status = JSON.parse(sessionStorage.getItem("allStatus"));
-          // status.annualAccounts.isSubmit = res["isCompleted"];
-          // this._ulbformService.allStatus.next(status);
           swal("Saved", "Data saved as draft successfully", "success");
+          this.commonService.setFormStatus2223.next(true);
           resolve("sucess");
         },
         (err) => {
-
           sessionStorage.setItem("changeInPFMS", "false");
-          sessionStorage.setItem("changeInGTC", "false");
-
-
           swal("Error", "Failed To Save", "error");
           resolve(err);
         }

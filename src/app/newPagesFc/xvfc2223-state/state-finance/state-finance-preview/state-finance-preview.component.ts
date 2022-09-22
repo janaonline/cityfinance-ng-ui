@@ -20,7 +20,7 @@ export class StateFinancePreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private commonService: NewCommonService) { }
-  
+
     @ViewChild("gtcpre") _html: ElementRef;
     // @ViewChild("annualPreview") _html: ElementRef;
     @ViewChild("templateSave") template;
@@ -43,13 +43,13 @@ export class StateFinancePreviewComponent implements OnInit {
       font-size: 18px;
       padding-top: 1rem !important;
       font-weight: 700;
-  
+
   }
   .sub-h {
     font-weight: 600 !important;
     font-size: 14px;
   }
-  
+
   .form-h {
     font-size: 15px;
     font-weight: 700;
@@ -67,13 +67,13 @@ export class StateFinancePreviewComponent implements OnInit {
         padding: 5px 10px;
         background-color: #EBF5F5;
     }
-  
+
     .qus-h {
       margin-bottom: .5rem;
       margin-top: .5rem;
       font-size: 10px !important;
   }
-  
+
   .ans-h {
       margin-bottom: .5rem;
       margin-left: 1.2rem;
@@ -83,7 +83,7 @@ export class StateFinancePreviewComponent implements OnInit {
   .m-r{
     margin-bottom: 1.5rem !important;
   }
-  
+
    .h-cls{
           display: none;
         }
@@ -101,7 +101,7 @@ export class StateFinancePreviewComponent implements OnInit {
           color: black;
           pointer-events: none;
       }
-  
+
       </style>`
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -116,13 +116,13 @@ export class StateFinancePreviewComponent implements OnInit {
     this.data?.preData?.data?.stateNotification?.url == '' ? this.hideUnderline = true : false
     this.data?.preData?.data?.floorRate?.url == '' ? this.hideUnderline = true : false
     this.data?.preData?.data?.comManual?.url == '' ? this.hideUnderline = true : false
-    
+
     this.stateName = userData["stateName"];
   }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen;
-    
+
       changeHappen = sessionStorage.getItem("changeInStateFinance");
     console.log(changeHappen)
     if (changeHappen === "true") {
@@ -192,17 +192,18 @@ export class StateFinancePreviewComponent implements OnInit {
     return new Promise((resolve, rej) => {
       this.commonService.submitStateFinance(body).subscribe(
         (res) => {
-         
+
             sessionStorage.setItem("changeInStateFinance", "false");
-          
+
           console.log(res);
           swal("Saved", "Data saved as draft successfully", "success");
+          this.commonService.setStateFormStatus2223.next(true);
           resolve("sucess");
         },
         (err) => {
-         
+
           sessionStorage.setItem("changeInStateFinance", "false");
-          
+
 
           swal("Error", "Failed To Save", "error");
           resolve(err);

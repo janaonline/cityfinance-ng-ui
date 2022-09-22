@@ -1,5 +1,5 @@
 import { HttpEventType } from "@angular/common/http";
-import { Component, HostBinding, OnInit, ViewChild } from "@angular/core";
+import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./annual-accounts.component.html",
   styleUrls: ["./annual-accounts.component.scss"],
 })
-export class AnnualAccountsComponent implements OnInit {
+export class AnnualAccountsComponent implements OnInit, OnDestroy {
   constructor(
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
@@ -27,6 +27,10 @@ export class AnnualAccountsComponent implements OnInit {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.navigationCheck();
     this.loggedInUserType = this.loggedInUserDetails.role;
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
   }
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
@@ -45,6 +49,16 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "bal_sheet",
+      action: false,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
+
     },
     {
       name: "Please enter total amount of Assets",
@@ -52,11 +66,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "assets",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "assets",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -64,11 +87,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "f_assets",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "f_assets",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -76,11 +108,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "s_grant",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "s_grant",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -88,11 +129,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "c_grant",
+      action: true,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "c_grant",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Balance Sheet Schedule",
@@ -100,6 +150,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "bal_sheet_schedules",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure",
@@ -107,6 +166,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "inc_exp",
+      action: false,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Revenue",
@@ -114,11 +182,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "revenue",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "revenue",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Expenses",
@@ -126,11 +203,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "expense",
+      action: true,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "expense",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure Schedule",
@@ -138,6 +224,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "inc_exp_schedules",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Cash flow Statement",
@@ -145,6 +240,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "cash_flow",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
   ];
   auditQues = [
@@ -154,6 +258,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "bal_sheet",
+      action: false,
+      status: null,
+      actError: false,
+      qusDis: false,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Assets",
@@ -161,11 +274,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "assets",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "assets",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Fixed Assets",
@@ -173,11 +295,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "f_assets",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "f_assets",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of State Grants received",
@@ -185,11 +316,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "s_grant",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "s_grant",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Central Grants received",
@@ -197,11 +337,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "c_grant",
+      action: true,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "c_grant",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Balance Sheet Schedule",
@@ -209,6 +358,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "bal_sheet_schedules",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure",
@@ -216,6 +374,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "inc_exp",
+      action: false,
+      status: null,
+      actError: false,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Revenue",
@@ -223,11 +390,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "revenue",
+      action: false,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "revenue",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Please enter total amount of Expenses",
@@ -235,11 +411,20 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "input",
       key: "expense",
+      action: true,
+      actError: false,
+      qusDis: false,
       amount: {
         key: "expense",
         value: "",
         error: false,
       },
+      status: null,
+      rejectReason: null,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Income Expenditure Schedule",
@@ -247,6 +432,15 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "inc_exp_schedules",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
       name: "Cash flow Statement",
@@ -254,13 +448,31 @@ export class AnnualAccountsComponent implements OnInit {
       data: null,
       type: "file",
       key: "cash_flow",
+      actError: false,
+      action: true,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
     {
-      name: "Auditors Report",
+      name: "Auditor Report",
       error: false,
       data: null,
       type: "file",
       key: "auditor_report",
+      action: true,
+      actError: false,
+      status: null,
+      rejectReason: null,
+      qusDis: false,
+      responseFile: {
+        url: '',
+        name: '',
+      }
     },
   ];
   data = {
@@ -282,6 +494,10 @@ export class AnnualAccountsComponent implements OnInit {
           // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         assets: "",
         f_assets: "",
@@ -295,6 +511,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         inc_exp: {
           pdf: {
@@ -304,6 +524,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         revenue: "",
         expense: "",
@@ -315,6 +539,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         cash_flow: {
           pdf: {
@@ -324,6 +552,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         auditor_report: {
           pdf: {
@@ -332,6 +564,10 @@ export class AnnualAccountsComponent implements OnInit {
           },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
       },
       standardized_data: {
@@ -344,7 +580,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Audited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2020-21"],
+      year: this.Years["2021-22"],
     },
     unAudited: {
       provisional_data: {
@@ -360,6 +596,10 @@ export class AnnualAccountsComponent implements OnInit {
           // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         assets: "",
         f_assets: "",
@@ -373,6 +613,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         inc_exp: {
           pdf: {
@@ -384,6 +628,10 @@ export class AnnualAccountsComponent implements OnInit {
           // expense: { value: "", error: false },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         revenue: "",
         expense: "",
@@ -395,6 +643,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
         cash_flow: {
           pdf: {
@@ -404,6 +656,10 @@ export class AnnualAccountsComponent implements OnInit {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
+          responseFile: {
+            url: '',
+            name: '',
+          }
         },
       },
       standardized_data: {
@@ -416,7 +672,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Unaudited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2019-20"],
+      year: this.Years["2020-21"],
     },
   };
 
@@ -481,25 +737,26 @@ export class AnnualAccountsComponent implements OnInit {
   compName = "AnnualAccount";
   nextRouter;
   backRouter;
+  overAllFormDis = true;
   ngOnInit(): void {
-    this.ulbId = sessionStorage.getItem("ulb_id");
+
     sessionStorage.setItem("changeInAnnualAcc", "false");
-    this.setRouter()
+    this.setRouter();
     this.clickedSave = false;
     this.onLoad();
   }
-setRouter(){
-  for (const key in this.sideMenuItem) {
-    //  console.log(`${key}: ${this.sideMenuItem[key]}`);
-    this.sideMenuItem[key].forEach((element) => {
-      //    console.log("name name", element);
-      if (element?.name == "Annual Accounts") {
-        this.nextRouter = element?.nextUrl;
-        this.backRouter = element?.prevUrl;
-      }
-    });
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      //  console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach((element) => {
+        //    console.log("name name", element);
+        if (element?.name == "Annual Accounts") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
   }
-}
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe((event) => {
@@ -579,9 +836,9 @@ setRouter(){
   }
   action = "";
   url = "";
+  canTakeAction = false;
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
-    let ulbId = this.userData.ulb;
     // if (ulbId != null || this.finalSubmitUtiStatus == "true") {
     //   this.isDisabled = true;
     //   this.provisionDisable = true
@@ -590,23 +847,33 @@ setRouter(){
     this.newCommonService
       .getAnnualData({
         design_year: this.Years["2022-23"],
-        ulb: ulbId,
+        ulb: this.ulbId,
       })
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
           let resObj: any = res;
           console.log("resss", resObj);
-          if (resObj?.isDraft == false || this.userData.role != "ULB") {
+          this.isDisabled = this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['actionTakenByRole'], this.loggedInUserType, resObj['status'])
+          if (resObj['isDraft'] == false) {
             this.isDisabled = true;
           } else {
-            this.isDisabled = false;
+            this.isDisabled = true;
           }
+
           this.action = resObj?.action;
           this.url = resObj?.url;
-
+          if (resObj?.canTakeAction) this.canTakeAction = resObj?.canTakeAction;
+          if (!this.canTakeAction) {
+            this.actionBtnDis = true;
+          }
+          if (resObj['status'] == 'REJECTED') {
+            this.overAllFormDis = false;
+          } else {
+            this.overAllFormDis = true;
+          }
           // this.actionCheck = res['status'];
-          // console.log("annual res---------------", res, this.actionCheck);
+          console.log("annual res---------------", this.canTakeAction);
         },
         (err) => {
           this.action = err.error?.action;
@@ -619,8 +886,66 @@ setRouter(){
           console.error(err.message);
         }
       );
+
+    if (this.userData?.role != "ULB") {
+      this.isDisabled = true;
+    }
   }
 
+checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
+  if(isDraft && actionTakenByRole == "ULB"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  } else if(!isDraft && actionTakenByRole == "ULB"){
+    if(loggedInUser == "STATE"){
+      return false;
+    }else{
+      return true;
+    }
+  } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
+    if(loggedInUser == "MoHUA"){
+      return false;
+    }else{
+      return true;
+    }
+  }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
+   return true;
+  }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
+    if(loggedInUser == "ULB"){
+      return false;
+    }else{
+      return true;
+    }
+  } else{
+    return true;
+  }
+
+}
+  auditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
+  unAuditedActionResponse = {
+    status: null,
+    rejectReason: null,
+    responseFile: {
+      name: '',
+      url: ''
+    }
+  };
   dataPopulate(res) {
     delete res.modifiedAt;
     delete res.createdAt;
@@ -641,29 +966,46 @@ setRouter(){
       //  status.annualAccounts.status = "N/A";
       // this._ulbformService.allStatus.next(status);
     }
- //   console.log("annnualREs", this.data["status"]);
+    //   console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
-    let proviDataAu = res?.audited?.provisional_data;
-    this.auditQues?.forEach((el) => {
-      let key = el?.key;
-      if (key && el.type == "file") {
-        el["data"] = proviDataAu[key];
-      } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataAu[key];
-      }
-    });
+    this.unAuditedActionResponse.status = res?.status;
+    this.unAuditedActionResponse.rejectReason = res?.rejectReason;
+    this.auditedActionResponse.status = res?.status;
+    this.auditedActionResponse.rejectReason = res?.rejectReason;
 
-    let proviDataUn = res?.unAudited?.provisional_data;
-    this.unAuditQues?.forEach((el) => {
-      let key = el?.key;
-      if (key && el.type == "file") {
-        el["data"] = proviDataUn[key];
-      } else if (key && el.type == "input") {
-        el["amount"]["value"] = proviDataUn[key];
-      }
-    });
- //   console.log("data", this.auditQues, this.unAuditQues);
+    if (res?.audited?.submit_annual_accounts == true) {
+      let proviDataAu = res?.audited?.provisional_data;
+      this.auditQues?.forEach((el) => {
+        let key = el?.key;
+        if (key && el.type == "file") {
+          el["data"] = proviDataAu[key];
+
+        } else if (key && el.type == "input") {
+          el["amount"]["value"] = proviDataAu[key];
+
+        }
+      });
+      this.setStatusOnInputs('auditQues')
+      this.auditedActionResponse.responseFile = proviDataAu?.bal_sheet?.responseFile;
+    }
+    if (res?.unAudited?.submit_annual_accounts == true) {
+
+      let proviDataUn = res?.unAudited?.provisional_data;
+      this.unAuditQues?.forEach((el) => {
+        let key = el?.key;
+        if (key && el.type == "file") {
+          el["data"] = proviDataUn[key];
+        } else if (key && el.type == "input") {
+          el["amount"]["value"] = proviDataUn[key];
+        }
+      });
+      this.setStatusOnInputs('unAuditQues')
+      this.unAuditedActionResponse.responseFile = proviDataUn?.bal_sheet?.responseFile;
+    }
+
+
+    console.log("pop data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
     this.audit_status = audit;
@@ -710,7 +1052,7 @@ setRouter(){
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
-  //  console.log("eeeeeeeee", e, fileType, quesName, index);
+    //  console.log("eeeeeeeee", e, fileType, quesName, index);
     if (fileType == "audited") {
       this.auditQues.forEach((ele) => {
         if (ele.name === quesName) {
@@ -920,7 +1262,7 @@ setRouter(){
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-        //  console.log(objKeysE);
+          //  console.log(objKeysE);
         }
         if (
           objLength > 0 &&
@@ -965,7 +1307,7 @@ setRouter(){
         if (obj != null && obj != "" && obj != undefined) {
           let objKeysE = Object.keys(obj);
           objLength = objKeysE?.length;
-        //  console.log(objKeysE);
+          //  console.log(objKeysE);
         }
         if (
           objLength > 0 &&
@@ -1351,6 +1693,7 @@ setRouter(){
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.isDisabled = true;
+        this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
       },
@@ -1394,5 +1737,298 @@ setRouter(){
       // console.log(`Dialog result: ${result}`);
       //   this.hidden = true;
     });
+  }
+  actReturn = false;
+  actRemarks = ''
+  actionFileData = {
+    audited: null,
+    unAudited: null
+
+  };
+  actionBtnClick(actType, fileType, item, quesIndex, value) {
+    console.log('action parts', actType, fileType, item, quesIndex, value);
+    let actRes = '';
+    let reason = false;
+    this.actRemarks = value;
+    if (actType == 'Approve') {
+      actRes = "APPROVED";
+      this.actReturn = false;
+      item.actError = false;
+      item['status'] = actRes;
+    } else if (actType == 'Return') {
+      actRes = "REJECTED"
+      // item.actError = false;
+      item['status'] = actRes;
+      this.actReturn = true;
+    } else if (actType == 'returnRes') {
+      reason = true;
+      item.actError = false;
+    }
+
+
+    switch (item?.key) {
+      case "c_grant":
+        if (reason) {
+          this.data[fileType].provisional_data.bal_sheet['rejectReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.bal_sheet['status'] = actRes;
+        }
+        break;
+      case "bal_sheet_schedules":
+        if (reason) {
+          this.data[fileType].provisional_data.bal_sheet_schedules['rejectReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.bal_sheet_schedules['status'] = actRes;
+        }
+        break;
+      case "expense":
+        if (reason) {
+          this.data[fileType].provisional_data.inc_exp['rejectReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.inc_exp['status'] = actRes;
+        }
+        break;
+      case "inc_exp_schedules":
+        if (reason) {
+          this.data[fileType].provisional_data.inc_exp_schedules['rejectReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.inc_exp_schedules['status'] = actRes;
+        }
+        break;
+      case "cash_flow":
+        if (reason) {
+          this.data[fileType].provisional_data.cash_flow['rejectReason'] = this.actRemarks
+        } else {
+          this.data[fileType].provisional_data.cash_flow['status'] = actRes;
+        }
+        break;
+      case "auditor_report":
+        if (reason) {
+          this.data[fileType].provisional_data.auditor_report['rejectReason'] = this.actRemarks;
+        } else {
+          this.data[fileType].provisional_data.auditor_report['status'] = actRes;
+        }
+        break;
+
+      //
+    }
+    console.log('after action...', this.unAuditQues, this.auditQues);
+    console.log('after action data...', this.data);
+  }
+
+  getUploadActionFileData(e, type) {
+    console.log('action......file', e, type);
+    this.actionFileData[type] = e;
+    // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
+    for (const key in this.data[type].provisional_data) {
+
+      if (typeof (this.data[type].provisional_data[key]) == 'object') {
+        let actionFile = {
+          responseFile: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+        Object.assign(this.data[type].provisional_data[key], actionFile);
+        // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
+        // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
+      }
+
+    }
+    console.log('this. data for action', this.data);
+
+  }
+  actionBtnDis = false;
+  actionValidation = true;
+  checkActionValidation() {
+
+    if (this.data.audited.submit_annual_accounts) {
+      this.auditQues.forEach((item) => {
+        // if (item?.type == 'file')
+        if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
+          item.actError = true;
+        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+          item.actError = true;
+        } else {
+          item.actError = false;
+        }
+      })
+    }
+    if (this.data.unAudited.submit_annual_accounts) {
+      this.unAuditQues.forEach((item) => {
+        // if (item?.type == 'file')
+
+        if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
+          item.actError = true;
+        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+          item.actError = true;
+        } else {
+          item.actError = false;
+        }
+      })
+    }
+    console.log('audited', this.auditQues);
+    console.log('unAuditQues', this.unAuditQues);
+    let commArray = this.unAuditQues.concat(this.auditQues);
+    console.log('commArray', commArray);
+    for (let el of commArray) {
+      if (el?.actError == true) {
+        this.actionValidation = false;
+        break;
+      } else {
+        this.actionValidation = true;
+      }
+    }
+    // this.unAuditQues.forEach((el) => {
+    //   if (el?.actError == true) {
+    //     this.actionValidation = false;
+    //     return;
+    //   } else {
+    //     this.actionValidation = true;
+    //   }
+    // })
+    // this.auditQues.forEach((el) => {
+    //   if (el?.actError == true) {
+    //     this.actionValidation = false;
+    //     return;
+    //   } else {
+    //     this.actionValidation = true;
+    //   }
+    // })
+
+  }
+  saveAction() {
+    this.setStatusOnInputs('unAuditQues');
+    this.setStatusOnInputs('auditQues')
+    this.checkActionValidation();
+    if (this.actionValidation) {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this action? Once submitted,
+        it will become uneditable and will be sent to MoHUA for Review.`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.finalActionSave(this.data);
+            break;
+          case "cancel":
+            break;
+        }
+      });
+    } else {
+      swal('Error', "One or more required fields are empty. Please check your input.", 'error');
+      return;
+    }
+
+
+
+  }
+  finalActionSave(actionBody) {
+
+    this.newCommonService.postActionDataAA(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
+        this.newCommonService.setFormStatus2223.next(true);
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  setStatusOnInputs(type) {
+    if (type == 'auditQues') {
+      for (let i = 0; i < this.auditQues.length; i++) {
+        if (i > 0 && i < 5) {
+          let stObj = {
+            status: this.auditQues[0]?.data?.status,
+            rejectReason: this.auditQues[0]?.data?.rejectReason,
+            responseFile: this.auditQues[0]?.data?.responseFile
+          }
+          this.auditQues[i]['data'] = stObj;
+          // this.auditQues[i]['data'].status = this.auditQues[0]?.data?.status;
+          // this.auditQues[i]['data'].rejectReason = this.auditQues[0]?.data?.rejectReason;
+          // this.auditQues[i]['data'].responseFile = this.auditQues[0]?.data?.responseFile;
+        }
+        if (i > 6 && i < 9) {
+          let stObj = {
+            status: this.auditQues[6]?.data?.status,
+            rejectReason: this.auditQues[6]?.data?.rejectReason,
+            responseFile: this.auditQues[6]?.data?.responseFile
+          }
+          this.auditQues[i]['data'] = stObj;
+          // this.auditQues[i]['data'].status = this.auditQues[6]?.data?.status;
+          // this.auditQues[i]['data'].rejectReason = this.auditQues[6]?.data?.rejectReason;
+          // this.auditQues[i]['data'].responseFile = this.auditQues[6]?.data?.responseFile;
+        }
+      }
+    }
+    if (type == 'unAuditQues') {
+      for (let i = 0; i < this.unAuditQues.length; i++) {
+        if (i > 0 && i < 5) {
+          let stObj = {
+            status: this.unAuditQues[0]?.data?.status,
+            rejectReason: this.unAuditQues[0]?.data?.rejectReason,
+            responseFile: this.unAuditQues[0]?.data?.responseFile
+          }
+          this.unAuditQues[i]['data'] = stObj;
+        }
+        if (i > 6 && i < 9) {
+          let stObj = {
+            status: this.unAuditQues[6]?.data?.status,
+            rejectReason: this.unAuditQues[6]?.data?.rejectReason,
+            responseFile: this.unAuditQues[6]?.data?.responseFile
+          }
+          this.unAuditQues[i]['data'] = stObj;
+        }
+      }
+    }
+    this.setDisableField();
+
+  }
+  setDisableField() {
+    this.auditQues.forEach((el) => {
+      if (el?.data?.status == 'REJECTED') {
+        el['qusDis'] = true;
+      } else {
+        el['qusDis'] = false;
+      }
+    });
+    this.unAuditQues.forEach((el) => {
+      if (el?.data?.status == 'REJECTED') {
+        el['qusDis'] = true;
+      } else {
+        el['qusDis'] = false;
+      }
+    })
+    console.log('aud rejected case', this.auditQues);
+    console.log('unA rejected case', this.unAuditQues);
+  }
+
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

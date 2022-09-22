@@ -12,23 +12,6 @@
     font-weight: 600;
 }
 
-.btn-pre {
-    background-color: #059b9a;
-    color: #fff;
-    border-radius: 5px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    font-size: 12px;
-    margin-top: 1rem;
-}
-
-.btnPrevious {
-    background-color: #059b9a;
-    color: #fff;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
 .btnDraft {
     background-color: #059b9a;
     color: #fff;
@@ -52,33 +35,6 @@
     color: #fff;
 }
 
-.previousText {
-    text-align: end;
-}
-
-.submitClass {
-    text-align: end;
-}
-
-.submit {
-    background-color: #059b9a;
-    color: #fff;
-    border-radius: 5px;
-    font-size: 13px;
-    width: 100px;
-    height: 33px;
-    border: none;
-    margin-right: 9%;
-}
-
-.btnClass {
-    border: 1px solid gray;
-    height: 31px;
-    background-color: #059b9a;
-    font-size: 14px;
-    color: white;
-}
-
 .errorMessege {
     color: #dc3545;
     font-size: smaller;
@@ -87,22 +43,6 @@
 .filePadding {
     // padding-left: 23px;
     font-style: italic;
-}
-
-.textClass {
-    text-align: center;
-}
-
-.btn2 {
-    background-color: #059b9a;
-    margin-left: 1pc;
-    margin-bottom: 1pc;
-    color: white;
-    width: 150px
-}
-
-.btnPrevious:hover {
-    background-color: #ffc500;
 }
 
 .textEnd {
@@ -124,10 +64,6 @@
     // box-shadow: 2px 4px 5px #cecece;
 }
 
-.iconCenter {
-    text-align: center;
-}
-
 .fontStyle {
     font-weight: 500;
 }
@@ -144,14 +80,6 @@
     font-size: 12px;
 }
 
-.marginClass {
-    margin-top: 4%;
-}
-
-.abDisable {
-    pointer-events: none;
-}
-
 .anDisable {
     pointer-events: none;
     cursor: not-allowed;
@@ -166,21 +94,8 @@
     background-color: #ffc500;
 }
 
-.selectDropdown {
-    border-radius: 6px;
-    width: 40%;
-    border: 1px solid gray;
-    -webkit-appearance: listbox !important
-}
-
 .image-upload img {
     cursor: pointer;
-}
-
-.inputDate {
-    border-radius: 6px;
-    width: 40%;
-    border: 1px solid gray;
 }
 
 .btnUpload {
@@ -191,25 +106,12 @@
     width: 200px;
 }
 
-.form-header {
-    font-family: Roboto, Medium;
-    color: #373737;
-    font-size: 20px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
 .btnUpload:hover {
     background-color: #ffc500;
 }
 
 .btnUpload:active {
     background-color: #ffc500;
-}
-
-.errorText {
-    margin-top: 3%;
 }
 
 .customDate {
@@ -219,13 +121,8 @@
     margin-top: -26px;
 }
 
-.card-body {
-    padding: 5px 8px;
-    height: auto;
-}
-
 .card {
-    // width: 96%;
+    width: 100%;
     height: auto;
     margin-bottom: 2rem !important;
     background-color: #FFFFFF;
@@ -234,145 +131,41 @@
     margin: auto;
 }
 
-.uplod_label {
-    font-size: 16px;
-    font-weight: 700;
-}
-
-// .card {
-//     border: 1px #00000029;
-//     margin-left: 20px;
-//     box-shadow: 1px 1px 1px 1.5px #00000029;
-//     padding: 10px 10px;
-// }
 .image-upload>input {
     display: none;
 }
 
-.block {
-    background-color: #FFFFFF;
-    //   margin-top: 4%;
-    margin-top: 1rem;
-}
-
-.image-upload img {
-    cursor: pointer;
-}
-
-.activeClass {
-    background-color: #c9c9c9;
-}
-.disableInputs{
+.disableInputs {
     pointer-events: none;
 }
-.greyInputs{
+
+.greyInputs {
     pointer-events: none;
     background-color: #c9c9c9;
-    color:black;
+    color: black;
 }
-.customDisable{
+
+.customDisable {
     cursor: not-allowed;
     display: inline-block;
     pointer-events: none;
 }
-.fadedClass{
+
+.fadedClass {
     pointer-events: none;
     background-color: #059b9a;
     color: white;
     opacity: 0.5;
 }
-.activeClassNo {
-    background-color: #c9c9c9;
-}
-
-.activeClassNoBottom {
-    background-color: #c9c9c9;
-}
 
 .activeClassBottom {
-    // background-color: #c9c9c9;
     background-color: #ffc500;
-}
-
-.saveBtn {
-    width: auto;
-    height: 36px;
-    background-color: #26A1A1;
-    color: #FFFFFF;
-    font-weight: normal;
-    font-size: 14px;
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid transparent;
-    display: inline-block;
-    // padding-left: 4%;
-    // padding-right: 4%;
-}
-
-.backbtn {
-    background-color: #CFCFCF;
-    color: #FFFFFF;
-    width: auto;
-    height: 32px;
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid transparent;
-    display: inline-block;
-    padding-left: 4%;
-    padding-right: 4%;
-    font-weight: normal;
-    font-size: 12px;
-}
-
-
-.pr-btn {
-    background-color: #059b9a;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    font-size: 12px;
-    padding-right: 2rem;
-}
-
-.anDisable {
-    pointer-events: none;
-    cursor: not-allowed;
-    opacity: 0.5;
-}
-
-.abDisable {
-    pointer-events: none;
 }
 
 .disabled {
     color: gray;
     cursor: not-allowed;
     text-decoration: underline;
-}
-
-.btn-success {
-    background-color: #CFCFCF;
-    color: #333;
-    border-color: transparent;
-}
-
-.btn-danger {
-    background-color: #CFCFCF;
-    border-color: transparent;
-    color: #333;
-}
-
-.btn-r {
-    background-color: red;
-    color: #FFFFFF;
-}
-
-.btn-a {
-    background-color: green;
-    color: #FFFFFF;
 }
 
 .customWidth {
@@ -394,37 +187,10 @@ input[type='radio'] {
     height: 34px;
 }
 
-.customButtonClass {
-    border-radius: 6px;
-    padding: 0.3rem 1rem;
-    border: none
-}
-
-.r-w-f {
-    width: 97%;
-    margin: auto;
-}
-
-.r-l {
-    align-items: center;
-}
-
-.card {
-    width: 100%;
-    height: auto
-}
-
-.f-url {
-    font-size: 14px;
-}
-
-.disabled-form {
-    pointer-events: none;
-    background-color: rgb(170, 168, 168);
-}
-.progressBar{
+.progressBar {
     padding: 0;
 }
+
 .modal-body {
     position: relative;
     flex: 1 1 auto;
@@ -451,4 +217,17 @@ input[type='radio'] {
     color: #fff;
     background-color: #198754;
     border-color: #198754;
+}
+
+::ng-deep .swal2-title {
+    position: relative;
+    max-width: 100%;
+    margin: 0;
+    padding: 1em 1em;
+    color: inherit;
+    font-size: 1.2rem !important;
+    font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    word-wrap: break-word;
 }

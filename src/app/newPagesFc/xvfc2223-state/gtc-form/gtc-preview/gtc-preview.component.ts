@@ -13,6 +13,7 @@ import {
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/state/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { State2223Service } from "../../state-services/state2223.service";
 const swal: SweetAlert = require("sweetalert");
@@ -26,7 +27,8 @@ export class GtcPreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
-    private stateService: State2223Service
+    private stateService: State2223Service,
+    private newCommonService: NewCommonService
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateName = this.userData["stateName"];
@@ -221,10 +223,11 @@ export class GtcPreviewComponent implements OnInit {
             if (this.data[i]?.quesArray[j + 1]?.isDisableQues) {
               this.data[i].quesArray[j + 1].isDisableQues = false;
             }
-            swal("Saved", "Data saved as draft successfully", "success");
+            swal("Saved", "File saved successfully", "success");
             resolve("sucess");
             sessionStorage.setItem("changeInGtc", "false");
             console.log("success responce", res);
+            this.newCommonService.setStateFormStatus2223.next(true);
           },
           (err) => {
             sessionStorage.setItem("changeInGtc", "false");

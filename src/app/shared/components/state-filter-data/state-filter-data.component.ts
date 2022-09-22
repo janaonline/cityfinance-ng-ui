@@ -632,6 +632,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         (res) => {
           this.notfound = false;
           console.log("response data", res);
+          console.log("activeButtonStateDashboard", this.ActiveButton);
           //scatter plots center
           let apiData = res["data"];
           if (!this.filterName.includes("mix")) {
@@ -681,7 +682,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               this.stateAvgVal = apiData["stateAvg"]
                 ? apiData["stateAvg"]
                 : this.stateAvgVal;
-              stateData = this.stateAvgVal;
+              stateData = this.ActiveButton == 'Total Revenue' || this.ActiveButton == 'Total Own Revenue' || this.ActiveButton == 'Total Surplus/Deficit' || this.ActiveButton == 'Capital Expenditure' ? convertToCr(this.stateAvgVal) : this.stateAvgVal;
             }
 
             let stateLevelMaxPopuCount =
@@ -701,12 +702,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
-                      el2.amount;
+                    this.ActiveButton == 'Total Revenue' || this.ActiveButton == 'Total Own Revenue' || this.ActiveButton == 'Total Surplus/Deficit' || this.ActiveButton == 'Capital Expenditure' ? convertToCr(el2.amount) : el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
                     this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
+                  console.log('sasasasasaasa', el)
                   obj = { x: 0, y: 0 };
                 });
               } else if (el.label == "Municipal Corporation") {
@@ -715,7 +717,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
-                      el2.amount;
+                    this.ActiveButton == 'Total Revenue' || this.ActiveButton == 'Total Own Revenue' || this.ActiveButton == 'Total Surplus/Deficit' || this.ActiveButton == 'Capital Expenditure' ? convertToCr(el2.amount) : el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
                     this.stateServiceLabel ? Math.round(el2.value) : el2.amount
@@ -731,7 +733,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
-                      el2.amount;
+                    this.ActiveButton == 'Total Revenue' || this.ActiveButton == 'Total Own Revenue' || this.ActiveButton == 'Total Surplus/Deficit' || this.ActiveButton == 'Capital Expenditure' ? convertToCr(el2.amount) : el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
                     this.stateServiceLabel ? Math.round(el2.value) : el2.amount
@@ -949,7 +951,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // }
 
   }
-
+  changeAlertTab:any;
   changeActiveBtn(i) {
     this.reset();
     this.ulbArr = [];
@@ -963,6 +965,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.financialYear
     );
     this.ActiveButton = this.data.btnLabels[i];
+    console.log('this.ActiveButton', this.ActiveButton)
+    this.changeAlertTab = this.ActiveButton
     this.currentActiveTab = this.data.btnLabels[i];
     this.createDynamicChartTitle(this.currentActiveTab);
     this.lastSelectedId = i;
@@ -1381,7 +1385,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   serviceLevelBenchmarkScatterOption: any;
   setServiceLevelBenchmarkScatteredChartOption(
     xAxisLabel: string = "Population",
-    yAxisLabel: string = "Total Revenue"
+    yAxisLabel: string = "Total Revenue (in Cr.)"
   ) {
     let tooltipValue = "";
     if (this.percentLabel == "percent") {
@@ -1815,4 +1819,9 @@ function lightOrDark(color) {
   } else {
     return "dark";
   }
+}
+function convertToCr(value) {
+  if (value == 0) return 0;
+  value /= 10000000;
+  return Math.round(value);
 }

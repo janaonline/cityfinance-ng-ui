@@ -1,73 +1,97 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
-
-.dot{
+.dot {
     display: inline-block;
     margin-right: $spacer*.5;
     width: 12px;
     height: 12px;
     border-radius: 50%;
 }
-.dot-submitted{
+
+.dot-submitted {
     @extend .dot;
     background: #E67E1566;
 }
-.dot-approved{
+
+.dot-approved {
     @extend .dot;
     background: #E67E15;
 }
-ul{
+
+ul {
     list-style: none;
     display: flex;
     width: 66%;
-    margin-left: 17%;
-    border-radius: 5px;
 }
-li{
+
+li:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+li:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+li {
     background: #dce4e7 0% 0% no-repeat padding-box;
     cursor: pointer;
-    border-radius: 6px;
     height: 40px;
     line-height: 40px;
     font-weight: 500;
 }
-.btn{
+
+.btn {
     border-radius: 4px;
     border: 1px solid rgb(192, 192, 192);
 }
-.active{
+
+.active {
     background-color: #E67E15;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.activeFirstInstallment{
+
+.activeFirstInstallment {
     background-color: #059B9A;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.activeSecondInstallment{
+
+.activeSecondInstallment {
     background-color: #059B9A;
     cursor: pointer;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
-.noValue{
+
+.noValue {
     border: 1px solid white !important;
-    color:black !important;
+    color: black !important;
     background-image: url("../../../../assets/dashboard-state/Group 13698.svg")!important;
 }
-.noValueUpdate{
+
+.responsiveClass{
+    display: flex;
+    justify-content: center;
+}
+
+.noValueUpdate {
     display: none !important;
     background-color: white;
 }
-.formHeader{
+
+.formHeader {
     font-weight: 600;
     font-size: 1.5rem;
 }
-.formName{
+
+.formName {
     font-weight: 600;
     font-size: 1.1rem;
 }
+
 .card {
     border: 1px #00000029;
     margin-left: 20px;
@@ -75,56 +99,98 @@ li{
     padding: 20px;
     height: 130px;
     background-color: #12505A;
-    color:white;
+    color: white;
 }
+
 .formCard {
     border: 1px #00000029;
     margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 20px;
-    height: 130px;
     background-color: white;
-    color:black;
+    color: black;
+    cursor: pointer;
+    border-radius: 6px;
 }
-.fontClass{
+
+.fontClass {
     font-size: 14px;
     font-weight: 500;
 }
 
-.progress{
-    overflow: unset !important;
+.tooltipCustom {
+    position: absolute;
+    left: 16%;
+    background-color: #12505A;
+    color: white;
+    width: 13%;
+    text-align: center;
+    height: 20px;
+    bottom: 38px;
+    font-size: 12px;
+}
 
-    .progress-bar{
+.targetClass {
+    margin-left: -20px;
+    position: relative;
+    margin-top: -34px;
+}
+
+.targetHundred {
+    background-color: #12505A;
+    width: 95px;
+    text-align: center;
+    height: 20px;
+    color: white;
+    font-size: 12px;
+    margin-left: -37px;
+}
+
+.progress {
+    overflow: unset !important;
+    position: relative;
+    .progress-bar {
         flex-direction: unset !important;
         justify-content: end !important;
         overflow: unset !important;
-    
-        & span{
+        position: absolute;
+        height: 15px;
+        & span {
             display: block;
             background: $white;
             color: $black;
             border-radius: 50%;
             width: 34px;
             height: 34px;
-            font-size: 10px;
+            font-size: 9px;
             margin-top: -11px;
             line-height: 24px;
-            margin-right: -2px;
+            margin-right: -5px;
+            z-index: 99;
         }
-        &.bg-approved{
+        &.bg-approved {
             background: #E67E15;
-
             // & span{
             //     border: 5px solid #E67E15;
             // }
         }
-
-        &.bg-submitted{
+        &.bg-submitted {
             background: #E67E1566;
-
             // & span{
             //     border: 5px solid #E67E1566;
             // }
         }
     }
+}
+
+.customSpan {
+    display: block;
+    color: $black;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 10px;
+    margin-top: -7px;
+    line-height: 24px;
+    margin-right: -2px;
 }

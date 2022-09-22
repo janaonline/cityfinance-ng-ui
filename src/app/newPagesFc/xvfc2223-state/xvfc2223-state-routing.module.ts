@@ -7,10 +7,15 @@ import { ReviewApplicationComponent } from "./review-application/review-applicat
 import { StateFinanceComponent } from "./state-finance/state-finance.component";
 import { Xvfc2223StateComponent } from "./xvfc2223-state.component";
 import {DashboardComponent} from './dashboard/dashboard.component'
+import { WaterSupplyComponent } from './water-supply/water-supply.component';
+import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
+import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
+import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
 const routes: Routes = [
   {
     path: "",
     component: Xvfc2223StateComponent,
+    canActivate: [State2223Guard],
     children: [
       {
         path: "dashboard",
@@ -36,6 +41,39 @@ const routes: Routes = [
         path: "grant-allocation",
         component: GrantAllocationComponent,
       },
+      {
+        path: "dashboard/:id",
+        component: DashboardComponent,
+      },
+      {
+        path: "property-tax/:id",
+        component: PropertyTaxFloorRateComponent,
+      },
+      {
+        path: "fc-formation/:id",
+        component: StateFinanceComponent,
+      },
+      {
+        path: "gtCertificate/:id",
+        component: GtcFormComponent,
+      },
+      {
+        path: "grant-allocation/:id",
+        component: GrantAllocationComponent,
+      },
+      {
+        path: "water-supply",
+        component: WaterSupplyComponent,
+      },
+      {
+        path: "edit-ulb-profile",
+        component: EditUlbComponent,
+      },
+      {
+        path: "water-rejenuvation",
+        component: WaterRejenuvations2223Component
+      }
+
     ],
   },
 ];
