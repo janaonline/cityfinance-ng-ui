@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, EventEmitter,  Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class BasicComponent implements OnInit, OnDestroy {
 
   links: any = {};
   isProcessed = false;
-
+  @Output()nameUlb: EventEmitter<string> = new EventEmitter();
   reportKeys: string[] = [];
 
   currencyConversionList = currencryConversionOptions;
@@ -104,7 +104,9 @@ export class BasicComponent implements OnInit, OnDestroy {
       ],
     });
   }
-
+  emitulbName(value: string) {
+    this.nameUlb.emit(value);
+  }
   ngOnInit() {
     this.loaderService.showLoader()
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
@@ -114,7 +116,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       console.log("got criteria", reportCriteria);
 
       this.reportReq = reportCriteria;
-
+      this.emitulbName(this.reportReq.ulbList[0].name )
       this.reportService.reportResponse.subscribe(
         (res) => {
           this.loaderService.showLoader();

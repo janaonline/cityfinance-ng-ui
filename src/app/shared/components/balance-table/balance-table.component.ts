@@ -24,7 +24,9 @@ import { DialogComponent } from "../dialog/dialog.component";
 import { IDialogConfiguration } from "../dialog/models/dialogConfiguration";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BalanceTabledialogComponent } from "./balance-tabledialog/balance-tabledialog.component";
-
+import {ResourcesDashboardService} from '../../../pages/resources-dashboard/resources-dashboard.service'
+import {forkJoin} from 'rxjs';
+import { Observable } from 'rxjs';
 export interface PeriodicElement {
   name: number;
   figures: string;
@@ -274,7 +276,7 @@ export class BalanceTableComponent
     private _dialog: MatDialog,
     private router: Router,
     protected commonService: CommonService,
-
+    private _resourcesDashboardService : ResourcesDashboardService,
     private _loaderService: GlobalLoaderService,
     private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService,
   ) {
@@ -322,7 +324,15 @@ export class BalanceTableComponent
       this.show = true;
     });
   }
+  ulbName
 
+  getUlbName(event){
+    console.log("value in balance table from basic component ", event)
+this.ulbName = event
+this.rawPDFFiles = []
+this.rawExcelFiles = []
+this.getRawFiles();
+  }
   openDialog(data: any, fileType: string) {
     console.log("openDialog", data);
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
@@ -540,8 +550,59 @@ this._loaderService.stopLoader()
       enableSearchFilter: false,
       classes: "myclass custom-class",
     };
+// this.getRawFiles()
   }
+  rawPDFFiles = []
+  rawExcelFiles = []
+getRawFiles(){
+  
+  let category
+  if(this.reportGroup == "Balance Sheet"){
+    category = "balance"
+  }else if(this.reportGroup == "Income & Expenditure Statement"){
+    category = "income"
+  }
+  
+  let year = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"]
+  const calls = [];
+this.currentUlbFilterData.financialYear.forEach(element => {
+  calls.push(this._resourcesDashboardService.getDataSets(element, "pdf", category, "", this.ulbName, ""));
+});
+forkJoin(calls).subscribe(responses => {
+  // console.log(responses)
+  responses.forEach(el => {
 
+  this.rawPDFFiles.push(el['data'][0] ?? {fileUrl: "N/A"})
+
+  })
+  console.log("raw pdfs",this.rawPDFFiles)
+  
+});
+const calls1 = []
+this.currentUlbFilterData.financialYear.forEach(element => {
+  calls1.push(this._resourcesDashboardService.getDataSets(element, "excel", category, "", this.ulbName, ""));
+});
+forkJoin(calls1).subscribe(responses => {
+  // console.log(responses)
+  responses.forEach(el => {
+  this.rawExcelFiles.push(el['data'][0] ?? {fileUrl: "N/A"})
+  })
+  console.log("raw excels", this.rawExcelFiles)  
+});
+  // for(let el of year){
+  
+  //   this._resourcesDashboardService.getDataSets(el, "pdf", category, "", this.ulbName, "").subscribe(res => {
+  //     if(res['data'].length)
+  //     this.rawPDFFiles.push(res['data'][0]);
+  //   })
+  //   this._resourcesDashboardService.getDataSets(el, "excel", category, "", this.ulbName, "").subscribe(res=> {
+  //     if(res['data'].length)
+  //     this.rawExcelFiles.push(res['data'][0]);
+  //   })
+  // }
+  console.log(this.rawPDFFiles, this.rawExcelFiles)
+  
+}
   download() {
     const isUserLoggedIn = this._authService.loggedIn();
     if (!isUserLoggedIn) {
@@ -572,6 +633,7 @@ this._loaderService.stopLoader()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    
     // this.invokeHidden();
     console.log("balance table", changes, this.data);
     this._loaderService.showLoader();
