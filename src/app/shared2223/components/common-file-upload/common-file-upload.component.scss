@@ -37,3 +37,10 @@
 .cross {
     pointer-events: none;
 }
+
+::ng-deep .tooltip-red {
+    font-size: 16px !important;
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    padding: 1rem !important;
+}
