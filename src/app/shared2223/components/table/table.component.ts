@@ -17,6 +17,10 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog/table-approve-return-dialog.component";
+import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+
 @Component({
   selector: "app-table",
   templateUrl: "./table.component.html",
@@ -29,12 +33,15 @@ export class TableComponent implements OnInit, OnChanges {
     private commonService: NewCommonService,
     private _commonService: CommonService,
     private _fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private stateServices: State2223Service
   ) {
     this.initializeFilterForm();
     this.initializeListFetchParams();
+    this.fetchStateList();
     this.getDesignYear();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.dropdownChanges();
   }
   userData;
   public keepOriginalOrder = (a, b) => a.key;
@@ -44,15 +51,7 @@ export class TableComponent implements OnInit, OnChanges {
   data;
   listType: USER_TYPE;
   filterForm: FormGroup;
-  // ulb_name_s = new FormControl("");
-  // state_name_s = new FormControl("");
-  // ulb_code_s = new FormControl("");
-  // ulb_type_s = new FormControl("");
-  // filled_1 = new FormControl("");
-  // population_type_s = new FormControl("");
-  // ua_name_s = new FormControl("");
-  // status_s = new FormControl("");
-  // ulbType_s = new FormControl("");
+
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -82,66 +81,72 @@ export class TableComponent implements OnInit, OnChanges {
     formId: "",
   };
   formRouterLink;
+  formStateRouterLink;
+  isLoader = false;
+  formName;
   ngOnInit(): void {
     this.updatedTableData();
-    this.fetchStateList();
-    this.callAPI();
-    this.valueChanges();
- //   this.multiActionM();
+    this.params["limit"] = 10;
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
-    // this.listFetchOption.skip = 0
-    // this.initializeFilterForm();
     this.initializeListFetchParams();
-    this.params["skip"] = 0;
-    // this.params['currentPage'] = 1
-    // this.listFetchOption.skip = 0;
-    this.tableDefaultOptions.currentPage = 1;
-    this.callAPI();
+    let skValue = sessionStorage.getItem('skipValue')
+    let sesParams = JSON.parse(sessionStorage.getItem("params"));
+    console.log('default pages', this.tableDefaultOptions);
 
-    let formData = this.dropdownData.find(({ _id }) => {
+    if (skValue) {
+      this.params = sesParams;
+      if (sesParams) {
+        this.filterForm.patchValue({
+          ulb_name_s: sesParams?.ulbName ? sesParams?.ulbName : '',
+          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : (sesParams?.censusCode ? sesParams?.censusCode : ''),
+          ulbType_s: sesParams?.ulbType ? sesParams?.ulbType : '',
+          population_type_s: sesParams?.populationType ? sesParams?.populationType : '',
+          ua_name_s: sesParams?.UA ? sesParams?.UA : '',
+          status_s: sesParams?.status ? sesParams?.status : '',
+          filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
+          filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
+        })
+      }
+      this.params["skip"] = Number(skValue);
+      let page = Math.round(Number(skValue) / 10);
+      this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
+    } else {
+      // this.params["skip"] = 0;
+      // this.tableDefaultOptions.currentPage = 1;
+    }
+    this.callAPI();
+    let formData = this.dropdownData?.find(({ _id }) => {
       return _id === this.formId;
     });
     this.formUrl = formData?.url;
+    this.formName = formData?.name;
     this.formRouterLink =
-      "../../ulbform2223/" + this.formUrl + `/${formData?._id}`;
+      "../../ulbform2223/" + this.formUrl;
     console.log("form data url", formData);
+    this.formStateRouterLink =
+      "../../stateform2223/" + this.formUrl;
   }
   filterFormValue;
-  valueChanges() {
-    this.filterForm.valueChanges.subscribe((value) => {
-      console.log("value changes", value);
-      this.filterFormValue = value;
-      this.params["ulbName"] = value?.ulb_name_s;
-      this.params["ulbCode"] = value?.ulb_code_s;
-      this.params["censusCode"] = value?.ulb_code_s;
-      this.params["ulbType"] = value?.ulbType_s;
-      this.params["UA"] = value?.ua_name_s;
-      this.params["status"] = value?.status_s;
-      this.params["filled1"] = value?.filled_1;
-      this.params["populationType"] = value?.population_type_s;
-      if(this.userData?.role !== 'STATE'){
-        this.params["stateCode"] = value?.state_name_s;
-      }
-      this.params["filled2"] = value?.filled_2 ? value?.filled_2 : null;
-      // this.params["stateId"] = value?.state_name_s;
-    });
-  }
   updatedTableData() {
     this.commonService.reviewStatus.subscribe((result) => {
       console.log("review Status ===>", result);
       if (result) {
         this.callAPI();
+        this.selectedId = [];
         return;
       }
     });
   }
   callAPI() {
+    this.isLoader = true;
     this.params.formId = this.formId;
     this.commonService.getReviewForms(this.params).subscribe(
       (res) => {
+        this.isLoader = false;
         this.title = res["title"];
         this.data = res["data"];
         this.total = res["total"];
@@ -164,14 +169,32 @@ export class TableComponent implements OnInit, OnChanges {
             ? Object.values(res["populationType"])
             : null;
         console.log("jjjjjjjj", this.data);
+        sessionStorage.removeItem('skipValue');
+        sessionStorage.removeItem('params');
+
         // this.dataSource = new MatTableDataSource(this.data);
       },
       (err) => {
-        alert(err.message);
+        swal('Error', `${err.message}`, 'error');
+        this.isLoader = false;
       }
     );
   }
-  search(){
+  search() {
+    console.log("value changes", this.filterForm?.value);
+    this.filterFormValue = this.filterForm?.value;
+    this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+    this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+    this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+    this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+    this.params["UA"] = this.filterForm?.value?.ua_name_s;
+    this.params["status"] = this.filterForm?.value?.status_s;
+    this.params["filled1"] = this.filterForm?.value?.filled_1;
+    this.params["populationType"] = this.filterForm?.value?.population_type_s;
+    if (this.userData?.role !== "STATE") {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+    }
+    this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
     this.callAPI();
   }
   isChecked(element: any) {
@@ -251,8 +274,8 @@ export class TableComponent implements OnInit, OnChanges {
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
-      res.data.forEach((state) => {
-        this.statesByID[state._id] = state;
+      res.data?.forEach((state) => {
+      //  this.statesByID[state?._id] = state;
       });
     });
   }
@@ -271,6 +294,7 @@ export class TableComponent implements OnInit, OnChanges {
     const dialogdata = {
       selectedId: this.selectedId,
       type: type,
+      formId: this.formId,
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -280,15 +304,16 @@ export class TableComponent implements OnInit, OnChanges {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('result', result);
-
+      console.log("result", result);
     });
   }
 
   download() {
+    let csvParams: any = { ...this.params }
+    delete csvParams.limit;
+    delete csvParams.skip;
     const params = {
-      design_year: this.getDesignYear(),
-      formId: this.formId,
+      ...csvParams,
       token: this.getToken(),
     };
     const endPoint = "review";
@@ -307,9 +332,40 @@ export class TableComponent implements OnInit, OnChanges {
     console.log("data", data);
     localStorage.setItem("ulb_id", data?.ulbId);
     this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
-    sessionStorage.setItem("stateName", data.state);
+    //this.commonService.setFormStatus2223.next(true);
+    sessionStorage.setItem("stateName", data.stateName);
     sessionStorage.setItem("ulbName", data.ulbName);
-    // this.router.navigateByUrl(`${this.formRouterLink}`)
+    sessionStorage.setItem("canTakeAction", data?.cantakeAction);
+    sessionStorage.setItem("path1", 'Review Grant');
+    sessionStorage.setItem("form_id", this.formId);
+    sessionStorage.setItem("form_name", this.formName);
+    let skipValue: any = this.listFetchOption.skip
+    sessionStorage.setItem("skipValue", skipValue);
+    sessionStorage.setItem("params", JSON.stringify(this.params));
+
+  }
+  viewStateForm(data) {
+    console.log("data", data);
+    localStorage.setItem("state_id", data?.state);
+    this.getStateBar(data?.state, "STATE", "");
+  //  this.commonService.setStateFormStatus2223.next(true);
+    sessionStorage.setItem("stateName", data?.stateName);
+    // sessionStorage.setItem("stateFormId", this.formId);
+    sessionStorage.setItem("path2", 'Review State Form');
+    sessionStorage.setItem("Stateform_id", this.formId);
+    sessionStorage.setItem("canTakeAction", data?.cantakeAction);
+    let skipValue: any = this.listFetchOption.skip
+    sessionStorage.setItem("skipValue", skipValue);
+    sessionStorage.setItem("params", JSON.stringify(this.params));
+  }
+  getStateBar(id, role, isUA) {
+
+    this.commonService.setStateFormStatus2223.next(true);
+    this.commonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+      this.commonService.setStateRouter.next(true);
+    });
   }
   getULBSideBar(ulbId, role, isUA) {
     if (isUA == "Yes") {
@@ -317,17 +373,39 @@ export class TableComponent implements OnInit, OnChanges {
     } else {
       isUA = false;
     }
+    this.commonService.setFormStatus2223.next(true);
     this.commonService.getLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
       console.log("left responces..", res);
       localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+      this.commonService.setULBRouter.next(true);
       localStorage.setItem("overViewCard", JSON.stringify(res?.card));
       //  this.leftMenu = res;
     });
   }
-  resetFilter(){
-    this.filterForm.reset();
+  resetFilter() {
+    this.setParams();
     this.callAPI();
   }
+  dropdownChanges() {
+    this.stateServices.dpReviewChanges.subscribe((res) => {
+      console.log("table value changes....", res);
+      this.selectedId = [];
+      // this.params["skip"] = 0;
+      this.tableDefaultOptions.currentPage = 1;
+      this.setParams();
+    });
+  }
+  setParams() {
+    this.params = {
+      design_year: "606aafb14dff55e6c075d3ae",
+      formId: this.formId,
+
+    };
+    this.params["limit"] = 10;
+    this.params["skip"] = 0;
+    this.filterForm.reset();
+  }
+
 }
 
 // export interface UserData {

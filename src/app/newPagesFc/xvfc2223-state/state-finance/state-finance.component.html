@@ -14,7 +14,7 @@
             <div class="row mt-3 mb-3 question">
                 <div class="col-9">
                     <span class="fontStyle">
-                        (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25? 
+                        (A) Has your state constituted a State Finance Commission (applicable for States where SFCs are not constituted or their award period has lapsed) in such a way so as to have the recommendations available for laying in the State Legislature on or before 2024, for the year 2024-25?
                         <sup class="text-danger">*</sup>
                     </span>
                 </div>
@@ -24,25 +24,25 @@
                             class="customLabel form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'Yes'),'fadedClass': (f?.constitutedSfc?.value == 'Yes' && isDisabled) }">
                             <input (change)="onChange($event.target.value)" type="radio" value="Yes" formControlName="constitutedSfc" [ngClass]="{ 'is-invalid': submitted && f.constitutedSfc.errors }">
                             <span>Yes</span>
-                        </label>
-                        <label class="customLabel ms-3 form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'No'),'fadedClass': (f?.constitutedSfc?.value == 'No' && isDisabled) }">
+                    </label>
+                    <label class="customLabel ms-3 form-control" [ngClass]="{'constitutedValue': (f?.constitutedSfc?.value == 'No'),'fadedClass': (f?.constitutedSfc?.value == 'No' && isDisabled) }">
                             <input (change)="onChange($event.target.value)" type="radio" value="No" formControlName="constitutedSfc" [ngClass]="{ 'is-invalid': submitted && f.constitutedSfc.errors }">
                             <span>No</span>
                         </label>
-                        
+
                     </span>
                     <div *ngIf="submitted && f.constitutedSfc.errors" class="text-danger"><br>
                         <div *ngIf="f.constitutedSfc.errors.required">Please select any option.</div>
                     </div>
                 </div>
             </div>
-             <div *ngIf="f?.constitutedSfc?.value == 'Yes'">
+            <div *ngIf="f?.constitutedSfc?.value == 'Yes'">
                 <div class="row mt-3 mb-3 question">
                     <div class="col-9">
                         <span class="fontStyle">
                             (B) State Act/GO/Notification<sup class="text-danger">*</sup>
                         </span>
-                        
+
                     </div>
                     <div class="col-3 image-upload">
                         <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
@@ -53,13 +53,12 @@
                             </a>
                             <p class="errorMessege">{{errorMessegeStateAct}}</p>
                         </label>
-                        <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }"
-                            (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" /> 
-                            <div>
-                                <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
-                                    <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
-                                </div>
-                            </div>            
+                        <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        <div>
+                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" *ngIf="showStateAct">
@@ -67,9 +66,7 @@
                         {{stateActFileName}}
                     </div>
                     <div class="col-2 progressBar" *ngIf="stateActProgress">
-                        <div class="progress-bar" *ngIf="stateActProgress" role="progressbar"
-                            attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100"
-                            [ngStyle]="{ width: stateActProgress + '%' }">
+                        <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
                             {{ stateActProgress }}%
                         </div>
                     </div>
@@ -84,8 +81,8 @@
                         </span>
                     </div>
                 </div>
-             </div>
-            
+            </div>
+
             <div class="row mb-4 question" *ngIf="f?.constitutedSfc?.value == 'No'">
                 <div class="col-12">
                     <span class="fontStyle">
@@ -104,15 +101,19 @@
                     <div *ngIf="submitted && f.actPage.errors" class="text-danger">
                         <div *ngIf="f.actPage.errors.required">messege error here.</div>
                     </div>
-                    
+
                 </div> -->
             </div>
         </div>
-        <!-- <div class="row">
+        <!-- action related work -->
+        <div class="row">
             <div class="col-sm-12">
-                <app-common-action (newItemEvent)="outputData($event)" *ngIf="commonActionCondition"></app-common-action>
+                <div class="col-sm-12">
+                    <app-common-action [actionRes]="actionRes" [formData]="actionFormData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError">
+                    </app-common-action>
+                </div>
             </div>
-        </div> -->
+        </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
                 <button type="button" class="btn btn-c-back" routerLink="../property-tax">
@@ -121,12 +122,16 @@
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
+                        <button type="button" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="onDraft()">Save as Draft</button>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
-                        <!-- [disabled]="isDisabled" --> 
+                        <button type="submit" class="btn btnDraft" *ngIf="userData?.role == 'STATE'" [disabled]="isDisabled" (click)="alertFormFinalSubmit()">Submit</button>
+                        <!-- [disabled]="isDisabled" -->
                         <!-- use this for disable button -->
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="userData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <button type="button" class="btn btn-c-next" routerLink="../grant-allocation">Next Form

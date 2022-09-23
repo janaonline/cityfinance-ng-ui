@@ -9,9 +9,13 @@ import { BehaviorSubject, Subject } from "rxjs";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
-  setFormStatus2223 = new Subject<any>();
+  setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setULBRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setStateRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+
   getLeftMenu(ulbId, role, isUA) {
     return this.http.get(
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
@@ -93,10 +97,10 @@ export class NewCommonService {
   }
 
   postTableApproveRejectData(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
   }
   getTableApproveRejectData(body) {
-    return this.http.post(`${environment.api.url}common-action`, body);
+    return this.http.patch(`${environment.api.url}common-action`, body);
   }
 
   get28SlbsData(ulbId) {
@@ -113,7 +117,14 @@ export class NewCommonService {
     return this.http.patch(`${environment.api.url}common-action`, body);
   }
 
+  postPropertyTaxUlb(body) {
+    return this.http.post(`${environment.api.url}propTaxOp`, body);
+  }
 
+  getPropertyTaxUlbData(param) {
+    return this.http.get(
+      `${environment.api.url}propTaxOp?ulb=${param.ulb}&design_year=${param.design_year}`
+   ) }
   //property tax open form
   getPropertyTaxOpenData(params){
     return this.http.get(
@@ -131,5 +142,7 @@ export class NewCommonService {
       `${environment.api.url}propTaxOpDropDown`
     );
   }
-  
+  postActionDataAA(body) {
+    return this.http.post(`${environment.api.url}annual-accounts/action`, body);
+  }
 }

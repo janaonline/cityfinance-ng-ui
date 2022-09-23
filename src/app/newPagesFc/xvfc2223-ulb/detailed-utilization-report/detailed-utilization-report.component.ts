@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -21,7 +21,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./detailed-utilization-report.component.html",
   styleUrls: ["./detailed-utilization-report.component.scss"],
 })
-export class DetailedUtilizationReportComponent implements OnInit {
+export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   constructor(
     private newCommonService: NewCommonService,
     private fb: FormBuilder,
@@ -254,6 +254,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
   utiData;
+  canTakeAction = false;
   getUtiReport() {
     this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
@@ -272,15 +273,31 @@ export class DetailedUtilizationReportComponent implements OnInit {
         } else {
           this.isDisabled = false;
         }
-        if (res?.data?.status !== "PENDING") {
+
+        if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
+          this.isDisabled = false;
+          this.utilizationReportForm.enable();
+        }
+
+        sessionStorage.setItem("changeInUti", "false");
+        if (this.userData?.role !== "ULB") {
+          let action = 'false';
+          if (this.utiData?.canTakeAction) {
+            action = 'true';
+            this.canTakeAction = true;
+          } else {
+            action = 'false';
+          }
+          sessionStorage.setItem("canTakeAction", action);
+        }
+        if (res?.data?.status == null || res?.data?.status == undefined) {
+          this.actionBtnDis = true;
+        } else if (this.userData?.role !== "ULB" && this.canTakeAction) {
+          this.actionBtnDis = false;
+        } else {
           this.actionBtnDis = true;
         }
-        if (res?.data?.status === "REJECTED" && this.userData?.role == "ULB") {
-          this.isDisabled = true;
-         this.utilizationReportForm.enable();
 
-        }
-        sessionStorage.setItem("changeInUti", "false");
       },
       (error) => {
         console.log("error", error);
@@ -641,8 +658,9 @@ export class DetailedUtilizationReportComponent implements OnInit {
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
     ].patchValue(Number(this.closingBal.toFixed(2)));
+    this.utilizationReportForm.value.status = 'PENDING';
     this.postBody = {
-      status: "",
+      // status: "PENDING",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -661,6 +679,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
           console.log("post uti mess", res);
           sessionStorage.setItem("changeInUti", "false");
           this.isSubmitted = false;
+          this.utiData['status'] = "PENDING";
+          this.utiData['isDraft'] = true;
           this.newCommonService.setFormStatus2223.next(true);
         },
         (error) => {
@@ -752,6 +772,8 @@ export class DetailedUtilizationReportComponent implements OnInit {
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
         this.newCommonService.setFormStatus2223.next(true);
+        this.utiData['status'] = "PENDING";
+        this.utiData['isDraft'] = false;
       },
       (error) => {
         console.log("error", error);
@@ -850,7 +872,11 @@ export class DetailedUtilizationReportComponent implements OnInit {
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
   }
+  actionError = false;
   saveAction() {
     let actionBody = {
       formId: this.formId,
@@ -865,8 +891,15 @@ export class DetailedUtilizationReportComponent implements OnInit {
     };
     if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
        swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
        return;
     }
+    else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
     swal(
       "Confirmation !",
       `Are you sure you want to submit this action? Once submitted,
@@ -900,11 +933,25 @@ export class DetailedUtilizationReportComponent implements OnInit {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
+
+        this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },
       (error) => {
         swal("Error", error?.message ? error?.message : "Error", "error");
       }
     );
+  }
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

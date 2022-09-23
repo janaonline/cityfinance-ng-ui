@@ -7,6 +7,7 @@ import { AuthService } from "src/app/auth/auth.service";
 import { MODULES_NAME } from "src/app/util/access/modules";
 import { ACTIONS } from "src/app/util/access/actions";
 import { AccessChecker } from '../../../util/access/accessChecker';
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
@@ -26,7 +27,8 @@ export class NHomeHeaderComponent implements OnInit {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
-  constructor(public _router: Router, private authService: AuthService) {
+  constructor(public _router: Router, private authService: AuthService,
+    private newCommonService: NewCommonService) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
       this.isLoggedIn = this.authService.loggedIn();
@@ -129,6 +131,7 @@ export class NHomeHeaderComponent implements OnInit {
     if (this.btnName == "Logout") {
       this.btnName = "Login for 15th FC Grants";
       this.authService.loginLogoutCheck.next(false);
+      // this.newCommonService.setFormStatus2223.next(false);
       localStorage.clear();
       this.removeSessionItem();
       this._router.navigateByUrl("/home");

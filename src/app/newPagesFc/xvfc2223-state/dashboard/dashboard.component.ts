@@ -1,8 +1,12 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { link } from 'fs';
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { State2223Service } from '../state-services/state2223.service';
-
+import { SweetAlert } from "sweetalert/typings/core";
+import { MatTooltip } from '@angular/material/tooltip';
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,6 +28,10 @@ export class DashboardComponent implements OnInit {
   millionPlusUAs = 0;
   UlbInMillionPlusUA = 0;
   installmentType: string = '1';
+  response:any;
+  disableBtn: boolean = false;
+  cardApiData;
+
   cardData: any = {
     title: 'card1',
     cardData: [{
@@ -61,11 +69,11 @@ export class DashboardComponent implements OnInit {
       approvedColor: '#E67E15',
       submittedColor: '#E67E1566',
       formData: [{
-        formName: 'Annual Account Upload',
+        formName: 'Annual Account',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 10,
-        approvedValue: 10,
+        submittedValue: 25,
+        approvedValue: 0,
         icon: '../../../../assets/dashboard-state/file_upload_black_24dp (2).svg',
         link: '',
         status: 'In Progress',
@@ -76,8 +84,8 @@ export class DashboardComponent implements OnInit {
         formName: 'PFMS Linkage',
         approvedColor: '#E67E15',
         submittedColor: '#E67E1566',
-        submittedValue: 0,
-        approvedValue: 0,
+        submittedValue: 60,
+        approvedValue: 70,
         icon: '../../../../assets/dashboard-state/link_black_24dp.svg',
         link: '',
         status: 'Not Started',
@@ -182,13 +190,14 @@ export class DashboardComponent implements OnInit {
   navList = [
     {title: 'NMPC - UnTied', viewMode: 'tab1', formType: 'nmpc_untied', installment : '1'},
     {title: 'NMPC - Tied', viewMode: 'tab2', formType: 'nmpc_tied', installment : '2'},
-    {title: 'MPC', viewMode: 'tab3', formType: 'mpc'}
+    {title: 'MPC', viewMode: 'tab3', formType: 'mpc_tied'}
   ]
-  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService) {
+  constructor(private state_service : State2223Service,private stateDashboardService : StateDashboardService, private router: Router) {
     this.getStateAndDesignYear();
     this.formdata = this.formDataFirstInstallment;
     this.getCardData()
   }
+
    params:any = {
     stateId: '',
     design_year: '',
@@ -247,13 +256,24 @@ export class DashboardComponent implements OnInit {
     };
     this.getFormData();
   }
-
+  
   getFormData(){  
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
-      console.log(res);
+      console.log('formdatadadatatatatta', res);
+      this.response = res
+    for (const item of this.response?.data) {
+      for (const form of item?.formData) {
+        if ((form?.formName == 'Annual Accounts') && (form?.approvedValue >= 25) && (form?.submittedValue >= 25)) {
+          this.disableBtn = true;
+        } else if ((form?.approvedValue == 100) && (form?.submittedValue == 100)) {
+          this.disableBtn = true;
+        }
+      }
+    }
+      console.log('responsesaasasa', this.response)
     })
   }
-  cardApiData
+  
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res :any) => {
@@ -271,5 +291,27 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  navigateToPage(selectedRow: any) {
+    console.log('navigateToPage', selectedRow);
+    if (selectedRow && selectedRow.link) {
+      let splitLink = selectedRow.link.split('/');
+      console.log('splitLink', splitLink)
+      if (splitLink?.length == 3) {
+        // this.router.navigate([`/${splitLink[1]}`],{ queryParams: { formId: splitLink[2]}});
+        this.router.navigate(['stateform2223/review-ulb-form'],{ queryParams: { formId: splitLink[2]}});
+      }else if (splitLink?.length == 2) {
+        this.router.navigate(['stateform2223/'+ splitLink[1]]);
+      }
+       else {
+        swal("errer", "error", "error");
+      }
+    } else {
+      swal("error", "error", "error");
+    }
+  }
+  claimGrant(){
+    swal("Saved", "Claimed Grant !!!!.", "success");
   }
 }

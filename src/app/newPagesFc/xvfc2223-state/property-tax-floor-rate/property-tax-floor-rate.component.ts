@@ -57,14 +57,25 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
+  constructor(public _router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private ptService: NewCommonService,
+    private dataEntryService: DataEntryService
+  ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
+    this.setRouter();
   }
+  sideMenuItem;
   userData;
   design_year;
   stateId;
@@ -116,9 +127,17 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.getPtData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
-      this.previewFormData = res
+      this.previewFormData = res;
+      this.actionFormData = res?.data;
       this.patchFunction(this.previewFormData);
-    })
+      this.checkActionDisable(res?.data);
+    },
+      (error) => {
+        if (this.userData?.role !== "STATE") {
+          this.isDisabled = true;
+        }
+      }
+    )
   }
 
   patchFunction(data){
@@ -225,6 +244,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.getPtoData()
         sessionStorage.setItem("changeInPropertyTax", "false");
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
@@ -252,6 +272,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         this.clickedSave = false;
         this.getPtoData()
         swal("Saved", "Data saved as draft successfully.", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -284,7 +305,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
- 
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
@@ -464,7 +485,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             this[progressType] = 100;
             if (progressType == 'minimumFloorProgress') {
               this.minimumFloorUrl = fileAlias;
-              this.minimumUrl = this.minimumFloorUrl 
+              this.minimumUrl = this.minimumFloorUrl
               this.propertyForm.get('floorRate').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -487,7 +508,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
             }
             if (progressType == 'rulesByLawsProgress') {
               this.rulesLawsUrl = fileAlias;
-              this.ruleUrl = this.rulesLawsUrl 
+              this.ruleUrl = this.rulesLawsUrl
               this.propertyForm.get('comManual').patchValue({
                 url: fileAlias,
                 name: file.name
@@ -511,14 +532,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInPropertyTax");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInPropertyTax", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -566,9 +587,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    
+
       sessionStorage.setItem("changeInPropertyTax", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
@@ -578,45 +599,121 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   alertClose() {
     this.stay();
   }
-
-  omit_special_char(event) {   
-    var k;  
+  omit_special_char(event) {
+    var k;
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
   }
 
-  // numberLimitV(e, input) {
-  //   // console.log("sss", e, input);
-  //   const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
 
-  //   if (functionalKeys.indexOf(e.key) !== -1) {
-  //     return;
-  //   }
+  // action related
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  formId = ''
+  actionFormData;
+  actionError = false;
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      state: [this.stateId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
+      return;
+    } else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
 
-  //   const keyValue = +e.key;
-  //   if (isNaN(keyValue)) {
-  //     e.preventDefault();
-  //     return;
-  //   }
+  }
+  finalActionSave(actionBody) {
+    this.ptService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        this.ptService.setStateFormStatus2223.next(true);
+        swal("Saved", "Action saved successfully.", "success");
 
-  //   const hasSelection =
-  //     input?.selectionStart !== input?.selectionEnd &&
-  //     input?.selectionStart !== null;
-  //   let newValue;
-  //   if (hasSelection) {
-  //     newValue = this.replaceSelection(input, e.key);
-  //   } else {
-  //     newValue = input?.value + keyValue?.toString();
-  //   }
-
-  //   if (+newValue > 1000 || newValue.length > 3) {
-  //     e.preventDefault();
-  //   }
-  // }
-  // private replaceSelection(input, key) {
-  //   const inputValue = input?.value;
-  //   const start = input?.selectionStart;
-  //   const end = input?.selectionEnd || input?.selectionStart;
-  //   return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
-  // }
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.userData?.role == "STATE") {
+      this.isDisabled = false;
+    }
+    if (this.userData?.role !== "STATE") {
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        this.canTakeAction = true;
+      } else {
+        this.canTakeAction = false;
+      }
+      // sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.userData?.role !== "STATE" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.name == "Property tax floor rate Notification") {
+          // this.nextRouter = element?.nextUrl;
+          // this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+      });
+    }
+  }
 }

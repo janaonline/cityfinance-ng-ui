@@ -23,8 +23,10 @@ const swal: SweetAlert = require("sweetalert");
 import {
   services,
   targets,
-  achieved
+  achieved,
+  score
 } from "src/app/users/data-upload/components/configs/slb2223";
+import { Slbs2223PreviewComponent } from "./slbs2223-preview/slbs2223-preview.component";
 @Component({
   selector: 'app-slbs2223',
   templateUrl: './slbs2223.component.html',
@@ -40,6 +42,7 @@ export class Slbs2223Component implements OnInit {
   USER_TYPE = USER_TYPE;
   targets = targets;
   achieved = achieved;
+  score = score
 
 
   services: {
@@ -51,6 +54,7 @@ export class Slbs2223Component implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
+ 
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -80,35 +84,20 @@ export class Slbs2223Component implements OnInit {
               skipLocationChange: true,
             });
             console.log("inside router");
-            this.openModal(this.template);
+            // this.openModal(this.template);
           }
         }
       }
     });
   }
   protected readonly formBuilder = new FormBuilder();
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.isMillionPlusOrNot()
     this.setPreviousAndNextUrl();
-     this.getSlbData();
+    await this.getSlbData();
      this.createDataForms(this.preFilledWaterManagement)
   }
   dialogRef
-  openModal(template: TemplateRef<any>, formPreview = false) {
-    if (formPreview == true) {
-      this.showPreview();
-      return;
-    }
-    const dialogConfig = new MatDialogConfig();
-    this.dialogRef = this._matDialog.open(template, dialogConfig);
-    this.dialogRef.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          this.routerNavigate = null;
-        }
-      }
-    });
-  }
 
   setPreviousAndNextUrl(){
     for (const key in this.sideMenuItem) {
@@ -124,29 +113,6 @@ export class Slbs2223Component implements OnInit {
   }
   isCompleted
   previewData
-  showPreview() {
-   
-
-    console.log("isCompleted", this.isCompleted);
-    this.previewData = {
-      ...this.preFilledWaterManagement,
-      ulb: this.loggedInUserDetails.ulb,
-      ulbName: this.preFilledWaterManagement
-        ? this.preFilledWaterManagement.ulbName
-        : null,
-      waterManagement: this.waterWasteManagementForm.getRawValue(),
-      isCompleted: this.isCompleted,
-    };
-    console.log(this.previewData);
-    this._matDialog.open(this.previewPopup, {
-      width: "85vw",
-      maxHeight: "95vh",
-      height: "fit-content",
-      panelClass: "XVfc-preview",
-
-      disableClose: false,
-    });
-  }
   preFilledWaterManagement
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   clickAnswer
@@ -162,6 +128,8 @@ export class Slbs2223Component implements OnInit {
     return new Promise((resolve, reject) => {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
+      params += "&from=2223"
+      params += `&ulb=${this.ulbId}`
       this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
 
         this.preFilledWaterManagement =
@@ -205,7 +173,7 @@ export class Slbs2223Component implements OnInit {
         console.log("asdfghj", actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res));
         console.log("slbsResppppppppp", res);
-
+console.log("important---> ", this.preFilledWaterManagement)
         resolve(res);
       });
     });
@@ -213,6 +181,8 @@ export class Slbs2223Component implements OnInit {
   }
   createDataForms(data?: IFinancialData) {
     this.waterWasteManagementForm = this.createWasteWaterUploadForm(data);
+    this.waterWasteManagementForm.disable()
+    console.log("check here--------> ", this.waterWasteManagementForm)
   }
   answer(ans) {
     this.clickAnswer = ans
@@ -319,7 +289,7 @@ export class Slbs2223Component implements OnInit {
     if (!this.isCompleted && value.saveData) {
       console.log("2");
       this.clickedSave = true;
-      this.openModal(this.template1);
+      // this.openModal(this.template1);
       return;
     }
     if (value.saveData) {
@@ -750,5 +720,25 @@ export class Slbs2223Component implements OnInit {
       }
     }
     //  console.log(this.invalidWhole)
+  }
+  preview() {
+    this.previewData = {
+      ...this.preFilledWaterManagement,
+      ulb: this.loggedInUserDetails.ulb,
+      ulbName: this.preFilledWaterManagement
+        ? this.preFilledWaterManagement.ulbName
+        : null,
+      waterManagement: this.waterWasteManagementForm.getRawValue(),
+      isCompleted: this.isCompleted,
+    };
+    console.log(this.previewData)
+    const dialogRef = this._matDialog.open(Slbs2223PreviewComponent, {
+      data: this.previewData,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

@@ -20,6 +20,14 @@ import { GtcPreviewComponent } from './gtc-form/gtc-preview/gtc-preview.componen
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.component';
+import { WaterSupplyComponent } from './water-supply/water-supply.component';
+import { WaterSupplyPreviewComponent } from './water-supply/water-supply-preview/water-supply-preview.component';
+import { StateformsModule } from "src/app/pages/stateforms/stateforms.module";
+import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
+import { EditUlbProfileComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-ulb-profile.component";
+import { EditViewComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-view/edit-view.component";
+import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
+import { WaterRejenuvations2223PreviewComponent } from './water-rejenuvations2223/water-rejenuvations2223-preview/water-rejenuvations2223-preview.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +41,12 @@ import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.com
     GtcPreviewComponent,
     GrantAllocationComponent,
     DashboardComponent,
-    GaPreviewComponent
+    GaPreviewComponent,
+    WaterSupplyComponent,
+    WaterSupplyPreviewComponent,
+    EditUlbComponent,
+    WaterRejenuvations2223Component,
+    WaterRejenuvations2223PreviewComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +59,8 @@ import { GaPreviewComponent } from './grant-allocation/ga-preview/ga-preview.com
     ReactiveFormsModule,
     FormsModule,
     AccordionModule.forRoot(),
-    // SharedModule,
+    SharedModule,
+    StateformsModule,
   ],
 })
 export class Xvfc2223StateModule {}

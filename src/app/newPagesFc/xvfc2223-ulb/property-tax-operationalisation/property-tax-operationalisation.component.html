@@ -1,1 +1,380 @@
-<p>property-tax-operationalisation works!</p>
+<div class="container">
+    <form [formGroup]="propertyTaxForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    Property Tax Operationalisation
+                </h4>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row mt-3 mb-1 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (A) Are you collecting Property Taxes in 2022-23?<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-5">
+                    <span class="d-flex" [ngClass]="{'customDisable': isDisabled , 'is-invalid': submitted && f?.toCollect?.controls?.errors, 'opacity': isDisabled}">
+                        <label
+                            class="form-control radioButton" [ngClass]="{'activeField' : f?.toCollect?.value =='Yes'}">
+                            <input type="radio" value="Yes" formControlName="toCollect" (change)="updateFormvalue('collectPropertyYes')">
+                            <span>Yes</span>
+                    </label>
+                    <label class="ms-3 form-control radioButton" [ngClass]="{'activeField' : f?.toCollect?.value =='No'}">
+                            <input type="radio" value="No" formControlName="toCollect" (change)="updateFormvalue('collectPropertyNo')">
+                            <span>No</span>
+                        </label>
+
+                    </span>
+                    <div *ngIf="submitted && f.toCollect.errors" class="text-danger">
+                        <div *ngIf="f.toCollect.errors.required">Please select any option.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (B) Has the Property Tax collection process been operationalized as per the state notification?<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Operationalization may include any or all of the following steps:
+                    1) Notifying the property tax floor rate as per state notification, in the governing council/official gazette
+                    2) Publishing the revised Property Tax rate card as per state notification, in the public domain
+                    3) Updating the existing systems and processes, including training ULB revenue officials, running public awareness campaigns, updating IT systems, etc., to ensure collection under the new property tax rates/regime" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5">
+                    <span class="d-flex" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.operationalize?.controls?.errors , 'opacity': isDisabled }">
+                        <label
+                            class="form-control radioButton" [ngClass]="{'activeField' : f?.operationalize?.value =='Yes'}">
+                            <input type="radio" value="Yes" formControlName="operationalize" (change)="updateFormvalue('operationalizeYes')">
+                            <span>Yes</span>
+                    </label>
+                    <label class="ms-3 form-control radioButton" [ngClass]="{'activeField' : f?.operationalize?.value =='No'}">
+                            <input type="radio" value="No" formControlName="operationalize" (change)="updateFormvalue('operationalizeNo')">
+                            <span>No</span>
+                        </label>
+
+                    </span>
+                    <div *ngIf="submitted && f.operationalize.errors" class="text-danger">
+                        <div *ngIf="f.operationalize.errors.required">Please select any option.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.operationalize?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (C) Proof of operationalization of Property Tax Collection Process as per state notification?
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Upload copy of council resolution/gazette notification or any other proof" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="ipt" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                    </label>
+                    <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.proof?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.proof?.controls?.name?.errors && (!errorMessegeStateAct)" class="customDate text-danger">
+                            <div *ngIf="f?.proof?.controls?.name?.errors.required">File is required.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showStateAct">
+                <div class="col-7 filePadding mb-3">
+                    {{stateActFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="stateActProgress">
+                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
+                        {{ stateActProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ stateActFileUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (D) Property Tax Valuation Method?<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-5">
+                    <mat-select class="tooltipDropdown" (selectionChange)="addValidator($event.value)" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.method?.controls?.errors }" placeholder="Select any method" formControlName="method">
+                        <mat-option *ngFor="let item of dropdownItems" [value]="item.name" [matTooltip]="item.value">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                    <div *ngIf="submitted && f.method.errors" class="text-danger">
+                        <div *ngIf="f.method.errors.required">Please select any method.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes' && f?.method?.value == 'Other'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (E) Please specify, Others?<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-5">
+                    <input [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.other?.controls?.errors }" type="text" class="form-control customWidth" placeholder="Type here" formControlName="other">
+                    <div *ngIf="submitted && f.other.errors" class="text-danger">
+                        <div *ngIf="f.other.errors.required">Please specify other.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (F) Upload a copy of Property Tax Rate Card?<sup class="text-danger">*</sup>
+                    </span>
+
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="ipt2" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input #ipt2 id="ipt2" name="cin1" type="file" [ngClass]="{ 'is-invalid': submitted && f?.rateCard?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.rateCard?.controls?.name?.errors" class="customDate text-danger">
+                            <div *ngIf="f?.rateCard?.controls?.name?.errors.required">File is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showMinimumFloor">
+                <div class="col-7 filePadding mb-3">
+                    {{minimumFloorFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="minimumFloorProgress">
+                    <div class="progress-bar" *ngIf="minimumFloorProgress" role="progressbar" attr.aria-valuenow="{{ minimumFloorProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: minimumFloorProgress + '%' }">
+                        {{ minimumFloorProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ minimumUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('minimumFloor')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mb-1 mt-1 question customMargin" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (G) Property Tax Collection for 2019-20?<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+
+                </div>
+                <div class="col-5">
+                    <input (change)="inputPrompt($event.target.value,'collection2019_20')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2019_20?.controls?.errors }" formControlName='collection2019_20' type="text" class="form-control customWidth"
+                        placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                    <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
+                        <div *ngIf="f.collection2019_20.errors.required">Number is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (H) Property Tax Collection for 2020-21?<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+
+                </div>
+                <div class="col-5">
+                    <input (change)="inputPrompt($event.target.value,'collection2020_21')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2020_21?.controls?.errors }" formControlName='collection2020_21' type="text" class="form-control customWidth"
+                        placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                    <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
+                        <div *ngIf="f.collection2020_21.errors.required">Number is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (I) Property Tax Collection for 2021-22?<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5">
+                    <input (change)="inputPrompt($event.target.value,'collection2021_22')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2021_22?.controls?.errors }" formControlName='collection2021_22' type="text" class="form-control customWidth"
+                        placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                    <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
+                        <div *ngIf="f.collection2021_22.errors.required">Number is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 mb-1 question" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (J) Property Tax Collection Target for 2022-23?
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5">
+                    <input (change)="inputPrompt($event.target.value,'target2022_23')" [ngClass]="{'customDisable': isDisabled}" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                        (keydown)="numberLimitV($event, inputText)" #inputText>
+                </div>
+            </div>
+            <div class="row mt-4 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}" *ngIf="f?.toCollect?.value == 'Yes'">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (K) Upload proof for property tax collection for 2021-22?<sup class="text-danger">*</sup>
+                    </span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please upload a copy of DCB" matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="ipt3" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessegeOther}}</p>
+                    </label>
+                    <input #ipt3 id="ipt3" name="cin2" type="file" [ngClass]="{ 'is-invalid': submitted && f?.ptCollection?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.ptCollection?.controls?.name?.errors" class="customDate text-danger">
+                            <div *ngIf="f?.ptCollection?.controls?.name?.errors.required">File is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showRulesLaws">
+                <div class="col-7 filePadding mb-3">
+                    {{rulesLawsFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="rulesByLawsProgress">
+                    <div class="progress-bar" *ngIf="rulesByLawsProgress" role="progressbar" attr.aria-valuenow="{{ rulesByLawsProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: rulesByLawsProgress + '%' }">
+                        {{ rulesByLawsProgress }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ ruleUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('rulesByLaws')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- action components -->
+        <div class="row">
+            <div class="col-sm-12">
+
+                <app-common-action [actionRes]="actionRes" [formData]="formDataPto" [actionFor]="'ULBForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError">
+                </app-common-action>
+            </div>
+
+        </div>
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back" [routerLink]="backRouter">
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft" [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" (click)="onDraft()">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" (click)="alertFormFinalSubmit()">Submit</button>
+                        <!-- [disabled]="isDisabled" -->
+                        <!-- use this for disable button -->
+                        <span *ngIf="canTakeAction">
+                          <button class="btn btnDraft" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
+                          [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #prompt>
+    <p class="alertInfo">Are you sure you have collected 0 property tax ?</p>
+    <div class="row text-center">
+        <div class="col-6">
+            <button class="btn ms-2 m-btn" (click)="confirmInput()">Yes</button>
+        </div>
+        <div class="col-6">
+            <button class="btn ms-2 r-btn" (click)="refillInput()">No</button>
+        </div>
+    </div>
+</ng-template>

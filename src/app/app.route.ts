@@ -1,24 +1,18 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthModule } from "./auth/auth.module";
-
 import { HomeComponent } from "./auth/home/home.component";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
-
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { ProfileUpdateComponent } from "./newPagesFc/profile-update/profile-update.component";
 import { AboutIndicatorComponent } from "./shared/components/about-indicator/about-indicator.component";
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
-import { DashboardTabsComponent } from "./shared/components/dashboard-tabs/dashboard-tabs.component";
-import { FilterDataComponent } from "./shared/components/filter-data/filter-data.component";
-import { FrontPanelComponent } from "./shared/components/front-panel/front-panel.component";
-import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-with-filter.component";
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
-import { SharedCardComponent } from "./shared/components/shared-card/shared-card.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
 export const appRouter: Routes = [
-  { path: "", redirectTo: "home", pathMatch: "full" },
+
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: "home", component: NewHomeComponent },
   // { path: "oldhome", component: HomeComponent },
   // { path: "card", component: SharedCardComponent },
@@ -26,7 +20,6 @@ export const appRouter: Routes = [
   // { path: "tab", component: DashboardTabsComponent },
   // { path: "about", component: AboutIndicatorComponent },
   // { path: "filter", component: FilterDataComponent },
-
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
@@ -203,7 +196,6 @@ export const appRouter: Routes = [
         (m) => m.Xvfc2223MohuaModule
       ),
   },
-
   {
     path: "profile-update",
     component: ProfileUpdateComponent,
@@ -218,3 +210,4 @@ export const appRouter: Routes = [
 export class AppRouter { }
 // export const AppRouter: ModuleWithProviders<RouterModule> =
 //   RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });
+

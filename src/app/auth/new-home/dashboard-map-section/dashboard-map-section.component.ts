@@ -586,14 +586,13 @@ dataAvailTooltip='';
 this.highestYear = '';
 this.highestDataAvailability = '';
       if (this.dataForVisualization?.ulbDataCount?.length > 0) {
-  this.highestYear = this.dataForVisualization.ulbDataCount[0].year
-  this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB) * 100).toFixed(0)
+        this.highestYear = this.dataForVisualization.ulbDataCount[0].year
+        this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB) * 100).toFixed(0)
       }
-
 this.dataAvailTooltip = '';
-this.dataForVisualization.ulbDataCount.forEach(element => {
+      this.dataForVisualization?.ulbDataCount?.forEach(element => {
   this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
-});
+      });
 this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.animateValues(1);

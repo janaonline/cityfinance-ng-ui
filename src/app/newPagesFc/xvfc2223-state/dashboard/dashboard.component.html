@@ -1,5 +1,5 @@
-<img style="margin-left: 25%;" src="../../../../assets/underconstruction.jpeg">
-<!-- <div class="row mt-3">
+<!-- <img style="margin-left: 25%;" src="../../../../assets/underconstruction.jpeg"> -->
+<div class="row mt-3">
     <div class="col-3">
         <div class="card">
             <div class="row">
@@ -54,8 +54,8 @@
     </div>
 </div>
 <div class="container mt-4">
-    <div class="tab-slider--nav row">
-        <ul class="nav nav-tabs">
+    <div class="tab-slider--nav row responsiveClass">
+        <ul class="nav">
             <li *ngFor="let item of navList" [ngClass]="{'active': selectedItem == item.formType}" class="col-4 text-center" rel="tab1" (click)="tabActive(item)">{{item.title}}</li>
         </ul>
     </div>
@@ -64,8 +64,8 @@
         <button class="btn ms-2" [ngClass]="{'activeSecondInstallment': secondInstallment}" (click)="installmentClick('2')">2nd Installment</button>
     </div>
     <div class="tab-slider--container mt-4">
-        <div class="tab-slider--body">    
-            <div *ngFor="let element of formdata">
+        <div class="tab-slider--body">
+            <div *ngFor="let element of response?.data">
                 <div>
                     <div class="row mt-4">
                         <div class="col-sm-6">
@@ -74,19 +74,15 @@
                         <div class="col-sm-6 text-right">
                             <div class="row justify-content-end">
                                 <div class="col-auto fontClass">
-                                    <span class="dot-submitted"
-                                        [ngStyle]="{'background-color': element?.submittedColor}"></span>
-                                    {{element?.approvedColor == '#059B05' ? 'Submitted by ULB' : 'Submitted by ULB'}}
+                                    <span class="dot-submitted" [ngStyle]="{'background-color': element?.submittedColor}"></span> {{element?.approvedColor == '#059B05' ? 'Submitted by State' : 'Submitted by ULB'}}
                                 </div>
                                 <div class="col-auto fontClass">
-                                    <span class="dot-approved"
-                                        [ngStyle]="{'background-color': element?.approvedColor}"></span>
-                                    {{element?.approvedColor == '#059B05' ? 'Approved by MoHUA' : 'Approved by State'}}
+                                    <span class="dot-approved" [ngStyle]="{'background-color': element?.approvedColor}"></span> {{element?.approvedColor == '#059B05' ? 'Approved by MoHUA' : 'Approved by State'}}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="formCard mt-3" *ngFor="let item of element['formData']">
+                    <div class="formCard mt-3" *ngFor="let item of element['formData']" (click)="navigateToPage(item)">
                         <div class="row">
                             <div class="col-6">
                                 <img src='{{item.icon}}' width="30" height="30">
@@ -96,39 +92,45 @@
                                 <span class="formName">{{item?.status}}</span>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-11">
+                        <div class="row mt-5">
+                            <div class="col-1">
+                                <p class="ms-5">0%</p>
+                            </div>
+                            <div class="col-9">
                                 <div class="progress mt-2">
-                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="submitted"
-                                        [ngStyle]="{'width':  item?.submittedValue == 0 ? '32'+'px' : item?.submittedValue+'%','background-color': item?.approvedColor}"
-                                        aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.submittedValue}}% Approved"
-                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
-                                    </div>
-                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="approved"
-                                        [ngStyle]="{'width': item?.approvedValue+'%' ,'background-color': item?.submittedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
+                                    <div class="progress-bar bg-approved" role="progressbar" aria-label="approved" [ngStyle]="{'width': item?.approvedValue <= 10 ? '4%' : item?.approvedValue+'%' ,'background-color': item?.approvedColor ,'display': item?.submittedValue == 100 ? 'none' : ''}"
                                         aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
-                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValueUpdate' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.approvedValue}}% Submitted"
-                                        aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : ''}}</span>
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} & {{element?.formHeader == 'ULB Forms' ? item?.totalApproved + ' ULB Approved' : ''}}"
+                                            aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.approvedValue ? item?.approvedValue + '%' : '0%'}}</span>
+                                    </div>
+                                    <div class="progress-bar bg-submitted" role="progressbar" aria-label="submitted" [ngStyle]="{'width':  item?.submittedValue <= 5 ? '4%' : item?.submittedValue+'%','background-color': item?.submittedColor}" aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        <span [ngStyle]="{'border': '5px solid' + ' ' + item?.submittedColor}" [ngClass]="{'noValue' : item?.submittedValue == 0}" mat-raised-button matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}} & {{element?.formHeader == 'ULB Forms' ? item?.totalSubmitted + ' ULB Submitted' : ''}}"
+                                            aria-label="tooltip" [matTooltipPosition]="'above'">{{item?.submittedValue ? item?.submittedValue + '%' : ''}}</span>
+                                    </div>
+                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltipCustom">
+                                        <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1" style="font-size:16px;color:black"></i></span></p>
+                                    </div>
+                                    <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar" role="progressbar" aria-label="cutOff" [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)'}" aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
+                                        <p class="customSpan"><img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-1">
-                                <span><i class="fa fa-bullseye" style="font-size:35px;color: #059B9A"></i></span>
-                                <span><p>100%</p></span>
+                            <div class="col-2 targetClass" *ngIf="item?.formName != 'Annual Accounts'">
+                                <p class="targetHundred">100% Target<span><br><i class="fa fa-angle-down" style="font-size:16px;color:black"></i></span></p>
+                                <p>
+                                    <img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg">100%
+                                </p>
                             </div>
                         </div>
-                        
-                    </div>             
+                    </div>
                 </div>
             </div>
-            <div class="row mt-2 ms-2">
+            <div class="row mt-3 ms-2">
                 <div class="col-12">
-                    <button class="btn btn-primary">Click here to claim grant</button>
+                    <button [disabled]="disableBtn" class="btn btn-primary" (click)="claimGrant()">Click here to claim grant</button>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
+</div>

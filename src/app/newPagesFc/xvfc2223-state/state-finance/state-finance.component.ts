@@ -43,9 +43,6 @@ export class StateFinanceComponent implements OnInit {
   dialogRef;
   stateActFileUrl;
   constitutedValue;
-  constitutedValueActive :boolean = false
-  memorandum:boolean = false
-  noteMessege:boolean = false
   commonActionCondition:boolean = false;
   // isDisabled:boolean =false
   previewFormData:any;
@@ -57,22 +54,34 @@ export class StateFinanceComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  constructor(public _router: Router,public dialog: MatDialog,private formBuilder: FormBuilder,private ptService: NewCommonService,private dataEntryService: DataEntryService) {
+  sideMenuItem;
+  constructor(
+    public _router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private ptService: NewCommonService,
+    private dataEntryService: DataEntryService
+  ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
+    this.setRouter();
    }
 
   ngOnInit(): void {
     this.clickedSave = false;
-    sessionStorage.setItem('changeInStateFinance', 'false');   
+    sessionStorage.setItem('changeInStateFinance', 'false');
     this.onload();
   }
   get f() { return this.stateFinance.controls; }
-  
+
   initializeForm(){
     this.stateFinance = this.formBuilder.group({
       constitutedSfc: [this.constitutedValue, Validators.required],
@@ -118,7 +127,7 @@ export class StateFinanceComponent implements OnInit {
     }
   }
   setValidators(formFieldName: string) {
-    this.stateFinance.controls[formFieldName].setValidators([Validators.required]);    
+    this.stateFinance.controls[formFieldName].setValidators([Validators.required]);
     this.stateFinance.controls[formFieldName].updateValueAndValidity();
   }
   getStateFinanceData(){
@@ -129,12 +138,26 @@ export class StateFinanceComponent implements OnInit {
     console.log(params)
     //call api and subscribe and patch here
     this.ptService.getStateFinance(params).subscribe((res:any)=>{
-      console.log(res)
+      console.log('responswedadadad', res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false;
-      this.previewFormData = res
+      this.previewFormData = res;
+      if(res?.data?.constitutedSfc == 'No'){
+        this.removeValidatorInBulk(this.stateFinance.get('stateNotification'));
+      }else{
+        this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
+        this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
+      }
       this.patchFunction(this.previewFormData);
-    })
+      this.actionFormData = res?.data;
+      this.checkActionDisable(res?.data);
+    },
+      (error) => {
+        if (this.userData?.role !== "STATE") {
+          this.isDisabled = true;
+        }
+      }
+    )
   }
 
   patchFunction(data){
@@ -216,7 +239,7 @@ export class StateFinanceComponent implements OnInit {
     };
     console.log(body)
     console.log('submitted',this.stateFinance.value)
-    this.submitted =true; 
+    this.submitted = true;
     this.ptService.submitStateFinance(body).subscribe((res :any)=>{
       console.log(res)
       this.clickedSave = false;
@@ -228,6 +251,7 @@ export class StateFinanceComponent implements OnInit {
         console.log(res)
         this.getStateFinanceData()
         swal("Saved", "Data saved successfully", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         swal("Error", res?.message ? res?.message : "Error", "error");
       }
@@ -260,6 +284,7 @@ export class StateFinanceComponent implements OnInit {
         this.clickedSave = false;
         this.getStateFinanceData()
         swal("Saved", "Data saved as draft successfully.", "success");
+        this.ptService.setStateFormStatus2223.next(true);
       } else {
         this.clickedSave = false;
         swal("Error", res?.message ? res?.message : "Error", "error");
@@ -270,7 +295,7 @@ export class StateFinanceComponent implements OnInit {
       swal("Error", error ? error : "Error", "error");
     })
   }
-  
+
   preview(){
     console.log('valuessssssssss',this.stateFinance.value)
     let previewData = {
@@ -292,10 +317,10 @@ export class StateFinanceComponent implements OnInit {
     sessionStorage.setItem("changeInPto", "true")
     this.change = "true";
   }
- 
+
   fileChangeEvent(event, progessType) {
     console.log(progessType)
-    
+
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt.nativeElement.value = "";
@@ -308,9 +333,9 @@ export class StateFinanceComponent implements OnInit {
         return;
       }
     }
-   
+
       const fileName = event.target.files[0].name;
-      
+
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
@@ -318,7 +343,7 @@ export class StateFinanceComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-    
+
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
@@ -336,7 +361,7 @@ export class StateFinanceComponent implements OnInit {
       console.log(this.stateFinance.controls)
     }
     sessionStorage.setItem("changeInStateFinance", "true");
-      
+
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
@@ -416,7 +441,7 @@ export class StateFinanceComponent implements OnInit {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
-            
+
             if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
               console.log(this.stateActUrl)
@@ -443,14 +468,14 @@ export class StateFinanceComponent implements OnInit {
           let changeInForm;
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          
+
             changeInForm = sessionStorage.getItem("changeInStateFinance");
-          
+
           // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
           if (event.url === "/" || event.url === "/login") {
-           
+
               sessionStorage.setItem("changeInStateFinance", "false");
-            
+
             return;
           }
           if (changeInForm === "true" && this.routerNavigate === null) {
@@ -498,9 +523,9 @@ export class StateFinanceComponent implements OnInit {
     return this._router.navigate(["ulbform2223/slbs"]);
   }
   async discard() {
-    
+
       sessionStorage.setItem("changeInStateFinance", "false");
-    
+
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
       this._router.navigate([this.routerNavigate.url]);
@@ -509,6 +534,117 @@ export class StateFinanceComponent implements OnInit {
   }
   alertClose() {
     this.stay();
+  }
+
+  // action related
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  formId = '';
+  actionError = false;
+  actionFormData;
+  actionData(e) {
+    console.log("action data..", e);
+    this.actionRes = e;
+    if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+      this.actionError = false;
+    }
+  }
+  saveAction() {
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      status: this.actionRes?.status,
+      state: [this.stateId],
+      rejectReason: this.actionRes?.reason,
+      responseFile: {
+        url: this.actionRes?.document?.url,
+        name: this.actionRes?.document?.name,
+      },
+    };
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
+      return;
+    }
+    else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      swal("Alert!", "Action is mandatory", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+       it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+
+  }
+  finalActionSave(actionBody) {
+    this.ptService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.actionBtnDis = true;
+        swal("Saved", "Action saved successfully.", "success");
+        this.ptService.setStateFormStatus2223.next(true);
+      },
+      (error) => {
+        swal("Error", error?.message ? error?.message : "Error", "error");
+      }
+    );
+  }
+  checkActionDisable(res) {
+    if (res?.status === "REJECTED" && this.userData?.role == "STATE") {
+      this.isDisabled = false;
+    }
+    if (this.userData?.role !== "STATE") {
+      this.isDisabled = true;
+      if (res?.canTakeAction) {
+        this.canTakeAction = true;
+      } else {
+        this.canTakeAction = false;
+      }
+      // sessionStorage.setItem("canTakeAction", action);
+    }
+    if (res?.status == null || res?.status == undefined) {
+      this.actionBtnDis = true;
+    } else if (this.userData?.role !== "STATE" && this.canTakeAction) {
+      this.actionBtnDis = false;
+    } else {
+      this.actionBtnDis = true;
+    }
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.name == "State Finance Commission Notification") {
+          // this.nextRouter = element?.nextUrl;
+          // this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+      });
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, SimpleChange, ViewChild } from "@angular/core";
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -174,7 +174,9 @@ export class PreviewSlbComponentComponent implements OnInit {
     public _matDialog: MatDialog
   ) { }
 
-  ngOnChanges() { }
+  ngOnChanges(changes : SimpleChange) { 
+    console.log("changes=============//>", changes);
+  }
   formStatusCheck = "";
   statusArray = [
     "Not Started",

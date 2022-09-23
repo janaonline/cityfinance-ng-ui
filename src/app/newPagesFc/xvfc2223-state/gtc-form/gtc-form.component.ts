@@ -8,6 +8,7 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { State2223Service } from "../state-services/state2223.service";
 import { GtcPreviewComponent } from "./gtc-preview/gtc-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-gtc-form",
@@ -30,11 +31,15 @@ export class GtcFormComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
     private dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private newCommonService: NewCommonService
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.navigationCheck();
   }
 
@@ -71,6 +76,7 @@ export class GtcFormComponent implements OnInit {
           });
         }
         this.disableInputs();
+        this.checkAction();
       },
       (error) => {
         console.log("err", error);
@@ -311,6 +317,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -333,6 +340,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 2,
@@ -355,6 +363,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -385,6 +394,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -407,6 +417,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 2,
@@ -429,6 +440,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -459,6 +471,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
           {
             installment: 1,
@@ -482,6 +495,7 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            canTakeAction: false
           },
         ],
       },
@@ -662,9 +676,10 @@ export class GtcFormComponent implements OnInit {
           if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
-
+          swal("Saved", "File saved successfully", "success");
           sessionStorage.setItem("changeInGtc", "false");
           console.log("success responce", res);
+          this.newCommonService.setStateFormStatus2223.next(true);
         },
         (error) => {
           console.log("error", error);
@@ -762,5 +777,27 @@ export class GtcFormComponent implements OnInit {
     console.log("i, j data", data);
 
     this.saveFile(data?.i, data?.j);
+  }
+
+  checkAction() {
+    for (let i = 0; i < this.gtcFormData.length; i++) {
+      let tabArray = this.gtcFormData[i]?.quesArray;
+      tabArray.forEach((el) => {
+        if (el?.isDraft == false && el?.status == "PENDING") {
+          el['canTakeAction'] = true;
+        } else if (el?.isDraft == false && (el?.status == "APPROVED" || el?.status == "REJECTED")) {
+          el['canTakeAction'] = false;
+        } else {
+          el['canTakeAction'] = false;
+        }
+      })
+    }
+  }
+  actionBtnDis = false;
+  actionBtnClick(type, qItem, lItem, val) {
+    console.log('clicked..', type, qItem, lItem);
+    if (type == 'returnRes') {
+      qItem.rejectReason = val;
+    }
   }
 }

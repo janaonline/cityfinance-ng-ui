@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { IncompleteProfileComponent } from "src/app/shared/components/ulb/incomplete-profile/incomplete-profile.component";
-import { Ulb2223Guard } from "src/app/shared2223/commom-gaurds/ulb2223.guard";
+import { Ulb2223Guard } from "src/app/shared2223/common-gaurds/ulb/ulb2223.guard";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
 import { DetailedUtilizationReportComponent } from "./detailed-utilization-report/detailed-utilization-report.component";
 import { GfcComponent } from "./gfc/gfc.component";
@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: "",
     component: Xvfc2223UlbComponent,
-    // canActivate: [Ulb2223Guard],
+    canActivate: [Ulb2223Guard],
     children: [
       {
         path: "odf",
@@ -58,7 +58,7 @@ const routes: Routes = [
         component: ResourceComponent,
       },
       {
-        path: "property_tax_operationalisation",
+        path: "ptax",
         component: PropertyTaxOperationalisationComponent,
       },
       {
