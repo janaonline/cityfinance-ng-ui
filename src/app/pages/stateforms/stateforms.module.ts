@@ -96,8 +96,6 @@ import { DatePipe } from '@angular/common';
     NonMillionListComponent,
     GrantClaimsComponent,
     GrantClaimsDialogComponent,
-
-
   ],
 
   imports: [

@@ -316,6 +316,11 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             rejectReason: null,
             canTakeAction: false
           },
@@ -340,7 +345,13 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
+
           },
           {
             installment: 2,
@@ -363,6 +374,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
         ],
@@ -394,6 +410,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
           {
@@ -417,6 +438,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
           {
@@ -440,6 +466,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
         ],
@@ -471,6 +502,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
           {
@@ -495,6 +531,11 @@ export class GtcFormComponent implements OnInit {
             isDraft: null,
             status: null,
             rejectReason: null,
+            responseFile: {
+              name: '',
+              url: '',
+              progress: null
+            },
             canTakeAction: false
           },
         ],
@@ -525,7 +566,7 @@ export class GtcFormComponent implements OnInit {
     }
   }
 
-  async fileChangeEvent(event, fileType, cIndex, qIndex) {
+  async fileChangeEvent(event, fileType, cIndex, qIndex, upType) {
     console.log(fileType, event);
     console.log("index", cIndex, qIndex);
 
@@ -545,7 +586,8 @@ export class GtcFormComponent implements OnInit {
             files.type,
             fileType,
             cIndex,
-            qIndex
+            qIndex,
+            upType
           );
         } else {
           return swal("Error", "Only Excel File can be Uploaded.", "error");
@@ -558,7 +600,8 @@ export class GtcFormComponent implements OnInit {
             files.type,
             fileType,
             cIndex,
-            qIndex
+            qIndex,
+            upType
           );
         } else {
           console.log("error type", event);
@@ -574,15 +617,26 @@ export class GtcFormComponent implements OnInit {
     }
   }
 
-  uploadFile(file, name, type, fileType, i, j) {
+  uploadFile(file, name, type, fileType, i, j, upType) {
     console.log("this.data", file, name, type, fileType);
-
+    if (upType == 'normal') {
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 20;
+   } else {
+     this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 20;
+   }
     this.dataEntryService.getURLForFileUpload(name, type).subscribe(
       (s3Response) => {
-        this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
+        if (upType == 'normal') {
+          this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
+          this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
+        } else {
+          this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 50;
+          this.gtcFormData[i].quesArray[j]["responseFile"]["name"] = name;
+        }
+        // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
         const res = s3Response.data[0];
-        this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
+
+        // this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
         this.uploadFileToS3(
           file,
           res["url"],
@@ -590,7 +644,8 @@ export class GtcFormComponent implements OnInit {
           name,
           fileType,
           i,
-          j
+          j,
+          upType
         );
       },
       (err) => {
@@ -608,23 +663,37 @@ export class GtcFormComponent implements OnInit {
     name,
     fileType,
     i,
-    j
+    j,
+    upType
   ) {
-    this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
+    if (upType == 'normal') {
+      this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
+    } else {
+      this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 60;
+    }
+    // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
       (res) => {
-        this.gtcFormData[i].quesArray[j]["file"]["progress"] = 70;
+        // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 70;
         if (res.type === HttpEventType.Response) {
-          this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
-          // this.gtcFormData[i].quesArray[j]['file'] = file;
-          this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
-          sessionStorage.setItem("changeInGtc", "true");
+          // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
+          if (upType == 'normal') {
+            this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
+            this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
+            sessionStorage.setItem("changeInGtc", "true");
+            let ijData = {
+              i: i,
+              j: j,
+            };
+            sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+          } else {
+            this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 100;
+            this.gtcFormData[i].quesArray[j]["responseFile"]["url"] = fileAlias;
+          }
+          // // this.gtcFormData[i].quesArray[j]['file'] = file;
+          // this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
           console.log("this.form", this.gtcFormData);
-          let ijData = {
-            i: i,
-            j: j,
-          };
-          sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+
         }
       },
       (err) => {
@@ -643,6 +712,11 @@ export class GtcFormComponent implements OnInit {
       j: j,
     };
     sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
+  }
+  clearFileAction(type, i, j) {
+    this.gtcFormData[i].quesArray[j]["responseFile"]["url"] = "";
+    this.gtcFormData[i].quesArray[j]["responseFile"]["name"] = "";
+    this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = null;
   }
 
   saveFile(i, j) {
@@ -799,5 +873,26 @@ export class GtcFormComponent implements OnInit {
     if (type == 'returnRes') {
       qItem.rejectReason = val;
     }
+  }
+  saveAction(cIndex, qIndex) {
+    console.log('save action', cIndex, qIndex);
+    let actionPostBody = {
+      "formId": "62c552c52954384b44b3c386",
+      "design_year": "606aafb14dff55e6c075d3ae",
+      "state": [
+        "5dcf9d7516a06aed41c748f8",
+        "5dcf9d7316a06aed41c748e7"
+      ],
+      "status": "REJECTED",
+      "statesData": [
+
+      ],
+      "rejectReason": "qwert",
+      "responseFile": {
+        "url": "https://democityfinanceapi.dhwaniris.in/objects/562bbfe4-e804-495d-92cb-9d100dd2c273.pdf",
+        "name": "asd.pdf"
+      }
+    }
+
   }
 }
