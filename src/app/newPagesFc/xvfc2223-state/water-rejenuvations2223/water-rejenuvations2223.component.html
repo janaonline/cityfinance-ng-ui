@@ -66,7 +66,7 @@
                                 <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                     <tr [formGroupName]="waterBodiesIndex">
                                         <td class="t-i">
-                                            <span style="height:4rem">{{1+waterBodiesIndex}}</span>{{pri(projectRow,waterBodiesIndex)}}
+                                            <span style="height:4rem">{{1+waterBodiesIndex}}</span>
                                         </td>
                                         <td>
                                             <input style="height:4rem" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name'),'disable': !projectRow?.value?.disable}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text"/>
@@ -94,7 +94,7 @@
                                                     delete_forever
                                                 </span></a>
                                         </td>
-                                        <td style="display: inline-flex; margin-top: 12%;">
+                                        <td style="display: inline-flex;">
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'), 'anDisable' : formDisable,'disable': !projectRow?.value?.disable }" (blur)="latLong($event.target.value,projectRow,'lat')"
                                                 formControlName="lat" pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long'), 'anDisable' : formDisable,'disable': !projectRow?.value?.disable}" (blur)="latLong($event.target.value,projectRow,'long')"
@@ -432,15 +432,60 @@
 
         </div>
         <div class="row" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active" (click)="backButtonClicked = true" class="btn back">
               Back
             </button>
             </div>
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-3 text-end">
+                <div class="mb-3 question">
+                    <div class="col-3 image-upload">
+                        <label for="ipt">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                                PDF
+                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                    style="margin-left: 4px;">
+                            </a>
+                            <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                        </label>
+                        <input #ipt id="ipt" name="cin3" type="file" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        <div>
+                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-sm-1">
                 <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button">
-              {{saveBtnText}}
-            </button>
+                    {{saveBtnText}}
+                  </button>
+            </div>
+        </div>
+        <div>
+            
+            <div class="row" *ngIf="showStateAct">
+                <div class="col-8 filePadding mb-3">
+                    {{stateActFileName}}
+                </div>
+                <div class="col-2 progressBar ms-4" *ngIf="stateActProgress">
+                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
+                        {{ stateActProgress }}%
+                    </div>
+                </div>
+                <div class="col-1 filePadding">
+                    <a href="{{ stateActUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span>
+                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
             </div>
         </div>
     </form>

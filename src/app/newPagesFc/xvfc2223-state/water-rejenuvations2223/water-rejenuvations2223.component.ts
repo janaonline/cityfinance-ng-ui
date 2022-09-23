@@ -1336,11 +1336,171 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     event.controls[type].patchValue(val[0] + (val[1] ? "." + val[1] : ""));
   }
-  index = 1
-  pri(data,row){
-    if(this.index && row == 3)
-    {console.log(data);
-    this.index = 0;}
+  change = '';
+  errorMessege: any = '';
+  @ViewChild("ipt") ipt: any;
+  @ViewChild("clearFiles") clearFiles: any;
+  errorMessegeStateAct: any = '';
+  stateActFileName;
+  stateActUrl = ''
+  showStateAct:boolean = false;
+  filesToUpload: Array<File> = [];
+  filesAlreadyInProcess: number[] = [];
+  subscription: any;
+  fileUploadTracker: {
+    [fileIndex: number]: {
+      alias?: string;
+      percentage?: number;
+      status: "in-process" | "FAILED" | "completed";
+    };
+  } = {};
+  uploadButtonClicked(formName) {
+    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    this.change = "true";
+  }
+
+  fileChangeEvent(event, progessType) {
+    console.log(progessType)
+
+    if(progessType == 'stateActProgress'){
+      if (event.target.files[0].size >= 20000000) {
+        this.ipt.nativeElement.value = "";
+        this.errorMessegeStateAct = 'File size should be less than 20Mb.'
+        // this.stateFinance.controls.stateNotification.reset();
+        const error = setTimeout(() => {
+          this.showStateAct = false
+          this.errorMessegeStateAct = ''
+        }, 4000);
+        return;
+      }
+    }
+
+      const fileName = event.target.files[0].name;
+
+      if (progessType == 'stateActProgress') {
+        this.stateActFileName = event.target.files[0].name;
+        this.showStateAct = true;
+      }
+      const filesSelected = <Array<File>>event.target["files"];
+      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+      this.upload(progessType, fileName);
+
+  }
+  clearFile(type: string = '') {
+    if(type == 'stateAct'){
+    this.ipt.nativeElement.value = "";
+      this.showStateAct = false;
+      this.stateActFileName = ''
+      // this.stateFinance.patchValue({
+      //   stateNotification:{
+      //     url:'',
+      //     name: ''
+      //  }
+      // });
+      // this.stateFinance.controls.stateNotification['controls'].name.setValidators(Validators.required);
+      // this.stateFinance.controls.stateNotification['controls'].name.updateValueAndValidity();
+      // console.log(this.stateFinance.controls)
+    }
+    sessionStorage.setItem("changeInWaterRejenuvation2223", "true");
+
+  }
+  filterInvalidFilesForUpload(filesSelected: File[]) {
+    const validFiles = [];
+    for (let i = 0; i < filesSelected.length; i++) {
+      const file = filesSelected[i];
+      const fileExtension = file.name.split(`.`).pop();
+      if (fileExtension === "pdf") {
+        validFiles.push(file);
+      } else {
+        this.showStateAct = false
+        swal("Only PDF File can be Uploaded.")
+        return;
+      }
+    }
+    return validFiles;
+  }
+  async upload(progessType, fileName) {
+    const formData: FormData = new FormData();
+    const files: Array<File> = this.filesToUpload;
+    this[fileName] = files[0].name;
+    console.log(files[0].name)
+    let fileExtension = files[0].name.split('.').pop();
+    console.log(fileExtension)
+    this[progessType] = 10;
+    for (let i = 0; i < files.length; i++) {
+      if (this.filesAlreadyInProcess.length > i) {
+        continue;
+      }
+      this.filesAlreadyInProcess.push(i);
+      await this.uploadFiles(files[i], i, progessType, fileName);
+    }
+  }
+
+  uploadFiles(file: File, fileIndex: number, progessType, fileName) {
+    return new Promise((resolve, reject) => {
+      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+        (s3Response) => {
+          let fileAlias = s3Response["data"][0]["file_alias"];
+          this[progessType] = Math.floor(Math.random() * 90) + 10;
+          // if(progessType == 'rulesByLawsProgress'){
+          //   this[progessType] = Math.floor(Math.random() * 90) + 10;
+          // }
+          const s3URL = s3Response["data"][0].url;
+          this.uploadFilesToS3(
+            file,
+            s3URL,
+            fileAlias,
+            fileIndex,
+            progessType
+          );
+          resolve("success")
+        },
+        (err) => {
+          if (!this.fileUploadTracker[fileIndex]) {
+            this.fileUploadTracker[fileIndex] = {
+              status: "FAILED",
+            };
+            console.log(err)
+          } else {
+            this.fileUploadTracker[fileIndex].status = "FAILED";
+            console.log(err)
+          }
+        }
+      );
+    })
+  }
+  private uploadFilesToS3(
+    file: File,
+    s3URL: string,
+    fileAlias: string,
+    fileIndex: number,
+    progressType: string = ''
+  ) {
+    this.subscription = this.dataEntryService
+      .uploadFileToS3(file, s3URL)
+      .subscribe(
+        (res) => {
+          if (res.type === HttpEventType.Response) {
+            this[progressType] = 100;
+
+            if (progressType == 'stateActProgress') {
+              this.stateActUrl = fileAlias;
+              console.log(this.stateActUrl)
+              // this.stateFinance.get('stateNotification').patchValue({
+              //   url: fileAlias,
+              //   name: file.name
+              // })
+              sessionStorage.setItem("changeInWaterRejenuvation2223", "true");
+              console.log(file)
+              console.log(s3URL)
+            }
+          }
+        },
+        (err) => {
+          this.fileUploadTracker[fileIndex].status = "FAILED";
+          console.log(err);
+        }
+      );
   }
 }
 

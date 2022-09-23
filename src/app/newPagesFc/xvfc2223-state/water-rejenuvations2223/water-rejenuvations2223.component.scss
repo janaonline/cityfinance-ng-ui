@@ -43,6 +43,43 @@
     pointer-events: none !important;
     background-color: #daecec;
 }
+.question {
+    width: 100%;
+}
+.image-upload>input {
+    display: none;
+}
+.image-upload img {
+    cursor: pointer;
+}
+.image-upload>input {
+    display: none;
+}
+.image-upload img {
+    cursor: pointer;
+}
+.btnUpload {
+    background-color: #059b9a;
+    margin-left: 1pc;
+    margin-bottom: 1pc;
+    color: white;
+    font-size: 12px;
+    width: 200px;
+}
+.btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+.filePadding {
+    // padding-left: 23px;
+    font-style: italic;
+}
+.progressBar{
+    padding: 0;
+}
 
 .table>tbody>tr>td,
 .table>tbody>tr>th,
@@ -69,6 +106,9 @@
         // height: 4ch;
         text-align: center;
     }
+}
+td{
+    border-top: 1px solid white !important;
 }
 .toggle{
     display: none
