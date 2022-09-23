@@ -145,6 +145,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   leftMenu: any;
   isUserVerified = true;
   profileData;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   constructor(
     private newCommonService: NewCommonService,
     private profileService: ProfileService,
@@ -156,6 +157,11 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    if (!this.loggedInUserType) {
+      this.router.navigate(["/home"]);
+      // this.showLoader = false;
+    }
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.subscription = this.newCommonService.setFormStatus2223.subscribe((res) => {
       if (res == true) {
@@ -163,6 +169,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
         this.getSideBar();
       }
     });
+
 
     this.path = sessionStorage.getItem("path1");
     this.ulbFormId = sessionStorage.getItem("form_id");
@@ -192,6 +199,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.getSideBar();
   }
   getSideBar() {
     let ulb;
@@ -247,21 +255,24 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
       }
     });
   }
-  backStatePage() {
-    if (this.loggedInUserType === this.userTypes.STATE) {
+  backStatePage(type) {
+    if (type == 'ULB Review' && !this.pathMohua) {
+      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+      this.path = null;
+    } else if (type == 'ULB Review' && this.pathMohua) {
       this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
-    } else {
-      if (this.stateFormId == '' || this.stateFormId == null || this.stateFormId == undefined) {
-        this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
-      } else {
-        this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
-      }
+      this.path = null;
+    } else if (type == 'State Review') {
+      this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
       sessionStorage.removeItem("path2");
+      this.pathMohua = null;
+      this.stateFormId = ''
       sessionStorage.removeItem("Stateform_id");
     }
 
   }
   backStatePage2() {
     this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+    this.path = null;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
@@ -16,7 +16,7 @@ const swal = require("sweetalert2");
   templateUrl: "./slbs28-form.component.html",
   styleUrls: ["./slbs28-form.component.scss"],
 })
-export class Slbs28FormComponent implements OnInit {
+export class Slbs28FormComponent implements OnInit, OnDestroy {
   @ViewChild("templateSave") template;
   sideMenuItem: any;
   nextRouter;
@@ -591,5 +591,17 @@ export class Slbs28FormComponent implements OnInit {
     } else {
       this.actionBtnDis = true;
     }
+  }
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

@@ -10,7 +10,9 @@ export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
   annualFinalSubmit = new Subject<any>();
   setFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
-  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);;
+  setStateFormStatus2223: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setULBRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setStateRouter: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   multiAction = new Subject<any>();
   reviewStatus: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
@@ -122,6 +124,16 @@ export class NewCommonService {
   getPropertyTaxUlbData(param) {
     return this.http.get(
       `${environment.api.url}propTaxOp?ulb=${param.ulb}&design_year=${param.design_year}`
+   ) }
+  //property tax open form
+  getPropertyTaxOpenData(params){
+    return this.http.get(
+      `${environment.api.url}pTaxOpen?design_year=606aafb14dff55e6c075d3ae&ulb=${params.ulb}`
+    );
+  }
+  postPropertyTaxOpenData(body){
+    return this.http.post(
+      `${environment.api.url}pTaxOpen`, body
     );
   }
 

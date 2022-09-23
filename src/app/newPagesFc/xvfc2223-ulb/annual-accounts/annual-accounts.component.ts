@@ -1,5 +1,5 @@
 import { HttpEventType } from "@angular/common/http";
-import { Component, HostBinding, OnInit, ViewChild } from "@angular/core";
+import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./annual-accounts.component.html",
   styleUrls: ["./annual-accounts.component.scss"],
 })
-export class AnnualAccountsComponent implements OnInit {
+export class AnnualAccountsComponent implements OnInit, OnDestroy {
   constructor(
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
@@ -2017,5 +2017,18 @@ checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
     })
     console.log('aud rejected case', this.auditQues);
     console.log('unA rejected case', this.unAuditQues);
+  }
+
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

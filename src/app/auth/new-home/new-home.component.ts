@@ -28,7 +28,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 }, (err: any) => {
   this.whatNewData = []
 })
-  
+
   }
   globalFormControl = new FormControl();
   globalOptions = [];
@@ -133,7 +133,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
   ];
   dummyData:any = [
-    { 
+    {
       name: 'newDataSet',
       type: 'new'
     }
@@ -264,7 +264,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     if(option?.type == 'ulb'){
       this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
     }
-    
+
     if(option?.type == 'newDataSet'){
       this.router.navigateByUrl(`/resources-dashboard/learning-center/toolkits`)
     }

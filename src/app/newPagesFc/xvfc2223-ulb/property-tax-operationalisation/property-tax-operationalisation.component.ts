@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -15,7 +15,7 @@ import { PropertyTaxOperationalisationPreviewComponent } from './property-tax-op
   templateUrl: './property-tax-operationalisation.component.html',
   styleUrls: ['./property-tax-operationalisation.component.scss']
 })
-export class PropertyTaxOperationalisationComponent implements OnInit {
+export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy {
   propertyTaxForm: FormGroup;
   change = '';
   errorMessege: any = '';
@@ -954,5 +954,17 @@ export class PropertyTaxOperationalisationComponent implements OnInit {
     } else {
       this.actionBtnDis = true;
     }
+  }
+  formSubs = null;
+  setFormIdRouter() {
+    this.formSubs = this.ptService.setULBRouter.subscribe((res) => {
+      if (res == true) {
+        this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+        this.setRouter();
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.formSubs?.unsubscribe();
   }
 }

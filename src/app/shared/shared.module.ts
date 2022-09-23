@@ -89,6 +89,9 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MdePopoverModule } from '@material-extended/mde';
 import { BalanceTabledialogComponent } from "./components/balance-table/balance-tabledialog/balance-tabledialog.component";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { ProTTaxFormComponent } from './components/pro-t-tax-form/pro-t-tax-form.component';
+import { ErrorDisplayComponent } from "../shared2223/components/error-display/error-display.component";
+import { Shared2223Module } from "../shared2223/shared2223.module";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -121,6 +124,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     NgxPaginationModule,
     MatRadioModule,
     MdePopoverModule,
+    Shared2223Module
   ],
   declarations: [
     PreLoaderComponent,
@@ -177,8 +181,9 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     ShareDialogComponent,
     BasicComponent,
     ComparativeUlbComponent,
-    BalanceTabledialogComponent
-    ],
+    BalanceTabledialogComponent,
+    ProTTaxFormComponent,
+  ],
   exports: [
     FormsModule,
     PreLoaderComponent,
