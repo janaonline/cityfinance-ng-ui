@@ -39,6 +39,11 @@
     border: 2px solid #00000029;
 }
 
+.disable{
+    pointer-events: none !important;
+    background-color: #daecec;
+}
+
 .table>tbody>tr>td,
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
@@ -48,6 +53,7 @@
     vertical-align: inherit;
     text-align: center;
     padding: 8px 2px;
+    border-bottom-width: inherit;
 }
 
 .custom-position {
@@ -60,11 +66,13 @@
     input {
         position: relative;
         width: 80%;
-        height: 4ch;
+        // height: 4ch;
         text-align: center;
     }
 }
-
+.toggle{
+    display: none
+}
 .custom-position {
     select {
         position: relative;
