@@ -373,121 +373,82 @@
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
                                     </span>Add more</button>
-                            </div>
-                            <!-- *ngIf="loggedInUserType === userTypes.STATE && utilizationReport &&
- (takeStateAction == 'true')" -->
-                            <div class="" style="overflow: hidden;" *ngIf="loggedInUserType === USER_TYPE.MoHUA  && allStatus['latestFinalResponse']['role'] == 'STATE'">
-                                <div class="" [ngClass]="{'anDisable': actionFormDisable}">
-                                    <app-action-component [isDisabled]="actionFormDisable" (actionValues)="checkStatus($event, uas.value.ua)" [statusResponse]='{
-                                            st: uas.value.status,
-                                            rRes: uas.value.rejectReason
-                                          }'> </app-action-component>
-                                </div>
-                            </div>
-                            <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'STATE'">
-                                <div class="card-body">
-                                    <b>MoHUA Review Status : </b> Under Review By MoHUA
-                                </div>
-                            </div>
-                            <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="
-                                allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
-
-                                <div class="card-body">
-                                    <b>MoHUA Review Status :</b>
-                                    <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
-
-                                        <label class="btn btn-success" disabled style="width: 82px; margin-top: 1rem;" [ngClass]="{'btn-a' : uas.value.status == 'APPROVED', 'btn-r' :  uas.value.status == 'REJECTED'}">
-
-                                            {{uas.value.status | titlecase}}</label>
-
-                                    </div>
-                                    <div>
-                                        <p *ngIf="uas.value.status == 'REJECTED'">
-                                            <b style="font-weight: 600;">Reason for return :</b> {{uas.value.rejectReason }}
-                                        </p>
-                                    </div>
-
-
-
-                                </div>
-
-                            </div>
-
-                            <!-- (ulbFormStaus !== 'NA') -->
-                            <!-- <div class="card" style="background-color: #F7F7F7;" *ngIf="utilizationReport &&
-(loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
-  <div class="card-body">
-      <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
-      <br>
-      <p *ngIf="ulbFormStaus == 'REJECTED'">
-          <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
-      </p>
-
-  </div>
-</div> -->
+                            </div> 
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
+        <div class="card" style="margin-top: .5rem; margin-left: 0pc;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h6>
+                            Declaration Upload :
+                        </h6>
+                    </div>
+                    <div class="col-6 text-end">
+                        <div class="mb-3 question">
+                            <div class="col-3 image-upload">
+                                <label for="ipt">
+                                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                                        PDF
+                                        <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            style="margin-left: 4px;">
+                                    </a>
+                                    <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                                </label>
+                                <input #ipt [disabled]="disableUpload" id="ipt" name="cin3" type="file" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                                <div>
+                                    <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                        <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
+                                    </div>
+                                </div>                   
+                            </div>
+                        </div>                
+                    </div>
+                </div>
+                <div>
+            
+                    <div class="row" *ngIf="showStateAct">
+                        <div class="col-6 filePadding mb-3">
+                            {{stateActFileName}}
+                        </div>
+                        <div class="col-2 progressBar ms-4" *ngIf="stateActProgress">
+                            <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
+                                {{ stateActProgress }}%
+                            </div>
+                        </div>
+                        <div class="col-1 filePadding">
+                            <a href="{{ stateActUrl }}" target="_blank">
+                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                            </a>
+                            <span>
+                                <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
+                                    <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-            <div class="col-sm-8">
+            <div class="col-6">
                 <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active" (click)="backButtonClicked = true" class="btn back">
               Back
             </button>
             </div>
-            <div class="col-sm-3 text-end">
-                <div class="mb-3 question">
-                    <div class="col-3 image-upload">
-                        <label for="ipt">
-                            <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
-                                PDF
-                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                    style="margin-left: 4px;">
-                            </a>
-                            <p class="errorMessege">{{errorMessegeStateAct}}</p>
-                        </label>
-                        <input #ipt id="ipt" name="cin3" type="file" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
-                        <div>
-                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
-                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </div>
-            <div class="col-sm-1">
+            
+            <div class="col-6">
                 <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button">
                     {{saveBtnText}}
                   </button>
             </div>
         </div>
-        <div>
-            
-            <div class="row" *ngIf="showStateAct">
-                <div class="col-8 filePadding mb-3">
-                    {{stateActFileName}}
-                </div>
-                <div class="col-2 progressBar ms-4" *ngIf="stateActProgress">
-                    <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
-                        {{ stateActProgress }}%
-                    </div>
-                </div>
-                <div class="col-1 filePadding">
-                    <a href="{{ stateActUrl }}" target="_blank">
-                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
-                    </a>
-                    <span>
-                        <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
-                        </a>
-                    </span>
-                </div>
-            </div>
-        </div>
+        
     </form>
 </div>
 
