@@ -32,11 +32,84 @@ const swal: SweetAlert = require("sweetalert");
 export class WaterRejenuvations2223Component implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   // loggedInUserType: USER_TYPE;
+  projectIndex: any;
+  change = '';
+  errorMessege: any = '';
+  @ViewChild("ipt") ipt: any;
+  @ViewChild("clearFiles") clearFiles: any;
+  errorMessegeStateAct: any = '';
+  stateActFileName;
+  stateActUrl = ''
+  showStateAct:boolean = false;
+  filesToUpload: Array<File> = [];
+  filesAlreadyInProcess: number[] = [];
+  subscription: any;
+  fileUploadTracker: {
+    [fileIndex: number]: {
+      alias?: string;
+      percentage?: number;
+      status: "in-process" | "FAILED" | "completed";
+    };
+  } = {};
+  body = {};
+  flagg = 0;
+  actionTakenByRoleOnForm = null
   actionRes;
   id;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
+  disableAllForms = false;
+  isStateSubmittedForms = "";
+  formDisable = false;
+  actionFormDisable = false;
+  waterIndicators = [
+    "Continuity of Water supplied",
+    "Cost Recovery",
+    "Coverage of Water Supply connections",
+    "Extent of Metering",
+    "Extent of Non-revenue WaterSanitationComponent",
+    "Efficiency in Collection of Water Charges",
+    "Efficiency in redressal of customer complaints",
+    "Per Capita Supply of Water",
+    "Quality of Water Supplied",
+  ];
+   
+  disableAddMore1 = false
+  disableAddMore2 = false
+  disableAddMore3 = false
+  disableUAs = []
+  disableActionUAs = []
+  backButtonClicked = false;
+  toggle: boolean = true
+  toggle1: boolean = true
+  toggle2: boolean = true
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
+
+  saveBtnText = "NEXT";
+  routerNavigate = null;
+  saveClicked = false;
+  showLoader = true;
+  data;
+  waterRejenuvation: FormGroup;
+  maxPhotos = 5;
+  photosArray = [];
+  errorPhotosArray = [];
+  dialogRefForNavigation;
+  isDraft = null;
+  totalStatus = "PENDING";
+  errorOnload = false;
+  formStatus;
+  submitted = false
+  UANames = [];
+  uasList
+  userData = JSON.parse(localStorage.getItem("userData"));
+  Year = JSON.parse(localStorage.getItem("Years"));
+  uasData = JSON.parse(sessionStorage.getItem("UasList"));
+  latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
+  disableUpload: boolean = true
+
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -71,27 +144,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     });
   }
-  disableAllForms = false;
-  isStateSubmittedForms = "";
-  formDisable = false;
-  actionFormDisable = false;
-  waterIndicators = [
-    "Continuity of Water supplied",
-    "Cost Recovery",
-    "Coverage of Water Supply connections",
-    "Extent of Metering",
-    "Extent of Non-revenue WaterSanitationComponent",
-    "Efficiency in Collection of Water Charges",
-    "Efficiency in redressal of customer complaints",
-    "Per Capita Supply of Water",
-    "Quality of Water Supplied",
-  ];
-  disableUAs = []
-  disableActionUAs = []
-  backButtonClicked = false;
-  toggle: boolean = true
-  toggle1: boolean = true
-  toggle2: boolean = true
+  
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -154,28 +207,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     console.log('loggedInUserType', this.loggedInUserType);
   }
-  @ViewChild("template") template;
-  @ViewChild("template1") template1;
-
-  saveBtnText = "NEXT";
-  routerNavigate = null;
-  saveClicked = false;
-  showLoader = true;
-  data;
-  waterRejenuvation: FormGroup;
-  maxPhotos = 5;
-  photosArray = [];
-  errorPhotosArray = [];
-  dialogRefForNavigation;
-  isDraft = null;
-  totalStatus = "PENDING";
-  errorOnload = false;
-  formStatus;
-  UANames = [];
-  uasList
-  userData = JSON.parse(localStorage.getItem("userData"));
-  Year = JSON.parse(localStorage.getItem("Years"));
-  uasData = JSON.parse(sessionStorage.getItem("UasList"));
+  
 
   public initializeReport() {
     let state = this.userData["state"] ?? sessionStorage.getItem("state_id");
@@ -248,8 +280,7 @@ export class WaterRejenuvations2223Component implements OnInit {
   get f() {
     return this.waterRejenuvation.controls;
   }
-  latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
-  disableUpload: boolean = true
+  
   getUas() {
     console.log("rejen heading...", this.data);
     this.data.forEach((item)=>{
@@ -496,7 +527,6 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     }
   }
-  actionTakenByRoleOnForm = null
   loadData() {
     console.log(this.uasData)
     return new Promise((resolve, reject) => {
@@ -643,10 +673,6 @@ export class WaterRejenuvations2223Component implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
-  disableAddMore1 = false
-  disableAddMore2 = false
-  disableAddMore3 = false
-  projectIndex: any;
   addRow1(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     this.projectIndex = uaDataAtIndex
@@ -1011,8 +1037,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     }
   }
-  body = {};
-  flagg = 0;
+  
   saveStateAction() {
     let flag = 0;
     let draftFlag = 0;
@@ -1240,7 +1265,6 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.routerNavigate = null;
     }
   }
-  submitted = false
   saveButtonClicked() {
 
     this.submitted = true
@@ -1351,24 +1375,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     event.controls[type].patchValue(val[0] + (val[1] ? "." + val[1] : ""));
   }
-  change = '';
-  errorMessege: any = '';
-  @ViewChild("ipt") ipt: any;
-  @ViewChild("clearFiles") clearFiles: any;
-  errorMessegeStateAct: any = '';
-  stateActFileName;
-  stateActUrl = ''
-  showStateAct:boolean = false;
-  filesToUpload: Array<File> = [];
-  filesAlreadyInProcess: number[] = [];
-  subscription: any;
-  fileUploadTracker: {
-    [fileIndex: number]: {
-      alias?: string;
-      percentage?: number;
-      status: "in-process" | "FAILED" | "completed";
-    };
-  } = {};
+  
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
     this.change = "true";

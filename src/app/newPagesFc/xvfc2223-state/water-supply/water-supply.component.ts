@@ -59,6 +59,9 @@ export class WaterSupplyComponent implements OnInit {
   totalAplusB;
   UANames = [];
   id;
+  noDataFound : boolean = false;
+  gfcScoreRoundOff;
+  odfScoreRoundOff;
   targetActual = [{ key: "1", name: "Actual Indicator <br> 2020-21" },
   { key: "2", name: "Target <br> 2021-22" },
   { key: "3", name: "Actual Indicator <br> 2021-22" },
@@ -153,9 +156,7 @@ export class WaterSupplyComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.yearValue = this.design_year["2022-23"];
   }
-  noDataFound : boolean = false;
-  gfcScoreRoundOff;
-  odfScoreRoundOff;
+  
   foldCard(index, ua_id) {
     console.log(ua_id)
     let params = {
