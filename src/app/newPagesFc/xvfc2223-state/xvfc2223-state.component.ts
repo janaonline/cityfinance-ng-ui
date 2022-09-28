@@ -52,11 +52,11 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
         //  this.getSideBar();
       }
     });
-
+    this.getStateBar(this.stateId, "STATE", "");
   }
   ngOnDestroy() {
     this.stateSubs.unsubscribe();
-    this.getStateBar(this.stateId, "STATE", "");
+
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
