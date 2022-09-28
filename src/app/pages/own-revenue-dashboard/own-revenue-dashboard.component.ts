@@ -787,6 +787,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
         if (res && res["success"] && res["data"]) {
+          console.log(res["data"])
           this._loaderService.stopLoader();
           this.barChartNotFound = false;
           let tempData = {
@@ -899,6 +900,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
                 "Amount in INR";
             }
           }
+          let denom = bodyD?.param.toLowerCase().includes('per capita') ? 1 : 10000000
           res["data"].map((value) => {
             tempData.data.labels.push(value.name);
 
@@ -907,7 +909,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
               this.tempDataHolder["list"]?.length
             ) {
               tempData.data.datasets[0].data.push(
-                Number(Math.round(value.amount / 10000000))
+                Number(Math.round(value.amount / denom))
               );
             } else {
               tempData.data.datasets[0].data.push(
