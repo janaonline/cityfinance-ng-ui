@@ -30,7 +30,7 @@ export class Slbs28FormPreviewComponent implements OnInit {
 }
 .fieldHeading{
   background-color: #047474;
-  color: white;
+  color: #FFFFFF;
 }
 .heading-p {
   color: #FFFFFF;
@@ -41,7 +41,7 @@ export class Slbs28FormPreviewComponent implements OnInit {
 }
 .sub-h {
 font-weight: 500 !important;
-font-size: 14px;
+font-size: 13px;
 }
 .headingClass{
   font-weight: 500 !important;
@@ -69,7 +69,7 @@ font-size: 14px;
 .h-h {
   align-items: left;
   font-size: 10px !important;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 table {
@@ -80,7 +80,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 3px;
 }
 
 tr:nth-child(even) {
@@ -88,7 +88,18 @@ tr:nth-child(even) {
 }
 .pop-t {
   font-size: 10px;
-  margin-top: 10px;
+  margin-top: 12px;
+}
+.d-i {
+  display: inline-block !important;
+}
+.d-m{
+  margin-left: 4px;
+}
+.th-h{
+  padding-top : 5px !important;
+  padding-bottom : 5px !important;
+  font-size : 11px !important;
 }
   </style>`;
   ngOnInit(): void {

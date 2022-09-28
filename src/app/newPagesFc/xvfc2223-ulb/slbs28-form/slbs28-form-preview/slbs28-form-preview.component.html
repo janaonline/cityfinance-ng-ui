@@ -35,7 +35,7 @@
                     <table class="table downloadTable">
                         <thead>
                             <tr class="tableBorder">
-                                <th scope="col" class="text-center">Sections/Indicators</th>
+                                <th scope="col" class="text-center headingClass">Sections/Indicators</th>
                                 <th scope="col" class="text-center headingClass">Actual Indicator 2021-22</th>
                                 <th scope="col" class="text-center headingClass">Target Indicator 2022-23</th>
                             </tr>
@@ -49,14 +49,14 @@
                                 <th scope="row" class="l-n fontClass h-h tableBorder">{{item?.question}}</th>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p>{{item?.actual?.value ? item?.actual?.value : 'N/A'}}</p>
-                                        <span class="ms-3" *ngIf="item?.actual?.value" id="basic-addon2">{{item?.unit}}</span>
+                                        <p class="d-i">{{item?.actual?.value ? item?.actual?.value : 'N/A'}}</p>
+                                        <span class="ms-3 d-m" *ngIf="item?.actual?.value" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p>{{item?.target_1?.value ? item?.target_1?.value : 'N/A'}}</p>
-                                        <span class="ms-3" *ngIf="item?.target_1?.value" id="basic-addon2">{{item?.unit}}</span>
+                                        <p class="d-i">{{item?.target_1?.value ? item?.target_1?.value : 'N/A'}}</p>
+                                        <span class="ms-3 d-m d-i" *ngIf="item?.target_1?.value" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                             </tr>
