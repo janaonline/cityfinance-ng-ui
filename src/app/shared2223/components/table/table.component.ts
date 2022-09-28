@@ -195,6 +195,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["state"] = this.filterForm?.value?.state_name_s;
     }
     this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    this.params["skip"] = 0;
     this.callAPI();
   }
   isChecked(element: any) {
