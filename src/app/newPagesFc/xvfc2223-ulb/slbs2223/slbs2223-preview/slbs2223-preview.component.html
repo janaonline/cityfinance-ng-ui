@@ -60,10 +60,12 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>      
+                      <span *ngIf="preData?.waterManagement[service.key]?.baseline">
+                        {{ preData?.waterManagement?.waterSuppliedPerDay?.achieved['2122']}}
+                      </span>
                     </td>
                     <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>    
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.waterSuppliedPerDay?.score['2122'].toFixed(2)}}</span>    
                   </td>
                 </tr>
                 <tr *ngIf="
@@ -77,10 +79,10 @@
                         {{ preData?.waterManagement[services[0].key].rejectReason }}
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122']}}</span>      
                     </td>
                     <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>    
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122']}}</span>    
                   </td>
                 </tr>
 
@@ -117,10 +119,10 @@
             </i>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122'] }}</span>      
                     </td>
                     <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>    
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122'].toFixed(2) }}</span>    
                     </td>
                 </tr>
                 <tr *ngIf="
@@ -168,10 +170,10 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.achieved['2122']}}</span>      
                     </td>
                     <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>    
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.score['2122'].toFixed(2) }}</span>    
                   </td>
                 </tr>
                 <tr *ngIf="
@@ -219,10 +221,10 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.achieved['2122'] }}</span>      
                     </td>
                     <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">10</span>    
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.score['2122'].toFixed(2) }}</span>    
                   </td>
                 </tr>
                 <tr *ngIf="
