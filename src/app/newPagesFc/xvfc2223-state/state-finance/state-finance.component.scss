@@ -143,6 +143,7 @@
     margin-bottom: 1pc;
     color: white;
     font-size: 12px;
+    width: 200px;
 }
 
 .marginClass {
@@ -184,14 +185,6 @@
     border: 1px solid gray;
 }
 
-.btnUpload {
-    background-color: #059b9a;
-    margin-left: .3rem;
-    margin-bottom: 1pc;
-    color: white;
-    width: 200px;
-}
-
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
@@ -199,14 +192,6 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
-}
-
-.btnUpload:hover {
-    background-color: #ffc500;
-}
-
-.btnUpload:active {
-    background-color: #ffc500;
 }
 
 .errorText {
