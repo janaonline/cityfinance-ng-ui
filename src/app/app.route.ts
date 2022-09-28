@@ -201,14 +201,13 @@ export const appRouter: Routes = [
     component: ProfileUpdateComponent,
   },
 
-  { path: "**", redirectTo: 'home' },
+  { path: "**", redirectTo: "home" },
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(appRouter)],
   exports: [RouterModule]
 })
 export class AppRouter { }
-
 // export const AppRouter: ModuleWithProviders<RouterModule> =
 //   RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });
+

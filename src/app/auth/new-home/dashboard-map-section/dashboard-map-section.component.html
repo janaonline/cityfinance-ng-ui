@@ -161,13 +161,13 @@
                 </div>
                 <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2" style="padding-right: 2rem !important">
                     <div *ngIf="!stateDim" class="num-data">
-                        {{ stateselected && creditRating ? creditRating[stateselected.name] || 0 : highestDataAvailability }}%
+                        {{ stateselected && creditRating ? creditRating[stateselected.name] || 0 : creditRating['total'] }}
                     </div>
                     <div *ngIf="stateDim" class="num-data">
                         {{ cityInfo?.area > 0 ? (cityInfo?.population / cityInfo?.area | number: "1.0-0") : 0 }}/ Sq KM
                     </div>
                     <div *ngIf="!stateDim" class="num-text my-1">
-                      Highest Financial Data Availability is in FY{{highestYear}}
+                      ULBs Credit Rating Reports
                     </div>
                     <div *ngIf="stateDim" class="num-text my-1">Population Density</div>
                 </div>
@@ -186,14 +186,14 @@
                 </div>
                 <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
                     <div *ngIf="!stateDim" class="num-data">
-                        {{ creditRatingAboveA | inrCurrency: { currencyTypeInUser: null } }}
+                        {{ highestDataAvailability }}%
                     </div>
                     <div *ngIf="stateDim" class="num-data">
                         {{ cityInfo?.dataAvailable }}
                     </div>
 
                     <div *ngIf="!stateDim" class="num-text my-1">
-                        ULBs With Rating A & Above
+                      Highest Financial Data Availability is in FY{{highestYear}}
                     </div>
                     <div *ngIf="stateDim" class="num-text my-1">
                         Years of Financial Statements

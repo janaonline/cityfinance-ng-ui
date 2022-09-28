@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <app-basic *ngIf="show &&  !compare"></app-basic>
+    <app-basic (nameUlb)="getUlbName($event)" *ngIf="show &&  !compare"></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
     <div class="tableResponsive" *ngIf="show">
         <table style="width:100%;margin-bottom: 2%;">
@@ -69,15 +69,23 @@
             <tr class="blank-td"></tr>
             <tr class="customTable">
                 <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
-                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'pdf')">
-                    <i class="fa fa-file-pdf-o"></i>
+                <td class="cursor text-center" *ngFor="let file of rawPDFFiles" >
+                    <a *ngIf="file?.fileUrl != 'N/A'" href="{{file?.fileUrl}}" target="_blank">
+                    <i  class="fa fa-file-pdf-o"></i>
+                    
+                </a>
+                <div  *ngIf="file?.fileUrl == 'N/A'">{{file?.fileUrl}}</div>
                 </td>
             </tr>
             <tr class="blank-td"></tr>
             <tr class="customTable">
                 <td colspan="2" class="report-title stickyColumn">Raw Excel</td>
-                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')">
-                    <i class="fa fa-file-excel-o"></i>
+                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')" >
+                
+                        <i  class="fa fa-file-excel-o"></i>
+                        
+                
+                
                 </td>
             </tr>
         </table>
