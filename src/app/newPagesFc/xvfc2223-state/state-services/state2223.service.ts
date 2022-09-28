@@ -10,6 +10,7 @@ export class State2223Service {
   constructor(private http: HttpClient) {}
 
   dpReviewChanges = new Subject<any>();
+  agGridDeleteRow = new Subject<any>();
   postGtcForm(body) {
     return this.http.post(
       `${environment.api.url}grant-transfer-certificate`,
@@ -68,5 +69,8 @@ export class State2223Service {
   getWaterSupplyData(params) {
     console.log(params);
     return this.http.get(`${environment.api.url}/UA/get2223?ua=${params.ua}&design_year=${params.design_year}`);
+  }
+  getUAList(state_id) {
+    return this.http.get(`${environment.api.url}masterForm/UAList?state_id=${state_id}`);
   }
 }

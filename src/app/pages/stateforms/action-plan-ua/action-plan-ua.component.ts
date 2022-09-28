@@ -167,7 +167,6 @@ export class ActionPlanUAComponent implements OnInit {
         this.actionTakenByRoleOnForm = res["data"]["actionTakenByRole"];
         this.showLoader = false;
         console.log(res["data"], "sss");
-
         this.data = {
           state: res["data"].state,
           design_year: res["data"]["design_year"],
@@ -176,7 +175,6 @@ export class ActionPlanUAComponent implements OnInit {
           isDraft: res["data"]["isDraft"],
         };
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
-
         this.addKeys(this.data);
       },
       (err) => {
@@ -196,6 +194,7 @@ export class ActionPlanUAComponent implements OnInit {
         element.sourceFund[i].index = i + 1;
         element.yearOutlay[i].index = i + 1;
       }
+      console.log('uas data', this.uasData)
       element.name = this.uasData[element.ua]["name"];
       element.ulbList = this.uasData[element.ua]["ulb"];
       let newList = [];
