@@ -32,13 +32,13 @@ export class CustomizedCellComponent
 
   refresh(params): boolean {
     this.checkError(params);
-    this.cellvalue = params.value;
+    this.cellvalue = params?.value;
     return true;
   }
 
   checkError(params) {
     let field = params.colDef.field;
-    if (params.data[field].lastValidation !== true && field != "") {
+    if (params?.data[field]?.lastValidation !== true && field != "") {
       this.notValid = true;
       this.noEditable = false;
     } else {

@@ -16,13 +16,13 @@
         <div class="mat-card" style="margin-bottom: 10px; padding: 0;">
             <div class="mat-card-title" style="padding-bottom: 2%;">
                 <h5 style="margin-left: 1pc; display: inline-block; padding-top: 15px; font-size: 15px; padding-bottom: 1px;">
-                    UA{{projectIndex + 1}}: Urban Agglomeration {{ item.name.substring(0, item.name.lastIndexOf(" ")) }}
+                    UA{{projectIndex + 1}}: Urban Agglomeration {{ item?.name?.substring(0, item?.name.lastIndexOf(" ")) }}
                 </h5>
                 <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': item.fold}" style="" (click)="foldCard(projectIndex)">Select</button>
             </div>
-            <div>
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
-                </app-ag-grid>
+            <div *ngIf="item.fold">
+                <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="false">
+                </app-ag-grid2223>
             </div>
         </div>
 

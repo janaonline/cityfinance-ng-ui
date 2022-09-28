@@ -32,7 +32,10 @@ import { ActionPlanComponent } from './action-plan/action-plan.component';
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { AgGridModule } from 'ag-grid-angular';
 import { AgGridComponent } from '../../shared/components/ag-grid/ag-grid.component'
-import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
+import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { AgGrid2223Component } from './action-plan/ag-grid2223/ag-grid2223.component'
+import { ButtonRendererComponent } from "./action-plan/delete-btn";
+
 @NgModule({
   declarations: [
     Xvfc2223StateComponent,
@@ -52,6 +55,8 @@ import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-t
     WaterRejenuvations2223Component,
     WaterRejenuvations2223PreviewComponent,
     ActionPlanComponent,
+    AgGrid2223Component,
+    // ButtonRendererComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +72,7 @@ import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-t
     AccordionModule.forRoot(),
     StateformsModule,
     CollapseModule.forRoot(),
-    AgGridModule.withComponents([ActionPlanComponent, AgGridComponent, CustomTooltipComponent]),
+    AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
   ],
 })
 export class Xvfc2223StateModule {}

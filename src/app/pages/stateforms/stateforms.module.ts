@@ -123,6 +123,7 @@ import { DatePipe } from '@angular/common';
     MatSelectModule,
     MatChipsModule
 
-  ]
+  ],
+  // exports: [AgGridComponent]
 })
 export class StateformsModule { }

@@ -54,8 +54,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   // amtRegex = `^\d{0,4}\.?\d{0,2}$`;
 
   postBody;
-  wm_categories;
-  swm_categories;
+
   categories;
   analytics = [];
   swm = [];
