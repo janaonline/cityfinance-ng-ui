@@ -855,11 +855,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           let resObj: any = res;
           console.log("resss", resObj);
           this.isDisabled = this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['actionTakenByRole'], this.loggedInUserType, resObj['status'])
-          if (resObj['isDraft'] == false) {
-            this.isDisabled = true;
-          } else {
-            this.isDisabled = true;
-          }
+         
 
           this.action = resObj?.action;
           this.url = resObj?.url;
@@ -887,9 +883,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         }
       );
 
-    if (this.userData?.role != "ULB") {
-      this.isDisabled = true;
-    }
+   
   }
 
 checkIfIsDisabledTrueorFalse(isDraft, actionTakenByRole, loggedInUser, status){
