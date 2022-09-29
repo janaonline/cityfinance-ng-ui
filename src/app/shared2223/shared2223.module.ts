@@ -24,7 +24,7 @@ import { CommonActionComponent } from './components/common-action/common-action.
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TableApproveReturnDialogComponent } from './components/table/table-approve-return-dialog/table-approve-return-dialog.component';
 import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-table.component';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-tabl
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    MatCheckboxModule
 
   ],
   exports: [

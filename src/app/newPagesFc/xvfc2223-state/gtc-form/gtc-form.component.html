@@ -72,14 +72,14 @@
 
                                 <div class="mt-3" *ngIf="quesItem?.canTakeAction && userData?.role == 'MoHUA'">
                                     <div class="row" style="">
-                                        <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
-                                        <div class="col-sm-7 act-btn" style="width: 50%">
+                                        <div class="col-sm-6 a-h">Review Status:</div>
+                                        <div class="col-sm-6 act-btn">
                                             <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (quesItem?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('APPROVED', quesItem, itemLabel, $event?.target?.value)">Approve</button>
                                             <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (quesItem?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('REJECTED', quesItem, itemLabel, $event?.target?.value)">Return</button>
                                         </div>
-                                        <div class="col-sm-12 rej mt-3">
-                                            <div class="d-inline-block a-h h-aa" style="width: 46%; bottom: 20px; position: relative;">Remarks/Return reason :</div>
-                                            <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
+                                        <div class="row rej mt-3">
+                                            <div class="col-sm-6 a-h h-aa" style="">Remarks/Return reason :</div>
+                                            <div class="col-sm-6" style=" padding-left: 25px;">
                                                 <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="quesItem.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', quesItem, itemLabel, $event?.target?.value)">
                                               </textarea>
                                             </div>
@@ -91,7 +91,7 @@
                                             <div class="col-sm-6">
                                                 Supporting Document :
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" style=" padding-left: 25px;">
                                                 <button [disabled]="canTakeAction == false" (click)="bs_pdfAct.click()" class="btn btn-primary">Upload PDF
                                               <sup><span class="wh-s">*</span></sup>
                                                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
@@ -100,15 +100,15 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mt-3">
                                                 <a href="{{quesItem?.responseFile?.url}}" target="_blank"> {{quesItem?.responseFile?.name}} </a>
                                             </div>
-                                            <div class="ms-1" [ngClass]="{'w-c' : quesItem?.responseFile?.progress}" *ngIf="quesItem?.responseFile?.progress" style="padding: 0;">
+                                            <div class="mt-3" [ngClass]="{'w-c' : quesItem?.responseFile?.progress}" *ngIf="quesItem?.responseFile?.progress" style="padding-left: 25px;">
                                                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ quesItem?.responseFile?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: quesItem?.responseFile?.progress + '%' }">
-                                                    {{ quesItem?.file?.progress }}%
+                                                    {{ quesItem?.responseFile?.progress }}%
                                                 </div>
                                             </div>
-                                            <div class="mt-2" [ngClass]="{'col-sm-5' : !quesItem?.responseFile?.progress, 'col-sm-2' : quesItem?.responseFile?.progress}" *ngIf="quesItem?.responseFile?.url != ''">
+                                            <div class="mt-3" [ngClass]="{'col-sm-5' : !quesItem?.responseFile?.progress, 'col-sm-2' : quesItem?.responseFile?.progress}" *ngIf="quesItem?.responseFile?.url != ''">
                                                 <a href="{{quesItem?.responseFile?.url}}" target="_blank">
                                                     <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                                                 </a>
