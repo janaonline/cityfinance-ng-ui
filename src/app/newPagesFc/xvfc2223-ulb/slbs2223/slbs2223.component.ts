@@ -131,7 +131,7 @@ export class Slbs2223Component implements OnInit {
       params += "&from=2223"
       params += `&ulb=${this.ulbId}`
       this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
-
+        res["data"][0].waterManagement.waterSuppliedPerDay.score['2122'] = parseFloat(res["data"][0].waterManagement.waterSuppliedPerDay.score['2122']).toFixed(2)
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;

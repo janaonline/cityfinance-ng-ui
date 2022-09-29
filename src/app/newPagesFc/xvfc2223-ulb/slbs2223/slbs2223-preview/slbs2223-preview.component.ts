@@ -187,6 +187,7 @@ export class Slbs2223PreviewComponent implements OnInit {
     "In Progress",
   ];
   ngOnInit() {
+    console.log('preData2223', this.preData)
     let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data.history = null;
     if (this.userData.role !== USER_TYPE.ULB) {
