@@ -208,10 +208,10 @@
                           </select>
                     </th>
                     <th class="filter text-center">
-                        <select class="" formControlName="status_s" style="width: 75%;" (change)="search()">
+                        <select class="" *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e'" formControlName="status_s" style="width: 75%;" (change)="search()">
                             <option selected value="">Status</option>
                              <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
-                           </select>
+                          </select>
                     </th>
                     <th class="filter text-center" colspan="2">
                         <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
