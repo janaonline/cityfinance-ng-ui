@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="mt-3" style="">
+    <div class="mt-3">
         <div class="card">
             <div class="card-body">
                 <div class="row" *ngIf="nonmillionTied?.length > 0">
@@ -50,11 +50,15 @@
                     </div>
                 </div>
             </div>
-
+           <div *ngIf="noDataFound">
+             <p class="text-danger text-center">
+               No data found !!!
+             </p>     
+           </div>
         </div>
-        <div class="card mt-3">
+        <div class="card mt-3" *ngIf="nonmillionUntied?.length > 0">
             <div class="card-body">
-                <div class="row" *ngIf="nonmillionUntied?.length > 0">
+                <div class="row">
                     <div class="col-sm-12 l-h">
                         2. View/Upload GTCs for Non-Million Plus Cities Untied Grants
                     </div>
@@ -106,9 +110,9 @@
             </div>
         </div>
 
-        <div class="card mt-3">
+        <div class="card mt-3" *ngIf="millionTied?.length > 0">
             <div class="card-body">
-                <div class="row" *ngIf="millionTied?.length > 0">
+                <div class="row">
                     <div class="col-sm-12 l-h">
                         3. View/Upload GTCs for Million Plus Cities Tied Grants
                     </div>
