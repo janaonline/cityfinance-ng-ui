@@ -96,8 +96,6 @@ import { DatePipe } from '@angular/common';
     NonMillionListComponent,
     GrantClaimsComponent,
     GrantClaimsDialogComponent,
-
-
   ],
 
   imports: [
@@ -125,6 +123,7 @@ import { DatePipe } from '@angular/common';
     MatSelectModule,
     MatChipsModule
 
-  ]
+  ],
+  // exports: [AgGridComponent]
 })
 export class StateformsModule { }

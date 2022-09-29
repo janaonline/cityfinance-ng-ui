@@ -169,8 +169,6 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
         this.getSideBar();
       }
     });
-
-
     this.path = sessionStorage.getItem("path1");
     this.ulbFormId = sessionStorage.getItem("form_id");
     this.ulbFormName = sessionStorage.getItem("form_name");
@@ -195,11 +193,12 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
+    this.getSideBar();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.getSideBar();
+
   }
   getSideBar() {
     let ulb;

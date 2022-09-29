@@ -181,6 +181,14 @@ export class TableComponent implements OnInit, OnChanges {
     );
   }
   search() {
+    this.listFetchOption = {
+      csv: false,
+      filter: this.filterForm ? this.filterForm.value : {},
+      sort: null,
+      skip: 0,
+      limit: this.tableDefaultOptions.itemPerPage,
+    };
+    this.tableDefaultOptions.currentPage = 1;
     console.log("value changes", this.filterForm?.value);
     this.filterFormValue = this.filterForm?.value;
     this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
@@ -195,6 +203,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.params["state"] = this.filterForm?.value?.state_name_s;
     }
     this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    this.params["skip"] = 0;
     this.callAPI();
   }
   isChecked(element: any) {
@@ -401,6 +410,14 @@ export class TableComponent implements OnInit, OnChanges {
       formId: this.formId,
 
     };
+    this.listFetchOption = {
+      filter: null,
+      sort: null,
+      csv: false,
+      skip: 0,
+      limit: this.tableDefaultOptions.itemPerPage,
+    };
+    this.tableDefaultOptions.currentPage = 1;
     this.params["limit"] = 10;
     this.params["skip"] = 0;
     this.filterForm.reset();

@@ -66,7 +66,7 @@ export class UserService {
       .replace('"', "");
     body["csv"] = true;
     let params = new HttpParams();
-    console.log(body, params);
+    console.log('csv params', body, params);
 
     Object.keys(body).forEach((key) => {
       if (typeof body[key] === "object") {
@@ -77,6 +77,8 @@ export class UserService {
         params = params.append(key, body[key]);
       }
     });
+    console.log('csv params', body, params);
+    console.log('csv params url', environment.api.url + `user/all?${params}`);
     return environment.api.url + `user/all?${params}`;
   }
 }

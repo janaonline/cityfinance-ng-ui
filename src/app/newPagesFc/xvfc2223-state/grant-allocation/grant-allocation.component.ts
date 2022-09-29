@@ -420,7 +420,7 @@ export class GrantAllocationComponent implements OnInit {
               //  resolve(res)
             },
             (error) => {
-              // swal(`Error- ${this.err}`)
+              swal(`Error- ${error.message}`, "error")
               let blob: any = new Blob([error.error], {
                 type: "text/json; charset=utf-8",
               });

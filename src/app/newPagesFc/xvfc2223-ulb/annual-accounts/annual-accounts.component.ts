@@ -51,6 +51,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "bal_sheet",
       action: false,
       actError: false,
+      tooltip: '',
       status: null,
       rejectReason: null,
       qusDis: false,
@@ -69,6 +70,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "assets",
         value: "",
@@ -90,6 +92,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "f_assets",
         value: "",
@@ -111,6 +114,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: 'The sum of grants received from state for development, state specific schemes and central sponsored schemes (only state’s share).',
       amount: {
         key: "s_grant",
         value: "",
@@ -132,6 +136,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       qusDis: false,
+      tooltip: 'The sum of grants received from central sector schemes and central sponsored schemes (only center’s share).',
       amount: {
         key: "c_grant",
         value: "",
@@ -153,6 +158,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       status: null,
+      tooltip: '',
       rejectReason: null,
       qusDis: false,
       responseFile: {
@@ -169,6 +175,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       status: null,
+      tooltip: '',
       rejectReason: null,
       qusDis: false,
       responseFile: {
@@ -185,6 +192,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "revenue",
         value: "",
@@ -206,6 +214,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "expense",
         value: "",
@@ -229,6 +238,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -245,6 +255,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -262,6 +273,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       actError: false,
       qusDis: false,
+      tooltip: '',
       rejectReason: null,
       responseFile: {
         url: '',
@@ -277,6 +289,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "assets",
         value: "",
@@ -298,6 +311,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "f_assets",
         value: "",
@@ -319,6 +333,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: 'The sum of grants received from state for development, state specific schemes and central sponsored schemes (only state’s share).',
       amount: {
         key: "s_grant",
         value: "",
@@ -340,6 +355,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       qusDis: false,
+      tooltip: 'The sum of grants received from central sector schemes and central sponsored schemes (only center’s share).',
       amount: {
         key: "c_grant",
         value: "",
@@ -363,6 +379,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -379,6 +396,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       actError: false,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -393,6 +411,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "revenue",
         value: "",
@@ -414,6 +433,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       qusDis: false,
+      tooltip: '',
       amount: {
         key: "expense",
         value: "",
@@ -437,6 +457,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -453,6 +474,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',
@@ -469,6 +491,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       status: null,
       rejectReason: null,
       qusDis: false,
+      tooltip: '',
       responseFile: {
         url: '',
         name: '',

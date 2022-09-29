@@ -28,6 +28,7 @@ export class CommonFileUploadComponent implements OnInit {
   @Input() quesType;
   @Input() isDisabled;
   @Input() dataFromParentN;
+  @Input() itemObj;
   @Output()
   getFileUploadResult = new EventEmitter();
   @Output()
