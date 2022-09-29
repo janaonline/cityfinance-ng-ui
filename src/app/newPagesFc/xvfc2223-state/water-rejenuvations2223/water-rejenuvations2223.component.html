@@ -94,7 +94,7 @@
                                                     delete_forever
                                                 </span></a>
                                         </td>
-                                        <td style="display: inline-flex;">
+                                        <td style="display: flex;">
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'), 'anDisable' : formDisable,'disable': !projectRow?.value?.disable }" (blur)="latLong($event.target.value,projectRow,'lat')"
                                                 formControlName="lat" pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long'), 'anDisable' : formDisable,'disable': !projectRow?.value?.disable}" (blur)="latLong($event.target.value,projectRow,'long')"
@@ -234,7 +234,7 @@
                                         <td>
                                             <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name'),'disable': !projectRow?.value?.disable}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
                                         </td>
-                                        <td style="display: inline-flex;">
+                                        <td style="display: flex;position: relative;bottom: 2px;">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'),'disable': !projectRow?.value?.disable}" formControlName="lat" (blur)="latLong($event.target.value,projectRow,'lat')" pattern="^\d*(\.\d{0,6})?$"
                                                 type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long'),'disable': !projectRow?.value?.disable}" formControlName="long" (blur)="latLong($event.target.value,projectRow,'long')"
@@ -325,7 +325,7 @@
                                         <td>
 
 
-                                            <select [disabled]="formDisable || disableUAs.includes(uas.value.ua)" style="height: 4ch;" (change)="indicatorSet($event, projectIndex,sliIndex)" [ngClass]="{'disable': !projectRow?.value?.disable}">
+                                            <select [disabled]="formDisable || disableUAs.includes(uas.value.ua)" style="height: 3.3ch;" (change)="indicatorSet($event, projectIndex,sliIndex)" [ngClass]="{'disable': !projectRow?.value?.disable}">
                                                 <option value="">--Select Indicator--</option>
                                                 <option
                                                     [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator"
@@ -436,26 +436,43 @@
         </div>
         
         <div class="row" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-            <div class="col-6">
-                <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active" (click)="backButtonClicked = true" class="btn back">
-              Back
+            <div class="col-7">
+                <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active" (click)="backButtonClicked = true" class="btn btn-c-back">
+              <- Previous Form
             </button>
             </div>
             
-            <div class="col-6">
-                <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button">
-                    {{saveBtnText}}
-                  </button>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-4">
+                        <button class="btn btnDraft" (click)="onDraft()" type="button">
+                            Save as Draft
+                          </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btnDraft" (click)="saveButtonClicked()" type="button">
+                            Submit
+                          </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-c-next" [routerLink]="['../edit-ulb-profile']" type="button">
+                            Next Form ->
+                          </button>
+                    </div>
+                </div>
+                
+                  
+               
             </div>
         </div>
         
     </form>
 </div>
 
-<ng-template #template>
-    <div class="modal-body text-center">
+<ng-template #templateSave>
+    <div class="modal-body text-center ">
         <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
             <div class="text-right">
                 <a (click)="alertClose()">
                     <img src="../../../../assets/form-icon/close-red-icon.png">
@@ -463,34 +480,20 @@
             </div>
         </div>
 
-        <p style="margin-top: 8px;">
-            Are you sure you want to proceed further?
-        </p>
-        <div>
-            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-                Save & Proceed</button>
-        </div>
-
-    </div>
-</ng-template>
-<ng-template #template1>
-    <div class="modal-body text-center">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
             </div>
         </div>
 
-        <p style="margin-top: 8px;">
-            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
-        </p>
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
         </div>
 
     </div>

@@ -84,10 +84,10 @@ export class WaterRejenuvations2223Component implements OnInit {
   toggle: boolean = true
   toggle1: boolean = true
   toggle2: boolean = true
-  @ViewChild("template") template;
+  @ViewChild("templateSave") template;
   @ViewChild("template1") template1;
 
-  saveBtnText = "NEXT";
+  saveBtnText = "Next Form ->";
   routerNavigate = null;
   saveClicked = false;
   showLoader = true;
@@ -122,27 +122,27 @@ export class WaterRejenuvations2223Component implements OnInit {
   ) {
     this.initializeUserType();
     this.id = sessionStorage.getItem("sessionID");
-    
-    this._router.events.subscribe(async (event: Event) => {
-      if (!this.saveClicked) {
-        if (event instanceof NavigationStart) {
-          if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-            return;
-          }
-          const change = sessionStorage.getItem("changeInWaterRejenuvation2223");
-          if (change === "true" && this.routerNavigate === null) {
-            this.dialog.closeAll();
-            this.routerNavigate = event;
-            const currentRoute = this._router.routerState;
-            this._router.navigateByUrl(currentRoute.snapshot.url, {
-              skipLocationChange: true,
-            });
-            this.openModal(this.template);
-          }
-        }
-      }
-    });
+    this.navigationCheck();
+    // this._router.events.subscribe(async (event: Event) => {
+    //   if (!this.saveClicked) {
+    //     if (event instanceof NavigationStart) {
+    //       if (event.url === "/" || event.url === "/login") {
+    //         sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+    //         return;
+    //       }
+    //       const change = sessionStorage.getItem("changeInWaterRejenuvation2223");
+    //       if (change === "true" && this.routerNavigate === null) {
+    //         this.dialog.closeAll();
+    //         this.routerNavigate = event;
+    //         const currentRoute = this._router.routerState;
+    //         this._router.navigateByUrl(currentRoute.snapshot.url, {
+    //           skipLocationChange: true,
+    //         });
+    //         this.openModal(this.template);
+    //       }
+    //     }
+    //   }
+    // });
   }
   
   async ngOnInit() {
@@ -286,7 +286,15 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.data.forEach((item)=>{
       item?.waterBodies.forEach((newitem=>{
         if(newitem?.name)
-        newitem?.name == null ? this.disableUpload = true : this.disableUpload = false
+        (newitem?.name == null && newitem?.area == null && 
+         newitem?.bod == null && newitem?.bod_expected == null && 
+         newitem?.cod == null && newitem?.cod_expected == null && 
+         newitem?.details == null && newitem?.do == null && 
+         newitem?.do_expected == null && newitem?.lat == null && 
+         newitem?.long == null && newitem?.nameOfBody == null && 
+         newitem?.tds == null && newitem?.tds_expected == null && 
+         newitem?.turbidity == null && newitem?.turbidity_expected == null && 
+         newitem?.photos[0]?.name == null && newitem?.photos[0]?.url == null) ? this.disableUpload = true : this.disableUpload = false
       }))    
     })
     return this.data.map((data) =>
@@ -950,14 +958,11 @@ export class WaterRejenuvations2223Component implements OnInit {
     let draftFlag = 0;
     console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
+      
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
       console.log(this.waterRejenuvation.controls);
-      if (this.saveBtnText == "NEXT") {
-        return this._router.navigate(['stateform/action-plan'])
-      }
-      if (this.waterRejenuvation.value.isDraft && fromPrev == null) {
-        return this.openModal(this.template1);
-      }
+      
+      
       this.waterRejenuvationService
         .postData(this.waterRejenuvation.value)
         .subscribe(
@@ -968,73 +973,12 @@ export class WaterRejenuvations2223Component implements OnInit {
               icon: "success",
             });
             sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-            let status = JSON.parse(
-              sessionStorage.getItem("allStatusStateForms")
-            );
-            status.steps.waterRejuventation.status = "PENDING";
-            status.steps.waterRejuventation.isSubmit =
-              !this.waterRejenuvation.value["isDraft"];
-            status.actionTakenByRole = "STATE";
-            this._stateformsService.allStatusStateForms.next(status);
-            if (this.routerNavigate) {
-              this._router.navigate([this.routerNavigate.url]);
-            } else {
-              this._router.navigate(["stateform/action-plan"]);
-            }
+           
           },
           (err) => {
             console.log(err);
           }
         );
-    } else if (this.loggedInUserType === "MoHUA") {
-      let changeHappen = sessionStorage.getItem("changeInWaterRejenuvation2223");
-      if (changeHappen == "false") {
-        this._router.navigate(["stateform/action-plan"]);
-        return;
-      } else {
-        if (this.routerNavigate) {
-          this.saveStateAction();
-          sessionStorage.setItem("changeInWaterRejenuvation2223", "false")
-          if (!this.flagg) {
-            this._router.navigate([this.routerNavigate.url]);
-          }
-          return;
-        } else if (this.submitted || this.backButtonClicked) {
-
-          this.body = this.waterRejenuvation.value;
-          this.body['uaData'].forEach(el => {
-            if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
-              draftFlag = 1;
-            }
-          })
-          if (draftFlag) {
-            this.body['isDraft'] = true;
-            this.openModal(this.template1)
-            return;
-          }
-          this.saveStateAction();
-          sessionStorage.setItem("changeInWaterRejenuvation2223", "false")
-          if (!this.flagg) {
-            if (this.submitted) {
-              this._router.navigate(["stateform/action-plan"]);
-              return;
-            } else if (this.backButtonClicked) {
-              this._router.navigate(["stateform/water-supply"]);
-              return;
-            }
-
-          }
-          return;
-        }
-        this.saveStateAction();
-
-        if (!this.flagg) {
-          sessionStorage.setItem("changeInWaterRejenuvation2223", "false")
-          this._router.navigate(["stateform/action-plan"]);
-        }
-        return;
-
-      }
     }
   }
   
@@ -1246,24 +1190,62 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>) {
-    // this.dialogRefForNavigation = this.modalService.show(template, { class: "modal-md" });
-    const dialogConfig = new MatDialogConfig();
-    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
-    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
-      // if (result === undefined) {
-      //   if (this.routerNavigate) {
-      //     this.routerNavigate = null;
-      //   }
-      // }
-    });
-  }
+  
 
-  stay() {
+  async stay() {
+    await this.dialogRef.close();
     this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
+  }
+  async proceed() {
+    this.dialogRef.close();
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.onDraft();
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    await this.onDraft();
+    return this._router.navigate(["stateform2223/water-rejenuvation"]);
+  }
+  async discard() {
+
+      sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate(["stateform2223/water-rejenuvation"]);
+      return;
+    }
+  }
+  onDraft(){
+    console.log(this.formStatus);
+      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
+      console.log(this.waterRejenuvation.controls);
+      
+      
+      this.waterRejenuvationService
+        .postData(this.waterRejenuvation.value)
+        .subscribe(
+          (res) => {
+            swal({
+              title: "Submitted",
+              text: "Saved as draft successfully!",
+              icon: "success",
+            });
+            sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+           
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    
+  }
+  alertClose() {
+    this.stay();
   }
   saveButtonClicked() {
 
@@ -1273,17 +1255,52 @@ export class WaterRejenuvations2223Component implements OnInit {
 
 
   }
-  proceed() {
-    this.submitted = false
-    this.dialog.closeAll();
-    this.submit(true);
-  }
+  
+  clickedSave;
+  alertError;
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          let changeInForm;
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
 
-  alertClose() {
-    this.dialog.closeAll();
-    if (this.routerNavigate) {
-      this.routerNavigate = null;
+            changeInForm = sessionStorage.getItem("changeInWaterRejenuvation2223");
+
+          // const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
+          if (event.url === "/" || event.url === "/login") {
+
+              sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+
+            return;
+          }
+          if (changeInForm === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
     }
+  }
+  dialogRef;
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
   }
   checkDiff() {
     // let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
