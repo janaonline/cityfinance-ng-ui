@@ -286,7 +286,15 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.data.forEach((item)=>{
       item?.waterBodies.forEach((newitem=>{
         if(newitem?.name)
-        newitem?.name == null ? this.disableUpload = true : this.disableUpload = false
+        (newitem?.name == null && newitem?.area == null && 
+         newitem?.bod == null && newitem?.bod_expected == null && 
+         newitem?.cod == null && newitem?.cod_expected == null && 
+         newitem?.details == null && newitem?.do == null && 
+         newitem?.do_expected == null && newitem?.lat == null && 
+         newitem?.long == null && newitem?.nameOfBody == null && 
+         newitem?.tds == null && newitem?.tds_expected == null && 
+         newitem?.turbidity == null && newitem?.turbidity_expected == null && 
+         newitem?.photos[0]?.name == null && newitem?.photos[0]?.url == null) ? this.disableUpload = true : this.disableUpload = false
       }))    
     })
     return this.data.map((data) =>
@@ -950,12 +958,10 @@ export class WaterRejenuvations2223Component implements OnInit {
     let draftFlag = 0;
     console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
+      
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
       console.log(this.waterRejenuvation.controls);
-      if (this.saveBtnText == "Next Form ->") {
-         this._router.navigate(['stateforms2223/water-supply'])
-         return
-      }
+      
       
       this.waterRejenuvationService
         .postData(this.waterRejenuvation.value)
@@ -1202,7 +1208,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       return;
     }
     await this.onDraft();
-    return this._router.navigate(["ulbform2223/slbs"]);
+    return this._router.navigate(["stateform2223/water-rejenuvation"]);
   }
   async discard() {
 
@@ -1210,7 +1216,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
     await this.dialogRef.close(true);
     if (this.routerNavigate) {
-      this._router.navigate([this.routerNavigate.url]);
+      this._router.navigate(["stateform2223/water-rejenuvation"]);
       return;
     }
   }
