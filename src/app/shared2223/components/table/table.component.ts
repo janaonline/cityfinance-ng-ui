@@ -6,6 +6,7 @@ import {
   OnChanges,
   ViewChild,
   AfterViewInit,
+  OnDestroy,
 } from "@angular/core";
 import { NewCommonService } from "../../services/new-common.service";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -26,7 +27,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit, OnChanges, OnDestroy {
   // @ViewChild(MatPaginator ) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
   constructor(
@@ -131,8 +132,9 @@ export class TableComponent implements OnInit, OnChanges {
       "../../stateform2223/" + this.formUrl;
   }
   filterFormValue;
+  reviewSubs;
   updatedTableData() {
-    this.commonService.reviewStatus.subscribe((result) => {
+    this.reviewSubs = this.commonService.reviewStatus.subscribe((result) => {
       console.log("review Status ===>", result);
       if (result) {
         this.callAPI();
@@ -140,6 +142,9 @@ export class TableComponent implements OnInit, OnChanges {
         return;
       }
     });
+  }
+  ngOnDestroy() {
+    this.reviewSubs?.unsubscribe();
   }
   callAPI() {
     this.isLoader = true;
@@ -288,15 +293,28 @@ export class TableComponent implements OnInit, OnChanges {
       });
     });
   }
-  selected_checkbox(id, status: HTMLInputElement) {
-    this.checkedStatus = status.checked;
-    let selectedIndex = this.selectedId.findIndex((item) => item == id);
-    if (selectedIndex > -1) {
-      this.selectedId.splice(selectedIndex, 1);
-      this.selectedId.splice();
-    } else {
+  selected_checkbox(id, status) {
+    console.log(id, status)
+    this.checkedStatus = status;
+    if (status == true) {
       this.selectedId.push(id);
+      this.selectedId = this.selectedId.filter(function (item, pos, self) {
+        return self.indexOf(item) == pos;
+      })
+    } else if (status == false) {
+      let selectedIndex = this.selectedId.findIndex((item) => item == id);
+      if (selectedIndex > -1) {
+        this.selectedId.splice(selectedIndex, 1);
+      }
     }
+
+    // let selectedIndex = this.selectedId.findIndex((item) => item == id);
+    // if (selectedIndex > -1) {
+    //   this.selectedId.splice(selectedIndex, 1);
+    //   this.selectedId.splice();
+    // } else {
+    //   this.selectedId.push(id);
+    // }
     console.log(this.selectedId);
   }
   openDialog(type) {
@@ -304,6 +322,7 @@ export class TableComponent implements OnInit, OnChanges {
       selectedId: this.selectedId,
       type: type,
       formId: this.formId,
+      tableName: this.title
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -422,6 +441,11 @@ export class TableComponent implements OnInit, OnChanges {
     this.params["skip"] = 0;
     this.filterForm.reset();
   }
+
+  // getAllData() {
+  //   this.params['limit'] = 200;
+  //   this.callAPI();
+  // }
 
 }
 
