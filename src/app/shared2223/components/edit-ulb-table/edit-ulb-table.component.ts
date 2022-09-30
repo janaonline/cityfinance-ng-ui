@@ -192,6 +192,7 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
     this.absoluteIndex(index);
     console.log('ddd', index, this.tabelRows['controls'][index + 1].value, this.indexNo);
     this.detailsEdit = true;
+    console.log('form', this.editableForm)
     let updateData = {
       "state": this.tabelData[this.indexNo].state,
       "ulb": this.tabelData[this.indexNo].ulb,
