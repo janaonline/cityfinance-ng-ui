@@ -610,7 +610,7 @@ export class StateFinanceComponent implements OnInit {
         this.ptService.setStateFormStatus2223.next(true);
       },
       (error) => {
-        swal("Error", error?.message ? error?.message : "Error", "error");
+        swal("Error", `${error?.message}`, "error");
       }
     );
   }
