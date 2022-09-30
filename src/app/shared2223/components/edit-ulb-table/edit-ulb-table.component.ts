@@ -76,15 +76,20 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
   errMessage = '';
   ngOnInit() {
     this.showLoader = true;
-    this.loadData();
+    this.loadData('api');
   }
 
-  loadData() {
+  loadData(type) {
     this._stateformsService.getulbDetails()
       .subscribe((res) => {
         console.log('getulbDetails', res);
         let resData: any = res;
         this.tabelData = resData.data;
+        if (resData?.data?.length > 0) {
+          this.nodataFound = false;
+        } else {
+          this.nodataFound = true;
+        }
         this.totalItems = this.tabelData.length;
         console.log('tabelData', this.tabelData)
         this.tabelData.forEach(data => {
@@ -101,6 +106,14 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
           console.log(error, this.errMessage);
         });
     this.formInitialize();
+    if (type == 'reset') {
+      this.ulb_name_s.reset();
+      this.ulb_code_s.reset();
+      this.nodal_of_name.reset();
+      this.nodal_of_email.reset();
+      this.nodal_of_phn.reset();
+
+    }
 
 
   }
@@ -145,7 +158,7 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.loadData();
+      this.loadData('api')
       this.editableForm.disable();
       console.log(`Dialog result: ${result}`);
     });
@@ -159,7 +172,7 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.loadData();
+      this.loadData('api')
       // if(this.detailsEdit)
       this.editableForm.disable();
       console.log(`Dialog result: ${result}`);
@@ -179,6 +192,7 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
     this.absoluteIndex(index);
     console.log('ddd', index, this.tabelRows['controls'][index + 1].value, this.indexNo);
     this.detailsEdit = true;
+    console.log('form', this.editableForm)
     let updateData = {
       "state": this.tabelData[this.indexNo].state,
       "ulb": this.tabelData[this.indexNo].ulb,
@@ -269,10 +283,10 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
 
           } else {
             let res: any = result;
-            if (res.data.length == 0) {
-              this.nodataFound = true;
-            } else {
+            if (res?.data?.length > 0) {
               this.nodataFound = false;
+            } else {
+              this.nodataFound = true;
             }
             this.editableForm.enable();
             this.tabelData = res.data;
