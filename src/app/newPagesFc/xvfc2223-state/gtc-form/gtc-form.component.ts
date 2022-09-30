@@ -36,17 +36,19 @@ export class GtcFormComponent implements OnInit {
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
     }
     this.navigationCheck();
   }
-
+  sideMenuItem;
   gtcFormData;
   ngOnInit(): void {
     this.intializeGtc();
     this.getGtcData();
+    this.setRouter();
     sessionStorage.setItem("changeInGtc", "false");
   }
   getGtcData() {
@@ -67,11 +69,13 @@ export class GtcFormComponent implements OnInit {
               console.log("form", this.gtcFormData);
               el["isDraft"] = false;
               el["status"] = obj?.status;
-              el["rejectReason"] = obj?.rejectReason;
+              el["rejectReason_mohua"] = obj?.rejectReason_mohua;
+              el['responseFile_mohua']['name'] = obj?.responseFile_mohua?.name;
+              el['responseFile_mohua']['url'] = obj?.responseFile_mohua?.url;
             } else {
               el["isDraft"] = true;
               el["status"] = "PENDING";
-              el["rejectReason"] = null;
+              el["rejectReason_mohua"] = null;
             }
           });
         }
@@ -111,7 +115,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //         {
   //           installment: 1,
@@ -133,7 +137,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //         {
   //           installment: 2,
@@ -155,7 +159,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //       ],
   //     },
@@ -185,7 +189,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //         {
   //           installment: 1,
@@ -207,7 +211,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //         {
   //           installment: 2,
@@ -229,7 +233,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //       ],
   //     },
@@ -259,7 +263,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //         {
   //           installment: 1,
@@ -282,7 +286,7 @@ export class GtcFormComponent implements OnInit {
   //           },
   //           isDraft: null,
   //           status: null,
-  //           rejectReason: null,
+  //           rejectReason_mohua: null,
   //         },
   //       ],
   //     },
@@ -316,12 +320,12 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            responseFile: {
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
             },
-            rejectReason: null,
+            rejectReason_mohua: null,
             canTakeAction: false
           },
           {
@@ -344,8 +348,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -373,8 +377,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -409,8 +413,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -437,8 +441,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -465,8 +469,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -501,8 +505,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -530,8 +534,8 @@ export class GtcFormComponent implements OnInit {
             },
             isDraft: null,
             status: null,
-            rejectReason: null,
-            responseFile: {
+            rejectReason_mohua: null,
+            responseFile_mohua: {
               name: '',
               url: '',
               progress: null
@@ -546,22 +550,28 @@ export class GtcFormComponent implements OnInit {
     for (let i = 0; i < this.gtcFormData.length; i++) {
       let tabArray = this.gtcFormData[i]?.quesArray;
       for (let j = 0; j < tabArray.length; j++) {
-        let el = tabArray[j];
-        let nextEl = tabArray[j + 1];
-        if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
-          tabArray[0].isDisableQues = false;
-          break;
-        } else if (el?.isDraft == false && el?.status != "REJECTED") {
-          el.isDisableQues = true;
-          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-            nextEl.isDisableQues = false;
+        if (this.userData?.role == 'STATE') {
+          let el = tabArray[j];
+          let nextEl = tabArray[j + 1];
+          if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
+            tabArray[0].isDisableQues = false;
+            break;
+          } else if (el?.isDraft == false && el?.status != "REJECTED") {
+            el.isDisableQues = true;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
+          } else if (el?.isDraft == false && el?.status == "REJECTED") {
+            el.isDisableQues = false;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
           }
-        } else if (el?.isDraft == false && el?.status == "REJECTED") {
-          el.isDisableQues = false;
-          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-            nextEl.isDisableQues = false;
-          }
+        } else {
+          tabArray[j].isDisableQues = true;
+          tabArray[j].disableMsg = '';
         }
+
       }
     }
   }
@@ -622,7 +632,7 @@ export class GtcFormComponent implements OnInit {
     if (upType == 'normal') {
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 20;
    } else {
-     this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 20;
+      this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 20;
    }
     this.dataEntryService.getURLForFileUpload(name, type).subscribe(
       (s3Response) => {
@@ -630,8 +640,8 @@ export class GtcFormComponent implements OnInit {
           this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
           this.gtcFormData[i].quesArray[j]["file"]["name"] = name;
         } else {
-          this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 50;
-          this.gtcFormData[i].quesArray[j]["responseFile"]["name"] = name;
+          this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 50;
+          this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["name"] = name;
         }
         // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
         const res = s3Response.data[0];
@@ -669,7 +679,7 @@ export class GtcFormComponent implements OnInit {
     if (upType == 'normal') {
       this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
     } else {
-      this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 60;
+      this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 60;
     }
     // this.gtcFormData[i].quesArray[j]["file"]["progress"] = 60;
     this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
@@ -687,8 +697,8 @@ export class GtcFormComponent implements OnInit {
             };
             sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
           } else {
-            this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = 100;
-            this.gtcFormData[i].quesArray[j]["responseFile"]["url"] = fileAlias;
+            this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 100;
+            this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["url"] = fileAlias;
           }
           // // this.gtcFormData[i].quesArray[j]['file'] = file;
           // this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
@@ -714,9 +724,9 @@ export class GtcFormComponent implements OnInit {
     sessionStorage.setItem("gtcIjData", JSON.stringify(ijData));
   }
   clearFileAction(type, i, j) {
-    this.gtcFormData[i].quesArray[j]["responseFile"]["url"] = "";
-    this.gtcFormData[i].quesArray[j]["responseFile"]["name"] = "";
-    this.gtcFormData[i].quesArray[j]["responseFile"]["progress"] = null;
+    this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["url"] = "";
+    this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["name"] = "";
+    this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = null;
   }
 
   saveFile(i, j) {
@@ -746,7 +756,7 @@ export class GtcFormComponent implements OnInit {
           this.gtcFormData[i].quesArray[j].isDisableQues = true;
           this.gtcFormData[i].quesArray[j].status = "PENDING";
           this.gtcFormData[i].quesArray[j].isDraft = false;
-          this.gtcFormData[i].quesArray[j].rejectReason = null;
+          this.gtcFormData[i].quesArray[j].rejectReason_mohua = null;
           if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
@@ -857,7 +867,7 @@ export class GtcFormComponent implements OnInit {
     for (let i = 0; i < this.gtcFormData.length; i++) {
       let tabArray = this.gtcFormData[i]?.quesArray;
       tabArray.forEach((el) => {
-        if (el?.isDraft == false && el?.status == "PENDING") {
+        if (el?.isDraft == false && el?.status == "PENDING" && this.userData?.role == 'MoHUA') {
           el['canTakeAction'] = true;
         } else if (el?.isDraft == false && (el?.status == "APPROVED" || el?.status == "REJECTED")) {
           el['canTakeAction'] = false;
@@ -868,31 +878,103 @@ export class GtcFormComponent implements OnInit {
     }
   }
   actionBtnDis = false;
+  formId = '';
   actionBtnClick(type, qItem, lItem, val) {
     console.log('clicked..', type, qItem, lItem);
     if (type == 'returnRes') {
-      qItem.rejectReason = val;
+      qItem.rejectReason_mohua = val;
+    } else {
+      qItem.status = type;
+      this.actionError = false;
     }
-  }
-  saveAction(cIndex, qIndex) {
-    console.log('save action', cIndex, qIndex);
-    let actionPostBody = {
-      "formId": "62c552c52954384b44b3c386",
-      "design_year": "606aafb14dff55e6c075d3ae",
-      "state": [
-        "5dcf9d7516a06aed41c748f8",
-        "5dcf9d7316a06aed41c748e7"
-      ],
-      "status": "REJECTED",
-      "statesData": [
 
+  }
+  actionError = false;
+  saveAction(cIndex, qIndex) {
+    console.log('gtc form data', this.gtcFormData)
+    console.log('save action', cIndex, qIndex);
+    let actionObj = this.gtcFormData[cIndex].quesArray[qIndex];
+    let actionBody = {
+      formId: this.formId,
+      design_year: "606aafb14dff55e6c075d3ae",
+      "state": this.stateId,
+      "status": actionObj?.status,
+      "statesData": [
+        {
+          "type": actionObj?.type,
+          "installment": actionObj?.installment,
+          "year": actionObj?.year,
+          "state": this.stateId,
+          "design_year": this.years["2022-23"]
+        }
       ],
-      "rejectReason": "qwert",
+      "rejectReason_mohua": actionObj?.rejectReason_mohua,
       "responseFile": {
-        "url": "https://democityfinanceapi.dhwaniris.in/objects/562bbfe4-e804-495d-92cb-9d100dd2c273.pdf",
-        "name": "asd.pdf"
+        "url": actionObj?.responseFile_mohua?.url,
+        "name": actionObj?.responseFile_mohua?.name
       }
     }
+    console.log('action body', actionBody)
+    if (actionBody?.status == '' || actionBody?.status == undefined || actionBody?.status == null || actionBody?.status == 'PENDING') {
+      swal('Error', "Action is mandatory", 'error');
+      this.actionError = true;
+      return;
+    } else if ((actionBody?.rejectReason_mohua == "" || actionBody?.rejectReason_mohua == null) && actionBody?.status == "REJECTED") {
+      swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+      this.actionError = true;
+      return;
+    }
+    this.actionError = false;
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this action? Once submitted,
+      it will become uneditable and will be sent to MoHUA for Review.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalActionSave(actionBody, cIndex, qIndex);
+          break;
+        case "cancel":
+          break;
+      }
+    });
 
+  }
+  finalActionSave(actionBody, cIndex, qIndex) {
+    this.newCommonService.postCommonAction(actionBody).subscribe(
+      (res) => {
+        console.log("action respon", res);
+        this.gtcFormData[cIndex].quesArray[qIndex].canTakeAction = false;
+        swal("Saved", "Action saved successfully.", "success");
+        this.newCommonService.setStateFormStatus2223.next(true);
+      },
+      (error) => {
+        swal("Error", `${error?.message}`, "error");
+      }
+    );
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.name == "Grant Transfer Certificate") {
+          // this.nextRouter = element?.nextUrl;
+          // this.backRouter = element?.prevUrl;
+          this.formId = element?._id;
+        }
+      });
+    }
   }
 }
