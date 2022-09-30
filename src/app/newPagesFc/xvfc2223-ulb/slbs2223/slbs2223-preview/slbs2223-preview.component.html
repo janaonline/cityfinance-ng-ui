@@ -1,23 +1,23 @@
 <div id="previewSlb" #previewSlb>
     <div style="background: #047474; color: white; position: relative; text-align: center;" [ngClass]="{'slb-pd':!preData?.fromParent, 'slb-pd-t' : preData?.fromParent }">
-        <span  class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
+        <span class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
           Submissions for 15th FC grant for FY 2021-22</span>
-        <h3  class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
-            {{ preData?.ulbName || userDetails.name }}, {{userData.stateName}}
+        <h3 class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
+            {{ ulbName }}, {{stateName}}
         </h3>
-        <i  style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
+        <i style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
     </div>
 
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
         <p class="form-status"></p>
-        <button  id="donwloadButton" style="right: 0%; border-color: unset; outline: none; margin-right: 2%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
+        <button id="donwloadButton" style="right: 0%; border-color: unset; outline: none; margin-right: 2%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
       Download as PDF
     </button>
     </div>
-    <div style="position: relative; padding: 2% 2%" class="scrol">
-        <h3  style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
+    <div style="position: relative; padding: 2% 2%" class="">
+        <h3 style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
         <table aria-describedby="Water Waste Management Form" class="t-tb-tr tb-th-s" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
-            <thead style="color: #047474" class="tb-th-s">
+            <thead style="color: #050808" class="tb-th-s">
                 <th style="padding: 1%" scope="col" class="tb-th-s">Service Level Indicators</th>
                 <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">Benchmark</th>
                 <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">
@@ -30,7 +30,7 @@
                 <th scope="col" style="padding: 1%; text-align: center"> Score</th>
             </thead>
             <tbody class="t-tb-tr tb-th-s">
-                <tr *ngIf="services[0] as service" class="t-tb-tr">
+                <tr *ngIf="services[0] as service" class="t-tb-tr pdd-tr">
                     <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
@@ -52,7 +52,7 @@
                         <span *ngIf="preData?.waterManagement[service.key]?.target">
               {{ preData?.waterManagement[service.key]?.target[year.key] }}
             </span>
-                        <em class="glyphicon"  *ngIf="
+                        <em class="glyphicon" *ngIf="
                         preData?.waterManagement[service.key]?.target &&
                         preData?.waterManagement[service.key]?.target[year.key]
                 ">
@@ -60,15 +60,15 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                      <span *ngIf="preData?.waterManagement[service.key]?.baseline">
+                        <span *ngIf="preData?.waterManagement[service.key]?.baseline">
                         {{ preData?.waterManagement?.waterSuppliedPerDay?.achieved['2122']}}
                       </span>
                     </td>
-                    <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.waterSuppliedPerDay?.score['2122']}}</span>    
-                  </td>
+                    <td style="text-align: center;" class="tb-th-s">
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.waterSuppliedPerDay?.score['2122']}}</span>
+                    </td>
                 </tr>
-                <tr *ngIf="
+                <!-- <tr *ngIf="
                 preData?.waterManagement[services[0].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
@@ -79,21 +79,21 @@
                         {{ preData?.waterManagement[services[0].key].rejectReason }}
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122']}}</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122']}}</span>
                     </td>
-                    <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122']}}</span>    
-                  </td>
-                </tr>
+                    <td style="text-align: center;" class="tb-th-s">
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122']}}</span>
+                    </td>
+                </tr> -->
 
-                <tr *ngIf="services[1] as service" class="t-tb-tr">
-                    <td style="padding: 1%" class="td-width tb-th-s">
+                <tr *ngIf="services[1] as service" class="t-tb-tr pdd-tr">
+                    <td style="" class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
                     <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
-                   
+
 
                     <td style="text-align: center" class="tb-th-s">
                         <span *ngIf="preData?.waterManagement[service.key]?.baseline">
@@ -119,13 +119,13 @@
             </i>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122'] }}</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.achieved['2122'] }}</span>
                     </td>
-                    <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122'] }}</span>    
+                    <td style="text-align: center;" class="tb-th-s">
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.reduction?.score['2122'] }}</span>
                     </td>
                 </tr>
-                <tr *ngIf="
+                <!-- <tr *ngIf="
                 preData?.waterManagement[services[1].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
@@ -135,16 +135,16 @@
                         <h5 style="margin-bottom: 0px">Reason for rejection</h5>
                         {{ preData?.waterManagement[services[1].key].rejectReason }}
                     </td>
-                </tr>
+                </tr> -->
 
-                <tr *ngIf="services[2] as service" class="t-tb-tr">
+                <tr *ngIf="services[2] as service" class="t-tb-tr pdd-tr">
                     <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
                     <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
-                   
+
 
                     <td style="text-align: center" class="tb-th-s">
                         <span *ngIf="preData?.waterManagement[service.key]?.baseline">
@@ -170,13 +170,13 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.achieved['2122']}}</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.achieved['2122']}}</span>
                     </td>
-                    <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.score['2122'] }}</span>    
-                  </td>
+                    <td style="text-align: center;" class="tb-th-s">
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredWithSewerage?.score['2122'] }}</span>
+                    </td>
                 </tr>
-                <tr *ngIf="
+                <!-- <tr *ngIf="
                 preData?.waterManagement[services[2].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
@@ -186,16 +186,16 @@
                         <h5 style="margin-bottom: 0px">Reason for rejection</h5>
                         {{ preData?.waterManagement[services[2].key].rejectReason }}
                     </td>
-                </tr>
+                </tr> -->
 
-                <tr *ngIf="services[3] as service" class="t-tb-tr">
+                <tr *ngIf="services[3] as service" class="t-tb-tr pdd-tr">
                     <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
                     <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
-                   
+
 
                     <td style=" text-align: center" class="tb-th-s">
                         <span *ngIf="preData?.waterManagement[service.key]?.baseline">
@@ -221,13 +221,13 @@
             </em>
                     </td>
                     <td *ngFor="let year of achieved;  index as i" style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.achieved['2122'] }}</span>      
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.achieved['2122'] }}</span>
                     </td>
-                    <td  style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.score['2122'] }}</span>    
-                  </td>
+                    <td style="text-align: center;" class="tb-th-s">
+                        <span class="benchamark-cell">{{ preData?.waterManagement?.houseHoldCoveredPipedSupply?.score['2122'] }}</span>
+                    </td>
                 </tr>
-                <tr *ngIf="
+                <!-- <tr *ngIf="
                 preData?.waterManagement[services[3].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
@@ -237,7 +237,7 @@
                         <h5 style="margin-bottom: 0px">Reason for rejection</h5>
                         {{ preData?.waterManagement[services[3].key].rejectReason }}
                     </td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
     </div>
