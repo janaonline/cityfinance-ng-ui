@@ -11,6 +11,7 @@ import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
 import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
 import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
+import { ActionPlanComponent } from './action-plan/action-plan.component';
 const routes: Routes = [
   {
     path: "",
@@ -72,6 +73,11 @@ const routes: Routes = [
       {
         path: "water-rejenuvation",
         component: WaterRejenuvations2223Component
+      },
+      {
+        path: "action-plan",
+        component: ActionPlanComponent
+
       }
 
     ],

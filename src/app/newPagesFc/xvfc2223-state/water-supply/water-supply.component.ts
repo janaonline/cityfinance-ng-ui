@@ -59,6 +59,9 @@ export class WaterSupplyComponent implements OnInit {
   totalAplusB;
   UANames = [];
   id;
+  noDataFound : boolean = false;
+  gfcScoreRoundOff;
+  odfScoreRoundOff;
   targetActual = [{ key: "1", name: "Actual Indicator <br> 2020-21" },
   { key: "2", name: "Target <br> 2021-22" },
   { key: "3", name: "Actual Indicator <br> 2021-22" },
@@ -153,7 +156,7 @@ export class WaterSupplyComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.yearValue = this.design_year["2022-23"];
   }
-  noDataFound : boolean = false;
+  
   foldCard(index, ua_id) {
     console.log(ua_id)
     let params = {
@@ -163,6 +166,8 @@ export class WaterSupplyComponent implements OnInit {
     this.stateService.getWaterSupplyData(params).subscribe(
       (res: any) => {
         this.getData = res['data']
+        this.gfcScoreRoundOff = parseFloat(this.getData?.gfc?.score).toFixed(2)
+        this.odfScoreRoundOff = parseFloat(this.getData?.odf?.score).toFixed(2)
         this.combinedActualTarget = this.targetActual  
         this.getTotalWeightedScore();
         this.setRowData();
@@ -207,33 +212,33 @@ export class WaterSupplyComponent implements OnInit {
         }
    }
    setRowData(){
-    this.firstRowData = [parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2021).toFixed(2),
-      parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_actual2122).toFixed(2),
+    this.firstRowData = [parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2021).toFixed(2),      
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2122).toFixed(2),
+      parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2223).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2324).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2425).toFixed(2)
       ]
 
     this.secondRowData = [parseFloat(this.getData?.fourSLB?.data?.reduction2021).toFixed(2),
-      parseFloat(this.getData?.fourSLB?.data?.reduction_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.reduction2122).toFixed(2),
+      parseFloat(this.getData?.fourSLB?.data?.reduction_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.reduction2223).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.reduction2324).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.reduction2425).toFixed(2)
       ]
 
     this.thirdRowData = [parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage2021).toFixed(2),
-      parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage2122).toFixed(2),
+      parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage2223).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage2324).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage2425).toFixed(2)
         ]
 
     this.fourthRowData = [parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply2021).toFixed(2),
-      parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply2122).toFixed(2),
+      parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply2223).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply2324).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply2425).toFixed(2)

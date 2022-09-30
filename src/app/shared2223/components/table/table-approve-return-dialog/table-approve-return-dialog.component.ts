@@ -1,3 +1,4 @@
+import { I } from '@angular/cdk/keycodes';
 import { HttpEventType } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -57,17 +58,29 @@ export class TableApproveReturnDialogComponent implements OnInit {
   }
 
   initializeForm() {
-    this.approveReturnForm = this.formBuilder.group({
-      responseFile: this.formBuilder.group({
-        url: [""],
-        name: [""],
-      }),
-      rejectReason: [""],
-      ulb: [this.data?.selectedId],
-      formId: [this.data?.formId],
-      design_year: [this.getDesignYear()],
-    });
-
+    if (this.data?.tableName == 'Review State Forms') {
+      this.approveReturnForm = this.formBuilder.group({
+        responseFile: this.formBuilder.group({
+          url: [""],
+          name: [""],
+        }),
+        rejectReason: [""],
+        state: [this.data?.selectedId],
+        formId: [this.data?.formId],
+        design_year: [this.getDesignYear()],
+      });
+    } else {
+      this.approveReturnForm = this.formBuilder.group({
+        responseFile: this.formBuilder.group({
+          url: [""],
+          name: [""],
+        }),
+        rejectReason: [""],
+        ulb: [this.data?.selectedId],
+        formId: [this.data?.formId],
+        design_year: [this.getDesignYear()],
+      });
+    }
     this.onLoad();
   }
 

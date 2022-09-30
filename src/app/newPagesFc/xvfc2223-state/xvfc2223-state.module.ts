@@ -28,6 +28,13 @@ import { EditUlbProfileComponent } from "src/app/pages/stateforms/edit-ulb-profi
 import { EditViewComponent } from "src/app/pages/stateforms/edit-ulb-profile/edit-view/edit-view.component";
 import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
 import { WaterRejenuvations2223PreviewComponent } from './water-rejenuvations2223/water-rejenuvations2223-preview/water-rejenuvations2223-preview.component';
+import { ActionPlanComponent } from './action-plan/action-plan.component';
+import { CollapseModule } from "ngx-bootstrap/collapse";
+import { AgGridModule } from 'ag-grid-angular';
+import { AgGridComponent } from '../../shared/components/ag-grid/ag-grid.component'
+import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { AgGrid2223Component } from './action-plan/ag-grid2223/ag-grid2223.component'
+import { ButtonRendererComponent } from "./action-plan/delete-btn";
 
 @NgModule({
   declarations: [
@@ -47,10 +54,14 @@ import { WaterRejenuvations2223PreviewComponent } from './water-rejenuvations222
     EditUlbComponent,
     WaterRejenuvations2223Component,
     WaterRejenuvations2223PreviewComponent,
+    ActionPlanComponent,
+    AgGrid2223Component,
+    // ButtonRendererComponent
   ],
   imports: [
     CommonModule,
     Shared2223Module,
+    SharedModule,
     Xvfc2223StateRoutingModule,
     MatIconModule,
     MatTooltipModule,
@@ -59,8 +70,9 @@ import { WaterRejenuvations2223PreviewComponent } from './water-rejenuvations222
     ReactiveFormsModule,
     FormsModule,
     AccordionModule.forRoot(),
-    SharedModule,
     StateformsModule,
+    CollapseModule.forRoot(),
+    AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
   ],
 })
 export class Xvfc2223StateModule {}

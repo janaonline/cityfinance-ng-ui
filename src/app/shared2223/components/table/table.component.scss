@@ -58,7 +58,9 @@ input.field {
 }
 
 .checkboxBackground {
-    background-color: rgb(211, 211, 211);
+     ::ng-deep .mat-checkbox-layout {
+        background-color: rgb(211, 211, 211);
+    }
 }
 
 input:focus {

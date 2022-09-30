@@ -43,52 +43,33 @@ export class Slbs2223Component implements OnInit {
   targets = targets;
   achieved = achieved;
   score = score
-
-
   services: {
     key: keyof WaterManagement;
     name: string;
     benchmark: string;
   }[] = services;
   value;
+  userData;
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
- 
+
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
     private _router: Router,
     private modalService: BsModalService,
     public _ulbformService: UlbformService
-  ) { 
+  ) {
     console.log('printing waterWasteManagementForm------->',waterWasteManagementForm)
-    
+
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.loggedInUserType = this.loggedInUserDetails.role;
-    this.ulbId = sessionStorage.getItem("ulb_id");
-    
-    this._router.events.subscribe(async (event: Event) => {
-      if (!this.value?.saveData) {
-        if (event instanceof NavigationStart) {
-          if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("changeInSLB", "false");
-            return;
-          }
-          const change = sessionStorage.getItem("changeInSLB");
-          if (change === "true" && this.routerNavigate === null) {
-            this.routerNavigate = event;
-
-            const currentRoute = this._router.routerState;
-            this._router.navigateByUrl(currentRoute.snapshot.url, {
-              skipLocationChange: true,
-            });
-            console.log("inside router");
-            // this.openModal(this.template);
-          }
-        }
-      }
-    });
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
   }
   protected readonly formBuilder = new FormBuilder();
   async ngOnInit(): Promise<void> {
@@ -111,41 +92,44 @@ export class Slbs2223Component implements OnInit {
       });
   }
   }
-  isCompleted
-  previewData
-  preFilledWaterManagement
+  isCompleted;
+  previewData;
+  preFilledWaterManagement;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
-  clickAnswer
-  slbId
-  statePostData
-  finalSubmitStatus
-  ulbFormStaus
-  ulbFormRejectR
-  actionResSlb
+  clickAnswer;
+  slbId;
+  statePostData;
+  finalSubmitStatus;
+  ulbFormStaus;
+  ulbFormRejectR;
+  actionResSlb;
+  ulbId;
+  isMillionPlus;
+  isUA;
+  isPreviousData = false;
+  isPreviousMsg;
   getSlbData() {
-    let ulbId = sessionStorage.getItem("ulb_id");
-
+    // let ulbId = sessionStorage.getItem("ulb_id");
     return new Promise((resolve, reject) => {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
       params += "&from=2223"
       params += `&ulb=${this.ulbId}`
-      this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
-
+      this.commonService.fetchSlbData(params, this.ulbId).subscribe((res) => {
+        res["data"][0].waterManagement.waterSuppliedPerDay.score['2122'] = parseFloat(res["data"][0].waterManagement.waterSuppliedPerDay.score['2122']).toFixed(2)
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
+        debugger
         if (res['data'].length > 0) {
           if (res['data'][0]['blank']) {
             this.clickAnswer = false
           } else {
             this.clickAnswer = true
           }
+          this.isPreviousData = true;
+          this.isPreviousMsg = ''
         }
-        
-
-       
-
         this.slbId = res["data"] && res["data"][0] ? res["data"][0]._id : "";
         console.log("slbsResppppppppp", res);
         console.log("slbResponse", res["data"]);
@@ -167,15 +151,19 @@ export class Slbs2223Component implements OnInit {
           console.log("slb Status", this.ulbFormStaus);
         }
 
-        this.ulbFormRejectR =
-          this.statePostData.data[0]?.waterManagement["rejectReason"];
+        this.ulbFormRejectR = this.statePostData.data[0]?.waterManagement["rejectReason"];
         this.actionResSlb = actRes;
         console.log("asdfghj", actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res));
         console.log("slbsResppppppppp", res);
-console.log("important---> ", this.preFilledWaterManagement)
+        console.log("important---> ", this.preFilledWaterManagement)
         resolve(res);
-      });
+      },
+        (error) => {
+          this.isPreviousData = false;
+          this.isPreviousMsg = error?.error?.message
+        }
+      );
     });
 
   }
@@ -200,11 +188,9 @@ console.log("important---> ", this.preFilledWaterManagement)
 
     return newForm;
   }
-  ulbId
-  isMillionPlus
-  isUA
+
   isMillionPlusOrNot() {
-    this.ulbId = sessionStorage.getItem("ulb_id");
+   // this.ulbId = sessionStorage.getItem("ulb_id");
     console.log("pk12", this.ulbId);
     if (this.ulbId == null) {
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -239,7 +225,7 @@ console.log("important---> ", this.preFilledWaterManagement)
   data = "";
   res;
   clickedSave = false;
-  
+
   initi;
   detectInit = 0
   onWaterWasteManagementEmitValue(value) {
@@ -303,7 +289,7 @@ console.log("important---> ", this.preFilledWaterManagement)
 
   }
 
-  
+
   postSlbData(value) {
     console.log(value);
     console.log("slb check........", value);

@@ -115,6 +115,8 @@ export class Slbs2223PreviewComponent implements OnInit {
 
     .td-width {
       width: 25%;
+      padding-top: 5px !important;
+      padding-bottom: 5px !important;
     }
 
     button {
@@ -157,6 +159,8 @@ export class Slbs2223PreviewComponent implements OnInit {
 }
 
 
+
+
   </style>`;
 
   @Input()
@@ -176,7 +180,7 @@ export class Slbs2223PreviewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public preData: any
   ) { }
 
-  ngOnChanges(changes : SimpleChange) { 
+  ngOnChanges(changes: SimpleChange) {
     console.log("changes=============//>", changes);
   }
   formStatusCheck = "";
@@ -186,14 +190,19 @@ export class Slbs2223PreviewComponent implements OnInit {
     "Completed",
     "In Progress",
   ];
+  ulbName = '';
+  stateName = '';
+
   ngOnInit() {
+    console.log('preData2223', this.preData)
     let getData = JSON.parse(sessionStorage.getItem("slbData"));
-    this.data.history = null;
+    if (this.data && this.data?.history) this.data["history"] = null;
     if (this.userData.role !== USER_TYPE.ULB) {
-      this.data.ulbName = sessionStorage.getItem("ulbName")
+      this.ulbName = sessionStorage.getItem("ulbName");
     } else {
-      this.data.ulbName = this.userData['name'];
+      this.ulbName = this.userData["name"];
     }
+    this.stateName = this.userData["stateName"];
   }
   clicked = false;
   clickedDownloadAsPDF(template) {
@@ -201,12 +210,12 @@ export class Slbs2223PreviewComponent implements OnInit {
       this.downloadAsPDF();
     // this.openModal(template)
   }
-  
+
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
 
     let html = this.styleForPDF + elementToAddPDFInString;
-    
+
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {

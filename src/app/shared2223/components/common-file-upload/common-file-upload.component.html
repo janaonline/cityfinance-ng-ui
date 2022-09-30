@@ -1,6 +1,10 @@
 <div class="row mb-3">
     <div class="col-sm-5 q-n" style="width: 46%;">
         {{quesName}}<span class="text-danger">*</span>
+        <span *ngIf="itemObj?.tooltip != ''" matTooltip="{{itemObj?.tooltip}}" matTooltipClass="tooltip-red" matTooltipPosition="above">
+          <img src="../../../../assets/ticks/info_black_18dp.svg">
+        </span>
+
     </div>
     <div class="col-sm-4" style="width: 29%;">
         <div class="" *ngIf="quesType == 'input'">

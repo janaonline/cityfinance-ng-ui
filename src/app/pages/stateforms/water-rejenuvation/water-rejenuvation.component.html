@@ -91,7 +91,7 @@
                                                     delete_forever
                                                 </span></a>
                                         </td>
-                                        <td style="display: inline-flex; margin-top: 12%;">
+                                        <td style="display: inline-flex;">
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'), 'anDisable' : formDisable }" (blur)="latLong($event.target.value,projectRow,'lat')"
                                                 formControlName="lat" pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long'), 'anDisable' : formDisable}" (blur)="latLong($event.target.value,projectRow,'long')"
