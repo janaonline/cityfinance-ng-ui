@@ -739,6 +739,8 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     }
   }
+
+  
   addRow2(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
