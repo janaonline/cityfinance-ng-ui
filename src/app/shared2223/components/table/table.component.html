@@ -1,5 +1,6 @@
 <div class="row mt-2 text-end">
     <div class="col-12">
+        <!-- <button type="button" class="btn btn-c-next" (click)="getAllData()">Get All Data</button> -->
         <button type="button" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
         <button type="button" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
         <button type="button" class="btn btn-danger ms-3" (click)="download()">Download</button>
@@ -183,8 +184,9 @@
                     </td>
                     <td>
                         <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
-                            <input (change)="selected_checkbox(resData?.ulbId,$event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
-                                [checked]="resData?.isChecked">
+                            <!-- <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
+                                [checked]="resData?.isChecked"> -->
+                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" (change)="selected_checkbox(resData?.ulbId, resData.isChecked)" [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
                 </tr>
@@ -255,8 +257,11 @@
                     </td>
                     <td>
                         <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
-                            <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
-                                [checked]="resData?.isChecked">
+                            <!-- <input (change)="selected_checkbox(resData?.state, $event.srcElement)"
+                             class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
+                             [disabled]="resData?.cantakeAction == false" type="checkbox" value="true" id="flexCheckChecked"
+                                [checked]="resData?.isChecked"> -->
+                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" (change)="selected_checkbox(resData?.state, resData.isChecked)" [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
                 </tr>

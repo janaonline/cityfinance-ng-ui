@@ -59,7 +59,7 @@
                                             </th>
                                             <th class="filter">
                                                 <button class="btn btn-t" (click)="stateData(false)">Search</button>
-                                                <a (click)="loadData()">
+                                                <a (click)="loadData('reset')">
                                                     <mat-icon aria-hidden="false">
                                                         <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
                                                     </mat-icon>
@@ -88,14 +88,14 @@
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <input type="text" class="form-control" formControlName="nodal_officer_name">
-                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.invalid &&
-                                              (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.dirty ||
-                                              editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.touched)">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl?.editDetailsArray?.controls[tabelIndex+1]?.controls.nodal_officer_name?.invalid &&
+                                              (editFormControl?.editDetailsArray?.controls[tabelIndex+1].controls?.nodal_officer_name?.dirty ||
+                                              editFormControl?.editDetailsArray?.controls[tabelIndex+1].controls?.nodal_officer_name?.touched)">
 
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl?.editDetailsArray?.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
                                                         cannot be empty.
                                                     </div>
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl?.editDetailsArray?.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
                                                         must be of only Alphabet characters only and 1st letter must be capital.
                                                     </div>
                                                 </div>

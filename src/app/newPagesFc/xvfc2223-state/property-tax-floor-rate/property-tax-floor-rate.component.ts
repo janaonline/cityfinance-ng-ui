@@ -680,7 +680,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
       },
       (error) => {
-        swal("Error", error?.message ? error?.message : "Error", "error");
+        swal("Error", `${error?.message}`, "error");
       }
     );
   }
