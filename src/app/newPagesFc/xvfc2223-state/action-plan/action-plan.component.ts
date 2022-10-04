@@ -228,85 +228,80 @@ export class ActionPlanComponent implements OnInit {
 
 
 
-  // submit(fromPrev = null) {
-  //   let draftFlag = 0;
-  //   if (this.loggedInUserType === "STATE") {
-  //     if (this.saveBtnText === "NEXT") {
-  //       return this._router.navigate(["stateform/grant-allocation"]);
-  //     }
-  //     if (this.data.isDraft && !fromPrev) {
-  //       return this.openModal(this.template1);
-  //     }
-  //     let data = this.makeApiData(true);
-  //     this.actionplanserviceService.postFormData(data).subscribe(
-  //       (res) => {
-  //         swal("Record Submitted Successfully!");
-  //         sessionStorage.setItem("changeInActionPlans", "false");
-  //         const form = JSON.parse(
-  //           sessionStorage.getItem("allStatusStateForms")
-  //         );
+  submit(type) {
+    let draftFlag;
+    if (this.loggedInUserType === "STATE") {
+      let data = this.makeApiData(true);
+      if (type == 'isDraft') {
+        data.isDraft = true
+      } else {
+        data.isDraft = false;
+      }
+      this.actionplanserviceService.postFormData(data).subscribe(
+        (res) => {
+          swal("Record Submitted Successfully!");
+          sessionStorage.setItem("changeInActionPlans", "false");
+          const form = JSON.parse(
+            sessionStorage.getItem("allStatusStateForms")
+          );
 
-  //         form.steps.actionPlans.isSubmit = !this.data.isDraft;
-  //         form.steps.actionPlans.status = "PENDING";
-  //         form.actionTakenByRole = "STATE";
-  //         this.stateformsService.allStatusStateForms.next(form);
-  //         if (this.routerNavigate) {
-  //           this._router.navigate([this.routerNavigate.url]);
-  //         } else {
-  //           this._router.navigate(["stateform/grant-allocation"]);
-  //         }
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //       }
-  //     );
-  //   } else if (this.loggedInUserType === "MoHUA") {
-  //     let changeHappen = sessionStorage.getItem("changeInActionPlans");
-  //     if (changeHappen == "false") {
-  //       this._router.navigate(["stateform/grant-allocation"]);
-  //       return;
-  //     } else {
-  //       if (this.routerNavigate) {
-  //         this.saveStateAction();
-  //         sessionStorage.setItem("changeInActionPlans", "false")
-  //         if (!this.stopFlag) {
-  //           this._router.navigate([this.routerNavigate.url]);
-  //         }
-  //         return;
-  //       } else if (this.submitted || this.backButtonClicked) {
-  //         this.finalActionData['uaData'].forEach(el => {
-  //           if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
-  //             draftFlag = 1;
-  //           }
-  //         })
-  //         if (draftFlag) {
-  //           this.finalActionData['isDraft'] = true;
-  //           this.openModal(this.template1)
-  //           return;
-  //         } else {
-  //           this.finalActionData['isDraft'] = false;
-  //         }
-  //         this.saveStateAction();
-  //         sessionStorage.setItem("changeInActionPlans", "false")
-  //         if (!this.stopFlag && this.submitted) {
-  //           this._router.navigate(["stateform/grant-allocation"]);
-  //           return
-  //         } else if (!this.stopFlag && this.backButtonClicked) {
-  //           this._router.navigate(["stateform/action-plan"]);
-  //           return
-  //         }
-  //         return;
-  //       }
-  //       this.saveStateAction();
-  //       sessionStorage.setItem("changeInActionPlans", "false")
-  //       if (!this.stopFlag) {
-  //         this._router.navigate(["stateform/grant-allocation"]);
-  //       }
-  //       return;
+          form.steps.actionPlans.isSubmit = !this.data.isDraft;
+          form.steps.actionPlans.status = "PENDING";
+          form.actionTakenByRole = "STATE";
+          //  this.stateformsService.allStatusStateForms.next(form);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+    //  else if (this.loggedInUserType === "MoHUA") {
+    //   let changeHappen = sessionStorage.getItem("changeInActionPlans");
+    //   if (changeHappen == "false") {
+    //     this._router.navigate(["stateform/grant-allocation"]);
+    //     return;
+    //   } else {
+    //     if (this.routerNavigate) {
+    //       this.saveStateAction();
+    //       sessionStorage.setItem("changeInActionPlans", "false")
+    //       if (!this.stopFlag) {
+    //         this._router.navigate([this.routerNavigate.url]);
+    //       }
+    //       return;
+    //     } else if (this.submitted || this.backButtonClicked) {
+    //       this.finalActionData['uaData'].forEach(el => {
+    //         if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
+    //           draftFlag = 1;
+    //         }
+    //       })
+    //       if (draftFlag) {
+    //         this.finalActionData['isDraft'] = true;
+    //         this.openModal(this.template1)
+    //         return;
+    //       } else {
+    //         this.finalActionData['isDraft'] = false;
+    //       }
+    //       this.saveStateAction();
+    //       sessionStorage.setItem("changeInActionPlans", "false")
+    //       if (!this.stopFlag && this.submitted) {
+    //         this._router.navigate(["stateform/grant-allocation"]);
+    //         return
+    //       } else if (!this.stopFlag && this.backButtonClicked) {
+    //         this._router.navigate(["stateform/action-plan"]);
+    //         return
+    //       }
+    //       return;
+    //     }
+    //     this.saveStateAction();
+    //     sessionStorage.setItem("changeInActionPlans", "false")
+    //     if (!this.stopFlag) {
+    //       this._router.navigate(["stateform/grant-allocation"]);
+    //     }
+    //     return;
 
-  //     }
-  //   }
-  // }
+    //   }
+    // }
+  }
 
   // saveStateAction() {
   //   let flag = 0;
@@ -355,10 +350,10 @@ export class ActionPlanComponent implements OnInit {
   //     );
   // }
 
-  // saveButtonClicked() {
-  //   this.submitted = true;
-  //   this.submit()
-  // }
+  saveButtonClicked(type) {
+    this.submitted = true;
+    this.submit(type)
+  }
   makeApiData(fromSave = false) {
     let newUaData = [];
     this.data.uaData.forEach((element) => {
