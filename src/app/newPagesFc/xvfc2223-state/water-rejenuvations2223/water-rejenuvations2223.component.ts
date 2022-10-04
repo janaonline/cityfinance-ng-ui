@@ -401,7 +401,8 @@ export class WaterRejenuvations2223Component implements OnInit {
         workCompletion: this.fb.control('', [
           Validators.required,
           // Validators.min(1),
-        ])
+        ]),
+        isDisable : true
       })
     );
   }
@@ -450,7 +451,8 @@ export class WaterRejenuvations2223Component implements OnInit {
         workCompletion: this.fb.control('', [
           Validators.required,
           // Validators.min(1),
-        ])
+        ]),
+        isDisable : true
       })
     );
   }
@@ -488,7 +490,8 @@ export class WaterRejenuvations2223Component implements OnInit {
         workCompletion: this.fb.control('', [
           Validators.required,
           // Validators.min(1),
-        ])
+        ]),
+        isDisable : true
       })
     );
   }
@@ -697,6 +700,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     console.log(this.data)
     console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+    
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
@@ -733,14 +737,13 @@ export class WaterRejenuvations2223Component implements OnInit {
             Validators.required,
             // Validators.min(1),
           ]),
-          isDisable: true
         })
         ))
       }
     }
   }
 
-  
+
   addRow2(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
@@ -791,8 +794,7 @@ export class WaterRejenuvations2223Component implements OnInit {
             workCompletion: this.fb.control(null, [
               Validators.required,
               // Validators.min(1),
-            ]),
-            isDisable: true
+            ])
           })
         ))
       }
@@ -1237,8 +1239,12 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.design_year = this.design_year["2022-23"];
     console.log(this.design_year);
       this.waterRejenuvation?.controls?.isDraft?.patchValue(true);
+      console.log(this.waterRejenuvation.value);
+      
+
       (this.waterRejenuvation?.controls['uaData'] as FormArray).controls?.forEach((item:FormGroup)=>{
        (item?.controls['waterBodies'] as FormArray).controls?.forEach((item:FormGroup)=>{
+        console.log(item)
           item?.controls['isDisable'].patchValue(false)
        })
       });
@@ -1289,7 +1295,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         console.log(item)
         item?.waterBodies.forEach(i=>{
           console.log(i)
-          i?.isDisable == true ? this.disableLatest = true : ''
+          i?.isDisable == true ? this.disableLatest = true : this.disableLatest = false
           console.log(this.disableLatest);
           
         })
@@ -1596,6 +1602,13 @@ export class WaterRejenuvations2223Component implements OnInit {
         }
       );
   }
+
+  isDisabledState(projectRow, val) {
+    console.log(projectRow)
+    // uncomment below for disable inputs
+    return projectRow.controls[val]
+    // return false
+  }
 }
 
 function deepEqual(x, y) {
@@ -1607,3 +1620,5 @@ function deepEqual(x, y) {
     ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
+
+
