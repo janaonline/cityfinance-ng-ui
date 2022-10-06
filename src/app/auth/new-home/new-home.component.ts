@@ -202,7 +202,17 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     let searchArray:any = this.filteredOptions;
     let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
     console.log(searchValue);
-    this._commonService.updateSearchItem(this.globalFormControl.value);
+    
+
+    if(!searchValue){
+      this._commonService.updateSearchItem(this.globalFormControl.value);
+      let option = {
+        type: "searchKeyword",
+        _id: ""
+      }
+    this.dashboardNav(option);
+    }
+    
     // let postBody = {
     //   type: searchValue.type,
     //   searchKeyword: searchValue._id
@@ -212,11 +222,14 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     this.checkType(type);
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
        console.log('serach res', res)
+      
+   
+       
     },
     (error)=>{
       console.log(error)
     });
-    let option = {
+    let  option = {
       type: searchValue.type,
       _id: searchValue._id
     }
@@ -248,6 +261,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   dashboardNav(option) {
     console.log('option', option)
     this.checkType(option);
+    if(option.type != "searchKeyword")
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
       console.log('serach res', res)
    },
@@ -265,7 +279,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
     }
 
-    if(option?.type == 'newDataSet'){
+    if(option?.type == 'searchKeyword'){
       this.router.navigateByUrl(`/resources-dashboard/learning-center/toolkits`)
     }
 
