@@ -27,6 +27,16 @@
         </div>
 
     </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-9 text-end">
+            <button class="btn btn-primary" type="button" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
+            <button class="btn btn-primary ms-3" type="button" (click)="saveButtonClicked('save')" style="">Submit</button>
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        </div>
+    </div>
     <!-- <div class="footer" style="margin-top: 3rem;margin-bottom:4%;">
       <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button" style="margin-bottom: 2%;">
           {{saveBtnText}}
