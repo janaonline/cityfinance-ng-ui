@@ -937,10 +937,27 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.tab1dis = true;
       this.tab2dis = true;
     }
-    // else if (loggedInUser == 'ULB' && isDraft == false && status == 'REJECTED') {
-    //     this.isDisabled = true;
 
-    // }
+    else if (loggedInUser == 'ULB' && isDraft == false && status == 'REJECTED') {
+      this.isDisabled = true;
+      //audited status -- false
+      if (this.data?.audited?.submit_annual_accounts == false) {
+        if (this.data?.audited?.status == 'REJECTED' && this.data?.isDraft == false) {
+          this.tab1dis = false;
+        } else {
+          this.tab1dis = true;
+        }
+      }
+      //unaudited status -- false
+      if (this.data?.unAudited?.submit_annual_accounts == false) {
+        if (this.data?.unAudited?.status == 'REJECTED' && this.data?.isDraft == false) {
+          this.tab2dis = false;
+        } else {
+          this.tab2dis = true;
+        }
+      }
+
+    }
     else if (loggedInUser == 'ULB' && isDraft == true && canTakeAct == false) {
       this.isDisabled = false;
       this.tab1dis = false;
@@ -1034,7 +1051,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     this.unAuditedActionResponse.rejectReason = res?.rejectReason;
     this.auditedActionResponse.status = res?.status;
     this.auditedActionResponse.rejectReason = res?.rejectReason;
-
+    //unaudited status -- true
     if (res?.audited?.submit_annual_accounts == true) {
       let proviDataAu = res?.audited?.provisional_data;
       this.auditQues?.forEach((el) => {
@@ -1050,6 +1067,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.setStatusOnInputs('auditQues')
       this.auditedActionResponse.responseFile = proviDataAu?.bal_sheet?.responseFile;
     }
+    //unaudited status -- false
+    if (this.data?.audited?.submit_annual_accounts == false) {
+      if (this.data?.audited?.status == 'REJECTED' && this.data?.isDraft == false) {
+        this.tab1dis = false;
+      }
+    }
+    //unaudited status -- true
     if (res?.unAudited?.submit_annual_accounts == true) {
 
       let proviDataUn = res?.unAudited?.provisional_data;
@@ -1064,6 +1088,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.setStatusOnInputs('unAuditQues')
       this.unAuditedActionResponse.responseFile = proviDataUn?.bal_sheet?.responseFile;
     }
+
 
 
     console.log("pop data", this.auditQues, this.unAuditQues);
@@ -1758,6 +1783,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.isDisabled = true;
+        this.tab1dis = true;
+        this.tab2dis = true;
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
@@ -2152,11 +2179,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         // }
       });
     }
-    if (this.data?.audited?.submit_annual_accounts == false) {
-      if (this.data?.audited?.status == 'REJECTED' && this.data?.isDraft == false) {
-        this.tab1dis = false;
-      }
-    }
+
     //unaudit disable
     if (this.data?.unAudited?.submit_annual_accounts == true) {
       this.unAuditQues.forEach((el) => {
@@ -2180,11 +2203,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         // }
       })
     }
-    if (this.data?.unAudited?.submit_annual_accounts == false) {
-      if (this.data?.unAudited?.status == 'REJECTED' && this.data?.isDraft == false) {
-        this.tab2dis = false;
-      }
-    }
+
 
     console.log('aud rejected case', this.auditQues);
     console.log('unA rejected case', this.unAuditQues);
