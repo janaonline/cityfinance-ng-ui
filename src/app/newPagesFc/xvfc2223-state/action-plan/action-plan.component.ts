@@ -349,7 +349,8 @@ export class ActionPlanComponent implements OnInit {
   //       }
   //     );
   // }
-
+  backRouter = ''
+  nextRouter = ''
   saveButtonClicked(type) {
     this.submitted = true;
     this.submit(type)
