@@ -727,6 +727,23 @@ this._loaderService.stopLoader()
   }
 
   allReports: any = [];
+  getReport_pastYears(year){
+    let category
+    if(this.reportGroup == "Balance Sheet"){
+      category = "balance"
+    }else if(this.reportGroup == "Income & Expenditure Statement"){
+      category = "income"
+    }
+    this._resourcesDashboardService.getDataSets(year, "pdf", category, "", this.ulbName, "").subscribe(res=> {
+console.log(res['data'])
+if(res['data'].length == 0){
+  this.openDialog(res["data"], "notFound");
+}else{
+
+  window.open(res['data'][0]['fileUrl'])
+}
+    })
+  }
   getReport(selectedYear: string, fileType: string) {
     this._loaderService.showLoader();
     this.reportService.getReports(this.id, selectedYear).subscribe(
