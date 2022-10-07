@@ -188,6 +188,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     let obj = {
       financialYear: this.yearVal,
       stateId: stateId ? stateId : this.data.stateId,
+      from:"slb"
     };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {

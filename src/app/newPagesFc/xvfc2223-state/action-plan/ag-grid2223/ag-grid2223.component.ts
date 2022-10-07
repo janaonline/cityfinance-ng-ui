@@ -8,19 +8,31 @@ import {
 } from "@angular/core";
 import { AgGridAngular } from "ag-grid-angular";
 import { EventEmitter } from "@angular/core";
-import { CustomizedCellComponent } from "./customized-cell/customized-cell.component";
-import { CustomTooltipComponent } from "./custom-tooltip/custom-tooltip.component";
-import { CustomizedHeaderComponent } from "./customized-header/customized-header.component";
+import { CustomizedCellComponent } from "src/app/shared/components/ag-grid/customized-cell/customized-cell.component";
+//import { CustomizedCellComponent } from "./customized-cell/customized-cell.component";
+//import { CustomTooltipComponent } from "src/app/shared/components/ag-grid/customized-cell/customized-cell.component";
+import { CustomTooltipComponent } from "src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component";
+import { CustomizedHeaderComponent } from "src/app/shared/components/ag-grid//customized-header/customized-header.component";
+//import { CustomizedHeaderComponent } from "./customized-header/customized-header.component";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { ButtonRendererComponent } from '../delete-btn';
+import { State2223Service } from "../../state-services/state2223.service";
 @Component({
-  selector: "app-ag-grid",
-  templateUrl: "./ag-grid.component.html",
-  styleUrls: ["./ag-grid.component.scss"],
+  selector: 'app-ag-grid2223',
+  templateUrl: './ag-grid2223.component.html',
+  styleUrls: ['./ag-grid2223.component.scss']
 })
-export class AgGridComponent implements OnInit, OnChanges {
-  frameworkComponents:any;
-  constructor() {
+export class AgGrid2223Component implements OnInit {
+
+
+  frameworkComponents: any;
+  constructor(
+    public stateService: State2223Service,
+  ) {
     // this.frameworkComponents = {
     // }
+
   }
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
@@ -37,6 +49,9 @@ export class AgGridComponent implements OnInit, OnChanges {
   @Output()
   gridData = new EventEmitter();
 
+  rowDisableClass = {
+    'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+  }
 
   yearErrorMsg =
     "All years value sum should be a positive integer equal to amount";
@@ -90,7 +105,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Cost"].value != null ? params.data["Cost"].value : "",
+        params.data["Cost"].value && !isNaN(params.data["Cost"].value) ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 115,
@@ -199,7 +214,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 149,
       editable: true,
       field: "Type",
-
       cellEditor: "agSelectCellEditor",
       tooltipField: "Type",
       tooltipComponent: "customTooltip",
@@ -237,7 +251,16 @@ export class AgGridComponent implements OnInit, OnChanges {
         rows: "6",
       },
       suppressMovable: true,
-    }
+    },
+    {
+      field: "Action",
+      cellRenderer: "btnCellRenderer",
+      cellRendererParams: {
+        onClick: this.rowDelete.bind(this),
+        label: ''
+      },
+      minWidth: 50,
+    },
   ];
   fund = [
     {
@@ -269,7 +292,6 @@ export class AgGridComponent implements OnInit, OnChanges {
     },
     {
       cellRenderer: "customizedCell",
-
       valueGetter: (params) =>
         params.data["Project_Name"].value != null
           ? params.data["Project_Name"].value
@@ -291,7 +313,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Cost"].value != null ? params.data["Cost"].value : "",
+        (params.data && params.data["Cost"] && params.data["Cost"].value) ? params?.data["Cost"]?.value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 120,
@@ -308,7 +330,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["XV_FC"].value != null ? params.data["XV_FC"].value : "",
+        (params.data && params.data["XV_FC"] && params.data["XV_FC"].value) ? params?.data["XV_FC"]?.value : "",
       valueSetter: syncValueSetter(number),
       headerName: "15th FC",
       width: 100,
@@ -326,7 +348,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Other"].value != null ? params.data["Other"].value : "",
+        (params.data && params.data["Other"] && params.data["Other"].value) ? params.data["Other"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Other",
       width: 100,
@@ -344,7 +366,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Total"].value != null ? params.data["Total"].value : "",
+        (params.data && params.data["Total"] && params.data["Total"].value) ? params.data["Total"].value : "",
       valueSetter: syncValueSetter(Total),
       headerName: "Total",
       width: 100,
@@ -360,7 +382,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2021-22"].value != null
+        (params.data && params.data["2021-22"] && params.data["2021-22"].value)
           ? params.data["2021-22"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
@@ -379,7 +401,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2022-23"].value != null
+        (params.data && params.data["2022-23"] && params.data["2022-23"].value)
           ? params.data["2022-23"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
@@ -398,7 +420,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2023-24"].value != null
+        (params.data && params.data["2023-24"] && params.data["2023-24"].value)
           ? params.data["2023-24"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
@@ -417,7 +439,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2024-25"].value != null
+        (params.data && params.data["2024-25"] && params.data["2024-25"].value)
           ? params.data["2024-25"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
@@ -436,7 +458,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2025-26"].value != null
+        (params.data && params.data["2025-26"] && params.data["2025-26"].value)
           ? params.data["2025-26"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
@@ -654,14 +676,25 @@ export class AgGridComponent implements OnInit, OnChanges {
       this.year.forEach((element) => {
         element.editable = false;
       });
-    }
 
+    }
     this.rowData.projectExecute.forEach((element) => {
       if (element.Executing_Agency.value == "Parastatal Agency") {
         this.project[6].hide = false;
       } else {
         element.Parastatal_Agency.value = "N/A";
       }
+
+      // if (element.Project_Code.value.includes('2021-22')) {
+      //   this.project.forEach((el) => {
+      //     el.editable = false
+      //   })
+      // } else {
+      //   this.project.forEach((el) => {
+      //     el.editable = true
+      //   })
+      // }
+
     });
 
     if (!this.ulbList.includes("Parastatal Agency"))
@@ -673,7 +706,8 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
       agColumnHeader: CustomizedHeaderComponent,
-      customTooltip: CustomTooltipComponent
+      customTooltip: CustomTooltipComponent,
+      btnCellRenderer: ButtonRendererComponent
     };
   }
 
@@ -691,7 +725,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         } else if (e.node.id == index) {
           param.data.Parastatal_Agency.value = "";
         }
-        this.agGrid1?.api?.applyTransaction({ update: [param.data] });
+        this.agGrid1.api.applyTransaction({ update: [param.data] });
       });
 
       if (e.value != "Parastatal Agency") {
@@ -810,10 +844,10 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   addRow() {
-    console.log('this.rowData old', this.rowData)
+    console.log('this.rowData new', this.rowData)
     let s = this.agGrid1.api.getDisplayedRowCount();
     let obj = JSON.parse(JSON.stringify(input.projectExecute));
     obj[0].index.value = s + 1;
@@ -840,13 +874,108 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
-  removeRow() {
+  removeRow(i) {
     let lastElement = this.rowData.projectExecute.pop();
     this.agGrid1.api.applyTransaction({ remove: [lastElement] });
     lastElement = this.rowData.sourceFund.pop();
     this.agGrid2.api.applyTransaction({ remove: [lastElement] });
     lastElement = this.rowData.yearOutlay.pop();
     this.agGrid3.api.applyTransaction({ remove: [lastElement] });
+    this.gridData.emit(this.rowData);
+  }
+  rowDelete(e) {
+    console.log('eeeeee', e);
+    let selectedNode = e.params.node;
+    let selectedData = selectedNode.data;
+    let projectCode = selectedData?.Project_Code?.value;
+    console.log('selectedData', selectedData,);
+    console.log('eeeeee row data', this.rowData);
+    let ag1Elm;
+    if (projectCode) {
+      ag1Elm = this.rowData?.projectExecute.find((obj) => {
+        return obj.Project_Code.value === projectCode;
+      });
+      this.rowData.projectExecute = this.rowData.projectExecute.filter((obj) => {
+        return obj.Project_Code.value !== projectCode;
+      });
+      this.agGrid1.api.applyTransaction({ remove: [ag1Elm] });
+      ag1Elm = this.rowData?.sourceFund.find((obj) => {
+        return obj.Project_Code.value === projectCode;
+      });
+      this.rowData.sourceFund = this.rowData.sourceFund.filter((obj) => {
+        return obj.Project_Code.value !== projectCode;
+      });
+      this.agGrid2.api.applyTransaction({ remove: [ag1Elm] });
+      ag1Elm = this.rowData?.yearOutlay.find((obj) => {
+        return obj.Project_Code.value === projectCode;
+      });
+      this.rowData.yearOutlay = this.rowData.yearOutlay.filter((obj) => {
+        return obj.Project_Code.value !== projectCode;
+      });
+      this.agGrid3.api.applyTransaction({ remove: [ag1Elm] });
+    }
+    let len = this.rowData?.projectExecute?.length;
+    let proCode = projectCode.slice(0, projectCode.lastIndexOf('/'));
+    let proCodeNumbe = projectCode.slice(projectCode.lastIndexOf('/') + 1);
+    for (let i = 0; i < len; i++) {
+      let dataObj = this.rowData?.projectExecute[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid1.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid1.api.applyTransaction({ add: [dataObj] });
+        this.rowData.projectExecute[i] = dataObj;
+      }
+      this.agGrid1.api.applyTransaction({ update: [dataObj] });
+    }
+    for (let i = 0; i < len; i++) {
+      let dataObj = this.rowData?.sourceFund[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid2.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid2.api.applyTransaction({ add: [dataObj] });
+        this.rowData.sourceFund[i] = dataObj;
+      }
+      this.agGrid2.api.applyTransaction({ update: [dataObj] });
+    }
+
+    // for (let i = 0; i < len; i++) {
+    //   let dataObj = this.rowData?.sourceFund[i]
+    //   dataObj.index.value = i + 1;
+    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+    //   this.agGrid2.api.applyTransaction({ remove: [dataObj] });
+    //   this.agGrid2.api.applyTransaction({ add: [dataObj] });
+    //   this.rowData.sourceFund[i] = dataObj;
+    // }
+
+    for (let i = 0; i < len; i++) {
+      let dataObj = this.rowData?.yearOutlay[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid3.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid3.api.applyTransaction({ add: [dataObj] });
+        this.rowData.yearOutlay[i] = dataObj;
+      }
+      this.agGrid3.api.applyTransaction({ update: [dataObj] });
+    }
+    // for (let i = 0; i < len; i++) {
+    //   let dataObj = this.rowData?.yearOutlay[i]
+    //   dataObj.index.value = i + 1;
+    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+    //   this.agGrid3.api.applyTransaction({ remove: [dataObj] });
+    //   this.agGrid3.api.applyTransaction({ add: [dataObj] });
+    //   this.rowData.sourceFund[i] = dataObj;
+    // }
+    // this.rowData?.projectExecute.forEach((el) => {
+    //    el.Project_Code.value = ;
+    // });
+
+    console.log('last', this.rowData);
     this.gridData.emit(this.rowData);
   }
 }
@@ -870,6 +999,7 @@ const input = {
       Sector: { value: "", isEmpty: true, lastValidation: true },
       Type: { value: "", isEmpty: true, lastValidation: true },
       Estimated_Outcome: { value: "", isEmpty: true, lastValidation: true },
+      // Delete: { value: "", isEmpty: true, lastValidation: true },
     },
   ],
   sourceFund: [
@@ -1022,7 +1152,7 @@ const _onFail = (params) => () => {
     lastValidation: params.newValue,
     value: params.newValue,
   };
-  params?.api?.applyTransaction({ update: [data] });
+  params.api.applyTransaction({ update: [data] });
 };
 
 const syncValidator = (newValue, validateFn, onSuccess, _onFail, params) => {
@@ -1043,3 +1173,4 @@ const syncValueSetter = (validateFn) => (params) => {
   );
   return false;
 };
+

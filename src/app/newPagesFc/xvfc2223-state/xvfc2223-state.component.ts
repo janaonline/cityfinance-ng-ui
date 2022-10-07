@@ -52,11 +52,11 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
         //  this.getSideBar();
       }
     });
-
+    this.getStateBar(this.stateId, "STATE", "");
   }
   ngOnDestroy() {
     this.stateSubs.unsubscribe();
-    this.getStateBar(this.stateId, "STATE", "");
+
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -72,6 +72,8 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
+      localStorage.setItem('state_name', this.states[this.userLoggedInDetails["state"]]?.name)
+      localStorage.setItem('state_code', this.states[this.userLoggedInDetails["state"]]?.code)
     });
   }
   // ngOnChanges(changes: SimpleChanges): void {

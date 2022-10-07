@@ -38,10 +38,14 @@ export class Gtc2223Component implements OnInit {
       });
     }
   }
+  noDataFound : boolean = false;
   getGtcData() {
     this.stateService.getGtcData(this.stateId).subscribe(
       (res: any) => {
-        console.log("res", res);
+        console.log("res", res?.data?.length);
+        if(res?.data?.length == 0){
+          this.noDataFound = true
+        }
         this.cardData = res?.data;
         res?.data.forEach((el) => {
           if (el?.type == "nonmillion_untied") {

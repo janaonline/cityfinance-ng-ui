@@ -32,37 +32,37 @@ export class DashboardComponent implements OnInit {
   disableBtn: boolean = false;
   cardApiData;
 
-  cardData: any = {
-    title: 'card1',
-    cardData: [{
-      icon: '../../../../assets/dashboard-state/16-location.svg',
-      link: '',
-      value: '4600',
-      lable: 'Total ULBs',
-      color: '#12505A;'
-    },
-    {
-      icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
-      link: '',
-      value: '500',
-      lable: 'Non Million Cities',
-      color: '#12505A;'
-    },
-    {
-      icon: '../../../../assets/dashboard-state/sustainable.svg',
-      link: '',
-      value: '60',
-      lable: 'Million Plus UAs',
-      color: '#12505A;'
-    },
-    {
-      icon: '../../../../assets/dashboard-state/16-location.svg',
-      link: '',
-      value: '600',
-      lable: 'ULBs in Million-Plus UAs',
-      color: '#12505A;'
-    }]
-  }
+  // cardData: any = {
+  //   title: 'card1',
+  //   cardData: [{
+  //     icon: '../../../../assets/dashboard-state/16-location.svg',
+  //     link: '',
+  //     value: '4600',
+  //     lable: 'Total ULBs',
+  //     color: '#12505A;'
+  //   },
+  //   {
+  //     icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
+  //     link: '',
+  //     value: '500',
+  //     lable: 'Non Million Cities',
+  //     color: '#12505A;'
+  //   },
+  //   {
+  //     icon: '../../../../assets/dashboard-state/sustainable.svg',
+  //     link: '',
+  //     value: '60',
+  //     lable: 'Million Plus UAs',
+  //     color: '#12505A;'
+  //   },
+  //   {
+  //     icon: '../../../../assets/dashboard-state/16-location.svg',
+  //     link: '',
+  //     value: '600',
+  //     lable: 'ULBs in Million-Plus UAs',
+  //     color: '#12505A;'
+  //   }]
+  // }
   formDataFirstInstallment: any = [
     {
       formHeader: 'ULB Forms',
@@ -204,7 +204,7 @@ export class DashboardComponent implements OnInit {
     formType: '',
     installment: ''
   };
-  
+
   ngOnInit(): void {
     this.params = {
       stateId: this.stateId,
@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit {
       formType: 'nmpc_untied',
       installment: this.installmentType
     };
-    this.getFormData();  
+    this.getFormData();
   }
 
   getStateAndDesignYear(){
@@ -221,7 +221,7 @@ export class DashboardComponent implements OnInit {
     this.stateId = this.userData?.state;
     this.yearValue = this.design_year["2022-23"];
   }
-  
+
   installmentClick(type) {
     this.installmentType = type;
     type == '1' ? this.formdata = this.formDataFirstInstallment : this.formdata = this.formData2ndInstallment
@@ -233,7 +233,7 @@ export class DashboardComponent implements OnInit {
       this.secondInstallment = true
       this.firstInstallment = false
     }
-  
+
     this.params = {
       stateId: this.stateId,
       design_year: this.yearValue,
@@ -242,12 +242,12 @@ export class DashboardComponent implements OnInit {
     };
     this.getFormData();
   }
-  
+
   tabActive(item) {
     console.log(item)
     this.selectedItem = item.formType
     this.viewMode = item.viewMode
-    item.title == 'MPC' 
+    item.title == 'MPC'
     this.params = {
       stateId: this.stateId,
       design_year: this.yearValue,
@@ -256,8 +256,8 @@ export class DashboardComponent implements OnInit {
     };
     this.getFormData();
   }
-  
-  getFormData(){  
+
+  getFormData(){
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
       console.log('formdatadadatatatatta', res);
       this.response = res
@@ -273,7 +273,7 @@ export class DashboardComponent implements OnInit {
       console.log('responsesaasasa', this.response)
     })
   }
-  
+
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res :any) => {
@@ -285,7 +285,7 @@ export class DashboardComponent implements OnInit {
         this.nonMillionCities = data['totalUlbNonMil'];
         this.millionPlusUAs = data['totalUa'];
         this.UlbInMillionPlusUA = data['totalUlbInUas'];
-        
+
       },
       (err) => {
         console.log(err);

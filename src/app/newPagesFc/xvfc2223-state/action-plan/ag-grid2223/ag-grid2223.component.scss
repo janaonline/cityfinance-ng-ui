@@ -1,0 +1,20 @@
+.ag-tb-h {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 0;
+}
+
+::ng-deep .ag-header-row {
+    background-color: #059b9a;
+    color: #FFFFFF;
+}
+
+::ng-deep .ag-header-row:last-child {
+    width: 350px;
+}
+
+::ng-deep .row-disable {
+    background-color: #d6dbdf !important;
+    color: #FFFFFF;
+    pointer-events: none !important;
+}

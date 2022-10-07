@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChange } from "@angular/core";
+import { Component, OnDestroy, OnInit, SimpleChange } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
@@ -12,7 +12,7 @@ import { ResourcesDashboardService } from "./resources-dashboard.service";
   templateUrl: "./resources-dashboard.component.html",
   styleUrls: ["./resources-dashboard.component.scss"],
 })
-export class ResourcesDashboardComponent implements OnInit {
+export class ResourcesDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     protected resourcedashboard: ResourcesDashboardService,
@@ -30,7 +30,7 @@ export class ResourcesDashboardComponent implements OnInit {
 
   cardStyle = cardStyle;
   cardData = [learningCenter, dataSets, reportsPublications];
-
+  castSubs;
   ngOnInit(): void {
     // this.subscribeValue();
     console.log("======>>>>>", this.cardData);
@@ -39,7 +39,7 @@ export class ResourcesDashboardComponent implements OnInit {
       startWith(""),
       map((value) => this._filter(value))
     );
-    this._commonService.castSearchItem.subscribe((res:any)=>{
+   this.castSubs = this._commonService.castSearchItem.subscribe((res:any)=>{
       console.log('searched item in resource', res)
       this.resourcesFilter.setValue(res)
       this.searchFilter(res);
@@ -53,6 +53,9 @@ export class ResourcesDashboardComponent implements OnInit {
         this._normalizeValue(data).includes(filterValue)
       );
     }
+  }
+  ngOnDestroy(){
+this.castSubs?.unsubscribe();
   }
 
   ngDoCheck() {
