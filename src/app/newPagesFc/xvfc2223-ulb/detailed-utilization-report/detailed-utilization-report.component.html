@@ -499,10 +499,10 @@
             </div>
         </div>
         <div class="row mt-4 mb-3">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
             </div>
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-8 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
                 <span *ngIf="canTakeAction">

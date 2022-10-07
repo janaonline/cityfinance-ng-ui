@@ -189,35 +189,40 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
 
   }
   updateDetails(index) {
-    this.absoluteIndex(index);
-    console.log('ddd', index, this.tabelRows['controls'][index + 1].value, this.indexNo);
-    this.detailsEdit = true;
-    console.log('form', this.editableForm)
-    let updateData = {
-      "state": this.tabelData[this.indexNo].state,
-      "ulb": this.tabelData[this.indexNo].ulb,
-      "accountantName": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_name,
-      "accountantEmail": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_email,
-      "accountantConatactNumber": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_phone,
-      "designation": this.tabelData[this.indexNo].designation,
-      "address": this.tabelData[this.indexNo].address,
-      "departmentName": this.tabelData[this.indexNo].departmentName,
-      "departmentEmail": this.tabelData[this.indexNo].departmentEmail,
-      "departmentContactNumber": this.tabelData[this.indexNo].departmentContactNumber
+    if (this.editableForm.status !== "INVALID") {
+      this.absoluteIndex(index);
+      console.log('ddd', index, this.tabelRows['controls'][index + 1].value, this.indexNo);
+      this.detailsEdit = true;
+      console.log('form', this.editableForm)
+      let updateData = {
+        "state": this.tabelData[this.indexNo].state,
+        "ulb": this.tabelData[this.indexNo].ulb,
+        "accountantName": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_name,
+        "accountantEmail": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_email,
+        "accountantConatactNumber": this.tabelRows['controls'][this.indexNo + 1].value.nodal_officer_phone,
+        "designation": this.tabelData[this.indexNo].designation,
+        "address": this.tabelData[this.indexNo].address,
+        "departmentName": this.tabelData[this.indexNo].departmentName,
+        "departmentEmail": this.tabelData[this.indexNo].departmentEmail,
+        "departmentContactNumber": this.tabelData[this.indexNo].departmentContactNumber
+      }
+
+      this._stateformsService.updateRequest(updateData)
+        .subscribe((res) => {
+          console.log('profile', res);
+        },
+          error => {
+            this.errMessage = error.message;
+            console.log(error, this.errMessage);
+          });
+      console.log('updateData', updateData)
+      this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_name').disable();
+      this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_email').disable();
+      this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_phone').disable();
+    } else {
+      swal('Error', "Some field are invalid or missing.", "error")
     }
 
-    this._stateformsService.updateRequest(updateData)
-      .subscribe((res) => {
-        console.log('profile', res);
-      },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
-    console.log('updateData', updateData)
-    this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_name').disable();
-    this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_email').disable();
-    this.editableForm.get('editDetailsArray').at(this.indexNo + 1).get('nodal_officer_phone').disable();
 
   }
 

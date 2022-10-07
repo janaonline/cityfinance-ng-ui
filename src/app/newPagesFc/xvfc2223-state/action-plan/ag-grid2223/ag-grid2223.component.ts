@@ -49,6 +49,9 @@ export class AgGrid2223Component implements OnInit {
   @Output()
   gridData = new EventEmitter();
 
+  rowDisableClass = {
+    'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+  }
 
   yearErrorMsg =
     "All years value sum should be a positive integer equal to amount";
@@ -102,7 +105,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Cost"].value != null ? params.data["Cost"].value : "",
+        params.data["Cost"].value && !isNaN(params.data["Cost"].value) ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 115,
@@ -682,15 +685,15 @@ export class AgGrid2223Component implements OnInit {
         element.Parastatal_Agency.value = "N/A";
       }
 
-      if (element.Project_Code.value.includes('2021-22')) {
-        this.project.forEach((el) => {
-          el.editable = false
-        })
-      } else {
-        this.project.forEach((el) => {
-          el.editable = true
-        })
-      }
+      // if (element.Project_Code.value.includes('2021-22')) {
+      //   this.project.forEach((el) => {
+      //     el.editable = false
+      //   })
+      // } else {
+      //   this.project.forEach((el) => {
+      //     el.editable = true
+      //   })
+      // }
 
     });
 
@@ -912,31 +915,62 @@ export class AgGrid2223Component implements OnInit {
       this.agGrid3.api.applyTransaction({ remove: [ag1Elm] });
     }
     let len = this.rowData?.projectExecute?.length;
+    let proCode = projectCode.slice(0, projectCode.lastIndexOf('/'));
+    let proCodeNumbe = projectCode.slice(projectCode.lastIndexOf('/') + 1);
     for (let i = 0; i < len; i++) {
-      let dataObj = this.rowData?.projectExecute[i]
-      dataObj.index.value = i + 1;
-      dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-      this.agGrid1.api.applyTransaction({ remove: [dataObj] });
-      this.agGrid1.api.applyTransaction({ add: [dataObj] });
-      this.rowData.projectExecute[i] = dataObj;
-      // this.agGrid1.api.applyTransaction({ update: [dataObj] });
+      let dataObj = this.rowData?.projectExecute[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid1.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid1.api.applyTransaction({ add: [dataObj] });
+        this.rowData.projectExecute[i] = dataObj;
+      }
+      this.agGrid1.api.applyTransaction({ update: [dataObj] });
     }
     for (let i = 0; i < len; i++) {
-      let dataObj = this.rowData?.sourceFund[i]
-      dataObj.index.value = i + 1;
-      dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-      this.agGrid2.api.applyTransaction({ remove: [dataObj] });
-      this.agGrid2.api.applyTransaction({ add: [dataObj] });
-      this.rowData.sourceFund[i] = dataObj;
+      let dataObj = this.rowData?.sourceFund[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid2.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid2.api.applyTransaction({ add: [dataObj] });
+        this.rowData.sourceFund[i] = dataObj;
+      }
+      this.agGrid2.api.applyTransaction({ update: [dataObj] });
     }
+
+    // for (let i = 0; i < len; i++) {
+    //   let dataObj = this.rowData?.sourceFund[i]
+    //   dataObj.index.value = i + 1;
+    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+    //   this.agGrid2.api.applyTransaction({ remove: [dataObj] });
+    //   this.agGrid2.api.applyTransaction({ add: [dataObj] });
+    //   this.rowData.sourceFund[i] = dataObj;
+    // }
+
     for (let i = 0; i < len; i++) {
-      let dataObj = this.rowData?.yearOutlay[i]
-      dataObj.index.value = i + 1;
-      dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-      this.agGrid3.api.applyTransaction({ remove: [dataObj] });
-      this.agGrid3.api.applyTransaction({ add: [dataObj] });
-      this.rowData.sourceFund[i] = dataObj;
+      let dataObj = this.rowData?.yearOutlay[i];
+      let code = dataObj.Project_Code.value;
+      if (proCode == code.slice(0, code.lastIndexOf('/')) && (proCodeNumbe < code.slice(code.lastIndexOf('/') + 1))) {
+        dataObj.index.value = i + 1;
+        dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+        this.agGrid3.api.applyTransaction({ remove: [dataObj] });
+        this.agGrid3.api.applyTransaction({ add: [dataObj] });
+        this.rowData.yearOutlay[i] = dataObj;
+      }
+      this.agGrid3.api.applyTransaction({ update: [dataObj] });
     }
+    // for (let i = 0; i < len; i++) {
+    //   let dataObj = this.rowData?.yearOutlay[i]
+    //   dataObj.index.value = i + 1;
+    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
+    //   this.agGrid3.api.applyTransaction({ remove: [dataObj] });
+    //   this.agGrid3.api.applyTransaction({ add: [dataObj] });
+    //   this.rowData.sourceFund[i] = dataObj;
+    // }
     // this.rowData?.projectExecute.forEach((el) => {
     //    el.Project_Code.value = ;
     // });

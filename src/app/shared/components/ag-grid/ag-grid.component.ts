@@ -691,7 +691,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         } else if (e.node.id == index) {
           param.data.Parastatal_Agency.value = "";
         }
-        this.agGrid1.api.applyTransaction({ update: [param.data] });
+        this.agGrid1?.api?.applyTransaction({ update: [param.data] });
       });
 
       if (e.value != "Parastatal Agency") {
@@ -1022,7 +1022,7 @@ const _onFail = (params) => () => {
     lastValidation: params.newValue,
     value: params.newValue,
   };
-  params.api.applyTransaction({ update: [data] });
+  params?.api?.applyTransaction({ update: [data] });
 };
 
 const syncValidator = (newValue, validateFn, onSuccess, _onFail, params) => {
