@@ -1911,22 +1911,34 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   getUploadActionFileData(e, type) {
     console.log('action......file', e, type);
     this.actionFileData[type] = e;
-    // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
-    for (const key in this.data[type].provisional_data) {
+    debugger
+    if (this.data[type].submit_annual_accounts) {
+      for (const key in this.data[type].provisional_data) {
+        if (typeof (this.data[type].provisional_data[key]) == 'object') {
+          let actionFile = {
+            responseFile: {
+              url: e?.pdf?.url,
+              name: e?.pdf?.name
+            }
+          };
+          Object.assign(this.data[type].provisional_data[key], actionFile);
+          // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
+          // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
+        }
 
-      if (typeof (this.data[type].provisional_data[key]) == 'object') {
-        let actionFile = {
-          responseFile: {
-            url: e?.pdf?.url,
-            name: e?.pdf?.name
-          }
-        };
-        Object.assign(this.data[type].provisional_data[key], actionFile);
-        // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
-        // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
       }
-
+    } else {
+      let actionFile = {
+        responseFile: {
+          url: e?.pdf?.url,
+          name: e?.pdf?.name
+        }
+      };
+      Object.assign(this.data[type], actionFile);
+      // this.data[type]["responseFile"]["name"] = e?.pdf?.name;
+      // this.data[type]["responseFile"]["url"] = e?.pdf?.url;
     }
+
     console.log('this. data for action', this.data);
 
   }
