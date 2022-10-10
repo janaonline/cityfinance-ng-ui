@@ -1142,13 +1142,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.stateName = this.statesList[this.stateId];
       }
       console.log("this.innertabData", this.data);
-  
+
       this.getRevenueId();
       // this.changeActiveBtn(0);
-  
+
       this.getStateUlbsPopulation();
       // this.getStateRevenue();
-  
+
       this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(
         (data) => {
           console.log("selectedStateFromSlbDashboard", data);
@@ -1829,7 +1829,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   callStandaLoneSlbDashboardApis() {
     this.getScatterData();
-    this.getServiceLevelBenchmarkBarChartData(); 
+    this.getServiceLevelBenchmarkBarChartData();
   }
 
   getStateMixChartData() {

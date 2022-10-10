@@ -267,10 +267,11 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.ptService.submitPtForm(this.body).subscribe((res :any)=>{
       console.log(res)
       if (res && res.message) {
-        sessionStorage.removeItem("changeInPropertyTax");
+        // sessionStorage.removeItem("changeInPropertyTax");
         console.log(res)
         this.clickedSave = false;
         this.getPtoData()
+        sessionStorage.setItem("changeInPropertyTax", "false");
         swal("Saved", "Data saved as draft successfully.", "success");
         this.ptService.setStateFormStatus2223.next(true);
       } else {

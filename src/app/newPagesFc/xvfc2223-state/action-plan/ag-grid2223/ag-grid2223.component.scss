@@ -17,4 +17,13 @@
     background-color: #d6dbdf !important;
     color: #FFFFFF;
     pointer-events: none !important;
+    .btn-del {
+        display: none !important;
+    }
 }
+
+// ::ng-deep .ag-cell-not-inline-editing {
+//     .btn-del {
+//         display: none !important;
+//     }
+// }
