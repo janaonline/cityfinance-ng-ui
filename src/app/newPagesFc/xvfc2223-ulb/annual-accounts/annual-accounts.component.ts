@@ -915,7 +915,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           );
           if (this.userData?.role !== 'ULB') {
             this.isDisabled = true;
+            this.tab1dis = true;
+            this.tab2dis = true;
           }
+          this.actionBtnDis = true;
           console.error(err.message);
         }
       );
@@ -1758,8 +1761,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     });
   }
   postAnnualFormDraft() {
-    this.data.audited.status = "PENDING";
-    this.data.unAudited.status = "PENDING";
+    if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
+    if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
@@ -1776,8 +1779,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     );
   }
   postApiForSubmit() {
-    this.data.audited.status = "PENDING";
-    this.data.unAudited.status = "PENDING";
+    if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
+    if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;

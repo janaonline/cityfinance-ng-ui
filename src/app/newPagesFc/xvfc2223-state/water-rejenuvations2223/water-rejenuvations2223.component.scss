@@ -10,10 +10,12 @@
     margin-bottom: 1rem;
     font-weight: 600;
 }
-.workCompletion{
+
+.workCompletion {
     margin-bottom: 5px;
     height: 4rem;
 }
+
 .card {
     border: 1px #00000029;
     margin-left: 20px;
@@ -42,25 +44,23 @@
     border: 2px solid #00000029;
 }
 
-.disable{
+.disable {
     pointer-events: none !important;
     background-color: #daecec;
 }
+
 .question {
     width: 100%;
 }
+
 .image-upload>input {
     display: none;
 }
+
 .image-upload img {
     cursor: pointer;
 }
-.image-upload>input {
-    display: none;
-}
-.image-upload img {
-    cursor: pointer;
-}
+
 .btnUpload {
     background-color: #059b9a;
     margin-left: 1pc;
@@ -69,6 +69,7 @@
     font-size: 12px;
     width: 200px;
 }
+
 .btnUpload:hover {
     background-color: #ffc500;
 }
@@ -76,11 +77,13 @@
 .btnUpload:active {
     background-color: #ffc500;
 }
+
 .filePadding {
     // padding-left: 23px;
     font-style: italic;
 }
-.progressBar{
+
+.progressBar {
     padding: 0;
 }
 
@@ -101,9 +104,11 @@
         position: relative;
     }
 }
-.backgd{
+
+.backgd {
     background-color: #177A27;
 }
+
 .custom-position {
     input {
         position: relative;
@@ -112,13 +117,15 @@
         text-align: center;
     }
 }
-.disableUpload{
-  background-color: #cfcfcf !important;
+
+.disableUpload {
+    background-color: #cfcfcf !important;
 }
 
-.toggle{
+.toggle {
     display: none
 }
+
 .custom-position {
     select {
         position: relative;
@@ -214,12 +221,15 @@ input::-webkit-inner-spin-button {
     cursor: not-allowed;
     opacity: 0.7;
 }
+
 .icon {
     padding-top: 18px !important;
 }
+
 .iconSliAndReuse {
     padding-top: 2px !important;
 }
+
 .btn-r {
     background-color: red;
     color: #FFFFFF;
@@ -243,17 +253,20 @@ input::-webkit-inner-spin-button {
     font-size: 11px;
     padding: 0;
 }
+
 .m-btn {
     color: #fff;
     background-color: #198754;
     border-color: #198754;
 }
+
 .btn-c-back {
     background-color: #CFCFCF;
     border-radius: 4px;
     border: 1px solid transparent;
     font-weight: 500;
 }
+
 .btnDraft {
     background-color: #059b9a;
     color: #fff;
@@ -261,10 +274,16 @@ input::-webkit-inner-spin-button {
     font-size: 16px;
     width: -webkit-fill-available;
 }
+
 .btn-c-next {
     background-color: #114551;
     border-radius: 4px;
     border: 1px solid transparent;
     font-weight: 500;
     color: #fff;
+}
+
+.pre-y {
+    font-size: 1.5rem;
+    padding: 5rem 5rem;
 }

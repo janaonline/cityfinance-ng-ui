@@ -1,8 +1,8 @@
-<!-- <div class="container-fluid">
-  <div class="pre-y" style="" *ngIf="!isPreYear" [innerHTML]="preMess">
-  </div>
-</div> -->
-<div class="container-fluid mb-3" *ngIf="waterRejenuvation" style="">
+<div class="container-fluid">
+    <div class="pre-y" style="" *ngIf="!isPreYear" [innerHTML]="preMess">
+    </div>
+</div>
+<div class="container-fluid mb-3" *ngIf="waterRejenuvation && isPreYear" style="">
     <div class="row mb-2" style="">
         <div class="col-sm-9">
             <h4 class="form-header">
@@ -21,12 +21,7 @@
                         <div style="display: inline-flex; float: left;">
                             <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
                             <h5 style="display: inline-block; font-size: 15px; font-weight: 500;">
-                                <!-- {{uaIdToName(projectIndex).split(' ')[0]}} -->
-
                                 UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex)}}
-
-                                <!-- UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex).substring(0,
-                                uaIdToName(projectIndex).lastIndexOf(" ")) }} -->
                             </h5>
                         </div>
                         <div style="display: inline-flex; float: right;">
@@ -293,11 +288,10 @@
                                         add_circle_outline
                                     </span>Add more</button>
                             </div>
-                            <div style="margin-top:1%;">
+                            <div style="margin-top: 1%;">
                                 <h4 style="font-weight: 500; font-size: 14px;"> Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
                                 </h4>
                             </div>
-                            {{isDisable}}
                             <table class="table custom-position">
                                 <thead>
                                     <tr class="thHeader">
@@ -397,19 +391,19 @@
         <div class="card" style="margin-top: .5rem; margin-left: 0pc;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-sm-6">
                         <h6>
                             Declaration Upload :
                         </h6>
                     </div>
-                    <div class="col-6 text-end">
+                    <div class="col-sm-6 text-end">
                         <div class="mb-3 question">
-                            <div class="col-3 image-upload">
+                            <div class="image-upload">
                                 <label for="ipt">
-                                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                                    <a class="btn btn-primary" (click)="uploadButtonClicked('A')">Upload
                                         PDF
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                            style="margin-left: 4px;">
+                                            style="" class="ms-2">
                                     </a>
                                     <p class="errorMessege">{{errorMessegeStateAct}}</p>
                                 </label>

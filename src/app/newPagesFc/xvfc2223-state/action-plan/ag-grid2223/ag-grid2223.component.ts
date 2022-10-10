@@ -260,7 +260,7 @@ export class AgGrid2223Component implements OnInit {
         label: ''
       },
       width: 80,
-      editable: true,
+      editable: false,
     },
   ];
   fund = [

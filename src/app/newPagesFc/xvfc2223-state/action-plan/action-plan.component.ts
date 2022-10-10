@@ -127,7 +127,7 @@ export class ActionPlanComponent implements OnInit {
         }
         this.data = {
           state: res["data"]?.state,
-          design_year: res["data"]?.design_year,
+          design_year: this.Year["2022-23"],
           uaData: res["data"]?.uaData,
           status: res["data"]?.status ?? "PENDING",
           isDraft: res["data"]?.isDraft,
