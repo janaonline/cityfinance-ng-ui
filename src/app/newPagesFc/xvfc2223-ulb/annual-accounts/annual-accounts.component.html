@@ -190,7 +190,9 @@
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url}}">{{unAuditedActionResponse?.responseFile?.name}}</a>
+                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url ? unAuditedActionResponse?.responseFile?.url : data?.unAudited?.responseFile?.url}}">
+                                  {{unAuditedActionResponse?.responseFile?.name ? unAuditedActionResponse?.responseFile?.name : data?.unAudited?.responseFile?.name}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -490,7 +492,10 @@
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url}}">{{unAuditedActionResponse?.responseFile?.name}}</a>
+                                <!-- auditedActionResponse -->
+                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url ? auditedActionResponse?.responseFile?.url : data?.audited?.responseFile?.url}}">
+                                 {{auditedActionResponse?.responseFile?.name ? auditedActionResponse?.responseFile?.name : data?.audited?.responseFile?.name}}
+                                </a>
                             </div>
                         </div>
                     </div>
