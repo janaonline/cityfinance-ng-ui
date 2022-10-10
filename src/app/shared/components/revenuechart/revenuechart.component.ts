@@ -370,6 +370,7 @@ export class RevenuechartComponent
   @Input() sourceDashboardName: string = '';
   percentLabel: string = '';
   @Input() selectedFinancialYear: any;
+  @Input() embeddedRoute: string = 'revenuchart';
   ngOnInit(): void {
     console.log(
       "multiChartLabelsss===>",
@@ -406,6 +407,8 @@ export class RevenuechartComponent
         : "";
       console.log("apiParamData", this.apiParamData);
       if (this.apiParamData.hasOwnProperty("cityId")) {
+        this.cityChart = true;
+        this.mySelectedYears = this.apiParamData?.mySelectedYears ? this.apiParamData?.mySelectedYears.split(",") : this.mySelectedYears;
         this.getCityChartData();
       } else {
         let stateServiceLabel = this.apiParamData?.stateServiceLabel
@@ -686,9 +689,9 @@ export class RevenuechartComponent
       this.getImage();
       return;
     } else if (value.name == "Share/Embed") {
-      console.log("getChartPayload", this.getChartPayload);
+      console.log("getChartPayload", this.getChartPayload, 'embeddedRoute', this.embeddedRoute);
       this.iFrameApiPayload = this.commonService.createEmbedUrl(
-        this.getChartPayload
+        this.getChartPayload, this.embeddedRoute
       );
       this._loaderService.stopLoader();
       this.openDialog();
@@ -931,10 +934,17 @@ export class RevenuechartComponent
     tabType: string,
     yAxisLabel: string
   ) {
-    let sortBy = (this.apiParamData?.sortBy && (this.apiParamData?.sortBy != 'true' || this.apiParamData?.sortBy != 'false')) ? this.apiParamData?.sortBy : this.apiParamData?.hasOwnProperty("sortBy")
-      ? JSON.parse(this.apiParamData?.sortBy)
-      : false;
-    let sortingType = sortBy ? "top" : "bottom";
+    let sortingType: string = 'top';
+    if (this.apiParamData?.hasOwnProperty("sortBy")) {
+      if (this.apiParamData?.sortBy == 'true') {
+        sortingType = 'top';
+      } else if (this.apiParamData?.sortBy == 'false') {
+        sortingType = 'bottom';
+      } else {
+        sortingType = this.apiParamData?.sortBy;
+      }
+    }
+    console.log('sortingType', sortingType)
     responseData = this.sortData(sortingType, responseData);
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
@@ -1080,7 +1090,8 @@ export class RevenuechartComponent
         : "",
       compareCategory: this.apiParamData?.compareCategory,
       compareType: stateServiceLabel ? undefined : "",
-      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb : [],
+      // ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb : [],
+      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb.split(",") : [],
       widgetMode: this.widgetMode,
     };
     let apiEndPoint = stateServiceLabel ? "state-slb" : "state-revenue";
@@ -1215,34 +1226,103 @@ export class RevenuechartComponent
         } //donught charts center
         // else if (this.apiParamData?.filterName.includes("mix")) {
         //   this._loaderService.stopLoader();
-        //   let data = res["data"];
-        //   // this.chartDropdownList = data;
-        //   // if (this.chartDropdownList?.length > 0) {
+        //   console.log("mix Data", res);
+        //   let data;
+        //   let ulbData;
+        //   if (
+        //     this.apiParamData?.ulb &&
+        //     this.apiParamData.compareType !== "ulbType" &&
+        //     this.apiParamData.compareType !== "popType"
+        //   ) {
+        //     data = res["state"];
+        //     ulbData = res["ulb"];
+        //     this.multiChart = true;
+        //     this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
+        //   } else {
+        //     data = res["data"];
+        //     this.mainDoughnutArr = [];
+        //     this.multiChart = false;
+        //   }
+
+        //   console.log("initial data", data);
+
+        //   // if (data?.length > 0) {
+        //   //   this.chartDropdownList = data;
         //   //   this.getStateRevenue();
         //   // }
-        //   // console.log('chartDropdownList', this.chartDropdownList)
+        //   // console.log("chartDropdownList", this.chartDropdownList);
         //   this.initializeDonughtData();
-        //   if (payload.compareType == "") {
+        //   if (this.apiParamData?.compareType == "") {
         //     if (data.length) {
+        //       console.log("mixdata==>", data);
+        //       data = data.sort((a, b) => b.code - a.code);
+        //       if (data[0].hasOwnProperty("colour"))
+        //         this.doughnutData.data.datasets[0].backgroundColor = [];
         //       data.forEach((el) => {
         //         this.doughnutData.data.labels.push(el._id);
         //         this.doughnutData.data.datasets[0].data.push(el.amount);
+        //         if (el.colour) {
+        //           this.doughnutData.data.datasets[0].backgroundColor.push(
+        //             el.colour
+        //           );
+        //         }
         //       });
         //       console.log(this.doughnutData);
 
         //       this.doughnutData = { ...this.doughnutData };
         //     }
-        //   } else if (payload.compareType == "ulbType") {
-        //     let mData = res["mData"];
-        //     let mcData = res["mcData"];
-        //     let tpData = res["tpData"];
+        //   } else if (this.apiParamData?.compareType == "ulbType") {
+        //     console.log("apiData", data);
+
+        //     let mData = data["mData"][0];
+        //     let mcData = data["mcData"][0];
+        //     let tpData = data["tpData"][0];
+        //     let ulbStateData = data["state"];
+
         //     this.multiChart = true;
         //     this.doughnutDataArr = [
         //       { mData: mData },
         //       { mcData: mcData },
         //       { tpData: tpData },
+        //       { ulbStateData: ulbStateData },
         //     ];
+        //     if (data["ulb"].length > 0) {
+        //       this.doughnutDataArr = [
+        //         ...this.doughnutDataArr,
+        //         { ulb: data["ulb"] },
+        //       ];
+        //     }
+
         //     this.doughnutDataArr = [...this.doughnutDataArr];
+
+        //     console.log("doughnutDataArr", this.doughnutDataArr);
+        //   } else if (this.apiParamData?.compareType == "popType") {
+        //     let lessThan100k = data["<100k"];
+        //     let between100kTo500k = data["100k-500k"];
+        //     let between500kTo1m = data["500k-1M"];
+        //     let between1mTo4m = data["1m-4m"];
+        //     let greaterThan4m = data["4m+"];
+        //     let popStateData = data["state"];
+
+        //     this.multiChart = true;
+        //     this.doughnutDataArr = [];
+        //     this.doughnutDataArr = [
+        //       { "<100k": lessThan100k },
+        //       { "100k-500k": between100kTo500k },
+        //       { "500k-1M": between500kTo1m },
+        //       { "1m-4m": between1mTo4m },
+        //       { "4m+": greaterThan4m },
+        //       { popStateData: popStateData },
+        //     ];
+        //     if (data["ulb"].length > 0) {
+        //       this.doughnutDataArr = [
+        //         ...this.doughnutDataArr,
+        //         { ulb: data["ulb"] },
+        //       ];
+        //     }
+
+        //     this.doughnutDataArr = [...this.doughnutDataArr];
+        //     console.log("doughnutDataArr", this.doughnutDataArr);
         //   }
         // }
         console.log("done");
@@ -1615,23 +1695,25 @@ export class RevenuechartComponent
           // this.calculateRevenue(res["data"]);
         } else {
           multiPie = false;
+          this.multipleCharts = multiPie;
           console.log(JSON.stringify(res["data"]), body.ulb);
           if (body.ulb.length == 1) this.createBarChart(res);
           else
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
-          if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
-            this.calculateCagr(res["data"], hideElements);
-          if (
-            showPerCapita.includes(this.apiParamData?.selectedTab.toLowerCase())
-          )
-            this.calculatePerCapita(res["data"]);
-          if (
-            this.apiParamData?.selectedTab.toLowerCase() ==
-            "total surplus/deficit"
-          )
-            this.calculateCagrOfDeficit(res["data"]);
+          /** we are not showing the city dashboard right side info panel in iFrame.*/ 
+          // if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
+          //   this.calculateCagr(res["data"], hideElements);
+          // if (
+          //   showPerCapita.includes(this.apiParamData?.selectedTab.toLowerCase())
+          // )
+          //   this.calculatePerCapita(res["data"]);
+          // if (
+          //   this.apiParamData?.selectedTab.toLowerCase() ==
+          //   "total surplus/deficit"
+          // )
+          //   this.calculateCagrOfDeficit(res["data"]);
 
           this.disableFirstYear = disableFirstYear;
           this.createChart();
@@ -1783,9 +1865,10 @@ export class RevenuechartComponent
           },
         ],
       };
+      this.multiChartLabel = [];
       data[key].forEach((value, index) => {
         doughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[index]
+          value.colour
         );
         doughnutChartData.datasets[0].data.push(
           value.amount == 0 ? "0.1" : value.amount
@@ -1793,13 +1876,24 @@ export class RevenuechartComponent
         if (key != "compData")
           this.multiChartLabel.push({
             text: value._id.lineItem,
-            color: pieBackGroundColor[index],
+            color: value.colour
           });
         doughnutChartData.datasets[0].label = value._id.lineItem;
       });
-      doughnutChartData.labels = this.multiChartLabel.map(
-        (value) => value.text
-      );
+      // doughnutChartData.labels = this.multiChartLabel.map(
+      //   (value) => value.text
+      // );
+      this.multiChartLabel = this.multiChartLabel.reduce(
+        (res, val) => {
+          if (!res.stack.includes(val.text)) {
+            res.unique.push(val);
+            res.stack.push(val.text);
+          }
+          return res;
+        },
+        { stack: [], unique: [] }
+      ).unique;
+      doughnutChartData.labels = this.multiChartLabel
       let config = {
         type: "doughnut",
         data: doughnutChartData,
@@ -1834,17 +1928,11 @@ export class RevenuechartComponent
       this.multipleDoughnutCharts.push(val);
     }
 
-    this.multiChartLabel = this.multiChartLabel.reduce(
-      (res, val) => {
-        if (!res.stack.includes(val.text)) {
-          res.unique.push(val);
-          res.stack.push(val.text);
-        }
-        return res;
-      },
-      { stack: [], unique: [] }
-    ).unique;
     this.multipleCharts = true;
+
+    setTimeout(() => {
+      this.createMultipleChart();
+    }, 500);
   }
 
   createPieChart(data, body) {
@@ -2314,8 +2402,9 @@ export class RevenuechartComponent
         ],
       },
     };
-    this.chartData = obj;
-    this.ChartOptions = this.barChartStaticOptions;
+    this.chartData = Object.assign({}, obj);
+    this.barChartStaticOptions.scales.xAxes[0].barThickness = 50;
+    this.ChartOptions = Object.assign({}, this.barChartStaticOptions);
   }
 
   calculateCagr(data, hideCAGR) {
@@ -2747,7 +2836,7 @@ const barChartStatic = {
 const backgroundColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgba(54, 162, 235, 0.2)",
   "rgba(153, 102, 255, 0.2)",
@@ -2756,7 +2845,7 @@ const backgroundColor = [
 const borderColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgb(54, 162, 235)",
   "rgb(153, 102, 255)",
