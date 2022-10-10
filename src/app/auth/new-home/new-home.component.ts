@@ -204,7 +204,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     console.log(searchValue);
     
 
-    if(!searchValue){
+    if(!searchValue || searchValue?.type == "keyWord"){
       this._commonService.updateSearchItem(this.globalFormControl.value);
       let option = {
         type: "searchKeyword",
