@@ -73,4 +73,9 @@ export class State2223Service {
   getUAList(state_id) {
     return this.http.get(`${environment.api.url}masterForm/UAList?state_id=${state_id}`);
   }
+  getFormDataAction(state_id, year) {
+    return this.http.get(
+      `${environment.api.url}ActionPlans/${year}?state_id=${state_id}`
+    );
+  }
 }
