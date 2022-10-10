@@ -620,7 +620,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateServiceLabel: this.stateServiceLabel,
       sortBy: "",
       // "which": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
-      chartTitle: this.mainChartTitle || "",
+      chartTitle: this.compType ? this.multipleChartTitle : this.mainChartTitle ? this.mainChartTitle : "",
     };
 
     console.log("scatterChartPayload", this.scatterChartPayload);
@@ -934,7 +934,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   createDynamicChartTitle(activeButton) {
     console.log("filterName", this.filterName);
     this.stateName = this.statesList[this.stateId];
-
+    this.mainChartTitle = '';
+    this.multipleChartTitle = '';
     let dropDownValue;
     if (this.radioButtonValue) {
       dropDownValue = `and ${this.radioButtonValue}`;
@@ -1025,6 +1026,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
+    if (!this.widgetMode) {
+
     /* These 2 @Input are used for slb dashboard */
     if (changes.hasOwnProperty("showYearDropdown") && changes.showYearDropdown.currentValue) {
       this.showYearDropdown = changes.showYearDropdown.currentValue;
@@ -1104,6 +1107,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       // this.getDropDownValue();
       this.changeActiveBtn(0);
     }
+
+  }
   }
 
   setHeadOfAccount() {
@@ -1119,12 +1124,53 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   notfound = true;
 
+  widgetMode: boolean = false;
+  apiParamData: any;
   ngOnInit(): void {
-    this.ulbArr = [];
-    if (this.statesList) {
-      this.stateName = this.statesList[this.stateId];
+    this.activatedRoute.queryParams.subscribe((params) => {
+      console.log("param", params);
+      this.widgetMode = params?.widgetMode ? JSON.parse(params?.widgetMode) : false;
+      this.apiParamData = params;
+      this._commonServices.isEmbedModeEnable.next(this.widgetMode);
+    });
+    console.log('widgetMode', this.widgetMode);
+    if (this.widgetMode) {
+      this.getStateMixChartData();
+    } else {
+      this.ulbArr = [];
+      if (this.statesList) {
+        this.stateName = this.statesList[this.stateId];
+      }
+      console.log("this.innertabData", this.data);
+  
+      this.getRevenueId();
+      // this.changeActiveBtn(0);
+  
+      this.getStateUlbsPopulation();
+      // this.getStateRevenue();
+  
+      this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(
+        (data) => {
+          console.log("selectedStateFromSlbDashboard", data);
+          if (data?.isNotFirstChange && data?.stateId) {
+            this.stateId = "";
+            this.stateId = data?.stateId;
+            this.getScatterData();
+            if (this.stateServiceLabel) {
+              this.getServiceLevelBenchmarkBarChartData();
+            } else {
+              this.getStateRevenue();
+            }
+          }
+        }
+      );
     }
-    console.log("this.innertabData", this.data);
+
+    // this.ulbArr = [];
+    // if (this.statesList) {
+    //   this.stateName = this.statesList[this.stateId];
+    // }
+    // console.log("this.innertabData", this.data);
 
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -1149,27 +1195,27 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
     });
 
-    this.getRevenueId();
-    // this.changeActiveBtn(0);
+    // this.getRevenueId();
+    // // this.changeActiveBtn(0);
 
-    this.getStateUlbsPopulation();
-    // this.getStateRevenue();
+    // this.getStateUlbsPopulation();
+    // // this.getStateRevenue();
 
-    this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(
-      (data) => {
-        console.log("selectedStateFromSlbDashboard", data);
-        if (data?.isNotFirstChange && data?.stateId) {
-          this.stateId = "";
-          this.stateId = data?.stateId;
-          this.getScatterData();
-          if (this.stateServiceLabel) {
-            this.getServiceLevelBenchmarkBarChartData();
-          } else {
-            this.getStateRevenue();
-          }
-        }
-      }
-    );
+    // this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(
+    //   (data) => {
+    //     console.log("selectedStateFromSlbDashboard", data);
+    //     if (data?.isNotFirstChange && data?.stateId) {
+    //       this.stateId = "";
+    //       this.stateId = data?.stateId;
+    //       this.getScatterData();
+    //       if (this.stateServiceLabel) {
+    //         this.getServiceLevelBenchmarkBarChartData();
+    //       } else {
+    //         this.getStateRevenue();
+    //       }
+    //     }
+    //   }
+    // );
   }
 
   ulbId: any;
@@ -1784,6 +1830,153 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   callStandaLoneSlbDashboardApis() {
     this.getScatterData();
     this.getServiceLevelBenchmarkBarChartData(); 
+  }
+
+  getStateMixChartData() {
+    this.mainChartTitle = this.apiParamData?.chartTitle ?? '';
+    this.multipleChartTitle = this.apiParamData?.chartTitle ?? '';
+    let isPerCapita = this.apiParamData.hasOwnProperty("isPerCapita") && this.apiParamData?.isPerCapita != ""
+        ? JSON.parse(this.apiParamData?.isPerCapita)
+        : false;
+
+    this.multiChart = false;
+    this._loaderService.showLoader();
+    this.initializeScatterData();
+    console.log("apiParamData", this.apiParamData);
+    let stateServiceLabel = this.apiParamData?.hasOwnProperty("stateServiceLabel") ? JSON.parse(this.apiParamData?.stateServiceLabel) : false;
+    this.stateServiceLabel = stateServiceLabel;
+    console.log("stateServiceLabel", stateServiceLabel, 'this.stateServiceLabel', this.stateServiceLabel);
+    let payload = {
+      [stateServiceLabel ? "stateId" : "state"]: this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
+      financialYear: this.apiParamData?.financialYear,
+      headOfAccount: stateServiceLabel ? undefined : this.apiParamData?.headOfAccount,
+      filterName: this.apiParamData?.filterName,
+      isPerCapita: (this.apiParamData.hasOwnProperty("isPerCapita") && this.apiParamData['isPerCapita']) ? JSON.parse(this.apiParamData?.isPerCapita) : "",
+      compareCategory: this.apiParamData?.compareCategory,
+      compareType: this.apiParamData?.compareType ? this.apiParamData?.compareType : "",
+      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb.split(",") : [],
+      widgetMode: this.widgetMode,
+    };
+    let apiEndPoint = stateServiceLabel ? "state-slb" : "state-revenue";
+    console.log('apiEndPoint', apiEndPoint, 'payload', payload);
+    let yAxesLabelName = '';
+
+    this.stateFilterDataService
+      .getScatterdData(payload, apiEndPoint)
+      .subscribe(
+        (res) => {
+          this.notfound = false;
+          console.log("response data", res);
+          //scatter plots center
+          let apiData = res["data"];
+          if (this.apiParamData?.filterName.includes("mix")) {
+            this._loaderService.stopLoader();
+            console.log("mix Data", res);
+            let data;
+            let ulbData;
+            if (
+              this.apiParamData?.ulb &&
+              this.apiParamData?.compareType !== "ulbType" &&
+              this.apiParamData?.compareType !== "popType"
+            ) {
+              data = res["state"];
+              ulbData = res["ulb"];
+              this.multiChart = true;
+              this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
+            } else {
+              data = res["data"];
+              this.mainDoughnutArr = [];
+              this.multiChart = false;
+            }
+
+            console.log("initial data", data);
+
+            // if (data?.length > 0) {
+            //   this.chartDropdownList = data;
+            //   this.getStateRevenue();
+            // }
+            // console.log("chartDropdownList", this.chartDropdownList);
+            this.initializeDonughtData();
+            if (this.apiParamData?.compareType == "") {
+              if (data.length) {
+                console.log("mixdata==>", data);
+                data = data.sort((a, b) => b.code - a.code);
+                if (data[0].hasOwnProperty("colour"))
+                  this.doughnutData.data.datasets[0].backgroundColor = [];
+                data.forEach((el) => {
+                  this.doughnutData.data.labels.push(el._id);
+                  this.doughnutData.data.datasets[0].data.push(el.amount);
+                  if (el.colour) {
+                    this.doughnutData.data.datasets[0].backgroundColor.push(
+                      el.colour
+                    );
+                  }
+                });
+                console.log(this.doughnutData);
+
+                this.doughnutData = { ...this.doughnutData };
+              }
+            } else if (this.apiParamData?.compareType == "ulbType") {
+              console.log("apiData", data);
+
+              let mData = data["mData"][0];
+              let mcData = data["mcData"][0];
+              let tpData = data["tpData"][0];
+              let ulbStateData = data["state"];
+
+              this.multiChart = true;
+              this.doughnutDataArr = [
+                { mData: mData },
+                { mcData: mcData },
+                { tpData: tpData },
+                { ulbStateData: ulbStateData },
+              ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
+              this.doughnutDataArr = [...this.doughnutDataArr];
+
+              console.log("doughnutDataArr", this.doughnutDataArr);
+            } else if (this.apiParamData?.compareType == "popType") {
+              let lessThan100k = data["<100k"];
+              let between100kTo500k = data["100k-500k"];
+              let between500kTo1m = data["500k-1M"];
+              let between1mTo4m = data["1m-4m"];
+              let greaterThan4m = data["4m+"];
+              let popStateData = data["state"];
+
+              this.multiChart = true;
+              this.doughnutDataArr = [];
+              this.doughnutDataArr = [
+                { "<100k": lessThan100k },
+                { "100k-500k": between100kTo500k },
+                { "500k-1M": between500kTo1m },
+                { "1m-4m": between1mTo4m },
+                { "4m+": greaterThan4m },
+                { popStateData: popStateData },
+              ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
+              this.doughnutDataArr = [...this.doughnutDataArr];
+              console.log("doughnutDataArr", this.doughnutDataArr);
+            }
+          }
+        },
+        (err) => {
+          this._loaderService.stopLoader();
+          this.notfound = true;
+          console.log(err.message);
+        }
+      );
   }
 }
 
