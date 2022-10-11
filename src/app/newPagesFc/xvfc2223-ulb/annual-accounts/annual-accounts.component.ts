@@ -1165,6 +1165,12 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         name: e.pdf.name,
       },
       excel: { url: e.excel?.url, name: e.excel?.name },
+      status: 'PENDING',
+      rejectReason: '',
+      responseFile: {
+        name: '',
+        url: ''
+      }
     };
     // if(quesName === "Balance Sheet"){
     //   this.data[fileType].provisional_data.bal_sheet = newData;
@@ -1769,6 +1775,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
+        this.onLoad();
       },
       (error) => {
         this.clickedSave = false;
@@ -1779,8 +1786,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     );
   }
   postApiForSubmit() {
-    if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
-    if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
+
+    if (this.data.audited.status != 'APPROVED') {
+      this.data.audited.status = "PENDING";
+    }
+    if (this.data.unAudited.status != 'APPROVED') {
+      this.data.unAudited.status = "PENDING";
+    }
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
@@ -1793,6 +1805,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
+        this.onLoad();
       },
       (error) => {
         this.clickedSave = false;
@@ -2201,7 +2214,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //unaudit disable
     if (this.data?.unAudited?.submit_annual_accounts == true) {
       this.unAuditQues.forEach((el) => {
-
         console.log('data action ele.....', el);
         if (this.userData?.role !== "ULB") {
           el['qusDis'] = false;
