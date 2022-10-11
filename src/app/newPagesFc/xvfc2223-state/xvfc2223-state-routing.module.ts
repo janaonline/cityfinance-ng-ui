@@ -12,6 +12,7 @@ import { EditUlbComponent } from './edit-ulb/edit-ulb.component';
 import { WaterRejenuvations2223Component } from './water-rejenuvations2223/water-rejenuvations2223.component';
 import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
 import { ActionPlanComponent } from './action-plan/action-plan.component';
+import {GrantClaimsComponent} from './grant-claims/grant-claims.component'
 const routes: Routes = [
   {
     path: "",
@@ -77,6 +78,11 @@ const routes: Routes = [
       {
         path: "action-plan",
         component: ActionPlanComponent
+
+      },
+      {
+        path: "grant-claim",
+        component: GrantClaimsComponent
 
       }
 
