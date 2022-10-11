@@ -259,7 +259,8 @@ export class AgGrid2223Component implements OnInit {
         onClick: this.rowDelete.bind(this),
         label: ''
       },
-      minWidth: 50,
+      width: 80,
+      editable: false,
     },
   ];
   fund = [
@@ -844,7 +845,34 @@ export class AgGrid2223Component implements OnInit {
     }
   }
 
-  ngOnChanges() { }
+  ngOnChanges() {
+
+    if (this.isDisabled) {
+      this.project.forEach((element) => {
+        element.editable = false;
+      });
+      this.fund.forEach((element) => {
+        element.editable = false;
+      });
+      this.year.forEach((element) => {
+        element.editable = false;
+      });
+
+    }
+    this.rowData.projectExecute.forEach((element) => {
+      if (element.Executing_Agency.value == "Parastatal Agency") {
+        this.project[6].hide = false;
+      } else {
+        element.Parastatal_Agency.value = "N/A";
+      }
+    });
+
+    if (!this.ulbList.includes("Parastatal Agency"))
+      this.ulbList.push("Parastatal Agency");
+    this.project[5].cellEditorParams.values = this.ulbList;
+
+    this.project[7].cellEditorParams.values = this.catList;
+  }
 
   addRow() {
     console.log('this.rowData new', this.rowData)

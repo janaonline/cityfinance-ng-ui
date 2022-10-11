@@ -63,6 +63,7 @@ export class WaterRejenuvations2223Component implements OnInit {
   isStateSubmittedForms = "";
   formDisable = false;
   actionFormDisable = false;
+  design_year="606aafb14dff55e6c075d3ae";
   waterIndicators = [
     "Continuity of Water supplied",
     "Cost Recovery",
@@ -74,7 +75,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     "Per Capita Supply of Water",
     "Quality of Water Supplied",
   ];
-   
+
   disableAddMore1 = false
   disableAddMore2 = false
   disableAddMore3 = false
@@ -109,7 +110,8 @@ export class WaterRejenuvations2223Component implements OnInit {
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
   latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   disableUpload: boolean = true
-
+  isPreYear = false;
+  preMess = '';
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -123,28 +125,8 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.initializeUserType();
     this.id = sessionStorage.getItem("sessionID");
     this.navigationCheck();
-    // this._router.events.subscribe(async (event: Event) => {
-    //   if (!this.saveClicked) {
-    //     if (event instanceof NavigationStart) {
-    //       if (event.url === "/" || event.url === "/login") {
-    //         sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-    //         return;
-    //       }
-    //       const change = sessionStorage.getItem("changeInWaterRejenuvation2223");
-    //       if (change === "true" && this.routerNavigate === null) {
-    //         this.dialog.closeAll();
-    //         this.routerNavigate = event;
-    //         const currentRoute = this._router.routerState;
-    //         this._router.navigateByUrl(currentRoute.snapshot.url, {
-    //           skipLocationChange: true,
-    //         });
-    //         this.openModal(this.template);
-    //       }
-    //     }
-    //   }
-    // });
   }
-  
+
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -171,7 +153,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       })
       console.log(this.disableActionUAs)
 
-    } 
+    }
     console.log('waterRejuvenation', this.waterRejenuvation)
     if (this.formDisable) {
 
@@ -187,7 +169,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     );
     this.setUaList()
-
+    this.getFormData()
   }
   indicatorSet(event, index, rowIndex) {
     console.log(event.target.value, rowIndex)
@@ -207,7 +189,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     console.log('loggedInUserType', this.loggedInUserType);
   }
-  
+
 
   public initializeReport() {
     let state = this.userData["state"] ?? sessionStorage.getItem("state_id");
@@ -218,7 +200,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       uaData: this.fb.array(this.getUas()),
       status: this.fb.control(this.totalStatus, []),
       isDraft: this.fb.control(this.isDraft, []),
-      declarationUpload: this.fb.group({
+      declaration: this.fb.group({
         url: ['', Validators.required],
         name: ['', Validators.required]
       }),
@@ -280,22 +262,22 @@ export class WaterRejenuvations2223Component implements OnInit {
   get f() {
     return this.waterRejenuvation.controls;
   }
-  
+
   getUas() {
     console.log("rejen heading...", this.data);
     this.data.forEach((item)=>{
       item?.waterBodies.forEach((newitem=>{
         if(newitem?.name)
-        (newitem?.name == null && newitem?.area == null && 
-         newitem?.bod == null && newitem?.bod_expected == null && 
-         newitem?.cod == null && newitem?.cod_expected == null && 
-         newitem?.details == null && newitem?.do == null && 
-         newitem?.do_expected == null && newitem?.lat == null && 
-         newitem?.long == null && newitem?.nameOfBody == null && 
-         newitem?.tds == null && newitem?.tds_expected == null && 
-         newitem?.turbidity == null && newitem?.turbidity_expected == null && 
+        (newitem?.name == null && newitem?.area == null &&
+         newitem?.bod == null && newitem?.bod_expected == null &&
+         newitem?.cod == null && newitem?.cod_expected == null &&
+         newitem?.details == null && newitem?.do == null &&
+         newitem?.do_expected == null && newitem?.lat == null &&
+         newitem?.long == null && newitem?.nameOfBody == null &&
+         newitem?.tds == null && newitem?.tds_expected == null &&
+         newitem?.turbidity == null && newitem?.turbidity_expected == null &&
          newitem?.photos[0]?.name == null && newitem?.photos[0]?.url == null) ? this.disableUpload = true : this.disableUpload = false
-      }))    
+      }))
     })
     return this.data.map((data) =>
       this.fb.group({
@@ -309,7 +291,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       })
     );
   }
-  
+
   setUaList(){
     this.stateDashboardService.getCardData(this.id).subscribe(
       (res) => {
@@ -401,6 +383,7 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           // Validators.min(1),
         ]),
+        isDisable : true
       })
     );
   }
@@ -450,6 +433,7 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           // Validators.min(1),
         ]),
+        isDisable : true
       })
     );
   }
@@ -488,6 +472,7 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           // Validators.min(1),
         ]),
+        isDisable : true
       })
     );
   }
@@ -539,7 +524,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     console.log(this.uasData)
     return new Promise((resolve, reject) => {
       let id = sessionStorage.getItem("state_id");
-      this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
+      this.waterRejenuvationService.getData(this.Year["2022-23"], id).subscribe(
         (res) => {
           this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
           this.errorOnload = true;
@@ -696,6 +681,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     console.log(this.data)
     console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
@@ -732,12 +718,13 @@ export class WaterRejenuvations2223Component implements OnInit {
             Validators.required,
             // Validators.min(1),
           ]),
-          disable: true
         })
         ))
       }
     }
   }
+
+
   addRow2(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
@@ -788,8 +775,7 @@ export class WaterRejenuvations2223Component implements OnInit {
             workCompletion: this.fb.control(null, [
               Validators.required,
               // Validators.min(1),
-            ]),
-            disable: true
+            ])
           })
         ))
       }
@@ -837,7 +823,7 @@ export class WaterRejenuvations2223Component implements OnInit {
             long: this.fb.control(null, [
               Validators.required,
               // Validators.min(1),
-            ]),      
+            ]),
             bod: this.fb.control(null, [
               Validators.required,
               // Validators.min(1),
@@ -890,7 +876,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
               // Validators.min(1),
             ]),
-            disable: true
+            isDisable: false
           })
         ))
       }
@@ -921,11 +907,11 @@ export class WaterRejenuvations2223Component implements OnInit {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
         el['controls']['waterBodies'].removeAt(rowIndex);
         if (el['controls']['waterBodies'].length < 10) {
-          this.disableAddMore3 = false 
+          this.disableAddMore3 = false
         }
       }
     }
-    
+
   }
   onChange(item, index){
     // let remainingGroups = item.filter(ele=> ele.ReqId != index);
@@ -942,13 +928,13 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.toggle2 = false
     }
     console.log('formvalue after select', this.waterRejenuvation.get('dprCompletion')?.value);
-    
+
     // let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     // for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
     //   if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
     //     console.log(el)
-       
+
     //   }
     // }
 
@@ -958,30 +944,39 @@ export class WaterRejenuvations2223Component implements OnInit {
     let draftFlag = 0;
     console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
-      
-      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
+
+      this.waterRejenuvation.controls.isDraft.patchValue(false);
       console.log(this.waterRejenuvation.controls);
-      
-      
+
+      this.design_year = JSON.parse(localStorage.getItem("Years"));
+      this.design_year = this.design_year["2022-23"];
       this.waterRejenuvationService
-        .postData(this.waterRejenuvation.value)
+        .postWaterRejeData(this.waterRejenuvation.value)
         .subscribe(
-          (res) => {
+          (res:any) => {
+            if (res && res.status) {
+              console.log('latest post data water rej --->', res)
             swal({
               title: "Submitted",
-              text: "Record submitted successfully!",
+              text: res?.message,
               icon: "success",
             });
+            // this.getFormData();
             sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-           
+            } else {
+
+              swal("Error", res?.message ? res?.message : "Error", "error");
+            }
+
+
           },
           (err) => {
-            console.log(err);
+            swal("Error", "Error", "error");
           }
         );
     }
   }
-  
+
   saveStateAction() {
     let flag = 0;
     let draftFlag = 0;
@@ -1190,7 +1185,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
   }
 
-  
+
 
   async stay() {
     await this.dialogRef.close();
@@ -1221,28 +1216,78 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
   }
   onDraft(){
-    console.log(this.formStatus);
-      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
-      console.log(this.waterRejenuvation.controls);
-      
-      
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+      this.design_year = this.design_year["2022-23"];
+    console.log(this.design_year);
+      this.waterRejenuvation?.controls?.isDraft?.patchValue(true);
+      console.log(this.waterRejenuvation.value);
+
+
+      (this.waterRejenuvation?.controls['uaData'] as FormArray).controls?.forEach((item:FormGroup)=>{
+       (item?.controls['waterBodies'] as FormArray).controls?.forEach((item:FormGroup)=>{
+        console.log(item)
+          item?.controls['isDisable'].patchValue(false)
+       })
+      });
+      (this.waterRejenuvation.controls['uaData'] as FormArray).controls.forEach((item:FormGroup)=>{
+        (item.controls['reuseWater'] as FormArray).controls.forEach((item:FormGroup)=>{
+           item.controls['isDisable'].patchValue(false)
+        })
+       });
+       (this.waterRejenuvation.controls['uaData'] as FormArray).controls.forEach((item:FormGroup)=>{
+        (item.controls['serviceLevelIndicators'] as FormArray).controls.forEach((item:FormGroup)=>{
+           item.controls['isDisable'].patchValue(false)
+        })
+       })
       this.waterRejenuvationService
-        .postData(this.waterRejenuvation.value)
+        .postWaterRejeData(this.waterRejenuvation.value)
         .subscribe(
-          (res) => {
+          (res:any) => {
+            if (res && res.status) {
+              console.log('latest post data water rej --->', res)
+              // this.getFormData();
             swal({
-              title: "Submitted",
-              text: "Saved as draft successfully!",
+              title: "Saved as draft",
+              text: res?.message,
               icon: "success",
             });
             sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-           
+            } else {
+
+              swal("Error", res?.message ? res?.message : "Error", "error");
+            }
+
+
           },
           (err) => {
-            console.log(err);
+            swal("Error", "Error", "error");
           }
         );
-    
+
+  }
+  resData:any;
+  disableLatest : boolean = false
+  getFormData(){
+    this.waterRejenuvationService.getSubmittedFormData(this.design_year).subscribe((res:any)=>{
+      console.log('design_year', this.design_year);
+       this.resData = res?.data
+      this.isPreYear = true;
+       console.log(this.resData?.uaData);
+       this.resData?.uaData.forEach((item)=>{
+        console.log(item)
+        item?.waterBodies.forEach(i=>{
+          console.log(i)
+          i?.isDisable == true ? this.disableLatest = true : this.disableLatest = false
+          console.log(this.disableLatest);
+
+        })
+       })
+    },
+      (error) => {
+        // swal('error',error);
+        this.preMess = error?.error?.message;
+        this.isPreYear = false;
+      })
   }
   alertClose() {
     this.stay();
@@ -1255,7 +1300,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
 
   }
-  
+
   clickedSave;
   alertError;
   navigationCheck() {
@@ -1392,7 +1437,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     event.controls[type].patchValue(val[0] + (val[1] ? "." + val[1] : ""));
   }
-  
+
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
     this.change = "true";
@@ -1431,13 +1476,13 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.showStateAct = false;
       this.stateActFileName = ''
       this.waterRejenuvation.patchValue({
-        declarationUpload:{
+        declaration:{
           url:'',
           name: ''
        }
       });
-      this.waterRejenuvation.controls.declarationUpload['controls'].name.setValidators(Validators.required);
-      this.waterRejenuvation.controls.declarationUpload['controls'].name.updateValueAndValidity();
+      this.waterRejenuvation.controls.declaration['controls'].name.setValidators(Validators.required);
+      this.waterRejenuvation.controls.declaration['controls'].name.updateValueAndValidity();
       // console.log(this.stateFinance.controls)
     }
     sessionStorage.setItem("changeInWaterRejenuvation2223", "true");
@@ -1525,7 +1570,7 @@ export class WaterRejenuvations2223Component implements OnInit {
             if (progressType == 'stateActProgress') {
               this.stateActUrl = fileAlias;
               console.log(this.stateActUrl)
-              this.waterRejenuvation.get('declarationUpload').patchValue({
+              this.waterRejenuvation.get('declaration').patchValue({
                 url: fileAlias,
                 name: file.name
               })
@@ -1541,6 +1586,13 @@ export class WaterRejenuvations2223Component implements OnInit {
         }
       );
   }
+
+  isDisabledState(projectRow, val) {
+    console.log(projectRow)
+    // uncomment below for disable inputs
+    return projectRow.controls[val]
+    // return false
+  }
 }
 
 function deepEqual(x, y) {
@@ -1552,3 +1604,5 @@ function deepEqual(x, y) {
     ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
+
+

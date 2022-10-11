@@ -915,7 +915,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           );
           if (this.userData?.role !== 'ULB') {
             this.isDisabled = true;
+            this.tab1dis = true;
+            this.tab2dis = true;
           }
+          this.actionBtnDis = true;
           console.error(err.message);
         }
       );
@@ -1162,6 +1165,12 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         name: e.pdf.name,
       },
       excel: { url: e.excel?.url, name: e.excel?.name },
+      status: 'PENDING',
+      rejectReason: '',
+      responseFile: {
+        name: '',
+        url: ''
+      }
     };
     // if(quesName === "Balance Sheet"){
     //   this.data[fileType].provisional_data.bal_sheet = newData;
@@ -1758,14 +1767,15 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     });
   }
   postAnnualFormDraft() {
-    this.data.audited.status = "PENDING";
-    this.data.unAudited.status = "PENDING";
+    if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
+    if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
+        this.onLoad();
       },
       (error) => {
         this.clickedSave = false;
@@ -1776,8 +1786,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     );
   }
   postApiForSubmit() {
-    this.data.audited.status = "PENDING";
-    this.data.unAudited.status = "PENDING";
+
+    if (this.data.audited.status != 'APPROVED') {
+      this.data.audited.status = "PENDING";
+    }
+    if (this.data.unAudited.status != 'APPROVED') {
+      this.data.unAudited.status = "PENDING";
+    }
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
@@ -1785,9 +1800,12 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.isDisabled = true;
         this.tab1dis = true;
         this.tab2dis = true;
+        this.overAllFormDis = true;
+        this.data.isDraft = false;
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
+        this.onLoad();
       },
       (error) => {
         this.clickedSave = false;
@@ -1911,22 +1929,34 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   getUploadActionFileData(e, type) {
     console.log('action......file', e, type);
     this.actionFileData[type] = e;
-    // this.data[type].provisional_data.auditor_report['returnReason'] = this.actRemarks;
-    for (const key in this.data[type].provisional_data) {
 
-      if (typeof (this.data[type].provisional_data[key]) == 'object') {
-        let actionFile = {
-          responseFile: {
-            url: e?.pdf?.url,
-            name: e?.pdf?.name
-          }
-        };
-        Object.assign(this.data[type].provisional_data[key], actionFile);
-        // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
-        // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
+    if (this.data[type].submit_annual_accounts) {
+      for (const key in this.data[type].provisional_data) {
+        if (typeof (this.data[type].provisional_data[key]) == 'object') {
+          let actionFile = {
+            responseFile: {
+              url: e?.pdf?.url,
+              name: e?.pdf?.name
+            }
+          };
+          Object.assign(this.data[type].provisional_data[key], actionFile);
+          // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
+          // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
+        }
+
       }
-
+    } else {
+      let actionFile = {
+        responseFile: {
+          url: e?.pdf?.url,
+          name: e?.pdf?.name
+        }
+      };
+      Object.assign(this.data[type], actionFile);
+      // this.data[type]["responseFile"]["name"] = e?.pdf?.name;
+      // this.data[type]["responseFile"]["url"] = e?.pdf?.url;
     }
+
     console.log('this. data for action', this.data);
 
   }
@@ -2156,6 +2186,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   tab2dis = false;
   setDisableField() {
     //audit disable
+    console.log('data action.....', this.data);
     if (this.data?.audited?.submit_annual_accounts == true) {
       this.auditQues.forEach((el) => {
         if (this.userData?.role !== "ULB") {
@@ -2183,6 +2214,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //unaudit disable
     if (this.data?.unAudited?.submit_annual_accounts == true) {
       this.unAuditQues.forEach((el) => {
+        console.log('data action ele.....', el);
         if (this.userData?.role !== "ULB") {
           el['qusDis'] = false;
         } else if (this.userData?.role == 'ULB' && this.canTakeAction == false && el?.data?.status == 'APPROVED') {

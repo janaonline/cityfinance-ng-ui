@@ -22,4 +22,11 @@ export class WaterRejenuvations2223ServiceService {
     }
     return this.http.get(`${environment.api.url}WaterRejenuvation/${design_year}`)
   }
+  postWaterRejeData(body){
+    return this.http.post(`${environment.api.url}WaterRejenuvation`, body);
+  }
+  getSubmittedFormData(design_year){
+    // console.log(design_year)
+    return this.http.get(`${environment.api.url}WaterRejenuvation/${design_year}`);
+  }
 }

@@ -77,7 +77,6 @@
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%">
-
                                                 <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
                                                 <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
@@ -96,17 +95,17 @@
                                     </div>
                                 </div>
                                 <!-- {{item?.data?.status}} {{canTakeAction}} -->
-                                <div class="card mb-4" *ngIf="item?.action == true && data?.isDraft == false && canTakeAction == false && item?.data?.status">
+                                <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                     <div class="card-body">
-                                        <div class="row" *ngIf="data?.status == 'PENDING'">
+                                        <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
                                             <div class="col-sm-2">
-                                                Status:
+                                                Review Status:
                                             </div>
                                             <div class="col-sm-10">
                                                 Under review by state
                                             </div>
                                         </div>
-                                        <div class="row" *ngIf="item?.data?.status != 'PENDING'">
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
                                             <div class="col-sm-4">
                                                 Review Status:
                                             </div>
@@ -114,7 +113,23 @@
                                                 {{item?.data?.status}}
                                             </div>
                                         </div>
-                                        <div class="row" *ngIf="item?.data?.status != 'PENDING' && item?.data?.status">
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.status}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                            <div class="col-sm-4">
+                                                Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.rejectReason}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
                                             <div class="col-sm-4">
                                                 Remarks/Return reason:
                                             </div>
@@ -138,7 +153,7 @@
                                         <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.unAudited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'unAudited', $event?.target?.value)">Return</button>
                                     </div>
                                     <div class="row rej mt-3">
-                                        <div class="col-sm-5 a-h" style="">Return reason:</div>
+                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
                                         <div class="col-sm-7 ps-4" style="">
                                             <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
                                         </div>
@@ -146,9 +161,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4" *ngIf="data?.isDraft == false && canTakeAction == false">
+                        <div class="card mb-4" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.unAudited.status">
                             <div class="card-body">
-                                <div class="row" *ngIf=" data?.status == 'PENDING'">
+                                <div class="row" *ngIf="data?.isDraft == false && data?.unAudited?.status == 'PENDING'">
                                     <div class="col-sm-2">
                                         Review Status:
                                     </div>
@@ -156,7 +171,7 @@
                                         Under review by state
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.status !== 'PENDING'">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
                                     <div class="col-sm-4">
                                         Review Status:
                                     </div>
@@ -164,7 +179,15 @@
                                         {{data?.unAudited?.status}}
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.status !== 'PENDING'">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.status}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
                                     <div class="col-sm-4">
                                         Remarks/Return reason:
                                     </div>
@@ -174,6 +197,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <!-- supporting documents for action -->
                     <div class="card-body" *ngIf="canTakeAction == true">
@@ -190,7 +214,9 @@
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url}}">{{unAuditedActionResponse?.responseFile?.name}}</a>
+                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url ? unAuditedActionResponse?.responseFile?.url : data?.unAudited?.responseFile?.url}}">
+                                  {{unAuditedActionResponse?.responseFile?.name ? unAuditedActionResponse?.responseFile?.name : data?.unAudited?.responseFile?.name}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -221,7 +247,7 @@
 
                     <div class="row" *ngIf="data?.unAudited?.submit_standardized_data">
                         <div class="col-sm-12 ms-3">
-                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
                                   Download Template
                               </a>
                             <button (click)="ques21.click()" [disabled]="tab2dis" class="btn btn-primary ms-3">Upload EXCEL
@@ -371,17 +397,17 @@
                             </div>
                             <!-- *ngIf="item?.action == true &&
                           data?.status != 'PENDING' && data?.isDraft == false" -->
-                            <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == false && data?.isDraft == false && item?.data?.status">
+                            <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                 <div class="card-body">
-                                    <div class="row" *ngIf="data?.status == 'PENDING'">
+                                    <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
                                         <div class="col-sm-2">
-                                            Status:
+                                            Review Status:
                                         </div>
                                         <div class="col-sm-10">
                                             Under review by state
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="item?.data?.status !== 'PENDING'">
+                                    <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
                                         <div class="col-sm-4">
                                             Review Status:
                                         </div>
@@ -389,43 +415,33 @@
                                             {{item?.data?.status}}
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="item?.data?.status !== 'PENDING'">
+                                    <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
                                         <div class="col-sm-4">
-                                            Remarks/Return reason :
+                                            Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{item?.data?.status}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                        <div class="col-sm-4">
+                                            Remarks/Return reason:
                                         </div>
                                         <div class="col-sm-8">
                                             {{item?.data?.rejectReason}}
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                    <div class="col-sm-2">
-                                        MoHUA Review:
+                                    <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            Remarks/Return reason:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{item?.data?.rejectReason}}
+                                        </div>
                                     </div>
-                                    <div class="col-sm-10">
-                                        APPROVED
-                                    </div>
-                                </div> -->
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="card-body" *ngIf="canTakeAction == true">
-                            <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
-                                <div class="col-sm-12">
-                                    <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
-                                    </app-common-file-upload>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false">
-                            <div class="row">
-                                <div class="col-sm-4 s-h">
-                                    Supporting Document:
-                                </div>
-                                <div class="col-sm-8">
-                                    <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url}}">{{auditedActionResponse?.responseFile?.name}}</a>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                     <!-- action in case of no no -->
                     <div class="actNO mt-3" *ngIf="!data?.audited?.submit_annual_accounts">
@@ -438,7 +454,7 @@
                                         <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.audited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'audited', $event?.target?.value)">Return</button>
                                     </div>
                                     <div class="row rej mt-3">
-                                        <div class="col-sm-5 a-h" style="">Return reason:</div>
+                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
                                         <div class="col-sm-7 ps-4" style="">
                                             <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
                                         </div>
@@ -446,17 +462,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4" *ngIf="data?.isDraft == false && canTakeAction == false">
+                        <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.audited.status">
                             <div class="card-body">
-                                <div class="row" *ngIf=" data?.status == 'PENDING'">
+                                <div class="row" *ngIf="data?.isDraft == false && data?.audited?.status == 'PENDING'">
                                     <div class="col-sm-2">
-                                        Status:
+                                        Review Status:
                                     </div>
                                     <div class="col-sm-10">
                                         Under review by state
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.status !== 'PENDING'">
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
                                     <div class="col-sm-4">
                                         Review Status:
                                     </div>
@@ -464,7 +480,15 @@
                                         {{data?.audited?.status}}
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.status !== 'PENDING'">
+                                <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.audited?.status}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
                                     <div class="col-sm-4">
                                         Remarks/Return reason:
                                     </div>
@@ -490,7 +514,10 @@
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url}}">{{unAuditedActionResponse?.responseFile?.name}}</a>
+                                <!-- auditedActionResponse -->
+                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url ? auditedActionResponse?.responseFile?.url : data?.audited?.responseFile?.url}}">
+                                 {{auditedActionResponse?.responseFile?.name ? auditedActionResponse?.responseFile?.name : data?.audited?.responseFile?.name}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -521,9 +548,11 @@
 
                     <div class="row mt-3" *ngIf="data?.audited?.submit_standardized_data">
                         <div class="col-sm-12 ms-3">
-                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
                                 Download Template
                             </a>
+                            <!-- https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx -->
+
                             <button (click)="ques2.click()" class="btn btn-primary ms-3" [disabled]="tab1dis">Upload EXCEL
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>

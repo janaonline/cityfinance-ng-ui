@@ -13,6 +13,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 
+
 @Component({
   selector: 'app-action-plan',
   templateUrl: './action-plan.component.html',
@@ -37,10 +38,11 @@ export class ActionPlanComponent implements OnInit {
   projectCategories = [];
   @ViewChild("template") template;
   @ViewChild("template1") template1;
-  dialogRefForNavigation;
+ // dialogRefForNavigation;
   actionRes = [];
   stateId;
   uasData;
+  isDisabled = false;
   constructor(
     public stateService: State2223Service,
     public actionplanserviceService: ActionplanserviceService,
@@ -57,15 +59,18 @@ export class ActionPlanComponent implements OnInit {
     }
     this.getUAList();
   }
-  disableAllForms = false;
-  actionFormDisable = false;
-  isStateSubmittedForms = "";
-  allStatus;
-  formDisable = false;
-  backButtonClicked = false;
+ // disableAllForms = false;
+ // actionFormDisable = false;
+ // isStateSubmittedForms = "";
+ // allStatus;
+ // backButtonClicked = false;
   body = {};
   stopFlag = 0;
   submitted = false;
+  reqBody;
+  finalError = false;
+  isPreYear = false;
+  preMess = '';
   ngOnInit(): void {
 
   }
@@ -108,23 +113,35 @@ export class ActionPlanComponent implements OnInit {
 
   load() {
     console.log('state id', this.stateId);
-    this.actionplanserviceService.getFormData(this.stateId).subscribe(
-      (res) => {
+    let year = this.Year["2022-23"]
+    this.stateService.getFormDataAction(this.stateId, year).subscribe(
+      (res: any) => {
         this.showLoader = false;
         console.log(res["data"], "sss");
+        if (this.loggedInUserType !== "STATE") {
+          this.isDisabled = true
+        } else if (res?.data?.isDraft == false && this.loggedInUserType === "STATE") {
+          this.isDisabled = true
+        } else {
+          this.isDisabled = false;
+        }
         this.data = {
-          state: res["data"].state,
-          design_year: res["data"]["design_year"],
-          uaData: res["data"]["uaData"],
-          status: res["data"]["status"] ?? "PENDING",
-          isDraft: res["data"]["isDraft"],
+          state: res["data"]?.state,
+          design_year: this.Year["2022-23"],
+          uaData: res["data"]?.uaData,
+          status: res["data"]?.status ?? "PENDING",
+          isDraft: res["data"]?.isDraft,
         };
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
         this.addKeys(this.data);
+        this.isPreYear = true;
       },
       (err) => {
+        console.log('error msg', err);
         this.showLoader = false;
-        this.onFail();
+        this.preMess = err?.error?.message;
+        this.isPreYear = false;
+        //this.onFail();
       }
     );
   }
@@ -187,7 +204,7 @@ export class ActionPlanComponent implements OnInit {
   onFail() {
     this.data = {
       state: this.stateId,
-      design_year: this.Year["2021-22"],
+      design_year: this.Year["2022-23"],
       uaData: [],
       status: null,
       isDraft: null,
@@ -227,33 +244,58 @@ export class ActionPlanComponent implements OnInit {
   }
 
 
-
+  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
   submit(type) {
     let draftFlag;
     if (this.loggedInUserType === "STATE") {
-      let data = this.makeApiData(true);
+      this.reqBody = this.makeApiData(true);
       if (type == 'isDraft') {
-        data.isDraft = true
+        this.reqBody.isDraft = true;
+        this.postData();
       } else {
-        data.isDraft = false;
-      }
-      this.actionplanserviceService.postFormData(data).subscribe(
-        (res) => {
-          swal("Record Submitted Successfully!");
-          sessionStorage.setItem("changeInActionPlans", "false");
-          const form = JSON.parse(
-            sessionStorage.getItem("allStatusStateForms")
-          );
-
-          form.steps.actionPlans.isSubmit = !this.data.isDraft;
-          form.steps.actionPlans.status = "PENDING";
-          form.actionTakenByRole = "STATE";
-          //  this.stateformsService.allStatusStateForms.next(form);
-        },
-        (err) => {
-          console.log(err);
+        this.reqBody.isDraft = false;
+        if (this.finalError) {
+          swal("Missing Data !", `${this.errorMsg}`, "error");
+          return;
+        } else {
+          swal(
+            "Confirmation !",
+            `Are you sure you want to submit this form? Once submitted,
+             it will become uneditable and will be sent to MoHUA for Review.
+              Alternatively, you can save as draft for now and submit it later.`,
+            "warning",
+            {
+              buttons: {
+                Submit: {
+                  text: "Submit",
+                  value: "submit",
+                },
+                Draft: {
+                  text: "Save as Draft",
+                  value: "draft",
+                },
+                Cancel: {
+                  text: "Cancel",
+                  value: "cancel",
+                },
+              },
+            }
+          ).then((value) => {
+            switch (value) {
+              case "submit":
+                this.postData();
+                break;
+              case "draft":
+                this.reqBody.isDraft = true;
+                this.postData();
+                break;
+              case "cancel":
+                break;
+            }
+          });
         }
-      );
+      }
+
     }
     //  else if (this.loggedInUserType === "MoHUA") {
     //   let changeHappen = sessionStorage.getItem("changeInActionPlans");
@@ -301,6 +343,30 @@ export class ActionPlanComponent implements OnInit {
 
     //   }
     // }
+  }
+  postData() {
+    this.actionplanserviceService.postFormData(this.reqBody).subscribe(
+      (res) => {
+        if (this.reqBody.isDraft == true) {
+          swal("Saved", "Data saved as draft successfully.", "success");
+        } else {
+          swal("Saved", "Data saved successfully.", "success");
+          this.isDisabled = true;
+        }
+        sessionStorage.setItem("changeInActionPlans", "false");
+        const form = JSON.parse(
+          sessionStorage.getItem("allStatusStateForms")
+        );
+
+        form.steps.actionPlans.isSubmit = !this.data.isDraft;
+        form.steps.actionPlans.status = "PENDING";
+        form.actionTakenByRole = "STATE";
+        //  this.stateformsService.allStatusStateForms.next(form);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   // saveStateAction() {
@@ -417,9 +483,11 @@ export class ActionPlanComponent implements OnInit {
                 element["value"] === ""
               ) {
                 this.data.isDraft = true;
+                this.finalError = true;
                 return apiData;
               } else {
                 this.data.isDraft = false;
+                this.finalError = false;
               }
             }
           }
