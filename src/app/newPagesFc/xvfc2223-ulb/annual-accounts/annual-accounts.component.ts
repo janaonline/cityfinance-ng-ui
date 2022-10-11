@@ -1788,6 +1788,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.isDisabled = true;
         this.tab1dis = true;
         this.tab2dis = true;
+        this.overAllFormDis = true;
+        this.data.isDraft = false;
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
@@ -1914,7 +1916,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   getUploadActionFileData(e, type) {
     console.log('action......file', e, type);
     this.actionFileData[type] = e;
-    debugger
+
     if (this.data[type].submit_annual_accounts) {
       for (const key in this.data[type].provisional_data) {
         if (typeof (this.data[type].provisional_data[key]) == 'object') {
@@ -2171,6 +2173,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   tab2dis = false;
   setDisableField() {
     //audit disable
+    console.log('data action.....', this.data);
     if (this.data?.audited?.submit_annual_accounts == true) {
       this.auditQues.forEach((el) => {
         if (this.userData?.role !== "ULB") {
@@ -2198,6 +2201,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //unaudit disable
     if (this.data?.unAudited?.submit_annual_accounts == true) {
       this.unAuditQues.forEach((el) => {
+
+        console.log('data action ele.....', el);
         if (this.userData?.role !== "ULB") {
           el['qusDis'] = false;
         } else if (this.userData?.role == 'ULB' && this.canTakeAction == false && el?.data?.status == 'APPROVED') {
