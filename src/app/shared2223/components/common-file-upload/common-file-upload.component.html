@@ -1,7 +1,7 @@
 <div class="row mb-3">
     <div class="col-sm-5 q-n" style="width: 46%;">
-        {{quesName}}<span class="text-danger">*</span>
-        <span *ngIf="itemObj?.tooltip != ''" matTooltip="{{itemObj?.tooltip}}" matTooltipClass="tooltip-red" matTooltipPosition="above">
+        {{quesName}}<span class="text-danger" *ngIf="quesName != 'Supporting Document'">*</span>
+        <span *ngIf="itemObj?.tooltip != '' && quesName != 'Supporting Document'" matTooltip="{{itemObj?.tooltip}}" matTooltipClass="tooltip-red" matTooltipPosition="above">
           <img src="../../../../assets/ticks/info_black_18dp.svg">
         </span>
 
@@ -25,7 +25,7 @@
         </div>
         <div class="" *ngIf="quesType == 'file'">
             <button *ngIf="showPdf" [disabled]="isDisabled" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
-              <sup><span class="wh-s">*</span></sup>
+              <sup><span class="wh-s" *ngIf="quesName != 'Supporting Document'">*</span></sup>
                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
            </button>
             <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>
