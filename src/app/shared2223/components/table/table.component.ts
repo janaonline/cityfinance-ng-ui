@@ -213,8 +213,13 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   isChecked(element: any) {
     // console.log('isChecked =====>', element);
-    let isUlbIdExist = this.selectedId.some((item) => item == element.ulbId);
-    return isUlbIdExist;
+    if (this.title == 'Review Grant Application') {
+      let isUlbIdExist = this.selectedId.some((item) => item == element.ulbId);
+      return isUlbIdExist;
+    } else {
+      let isUlbIdExist = this.selectedId.some((item) => item == element.state);
+      return isUlbIdExist;
+    }
   }
 
   setPage(pageNoClick: number) {

@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                                 <!-- {{item?.data?.status}} {{canTakeAction}} -->
-                                <div class="card mb-4" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
+                                <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                     <div class="card-body">
                                         <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
                                             <div class="col-sm-2">
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4" *ngIf="canTakeAction == false && data?.unAudited.status">
+                        <div class="card mb-4" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.unAudited.status">
                             <div class="card-body">
                                 <div class="row" *ngIf="data?.isDraft == false && data?.unAudited?.status == 'PENDING'">
                                     <div class="col-sm-2">
@@ -397,7 +397,7 @@
                             </div>
                             <!-- *ngIf="item?.action == true &&
                           data?.status != 'PENDING' && data?.isDraft == false" -->
-                            <div class="card mb-4" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
+                            <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                 <div class="card-body">
                                     <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
                                         <div class="col-sm-2">
@@ -462,7 +462,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-4" *ngIf="canTakeAction == false && data?.audited.status">
+                        <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.audited.status">
                             <div class="card-body">
                                 <div class="row" *ngIf="data?.isDraft == false && data?.audited?.status == 'PENDING'">
                                     <div class="col-sm-2">
