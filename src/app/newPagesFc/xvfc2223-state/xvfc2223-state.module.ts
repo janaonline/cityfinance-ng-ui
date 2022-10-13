@@ -35,6 +35,8 @@ import { AgGridComponent } from '../../shared/components/ag-grid/ag-grid.compone
 import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { AgGrid2223Component } from './action-plan/ag-grid2223/ag-grid2223.component'
 import { ButtonRendererComponent } from "./action-plan/delete-btn";
+import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
+import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { ButtonRendererComponent } from "./action-plan/delete-btn";
     WaterRejenuvations2223PreviewComponent,
     ActionPlanComponent,
     AgGrid2223Component,
+    GrantClaimsComponent,
+    GrantClaimsDialogComponent,
     // ButtonRendererComponent
   ],
   imports: [
