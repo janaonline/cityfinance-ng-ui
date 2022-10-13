@@ -221,7 +221,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       return isUlbIdExist;
     }
   }
-
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
