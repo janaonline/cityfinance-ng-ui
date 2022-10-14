@@ -1,16 +1,15 @@
 .form-header {
-    font-family: Roboto, Medium;
+    font-family: 'Roboto', Medium;
     color: #373737;
     font-size: 20px;
-    margin-top: 1rem;
-    margin-bottom: 5px;
+    margin-top: 0.2rem;
     font-weight: 600;
 }
 
 .card {
     width: 100%;
     height: auto;
-    margin-bottom: 2rem !important;
+    //  margin-bottom: 2rem !important;
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px 4px #cecece;
     //  padding: 15px 15px 15px 15px;
@@ -29,7 +28,7 @@
 
 .uplod_label {
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 ::ng-deep .mat-chip-list-wrapper input.mat-input-element,
@@ -96,4 +95,31 @@ label {
 
 .f-l {
     font-size: 18px;
+}
+
+.c-in {
+    padding: 1rem 2rem;
+}
+
+.a-l-i {
+    align-items: center;
+}
+
+.c-st {
+    font-size: 15px;
+    padding-left: 15px;
+}
+
+.aco-d {
+    padding-left: 30px;
+    margin-right: 15px;
+}
+
+.li-el {
+    font-weight: 500;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
 }
