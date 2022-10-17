@@ -243,6 +243,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   }
 
   setRouter() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
@@ -843,6 +844,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     }
   }
   saveAction() {
+    this.setRouter();
     let actionBody = {
       formId: this.formId,
       design_year: "606aafb14dff55e6c075d3ae",
