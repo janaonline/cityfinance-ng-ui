@@ -102,9 +102,7 @@ export class WaterRejenuvationComponent implements OnInit {
     if (this.loggedInUserType == "MoHUA") {
       this.formDisable = true;
       this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
-
         if (el['controls']['status']['value'] == 'APPROVED') {
-
           this.disableActionUAs.push(el.value?.ua)
         }
       })
@@ -140,7 +138,7 @@ export class WaterRejenuvationComponent implements OnInit {
 
     this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
       (disable) => {
-        this.formDisable = disable
+        this.formDisable = disable;
         if (disable) {
           sessionStorage.setItem("disableAllForms", "true")
         }
@@ -423,7 +421,6 @@ export class WaterRejenuvationComponent implements OnInit {
           this.storeData(res["data"]);
           this.showLoader = false;
           console.log("water rej data", this.data);
-
           resolve("ss");
         },
         (err) => {

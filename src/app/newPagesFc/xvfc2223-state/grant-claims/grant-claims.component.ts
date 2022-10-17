@@ -354,7 +354,6 @@ export class GrantClaimsComponent implements OnInit {
   }
 
   finalConfirm(type, ins, grantAmount) {
-    debugger
     this.body['financialYear'] = this.years['2022-23']
     this.body['amountClaimed'] = grantAmount;
     this.body['installment'] = ins;
@@ -644,7 +643,7 @@ export class GrantClaimsComponent implements OnInit {
     });
     stateUlbArr?.forEach((el) => {
       let keyM = el?.key;
-      let val = el?.totalApproved;
+      let val = el?.approvedValue;
       console.log('aaaaaaaaa', mpcData?.conditions);
       for (let i = 0; i < mpcData?.conditions?.length; i++) {
         let elm = mpcData?.conditions[i];
@@ -671,7 +670,6 @@ export class GrantClaimsComponent implements OnInit {
           break;
         }
       }
-
     })
     console.log('mpc array', this.mpcCondArr)
 
