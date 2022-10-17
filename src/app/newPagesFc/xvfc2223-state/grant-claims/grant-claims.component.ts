@@ -628,7 +628,7 @@ export class GrantClaimsComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  // new changes-----------pk
+  // new changes-----------
   mpcCondArr = [];
   nmpcT1CondArr = [];
   nmpcT2CondArr = [];
