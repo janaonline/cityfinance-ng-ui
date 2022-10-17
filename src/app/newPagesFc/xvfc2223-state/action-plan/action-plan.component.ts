@@ -44,12 +44,12 @@ export class ActionPlanComponent implements OnInit {
   uasData;
   isDisabled = false;
   constructor(
-    public stateService: State2223Service,
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
     private dialog: MatDialog,
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
+    public stateService: State2223Service,
 
   ) {
     this.initializeUserType();

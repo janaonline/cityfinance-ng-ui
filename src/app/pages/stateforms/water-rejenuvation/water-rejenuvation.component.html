@@ -18,10 +18,10 @@
         <div formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index" style="margin-bottom: 1rem;">
             <div class="card" style="margin-top: .5rem; margin-left: 0pc;">
                 <div [formGroupName]="projectIndex" class="card-body ">
-                    <div style="height: 40px;">
-                        <div style="display: inline-flex; float: left;">
+                    <div class="row" style="">
+                        <div class="col-sm-9 head-l" style="">
                             <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
-                            <h5 style="display: inline-block; font-size: 15px; font-weight: 500;">
+                            <h5>
                                 <!-- {{uaIdToName(projectIndex).split(' ')[0]}} -->
 
                                 UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex)}}
@@ -30,14 +30,14 @@
                                 uaIdToName(projectIndex).lastIndexOf(" ")) }} -->
                             </h5>
                         </div>
-                        <div style="display: inline-flex; float: right;">
+                        <div class="col-sm-3" style="">
                             <button class="btn btn-primary" style="" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
                         </div>
                     </div>
                     <div *ngIf="checkCard(projectIndex)">
                         <div class="table-responsive">
                             <div>
-                                <h5 style="font-size: 14; font-weight: 500;">Fill Details of Project for Rejuvenation of Water Bodies<span style="color: red;">*</span></h5>
+                                <h5 class="tb-head" style="">Fill Details of Project for Rejuvenation of Water Bodies<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -171,7 +171,7 @@
                                 </tbody>
                             </table>
                             <div>
-                                <h5 style="font-size: 14px; font-weight: 500;">Fill Details of Projects for Recycling and Reuse of Water<span style="color: red;">*</span></h5>
+                                <h5 class="tb-head" style="">Fill Details of Projects for Recycling and Reuse of Water<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -243,7 +243,7 @@
                                     </span>Add more</button>
                             </div>
                             <div style="margin-top:1%;">
-                                <h4 style="font-weight: 500; font-size: 14px;"> Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
+                                <h4 class="tb-head" style=""> Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
                                 </h4>
                             </div>
                             <table class="table custom-position">

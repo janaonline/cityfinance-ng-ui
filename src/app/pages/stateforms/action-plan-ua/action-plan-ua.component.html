@@ -31,14 +31,11 @@
                 <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': item.fold}" style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
             </div>
             <div *ngIf="item.fold">
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [isDisabled]="formDisable || (
-                        loggedInUserType === USER_TYPE.STATE &&
-                          allStatus['latestFinalResponse']['role'] == 'MoHUA'
-                          &&
-                        item.status =='APPROVED')" [ulbList]="item.ulbList" [rowData]="item">
+                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [isDisabled]="formDisable || (loggedInUserType === USER_TYPE.STATE && allStatus?.latestFinalResponse?.role == 'MoHUA' && item?.status =='APPROVED')" [ulbList]="item.ulbList"
+                    [rowData]="item">
                 </app-ag-grid>
 
-                <div class="card" *ngIf="loggedInUserType === USER_TYPE.MoHUA &&  allStatus['latestFinalResponse']['role'] == 'STATE'" style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
+                <div class="card" *ngIf="loggedInUserType === USER_TYPE.MoHUA &&  allStatus?.latestFinalResponse?.role == 'STATE'" style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
                     <div class="card-body" style="margin-left: .8rem;" [ngClass]="{'anDisable': actionFormDisable}">
                         <app-action-component [isDisabled]="actionFormDisable" (actionValues)="checkStatus($event,item.ua, projectIndex)" [statusResponse]='actionRes[projectIndex]'>
                         </app-action-component>
@@ -47,10 +44,10 @@
 
 
                 <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-                    allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA')">
+                    allStatus?.latestFinalResponse?.role && allStatus?.latestFinalResponse?.role == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA')">
                     <div class="card-body">
                         <b>MoHUA Review Status :</b>
-                        <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
+                        <div class="btn-group" *ngIf="allStatus?.latestFinalResponse?.role && allStatus?.latestFinalResponse?.role == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
 
                             <label class="btn btn-success" disabled style="width: 82px; margin-top: 1rem;" [ngClass]="{'btn-a' : item.status == 'APPROVED', 'btn-r' :  item.status == 'REJECTED'}">
 
@@ -69,7 +66,7 @@
 
                 </div>
                 <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-                    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
+                    (loggedInUserType === USER_TYPE.STATE) && (allStatus?.latestFinalResponse?.role == 'STATE'))">
                     <div class="card-body">
                         <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
                     </div>

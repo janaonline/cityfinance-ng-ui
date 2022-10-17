@@ -13,6 +13,8 @@ import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { FasDirective } from "angular-bootstrap-md";
 const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
+import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
+import { StateDashboardService } from "../state-dashboard/state-dashboard.service";
 
 @Component({
   selector: "app-action-plan-ua",
@@ -48,9 +50,14 @@ export class ActionPlanUAComponent implements OnInit {
     private _router: Router,
     private dialog: MatDialog,
     private profileService: ProfileService,
-
+    public stateDashboardService: StateDashboardService,
+    public stateService: State2223Service,
   ) {
     this.initializeUserType();
+    this.state_id = this.userData?.state;
+    if (!this.state_id) {
+      this.state_id = localStorage.getItem("stateId") ? localStorage.getItem("stateId") : sessionStorage.getItem("state_id");
+    }
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         if (event.url === "/" || event.url === "/login") {
@@ -69,13 +76,21 @@ export class ActionPlanUAComponent implements OnInit {
         }
       }
     });
+    this.getUAList();
   }
   disableAllForms = false;
   actionFormDisable = false;
   isStateSubmittedForms = "";
   allStatus;
   formDisable = false;
-  backButtonClicked = false
+  backButtonClicked = false;
+  UANames = [];
+  finalActionData;
+  submitted = false;
+  body = {};
+  stopFlag = 0;
+  state_id;
+  actionTakenByRoleOnForm = null
   ngOnInit(): void {
     this.formDisable = sessionStorage.getItem("disableAllForms") == "true";
     this.actionFormDisable =
@@ -90,7 +105,6 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
     sessionStorage.setItem("changeInActionPlans", "false");
-    this.state_id = sessionStorage.getItem("state_id");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
 
     if (this.loggedInUserType == "MoHUA") {
@@ -115,13 +129,13 @@ export class ActionPlanUAComponent implements OnInit {
       this.actionFormDisable = true;
     }
 
-    this.getUlbNames();
-    for (const key in this.uasData) {
-      let code = localStorage.getItem("state_code");
-      code += "/" + this.uasData[key]?.UACode ?? "UA";
-      code += "/" + this.yearCode;
-      this.uaCodes[key] = code;
-    }
+    // this.getUlbNames();
+    // for (const key in this.uasData) {
+    //   let code = localStorage.getItem("state_code");
+    //   code += "/" + this.uasData[key]?.UACode ?? "UA";
+    //   code += "/" + this.yearCode;
+    //   this.uaCodes[key] = code;
+    // }
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
       (disable) => {
         this.formDisable = disable;
@@ -137,11 +151,20 @@ export class ActionPlanUAComponent implements OnInit {
         this.ulbNames = res["data"];
         this.getCategory();
         this.load();
+        this.setCode();
       },
       (err) => {
         console.log(err);
       }
     );
+  }
+  setCode() {
+    for (const key in this.uasData) {
+      let code = localStorage.getItem("state_code");
+      code += "/" + this.uasData[key]?.UACode ?? "UA";
+      code += "/" + this.yearCode;
+      this.uaCodes[key] = code;
+    }
   }
 
   getCategory() {
@@ -157,9 +180,6 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
   }
-  state_id;
-  actionTakenByRoleOnForm = null
-
   load() {
     console.log(this.state_id);
     this.actionplanserviceService.getFormData(this.state_id).subscribe(
@@ -359,8 +379,7 @@ export class ActionPlanUAComponent implements OnInit {
       }
     }
   }
-  body = {};
-  stopFlag = 0;
+
   saveStateAction() {
     let flag = 0;
     let draftFlag = 0;
@@ -415,7 +434,7 @@ export class ActionPlanUAComponent implements OnInit {
         }
       );
   }
-  submitted = false;
+
   saveButtonClicked() {
     this.submitted = true;
     this.submit()
@@ -565,7 +584,7 @@ export class ActionPlanUAComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
-  finalActionData;
+
   checkStatus(ev, ua_id, a, b) {
     sessionStorage.setItem("changeInActionPlans", "true");
     this.saveBtnText = "SAVE AND NEXT";
@@ -619,6 +638,38 @@ export class ActionPlanUAComponent implements OnInit {
         fileSaver.saveAs(blob, "ActionPlanData.xlsx");
       },
       (error) => { }
+    );
+  }
+  getUAList() {
+    this.stateService.getUAList(this.state_id).subscribe((res: any) => {
+      console.log('ua list...', res);
+      this.uasData = res?.data;
+      this.getCardData();
+    },
+      (error) => {
+        console.log('error', error);
+      }
+    )
+  }
+
+  getCardData() {
+    this.stateDashboardService.getCardData(this.state_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        let data = res["data"];
+        let newList = {};
+        res["data"]["uaList"].forEach((element) => {
+          this.UANames.push(element.name)
+          newList[element._id] = element;
+        });
+        console.log(this.UANames)
+        this.uasData = newList;
+        sessionStorage.setItem("UasList", JSON.stringify(newList));
+        this.getUlbNames();
+      },
+      (err) => {
+        console.log(err);
+      }
     );
   }
 }
