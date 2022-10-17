@@ -91,7 +91,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   @ViewChild("changeTemplate") template;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
-    if (!this.ulbName) {
+    if (this.userData?.role != "ULB") {
       this.ulbName = sessionStorage.getItem("ulbName");
     }
     this.setRouter();
@@ -311,16 +311,16 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       declaration: data?.declaration,
       grantPosition: {
         unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
-          ? data?.grantPosition?.unUtilizedPrevYr
+          ? Number(data?.grantPosition?.unUtilizedPrevYr).toFixed(2)
           : 0,
         receivedDuringYr: data?.grantPosition?.receivedDuringYr
-          ? data?.grantPosition?.receivedDuringYr
+          ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
           : null,
         expDuringYr: data?.grantPosition?.expDuringYr
-          ? data?.grantPosition?.expDuringYr
+          ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
           : null,
         closingBal: data?.grantPosition?.closingBal
-          ? data?.grantPosition?.closingBal
+          ? Number(data?.grantPosition?.closingBal).toFixed(2)
           : null,
       },
       status: data?.status,
@@ -540,7 +540,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
           Number(el?.expDuringYr);
         this.expDuringYear = el?.expDuringYr;
         if (this.closingBal) {
-          this.closingBal = Number(this.closingBal.toFixed(2));
+          this.closingBal = Number(Number(this.closingBal).toFixed(2));
         }
 
         // if(this.closingBal == undefined || !isNaN(this.closingBal)){
@@ -618,7 +618,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   changeInGrant(type) {
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
-    ].patchValue(Number(this.closingBal.toFixed(2)));
+    ].patchValue(Number(Number(this.closingBal).toFixed(2)));
     if (type == "exp") {
       let grantsExp = this.expDuringYear;
       // this.utilizationReportForm?.value?.grantPosition?.expDuringYr;
@@ -656,7 +656,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     // ].patchValue(this.closingBal);
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
-    ].patchValue(Number(this.closingBal.toFixed(2)));
+    ].patchValue(Number(Number(this.closingBal).toFixed(2)));
     this.utilizationReportForm.value.status = 'PENDING';
     this.postBody = {
       // status: "PENDING",
