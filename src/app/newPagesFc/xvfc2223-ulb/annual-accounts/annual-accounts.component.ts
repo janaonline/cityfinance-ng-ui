@@ -782,6 +782,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     this.onLoad();
   }
   setRouter() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     for (const key in this.sideMenuItem) {
       //  console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
@@ -2083,6 +2084,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   }
   saveAction() {
+    this.setRouter();
     this.checkActionValidation();
     if (this.actionValidation) {
       swal(
