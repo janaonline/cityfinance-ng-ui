@@ -94,9 +94,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     }
   }
   allStatusStateForms = {
-
     "steps": {
-
       "GTCertificate": {
         "rejectReason": null,
         "status": "",
@@ -194,12 +192,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
     this.stateformsService.allStatusStateForms.subscribe((res) => {
       console.log('triggered')
-
       this.allStatusStateForms = res;
-
       this.checkValidationStatusOfAllForms();
       console.log(this.validate)
-
       this.reviewSubmitted = false;
       if (this.allStatusStateForms['latestFinalResponse']['role'] === "MoHUA") {
         this.reviewSubmitted = true;

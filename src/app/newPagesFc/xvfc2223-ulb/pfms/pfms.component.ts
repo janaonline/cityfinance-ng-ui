@@ -123,6 +123,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   formId = "";
   pfmsData;
   setRouter() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     for (const key in this.sideMenuItem) {
       //  console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach((element) => {
@@ -877,6 +878,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   //  sessionStorage.setItem("isActChangePfms", "true");
   }
   saveAction() {
+    this.setRouter();
     let actionBody = {
       formId: this.formId,
       design_year: "606aafb14dff55e6c075d3ae",

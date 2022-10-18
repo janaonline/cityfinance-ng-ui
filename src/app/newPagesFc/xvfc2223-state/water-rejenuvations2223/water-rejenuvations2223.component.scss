@@ -44,38 +44,12 @@
     border: 2px solid #00000029;
 }
 
-.disable {
-    pointer-events: none !important;
-    background-color: #daecec;
-}
-
-.question {
-    width: 100%;
-}
-
 .image-upload>input {
     display: none;
 }
 
 .image-upload img {
     cursor: pointer;
-}
-
-.btnUpload {
-    background-color: #059b9a;
-    margin-left: 1pc;
-    margin-bottom: 1pc;
-    color: white;
-    font-size: 12px;
-    width: 200px;
-}
-
-.btnUpload:hover {
-    background-color: #ffc500;
-}
-
-.btnUpload:active {
-    background-color: #ffc500;
 }
 
 .filePadding {
@@ -143,40 +117,6 @@
     }
 }
 
-.saveBtn {
-    background-color: #059b9a;
-    color: #ffffff;
-    border-radius: 4px;
-    height: 36px;
-    // padding-left: 2%;
-    //  padding-right: 2%;
-    // width: auto;
-    font-size: 14px;
-    font-weight: normal;
-}
-
-.btn-pre {
-    background-color: #059b9a;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 36px;
-    padding-left: 2rem;
-    font-size: 14px;
-    padding-right: 2rem;
-}
-
-.back {
-    //  width: auto;
-    background-color: #cfcfcf;
-    color: #ffffff;
-    border-radius: 4px;
-    height: 36px;
-    //  padding-left: 2%;
-    //  padding-right: 2%;
-    font-size: 14px;
-    font-weight: normal;
-}
-
 .btn:hover {
     background-color: #ffc500;
     color: white;
@@ -206,38 +146,12 @@ input::-webkit-inner-spin-button {
     border-color: red;
 }
 
-.disabled {
-    color: gray;
-    background-color: rgb(247, 247, 247);
-    pointer-events: none
-}
-
-.cursor-not-allowed {
-    cursor: not-allowed;
-}
-
-.anDisable {
-    pointer-events: none;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
 .icon {
     padding-top: 18px !important;
 }
 
 .iconSliAndReuse {
     padding-top: 2px !important;
-}
-
-.btn-r {
-    background-color: red;
-    color: #FFFFFF;
-}
-
-.btn-a {
-    background-color: green;
-    color: #FFFFFF;
 }
 
 .btn:hover {
@@ -254,36 +168,12 @@ input::-webkit-inner-spin-button {
     padding: 0;
 }
 
-.m-btn {
-    color: #fff;
-    background-color: #198754;
-    border-color: #198754;
-}
-
-.btn-c-back {
-    background-color: #CFCFCF;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    font-weight: 500;
-}
-
-.btnDraft {
-    background-color: #059b9a;
-    color: #fff;
-    border-radius: 5px;
+.head-l {
     font-size: 16px;
-    width: -webkit-fill-available;
+    font-weight: 600;
 }
 
-.btn-c-next {
-    background-color: #114551;
-    border-radius: 4px;
-    border: 1px solid transparent;
+.tb-head {
+    font-size: 14px;
     font-weight: 500;
-    color: #fff;
-}
-
-.pre-y {
-    font-size: 1.5rem;
-    padding: 5rem 5rem;
 }
