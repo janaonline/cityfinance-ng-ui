@@ -412,8 +412,8 @@
                                                 <td colspan="4" class="t-n">
                                                     Total
                                                 </td>
-                                                <td class="t-n">{{totalProjectCost}}</td>
-                                                <td class="t-n" [ngClass]="{'errorCls' :totalPExpErr}">{{totalProjectExp}}</td>
+                                                <td class="t-n">{{totalProjectCost| number : '1.0-2' }}</td>
+                                                <td class="t-n" [ngClass]="{'errorCls' :totalPExpErr}">{{totalProjectExp| number : '1.0-2' }}</td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
