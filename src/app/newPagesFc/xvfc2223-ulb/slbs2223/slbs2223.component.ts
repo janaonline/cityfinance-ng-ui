@@ -120,7 +120,7 @@ export class Slbs2223Component implements OnInit {
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
-        debugger
+        // debugger
         if (res['data'].length > 0) {
           if (res['data'][0]['blank']) {
             this.clickAnswer = false
