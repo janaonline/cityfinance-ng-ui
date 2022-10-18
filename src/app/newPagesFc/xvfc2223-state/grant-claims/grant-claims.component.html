@@ -1,35 +1,22 @@
-<div class="container-fluid" style="margin-right: 15px; margin-bottom: 1rem;">
+<div class="container-fluid mb-3" style="">
     <!-- heading and drop down -->
-    <div class="row">
-        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-            <h4 class="form-header">
-                Final submission of claims for 15th FC Grants (FY 2022-23)
-            </h4>
-            <!-- <h5 style="font-size: 16px;">
-                Submit Final Claims for Grant (State Nodal Officer would be able to submit the claim once all compliances are done from ULB & State end)
-            </h5> -->
+    <div class="row mt-2">
+        <div class="col-sm-12 form-header">
+            Final submission of claims for 15th FC Grants (FY 2022-23)
         </div>
-        <!-- <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
-
-            <select class="custom-select form-control" style="display: inline-block;" (change)="checkFinancialYear($event.target.value)">
-                <option value="606aadac4dff55e6c075c507">2020-21</option>
-                <option selected value="606aaf854dff55e6c075d219">2022-23</option> -->
-        <!-- <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option> -->
-        <!-- </select> -->
-        <!-- </div>  -->
     </div>
     <!-- claim for Non Million - Tied -->
-    <div *ngIf="display?.showQ2" class="row">
+    <div *ngIf="display?.showQ2" class="row mt-3">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row" style="margin: 0;">
+                            <div class="row m-0 a-l-i" style="">
                                 <div class="col-md-10">
                                     <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
                                 </div>
-                                <div class="col-md-2" style="text-align: right;">
+                                <div class="col-md-2 text-end" style="">
                                     <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
                                     </button>
                                 </div>
@@ -37,49 +24,45 @@
 
                         </div>
 
-                        <div class="row mt-3" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row mt-3 aco-d" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="">
                             <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body" style="padding: 1rem 2rem;">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
                                                     1st Installment (FY 2022-23):
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                            <h4 class="c-st" style="">
                                                 Current Status:
                                             </h4>
                                             <ul class="u-l-h">
                                                 <li>
                                                     {{currStatus_nmpc_tied_1st}}
                                                     <!-- Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr -->
-                                                    <a (click)="viewHistory(template, 'nmpc_tied', '1')">
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_tied', '1')">
                                                         <span class="material-icons info-icon">
                                                             info
                                                         </span>
-                                                    </a>
+                                                    </a> -->
 
                                                 </li>
 
                                             </ul>
                                             <div *ngIf="viewCond_nmpc_tied_1st">
-                                                <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                                <h4 class="c-st" style="">
                                                     Conditions:
                                                 </h4>
                                                 <ul class="u-l-h">
-                                                    <li *ngFor="let condition of finalConditions_nmpc_tied_1st let i = index;">
-                                                        {{condition}}
+                                                    <li *ngFor="let condition of nmpcT1CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div *ngIf="viewBtn_nmpc_tied_1st" class="col-md-12">
-
-
-                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_1st" [matTooltipDisabled]="nmpc_tied_1st_eligible" matTooltipPosition="right">
-                                                    <a [ngClass]="{'disableCls': !nmpc_tied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','1', nmpc_tied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_1st_eligible ?  '#5cb85c' : '#059b9a' }">
+                                            <div *ngIf="btnLabel_nmpc_tied_1st" class="col-md-12 mt-3">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcTied_1_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcTied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','1', nmpc_tied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_1_Data?.conditionSuccess)  ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_tied_1st}}
                                                    </a>
                                                 </div>
@@ -90,17 +73,15 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-
-                                <div class="card">
-                                    <div class="card-body" style="padding: 1rem 2rem;">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
                                                     2nd Installment (FY 2022-23) :
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                            <h4 class="c-st" style="">
                                                 Current Status:
                                             </h4>
                                             <ul class="u-l-h">
@@ -108,11 +89,11 @@
 
                                                     {{currStatus_nmpc_tied_2nd}}
 
-                                                    <a (click)="viewHistory(template, 'nmpc_tied', '2')">
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_tied', '2')">
                                                         <span class="material-icons info-icon">
                                                           info
                                                       </span>
-                                                    </a>
+                                                    </a> -->
 
 
 
@@ -120,19 +101,19 @@
 
                                             </ul>
                                             <div *ngIf="viewCond_nmpc_tied_2nd">
-                                                <h4 style="font-size: 15px;
-                                            padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl_2 == '')">
+                                                <h4 class="c-st">
                                                     Conditions:
                                                 </h4>
                                                 <ul class="u-l-h">
-                                                    <li *ngFor="let condition of finalConditions_nmpc_tied_2nd let i = index;">{{condition}}
+                                                    <li *ngFor="let condition of nmpcT2CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div *ngIf="viewBtn_nmpc_tied_2nd" class="col-md-12">
+                                            <div *ngIf="btnLabel_nmpc_tied_2nd" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_2nd" [matTooltipDisabled]="nmpc_tied_2nd_eligible" matTooltipPosition="left">
-                                                    <a [ngClass]="{'disableCls': !nmpc_tied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','2', nmpc_tied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_2nd_eligible ?  '#5cb85c' : '#059b9a' }">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcTied_2_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcTied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','2', nmpc_tied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                     {{btnLabel_nmpc_tied_2nd}}
                                                </a>
                                                 </div>
@@ -151,17 +132,17 @@
         </div>
     </div>
     <!-- Claim for Non Million Untied -->
-    <div *ngIf="display?.showQ3" class="row mt-2">
+    <div *ngIf="display?.showQ3" class="row mt-3">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row mt-3">
+                    <div class="row">
                         <div class="col-md-12">
-                            <div class="row" style="margin: 0;">
+                            <div class="row m-0 a-l-i" style="">
                                 <div class="col-md-10">
                                     <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
                                 </div>
-                                <div class="col-md-2" style="text-align: right;">
+                                <div class="col-md-2 text-end" style="">
                                     <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
                                     </button>
                                 </div>
@@ -169,29 +150,28 @@
 
                         </div>
 
-                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row mt-3 aco-d" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="">
                             <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body" style="padding: 1rem 2rem;">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
                                                     1st Installment (FY 2022-23) :
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                            <h4 class="c-st" style="">
                                                 Current Status:
                                             </h4>
                                             <ul class="u-l-h">
                                                 <li>
                                                     {{currStatus_nmpc_untied_1st}}
                                                     <!-- Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr. -->
-                                                    <a (click)="viewHistory(template, 'nmpc_untied', '1')">
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_untied', '1')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
-                                                    </a>
+                                                    </a> -->
                                                 </li>
 
                                             </ul>
@@ -201,14 +181,15 @@
                                                     Conditions:
                                                 </h4>
                                                 <ul class="u-l-h">
-                                                    <li *ngFor="let condition of finalConditions_nmpc_untied_1st let i = index;">{{condition}}
+                                                    <li *ngFor="let condition of nmpcUT1CondArr let i = index;">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div *ngIf="viewBtn_nmpc_untied_1st" class="col-md-12">
+                                            <div *ngIf="btnLabel_nmpc_untied_1st" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_untied_1st" [matTooltipDisabled]="nmpc_untied_1st_eligible" matTooltipPosition="right">
-                                                    <a [ngClass]="{'disableCls': !nmpc_untied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','1', nmpc_untied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_1st_eligible ?  '#5cb85c' : '#059b9a' }">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcUntied_1_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcUntied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','1', nmpc_untied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_1_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_untied_1st}}
                                                    </a>
                                                 </div>
@@ -221,44 +202,43 @@
                             </div>
                             <div class="col-md-12">
 
-                                <div class="card">
-                                    <div class="card-body" style="padding: 1rem 2rem;">
+                                <div class="card mb-2">
+                                    <div class="card-body  c-in" style="">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
                                                     2nd Installment (FY 2022-23):
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                            <h4 class="c-st" style="">
                                                 Current Status:
                                             </h4>
                                             <ul class="u-l-h">
                                                 <li>
 
                                                     {{currStatus_nmpc_untied_2nd}}
-                                                    <a (click)="viewHistory(template, 'nmpc_untied', '2')">
+                                                    <!-- <a (click)="viewHistory(template, 'nmpc_untied', '2')">
                                                         <span class="material-icons info-icon">
                                                             info
                                                         </span>
-                                                    </a>
+                                                    </a> -->
                                                 </li>
 
                                             </ul>
                                             <div *ngIf="viewCond_nmpc_untied_2nd">
-                                                <h4 style="font-size: 15px;
-                                          padding-left: 15px;">
+                                                <h4 class="c-st" style="">
                                                     Conditions:
                                                 </h4>
                                                 <ul class="u-l-h">
-                                                    <li *ngFor="let condition of finalConditions_nmpc_untied_2nd">{{condition}}
+                                                    <li *ngFor="let condition of nmpcUT2CondArr">
+                                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div *ngIf="viewBtn_nmpc_untied_2nd" class="col-md-12">
+                                            <div *ngIf="btnLabel_nmpc_untied_2nd" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_untied_2nd" [matTooltipDisabled]="nmpc_untied_2nd_eligible" matTooltipPosition="right">
-                                                    <a [ngClass]="{'disableCls': !nmpc_untied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','2', nmpc_untied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_2nd_eligible ?  '#5cb85c' : '#059b9a' }">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcUntied_2_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                    <a [ngClass]="{'disableCls': !nmpcUntied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','2', nmpc_untied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_untied_2nd}}
                                                    </a>
                                                 </div>
@@ -284,12 +264,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row" style="margin: 0;">
+                            <div class="row m-0 a-l-i" style="">
                                 <div class="col-md-10">
                                     <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants
                                     </h6>
                                 </div>
-                                <div class="col-md-2" style="text-align: right;">
+                                <div class="col-md-2 text-end" style="">
                                     <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
                                     </button>
                                 </div>
@@ -297,42 +277,35 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
-                            <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                        <div class="col-md-12 mt-3" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
+                            <h4 class="c-st" style="">
                                 Current Status:
                             </h4>
                             <ul class="u-l-h">
                                 <li>
 
                                     {{currStatus_mpc}}
-                                    <a (click)="viewHistory(template, 'mpc')">
+                                    <!-- <a (click)="viewHistory(template, 'mpc')">
                                         <span class="material-icons info-icon">
                                           info
                                       </span>
-                                    </a>
-
-
-
-
+                                    </a> -->
                                 </li>
                             </ul>
                             <div *ngIf="viewCond_mpc">
-                                <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                <h4 class="c-st" style="">
                                     Conditions:
                                 </h4>
                                 <ul class="u-l-h">
-                                    <li *ngFor="let condition of finalConditions_mpc">{{condition}}
-
+                                    <li *ngFor="let condition of mpcCondArr">
+                                        {{condition?.str}}. <span class="li-el">( {{condition?.value}}% Done)</span>
                                     </li>
                                 </ul>
                             </div>
 
-                            <div *ngIf="viewBtn_mpc" class="wrapper" [matTooltip]="tooltip_mpc" [matTooltipDisabled]="mpc_eligible" matTooltipPosition="right">
-
+                            <div *ngIf="btnLabel_mpc" class="wrapper mt-3" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="mpcData?.conditionSuccess == true" matTooltipPosition="left">
                                 <div>
-                                    <a [ngClass]="{'disableCls': !mpc_eligible}" (click)="finalConfirm(finalSubmitAlert, 'mpc', '', mpc_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': mpc_eligible ?  '#5cb85c' : '#059b9a' }">
+                                    <a [ngClass]="{'disableCls': !mpcData?.conditionSuccess}" (click)="finalConfirm('mpc', '', mpc_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (mpcData?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                     {{btnLabel_mpc}}
                                </a>
                                 </div>
@@ -348,17 +321,26 @@
         </div>
     </div>
     <!-- question for GTC -->
-    <div class="row" style="margin-top: 20px;">
+    <div class="row mt-4" style="">
         <div class="col-md-12">
             <h4 class="f-l">
                 <a [routerLink]="['../gtCertificate']">Click Here to Submit Grant Transfer Certificate</a>
             </h4>
         </div>
     </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" routerLink="../edit-ulb-profile"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next ms-3" routerLink="../water-supply">Next Form -></button>
+        </div>
+    </div>
+
 </div>
 <ng-template #template>
     <div class="modal-title">
-        <div style=" display: flex; justify-content: flex-end;">
+        <div style="display: flex; justify-content: flex-end;">
             <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
@@ -396,27 +378,4 @@
     <div *ngIf="historyData.length == 0" class="text-center alert" style="color: red;">No Data Found!</div>
 
 
-</ng-template>
-<ng-template #finalSubmitAlert>
-    <div class="modal-body text-center">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-
-        <b>   <p style="margin-top: 8px; font-size: 14px;">
-            Are you sure you want to create Grant Claim request to MoHUA?
-        </p></b>
-        <!-- <p>If you Proceed, no changes could be made in any of the Forms.</p> -->
-        <div style="margin-top: 30px;">
-            <button type="button" class="btn btn-secondary " (click)="alertClose()">Go Back</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-                Proceed</button>
-        </div>
-
-    </div>
 </ng-template>
