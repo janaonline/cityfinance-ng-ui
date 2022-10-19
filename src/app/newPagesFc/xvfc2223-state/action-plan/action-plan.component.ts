@@ -250,16 +250,18 @@ export class ActionPlanComponent implements OnInit {
   submit(type) {
     let draftFlag;
     if (this.loggedInUserType === "STATE") {
-      this.reqBody = this.makeApiData(true);
       if (type == 'isDraft') {
+        this.reqBody = this.makeApiData(true);
         this.reqBody.isDraft = true;
         this.postData();
       } else {
-        this.reqBody.isDraft = false;
+        // this.reqBody.isDraft = false;
+        this.reqBody = this.makeApiData(true);
         if (this.finalError) {
           swal("Missing Data !", `${this.errorMsg}`, "error");
           return;
         } else {
+          this.reqBody.isDraft = false;
           swal(
             "Confirmation !",
             `Are you sure you want to submit this form? Once submitted,
@@ -354,6 +356,7 @@ export class ActionPlanComponent implements OnInit {
         } else {
           swal("Saved", "Data saved successfully.", "success");
           this.isDisabled = true;
+          this.getUlbNames();
         }
         sessionStorage.setItem("changeInActionPlans", "false");
         const form = JSON.parse(
@@ -476,6 +479,7 @@ export class ActionPlanComponent implements OnInit {
         if (key == "ulbList") continue;
         const uaPro = uaData[key];
         if (Array.isArray(uaPro)) {
+
           for (let index = 0; index < uaPro.length; index++) {
             const elements = uaPro[index];
             for (const key in elements) {

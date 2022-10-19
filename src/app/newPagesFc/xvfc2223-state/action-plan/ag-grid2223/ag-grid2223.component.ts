@@ -385,9 +385,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2021-22"] && params.data["2021-22"].value)
+        (params.data && (params.data["2021-22"]) && (Number(params.data["2021-22"].value) === 0 || params.data["2021-22"].value))
           ? params.data["2021-22"].value
           : "",
+        // params.data["2021-22"].value != null
+        //   ? params.data["2021-22"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2021-22",
@@ -404,9 +407,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2022-23"] && params.data["2022-23"].value)
+        (params.data && (params.data["2022-23"]) && (Number(params.data["2022-23"].value) === 0 || params.data["2022-23"].value))
           ? params.data["2022-23"].value
           : "",
+        // (params.data && params.data["2022-23"] && params.data["2022-23"].value)
+        //   ? params.data["2022-23"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2022-23",
@@ -423,9 +429,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2023-24"] && params.data["2023-24"].value)
+        (params.data && (params.data["2023-24"]) && (Number(params.data["2023-24"].value) === 0 || params.data["2023-24"].value))
           ? params.data["2023-24"].value
           : "",
+        // (params.data && params.data["2023-24"] && params.data["2023-24"].value)
+        //   ? params.data["2023-24"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2023-24",
@@ -442,9 +451,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2024-25"] && params.data["2024-25"].value)
+        (params.data && (params.data["2024-25"]) && (Number(params.data["2024-25"].value) === 0 || params.data["2024-25"].value))
           ? params.data["2024-25"].value
           : "",
+        // (params.data && params.data["2024-25"] && params.data["2024-25"].value)
+        //   ? params.data["2024-25"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2024-25",
@@ -461,9 +473,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2025-26"] && params.data["2025-26"].value)
+        (params.data && (params.data["2025-26"]) && (Number(params.data["2025-26"].value) === 0 || params.data["2025-26"].value))
           ? params.data["2025-26"].value
           : "",
+        // (params.data && params.data["2025-26"] && params.data["2025-26"].value)
+        //   ? params.data["2025-26"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
