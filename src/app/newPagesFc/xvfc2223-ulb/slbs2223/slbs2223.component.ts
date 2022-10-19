@@ -35,7 +35,7 @@ import { Slbs2223PreviewComponent } from "./slbs2223-preview/slbs2223-preview.co
 export class Slbs2223Component implements OnInit {
   nextRouter;
   backRouter;
-  sideMenuItem:any;
+  sideMenuItem: any;
   waterWasteManagementForm: FormGroup;
   loggedInUserType
   routerNavigate;
@@ -61,7 +61,7 @@ export class Slbs2223Component implements OnInit {
     private modalService: BsModalService,
     public _ulbformService: UlbformService
   ) {
-    console.log('printing waterWasteManagementForm------->',waterWasteManagementForm)
+    console.log('printing waterWasteManagementForm------->', waterWasteManagementForm)
 
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.loggedInUserType = this.loggedInUserDetails.role;
@@ -76,21 +76,21 @@ export class Slbs2223Component implements OnInit {
     this.isMillionPlusOrNot()
     this.setPreviousAndNextUrl();
     await this.getSlbData();
-     this.createDataForms(this.preFilledWaterManagement)
+    this.createDataForms(this.preFilledWaterManagement)
   }
   dialogRef
 
-  setPreviousAndNextUrl(){
+  setPreviousAndNextUrl() {
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
       this.sideMenuItem[key].forEach(element => {
         console.log('name name', element);
-        if(element?.name == 'SLBs for Water Supply and Sanitation'){
+        if (element?.name == 'SLBs for Water Supply and Sanitation') {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
         }
       });
-  }
+    }
   }
   isCompleted;
   previewData;
@@ -120,7 +120,7 @@ export class Slbs2223Component implements OnInit {
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
-     //   debugger
+        // debugger
         if (res['data'].length > 0) {
           if (res['data'][0]['blank']) {
             this.clickAnswer = false
@@ -190,7 +190,7 @@ export class Slbs2223Component implements OnInit {
   }
 
   isMillionPlusOrNot() {
-   // this.ulbId = sessionStorage.getItem("ulb_id");
+    // this.ulbId = sessionStorage.getItem("ulb_id");
     console.log("pk12", this.ulbId);
     if (this.ulbId == null) {
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -725,6 +725,6 @@ export class Slbs2223Component implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 }
