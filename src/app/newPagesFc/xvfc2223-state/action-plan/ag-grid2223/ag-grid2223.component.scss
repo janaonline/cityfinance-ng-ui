@@ -13,7 +13,8 @@
     width: 350px;
 }
 
-::ng-deep .row-disable {
+::ng-deep .row-disable,
+::ng-deep .row-disable2 {
     background-color: #d6dbdf !important;
     color: #FFFFFF;
     pointer-events: none !important;

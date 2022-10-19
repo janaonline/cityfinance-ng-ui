@@ -48,10 +48,11 @@ export class AgGrid2223Component implements OnInit {
 
   @Output()
   gridData = new EventEmitter();
-
-  rowDisableClass = {
-    'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
-  }
+  rowDisableClass;
+  // rowDisableClass = {
+  //   'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+  //   'row-disable2': `${this.isDisabled}`,
+  // }
 
   yearErrorMsg =
     "All years value sum should be a positive integer equal to amount";
@@ -242,7 +243,7 @@ export class AgGrid2223Component implements OnInit {
       editable: true,
       tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Estimated Outcome less than 200 char" },
       field: "Estimated_Outcome",
       cellEditor: "agLargeTextCellEditor",
       cellEditorParams: {
@@ -261,6 +262,7 @@ export class AgGrid2223Component implements OnInit {
       },
       width: 80,
       editable: false,
+
     },
   ];
   fund = [
@@ -846,7 +848,10 @@ export class AgGrid2223Component implements OnInit {
   }
 
   ngOnChanges() {
-
+    this.rowDisableClass = {
+      'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+      'row-disable2': `${this.isDisabled}`,
+    }
     if (this.isDisabled) {
       this.project.forEach((element) => {
         element.editable = false;
@@ -912,6 +917,7 @@ export class AgGrid2223Component implements OnInit {
     this.gridData.emit(this.rowData);
   }
   rowDelete(e) {
+
     console.log('eeeeee', e);
     let selectedNode = e.params.node;
     let selectedData = selectedNode.data;
@@ -969,16 +975,6 @@ export class AgGrid2223Component implements OnInit {
       }
       this.agGrid2.api.applyTransaction({ update: [dataObj] });
     }
-
-    // for (let i = 0; i < len; i++) {
-    //   let dataObj = this.rowData?.sourceFund[i]
-    //   dataObj.index.value = i + 1;
-    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-    //   this.agGrid2.api.applyTransaction({ remove: [dataObj] });
-    //   this.agGrid2.api.applyTransaction({ add: [dataObj] });
-    //   this.rowData.sourceFund[i] = dataObj;
-    // }
-
     for (let i = 0; i < len; i++) {
       let dataObj = this.rowData?.yearOutlay[i];
       let code = dataObj.Project_Code.value;
@@ -991,18 +987,6 @@ export class AgGrid2223Component implements OnInit {
       }
       this.agGrid3.api.applyTransaction({ update: [dataObj] });
     }
-    // for (let i = 0; i < len; i++) {
-    //   let dataObj = this.rowData?.yearOutlay[i]
-    //   dataObj.index.value = i + 1;
-    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-    //   this.agGrid3.api.applyTransaction({ remove: [dataObj] });
-    //   this.agGrid3.api.applyTransaction({ add: [dataObj] });
-    //   this.rowData.sourceFund[i] = dataObj;
-    // }
-    // this.rowData?.projectExecute.forEach((el) => {
-    //    el.Project_Code.value = ;
-    // });
-
     console.log('last', this.rowData);
     this.gridData.emit(this.rowData);
   }

@@ -12,6 +12,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class ActionPlanComponent implements OnInit {
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
     public stateService: State2223Service,
+    private newCommonService: NewCommonService
 
   ) {
     this.initializeUserType();
@@ -358,6 +360,7 @@ export class ActionPlanComponent implements OnInit {
           sessionStorage.getItem("allStatusStateForms")
         );
 
+        this.newCommonService.setStateFormStatus2223.next(true);
         form.steps.actionPlans.isSubmit = !this.data.isDraft;
         form.steps.actionPlans.status = "PENDING";
         form.actionTakenByRole = "STATE";

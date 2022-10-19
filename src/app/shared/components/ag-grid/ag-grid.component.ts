@@ -228,7 +228,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       editable: true,
       tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Estimated Outcome less than 200 char" },
       field: "Estimated_Outcome",
       cellEditor: "agLargeTextCellEditor",
       cellEditorParams: {
