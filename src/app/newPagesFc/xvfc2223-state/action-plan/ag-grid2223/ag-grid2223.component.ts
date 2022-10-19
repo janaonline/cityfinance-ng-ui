@@ -48,10 +48,11 @@ export class AgGrid2223Component implements OnInit {
 
   @Output()
   gridData = new EventEmitter();
-
-  rowDisableClass = {
-    'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
-  }
+  rowDisableClass;
+  // rowDisableClass = {
+  //   'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+  //   'row-disable2': `${this.isDisabled}`,
+  // }
 
   yearErrorMsg =
     "All years value sum should be a positive integer equal to amount";
@@ -242,7 +243,7 @@ export class AgGrid2223Component implements OnInit {
       editable: true,
       tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Estimated Outcome less than 200 char" },
       field: "Estimated_Outcome",
       cellEditor: "agLargeTextCellEditor",
       cellEditorParams: {
@@ -261,6 +262,7 @@ export class AgGrid2223Component implements OnInit {
       },
       width: 80,
       editable: false,
+
     },
   ];
   fund = [
@@ -383,9 +385,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2021-22"] && params.data["2021-22"].value)
+        (params.data && (params.data["2021-22"]) && (Number(params.data["2021-22"].value) === 0 || params.data["2021-22"].value))
           ? params.data["2021-22"].value
           : "",
+        // params.data["2021-22"].value != null
+        //   ? params.data["2021-22"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2021-22",
@@ -402,9 +407,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2022-23"] && params.data["2022-23"].value)
+        (params.data && (params.data["2022-23"]) && (Number(params.data["2022-23"].value) === 0 || params.data["2022-23"].value))
           ? params.data["2022-23"].value
           : "",
+        // (params.data && params.data["2022-23"] && params.data["2022-23"].value)
+        //   ? params.data["2022-23"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2022-23",
@@ -421,9 +429,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2023-24"] && params.data["2023-24"].value)
+        (params.data && (params.data["2023-24"]) && (Number(params.data["2023-24"].value) === 0 || params.data["2023-24"].value))
           ? params.data["2023-24"].value
           : "",
+        // (params.data && params.data["2023-24"] && params.data["2023-24"].value)
+        //   ? params.data["2023-24"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2023-24",
@@ -440,9 +451,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2024-25"] && params.data["2024-25"].value)
+        (params.data && (params.data["2024-25"]) && (Number(params.data["2024-25"].value) === 0 || params.data["2024-25"].value))
           ? params.data["2024-25"].value
           : "",
+        // (params.data && params.data["2024-25"] && params.data["2024-25"].value)
+        //   ? params.data["2024-25"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2024-25",
@@ -459,9 +473,12 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["2025-26"] && params.data["2025-26"].value)
+        (params.data && (params.data["2025-26"]) && (Number(params.data["2025-26"].value) === 0 || params.data["2025-26"].value))
           ? params.data["2025-26"].value
           : "",
+        // (params.data && params.data["2025-26"] && params.data["2025-26"].value)
+        //   ? params.data["2025-26"].value
+        //   : "",
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
@@ -846,7 +863,10 @@ export class AgGrid2223Component implements OnInit {
   }
 
   ngOnChanges() {
-
+    this.rowDisableClass = {
+      'row-disable': "data.Project_Code && data.Project_Code.value && data.Project_Code.value.toString().includes('2021-22')",
+      'row-disable2': `${this.isDisabled}`,
+    }
     if (this.isDisabled) {
       this.project.forEach((element) => {
         element.editable = false;
@@ -912,6 +932,7 @@ export class AgGrid2223Component implements OnInit {
     this.gridData.emit(this.rowData);
   }
   rowDelete(e) {
+
     console.log('eeeeee', e);
     let selectedNode = e.params.node;
     let selectedData = selectedNode.data;
@@ -969,16 +990,6 @@ export class AgGrid2223Component implements OnInit {
       }
       this.agGrid2.api.applyTransaction({ update: [dataObj] });
     }
-
-    // for (let i = 0; i < len; i++) {
-    //   let dataObj = this.rowData?.sourceFund[i]
-    //   dataObj.index.value = i + 1;
-    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-    //   this.agGrid2.api.applyTransaction({ remove: [dataObj] });
-    //   this.agGrid2.api.applyTransaction({ add: [dataObj] });
-    //   this.rowData.sourceFund[i] = dataObj;
-    // }
-
     for (let i = 0; i < len; i++) {
       let dataObj = this.rowData?.yearOutlay[i];
       let code = dataObj.Project_Code.value;
@@ -991,18 +1002,6 @@ export class AgGrid2223Component implements OnInit {
       }
       this.agGrid3.api.applyTransaction({ update: [dataObj] });
     }
-    // for (let i = 0; i < len; i++) {
-    //   let dataObj = this.rowData?.yearOutlay[i]
-    //   dataObj.index.value = i + 1;
-    //   dataObj.Project_Code.value = this.rowData.code + "/" + dataObj.index.value;
-    //   this.agGrid3.api.applyTransaction({ remove: [dataObj] });
-    //   this.agGrid3.api.applyTransaction({ add: [dataObj] });
-    //   this.rowData.sourceFund[i] = dataObj;
-    // }
-    // this.rowData?.projectExecute.forEach((el) => {
-    //    el.Project_Code.value = ;
-    // });
-
     console.log('last', this.rowData);
     this.gridData.emit(this.rowData);
   }
