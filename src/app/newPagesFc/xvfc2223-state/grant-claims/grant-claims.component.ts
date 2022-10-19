@@ -154,22 +154,22 @@ export class GrantClaimsComponent implements OnInit {
     }
 
     //
-    if (this.btnLabel_nmpc_untied_2nd) {
+    if (this.nmpc_untied_2nd_grantAmount) {
       this.btnLabel_nmpc_untied_2nd = this.btnLabelText[0] + `Rs. ${this.nmpc_untied_2nd_grantAmount} Cr.`
     } else {
       this.btnLabel_nmpc_untied_2nd = this.btnLabelText[0] + `Not Available`
     }
-    if (this.btnLabel_nmpc_tied_1st) {
+    if (this.nmpc_tied_1st_grantAmount) {
       this.btnLabel_nmpc_tied_1st = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_1st_grantAmount} Cr.`
     } else {
       this.btnLabel_nmpc_tied_1st = this.btnLabelText[0] + `Not Available`
     }
-    if (this.btnLabel_nmpc_tied_2nd) {
+    if (this.nmpc_tied_2nd_grantAmount) {
       this.btnLabel_nmpc_tied_2nd = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_2nd_grantAmount} Cr.`
     } else {
       this.btnLabel_nmpc_tied_2nd = this.btnLabelText[0] + `Not Available`
     }
-    if (this.btnLabel_mpc) {
+    if (this.mpc_grantAmount) {
       this.btnLabel_mpc = this.btnLabelText[0] + `Rs. ${this.mpc_grantAmount} Cr.`
     } else {
       this.btnLabel_mpc = this.btnLabelText[0] + `Not Available`
@@ -193,7 +193,7 @@ export class GrantClaimsComponent implements OnInit {
         this.mpcData = data['mpc_tied_1']
         this.currStatus_mpc = this.mpcData?.mpc_tied_1_GrantData?.status;
         this.mpc_grantAmount = this.mpcData?.mpc_tied_1_GrantData?.amountAssigned;
-        if (this.currStatus_mpc == 'Claim yet to be Submitted. ') {
+        if (data['mpc_tied_1']?.conditions?.length > 0) {
           this.viewCond_mpc = true;
           this.setCondition('mpc', this.mpcData);
         } else {
@@ -202,8 +202,7 @@ export class GrantClaimsComponent implements OnInit {
         this.nmpcTied_1_Data = data['nmpc_tied_1']
         this.currStatus_nmpc_tied_1st = this.nmpcTied_1_Data?.nmpc_tied_1_GrantData?.status;
         this.nmpc_tied_1st_grantAmount = this.nmpcTied_1_Data?.nmpc_tied_1_GrantData?.amountAssigned;
-
-        if (this.currStatus_nmpc_tied_1st == 'Claim yet to be Submitted. ') {
+        if (data['nmpc_tied_1']?.conditions?.length > 0) {
           this.viewCond_nmpc_tied_1st = true;
           this.setCondition('nmpcT1', this.nmpcTied_1_Data);
         } else {
@@ -212,7 +211,7 @@ export class GrantClaimsComponent implements OnInit {
         this.nmpcTied_2_Data = data['nmpc_tied_2']
         this.currStatus_nmpc_tied_2nd = this.nmpcTied_2_Data?.nmpc_tied_2_GrantData?.status;
         this.nmpc_tied_2nd_grantAmount = this.nmpcTied_2_Data?.nmpc_tied_2_GrantData?.amountAssigned;
-        if (this.currStatus_nmpc_tied_2nd == 'Claim yet to be Submitted. ') {
+        if (data['nmpc_tied_2']?.conditions?.length > 0) {
           this.viewCond_nmpc_tied_2nd = true;
           this.setCondition('nmpcT2', this.nmpcTied_2_Data);
         } else {
@@ -222,7 +221,7 @@ export class GrantClaimsComponent implements OnInit {
         this.nmpcUntied_1_Data = data['nmpc_untied_1']
         this.currStatus_nmpc_untied_1st = this.nmpcUntied_1_Data?.nmpc_untied_1_GrantData?.status;
         this.nmpc_untied_1st_grantAmount = this.nmpcUntied_1_Data?.nmpc_untied_1_GrantData?.amountAssigned;
-        if (this.currStatus_nmpc_untied_1st == 'Claim yet to be Submitted. ') {
+        if (data['nmpc_untied_1']?.conditions?.length > 0) {
           this.viewCond_nmpc_untied_1st = true;
           this.setCondition('nmpcUT1', this.nmpcUntied_1_Data);
         } else {
@@ -232,7 +231,7 @@ export class GrantClaimsComponent implements OnInit {
         this.nmpcUntied_2_Data = data['nmpc_untied_2']
         this.currStatus_nmpc_untied_2nd = this.nmpcUntied_2_Data?.nmpc_untied_2_GrantData?.status;
         this.nmpc_untied_2nd_grantAmount = this.nmpcUntied_2_Data?.nmpc_untied_2_GrantData?.amountAssigned;
-        if (this.currStatus_nmpc_untied_2nd == 'Claim yet to be Submitted. ') {
+        if (data['nmpc_untied_2']?.conditions?.length > 0) {
           this.viewCond_nmpc_untied_2nd = true;
           this.setCondition('nmpcUT2', this.nmpcUntied_2_Data);
         } else {
