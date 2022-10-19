@@ -18,7 +18,7 @@
 
 .card {
     border: 1px #00000029;
-    margin-left: 20px;
+    // margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 6px 10px;
 }
@@ -176,4 +176,9 @@ input::-webkit-inner-spin-button {
 .tb-head {
     font-size: 14px;
     font-weight: 500;
+}
+
+.pre-y {
+    font-size: 1.5rem;
+    padding: 5rem 5rem;
 }

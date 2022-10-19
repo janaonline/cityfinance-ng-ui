@@ -190,7 +190,7 @@
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right mb-2">
-                                <button type="button" class="btn" (click)="addRow3(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore3 || formDisable || disableUAs.includes(uas.value.ua)">
+                                <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore3 || formDisable || disableUAs.includes(uas.value.ua)">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
@@ -280,7 +280,7 @@
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore1 || formDisable || disableUAs.includes(uas.value.ua)">
+                                <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore1 || formDisable || disableUAs.includes(uas.value.ua)">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
@@ -374,7 +374,7 @@
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore2|| formDisable || disableUAs.includes(uas.value.ua)">
+                                <button type="button" class="btn" (click)="addRow3(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore2|| formDisable || disableUAs.includes(uas.value.ua)">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
@@ -394,10 +394,10 @@
                             <div class="col-sm-6 head-l">
                                 Declaration Upload :
                             </div>
-                            <div class="col-sm-6 text-end">
-                                <div class="mb-3 question">
-                                    <div class="image-upload">
-                                        <label for="ipt">
+                            <div class="col-sm-6">
+                                <!-- <div class="mb-3 question"> -->
+                                <div class="image-upload">
+                                    <label for="ipt">
                                       <a class="btn btn-primary" (click)="uploadButtonClicked('A')">Upload
                                           PDF
                                           <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -405,14 +405,14 @@
                                       </a>
                                       <p class="errorMessege">{{errorMessegeStateAct}}</p>
                                   </label>
-                                        <input #ipt id="ipt" name="cin3" type="file" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
-                                        <div>
-                                            <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
-                                                <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
-                                            </div>
+                                    <input #ipt id="ipt" name="cin3" type="file" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                                    <div>
+                                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
+                                            <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- </div> -->
                             </div>
                         </div>
                         <div>
@@ -452,7 +452,7 @@
               <- Previous Form
             </button>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-7 text-end">
                 <button class="btn btn-primary" (click)="onDraft()" type="button">
                 Save as Draft
               </button>

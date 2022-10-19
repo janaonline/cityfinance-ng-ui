@@ -12,6 +12,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class ActionPlanComponent implements OnInit {
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
     public stateService: State2223Service,
+    private newCommonService: NewCommonService
 
   ) {
     this.initializeUserType();
@@ -248,16 +250,18 @@ export class ActionPlanComponent implements OnInit {
   submit(type) {
     let draftFlag;
     if (this.loggedInUserType === "STATE") {
-      this.reqBody = this.makeApiData(true);
       if (type == 'isDraft') {
+        this.reqBody = this.makeApiData(true);
         this.reqBody.isDraft = true;
         this.postData();
       } else {
-        this.reqBody.isDraft = false;
+        // this.reqBody.isDraft = false;
+        this.reqBody = this.makeApiData(true);
         if (this.finalError) {
           swal("Missing Data !", `${this.errorMsg}`, "error");
           return;
         } else {
+          this.reqBody.isDraft = false;
           swal(
             "Confirmation !",
             `Are you sure you want to submit this form? Once submitted,
@@ -352,12 +356,14 @@ export class ActionPlanComponent implements OnInit {
         } else {
           swal("Saved", "Data saved successfully.", "success");
           this.isDisabled = true;
+          this.getUlbNames();
         }
         sessionStorage.setItem("changeInActionPlans", "false");
         const form = JSON.parse(
           sessionStorage.getItem("allStatusStateForms")
         );
 
+        this.newCommonService.setStateFormStatus2223.next(true);
         form.steps.actionPlans.isSubmit = !this.data.isDraft;
         form.steps.actionPlans.status = "PENDING";
         form.actionTakenByRole = "STATE";
@@ -473,6 +479,7 @@ export class ActionPlanComponent implements OnInit {
         if (key == "ulbList") continue;
         const uaPro = uaData[key];
         if (Array.isArray(uaPro)) {
+
           for (let index = 0; index < uaPro.length; index++) {
             const elements = uaPro[index];
             for (const key in elements) {
