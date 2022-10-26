@@ -46,7 +46,6 @@
                                                             info
                                                         </span>
                                                     </a> -->
-
                                                 </li>
 
                                             </ul>
@@ -61,7 +60,7 @@
                                                 </ul>
                                             </div>
                                             <div *ngIf="btnLabel_nmpc_tied_1st" class="col-md-12 mt-3">
-                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcTied_1_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_tied_1st != 'Eligibility Condition Pending.'" matTooltipPosition="left">
                                                     <a [ngClass]="{'disableCls': !nmpcTied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','1', nmpc_tied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_1_Data?.conditionSuccess)  ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_tied_1st}}
                                                    </a>
@@ -112,7 +111,7 @@
                                             </div>
                                             <div *ngIf="btnLabel_nmpc_tied_2nd" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcTied_2_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_tied_2nd != 'Eligibility Condition Pending.'" matTooltipPosition="left">
                                                     <a [ngClass]="{'disableCls': !nmpcTied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_tied','2', nmpc_tied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcTied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                     {{btnLabel_nmpc_tied_2nd}}
                                                </a>
@@ -188,7 +187,7 @@
                                             </div>
                                             <div *ngIf="btnLabel_nmpc_untied_1st" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcUntied_1_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_untied_1st != 'Eligibility Condition Pending.'" matTooltipPosition="left">
                                                     <a [ngClass]="{'disableCls': !nmpcUntied_1_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','1', nmpc_untied_1st_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_1_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_untied_1st}}
                                                    </a>
@@ -237,7 +236,7 @@
                                             </div>
                                             <div *ngIf="btnLabel_nmpc_untied_2nd" class="col-md-12 mt-3">
 
-                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="nmpcUntied_2_Data?.conditionSuccess == true" matTooltipPosition="left">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_nmpc_untied_2nd != 'Eligibility Condition Pending.'" matTooltipPosition="left">
                                                     <a [ngClass]="{'disableCls': !nmpcUntied_2_Data?.conditionSuccess}" (click)="finalConfirm('nmpc_untied','2', nmpc_untied_2nd_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (nmpcUntied_2_Data?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                                         {{btnLabel_nmpc_untied_2nd}}
                                                    </a>
@@ -303,7 +302,7 @@
                                 </ul>
                             </div>
 
-                            <div *ngIf="btnLabel_mpc" class="wrapper mt-3" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="mpcData?.conditionSuccess == true" matTooltipPosition="left">
+                            <div *ngIf="btnLabel_mpc" class="wrapper mt-3" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="currStatus_mpc != 'Eligibility Condition Pending.'" matTooltipPosition="left">
                                 <div>
                                     <a [ngClass]="{'disableCls': !mpcData?.conditionSuccess}" (click)="finalConfirm('mpc', '', mpc_grantAmount)" class="chip-btn" [ngStyle]="{'background-color': (mpcData?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
                                     {{btnLabel_mpc}}

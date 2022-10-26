@@ -31,7 +31,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent],
+  declarations: [
+    MohuaDashboardComponent,
+    MohuaformComponent,
+    ReviewUlbComponent,
+    ReviewStateComponent,
+    // GrantTransferMohuaComponent
+  ],
   providers: [CircleProgressOptions],
   imports: [
     CommonModule,
@@ -44,7 +50,6 @@ import { MatInputModule } from '@angular/material/input';
     MatTooltipModule,
     SharedModule,
     TooltipModule.forRoot(),
-
     FormsModule,
     CollapseModule.forRoot(),
     PaginationModule.forRoot(),
@@ -58,6 +63,9 @@ import { MatInputModule } from '@angular/material/input';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule
+  ],
+  exports: [
+   // GrantTransferMohuaComponent
   ]
 })
 export class MohuaformModule { }

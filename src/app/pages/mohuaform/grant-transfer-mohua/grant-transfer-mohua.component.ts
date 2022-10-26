@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
 import { GtMohuaService } from "./gt-mohua.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -34,16 +34,25 @@ export class GrantTransferMohuaComponent implements OnInit {
       }
     });
   }
-
+  @Input() compName;
+  @Input() bkRouter;
   @ViewChild("template") template;
   routerNavigate = null;
   dialogRef;
-
+  hDisable = true;
   quesName = "Please Upload Grant Transfer Excel Sheet ";
   requiredBtn = "excel";
   Years = JSON.parse(localStorage.getItem("Years"));
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.compName == 'gtc2223') {
+      this.hDisable = false;
+      this.bkRouter = '../review-state-form'
+    } else {
+      this.hDisable = true;
+      this.bkRouter = '../review-ulb'
+    }
+  }
 
   excel;
   isDisabled = false;
