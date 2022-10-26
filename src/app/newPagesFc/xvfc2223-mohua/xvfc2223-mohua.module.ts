@@ -12,6 +12,9 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { Shared2223Module } from "src/app/shared2223/shared2223.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MohuaGtcComponent } from './mohua-gtc/mohua-gtc.component';
+import { GrantTransferMohuaComponent } from 'src/app/pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -20,10 +23,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     DashboardComponent,
     ReviewUlbComponent,
     ReviewStateComponent,
+    MohuaGtcComponent,
   ],
   imports: [
     CommonModule,
     Xvfc2223MohuaRoutingModule,
+    SharedModule,
     Shared2223Module,
     MatIconModule,
     MatTooltipModule,
@@ -31,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     CarouselModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
+  //  GrantTransferMohuaComponent
   ],
 })
 export class Xvfc2223MohuaModule {}

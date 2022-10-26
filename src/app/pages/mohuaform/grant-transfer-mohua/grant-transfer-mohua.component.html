@@ -1,5 +1,5 @@
-<div class="row" style="margin-top:2%;">
-    <div class="col-sm-12 col-lg-12 col-md-12 text-center">
+<div class="row mt-3" style="" *ngIf="hDisable">
+    <div class="col-sm-12 text-center">
         <h4 style="font-size: 24px; font-weight: 700;">
             {{loggedInUser?.role}}
         </h4>
@@ -9,32 +9,26 @@
     <!-- <div class="col-sm-8 col-lg-8 col-md-8 header2">
         <strong>GRANT TRANSFER DATA UPLOAD</strong>
     </div> -->
-    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+    <div class="col-sm-9">
         <h4 class="form-header">
             Grant Transfer Data Upload
         </h4>
     </div>
 
-    <div class="col-sm-2 col-lg-2 col-md-2 text-right" style="margin-bottom: 1rem;">
-        <button type="button" (click)="getTemplate()" class="btn save btn-d"
-            style="padding-left: 8%; padding-right: 8%;">
-            Download Latest Data</button>
+    <div class="col-sm-3 text-end" style="margin-bottom: 1rem;">
+        <button type="button" (click)="getTemplate()" class="btn btn-primary">
+            Download Latest Data
+          </button>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" style="font-size: 14px">
-        <b>NOTE:</b> Dates mentioned in the downloaded file are in <b>MM/DD/YYYY</b> Format. It is mandatory to
-        maintain the same format while editing the downloaded Sheet.
+    <div class="col-sm-12" style="font-size: 14px">
+        <b>NOTE:</b> Dates mentioned in the downloaded file are in <b>MM/DD/YYYY</b> Format. It is mandatory to maintain the same format while editing the downloaded Sheet.
     </div>
 </div>
-<div class="mat-card" style="margin-top: 1rem;">
-    <!-- <div class="m-1 pull-right">
-            <p></p>
-            <button class="save upload" (click)="getTemplate()">Download Latest Data</button>
-        </div> -->
+<div class="mat-card pt-3 ps-2" style="margin-top: 1rem;">
     <ng-container>
-        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn"
-            [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
         <br>
     </ng-container>
 </div>
@@ -44,12 +38,10 @@
 
 <div class="row" style="margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 text-left">
-        <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn btn-back"
-            [disabled]="isDisabled">BACK</button>
+        <button *ngIf="!showLoader" [routerLink]="bkRouter" class="btn btn-back">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="text-align:end;">
-        <button *ngIf="!showLoader" class="btn btn-next" (click)="save()"
-            [disabled]="isDisabled">{{saveBtnText}}</button>
+        <button *ngIf="!showLoader" class="btn btn-next" (click)="save()" [disabled]="isDisabled">{{saveBtnText}}</button>
     </div>
 </div>
 
@@ -70,8 +62,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 

@@ -92,6 +92,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProTTaxFormComponent } from './components/pro-t-tax-form/pro-t-tax-form.component';
 import { ErrorDisplayComponent } from "../shared2223/components/error-display/error-display.component";
 import { Shared2223Module } from "../shared2223/shared2223.module";
+import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -183,6 +184,7 @@ import { Shared2223Module } from "../shared2223/shared2223.module";
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
     ProTTaxFormComponent,
+    GrantTransferMohuaComponent
   ],
   exports: [
     FormsModule,
@@ -228,6 +230,7 @@ import { Shared2223Module } from "../shared2223/shared2223.module";
     StateFilterDataComponent,
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
+    GrantTransferMohuaComponent
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
