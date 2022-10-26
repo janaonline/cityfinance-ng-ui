@@ -83,8 +83,11 @@
                                             <div class="col-sm-12 rej mt-3">
                                                 <!-- Return reason: -->
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
-                                                <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_state" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                </div>
+                                                <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_mohua" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -126,7 +129,7 @@
                                                 Remarks/Return reason:
                                             </div>
                                             <div class="col-sm-8">
-                                                {{item?.data?.rejectReason}}
+                                                {{item?.data?.rejectReason_state}}
                                             </div>
                                         </div>
                                         <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
@@ -134,7 +137,7 @@
                                                 Remarks/Return reason:
                                             </div>
                                             <div class="col-sm-8">
-                                                {{item?.data?.rejectReason}}
+                                                {{item?.data?.rejectReason_state}}
                                             </div>
                                         </div>
                                     </div>
@@ -154,8 +157,11 @@
                                     </div>
                                     <div class="row rej mt-3">
                                         <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                        <div class="col-sm-7 ps-4" style="" *ngIf="userData?.role == 'STATE'">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                        </div>
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -192,7 +198,7 @@
                                         Remarks/Return reason:
                                     </div>
                                     <div class="col-sm-8">
-                                        {{data?.unAudited?.rejectReason}}
+                                        {{data?.unAudited?.rejectReason_state}}
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +220,8 @@
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url ? unAuditedActionResponse?.responseFile?.url : data?.unAudited?.responseFile?.url}}">
-                                  {{unAuditedActionResponse?.responseFile?.name ? unAuditedActionResponse?.responseFile?.name : data?.unAudited?.responseFile?.name}}
+                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile_state?.url ? unAuditedActionResponse?.responseFile_state?.url : data?.unAudited?.responseFile_state?.url}}">
+                                  {{unAuditedActionResponse?.responseFile_state?.name ? unAuditedActionResponse?.responseFile_state?.name : data?.unAudited?.responseFile_state?.name}}
                                 </a>
                             </div>
                         </div>
@@ -384,8 +390,11 @@
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
-                                            <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                            <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                            </div>
+                                            <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
                                         </div>
@@ -428,7 +437,7 @@
                                             Remarks/Return reason:
                                         </div>
                                         <div class="col-sm-8">
-                                            {{item?.data?.rejectReason}}
+                                            {{item?.data?.rejectReason_state}}
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
@@ -436,7 +445,7 @@
                                             Remarks/Return reason:
                                         </div>
                                         <div class="col-sm-8">
-                                            {{item?.data?.rejectReason}}
+                                            {{item?.data?.rejectReason_state}}
                                         </div>
                                     </div>
                                 </div>
@@ -455,8 +464,11 @@
                                     </div>
                                     <div class="row rej mt-3">
                                         <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'STATE'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason_state" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                        </div>
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.audited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +505,7 @@
                                         Remarks/Return reason:
                                     </div>
                                     <div class="col-sm-8">
-                                        {{data?.audited?.rejectReason}}
+                                        {{data?.audited?.rejectReason_state}}
                                     </div>
                                 </div>
                             </div>
@@ -515,8 +527,8 @@
                             </div>
                             <div class="col-sm-8">
                                 <!-- auditedActionResponse -->
-                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url ? auditedActionResponse?.responseFile?.url : data?.audited?.responseFile?.url}}">
-                                 {{auditedActionResponse?.responseFile?.name ? auditedActionResponse?.responseFile?.name : data?.audited?.responseFile?.name}}
+                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile_state?.url ? auditedActionResponse?.responseFile_state?.url : data?.audited?.responseFile_state?.url}}">
+                                 {{auditedActionResponse?.responseFile_state?.name ? auditedActionResponse?.responseFile_state?.name : data?.audited?.responseFile_state?.name}}
                                 </a>
                             </div>
                         </div>
