@@ -124,10 +124,9 @@ export class WaterRejenuvations2223Component implements OnInit {
   ngOnInit() {
     this.setUaList();
     sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-
-
   //  this.getFormData()
   }
+
   indicatorSet(event, index, rowIndex) {
     console.log(event.target.value, rowIndex)
     let indicatorValue = event.target.value
@@ -154,13 +153,16 @@ export class WaterRejenuvations2223Component implements OnInit {
       design_year: this.fb.control(this.Year["2022-23"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
       status: this.fb.control(this.totalStatus, []),
-      isDraft: this.fb.control(this.isDraft, []),
+   //   isDraft: this.fb.control(this.isDraft, []),
       declaration: this.fb.group({
         url: ['', Validators.required],
         name: ['', Validators.required]
       }),
     });
-
+    this.changesDetection();
+    //this.disablePreviousInput();
+  }
+  changesDetection() {
     this.waterRejenuvation.valueChanges.subscribe((change) => {
       let data = sessionStorage.getItem("waterRejenuvationData");
       let uaData = this.waterRejenuvation.getRawValue().uaData
@@ -186,9 +188,8 @@ export class WaterRejenuvations2223Component implements OnInit {
         this.formStatus = false;
       }
     });
-     this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
+    this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
   }
-
   get Uas() {
     if (!this.showLoader)
       return this.waterRejenuvation.get("uaData")["controls"] as FormArray;
@@ -279,96 +280,106 @@ export class WaterRejenuvations2223Component implements OnInit {
     );
   }
 
+  getDVal(keyVal) {
+    return { value: keyVal, disabled: true }
+  }
+  getVal(keyVal) {
+    return { value: keyVal, disabled: false }
+  }
   getWaterBodies(dataArray) {
-    return dataArray.map((data) =>
+    console.log('dataArray dataArray', dataArray);
+    return dataArray?.map((data) =>
       this.fb.group({
-        name: this.fb.control(data.name, [
+        name: this.fb.control(((data?.isDisable) ? this.getDVal(data?.name) : this.getVal(data?.name)), [
           Validators.required,
           Validators.maxLength(25),
         ]),
-        area: this.fb.control(data.area, [
+        area: this.fb.control(((data?.isDisable) ? this.getDVal(data?.area) : this.getVal(data?.area)), [
           Validators.required,
           Validators.min(1),
         ]),
-        nameOfBody: this.fb.control(data.nameOfBody, [
+        nameOfBody: this.fb.control(((data?.isDisable) ? this.getDVal(data?.nameOfBody) : this.getVal(data?.nameOfBody)), [
           Validators.required,
           Validators.maxLength(25),
         ]),
-        lat: this.fb.control(data.lat, [
+        lat: this.fb.control(((data?.isDisable) ? this.getDVal(data?.lat) : this.getVal(data?.lat)), [
           Validators.required,
           Validators.pattern(this.latLongRegex)
         ]),
-        long: this.fb.control(data.long, [
+        long: this.fb.control(((data?.isDisable) ? this.getDVal(data?.long) : this.getVal(data?.long)), [
           Validators.required,
           Validators.pattern(this.latLongRegex)
 
         ]),
-        photos: this.fb.array(this.getPhotos(data.photos), [
+        photos: this.fb.array(this.getPhotos(data.photos ? data.photos : []), [
           Validators.required,
         ]),
-        bod: this.fb.control(data.bod, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        cod: this.fb.control(data.cod, [
+        bod: this.fb.control(((data?.isDisable) ? this.getDVal(data?.bod) : this.getVal(data?.bod)), [
           Validators.required,
           Validators.min(1),
         ]),
-        do: this.fb.control(data.do, [Validators.required, Validators.min(1)]),
-        tds: this.fb.control(data.tds, [
+        cod: this.fb.control(((data?.isDisable) ? this.getDVal(data?.cod) : this.getVal(data?.cod)), [
           Validators.required,
           Validators.min(1),
         ]),
-        turbidity: this.fb.control(data.turbidity, [
+        do: this.fb.control(((data?.isDisable) ? this.getDVal(data?.do) : this.getVal(data?.do)), [Validators.required, Validators.min(1)]),
+        tds: this.fb.control(((data?.isDisable) ? this.getDVal(data?.tds) : this.getVal(data?.tds)), [
           Validators.required,
           Validators.min(1),
         ]),
-        bod_expected: this.fb.control(data.bod_expected, [
+        turbidity: this.fb.control(((data?.isDisable) ? this.getDVal(data?.turbidity) : this.getVal(data?.turbidity)), [
           Validators.required,
           Validators.min(1),
         ]),
-        cod_expected: this.fb.control(data.cod_expected, [
+        bod_expected: this.fb.control(((data?.isDisable) ? this.getDVal(data?.bod_expected) : this.getVal(data?.bod_expected)), [
           Validators.required,
           Validators.min(1),
         ]),
-        do_expected: this.fb.control(data.do_expected, [Validators.required, Validators.min(1)]),
-        tds_expected: this.fb.control(data.tds_expected, [
+        cod_expected: this.fb.control(((data?.isDisable) ? this.getDVal(data?.cod_expected) : this.getVal(data?.cod_expected)), [
           Validators.required,
           Validators.min(1),
         ]),
-        turbidity_expected: this.fb.control(data.turbidity_expected, [
+        do_expected: this.fb.control(((data?.isDisable) ? this.getDVal(data?.do_expected) : this.getVal(data?.do_expected)), [Validators.required, Validators.min(1)]),
+        tds_expected: this.fb.control(((data?.isDisable) ? this.getDVal(data?.tds_expected) : this.getVal(data?.tds_expected)), [
           Validators.required,
           Validators.min(1),
         ]),
-        details: this.fb.control(data.details, [
+        turbidity_expected: this.fb.control(((data?.isDisable) ? this.getDVal(data?.turbidity_expected) : this.getVal(data?.turbidity_expected)), [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        details: this.fb.control(((data?.isDisable) ? this.getDVal(data?.details) : this.getVal(data?.details)), [
           Validators.required,
           Validators.maxLength(200),
         ]),
-        dprCompletion: this.fb.control('', [
+        dprCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.dprCompletion) : this.getVal(data?.dprCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control('', [
+        workCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.workCompletion) : this.getVal(data?.workCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        isDisable : true
+        isDisable: this.fb.control(data?.isDisable, [
+          Validators.required,
+          // Validators.min(1),
+        ]),
       })
     );
   }
 
   getPhotos(dataArray) {
-    return dataArray.map((data) =>
+    return dataArray?.map((data) =>
       this.fb.group({
-        url: this.fb.control(data.url, [Validators.required]),
-        name: this.fb.control(data.name, [Validators.required]),
+        url: this.fb.control(data?.url, [Validators.required]),
+        name: this.fb.control(data?.name, [Validators.required]),
       })
     );
   }
 
   getServiceLevelIndicator(dataArray) {
     console.log(dataArray)
-    return dataArray.map((data) =>
+    return dataArray?.map((data) =>
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
@@ -394,20 +405,23 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           // Validators.min(1),
         ]),
-        dprCompletion: this.fb.control('', [
+        dprCompletion: this.fb.control(data?.dprCompletion, [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control('', [
+        workCompletion: this.fb.control(data?.workCompletion, [
           Validators.required,
           // Validators.min(1),
         ]),
-        isDisable : true
+        isDisable: this.fb.control(data?.isDisable, [
+          Validators.required,
+          // Validators.min(1),
+        ]),
       })
     );
   }
   getReuseWater(dataArray) {
-    return dataArray.map((data) =>
+    return dataArray?.map((data) =>
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
@@ -425,23 +439,26 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           Validators.pattern(this.latLongRegex)
         ]),
-        long: this.fb.control(data.long, [
+        long: this.fb.control(data?.long, [
           Validators.required,
           Validators.pattern(this.latLongRegex)
         ]),
-        stp: this.fb.control(data.stp, [
+        stp: this.fb.control(data?.stp, [
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control('', [
+        dprCompletion: this.fb.control(data?.dprCompletion, [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control('', [
+        workCompletion: this.fb.control(data?.workCompletion, [
           Validators.required,
           // Validators.min(1),
         ]),
-        isDisable : true
+        isDisable: this.fb.control(data?.isDisable, [
+          Validators.required,
+          // Validators.min(1),
+        ]),
       })
     );
   }
@@ -686,7 +703,7 @@ export class WaterRejenuvations2223Component implements OnInit {
             Validators.required,
             // Validators.min(1),
           ]),
-          isDisable: this.fb.control(true, [
+          isDisable: this.fb.control(false, [
             Validators.required,
             // Validators.min(1),
           ]),
@@ -746,7 +763,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
               // Validators.min(1),
             ]),
-            isDisable: this.fb.control(true, [
+            isDisable: this.fb.control(false, [
               Validators.required,
               // Validators.min(1),
             ]),
@@ -786,7 +803,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
 
             ]),
-            photos: this.fb.control(null, [
+            photos: this.fb.control([], [
               Validators.required,
 
             ]),
@@ -850,7 +867,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
               // Validators.min(1),
             ]),
-            isDisable: this.fb.control(true, [
+            isDisable: this.fb.control(false, [
               Validators.required,
               // Validators.min(1),
             ]),
@@ -920,13 +937,14 @@ export class WaterRejenuvations2223Component implements OnInit {
   submit(fromPrev = null) {
     let draftFlag = 0;
     console.log(this.loggedInUserType);
+    let postBody = { ...this.waterRejenuvation.value, isDraft: true }
     if (this.loggedInUserType === "STATE") {
-      this.waterRejenuvation.controls.isDraft.patchValue(false);
+     // this.waterRejenuvation.controls.isDraft.patchValue(false);
       console.log(this.waterRejenuvation.controls);
       this.design_year = JSON.parse(localStorage.getItem("Years"));
       this.design_year = this.design_year["2022-23"];
       this.waterRejenuvationService
-        .postWaterRejeData(this.waterRejenuvation.value)
+        .postWaterRejeData(postBody)
         .subscribe(
           (res:any) => {
             if (res && res.status) {
@@ -1068,7 +1086,170 @@ export class WaterRejenuvations2223Component implements OnInit {
       temp[nameIndex].controls.long.patchValue(result.long);
     });
   }
+  disablePreviousInput() {
 
+    console.log('water form.....', this.waterRejenuvation);
+    console.log('data....', this.data);
+    let dataArray = this.data[0];
+    for (let i = 0; i < dataArray?.waterBodies?.length; i++) {
+      let data = dataArray?.waterBodies[i];
+      if (data?.isDisable == false) {
+        this.fb.group({
+          name: this.fb.control(data.name, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          area: this.fb.control(data.area, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          nameOfBody: this.fb.control(data.nameOfBody, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          lat: this.fb.control(data.lat, [
+            Validators.required,
+            Validators.pattern(this.latLongRegex)
+          ]),
+          long: this.fb.control(data.long, [
+            Validators.required,
+            Validators.pattern(this.latLongRegex)
+
+          ]),
+          photos: this.fb.array(this.getPhotos(data.photos ? data.photos : []), [
+            Validators.required,
+          ]),
+          bod: this.fb.control(data.bod, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          cod: this.fb.control(data.cod, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          do: this.fb.control(data.do, [Validators.required, Validators.min(1)]),
+          tds: this.fb.control(data.tds, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          turbidity: this.fb.control(data.turbidity, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          bod_expected: this.fb.control(data.bod_expected, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          cod_expected: this.fb.control(data.cod_expected, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          do_expected: this.fb.control(data.do_expected, [Validators.required, Validators.min(1)]),
+          tds_expected: this.fb.control(data.tds_expected, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          turbidity_expected: this.fb.control(data?.turbidity_expected, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          details: this.fb.control(data?.details, [
+            Validators.required,
+            Validators.maxLength(200),
+          ]),
+          dprCompletion: this.fb.control(data?.dprCompletion, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+          workCompletion: this.fb.control(data?.workCompletion, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+          isDisable: this.fb.control(data?.isDisable, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+        })
+      } else {
+        this.fb.group({
+          name: this.fb.control({ value: data.name, disabled: true }, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          area: this.fb.control(data.area, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          nameOfBody: this.fb.control({ value: data?.nameOfBody, disabled: true }, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          lat: this.fb.control({ value: data?.lat, disabled: true }, [
+            Validators.required,
+            Validators.pattern(this.latLongRegex)
+          ]),
+          long: this.fb.control({ value: data?.long, disabled: true }, [
+            Validators.required,
+            Validators.pattern(this.latLongRegex)
+
+          ]),
+          photos: this.fb.array(this.getPhotos(data.photos ? data.photos : []), [
+            Validators.required,
+          ]),
+          bod: this.fb.control({ value: data?.bod, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          cod: this.fb.control({ value: data?.cod, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          do: this.fb.control({ value: data?.do, disabled: true }, [Validators.required, Validators.min(1)]),
+          tds: this.fb.control({ value: data?.tds, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          turbidity: this.fb.control({ value: data?.turbidity, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          bod_expected: this.fb.control({ value: data?.bod_expected, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          cod_expected: this.fb.control({ value: data?.cod_expected, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          do_expected: this.fb.control({ value: data?.do_expected, disabled: true }, [Validators.required, Validators.min(1)]),
+          tds_expected: this.fb.control({ value: data?.tds_expected, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          turbidity_expected: this.fb.control({ value: data?.turbidity_expected, disabled: true }, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          details: this.fb.control({ value: data?.details, disabled: true }, [
+            Validators.required,
+            Validators.maxLength(200),
+          ]),
+          dprCompletion: this.fb.control({ value: data?.dprCompletion, disabled: true }, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+          workCompletion: this.fb.control({ value: data?.workCompletion, disabled: true }, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+          isDisable: this.fb.control(data?.isDisable, [
+            Validators.required,
+            // Validators.min(1),
+          ]),
+        })
+      }
+    }
+  }
   async onFileChange(event, waterIndex, uaIndex) {
     if (this.formDisable) return
 
@@ -1189,28 +1370,12 @@ export class WaterRejenuvations2223Component implements OnInit {
   onDraft(){
   //  debugger
     this.design_year = JSON.parse(localStorage.getItem("Years"));
-      this.design_year = this.design_year["2022-23"];
+    this.design_year = this.design_year["2022-23"];
     console.log(this.design_year);
-  //    this.waterRejenuvation?.controls?.isDraft?.patchValue(true);
-      console.log(this.waterRejenuvation.value);
-      // (this.waterRejenuvation?.controls['uaData'] as FormArray).controls?.forEach((item:FormGroup)=>{
-      //  (item?.controls['waterBodies'] as FormArray).controls?.forEach((item:FormGroup)=>{
-      //   console.log(item)
-      //     item?.controls['isDisable'].patchValue(false)
-      //  })
-      // });
-      // (this.waterRejenuvation.controls['uaData'] as FormArray).controls.forEach((item:FormGroup)=>{
-      //   (item.controls['reuseWater'] as FormArray).controls.forEach((item:FormGroup)=>{
-      //      item.controls['isDisable'].patchValue(false)
-      //   })
-      //  });
-      //  (this.waterRejenuvation.controls['uaData'] as FormArray).controls.forEach((item:FormGroup)=>{
-      //   (item.controls['serviceLevelIndicators'] as FormArray).controls.forEach((item:FormGroup)=>{
-      //      item.controls['isDisable'].patchValue(false)
-      //   })
-      //  })
+    let postBody = { ...this.waterRejenuvation.value, isDraft: true }
+    console.log('post body', postBody);
       this.waterRejenuvationService
-        .postWaterRejeData(this.waterRejenuvation.value)
+        .postWaterRejeData(postBody)
         .subscribe(
           (res:any) => {
             if (res && res.status) {
