@@ -66,6 +66,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         }),
         rejectReason: [""],
         state: [this.data?.selectedId],
+        statesData: [],
         formId: [this.data?.formId],
         design_year: [this.getDesignYear()],
       });

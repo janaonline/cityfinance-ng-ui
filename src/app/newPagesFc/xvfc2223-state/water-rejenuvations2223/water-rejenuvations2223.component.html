@@ -178,7 +178,7 @@
                                         </td>
 
                                         <td *ngIf="1+waterBodiesIndex>1" class="icon">
-                                            <a [ngClass]="{'anDisable': formDisable || disableUAs.includes(uas.value.ua)}" (click)="deleteRow3(projectIndex, waterBodiesIndex)">
+                                            <a [ngClass]="{'anDisable': getDisableRow(projectRow)}" (click)="deleteRow3(projectIndex, waterBodiesIndex)">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
@@ -268,7 +268,7 @@
                                         </td>
 
                                         <td *ngIf="1+reuseWaterIndex>1" class="iconSliAndReuse">
-                                            <a [ngClass]="{'anDisable': formDisable || disableUAs.includes(uas.value.ua)}" (click)="deleteRow1(projectIndex,reuseWaterIndex)">
+                                            <a [ngClass]="{'anDisable': getDisableRow(projectRow)}" (click)="deleteRow1(projectIndex,reuseWaterIndex)">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
@@ -362,7 +362,7 @@
                                             </p>
                                         </td>
                                         <td *ngIf="1+sliIndex>1" class="iconSliAndReuse">
-                                            <a [ngClass]="{'anDisable': formDisable || disableUAs.includes(uas.value.ua)}" (click)="deleteRow2(projectIndex, sliIndex)">
+                                            <a [ngClass]="{'anDisable': getDisableRow(projectRow)}" (click)="deleteRow2(projectIndex, sliIndex)">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>

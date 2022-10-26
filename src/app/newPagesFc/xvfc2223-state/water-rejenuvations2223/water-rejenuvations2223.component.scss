@@ -182,3 +182,8 @@ input::-webkit-inner-spin-button {
     font-size: 1.5rem;
     padding: 5rem 5rem;
 }
+
+.anDisable {
+    pointer-events: none;
+    opacity: .5;
+}

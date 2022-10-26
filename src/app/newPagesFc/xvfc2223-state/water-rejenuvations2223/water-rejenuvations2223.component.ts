@@ -163,32 +163,32 @@ export class WaterRejenuvations2223Component implements OnInit {
     //this.disablePreviousInput();
   }
   changesDetection() {
-    this.waterRejenuvation.valueChanges.subscribe((change) => {
-      let data = sessionStorage.getItem("waterRejenuvationData");
-      let uaData = this.waterRejenuvation.getRawValue().uaData
-      if (change.uaData.length != uaData.length) {
-        change.uaData = uaData
-      }
-      change.uaData.forEach((element) => {
-        delete element.foldCard;
-      });
-      console.log(deepEqual(change, JSON.parse(data)));
-      console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
-      if (!deepEqual(change, JSON.parse(data))) {
-        sessionStorage.setItem("changeInWaterRejenuvation2223", "true");
-        this.checkDiff();
-      } else {
-        sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-      }
-    });
-    this.waterRejenuvation.statusChanges.subscribe((change) => {
-      if (change != "INVALID") {
-        this.formStatus = true;
-      } else {
-        this.formStatus = false;
-      }
-    });
-    this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
+    // this.waterRejenuvation.valueChanges.subscribe((change) => {
+    //   let data = sessionStorage.getItem("waterRejenuvationData");
+    //   let uaData = this.waterRejenuvation.getRawValue().uaData
+    //   if (change.uaData.length != uaData.length) {
+    //     change.uaData = uaData
+    //   }
+    //   change.uaData.forEach((element) => {
+    //     delete element.foldCard;
+    //   });
+    //   console.log(deepEqual(change, JSON.parse(data)));
+    //   console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
+    //   if (!deepEqual(change, JSON.parse(data))) {
+    //     sessionStorage.setItem("changeInWaterRejenuvation2223", "true");
+    //     this.checkDiff();
+    //   } else {
+    //     sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+    //   }
+    // });
+    // this.waterRejenuvation.statusChanges.subscribe((change) => {
+    //   if (change != "INVALID") {
+    //     this.formStatus = true;
+    //   } else {
+    //     this.formStatus = false;
+    //   }
+    // });
+    // this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
   }
   get Uas() {
     if (!this.showLoader)
@@ -381,35 +381,35 @@ export class WaterRejenuvations2223Component implements OnInit {
     console.log(dataArray)
     return dataArray?.map((data) =>
       this.fb.group({
-        name: this.fb.control(data.name, [
+        name: this.fb.control(((data?.isDisable) ? this.getDVal(data?.name) : this.getVal(data?.name)), [
           Validators.required,
           // Validators.maxLength(25),
         ]),
-        component: this.fb.control(data.component, [
+        component: this.fb.control(((data?.isDisable) ? this.getDVal(data?.component) : this.getVal(data?.component)), [
           Validators.required,
           // Validators.maxLength(25),
         ]),
-        indicator: this.fb.control(data.indicator, [
+        indicator: this.fb.control(((data?.isDisable) ? this.getDVal(data?.indicator) : this.getVal(data?.indicator)), [
           Validators.required,
 
         ]),
-        existing: this.fb.control(data.existing, [
+        existing: this.fb.control(((data?.isDisable) ? this.getDVal(data?.existing) : this.getVal(data?.existing)), [
           Validators.required,
 
         ]),
-        after: this.fb.control(data.after, [
+        after: this.fb.control(((data?.isDisable) ? this.getDVal(data?.after) : this.getVal(data?.after)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        cost: this.fb.control(data.cost, [
+        cost: this.fb.control(((data?.isDisable) ? this.getDVal(data?.cost) : this.getVal(data?.cost)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        dprCompletion: this.fb.control(data?.dprCompletion, [
+        dprCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.dprCompletion) : this.getVal(data?.dprCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control(data?.workCompletion, [
+        workCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.workCompletion) : this.getVal(data?.workCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
@@ -423,35 +423,35 @@ export class WaterRejenuvations2223Component implements OnInit {
   getReuseWater(dataArray) {
     return dataArray?.map((data) =>
       this.fb.group({
-        name: this.fb.control(data.name, [
+        name: this.fb.control(((data?.isDisable) ? this.getDVal(data?.name) : this.getVal(data?.name)), [
           Validators.required,
           Validators.maxLength(25),
         ]),
-        treatmentPlant: this.fb.control(data.treatmentPlant, [
+        treatmentPlant: this.fb.control(((data?.isDisable) ? this.getDVal(data?.treatmentPlant) : this.getVal(data?.treatmentPlant)), [
           Validators.required,
           Validators.maxLength(25),
         ]),
-        targetCust: this.fb.control(data.targetCust, [
+        targetCust: this.fb.control(((data?.isDisable) ? this.getDVal(data?.targetCust) : this.getVal(data?.targetCust)), [
           Validators.required,
           Validators.maxLength(300),
         ]),
-        lat: this.fb.control(data.lat, [
+        lat: this.fb.control(((data?.isDisable) ? this.getDVal(data?.lat) : this.getVal(data?.lat)), [
           Validators.required,
           Validators.pattern(this.latLongRegex)
         ]),
-        long: this.fb.control(data?.long, [
+        long: this.fb.control(((data?.isDisable) ? this.getDVal(data?.long) : this.getVal(data?.long)), [
           Validators.required,
           Validators.pattern(this.latLongRegex)
         ]),
-        stp: this.fb.control(data?.stp, [
+        stp: this.fb.control(((data?.isDisable) ? this.getDVal(data?.stp) : this.getVal(data?.stp)), [
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control(data?.dprCompletion, [
+        dprCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.dprCompletion) : this.getVal(data?.dprCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control(data?.workCompletion, [
+        workCompletion: this.fb.control(((data?.isDisable) ? this.getDVal(data?.workCompletion) : this.getVal(data?.workCompletion)), [
           Validators.required,
           // Validators.min(1),
         ]),
@@ -653,7 +653,11 @@ export class WaterRejenuvations2223Component implements OnInit {
     };
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
-
+  getDisableRow(pRow) {
+    //  console.log('prow...', pRow);
+    return pRow?.value?.isDisable;
+    // return false
+  }
   addRow2(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     this.projectIndex = uaDataAtIndex
@@ -695,11 +699,11 @@ export class WaterRejenuvations2223Component implements OnInit {
             Validators.required,
             Validators.min(1),
           ]),
-          dprCompletion: this.fb.control(null, [
+          dprCompletion: this.fb.control('', [
             Validators.required,
             // Validators.min(1),
           ]),
-          workCompletion: this.fb.control(null, [
+          workCompletion: this.fb.control('', [
             Validators.required,
             // Validators.min(1),
           ]),
@@ -755,11 +759,11 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
               // Validators.min(1),
             ]),
-            dprCompletion: this.fb.control(null, [
+            dprCompletion: this.fb.control('', [
               Validators.required,
               // Validators.min(1),
             ]),
-            workCompletion: this.fb.control(null, [
+            workCompletion: this.fb.control('', [
               Validators.required,
               // Validators.min(1),
             ]),
@@ -859,11 +863,11 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
               // Validators.min(1),
             ]),
-            dprCompletion: this.fb.control(null, [
+            dprCompletion: this.fb.control('', [
               Validators.required,
               // Validators.min(1),
             ]),
-            workCompletion: this.fb.control(null, [
+            workCompletion: this.fb.control('', [
               Validators.required,
               // Validators.min(1),
             ]),
