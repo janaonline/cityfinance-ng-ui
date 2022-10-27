@@ -55,7 +55,7 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index" [ngClass]="{'disable': isDisabledState(projectRow,'isDisable')}">
+                                <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                     <tr [formGroupName]="waterBodiesIndex">
                                         <td class="t-i">
                                             <span style="height:4rem">{{1+waterBodiesIndex}}</span>
@@ -220,7 +220,7 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody formArrayName="reuseWater" *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index" [ngClass]="{'disable': isDisabledState(projectRow,'isDisable')}">
+                                <tbody formArrayName="reuseWater" *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
 
                                     <tr [formGroupName]="reuseWaterIndex">
                                         <td class="t-i">
@@ -311,7 +311,7 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody formArrayName="serviceLevelIndicators" *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index" [ngClass]="{'disable': isDisabledState(projectRow,'isDisable')}">
+                                <tbody formArrayName="serviceLevelIndicators" *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index">
 
                                     <tr [formGroupName]="sliIndex">
 

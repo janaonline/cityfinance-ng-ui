@@ -46,7 +46,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
-  amtRegex = "^[0-9]{1,4}(?:[.][0-9]{1,2})?$";
+  amtRegex = "^[0-9]{1,6}(?:[.][0-9]{1,2})?$";
   ptrErr = "Two digit upto six decimals point are allowed. eg - 28.123456";
   ptrErr2 =
     "Maximum four digit upto two decimals point are allowed. eg - 9999.99";
