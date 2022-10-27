@@ -109,7 +109,7 @@
                                                 <input #bs_pdfAct style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf', cIndex, qIndex, 'action')" type="file" accept=".pdf" #file>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" *ngIf="quesItem?.responseFile_mohua?.name">
                                             <div class="col-sm-6 mt-3">
                                                 <a href="{{quesItem?.responseFile_mohua?.url}}" target="_blank"> {{quesItem?.responseFile_mohua?.name}} </a>
                                             </div>
