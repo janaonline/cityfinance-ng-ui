@@ -691,6 +691,7 @@ export class GtcFormComponent implements OnInit {
             this.gtcFormData[i].quesArray[j]["file"]["progress"] = 100;
             this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
             sessionStorage.setItem("changeInGtc", "true");
+            this.fileCompleted = true;
             let ijData = {
               i: i,
               j: j,
@@ -699,6 +700,7 @@ export class GtcFormComponent implements OnInit {
           } else {
             this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 100;
             this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["url"] = fileAlias;
+            this.fileCompleted = true;
           }
           // // this.gtcFormData[i].quesArray[j]['file'] = file;
           // this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
@@ -709,6 +711,7 @@ export class GtcFormComponent implements OnInit {
       (err) => {
         this.gtcFormData[i].quesArray[j]["file"] = file;
         this.gtcFormData[i].quesArray[j]["file"]["error"] = true;
+        this.fileCompleted = false;
       }
     );
   }
@@ -728,7 +731,7 @@ export class GtcFormComponent implements OnInit {
     this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["name"] = "";
     this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = null;
   }
-
+  fileCompleted = false;
   saveFile(i, j) {
     console.log("indexes", i, j);
     let postBody = { ...this.gtcFormData[i]?.quesArray[j] };
@@ -736,6 +739,10 @@ export class GtcFormComponent implements OnInit {
       this.gtcFormData[i].quesArray[j].file.name != "" ||
       this.gtcFormData[i].quesArray[j].file.url != ""
     ) {
+      if (!this.fileCompleted) {
+        swal('Error', "File not uploaded correctly", 'error');
+        return;
+      }
       console.log("111", postBody);
 
       postBody.state = this.stateId;
@@ -763,6 +770,7 @@ export class GtcFormComponent implements OnInit {
           swal("Saved", "File saved successfully", "success");
           sessionStorage.setItem("changeInGtc", "false");
           console.log("success responce", res);
+          this.fileCompleted = false;
           this.newCommonService.setStateFormStatus2223.next(true);
         },
         (error) => {
