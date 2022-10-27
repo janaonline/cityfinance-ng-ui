@@ -49,12 +49,10 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   amtRegex = "^[0-9]{1,6}(?:[.][0-9]{1,2})?$";
   ptrErr = "Two digit upto six decimals point are allowed. eg - 28.123456";
   ptrErr2 =
-    "Maximum four digit upto two decimals point are allowed. eg - 9999.99";
+    "Maximum six digit upto two decimals point are allowed. eg - 999999.99";
   // amtRegex = "^(([0-9]{1,4})(.[0-9]{1,2})?)$";
   // amtRegex = `^\d{0,4}\.?\d{0,2}$`;
-
   postBody;
-
   categories;
   analytics = [];
   swm = [];
