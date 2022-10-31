@@ -185,5 +185,47 @@ input::-webkit-inner-spin-button {
 
 .anDisable {
     pointer-events: none;
-    opacity: .5;
+    input,
+    select,
+    textarea {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
+    .d-i {
+        opacity: .6;
+    }
+    .td {
+        cursor: not-allowed;
+    }
+    // opacity: .5;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-top: none;
+}
+
+.rdBtn {
+    width: 17px !important;
+}
+
+.rdDiv {
+    align-items: center !important;
+}
+
+.disableInputs {
+    pointer-events: none !important;
+    opacity: .6;
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
 }
