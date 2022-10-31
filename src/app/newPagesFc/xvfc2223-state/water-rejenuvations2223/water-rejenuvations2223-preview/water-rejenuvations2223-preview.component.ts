@@ -172,7 +172,18 @@ table {
   background-color: #058e91;
   color: #ffffff;
 }
-
+.d-u {
+  font-size: 10px !important;
+  font-weight: 500;
+}
+.u-a-h {
+display: inline-block;
+width: 25%
+}
+.u-a-a {
+  display: inline-block;
+  width: 75%
+  }
   </style>`;
   @ViewChild("waterRe") _html: ElementRef;
   @ViewChild("template") template;
