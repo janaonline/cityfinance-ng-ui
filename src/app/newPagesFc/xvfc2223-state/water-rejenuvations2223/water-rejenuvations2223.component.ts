@@ -21,6 +21,7 @@ import { WaterRejenuvations2223ServiceService } from "./water-rejenuvations2223-
 import { StateformsService } from "src/app/pages/stateforms/stateforms.service";
 import { WaterRejenuvations2223PreviewComponent } from "./water-rejenuvations2223-preview/water-rejenuvations2223-preview.component";
 import { StateDashboardService } from "src/app/pages/stateforms/state-dashboard/state-dashboard.service";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -110,6 +111,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     public _stateformsService: StateformsService,
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
+    public newCommonService: NewCommonService
   ) {
     this.initializeUserType();
     // this.id = sessionStorage.getItem("sessionID");
@@ -1179,6 +1181,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               // this.getFormData();
               this.waterRejenuvation.disable();
               this.isDisabled = true;
+              this.newCommonService.setStateFormStatus2223.next(true);
               sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
             } else {
               swal("Error", res?.message ? res?.message : "Error", "error");
@@ -1604,6 +1607,7 @@ export class WaterRejenuvations2223Component implements OnInit {
               icon: "success",
             });
             sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
+              this.newCommonService.setStateFormStatus2223.next(true);
             } else {
               swal("Error", res?.message ? res?.message : "Error", "error");
             }
