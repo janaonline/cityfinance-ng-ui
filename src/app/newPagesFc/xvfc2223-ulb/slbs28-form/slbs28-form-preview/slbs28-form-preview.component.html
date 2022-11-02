@@ -49,14 +49,14 @@
                                 <th scope="row" class="l-n fontClass h-h tableBorder">{{item?.question}}</th>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p class="d-i">{{item?.actual?.value ? item?.actual?.value : 'N/A'}}</p>
-                                        <span class="ms-3 d-m" *ngIf="item?.actual?.value" id="basic-addon2">{{item?.unit}}</span>
+                                        <p class="d-i">{{(item?.actual?.value || item?.actual?.value === 0) ? item?.actual?.value : 'N/A'}}</p>
+                                        <span class="ms-3 d-m" *ngIf="item?.actual?.value || item?.actual?.value === 0" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                                 <td class="tableBorder">
                                     <div class="input-group h-h">
-                                        <p class="d-i">{{item?.target_1?.value ? item?.target_1?.value : 'N/A'}}</p>
-                                        <span class="ms-3 d-m d-i" *ngIf="item?.target_1?.value" id="basic-addon2">{{item?.unit}}</span>
+                                        <p class="d-i">{{(item?.target_1?.value || item?.target_1?.value === 0) ? item?.target_1?.value : 'N/A'}}</p>
+                                        <span class="ms-3 d-m d-i" *ngIf="item?.target_1?.value || item?.target_1?.value === 0" id="basic-addon2">{{item?.unit}}</span>
                                     </div>
                                 </td>
                             </tr>
