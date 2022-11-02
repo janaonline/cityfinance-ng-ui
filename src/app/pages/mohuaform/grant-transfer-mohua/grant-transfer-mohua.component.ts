@@ -43,14 +43,17 @@ export class GrantTransferMohuaComponent implements OnInit {
   quesName = "Please Upload Grant Transfer Excel Sheet ";
   requiredBtn = "excel";
   Years = JSON.parse(localStorage.getItem("Years"));
+  dYear = '';
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit(): void {
     if (this.compName == 'gtc2223') {
       this.hDisable = false;
-      this.bkRouter = '../review-state-form'
+      this.bkRouter = '../review-state-form';
+      this.dYear = this.Years["2022-23"]
     } else {
       this.hDisable = true;
       this.bkRouter = '../review-ulb'
+      this.dYear = this.Years["2021-22"]
     }
   }
 
@@ -59,7 +62,7 @@ export class GrantTransferMohuaComponent implements OnInit {
   saveBtnText = "SAVE";
   showLoader = false;
   changeInGtMohua = false;
-  delType = null
+  delType = null;
   getTemplate() {
     this.gtMohuaService.getTemplate().subscribe(
       (res) => {
@@ -82,9 +85,10 @@ export class GrantTransferMohuaComponent implements OnInit {
     if(this.saveBtnText === "FILE SAVED")return swal("File already uploaded.")
     this.showLoader = true;
     this.changeInGtMohua = false;
+     //  design_year: "606aaf854dff55e6c075d219",
     let body = {
       url: this.excel.url,
-      design_year: "606aaf854dff55e6c075d219",
+      design_year: this.dYear
     };
 
     this.gtMohuaService.saveData(body).subscribe(
