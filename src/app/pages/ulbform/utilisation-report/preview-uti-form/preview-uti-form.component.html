@@ -29,8 +29,7 @@
             <span>Name of State:- <span>{{ state }}</span></span>
         </div>
         <div class="col-sm-3 pdf-hide" style="text-align: right;">
-            <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none;"
-                class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
+            <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
                 Download as PDF
             </button>
         </div>
@@ -57,8 +56,7 @@
                 <tbody>
                     <tr>
                         <th class="f-table" scope="row">1.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Unutilisated tied grant
-                            from previous installment</td>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Unutilisated tied grant from previous installment</td>
                         <td class="f-table">{{data.grantPosition.unUtilizedPrevYr}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -67,8 +65,8 @@
                     <tr>
                         <th scope="row" class="f-table">2.</th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">15
-                            <sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [
-                            1<sup>st</sup> & 2<sup>nd</sup> installment taken together ]
+                            <sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [ 1
+                            <sup>st</sup> & 2<sup>nd</sup> installment taken together ]
 
                         </td>
                         <td class="f-table">{{data.grantPosition.receivedDuringYr}}</td>
@@ -78,8 +76,7 @@
                     </tr>
                     <tr>
                         <th class="f-table" scope="row">3.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred during
-                            the year</td>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
                         <td class="f-table">{{data.grantPosition.expDuringYr}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -87,17 +84,15 @@
                     </tr>
                     <tr>
                         <th class="f-table" scope="row">4.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;"> Closing balance at the end
-                            of year</td>
-                        <td class="f-table"><b>{{ data.grantPosition.closingBal }}</b> </td>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;"> Closing balance at the end of year</td>
+                        <td class="f-table"><b>{{ data?.grantPosition?.closingBal }}</b> </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                     </tr>
                     <tr>
                         <th scope="row" class="f-table">5.</th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;"> Component-wise utilisation
-                            of grant </td>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;"> Component-wise utilisation of grant </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -105,13 +100,11 @@
                     </tr>
                     <tr>
                         <th scope="row" class="f-table"></th>
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water
-                            Management(WM)</td>
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)
+                        </td>
                         <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
                            data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM
-                            [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ?
-                            (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -162,11 +155,8 @@
                         <th scope="row" class="f-table"></th>
                         <!-- (((data?.analytics[0]?.amount +
                             data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
-                        <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">B.
-                            &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM
-                            [&nbsp;{{+((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) >0 ?
-                            ((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
+                        <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -230,8 +220,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of data.projects; let i=index"
-                        style="text-align: center; vertical-align: inherit;">
+                    <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
                         <th scope="row" class="f-table">{{1+i}}.</th>
                         <td class="f-table">{{data.projects[i].name}}</td>
                         <td class="f-table">{{data.projects[i].category}}</td>
@@ -241,8 +230,7 @@
                         <!-- <td class="f-table p-tb">{{data.projects[i]?.engineerContact}}</td> -->
                         <td class="f-table">{{data.projects[i].cost}}</td>
                         <td class="f-table">
-                            {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0?
-                            ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
+                            {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0? ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
                         </td>
                         <!-- <td>{{data.projects[i].expenditure}}</td> -->
                     </tr>
@@ -461,12 +449,12 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed further?
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">
                 Save & Proceed
             </button>
-        </div>
+            </div>
 
     </div>
 </ng-template>

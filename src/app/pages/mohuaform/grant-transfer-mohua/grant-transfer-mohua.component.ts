@@ -64,7 +64,7 @@ export class GrantTransferMohuaComponent implements OnInit {
   changeInGtMohua = false;
   delType = null;
   getTemplate() {
-    this.gtMohuaService.getTemplate().subscribe(
+    this.gtMohuaService.getTemplate(this.dYear).subscribe(
       (res) => {
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
