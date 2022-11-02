@@ -7,9 +7,9 @@ import { environment } from "../../../../environments/environment";
 export class GtMohuaService {
   constructor(private http: HttpClient) {}
 
-  getTemplate() {
+  getTemplate(yr) {
     return this.http.get(
-      `${environment.api.url}template?csv=true&design_year=606aaf854dff55e6c075d219`,
+      `${environment.api.url}template?csv=true&design_year=${yr}`,
       { responseType: "blob" }
     );
   }

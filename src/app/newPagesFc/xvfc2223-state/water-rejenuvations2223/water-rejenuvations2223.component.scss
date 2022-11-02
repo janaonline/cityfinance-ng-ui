@@ -18,7 +18,7 @@
 
 .card {
     border: 1px #00000029;
-    margin-left: 20px;
+    // margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 6px 10px;
 }
@@ -177,3 +177,64 @@ input::-webkit-inner-spin-button {
     font-size: 14px;
     font-weight: 500;
 }
+
+.pre-y {
+    font-size: 1.5rem;
+    padding: 5rem 5rem;
+}
+
+.anDisable {
+    pointer-events: none;
+    input,
+    select,
+    textarea {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
+    .d-i {
+        opacity: .6;
+    }
+    .td {
+        cursor: not-allowed;
+    }
+    // opacity: .5;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-top: none;
+}
+
+.rdBtn {
+    width: 17px !important;
+}
+
+.rdDiv {
+    align-items: center !important;
+}
+
+.disableInputs {
+    pointer-events: none !important;
+    opacity: .6;
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
+}
+
+// .enableInputs {
+//     pointer-events: all !important;
+//     opacity: 1;
+//     .rdBtn {
+//         // background-color: #e9ecef !important;
+//         opacity: 1;
+//     }
+// }

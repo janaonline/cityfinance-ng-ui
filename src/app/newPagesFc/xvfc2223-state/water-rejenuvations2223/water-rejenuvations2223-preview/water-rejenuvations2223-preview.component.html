@@ -11,17 +11,17 @@
                 Indicator for Water Rejenuvation and Recycling
             </div> -->
         <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
-            <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
+            <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2022-23</span>
             <span *ngIf="parentData">Projects for Water and Sanitation</span>
             <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
         </div>
 
     </div>
     <div class="row st-d">
-        <div class="col-sm-6 form-status" *ngIf="!parentData">
+        <!-- <div class="col-sm-6 form-status" *ngIf="!parentData">
             <b>Form Current Status:</b> {{status}}
-        </div>
-        <div class="col-sm-6 text-end" *ngIf="!parentData">
+        </div> -->
+        <div class="col-sm-12 text-end" *ngIf="!parentData">
             <button id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
                 Download as PDF
@@ -39,16 +39,12 @@
             <div class="card-body ">
                 <div style="display: flex;">
                     <div>
-                        <!-- UA{{projectIndex+1}}: {{uas.name}} -->
-                        <!-- {{uasData[uas.ua].name.split(' ')[0]}} -->
-                        <h4>UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
-
-
+                        <h4 class="uaName">UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
                     </div>
                 </div>
 
                 <div>
-                    <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
+                    <h5 class="p-h">Fill Details of Project for Rejuvenation of Water Bodies</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table custom-position tableStriped">
@@ -144,7 +140,7 @@
                     </table>
                 </div>
                 <div>
-                    <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
+                    <h5 class="p-h">Fill Details of Projects for Recycling and Reuse of Water</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table custom-position tableStriped">
@@ -185,7 +181,7 @@
                     </table>
                 </div>
                 <div>
-                    <h5>Details of Proposed Project to Improve Service Level Indicators related to Water Supply</h5>
+                    <h5 class="p-h">Details of Proposed Project to Improve Service Level Indicators related to Water Supply</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table custom-position tableStriped">
@@ -233,6 +229,16 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row" style="margin-top: 1rem; margin-bottom: .5rem;">
+
+                    <div class="col-sm-3 d-u u-a-h">
+                        Declaration Upload :
+                    </div>
+                    <div class="col-sm-9 d-u u-a-a">
+                        <a href="{{data?.declaration?.url}}" target="_blank">{{data?.declaration?.name}}</a>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -259,4 +265,3 @@
 
     </div>
 </ng-template>
-

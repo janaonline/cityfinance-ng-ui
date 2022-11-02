@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
 import { GtMohuaService } from "./gt-mohua.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router, NavigationStart, Event } from "@angular/router";
@@ -34,25 +34,37 @@ export class GrantTransferMohuaComponent implements OnInit {
       }
     });
   }
-
+  @Input() compName;
+  @Input() bkRouter;
   @ViewChild("template") template;
   routerNavigate = null;
   dialogRef;
-
+  hDisable = true;
   quesName = "Please Upload Grant Transfer Excel Sheet ";
   requiredBtn = "excel";
   Years = JSON.parse(localStorage.getItem("Years"));
+  dYear = '';
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.compName == 'gtc2223') {
+      this.hDisable = false;
+      this.bkRouter = '../review-state-form';
+      this.dYear = this.Years["2022-23"]
+    } else {
+      this.hDisable = true;
+      this.bkRouter = '../review-ulb'
+      this.dYear = this.Years["2021-22"]
+    }
+  }
 
   excel;
   isDisabled = false;
   saveBtnText = "SAVE";
   showLoader = false;
   changeInGtMohua = false;
-  delType = null
+  delType = null;
   getTemplate() {
-    this.gtMohuaService.getTemplate().subscribe(
+    this.gtMohuaService.getTemplate(this.dYear).subscribe(
       (res) => {
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
@@ -73,9 +85,10 @@ export class GrantTransferMohuaComponent implements OnInit {
     if(this.saveBtnText === "FILE SAVED")return swal("File already uploaded.")
     this.showLoader = true;
     this.changeInGtMohua = false;
+     //  design_year: "606aaf854dff55e6c075d219",
     let body = {
       url: this.excel.url,
-      design_year: "606aaf854dff55e6c075d219",
+      design_year: this.dYear
     };
 
     this.gtMohuaService.saveData(body).subscribe(

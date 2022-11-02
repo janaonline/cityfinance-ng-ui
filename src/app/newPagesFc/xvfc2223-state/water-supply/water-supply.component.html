@@ -1,342 +1,337 @@
-<div class="row" style="margin-left: 15px; margin-right: 25px;">
-    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
-        <h4 class="form-header">
-            Indicators for Water Supply and Sanitation
-        </h4>
-    </div>
-    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-end" style="padding: 0;">
-        <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
-    </div>
-</div>
-<div class="row" style="margin-left: 15px; margin-right: 25px;">
-    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
-        <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
-    </div>
-</div>
-<div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index"
-    style="margin-left: -6px; margin-right: -10px; margin-bottom: 10px;">
-
-    <div class="row p-2" style="align-items: center;">
-        <div class="col-9">
-            <h5>UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}
-            </h5>
-
+<div class="container-fluid">
+    <div class="row" style="margin-left: 15px; margin-right: 25px;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
+            <h4 class="form-header">
+                Indicators for Water Supply and Sanitation
+            </h4>
         </div>
-
-        <div class="col-3 text-right" style="padding-top: 5px;">
-            <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': isCollapsed[i]}"
-                (click)="foldCard(i,uaDetails._id)">Select</button>
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-end" style="padding: 0;">
+            <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
         </div>
     </div>
-    <div *ngIf="isCollapsed[i]">
-        <div>
-            <div class="card">
-                <div class="row text-center mt-3">
-                    <h5 class="indicators">Indicators for Water Supply and Sanitation(A)</h5>
-                </div>
-                <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
-                    <div class="card">
-                        <div class="card-body">                          
-                            <div class="row">
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                    style="border-right: 2px solid #70707030">
-                                    <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
-                                        Total Number of ULBs in UA</h6><br>
-                                    <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
-                                </div>
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                    style="border-right: 2px solid #70707030">
-                                    <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
-                                    </h6><br>
-                                    <a (click)="openDialog(template, getData?.fourSLB?.approved?.ulbs)">
-                                        <h6 style="display: inline-flex; color: #337AB7;">
-                                            {{getData?.fourSLB?.approved?.count ? getData?.fourSLB?.approved?.count : 0}}
-                                        </h6>
-                                    </a>
-                                </div>
-                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+    <div class="row" style="margin-left: 15px; margin-right: 25px;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
+            <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
+        </div>
+    </div>
+    <div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index" style="margin-left: -6px; margin-right: -10px; margin-bottom: 10px;">
 
-                                    <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
-                                        Submission/Approval
-                                    </h6><br>
+        <div class="row p-2" style="align-items: center;">
+            <div class="col-9">
+                <h5>UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}
+                </h5>
 
-                                    <a (click)="openDialog(template, getData?.fourSLB?.pending?.ulbs)">
-                                        <h6 style="display: inline-flex; color: #337AB7;">{{getData?.fourSLB?.pending?.count ? getData?.fourSLB?.pending?.count : 0}}
-                                        </h6>
-                                    </a>
+            </div>
+
+            <div class="col-3 text-right" style="padding-top: 5px;">
+                <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': isCollapsed[i]}" (click)="foldCard(i,uaDetails._id)">Select</button>
+            </div>
+        </div>
+        <div *ngIf="isCollapsed[i]">
+            <div>
+                <div class="card">
+                    <div class="row text-center mt-3">
+                        <h5 class="indicators">Indicators for Water Supply and Sanitation(A)</h5>
+                    </div>
+                    <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                            Total Number of ULBs in UA</h6><br>
+                                        <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                        </h6><br>
+                                        <a (click)="openDialog(template, getData?.fourSLB?.approved?.ulbs)">
+                                            <h6 style="display: inline-flex; color: #337AB7;">
+                                                {{getData?.fourSLB?.approved?.count ? getData?.fourSLB?.approved?.count : 0}}
+                                            </h6>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                                        </h6><br>
+
+                                        <a (click)="openDialog(template, getData?.fourSLB?.pending?.ulbs)">
+                                            <h6 style="display: inline-flex; color: #337AB7;">{{getData?.fourSLB?.pending?.count ? getData?.fourSLB?.pending?.count : 0}}
+                                            </h6>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow table-responsive" *ngIf="!noDataFound">
-                    <table aria-describedby="Water Waste Management Form" class="table">
-                        <thead>
-                            <th scope="col">Service Level Indicators</th>
-                            <th scope="col">Benchmark</th>                
-                            <th *ngFor="let column of combinedActualTarget" scope="col">
-                                <span style="padding: 0;" [innerHTML]="column.name"></span>
-                            </th>
-                            <th scope="col">Weighted Score</th>
-                        </thead>
+                    <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow table-responsive" *ngIf="!noDataFound">
+                        <table aria-describedby="Water Waste Management Form" class="table">
+                            <thead>
+                                <th scope="col">Service Level Indicators</th>
+                                <th scope="col">Benchmark</th>
+                                <th *ngFor="let column of combinedActualTarget" scope="col">
+                                    <span style="padding: 0;" [innerHTML]="column.name"></span>
+                                </th>
+                                <th scope="col">Weighted Score</th>
+                            </thead>
 
-                        <tbody>
-                            <tr *ngIf="services[0] as service">
-                                <td>
-                                    <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="benchamark-cell">{{ service.benchmark }}</span>
-                                </td>
-                                <td *ngFor="let year of firstRowData">
-                                    <div class="input-group data-input">
-                                        <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
-                                        <span class="input-group-addon spanCustom"><em class="glyphicon">
+                            <tbody>
+                                <tr *ngIf="services[0] as service">
+                                    <td>
+                                        <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td *ngFor="let year of firstRowData">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                             </em></span>
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div class="input-group data-input">
-                                        <input type="text" class="form-control disableAction" [value]="firstWeightedScore" disabled/>            
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="services[1] as service">
-                                <td>
-                                    <span class="service-name">{{ service.name }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <input type="text" class="form-control disableAction" [value]="firstWeightedScore" disabled/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="services[1] as service">
+                                    <td>
+                                        <span class="service-name">{{ service.name }}
                                         <span style="color: red;" class="mandatory">*</span></span>
-                                </td>
-                                <td>
-                                    <span class="benchamark-cell">{{ service.benchmark }}</span>
-                                </td>
-                                <td *ngFor="let year of secondRowData">
-                                    <div class="input-group data-input">
-                                        <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
-                                        <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td *ngFor="let year of secondRowData">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                                                 {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                             </em></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group data-input">
-                                        <input type="text" class="form-control disableAction" [value]="secondWeightedScore" disabled/>            
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="services[2] as service">
-                                <td>
-                                    <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="benchamark-cell">{{ service.benchmark }}</span>
-                                </td>
-                                <td *ngFor="let year of thirdRowData">
-                                    <div class="input-group data-input">
-                                        <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
-                                        <span class="input-group-addon spanCustom"><em class="glyphicon">
-                                                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                            </em></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group data-input">
-                                        <input type="text" class="form-control disableAction" [value]="thirdWeightedScore" disabled/>            
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="services[3] as service">
-                                <td>
-                                    <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="benchamark-cell">{{ service.benchmark }}</span>
-                                </td>
-                                <td *ngFor="let year of fourthRowData">
-                                    <div class="input-group data-input">
-                                        <span [innerHTML]="year.value"></span>
-                                        <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
-                                        <span class="input-group-addon spanCustom"><em class="glyphicon">
-                                                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                            </em></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group data-input">
-                                        <input type="text" class="form-control disableAction" [value]="fourthWeightedScore" disabled/>            
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row ms-1" *ngIf="!noDataFound">
-                    <h5 class="indicatorsSummary">Total UA Score for Water Supply and Sanitation : {{totalWeightedScore}}(out of maximum 60)
-                    </h5>
-                </div>
-            </div>
-            <div class="card mt-3">
-                <div class="row text-center mt-5">
-                    <h5 class="indicators">Indicators for Solid Waste Management(B)</h5>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row text-center">
-                                        <h5>GFC</h5>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                            style="border-right: 2px solid #70707030">
-                                            <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
-                                                Total Number of ULBs in UA</h6>
-                                            <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
                                         </div>
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                            style="border-right: 2px solid #70707030">
-                                            <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
-                                            </h6>
-                                            <br>
-                                            <a (click)="openDialog(template, getData?.gfc?.approved?.ulbs)">
-                                                <h6 style="display: inline-flex; color: #337AB7;">
-                                                    {{getData?.gfc?.approved?.count ? getData?.gfc?.approved?.count : 0}}
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <input type="text" class="form-control disableAction" [value]="secondWeightedScore" disabled/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="services[2] as service">
+                                    <td>
+                                        <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td *ngFor="let year of thirdRowData">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                            </em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <input type="text" class="form-control disableAction" [value]="thirdWeightedScore" disabled/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="services[3] as service">
+                                    <td>
+                                        <span class="service-name">{{ service.name }}<span style="color: red;" class="mandatory">*</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td *ngFor="let year of fourthRowData">
+                                        <div class="input-group data-input">
+                                            <span [innerHTML]="year.value"></span>
+                                            <input [id]="service.key + year.key" type="text" class="form-control disableAction" [value]="year" disabled/>
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                                {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                            </em></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group data-input">
+                                            <input type="text" class="form-control disableAction" [value]="fourthWeightedScore" disabled/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row ms-1" *ngIf="!noDataFound">
+                        <h5 class="indicatorsSummary">Total UA Score for Water Supply and Sanitation : {{totalWeightedScore}}(out of maximum 60)
+                        </h5>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="row text-center mt-5">
+                        <h5 class="indicators">Indicators for Solid Waste Management(B)</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <h5>GFC</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                                    Total Number of ULBs in UA</h6>
+                                                <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
                                                 </h6>
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
-        
-                                            <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
-                                                Submission/Approval
-                                            </h6>
-                                              <br>
-                                            <a (click)="openDialog(template, getData?.gfc?.pending?.ulbs)">
-                                                <h6 style="display: inline-flex; color: #337AB7;">{{getData?.gfc?.pending?.count ? getData?.gfc?.pending?.count : 0}}
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.gfc?.approved?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">
+                                                        {{getData?.gfc?.approved?.count ? getData?.gfc?.approved?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
                                                 </h6>
-                                            </a>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.gfc?.pending?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">{{getData?.gfc?.pending?.count ? getData?.gfc?.pending?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>           
+                                    </div>
+                                    <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-6">
+                                                <input type="text" placeholder="GFC Rating" class="pointerEvent" disabled>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" placeholder="{{gfcScoreRoundOff ? gfcScoreRoundOff : 0}}" class="pointerEvent" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
-                                    <div class="row mt-3 mb-3">
-                                        <div class="col-6">
-                                            <input type="text" placeholder="GFC Rating" class="pointerEvent" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <h5>ODF</h5>
                                         </div>
-                                        <div class="col-6">
-                                            <input type="text" placeholder="{{gfcScoreRoundOff ? gfcScoreRoundOff : 0}}" class="pointerEvent" disabled>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                                    Total Number of ULBs in UA</h6>
+                                                <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.odf?.approved?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">
+                                                        {{getData?.odf?.approved?.count ? getData?.odf?.approved?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.odf?.pending?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">{{getData?.odf?.pending?.count ? getData?.odf?.pending?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-6">
+                                                <input type="text" placeholder="ODF Rating" class="pointerEvent" disabled>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" placeholder="{{odfScoreRoundOff ? odfScoreRoundOff : 0}}" class="pointerEvent" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row text-center">
-                                        <h5>ODF</h5>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                            style="border-right: 2px solid #70707030">
-                                            <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
-                                                Total Number of ULBs in UA</h6>
-                                            <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
-                                        </div>
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                                            style="border-right: 2px solid #70707030">
-                                            <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
-                                            </h6>
-                                            <br>
-                                            <a (click)="openDialog(template, getData?.odf?.approved?.ulbs)">
-                                                <h6 style="display: inline-flex; color: #337AB7;">
-                                                    {{getData?.odf?.approved?.count ? getData?.odf?.approved?.count : 0}}
-                                                </h6>
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
-        
-                                            <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
-                                                Submission/Approval
-                                            </h6>
-                                              <br>
-                                            <a (click)="openDialog(template, getData?.odf?.pending?.ulbs)">
-                                                <h6 style="display: inline-flex; color: #337AB7;">{{getData?.odf?.pending?.count ? getData?.odf?.pending?.count : 0}}
-                                                </h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
-                                    <div class="row mt-3 mb-3">
-                                        <div class="col-6">
-                                            <input type="text" placeholder="ODF Rating" class="pointerEvent" disabled>
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="text" placeholder="{{odfScoreRoundOff ? odfScoreRoundOff : 0}}" class="pointerEvent" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <hr class="hrClass" *ngIf="!noDataFound">
+                    <div class="row ms-2 mt-2" *ngIf="!noDataFound">
+                        <h5 class="indicatorsSummary">Total UA Score for Solid Waste Management : {{odfGfcTotalScore}} (out of maximum 40 marks)
+                        </h5>
                     </div>
                 </div>
-                <hr class="hrClass" *ngIf="!noDataFound">
-                <div class="row ms-2 mt-2" *ngIf="!noDataFound">
-                    <h5 class="indicatorsSummary">Total UA Score for Solid Waste Management : {{odfGfcTotalScore}} (out of maximum 40
-                        marks)</h5>
+                <div class="card mt-3" *ngIf="!noDataFound">
+                    <div class="row text-center mt-5">
+                        <h5 class="indicators">Performance Assessment</h5>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <h5 class="indicatorsTableSummary">On the basis of the total marks obtained by UA, proportionate grants shall be recommended by MOH&UA as per the table given below:</h5>
+                        <table id="vertical-1" class="tableBorder">
+                            <tr>
+                                <th>Marks</th>
+                                <td class="highlighted">
+                                    < 30</td>
+                                        <td class="highlighted">
+                                            < 30 and <=45</td>
+                                                <td class="highlighted">> 45 and
+                                                    <=6 0</td>
+                                                        <td class="highlighted">> 60 and
+                                                            <=8 0 </td>
+                                                                <td class="highlighted">> 80</td>
+                            </tr>
+                            <tr>
+                                <th>% of Recommended tied grant</th>
+                                <td>0 %</td>
+                                <td>60 %</td>
+                                <td>75 %</td>
+                                <td>90 %</td>
+                                <td>100 %</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row mt-2">
+                        <h5 class="tableDataSummary ms-4">Total UA Score : {{totalAplusB}}(out of maximum 100 marks) <br>% of Recommended tied grant : {{recommendedData}}</h5>
+                    </div>
                 </div>
             </div>
-            <div class="card mt-3" *ngIf="!noDataFound">
-                <div class="row text-center mt-5">
-                    <h5 class="indicators">Performance Assessment</h5>
-                </div>
-                <div class="row text-center mt-2">
-                    <h5 class="indicatorsTableSummary">On the basis of the total marks obtained by UA, proportionate
-                        grants shall be recommended by MOH&UA as per the table given below:</h5>
-                    <table id="vertical-1" class="tableBorder">
-                        <tr>
-                            <th>Marks</th>
-                            <td class="highlighted">
-                                < 30</td>
-                            <td class="highlighted">
-                                < 30 and <=45</td>
-                            <td class="highlighted">> 45 and <= 60</td>
-                            <td class="highlighted">> 60 and <= 80 </td>
-                            <td class="highlighted">> 80</td>
-                        </tr>
-                        <tr>
-                            <th>% of Recommended tied grant</th>
-                            <td>0 %</td>
-                            <td>60 %</td>
-                            <td>75 %</td>
-                            <td>90 %</td>
-                            <td>100 %</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="row mt-2">
-                    <h5 class="tableDataSummary ms-4">Total UA Score : {{totalAplusB}}(out of maximum
-                        100 marks) <br>% of Recommended tied grant : {{recommendedData}}</h5>
-                </div>
-            </div>
+            <div *ngIf="!getData" style="color: red; padding-top: 15px; padding-left: 15px;">No Data Found</div>
         </div>
-        <div *ngIf="!getData" style="color: red; padding-top: 15px; padding-left: 15px;">No Data Found</div>
+    </div>
+    <div class="row mt-4 mb-3" style="">
+        <div class="col-sm-6 " style="">
+            <button type="button " class="btn btn-c-back" [routerLink]="[ '../gtCertificate']">BACK</button>
+        </div>
+        <div class="col-sm-6 text-right" style="padding: 0;text-align: end;">
+            <button type="button " class="btn btn-c-next" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
+        </div>
     </div>
 </div>
-<div class=" row" style="margin-top: 2rem; margin-bottom: 1rem; margin-left: 15px; margin-right: 25px;">
-    <div class="col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
-        <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
-    </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="padding: 0;text-align: end;">
-        <button type="button " class="btn saveBtn" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
-    </div>
-</div>
+
+
+
+
 <ng-template #template>
     <div class="row">
         <div class="col-12 text-end">
@@ -370,9 +365,7 @@
         </table>
         <div class="text-center alert" style="color: red;" *ngIf="templateData.length == 0">No Data Found!
         </div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
-            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
-            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>
