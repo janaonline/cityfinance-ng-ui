@@ -169,17 +169,20 @@
                         </div>
                         <div class="card mb-4" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.unAudited.status">
                             <div class="card-body">
-                                <div class="row" *ngIf="data?.isDraft == false && data?.unAudited?.status == 'PENDING'">
-                                    <div class="col-sm-2">
-                                        Review Status:
-                                    </div>
-                                    <div class="col-sm-10">
-                                        Under review by state
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                <div class="row" *ngIf="data?.isDraft == false">
                                     <div class="col-sm-4">
                                         Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{finalStatus}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  State Action responce view -->
+                            <div class="card-body">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        State Review Status:
                                     </div>
                                     <div class="col-sm-8">
                                         {{data?.unAudited?.status}}
@@ -187,7 +190,7 @@
                                 </div>
                                 <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
                                     <div class="col-sm-4">
-                                        Review Status:
+                                        State Review Status:
                                     </div>
                                     <div class="col-sm-8">
                                         {{data?.unAudited?.status}}
@@ -195,13 +198,52 @@
                                 </div>
                                 <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
                                     <div class="col-sm-4">
-                                        Remarks/Return reason:
+                                        State Remarks/Return reason:
                                     </div>
                                     <div class="col-sm-8">
                                         {{data?.unAudited?.rejectReason_state}}
                                     </div>
+                                    <!-- <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                MoHUA Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {{data?.unAudited?.rejectReason_mohua}}
+                                            </div>
+                                        </div>
+                                    </div> -->
+
                                 </div>
                             </div>
+                            <!--  Mohua Action responce view -->
+                            <div class="card-body">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.status}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.status}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-4">
+                                        MoHUA Remarks/Return reason:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.rejectReason_mohua}}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -485,27 +527,48 @@
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         Review Status:
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         {{data?.audited?.status}}
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        Review Status:
+
+                                    <div class="col-sm-6">
+                                        State Review Status:
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         {{data?.audited?.status}}
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         Remarks/Return reason:
                                     </div>
                                     <div class="col-sm-8">
                                         {{data?.audited?.rejectReason_state}}
+                                    </div> -->
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                State Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {{data?.audited?.rejectReason_state}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                MoHUA Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {{data?.audited?.rejectReason_mohua}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -530,6 +593,17 @@
                                 <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile_state?.url ? auditedActionResponse?.responseFile_state?.url : data?.audited?.responseFile_state?.url}}">
                                  {{auditedActionResponse?.responseFile_state?.name ? auditedActionResponse?.responseFile_state?.name : data?.audited?.responseFile_state?.name}}
                                 </a>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="auditedActionResponse?.responseFile_mohua?.url || data?.audited?.responseFile_mohua?.name">
+                            <div class="col-sm-4 s-h">
+                                Supporting Document :
+                            </div>
+                            <div class="col-sm-8">
+                                <!-- auditedActionResponse -->
+                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile_mohua?.url ? auditedActionResponse?.responseFile_mohua?.url : data?.audited?.responseFile_mohua?.url}}">
+                               {{auditedActionResponse?.responseFile_mohua?.name ? auditedActionResponse?.responseFile_mohua?.name : data?.audited?.responseFile_mohua?.name}}
+                              </a>
                             </div>
                         </div>
                     </div>

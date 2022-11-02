@@ -43,6 +43,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   USER_TYPE = USER_TYPE;
   loggedInUserType;
   sideMenuItem: any;
+  finalStatus = "Under review by state"
   unAuditQues = [
     {
       name: "Balance Sheet",
@@ -55,6 +56,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       qusDis: true,
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -84,6 +87,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -112,6 +117,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -140,6 +147,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -168,6 +177,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -189,6 +200,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       tooltip: '',
       qusDis: true,
       rejectReason: null,
@@ -212,6 +225,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       tooltip: '',
       qusDis: true,
       rejectReason: null,
@@ -242,6 +257,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -270,6 +287,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -292,6 +311,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       actError: false,
       qusDis: true,
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -316,6 +337,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       qusDis: true,
       tooltip: '',
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -338,6 +361,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "bal_sheet",
       action: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       actError: false,
       qusDis: true,
       tooltip: '',
@@ -369,6 +394,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -397,6 +424,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -425,6 +454,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -453,6 +484,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -476,6 +509,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       qusDis: true,
       tooltip: '',
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -496,6 +531,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "inc_exp",
       action: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       actError: false,
       rejectReason: null,
       rejectReason_state: null,
@@ -527,6 +564,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -555,6 +594,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -578,6 +619,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       qusDis: true,
       tooltip: '',
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -601,6 +644,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       qusDis: true,
       tooltip: '',
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -624,6 +669,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       qusDis: true,
       tooltip: '',
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
       rejectReason_state: null,
       rejectReason_mohua: null,
@@ -1085,6 +1132,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   action = "";
   url = "";
   canTakeAction = false;
+  formData;
   onLoad() {
     this.newCommonService
       .getAnnualData({
@@ -1094,6 +1142,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
+          this.formData = res;
           let resObj: any = res;
           console.log("resss", resObj);
           this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['canTakeAction'], this.loggedInUserType, resObj['status'])
@@ -2213,13 +2262,25 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   isAudActionVal = true;
   isUnAudActionVal = true;
   checkAudActValidation() {
+    let rejectRes = '';
+    if (this.userData?.role == 'STATE') {
+      rejectRes = this.data?.audited?.rejectReason_state;
+    } else {
+      rejectRes = this.data?.audited?.rejectReason_mohua;
+    }
     if (this.data.audited.submit_annual_accounts) {
       this.setStatusOnInputs('auditQues')
+      let rejectResItem = '';
       this.auditQues.forEach((item) => {
+        if (this.userData?.role == 'STATE') {
+          rejectResItem = item?.data?.rejectReason_state;
+        } else {
+          rejectRes = item?.data?.rejectReason_mohua;
+        }
         // if (item?.type == 'file')
         if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
           item.actError = true;
-        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+        } else if (item?.data?.status == 'REJECTED' && (rejectResItem == '' || rejectResItem == null)) {
           item.actError = true;
         } else {
           item.actError = false;
@@ -2228,7 +2289,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     } else if (this.data.audited.submit_annual_accounts == false) {
       if (this.data?.audited.status == 'PENDING' || this.data?.audited?.status == null) {
         this.isAudActionVal = false;
-      } else if (this.data?.audited.status == 'REJECTED' && (this.data?.audited?.rejectReason == '' || this.data?.audited?.rejectReason == null)) {
+      } else if (this.data?.audited.status == 'REJECTED' && (rejectRes == '' || rejectRes == null)) {
         this.isAudActionVal = false;
       } else {
         this.isAudActionVal = true;
@@ -2236,14 +2297,26 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
   }
   checkUnAudActValidation() {
+    let rejectRes = '';
+    if (this.userData?.role == 'STATE') {
+      rejectRes = this.data?.unAudited?.rejectReason_state;
+    } else {
+      rejectRes = this.data?.unAudited?.rejectReason_mohua;
+    }
+
     if (this.data.unAudited.submit_annual_accounts) {
       this.setStatusOnInputs('unAuditQues');
+      let rejectResItem = '';
       this.unAuditQues.forEach((item) => {
+        if (this.userData?.role == 'STATE') {
+          rejectResItem = item?.data?.rejectReason_state;
+        } else {
+          rejectResItem = item?.data?.rejectReason_mohua;
+        }
         // if (item?.type == 'file')
-
         if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
           item.actError = true;
-        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+        } else if (item?.data?.status == 'REJECTED' && (rejectResItem == '' || rejectResItem == null)) {
           item.actError = true;
         } else {
           item.actError = false;
@@ -2252,7 +2325,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     } else if (this.data.unAudited.submit_annual_accounts == false) {
       if (this.data?.unAudited.status == 'PENDING' || this.data?.unAudited?.status == null) {
         this.isUnAudActionVal = false;
-      } else if (this.data?.unAudited.status == 'REJECTED' && (this.data?.unAudited?.rejectReason == '' || this.data?.unAudited?.rejectReason == null)) {
+      } else if (this.data?.unAudited.status == 'REJECTED' && (rejectRes == '' || rejectRes == null)) {
         this.isUnAudActionVal = false;
       } else {
         this.isUnAudActionVal = true;
@@ -2260,6 +2333,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
   }
   checkActionValidation() {
+
     this.checkUnAudActValidation()
     this.checkAudActValidation();
     //action validation for 4 cases
@@ -2522,66 +2596,53 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
     console.log('data...', this.data);
   }
+  stateReview = false;
+  mohuaReview = false;
+  state_status_aud = '';
+  mohua_status_aud = '';
+  state_status_unAud = '';
+  mohua_status_unAud = '';
+  setActionStatus(): void {
+    if (this.canTakeAction == true && this.formData?.actionTakenByRole == "ULB") {
+      this.stateReview = true;
+    }
+    if (
+      this.formData?.status == "APPROVED" &&
+      this.formData?.actionTakenByRole == "STATE"
+    ) {
+      this.finalStatus = "Under Review by MoHUA";
+      this.state_status_aud = 'APPROVED';
+      this.state_status_unAud = 'APPROVED';
 
-  // setActionStatus(): void {
-  //   this.formDataChange = this.formData;
-  //   this.errorF = this.commonActionError;
-  //   if (this.actionFor == 'ULBForm') {
-  //     this.stateReview = true;
-  //     if (
-  //       this.formData?.status == "APPROVED" &&
-  //       this.formData?.actionTakenByRole == "STATE"
-  //     ) {
-  //       this.finalStatus = "Under Review by MoHUA";
-  //       this.state_status = 'APPROVED';
+      } else if (
+        this.formData?.status == "REJECTED" &&
+        this.formData?.actionTakenByRole == "STATE"
+      ) {
+        this.finalStatus = "Returned by State";
+        this.state_status_aud = this.formData?.audited?.status;
+        this.state_status_unAud = this.formData?.unAudited?.status;
+      } else if (
+        this.formData?.status == "APPROVED" &&
+        this.formData?.actionTakenByRole == "MoHUA"
+      ) {
+        this.finalStatus = "Approved by MoHUA";
+        this.mohuaReview = true;
+        this.state_status_aud = 'APPROVED';
+        this.state_status_unAud = 'APPROVED';
+        this.mohua_status_aud = 'APPROVED';
+        this.mohua_status_unAud = 'APPROVED';
 
-  //     } else if (
-  //       this.formData?.status == "REJECTED" &&
-  //       this.formData?.actionTakenByRole == "STATE"
-  //     ) {
-  //       this.finalStatus = "Returned by State";
-  //       this.state_status = 'REJECTED';
-  //     } else if (
-  //       this.formData?.status == "APPROVED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Approved by MoHUA";
-  //       this.mohuaReview = true;
-  //       this.state_status = 'APPROVED';
-  //       this.mohua_status = 'APPROVED';
-
-  //     }
-  //     else if (
-  //       this.formData?.status == "REJECTED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Returned by MoHUA";
-  //       this.mohuaReview = true;
-  //       this.state_status = 'APPROVED';
-  //       this.mohua_status = 'REJECTED';
-  //     }
-  //   }
-  //   if (this.actionFor == 'StateForm') {
-  //     this.stateReview = false;
-  //     if (
-  //       this.formData?.status == "APPROVED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Approved by MoHUA";
-  //       this.mohuaReview = true;
-  //       // this.state_status = 'APPROVED';
-  //       this.mohua_status = 'APPROVED';
-
-  //     }
-  //     else if (
-  //       this.formData?.status == "REJECTED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Returned by MoHUA";
-  //       this.mohuaReview = true;
-  //       // this.state_status = 'APPROVED';
-  //       this.mohua_status = 'REJECTED';
-  //     }
-  //   }
-  // }
+    }
+    else if (
+      this.formData?.status == "REJECTED" &&
+      this.formData?.actionTakenByRole == "MoHUA"
+    ) {
+      this.finalStatus = "Returned by MoHUA";
+      this.mohuaReview = true;
+      this.state_status_aud = 'APPROVED';
+      this.state_status_unAud = 'APPROVED';
+      this.mohua_status_aud = this.formData?.audited?.status;
+      this.mohua_status_unAud = this.formData?.unAudited?.status;
+    }
+  }
 }
