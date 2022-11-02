@@ -142,6 +142,9 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     if (type == "submit") {
       this.slbData["isDraft"] = false;
     }
+    if (type == "draft") {
+      this.slbData["isDraft"] = true;
+    }
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
       (res) => {
         console.log(res);
