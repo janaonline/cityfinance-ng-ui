@@ -56,7 +56,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   get f() {
     return this.approveReturnForm.controls;
   }
-
+  emptyArr = []
   initializeForm() {
     if (this.data?.tableName == 'Review State Forms') {
       this.approveReturnForm = this.formBuilder.group({
@@ -66,6 +66,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         }),
         rejectReason: [""],
         state: [this.data?.selectedId],
+        statesData: [this.emptyArr],
         formId: [this.data?.formId],
         design_year: [this.getDesignYear()],
       });
@@ -104,34 +105,14 @@ export class TableApproveReturnDialogComponent implements OnInit {
     let design_year = JSON.parse(localStorage.getItem("Years"));
     return design_year["2022-23"];
   }
-  // patchFunction(data) {
-  //   console.log(data);
-  //   // this.showStateAct = true
-  //   this.stateActFileName = data?.data?.responseFile?.name;
-  //   this.stateActFileUrl = data?.data?.responseFile?.url;
-  //   this.stateActFileName ? (this.showStateAct = true) : false;
-
-  //   this.approveReturnForm.patchValue({
-  //     responseFile: {
-  //       url: data?.data?.responseFile?.url,
-  //       name: data?.data?.responseFile?.name,
-  //     },
-  //     rejectReason: "",
-  //     ulb: "",
-  //     formId: "62aa1d6ec9a98b2254632a9a",
-  //     design_year: "606aafb14dff55e6c075d3ae",
-  //     status: "REJECTED",
-  //   });
-  // }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true");
-    this.change = "true";
+    // sessionStorage.setItem("changeInPto", "true");
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType);
-
     if (progessType == "stateActProgress") {
       if (event.target.files[0].size >= 20000000) {
         this.errorMessegeStateAct = "File size should be less than 20Mb.";
@@ -143,9 +124,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         return;
       }
     }
-
     const fileName = event.target.files[0].name;
-
     if (progessType == "stateActProgress") {
       this.stateActFileName = event.target.files[0].name;
       this.showStateAct = true;
@@ -165,11 +144,8 @@ export class TableApproveReturnDialogComponent implements OnInit {
           name: "",
         },
       });
-      // this.stateFinance.controls.responseFile['controls'].name.setValidators(Validators.required);
-      // this.stateFinance.controls.responseFile['controls'].name.updateValueAndValidity();
-      // console.log(this.stateFinance.controls)
     }
-    sessionStorage.setItem("changeInStateFinance", "true");
+
   }
   filterInvalidFilesForUpload(filesSelected: File[]) {
     const validFiles = [];
