@@ -849,7 +849,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
           this.utilizationReport.controls["grantPosition"]["controls"][
             "expDuringYr"
           ].value,
-        closingBal: this.totalclosingBal,
+        closingBal: (Number(this.totalclosingBal))?.toFixed(2),
 
         // isDraft: true,
       },

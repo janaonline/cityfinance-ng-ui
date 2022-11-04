@@ -142,6 +142,9 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     if (type == "submit") {
       this.slbData["isDraft"] = false;
     }
+    if (type == "draft") {
+      this.slbData["isDraft"] = true;
+    }
     return this.newCommonService.post28SlbsData(this.slbData).subscribe(
       (res) => {
         console.log(res);
@@ -256,6 +259,12 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     this.error = 0;
 
     arrOfAllData.forEach((el) => {
+      if (el["actual"]["value"] === 0) {
+        el["actual"]["value"] = '0';
+      }
+      if (el["target_1"]["value"] === 0) {
+        el["target_1"]["value"] = '0';
+      }
       if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
         if (
           el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
