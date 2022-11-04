@@ -1142,7 +1142,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
-          this.formData = res;
           let resObj: any = res;
           console.log("resss", resObj);
           this.checkIfIsDisabledTrueorFalse(resObj['isDraft'], resObj['canTakeAction'], this.loggedInUserType, resObj['status'])
@@ -1295,6 +1294,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
   };
   dataPopulate(res) {
+    this.formData = res;
     delete res.modifiedAt;
     delete res.createdAt;
     delete res.isActive;
@@ -1334,9 +1334,14 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
         }
       });
-      this.setStatusOnInputs('auditQues')
-      this.auditedActionResponse.responseFile_state = proviDataAu?.bal_sheet?.responseFile_state;
-      this.auditedActionResponse.responseFile_mohua = proviDataAu?.bal_sheet?.responseFile_mohua;
+      this.setStatusOnInputs('auditQues');
+      if (!res?.audited?.responseFile_state?.url) {
+        this.data.audited.responseFile_state = proviDataAu?.bal_sheet?.responseFile_state
+      }
+      if (!res?.audited?.responseFile_mohua?.url) {
+        this.data.audited.responseFile_mohua = proviDataAu?.bal_sheet?.responseFile_mohua;
+      }
+
     }
     //unaudited status -- false
     if (this.data?.audited?.submit_annual_accounts == false) {
@@ -1356,13 +1361,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           el["amount"]["value"] = proviDataUn[key];
         }
       });
-      this.setStatusOnInputs('unAuditQues')
-      this.unAuditedActionResponse.responseFile_state = proviDataUn?.bal_sheet?.responseFile_state;
-      this.unAuditedActionResponse.responseFile_mohua = proviDataUn?.bal_sheet?.responseFile_mohua;
+      this.setStatusOnInputs('unAuditQues');
+      if (!res?.unAudited?.responseFile_state?.url) {
+        this.data.unAudited.responseFile_state = proviDataUn?.bal_sheet?.responseFile_state;
+      }
+      if (!res?.unAudited?.responseFile_mohua?.url) {
+        this.data.unAudited.responseFile_mohua = proviDataUn?.bal_sheet?.responseFile_mohua;
+      }
+      // this.unAuditedActionResponse.responseFile_state = proviDataUn?.bal_sheet?.responseFile_state;
+      // this.unAuditedActionResponse.responseFile_mohua = proviDataUn?.bal_sheet?.responseFile_mohua;
     }
-
-
-
+    this.setTabWiseStatusInputs('unAuditQues');
+    this.setTabWiseStatusInputs('auditQues');
     console.log("pop data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
@@ -2050,7 +2060,9 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
-        this.onLoad();
+        setTimeout(() => {
+          this.onLoad();
+        }, 500)
       },
       (error) => {
         this.clickedSave = false;
@@ -2080,7 +2092,9 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
-        this.onLoad();
+        setTimeout(() => {
+          this.onLoad();
+        }, 500)
       },
       (error) => {
         this.clickedSave = false;
@@ -2140,10 +2154,20 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.actReturn = false;
       item.actError = false;
       item['status'] = actRes;
+      if (this.userData?.role == 'STATE') {
+        item.state_status = actRes;
+      } else {
+        item.mohua_status = actRes;
+      }
     } else if (actType == 'Return') {
       actRes = "REJECTED"
       // item.actError = false;
       item['status'] = actRes;
+      if (this.userData?.role == 'STATE') {
+        item.state_status = actRes;
+      } else {
+        item.mohua_status = actRes;
+      }
       this.actReturn = true;
     } else if (actType == 'returnRes') {
       reason = true;
@@ -2231,9 +2255,28 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           Object.assign(this.data[type].provisional_data[key], actionFile);
           // this.data[type].provisional_data[key]["responseFile_state"]["url"] = e?.pdf?.url;
           // this.data[type].provisional_data[key]["responseFile_state"]["name"] = e?.pdf?.name;
+
         }
 
       }
+      let actionFile;
+      if (this.userData?.role == 'STATE') {
+        actionFile = {
+          responseFile_state: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      } else {
+        actionFile = {
+          responseFile_mohua: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      }
+      Object.assign(this.data[type], actionFile);
+
     } else {
       let actionFile;
       if (this.userData?.role == 'STATE') {
@@ -2602,47 +2645,238 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   mohua_status_aud = '';
   state_status_unAud = '';
   mohua_status_unAud = '';
-  setActionStatus(): void {
-    if (this.canTakeAction == true && this.formData?.actionTakenByRole == "ULB") {
-      this.stateReview = true;
-    }
-    if (
-      this.formData?.status == "APPROVED" &&
-      this.formData?.actionTakenByRole == "STATE"
-    ) {
-      this.finalStatus = "Under Review by MoHUA";
-      this.state_status_aud = 'APPROVED';
-      this.state_status_unAud = 'APPROVED';
+  setTabWiseStatusInputs(type) {
+    //audited status set........
+    if (type == 'auditQues') {
+      if (this.formData?.audited?.submit_annual_accounts == false) {
+        if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Under Review by MoHUA";
+          this.state_status_aud = 'APPROVED';
+          // this.state_status_unAud = 'APPROVED';
 
-      } else if (
-        this.formData?.status == "REJECTED" &&
-        this.formData?.actionTakenByRole == "STATE"
-      ) {
-        this.finalStatus = "Returned by State";
-        this.state_status_aud = this.formData?.audited?.status;
-        this.state_status_unAud = this.formData?.unAudited?.status;
-      } else if (
-        this.formData?.status == "APPROVED" &&
-        this.formData?.actionTakenByRole == "MoHUA"
-      ) {
-        this.finalStatus = "Approved by MoHUA";
-        this.mohuaReview = true;
-        this.state_status_aud = 'APPROVED';
-        this.state_status_unAud = 'APPROVED';
-        this.mohua_status_aud = 'APPROVED';
-        this.mohua_status_unAud = 'APPROVED';
+        } else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Returned by State";
+          this.state_status_aud = this.formData?.audited?.status;
+          // this.state_status_unAud = this.formData?.unAudited?.status;
+        } else if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Approved by MoHUA";
+          this.mohuaReview = true;
+          this.state_status_aud = 'APPROVED';
+          this.mohua_status_aud = 'APPROVED';
+          //  this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_unAud = 'APPROVED';
+
+        }
+        else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Returned by MoHUA";
+          this.mohuaReview = true;
+          this.state_status_aud = 'APPROVED';
+          this.mohua_status_aud = this.formData?.audited?.status;
+        } else {
+          this.stateReview = false;
+        }
+      }
+      if (this.formData?.audited?.submit_annual_accounts == true) {
+        //  for (let i = 0; i < this.auditQues.length; i++) {
+        this.auditQues.forEach((el) => {
+          if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Under Review by MoHUA";
+            el.state_status = el?.data?.status;
+
+          } else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Returned by State";
+            el.state_status = el?.data?.status;;
+          } else if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Approved by MoHUA";
+            this.mohuaReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = 'APPROVED';
+
+          }
+          else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Returned by MoHUA";
+            this.mohuaReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = el?.data?.status;;
+          } else {
+            this.stateReview = false;
+          }
+          //   }
+        })
+      }
 
     }
-    else if (
-      this.formData?.status == "REJECTED" &&
-      this.formData?.actionTakenByRole == "MoHUA"
-    ) {
-      this.finalStatus = "Returned by MoHUA";
-      this.mohuaReview = true;
-      this.state_status_aud = 'APPROVED';
-      this.state_status_unAud = 'APPROVED';
-      this.mohua_status_aud = this.formData?.audited?.status;
-      this.mohua_status_unAud = this.formData?.unAudited?.status;
+    //unAudited status set.......
+    // debugger
+    if (type == 'unAuditQues') {
+      if (this.formData?.unAudited?.submit_annual_accounts == false) {
+        if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Under Review by MoHUA";
+          //  this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          this.stateReview = true;
+
+        } else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Returned by State";
+          this.stateReview = true;
+          // this.state_status_aud = this.formData?.audited?.status;
+          this.state_status_unAud = this.formData?.unAudited?.status;
+        } else if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Approved by MoHUA";
+          this.mohuaReview = true;
+          //  this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_aud = 'APPROVED';
+          this.mohua_status_unAud = 'APPROVED';
+          this.stateReview = true;
+
+        }
+        else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Returned by MoHUA";
+          this.mohuaReview = true;
+          //   this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_aud = this.formData?.audited?.status;
+          this.mohua_status_unAud = this.formData?.unAudited?.status;
+          this.stateReview = true;
+        } else {
+          this.stateReview = false;
+        }
+      }
+      if (this.formData?.unAudited?.submit_annual_accounts == true) {
+        // for (let i = 0; i < this.unAuditQues.length; i++) {
+        // }
+        this.unAuditQues.forEach((el) => {
+          if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Under Review by MoHUA";
+            el.state_status = el?.data?.status;
+            this.stateReview = true;
+          } else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Returned by State";
+            el.state_status = el?.data?.status;
+            this.stateReview = true;
+          } else if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Approved by MoHUA";
+            this.mohuaReview = true;
+            this.stateReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = 'APPROVED';
+          }
+          else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Returned by MoHUA";
+            this.mohuaReview = true;
+            this.stateReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = el?.data?.status;
+          } else {
+            this.stateReview = false;
+          }
+          //   }
+        })
+      }
+
     }
   }
+  // setActionStatus(): void {
+  //   if (this.canTakeAction == true && this.formData?.actionTakenByRole == "ULB") {
+  //     this.stateReview = true;
+  //   }
+  //   //audited status set........
+  //   //unAudited status set.......
+  //   if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == false) {
+  //     if (
+  //       this.formData?.status == "APPROVED" &&
+  //       this.formData?.actionTakenByRole == "STATE"
+  //     ) {
+  //       this.finalStatus = "Under Review by MoHUA";
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+
+  //     } else if (
+  //       this.formData?.status == "REJECTED" &&
+  //       this.formData?.actionTakenByRole == "STATE"
+  //     ) {
+  //       this.finalStatus = "Returned by State";
+  //       this.state_status_aud = this.formData?.audited?.status;
+  //       this.state_status_unAud = this.formData?.unAudited?.status;
+  //     } else if (
+  //       this.formData?.status == "APPROVED" &&
+  //       this.formData?.actionTakenByRole == "MoHUA"
+  //     ) {
+  //       this.finalStatus = "Approved by MoHUA";
+  //       this.mohuaReview = true;
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+  //       this.mohua_status_aud = 'APPROVED';
+  //       this.mohua_status_unAud = 'APPROVED';
+
+  //     }
+  //     else if (
+  //       this.formData?.status == "REJECTED" &&
+  //       this.formData?.actionTakenByRole == "MoHUA"
+  //     ) {
+  //       this.finalStatus = "Returned by MoHUA";
+  //       this.mohuaReview = true;
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+  //       this.mohua_status_aud = this.formData?.audited?.status;
+  //       this.mohua_status_unAud = this.formData?.unAudited?.status;
+  //     }
+  //   } else if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == true) {
+
+  //   } else if (this.formData?.unAudited?.submit_annual_accounts == false && this.formData?.audited?.submit_annual_accounts == true) {
+
+  //   } else if (this.formData?.unAudited?.submit_annual_accounts == true && this.formData?.audited?.submit_annual_accounts == true) {
+
+  //   }
+
+  // }
 }
