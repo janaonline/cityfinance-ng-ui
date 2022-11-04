@@ -690,10 +690,10 @@ export class WaterRejenuvations2223Component implements OnInit {
         this.isPreYear = true;
         this.data = res["data"]["uaData"];
         this.wData = res["data"];
-        if (this.wData.declaration.url && this.wData.declaration.name) {
+        if (this.wData?.declaration?.url && this.wData?.declaration?.name) {
           this.showStateAct = true;
-          this.stateActFileName = this.wData.declaration.name;
-          this.stateActUrl = this.wData.declaration.url;
+          this.stateActFileName = this.wData?.declaration?.name;
+          this.stateActUrl = this.wData?.declaration?.url;
         }
         this.isDraft = res["data"].isDraft;
         this.totalStatus = res["data"].status;
