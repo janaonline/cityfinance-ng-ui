@@ -230,11 +230,15 @@ input::-webkit-inner-spin-button {
     }
 }
 
-// .enableInputs {
-//     pointer-events: all !important;
-//     opacity: 1;
-//     .rdBtn {
-//         // background-color: #e9ecef !important;
-//         opacity: 1;
-//     }
-// }
+.enableInputs {
+    pointer-events: all !important;
+    opacity: 1;
+    .rdBtn {
+        // background-color: #e9ecef !important;
+        opacity: 1;
+    }
+    input,
+    textarea {
+        background-color: #fff;
+    }
+}
