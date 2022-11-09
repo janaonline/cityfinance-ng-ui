@@ -21,8 +21,8 @@ $font-Montserrat: "Montserrat";
 }
 
 .description {
-    font: normal normal normal 1rem/1.1rem 'Archivo';
-    letter-spacing: 0px;
+    font: normal normal normal 17px/2rem 'Archivo';
+    letter-spacing: 1px;
     color: #0f1f40;
     opacity: 1;
     margin-top: .5rem;
@@ -57,6 +57,7 @@ $font-Montserrat: "Montserrat";
     letter-spacing: 0px;
     color: #6e7281;
 }
+
 @media screen and (max-width: 800px) {
     .disclaim_other {
         margin: 1%;
@@ -65,19 +66,19 @@ $font-Montserrat: "Montserrat";
         font-family: $font-Montserrat;
         letter-spacing: 0px;
         color: #6e7281;
-        padding:2%;
+        padding: 2%;
     }
-    .description{
-        margin-top:7%;
+    .description {
+        margin-top: 7%;
     }
-    .customSelectTag{
+    .customSelectTag {
         width: 265px;
         margin-top: 6%;
     }
-    .donloadCsvCustom{
-        margin-left:9% !important;
+    .donloadCsvCustom {
+        margin-left: 9% !important;
     }
-  }
+}
 
 .lineStyle {
     line-height: 1.5rem;
@@ -162,7 +163,7 @@ $font-Montserrat: "Montserrat";
     margin-bottom: 0;
     margin-top: 1.32rem;
     color: #6E7281;
-    font-size: 0.8rem;
+    font-size: 1rem;
     padding-left: 1.75rem;
     text-align: justify;
 }

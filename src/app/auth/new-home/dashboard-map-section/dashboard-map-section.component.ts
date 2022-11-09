@@ -284,7 +284,7 @@ export class DashboardMapSectionComponent
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
           this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
-          this.onStateLayerClick(args, false, false);
+          this.onStateLayerClick(args, true, false);
         },
         mouseout: () => (this.mouseHoverOnState = null),
       });
