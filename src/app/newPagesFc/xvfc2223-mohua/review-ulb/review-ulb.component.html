@@ -5,19 +5,25 @@
         </div>
     </div>
     <div class="row mt-2">
-        <div class="col-sm-12">
-            <label for="form">Select Form:</label>
-            <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
-            <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
+        <div class="col-sm-4">
+            <label for="form" class="l-l">Select Form:</label>
+            <select [(ngModel)]="formId" (change)="setFormId($event.target.value)" name="form" id="form" class="form-select ms-1">
             <option *ngFor="let element of data" [value]="element._id">
                 {{element.name}}
             </option>
           </select>
         </div>
+        <div class="col-sm-4">
+            <label for="form" class="l-l">Select State:</label>
+            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="filterAdded($event.target.value)" *ngIf="userData?.role != 'STATE'">
+              <option selected value="" class="s-pl">All</option>
+              <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+           </select>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <app-table [dropdownData]="data" [formId]="formId"></app-table>
+            <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"></app-table>
         </div>
     </div>
 </div>

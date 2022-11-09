@@ -1,15 +1,15 @@
 <div class="row mt-2 text-end">
     <div class="col-12">
-        <!-- <button type="button" class="btn btn-c-next" (click)="getAllData()">Get All Data</button> -->
-        <button type="button" class="btn btn-primary" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
-        <button type="button" class="btn btn-primary ms-3" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
-        <button type="button" class="btn btn-danger ms-3" (click)="download()">Download</button>
+        <!-- <button type="button" class="btn btn-success" (click)="getAllData(pageName)">{{pageName}}</button> -->
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
+        <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
     </div>
 </div>
 <!-- <form > -->
-<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm">
+<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu>
     <div class="table-responsive">
-
+        <!-- .....................loader.......................... -->
         <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
             <div class="spinner-grow text-success" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -25,12 +25,13 @@
             </div>
         </div>
 
-
+        <!-- -----------review ulb table----- -->
         <table class="table table-striped ulb-table" *ngIf="title == 'Review Grant Application'">
             <thead>
                 <tr style="background-color: #047474; color: #FFFFFF;">
                     <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder">
-                        {{item.value}}</th>
+                        {{item.value}}
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,11 +39,6 @@
                 <tr class="filter">
                     <th class="filter"></th>
                     <th class="filter">
-                        <!-- <div class="input-placeholder">
-                            <input formControlName="ulb_name_s" class="inputWidth field" type="text"
-                             (change)="search()" name="searchroleName" id="searchroleName" placeholder="Search" />
-                             <span class="fa fa-search form-control-feedback"></span>
-                        </div> -->
                         <div class="input-group">
                             <input type="text" formControlName="ulb_name_s" class="form-control in-se-s" (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Name">
                             <span class="input-group-text">
@@ -50,17 +46,13 @@
                             </span>
                         </div>
                     </th>
-                    <th class="filter" *ngIf="userData?.role != 'STATE'">
+                    <!-- <th class="filter" *ngIf="userData?.role != 'STATE'">
                         <select class="form-select in-sel" formControlName="state_name_s" (change)="search()" *ngIf="userData?.role != 'STATE'">
                             <option selected value="" class="s-pl">State Name</option>
                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
                         </select>
-                    </th>
+                    </th> -->
                     <th class="filter">
-                        <!-- <div class="input-placeholder">
-                            <input formControlName="ulb_code_s" class="inputWidth field" (change)="search()" type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
-                            <span class="fa fa-search form-control-feedback"></span>
-                        </div> -->
                         <div class="input-group">
                             <input type="text" formControlName="ulb_code_s" class="form-control in-se-s" style="width: 40%;" (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Code">
                             <span class="input-group-text">
@@ -70,54 +62,29 @@
 
                     </th>
                     <th class="filter">
-                        <!-- <select class="" formControlName="ulbType_s" (change)="search()">
-                            <option selected value="">ULB Type</option>
-                            <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
-                        </select> -->
                         <select class="form-select in-sel" formControlName="ulbType_s" (change)="search()">
                         <option selected value="">ULB Type</option>
                         <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
                         </select>
                     </th>
                     <th class="filter">
-                        <!-- <select class="" formControlName="population_type_s" (change)="search()">
-                            <option selected value="">Population Type</option>
-                            <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
-                        </select> -->
                         <select class="form-select in-sel" formControlName="population_type_s" (change)="search()">
                         <option selected value="">Population Type</option>
                         <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                         </select>
                     </th>
                     <th class="filter">
-                        <!-- <div class="input-placeholder">
-                            <input formControlName="ua_name_s" (change)="search()" class="inputWidth field"
-                             type="text" name="searchroleName" id="searchroleName" placeholder="Search" />
-                            <span class="fa fa-search form-control-feedback"></span>
-                        </div> -->
                         <div class="input-group">
                             <input type="text" formControlName="ua_name_s" class="form-control in-se-s" (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
-                            <!-- <span class="input-group-text">
-                              <span class="fa fa-search form-control-feedback"></span>
-                            </span> -->
                         </div>
                     </th>
                     <th class="filter">
-                        <!-- <select class="" formControlName="status_s" style="width: 71px;" (change)="search()">
-                              <option selected value="">Status</option>
-                            <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
-                        </select> -->
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()">
                           <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
                     </th>
                     <th class="filter">
-                        <!-- <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
-                              <option selected value="">Search</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select> -->
                         <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1" (change)="search()">
                           <option selected value="">Search</option>
                             <option value="Yes">Yes</option>
@@ -125,11 +92,6 @@
                         </select>
                     </th>
                     <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
-                        <!-- <select class="" formControlName="filled_1" style="width: 71px;" (change)="search()">
-                              <option selected value="">Search</option>
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
-                         </select> -->
                         <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2" (change)="search()">
                         <option selected value="">Search</option>
                         <option value="Yes">Yes</option>
@@ -154,7 +116,7 @@
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                     </td>
-                    <td *ngIf="userData?.role != 'STATE'" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.stateName}}</td>
+                    <!-- <td *ngIf="userData?.role != 'STATE'" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.stateName}}</td> -->
                     <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData.censusCode || resData.sbCode }}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
@@ -192,6 +154,7 @@
                 </tr>
             </tbody>
         </table>
+        <!-- -----------review state table----- -->
         <table class="table table-striped" *ngIf="title == 'Review State Forms'">
             <thead>
                 <tr style="background-color: #047474; color: #FFFFFF;">
@@ -271,6 +234,8 @@
     <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo" *ngIf="!(data?.length == 0)" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
         screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
+    <!-- <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+    </mat-paginator> -->
 </div>
 <!-- </form> -->
 
