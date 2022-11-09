@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-end mb-2">
+            <a (click)="onNoClick()">
+                <img src="../../../../assets/form-icon/close_black_24dp.svg" alt="">
+            </a>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" style="border: none;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of fileArr; let i = index">
+                                <th scope="row">{{i + 1}}</th>
+                                <td>{{item?.fileName}}</td>
+                                <td>
+                                    <a href="{{item?.url}}" target="_blank" style="color: blue;">Click here!</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
