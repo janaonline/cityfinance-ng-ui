@@ -2155,18 +2155,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       item.actError = false;
       item['status'] = actRes;
       if (this.userData?.role == 'STATE') {
-        item.state_status = actRes;
+        item['state_status'] = actRes;
       } else {
-        item.mohua_status = actRes;
+        item['mohua_status'] = actRes;
       }
     } else if (actType == 'Return') {
       actRes = "REJECTED"
       // item.actError = false;
       item['status'] = actRes;
       if (this.userData?.role == 'STATE') {
-        item.state_status = actRes;
+        item['state_status'] = actRes;
       } else {
-        item.mohua_status = actRes;
+        item['mohua_status'] = actRes;
       }
       this.actReturn = true;
     } else if (actType == 'returnRes') {
@@ -2315,10 +2315,11 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.setStatusOnInputs('auditQues')
       let rejectResItem = '';
       this.auditQues.forEach((item) => {
+        debugger
         if (this.userData?.role == 'STATE') {
           rejectResItem = item?.data?.rejectReason_state;
         } else {
-          rejectRes = item?.data?.rejectReason_mohua;
+          rejectResItem = item?.data?.rejectReason_mohua;
         }
         // if (item?.type == 'file')
         if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
