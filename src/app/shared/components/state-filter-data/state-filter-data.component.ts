@@ -650,8 +650,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               } else {
                 yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.filterName;
               }
+              let cLabel = 'Population(in Thousands)'
               this.setServiceLevelBenchmarkScatteredChartOption(
-                "Population",
+                cLabel,
                 yAxesLabelName
               );
               m_data =
@@ -1430,7 +1431,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   serviceLevelBenchmarkScatterOption: any;
   setServiceLevelBenchmarkScatteredChartOption(
-    xAxisLabel: string = "Population",
+    xAxisLabel: string = "Population(in Thousands)",
     yAxisLabel: string = "Total Revenue (in Cr.)"
   ) {
     let tooltipValue = "";
