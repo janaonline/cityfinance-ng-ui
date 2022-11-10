@@ -690,10 +690,10 @@ export class WaterRejenuvations2223Component implements OnInit {
         this.isPreYear = true;
         this.data = res["data"]["uaData"];
         this.wData = res["data"];
-        if (this.wData.declaration.url && this.wData.declaration.name) {
+        if (this.wData?.declaration?.url && this.wData?.declaration?.name) {
           this.showStateAct = true;
-          this.stateActFileName = this.wData.declaration.name;
-          this.stateActUrl = this.wData.declaration.url;
+          this.stateActFileName = this.wData?.declaration?.name;
+          this.stateActUrl = this.wData?.declaration?.url;
         }
         this.isDraft = res["data"].isDraft;
         this.totalStatus = res["data"].status;
@@ -1099,17 +1099,35 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
 
   }
-  onChange(item, index){
+  onChange(item, index, type, mIndex) {
     // let remainingGroups = item.filter(ele=> ele.ReqId != index);
+    //'waterB'
+    // rWater
+    //'sWater'
+    if (type == 'waterB') {
+      if (this.waterRejenuvation?.value?.uaData[mIndex]?.waterBodies[index]?.dprCompletion == 'Yes') {
+      this.toggle = false
+      }
+    }
+    if (type == 'rWater') {
+      if (this.waterRejenuvation?.value?.uaData[mIndex]?.reuseWater[index]?.dprCompletion == 'Yes') {
+      this.toggle1 = false
+      }
+    }
+    if (type == 'sWater') {
+      if (this.waterRejenuvation?.value?.uaData[mIndex]?.serviceLevelIndicators[index]?.dprCompletion == 'Yes') {
+        this.toggle2 = false
+      }
+    }
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation.value)
     console.log('formvalue after selectse', this.waterRejenuvation.value.uaData[0].waterBodies[index].dprCompletion)
-    if (this.waterRejenuvation?.value?.uaData[0]?.waterBodies[index]?.dprCompletion == 'Yes') {
-      this.toggle = false
-    } else if (this.waterRejenuvation?.value?.uaData[0]?.reuseWater[index]?.dprCompletion == 'Yes') {
-      this.toggle1 = false
-    } else if (this.waterRejenuvation?.value?.uaData[0]?.serviceLevelIndicators[index]?.dprCompletion == 'Yes') {
-      this.toggle2 = false
-    }
+    // if (this.waterRejenuvation?.value?.uaData[0]?.waterBodies[index]?.dprCompletion == 'Yes') {
+    //   this.toggle = false
+    // } else if (this.waterRejenuvation?.value?.uaData[0]?.reuseWater[index]?.dprCompletion == 'Yes') {
+    //   this.toggle1 = false
+    // } else if (this.waterRejenuvation?.value?.uaData[0]?.serviceLevelIndicators[index]?.dprCompletion == 'Yes') {
+    //   this.toggle2 = false
+    // }
     console.log('formvalue after select', this.waterRejenuvation.get('dprCompletion')?.value);
    console.log(item, index)
   }

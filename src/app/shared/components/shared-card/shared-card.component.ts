@@ -76,12 +76,15 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
   getType(){
     let type = "hr"
-    if(this.data['unitType'] == "Percent") 
+    if (this.data['unitType'] == "Percent")
     type= "%"
-    if(this.data['unitType'] == "litres per capita per day (lpcd)") 
+    if (this.data['unitType'] == "litres per capita per day (lpcd)")
     type = "LPCD"
-    if(this.data['unitType'] == "Nos. per year")
-    type = "years"
+    if (this.data['unitType'] == "Nos. per year" && this.data['name'] == 'Incidence of water logging') {
+      type = "Incidents"
+    } else if (this.data['unitType'] == "Nos. per year" && this.data['name'] != 'Incidence of water logging') {
+      type = "Years"
+    }
     return type
   }
 
