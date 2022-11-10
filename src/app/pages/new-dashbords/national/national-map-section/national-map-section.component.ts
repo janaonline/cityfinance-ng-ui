@@ -237,11 +237,11 @@ export class NationalMapSectionComponent
     let color;
     if (d > 80) {
       color = "#12a6dd";
-    } else if (d > 60 && d < 80) {
+    } else if (d > 60 && d < 81) {
       color = "#4a6ccb";
-    } else if (d > 25 && d < 60) {
+    } else if (d > 25 && d < 61) {
       color = "#fcda4a";
-    } else if (d > 0 && d < 25) {
+    } else if (d > 0 && d < 26) {
       color = "#fc5e03";
     } else if (d == 0) {
       color = "#a6b9b4";
@@ -449,7 +449,7 @@ export class NationalMapSectionComponent
     class="col-sm-12"
     style="background-color: #F8F9FF;
     display: inline-block; width: 100%;height: ${height};  z-index: 100"
-   
+
   >
   </div>`;
   }

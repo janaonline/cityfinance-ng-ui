@@ -886,6 +886,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
   createdDomMinId;
   convertDomToMiniMap(domId: string, showMiniMap = true) {
+    console.log('showMiniMap', showMiniMap)
     this.isMapOnMiniMapMode = true;
     this.createdDomMinId = domId;
     const element = document.getElementById(domId);
@@ -894,7 +895,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     element.classList.add("miniMap");
     if (!showMiniMap) element.style.display = "none";
-
     // const newElement = document.createElement("div");
     // newElement.classList.add("miniMapOverlay");
     // element.appendChild(newElement);

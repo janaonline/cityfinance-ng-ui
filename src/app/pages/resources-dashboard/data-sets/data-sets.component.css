@@ -1,119 +1,132 @@
 .filterBtn {
-  border: 1px solid #9299b2;
-  border-radius: 6px;
-  font: normal normal 500 14px/15px "Archivo";
-  letter-spacing: 0px;
-  color: #8b92ab;
-  padding: 5px 12px;
-  margin-right: 1rem;
+    border: 1px solid #9299b2;
+    border-radius: 6px;
+    font: normal normal 500 14px/15px "Archivo";
+    letter-spacing: 0px;
+    color: #8b92ab;
+    padding: 5px 12px;
+    margin-right: 1rem;
 }
 
 .filterBtn.active,
 .filterBtn:active,
 .filterBtn:hover {
-  background: #fff1e3 0% 0% no-repeat padding-box;
-  box-shadow: 0px 2px 8px #fadaad;
-  border: 1px solid #f2991f;
-  border-radius: 6px;
-  font: normal normal 500 14px/15px "Archivo";
-  letter-spacing: 0px;
-  color: #e57504;
+    background: #fff1e3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #fadaad;
+    border: 1px solid #f2991f;
+    border-radius: 6px;
+    font: normal normal 500 14px/15px "Archivo";
+    letter-spacing: 0px;
+    color: #e57504;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 .card-body {
-  border-radius: 4px;
-  border: 1px solid #d9d8d8;
-  margin: 0.5rem 0;
-  padding: 0.5rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #d9d8d8;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
 }
 
 .cd-repeat:nth-child(odd) {
-  border: 1px solid #d9d8d8;
-  border-radius: 4px;
-  background-color: #fff;
+    border: 1px solid #d9d8d8;
+    border-radius: 4px;
+    background-color: #fff;
 }
 
 .cd-repeat:nth-child(even) {
-  background: #f8f9fa 0% 0% no-repeat padding-box;
-  border: 1px solid #d9d8d8;
-  border-radius: 4px;
+    background: #f8f9fa 0% 0% no-repeat padding-box;
+    border: 1px solid #d9d8d8;
+    border-radius: 4px;
 }
 
 .cd-h {
-  background-color: #e9ecf7;
-  font: normal normal 600 15px/24px "Archivo";
-  letter-spacing: 0px;
-  color: #0f1f40;
+    background-color: #e9ecf7;
+    font: normal normal 600 15px/24px "Archivo";
+    letter-spacing: 0px;
+    color: #0f1f40;
 }
 
 .d-name,
 .d-date {
-  font: normal normal 600 12px/14px "Archivo";
-  letter-spacing: 0px;
-  color: #0f1f40;
+    font: normal normal 600 12px/14px "Archivo";
+    letter-spacing: 0px;
+    color: #0f1f40;
 }
 
 .p-i {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .lmBtn {
-  background: #fff0e3 0% 0% no-repeat padding-box;
-  border-radius: 6px;
-  font: normal normal 700 12px/14px "Archivo";
-  letter-spacing: 0px;
-  color: #e87a1c;
+    background: #fff0e3 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+    font: normal normal 700 12px/14px "Archivo";
+    letter-spacing: 0px;
+    color: #e87a1c;
 }
 
 .empty {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: darkblue;
-  margin: 4%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: darkblue;
+    margin: 4%;
 }
 
 .pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: #58b46d;
+    background-color: #58b46d;
 }
+
 .noData {
-  color: #1e44ad;
-  text-align: center;
-  justify-content: center;
+    color: #1e44ad;
+    text-align: center;
+    justify-content: center;
 }
+
 img {
-  margin-left: 5%;
+    margin-left: 5%;
 }
+
+
 /* img {
   margin-left: 42%;
 } */
 
 .table {
-  border-collapse: separate;
-  border-spacing: 0 10px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 table tr {
-  display: table-row;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  /* border: 1px solid black; */
+    display: table-row;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* border: 1px solid black; */
 }
 
 .backArrow {
-  bottom: 10px;
-  margin-left: 100%;
-  right: 0;
-  width: fit-content;
-  position: sticky;
+    bottom: 10px;
+    margin-left: 100%;
+    right: 0;
+    width: fit-content;
+    position: sticky;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+    border: none !important;
 }
