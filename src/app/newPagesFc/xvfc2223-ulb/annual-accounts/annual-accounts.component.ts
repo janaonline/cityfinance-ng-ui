@@ -821,7 +821,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       audit_status: "Audited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2021-22"],
+      year: this.Years["2020-21"],
       status: null,
       rejectReason: null,
       rejectReason_state: null,
@@ -955,7 +955,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       audit_status: "Unaudited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2020-21"],
+      year: this.Years["2021-22"],
       status: null,
       rejectReason: null,
       rejectReason_state: null,
@@ -2315,7 +2315,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.setStatusOnInputs('auditQues')
       let rejectResItem = '';
       this.auditQues.forEach((item) => {
-        debugger
         if (this.userData?.role == 'STATE') {
           rejectResItem = item?.data?.rejectReason_state;
         } else {
