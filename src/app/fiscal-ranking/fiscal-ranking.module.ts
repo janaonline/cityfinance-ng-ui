@@ -13,11 +13,12 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
+import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 
 
 
 @NgModule({
-  declarations: [FiscalHomeComponent, FiscalLoginComponent],
+  declarations: [FiscalHomeComponent, FiscalLoginComponent, UlbFiscalComponent],
   imports: [
     CommonModule,
     FiscalRankingRoutingModule,
