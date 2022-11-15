@@ -2062,7 +2062,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         swal("Saved", "Data saved as draft successfully", "success");
         setTimeout(() => {
           this.onLoad();
-        }, 500)
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -2094,7 +2094,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         swal("Saved", "Data saved successfully", "success");
         setTimeout(() => {
           this.onLoad();
-        }, 500)
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -2494,7 +2494,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.newCommonService.setFormStatus2223.next(true);
         setTimeout(() => {
           this.onLoad();
-        }, 300)
+        }, 700)
 
       },
       (error) => {
