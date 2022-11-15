@@ -10,6 +10,8 @@ import { CompareDialogComponent } from "./shared/components/compare-dialog/compa
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
+import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.component";
+import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 export const appRouter: Routes = [
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,6 +25,7 @@ export const appRouter: Routes = [
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
+ 
   {
     path: "dashboard",
     loadChildren: () =>
@@ -37,7 +40,13 @@ export const appRouter: Routes = [
         (m) => m.AnalyticsModule
       ),
   },
-
+  {
+    path: "fiscal-home",
+    loadChildren: () =>
+      import("./fiscal-ranking/fiscal-ranking.module").then(
+        (m) => m.FiscalRankingModule
+      ),
+  },
   {
     path: "fc_grant",
     loadChildren: () =>
