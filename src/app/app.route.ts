@@ -25,6 +25,7 @@ export const appRouter: Routes = [
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
+  { path: "FiscalHomeComponent", component: FiscalHomeComponent},
  
   {
     path: "dashboard",

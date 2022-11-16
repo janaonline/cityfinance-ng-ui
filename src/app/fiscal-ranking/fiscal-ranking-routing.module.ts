@@ -5,6 +5,7 @@ import { FiscalLoginComponent } from './fiscal-login/fiscal-login.component';
 
 const routes: Routes = [
   { path: "", component: FiscalHomeComponent},
+  {path:"FiscalHomeComponent" , component:FiscalHomeComponent},
   { path: "login", component: FiscalLoginComponent},
 ];
 

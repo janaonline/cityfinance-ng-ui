@@ -13,8 +13,9 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
+// import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 
 @NgModule({
   declarations: [FiscalHomeComponent, FiscalLoginComponent],
@@ -29,7 +30,9 @@ import { MatCardModule } from "@angular/material/card";
     MatGridListModule,
     MatIconModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class FiscalRankingModule { }
