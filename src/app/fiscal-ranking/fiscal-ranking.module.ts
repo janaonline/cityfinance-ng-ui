@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiscalRankingRoutingModule } from './fiscal-ranking-routing.module';
 import { FiscalHomeComponent } from './fiscal-home/fiscal-home.component';
 import { FiscalLoginComponent } from './fiscal-login/fiscal-login.component';
@@ -12,16 +13,24 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
+
 import { MatCardModule } from "@angular/material/card";
 import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
-
-
+import { SharedModule } from '../shared/shared.module';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @NgModule({
-  declarations: [FiscalHomeComponent, FiscalLoginComponent, UlbFiscalComponent],
+  declarations: [
+    FiscalHomeComponent,
+    FiscalLoginComponent,
+    UlbFiscalComponent
+  ],
   imports: [
     CommonModule,
-    FiscalRankingRoutingModule,
+    MatStepperModule,
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     MatListModule,
@@ -30,7 +39,21 @@ import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
     MatGridListModule,
     MatIconModule,
     MatInputModule,
-    MatCardModule
-  ]
+    MatCardModule,
+    FiscalRankingRoutingModule,
+  ],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+  }]
+  // providers: [
+  //   {
+  //     provide: STEPPER_GLOBAL_OPTIONS,
+  //     useValue: { displayDefaultIndicatorType: false }
+  //   }
+  // ],
+  // schemas: [
+  //   CUSTOM_ELEMENTS_SCHEMA
+  // ],
+  // bootstrap: [UlbFiscalComponent],
 })
 export class FiscalRankingModule { }

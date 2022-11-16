@@ -1,1 +1,77 @@
-<p>ulb-fiscal works!</p>
+<!-- <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm"> -->
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-sm-12 heading">
+            City Finance Rankings 2022
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
+                <mat-step state="state" *ngFor="let stepItem of stepperArray">
+                    <ng-template matStepLabel>
+                        <span class="st-title" [title]="stepItem?.label">{{stepItem?.label}}</span>
+                    </ng-template>
+                    <div class="container w-50" *ngIf="stepItem?.id == 's1'">
+                        <div class="row mx-auto">
+                            <div class="col-sm-12">
+                                <div class="form">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Name of ULB">
+                                        </div>
+                                        <div class="col-sm-12 mt-3">
+                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Population as per 2011 Census">
+                                        </div>
+                                        <div class="col-sm-12 mt-3">
+                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Population as on 1st April 2022">
+                                        </div>
+                                        <div class="col-sm-12 mt-3">
+                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="ULB website URL link">
+                                        </div>
+                                        <div class="col-sm-12 mt-3">
+                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Name of Commissioner / Executive Officer ">
+                                        </div>
+
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-sm-6 ">
+                                            <button class="btn btn-f-next">Next</button>
+                                        </div>
+                                        <div class="col-sm-6 text-end">
+                                            <button class="btn btn-f-c">Save & Continue Later</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container w-50" *ngIf="stepItem?.id == 's2'">
+                        <div class="row mx-auto">
+                            <div class="col-sm-12">
+
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+                <ng-template matStepperIcon="state">
+                    <span class="material-icons n-circle">
+                  circle
+              </span>
+                </ng-template>
+                <ng-template matStepperIcon="edit">
+                    <span class="material-icons n-circle">
+                circle
+            </span>
+                </ng-template>
+                <ng-template matStepperIcon="done">
+                    <span class="material-icons">
+              check_circle
+              </span>
+                </ng-template>
+            </mat-horizontal-stepper>
+        </div>
+    </div>
+</div>
+
+<!-- </form> -->

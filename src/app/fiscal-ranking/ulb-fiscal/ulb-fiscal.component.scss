@@ -1,0 +1,90 @@
+.heading {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 60px;
+    /* identical to box height, or 167% */
+    text-align: center;
+    color: #101010;
+}
+
+.ch-icon {
+    font-size: 1.8rem;
+    vertical-align: bottom;
+}
+
+::ng-deep .mat-step-icon {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+}
+
+::ng-deep .mat-stepper-label-position-bottom .mat-stepper-horizontal-line {
+    top: 40px !important;
+    color: #C0E2FF;
+}
+
+::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header::after,
+::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header::before {
+    top: 40px !important;
+    color: #C0E2FF;
+}
+
+// .n-circle {
+//     background: #C0E2FF;
+// }
+::ng-deep .mat-step-header .mat-step-icon-state-state {
+    background-color: #C0E2FF;
+    color: #C0E2FF;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #2668AC;
+    color: #2668AC;
+}
+
+.st-title {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    color: #101010;
+}
+
+::ng-deep .material-icons {
+    vertical-align: middle !important;
+}
+
+.form-control {
+    height: 40px;
+    padding: 0.375rem 0.75rem;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    //  color: #A7A7A7;
+    // padding: 4px 12px;
+}
+
+.btn-f-next {
+    background: #E67E15;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
+
+.btn {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.btn-f-c {
+    border: none;
+    color: #E67E15;
+}
