@@ -14,11 +14,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 // import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 
 @NgModule({
-  declarations: [FiscalHomeComponent, FiscalLoginComponent],
+  declarations: [FiscalHomeComponent, FiscalLoginComponent, UlbFiscalComponent],
   imports: [
     CommonModule,
     FiscalRankingRoutingModule,

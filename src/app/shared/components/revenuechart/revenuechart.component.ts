@@ -196,7 +196,7 @@ export class RevenuechartComponent
         {
           scaleLabel: {
             display: true,
-            labelString: "Population",
+            labelString: "Population(in Thousands)",
             fontStyle: "bold",
           },
 
@@ -1121,8 +1121,9 @@ export class RevenuechartComponent
             } else {
               yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.apiParamData?.filterName;
             }
+            let xLabelName = 'Population(in Thousands)';
             this.setServiceLevelBenchmarkScatteredChartOption(
-              "Population",
+              xLabelName,
               yAxesLabelName
             );
             m_data =
@@ -1217,7 +1218,7 @@ export class RevenuechartComponent
               });
             }
           });
-          
+
           console.log(this.scatterData);
           // this.generateRandomId("scatterChartId123");
           this.scatterData = { ...this.scatterData };
@@ -1338,7 +1339,7 @@ export class RevenuechartComponent
 
   serviceLevelBenchmarkScatterOption: any;
   setServiceLevelBenchmarkScatteredChartOption(
-    xAxisLabel: string = "Population",
+    xAxisLabel: string = "Population(in Thousands)",
     yAxisLabel: string = "Total Revenue (in Cr.)"
   ) {
     this.scatterOption = {};
@@ -1702,7 +1703,7 @@ export class RevenuechartComponent
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
-          /** we are not showing the city dashboard right side info panel in iFrame.*/ 
+          /** we are not showing the city dashboard right side info panel in iFrame.*/
           // if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
           //   this.calculateCagr(res["data"], hideElements);
           // if (

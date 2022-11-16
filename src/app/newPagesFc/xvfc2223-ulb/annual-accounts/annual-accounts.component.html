@@ -71,20 +71,112 @@
                                         [isDisabled]="!(item?.qusDis)" [compName]="compName" [itemObj]="item">
                                     </app-common-file-upload>
                                 </ng-container>
-                                <!-- && userData?.role != 'ULB' && data?.status == 'PENDING' -->
+                                <!-- .........code for view action..... -->
+                                <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
+                                    <div class="card-body">
+                                        <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                Form Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{finalStatus}}
+                                            </div>
+                                        </div>
+                                        <!-- state review action -->
+                                        <div class="s-r" *ngIf="stateReview">
+                                            <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                <div class="col-sm-4">
+                                                    State Review Status:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.state_status}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                <div class="col-sm-4">
+                                                    State Review Status:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.state_status}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                <div class="col-sm-4">
+                                                    State Remarks/Return reason:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                <div class="col-sm-4">
+                                                    State Remarks/Return reason:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- state review action -->
+                                        <div class="m-r" *ngIf="mohuaReview">
+                                            <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                <div class="col-sm-4">
+                                                    MoHUA Review Status:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.mohua_status}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                <div class="col-sm-4">
+                                                    MoHUA Review Status:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.mohua_status}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                <div class="col-sm-4">
+                                                    MoHUA Remarks/Return reason:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                <div class="col-sm-4">
+                                                    MoHUA Remarks/Return reason:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!-- .....code for action taken..... -->
                                 <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
                                     <div class="card-body">
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
-                                            <div class="col-sm-7 act-btn" style="width: 50%">
-                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                            <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'STATE'">
+                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                            </div>
+                                            <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'MoHUA'">
+                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
                                                 <!-- Return reason: -->
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
-                                                <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_state" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                </div>
+                                                <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_mohua" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -94,57 +186,132 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- {{item?.data?.status}} {{canTakeAction}} -->
-                                <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
-                                    <div class="card-body">
-                                        <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
-                                            <div class="col-sm-2">
-                                                Review Status:
-                                            </div>
-                                            <div class="col-sm-10">
-                                                Under review by state
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason}}
-                                            </div>
-                                        </div>
-                                    </div>
+
+
+                            </div>
+                        </div>
+                        <!-- --------supporting documents------ -->
+                        <div class="sp-doc mb-4">
+                            <div class="row mb-2" *ngIf="stateReview">
+                                <div class="col-sm-4 s-h">
+                                    State Supporting Document :
+                                </div>
+                                <div class="col-sm-8">
+                                    <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                {{data?.unAudited?.responseFile_state?.name}}
+                              </a>
+                                    <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="mohuaReview">
+                                <div class="col-sm-4 s-h">
+                                    MoHUA Supporting Document :
+                                </div>
+                                <div class="col-sm-8">
+                                    <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                              {{data?.unAudited?.responseFile_mohua?.name}}
+                            </a>
+                                    <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- action in case of no no -->
                     <div class="actNO mt-3" *ngIf="!data?.unAudited?.submit_annual_accounts">
-                        <div class="card mb-5" *ngIf="canTakeAction == true">
+                        <div class="card mb-5" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.unAudited.status">
+                            <div class="card-body">
+                                <div class="row s-h" *ngIf="data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        Form Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{finalStatus}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  State Action responce view -->
+                            <div class="card-body" *ngIf="stateReview">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        State Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{state_status_unAud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        State Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{state_status_unAud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-4">
+                                        State Remarks/Return reason:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.rejectReason_state ? data?.unAudited?.rejectReason_state : 'N/A'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  Mohua Action responce view -->
+                            <div class="card-body" *ngIf="mohuaReview">
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{mohua_status_unAud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{mohua_status_unAud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-4">
+                                        MoHUA Remarks/Return reason:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.unAudited?.rejectReason_mohua ? data?.unAudited?.rejectReason_mohua : 'N/A'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- --------supporting documents------ -->
+                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                <div class="row mb-2" *ngIf="stateReview">
+                                    <div class="col-sm-4 s-h">
+                                        State Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                        {{data?.unAudited?.responseFile_state?.name}}
+                                      </a>
+                                        <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="mohuaReview">
+                                    <div class="col-sm-4 s-h">
+                                        MoHUA Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                                      {{data?.unAudited?.responseFile_mohua?.name}}
+                                    </a>
+                                        <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card mb-4" *ngIf="canTakeAction == true">
                             <div class="card-body">
                                 <div class="row" style="">
                                     <div class="col-sm-5 a-h" style="">Review Status:</div>
@@ -154,45 +321,12 @@
                                     </div>
                                     <div class="row rej mt-3">
                                         <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                        <div class="col-sm-7 ps-4" style="" *ngIf="userData?.role == 'STATE'">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-4" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.unAudited.status">
-                            <div class="card-body">
-                                <div class="row" *ngIf="data?.isDraft == false && data?.unAudited?.status == 'PENDING'">
-                                    <div class="col-sm-2">
-                                        Review Status:
-                                    </div>
-                                    <div class="col-sm-10">
-                                        Under review by state
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
-                                        Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.unAudited?.status}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.unAudited?.status}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
-                                        Remarks/Return reason:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.unAudited?.rejectReason}}
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -200,23 +334,23 @@
 
                     </div>
                     <!-- supporting documents for action -->
-                    <div class="card-body" *ngIf="canTakeAction == true">
-                        <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
-                            <div class="col-sm-12">
-                                <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
-                                </app-common-file-upload>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
+                    <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
                         <div class="row">
                             <div class="col-sm-4 s-h">
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile?.url ? unAuditedActionResponse?.responseFile?.url : data?.unAudited?.responseFile?.url}}">
-                                  {{unAuditedActionResponse?.responseFile?.name ? unAuditedActionResponse?.responseFile?.name : data?.unAudited?.responseFile?.name}}
+                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile_state?.url ? unAuditedActionResponse?.responseFile_state?.url : data?.unAudited?.responseFile_state?.url}}">
+                                  {{unAuditedActionResponse?.responseFile_state?.name ? unAuditedActionResponse?.responseFile_state?.name : data?.unAudited?.responseFile_state?.name}}
                                 </a>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card-body" *ngIf="canTakeAction == true">
+                        <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
+                            <div class="col-sm-12">
+                                <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
+                                </app-common-file-upload>
                             </div>
                         </div>
                     </div>
@@ -374,18 +508,111 @@
                                     [isDisabled]="!(item?.qusDis)" [compName]="compName" [itemObj]="item">
                                 </app-common-file-upload>
                             </ng-container>
-                            <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
+                            <!-- .........code for view action..... -->
+                            <div class="card mb-5" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
+                                <div class="card-body">
+                                    <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            Form Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{finalStatus}}
+                                        </div>
+                                    </div>
+                                    <!-- state review action -->
+                                    <div class="s-r" *ngIf="stateReview">
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                            <div class="col-sm-4">
+                                                State Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.state_status}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                State Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.state_status}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                            <div class="col-sm-4">
+                                                State Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                State Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- state review action -->
+                                    <div class="m-r" *ngIf="mohuaReview">
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                            <div class="col-sm-4">
+                                                MoHUA Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.mohua_status}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                MoHUA Review Status:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.mohua_status}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                            <div class="col-sm-4">
+                                                MoHUA Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                            <div class="col-sm-4">
+                                                MoHUA Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- .....code for action taken..... -->
+                            <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == true">
                                 <div class="card-body">
                                     <div class="row" style="">
                                         <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
-                                        <div class="col-sm-7 act-btn" style="width: 50%">
-                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
+                                        <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'STATE'">
+                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
+                                        </div>
+                                        <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'MoHUA'">
+                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
                                         </div>
                                         <div class="col-sm-12 rej mt-3">
                                             <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
-                                            <div class="d-inline-block" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                            <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
+                                            </div>
+                                            <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                             </div>
 
                                         </div>
@@ -395,8 +622,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- *ngIf="item?.action == true &&
-                          data?.status != 'PENDING' && data?.isDraft == false" -->
+                            <!--
                             <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                 <div class="card-body">
                                     <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
@@ -428,7 +654,7 @@
                                             Remarks/Return reason:
                                         </div>
                                         <div class="col-sm-8">
-                                            {{item?.data?.rejectReason}}
+                                            {{item?.data?.rejectReason_state}}
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
@@ -436,8 +662,35 @@
                                             Remarks/Return reason:
                                         </div>
                                         <div class="col-sm-8">
-                                            {{item?.data?.rejectReason}}
+                                            {{item?.data?.rejectReason_state}}
                                         </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <!-- --------supporting documents------ -->
+                        <div class="sp-doc mb-4">
+                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                <div class="row mb-2" *ngIf="stateReview">
+                                    <div class="col-sm-4 s-h">
+                                        State Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                                  {{data?.audited?.responseFile_state?.name}}
+                                </a>
+                                        <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="mohuaReview">
+                                    <div class="col-sm-4 s-h">
+                                        MoHUA Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                {{data?.audited?.responseFile_mohua?.name}}
+                              </a>
+                                        <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
                                     </div>
                                 </div>
                             </div>
@@ -445,25 +698,8 @@
                     </div>
                     <!-- action in case of no no -->
                     <div class="actNO mt-3" *ngIf="!data?.audited?.submit_annual_accounts">
-                        <div class="card mb-5" *ngIf="canTakeAction == true">
-                            <div class="card-body">
-                                <div class="row" style="">
-                                    <div class="col-sm-5 a-h" style="">Review Status:</div>
-                                    <div class="col-sm-7 act-btn" style="">
-                                        <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.audited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'audited', $event?.target?.value)">Approve</button>
-                                        <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.audited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'audited', $event?.target?.value)">Return</button>
-                                    </div>
-                                    <div class="row rej mt-3">
-                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="canTakeAction == false && data?.audited.status">
-                            <div class="card-body">
+                        <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.audited.status">
+                            <!-- <div class="card-body">
                                 <div class="row" *ngIf="data?.isDraft == false && data?.audited?.status == 'PENDING'">
                                     <div class="col-sm-2">
                                         Review Status:
@@ -473,27 +709,151 @@
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         Review Status:
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         {{data?.audited?.status}}
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        Review Status:
+
+                                    <div class="col-sm-6">
+                                        State Review Status:
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         {{data?.audited?.status}}
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                State Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {{data?.audited?.rejectReason_state}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                MoHUA Remarks/Return reason:
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {{data?.audited?.rejectReason_mohua}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="card-body">
+                                <div class="row s-h" *ngIf="data?.isDraft == false">
                                     <div class="col-sm-4">
-                                        Remarks/Return reason:
+                                        Form Review Status:
                                     </div>
                                     <div class="col-sm-8">
-                                        {{data?.audited?.rejectReason}}
+                                        {{finalStatus}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  State Action responce view -->
+                            <div class="card-body" *ngIf="stateReview">
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        State Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{state_status_aud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        State Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{state_status_aud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-4">
+                                        State Remarks/Return reason:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.audited?.rejectReason_state ? data?.audited?.rejectReason_state : 'N/A'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  Mohua Action responce view -->
+                            <div class="card-body" *ngIf="mohuaReview">
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{mohua_status_aud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
+                                    <div class="col-sm-4">
+                                        MoHUA Review Status:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{mohua_status_aud}}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
+                                    <div class="col-sm-4">
+                                        MoHUA Remarks/Return reason:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{data?.audited?.rejectReason_mohua ? data?.audited?.rejectReason_mohua : 'N/A'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- --------supporting documents------ -->
+                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                <div class="row mb-2" *ngIf="stateReview">
+                                    <div class="col-sm-4 s-h">
+                                        State Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                                      {{data?.audited?.responseFile_state?.name}}
+                                    </a>
+                                        <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="mohuaReview">
+                                    <div class="col-sm-4 s-h">
+                                        MoHUA Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                    {{data?.audited?.responseFile_mohua?.name}}
+                                  </a>
+                                        <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4" *ngIf="canTakeAction == true">
+                            <div class="card-body">
+                                <div class="row" style="">
+                                    <div class="col-sm-5 a-h" style="">Review Status:</div>
+                                    <div class="col-sm-7 act-btn" style="">
+                                        <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.audited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'audited', $event?.target?.value)">Approve</button>
+                                        <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.audited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'audited', $event?.target?.value)">Return</button>
+                                    </div>
+                                    <div class="row rej mt-3">
+                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'STATE'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason_state" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                        </div>
+                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.audited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -503,24 +863,25 @@
                     <div class="card-body" *ngIf="canTakeAction == true">
                         <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
                             <div class="col-sm-12">
-                                <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document'" [quesType]="'file'" [compName]="compName">
+                                <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
                                 </app-common-file-upload>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
+                    <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
                         <div class="row">
                             <div class="col-sm-4 s-h">
                                 Supporting Document :
                             </div>
                             <div class="col-sm-8">
-                                <!-- auditedActionResponse -->
-                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile?.url ? auditedActionResponse?.responseFile?.url : data?.audited?.responseFile?.url}}">
-                                 {{auditedActionResponse?.responseFile?.name ? auditedActionResponse?.responseFile?.name : data?.audited?.responseFile?.name}}
+
+                                <a class="s-f" target="_blank" href="{{auditedActionResponse?.responseFile_state?.url ? auditedActionResponse?.responseFile_state?.url : data?.audited?.responseFile_state?.url}}">
+                                 {{auditedActionResponse?.responseFile_state?.name ? auditedActionResponse?.responseFile_state?.name : data?.audited?.responseFile_state?.name}}
                                 </a>
                             </div>
                         </div>
-                    </div>
+
+                    </div> -->
                 </div>
                 <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
                     <div class="row mt-3 mb-3">

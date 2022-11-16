@@ -183,7 +183,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Audited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2020-21"],
+      year: this.Years["2019-20"],
     },
     unAudited: {
       provisional_data: {
@@ -243,7 +243,7 @@ export class AnnualAccountsComponent implements OnInit {
       audit_status: "Unaudited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
-      year: this.Years["2019-20"],
+      year: this.Years["2020-21"],
     },
   };
 
@@ -583,7 +583,7 @@ export class AnnualAccountsComponent implements OnInit {
                 this.data.isDraft = false
                 return;
               }
-              
+
               this.data.isDraft = true;
               return;
             }
@@ -734,7 +734,7 @@ export class AnnualAccountsComponent implements OnInit {
     }else if (!isAudit && this.loggedInUserType == USER_TYPE.ULB){
       this.provisionDisable = false
     }
-    
+
     switch (question) {
       case "q1":
         this.answerError[status].submit_annual_accounts = false;

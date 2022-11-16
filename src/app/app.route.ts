@@ -25,8 +25,6 @@ export const appRouter: Routes = [
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
   { path: "prop-tax", component: ProTTaxFormComponent },
-  { path: "FiscalHomeComponent", component: FiscalHomeComponent},
- 
   {
     path: "dashboard",
     loadChildren: () =>
@@ -42,7 +40,7 @@ export const appRouter: Routes = [
       ),
   },
   {
-    path: "fiscal-home",
+    path: "fiscal",
     loadChildren: () =>
       import("./fiscal-ranking/fiscal-ranking.module").then(
         (m) => m.FiscalRankingModule

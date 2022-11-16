@@ -31,7 +31,8 @@ export class DataSetsComponent implements OnInit {
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
-    public globalLoaderService: GlobalLoaderService
+    public globalLoaderService: GlobalLoaderService,
+    public dialog: MatDialog
   ) {
     router.events.subscribe((val) => {
       // see also
@@ -90,6 +91,7 @@ export class DataSetsComponent implements OnInit {
   }
 
   openNewTab(data, fullData) {
+    console.log('full data', fullData, this.category);
     if(fullData.hasOwnProperty("section") && fullData.section == "standardised"){
       this.selectedUsersList = []
       this.selectedUsersList.push(fullData);
@@ -98,7 +100,8 @@ export class DataSetsComponent implements OnInit {
       return;
     }
     console.log("file data", data);
-    window.open(data, "_blank");
+    this.openDialog(data)
+   // window.open(data, "_blank");
     // window.open(data?.fileUrl, "_blank");
     // const pdfUrl = data?.fileUrl;
     // const pdfName = data?.fileName;
@@ -171,18 +174,14 @@ export class DataSetsComponent implements OnInit {
               this.balData = []
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
-
-
               this.tempBalData = res.data;
               console.log("tempBalData", this.tempBalData)
               let limitVal = this.offSet + this.limit;
-              
               if(this.tempBalData.length > limitVal) {
                 this.loopControl = limitVal
               } else {
                 this.loopControl = this.tempBalData.length
               }
-
               console.log("loopControl==>",this.loopControl)
               this.balData = []
               for (let i = 0; i < this.loopControl; i++) {
@@ -318,7 +317,7 @@ return
           const pdfName = data?.fileName;
           FileSaver.saveAs(pdfUrl, pdfName);
         }
-        
+
       }
     }
   }
@@ -336,14 +335,84 @@ return
       } else {
         let index = this.selectedUsersList.indexOf(row);
         this.selectedUsersList.splice(index, 1);
-  
+
         row.isSelected = false;
       }
-  
+
       console.log("hhhhh", this.selectedUsersList);
-  
+
       this.checkIsDisabled(this.selectedUsersList);
-    
- 
+  }
+  openDialog(data): void {
+    const dialogRef = this.dialog.open(FileOpenComponent, {
+      width: "60vw",
+      maxHeight: "95vh",
+      height: "fit-content",
+      data: {
+        fileUrl: data,
+        category: this.category
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
+}
+
+
+// dialog box --------for file open
+import { Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+@Component({
+  selector: 'file-open-dialog',
+  templateUrl: "./file-open.component.html",
+  styleUrls: ["./data-sets.component.css"],
+})
+export class FileOpenComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<FileOpenComponent>,
+    @Inject(MAT_DIALOG_DATA) public dialogFiledata,
+  ) { }
+  fileArr = [];
+  ngOnInit(): void {
+    // this.getData();
+    console.log('dialogFiledata', this.dialogFiledata);
+    this.fileArr = [];
+    for (let i = 0; i < this.dialogFiledata?.fileUrl?.length; i++) {
+      if (this.dialogFiledata?.category == 'income') {
+        let name = ''
+        if (i == 0) {
+          name = 'Income Expenditure'
+        } else if (i == 1) {
+          name = 'Income Expenditure Schedule'
+        }
+        let obj = {
+          url: this.dialogFiledata?.fileUrl[i],
+          fileName: name
+        }
+        this.fileArr[i] = obj;
+      }
+      if (this.dialogFiledata?.category == 'balance') {
+        let name = ''
+        if (i == 0) {
+          name = 'Balance Sheet'
+        } else if (i == 1) {
+          name = 'Balance Sheet Schedule'
+        }
+        let obj = {
+          url: this.dialogFiledata?.fileUrl[i],
+          fileName: name
+        }
+        this.fileArr[i] = obj;
+      }
+    }
+    console.log('this.fileArr', this.fileArr);
+
+  }
+  onNoClick(): void {
+    console.log('dialogFiledata', this.dialogFiledata);
+    this.dialogRef.close();
   }
 }

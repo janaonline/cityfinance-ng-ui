@@ -91,8 +91,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.ulbList = JSON.parse(localStorage.getItem("ulbList"));
   }
   ngOnInit(): void {
-    console.log("this.data====>", this.data);
-
+    console.log("this.data====>", this.data, this.componentName);
+    console.log("this.data====> this.componentName", this.componentName);
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);

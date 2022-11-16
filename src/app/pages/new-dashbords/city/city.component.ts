@@ -150,8 +150,8 @@ export class CityComponent implements OnInit {
                 break;
               case "isUa":
                 item.value = res.data.isUA;
-                if (res.data.isUA == "Yes") {
-                  item.value += ` (${res.data.UA.name.split(" ")[0] || '0'})`;
+                if (res?.data?.isUA == "Yes") {
+                  item.value += ` (${res?.data?.UA?.name || '0'})`;
                 }
                 break;
               case "dataAvailable":
@@ -182,7 +182,7 @@ export class CityComponent implements OnInit {
           let obj = { TaxRevenue, OwnRevenue, Grant, Expense, BalanceSheetSize, Revenue };
           for (const key in obj) {
             const element = obj[key];
-            
+
               element.number =
                 "INR " +
                 (res.data.length > 0
@@ -200,9 +200,9 @@ export class CityComponent implements OnInit {
             obj.Revenue,
             obj.Expense,
             obj.BalanceSheetSize,
-         
+
           ];
-          
+
         },
         (error) => {
           console.error(error);
