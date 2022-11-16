@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 
@@ -8,6 +8,35 @@ import { MatFormField } from '@angular/material/form-field';
   styleUrls: ['./fiscal-home.component.scss']
 })
 export class FiscalHomeComponent implements OnInit {
+  @ViewChild('highlightContainer', {static: false}) private highlightContainer: ElementRef<HTMLDivElement>;
+  isHighlightContainerScrolledIntoView: boolean;
+  highlightNo: number = 0;
+  interval: any;
+
+  @HostListener('window:scroll', ['$event'])
+  isScrolledIntoView(){
+    if (this.highlightContainer){
+      const rect = this.highlightContainer.nativeElement.getBoundingClientRect();
+      const topShown = rect.top >= 0;
+      const bottomShown = rect.bottom <= window.innerHeight;
+      this.isHighlightContainerScrolledIntoView = topShown && bottomShown;
+
+      if(this.isHighlightContainerScrolledIntoView){
+        if(this.highlightNo == 0){
+          this.highlightNo++; 
+          this.interval = setInterval(() => {
+            if( this.highlightNo < 4)
+             this.highlightNo++; 
+          }, 5*1000);
+        }
+      } else {
+        if(this.interval)
+          clearInterval(this.interval);
+          this.highlightNo = 0;
+      }
+      
+    }
+  }
 
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
@@ -103,5 +132,9 @@ arrReward4:Array<any>=[
 
   ngOnInit(): void {
   
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 }

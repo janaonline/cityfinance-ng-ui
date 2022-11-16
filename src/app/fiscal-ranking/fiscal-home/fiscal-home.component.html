@@ -1,7 +1,7 @@
-<!-- <main> -->
-<section class="">
-    <!-- fistimg  -->
-    <div class="container-fluid ">
+<!-- <section class=""> -->
+<!-- fistimg  -->
+<div class="container-fluid">
+    <div class="">
         <div class="row hero d-flex justify-content-center">
             <div class="title text-center col-md-12">
                 <h1>City Finance <br> Rankings 2022</h1>
@@ -49,7 +49,7 @@
 
 
     <!-- card1 -->
-    <div class="container-fluid cont">
+    <div class="cont">
         <div class="row d-flex justify-content-center">
 
             <div class="card col-md-4 mx-3 shadow" style="height: 120px;">
@@ -88,7 +88,7 @@
 
 
     <!-- cards4-loop -->
-    <div class="container-fluid fluid mt-5 mb-5">
+    <div class="fluid mt-5 mb-5">
         <!-- heading-paragraph -->
         <div class="h-p justify-content-center text-center">
             <div class="heading">
@@ -113,7 +113,7 @@
     </div>
 
     <!-- cards3-loop -->
-    <div class="container-fluid fluid cards-loop2 mt-5 mb-5 pt-4">
+    <div class="fluid cards-loop2 mt-5 mb-5 pt-4">
 
         <div class="h-p1 pt-5 pb-3" style="margin-left: 325px;">
             <h2 style="font-weight: bold;">Assessment Parameters</h2>
@@ -141,72 +141,103 @@
     </div>
 
     <!-- image and ULB -->
-    <div class="container-fluid text-center fluid cont pb-4 mt-5 mb-5">
-        <div class="h-p2">
+    <div class="fluid cont pb-4 mt-5 mb-5">
+        <div class="h-p2 text-center">
             <h2 style="font-weight: bold;">How it works</h2>
             <p>The end-to-end processes of the national city finance rankings 2022, involving data <br> collection, review and approval, as well as computation of scores and ranks.</p>
         </div>
-        <div class="row d-flex justify-content-center text-center mt-5">
+        <div class="row d-flex justify-content-center align-items-center mt-5" #highlightContainer>
 
 
-            <div class="img-ulb col-md-5 mt-3">
+            <div class="img-ulb col-md-5">
                 <img src="../../../assets/M FIGMA/travel-nomades-8W-iJDxE96k-unsplash 1.png" class="rounded">
             </div>
 
 
-            <div class="ulb col-md-5">
+            <div class="col-md-5">
+                <ul class="autoplay-items">
+                    <li [ngClass]="{'active': highlightNo === 1, 'done' : highlightNo > 1}" (click)="highlightNo = 1">
+                        <h3>ULB to Upload Data</h3>
+                        <div>All ULBs are required to submit their key financial data and upload their financial documents on the www.cityfinance.in platform.</div>
+                    </li>
+                    <li [ngClass]="{'active': highlightNo === 2, 'done' : highlightNo > 2 }" (click)="highlightNo = 2">
+                        <h3>MoHUA Team Verifies Data</h3>
+                        <div>Facilitate peer learnings by building a collaborative and learning environment that would enable scaling best oractises across ULBs.</div>
+                    </li>
+                    <li [ngClass]="{'active': highlightNo === 3, 'done' : highlightNo > 3 }" (click)="highlightNo = 3">
+                        <h3>Computation of Scores</h3>
+                        <div>Reward & recognise ULBs that have taken positive highlightNo towards revenue generation, expenditure management & building effective fiscal govenement systems.
+                        </div>
+                    </li>
+                    <li [ngClass]="{'active': highlightNo === 4, 'done' : highlightNo > 4 }" (click)="highlightNo = 4">
+                        <h3>Final Ranking Published</h3>
+                        <div>Reward & recognise ULBs that have taken positive highlightNo towards revenue generation, expenditure management & building effective fiscal govenement systems.
+                        </div>
+                    </li>
+                </ul>
 
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h5> ULB to Upload Data</h5>
-                                </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p> All ULBs are required to submit their key financial data and upload their financial documents on the www.cityfinance.in platform.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <h5> MoHUA Team Verifies Data</h5>
-                                </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p> Facilitate peer learnings by building a collaborative and learning environment that would enable scaling best oractises across ULBs.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <h5> Computation of Scores</h5>
-                                </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p> Reward & recognise ULBs that have taken positive step towards revenue generation, expenditure management & building effective fiscal govenement systems.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <h5> Final Ranking Published</h5>
-                                </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <p> </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  <h5> ULB to Upload Data</h5>
+                              </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                              data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  <p> All ULBs are required to submit their key financial data and upload their
+                                      financial documents on the www.cityfinance.in platform.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  <h5> MoHUA Team Verifies Data</h5>
+                              </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                              data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  <p> Facilitate peer learnings by building a collaborative and learning environment
+                                      that would enable scaling best oractises across ULBs.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingThree">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  <h5> Computation of Scores</h5>
+                              </button>
+                          </h2>
+                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                              data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  <p> Reward & recognise ULBs that have taken positive step towards revenue
+                                      generation, expenditure management & building effective fiscal govenement
+                                      systems.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  <h5> Final Ranking Published</h5>
+                              </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                              data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                  <p> </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div> -->
 
             </div>
 
@@ -216,7 +247,7 @@
     </div>
 
     <!-- salient features -->
-    <div class="container-fluid fluid cards-loop3 p-4 mt-5 mb-5" style="background-color: #1E5492;">
+    <div class="fluid cards-loop3 p-4 mt-5 mb-5" style="background-color: #1E5492;">
 
         <div class="head-single" style="color: white; margin-left: 120px; font-weight: bold; margin-left: 170px;">
             <h2>Salient Features </h2>
@@ -244,7 +275,7 @@
     </div>
 
     <!-- Ranking -->
-    <div class="container-fluid fluid mt-5 mb-5">
+    <div class="fluid mt-5 mb-5">
 
         <div class="h-p3 justify-content-center text-center mt-5 mb-5">
             <h1 style="font-weight: bold;">Ranking Categories </h1>
@@ -266,7 +297,7 @@
         </div>
     </div>
 
-    <div class="container-fluid fluid mt-5">
+    <div class="fluid mt-5">
 
         <div class="row  d-flex justify-content-center m-0 p-0">
             <div class="col-md-6 " style="background-color: #F7F7F7; display: flex; justify-content: center; align-items:center;">
@@ -288,6 +319,6 @@
     </div>
 
 
-</section>
+</div>
 
-<!-- </main> -->
+<!-- </section> -->
