@@ -142,7 +142,7 @@ export class FiscalHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fiscal.getHeroes().subscribe((data: any) => {
+    this.fiscal.getLandingPageCard().subscribe((data: any) => {
       function canobjective(res) {
         if (res.section == "Objective") {
           return res;

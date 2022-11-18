@@ -1,7 +1,7 @@
 <!-- <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm"> -->
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-sm-12 heading">
+        <div class="col-sm-12 heading com-style">
             City Finance Rankings 2022
         </div>
     </div>
@@ -10,49 +10,306 @@
             <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
                     <ng-template matStepLabel>
-                        <span class="st-title" [title]="stepItem?.label">{{stepItem?.label}}</span>
+                        <span class="st-title com-style" [title]="stepItem?.label">{{stepItem?.label}}</span>
                     </ng-template>
-                    <div class="container w-50" *ngIf="stepItem?.id == 's1'">
-                        <div class="row mx-auto">
-                            <div class="col-sm-12">
-                                <div class="form">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Name of ULB">
-                                        </div>
-                                        <div class="col-sm-12 mt-3">
-                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Population as per 2011 Census">
-                                        </div>
-                                        <div class="col-sm-12 mt-3">
-                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Population as on 1st April 2022">
-                                        </div>
-                                        <div class="col-sm-12 mt-3">
-                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="ULB website URL link">
-                                        </div>
-                                        <div class="col-sm-12 mt-3">
-                                            <input type="input" class="form-control" id="{{stepItem?.id}}" aria-describedby="{{stepItem?.id}}" placeholder="Name of Commissioner / Executive Officer ">
-                                        </div>
-
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-6 ">
-                                            <button class="btn btn-f-next">Next</button>
-                                        </div>
-                                        <div class="col-sm-6 text-end">
-                                            <button class="btn btn-f-c">Save & Continue Later</button>
+                    <div class="container w-50 mt-4">
+                        <!-- ulb basic info -->
+                        <div class="" *ngIf="stepItem?.id == 's1'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="form">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container w-50" *ngIf="stepItem?.id == 's2'">
-                        <div class="row mx-auto">
-                            <div class="col-sm-12">
+                        <!-- ulb contact info -->
+                        <div class="" *ngIf="stepItem?.id == 's6'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="form">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
+                                            </div>
+                                            <div class="col-sm-12 mt-3">
+                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                            <div class="col-sm-6 ">
+                                <button class="btn btn-f-next com-style">Next</button>
+                            </div>
+                            <div class="col-sm-6 text-end">
+                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
+                            </div>
+                        </div>
 
+                    </div>
+
+                    <div class="container w-80 mt-4">
+                        <!-- revenue mobilization para -->
+                        <div class="" *ngIf="stepItem?.id == 's2'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero">
+                                        <div class="card-body">
+                                            <div class="loop">
+                                                <div class="row">
+                                                    <div class="col-sm-12 h-label mb-3 com-style">
+                                                        {{item?.value?.label}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text">
+                                                                {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!-- <div class="col-sm-3"></div>
+                                          <div class="col-sm-3"></div>
+                                          <div class="col-sm-3"></div> -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- exppenditure performance para -->
+                        <div class="" *ngIf="stepItem?.id == 's3'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="card card-form mb-4 com-style" *ngFor="let item of expPerf | keyvalue : returnZero">
+                                        <div class="card-body">
+                                            <div class="loop">
+                                                <div class="row">
+                                                    <div class="col-sm-12 h-label mb-3 com-style">
+                                                        {{item?.value?.label}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text">
+                                                                {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!-- <div class="col-sm-3"></div>
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-3"></div> -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- upload finacial statement -->
+                        <div class="" *ngIf="stepItem?.id == 's5'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="card card-form mb-4 com-style" *ngFor="let item of uploadFyDoc | keyvalue : returnZero">
+                                        <div class="card-body" *ngIf="item?.value?.key == 'guidanceNotes'">
+                                            <div class="loop">
+                                                <div class="row">
+                                                    <div class="col-sm-12 h-gui mb-3 com-style">
+                                                        {{item?.value?.label}}
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <!-- <div> -->
+                                                        <div class="form-l com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                            {{yearItem?.pos}}. {{yearItem?.desc}}
+                                                        </div>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="card-body" *ngIf="item?.value?.key != 'guidanceNotes'">
+                                            <div class="loop">
+                                                <div class="row">
+                                                    <div class="col-sm-12 h-label mb-3 com-style">
+                                                        {{item?.value?.label}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style">
+                                                                 <div class="row">
+                                                                  <div class="col-sm-6 file-text ">
+                                                                    Select File
+                                                                  </div>
+                                                                  <div class="col-sm-6 text-end">
+                                                                    <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                  </div>
+                                                                 </div>
+                                                                </button>
+                                                                <input #bs_pdf1 style="display: none;" onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                                                <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text">
+                                                                {{yearItem?.bottomText}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- fiscal governance -->
+                        <div class="" *ngIf="stepItem?.id == 's4'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <div class="card card-form mb-4 com-style" *ngFor="let item of goverPar | keyvalue : returnZero">
+                                        <div class="card-body">
+                                            <div class="loop">
+                                                <div class="row">
+                                                    <div class="col-sm-12 h-label mb-3 com-style">
+                                                        {{item?.value?.label}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text">
+                                                                {{yearItem?.bottomText}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- self declaration -->
+                        <div class="" *ngIf="stepItem?.id == 's7'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-6">
+                                    <div class="card card-form mb-4 com-style">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 c-head com-style">
+                                                    Download & Print
+                                                </div>
+                                                <div class="col-sm-12 c-sub-h com-style">
+                                                    Please download and reupload the signed copy.
+                                                </div>
+                                                <div class="col-sm-12 com-style">
+                                                    <button class="btn btn-d-org">
+                                              <span class="material-icons-outlined">
+                                                cloud_download
+                                                </span>
+                                               Download File
+                                            </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card card-form mb-4 com-style">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 c-head com-style">
+                                                    Upload Signed Copy
+                                                </div>
+                                                <div class="col-sm-12 c-sub-h com-style">
+                                                    Please uploaded the signed copy.
+                                                </div>
+                                                <div class="col-sm-12 com-style">
+                                                    <button class="btn btn-up-org">
+                                            Upload File
+                                            <span class="material-icons-outlined">
+                                              cloud_upload
+                                              </span>
+
+                                          </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
+                            <div class="col-sm-6 ">
+                                <button class="btn btn-f-next com-style">Next</button>
+                            </div>
+                            <div class="col-sm-6 text-end">
+                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
                             </div>
                         </div>
                     </div>
+
                 </mat-step>
                 <ng-template matStepperIcon="state">
                     <span class="material-icons n-circle">
