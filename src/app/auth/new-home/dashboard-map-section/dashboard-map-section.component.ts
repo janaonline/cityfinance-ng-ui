@@ -583,17 +583,19 @@ dataAvailTooltip='';
         this.stateselected ? this.stateselected.name : ""
       );
       this.dataForVisualization = { ...res, loading: false };
-this.highestYear = '';
-this.highestDataAvailability = '';
+      this.highestYear = '';
+      this.highestDataAvailability = '';
       if (this.dataForVisualization?.ulbDataCount?.length > 0) {
+        this.dataForVisualization.ulbDataCount = this.dataForVisualization?.ulbDataCount?.sort((a, b) => parseFloat(b.ulbs) - parseFloat(a.ulbs));
+      //  console.log('dataaaaaaaaaaaaa', this.dataForVisualization);
         this.highestYear = this.dataForVisualization.ulbDataCount[0].year
         this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB) * 100).toFixed(0)
       }
-this.dataAvailTooltip = '';
+      this.dataAvailTooltip = '';
       this.dataForVisualization?.ulbDataCount?.forEach(element => {
-  this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
+        this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
       });
-this._ngZone.runOutsideAngular(() => {
+      this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.animateValues(1);
         });
