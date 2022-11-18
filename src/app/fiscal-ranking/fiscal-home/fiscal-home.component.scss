@@ -11,7 +11,7 @@
         font-family: 'Manrope';
         font-style: normal;
         font-weight: 800;
-        font-size: 48px;
+        font-size: 3rem;
         line-height: 60px;
     }
 }
@@ -39,7 +39,8 @@
 }
 
 .cardB {
-    height: 340px !important;
+    height: 370px !important;
+    width: 100%;
 }
 
 .li1 i {
@@ -100,11 +101,23 @@
     margin-bottom: 50px;
 }
 
+@media only screen and(max-width:1305px){
+.iconsection{
+    margin-top: -50px !important;
+}
+}
+
+@media only screen and(max-width:1024px){
+    .iconsection{
+        margin-top: -170px !important;
+    }
+    }
+
 .objectives-t {
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 112.50%;
     line-height: 25px;
     color: #101010;
 }
@@ -113,7 +126,7 @@
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 87.50%;
     line-height: 23px;
     color: #565656;
 }
@@ -143,6 +156,8 @@
     font-size: 16px;
     line-height: 31px;
     color: #565656;
+    height: 60px;
+    overflow: hidden;
 }
 
 .how-it-work {
