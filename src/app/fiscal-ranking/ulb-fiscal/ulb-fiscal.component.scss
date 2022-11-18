@@ -140,3 +140,36 @@
     height: 40px;
     padding: 0.375rem 0.75rem;
 }
+
+.c-head {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    /* identical to box height */
+    text-align: center;
+    color: #101010;
+}
+
+.c-sub-h {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+    text-align: center;
+    color: #101010;
+}
+
+.btn-d-org {
+    background: #E67E15;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    color: #fff
+}
+
+.btn-up-org {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #E67E15;
+}
