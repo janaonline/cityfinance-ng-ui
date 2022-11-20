@@ -1,7 +1,6 @@
 @import "../../../../scss/functions";
 @import "../../../../scss/variables";
 @import "../../../../scss/mixins";
-
 ::ng-deep .tooltip-custom-1 {
     transform: translateY(-4000px);
 }
@@ -49,8 +48,8 @@
     position: relative;
     min-height: 530px;
     @media (max-width: 600px) {
-      min-height: 550px;
-      //  margin-left: 10px;
+        min-height: 550px;
+        //  margin-left: 10px;
     }
     // border: 1px solid rgb(212, 212, 212);
     border-radius: 5px;
@@ -60,7 +59,8 @@
     align-items: flex-end;
     justify-content: flex-end;
     background: white;
-  }
+}
+
 div.miniMap {
     position: absolute !important;
     background: transparent;
@@ -305,43 +305,42 @@ div.miniMap {
     min-width: 200.1px !important;
 }
 
-
 ::ng-deep .analytics-map {
     .leaflet-bottom {
-      transform: scale(0.55);
-      width: 155px;
-      font-size: 0.7vw;
+        transform: scale(0.55);
+        width: 155px;
+        font-size: 0.7vw;
     }
     .leaflet-control {
-      width: fit-content;
-      transform: scale(1.6) translateY(-50%);
-      position: absolute;
-      bottom: 0px;
-      background: transparent;
-      @media screen and (max-width: 1024px) and (min-width: 560px) {
-        font-size: $font-size-base * 0.75;
-      }
-      @media screen and (max-width: 551px) {
-        font-size: $font-size-base * 0.625;
-        width: 100%;
-        margin: 0 0;
-        left: -30px;
-        padding: 0;
-        margin-left: 0 !important;
-      }
-      @media screen and (min-width: 410px) and (max-width: 415px) {
-        width: 65%;
-        left: -40px;
-      }
-      @media screen and (max-width: 405px) and (min-width: 320px) {
-        font-size: $font-size-base * 0.75;
-        width: 51%;
-      }
-      @media screen and (max-width: 319px) {
-        display: none;
-      }
+        width: fit-content;
+        transform: scale(1.6) translateY(-50%);
+        position: absolute;
+        bottom: 0px;
+        background: transparent;
+        @media screen and (max-width: 1024px) and (min-width: 560px) {
+            font-size: $font-size-base * 0.75;
+        }
+        @media screen and (max-width: 551px) {
+            font-size: $font-size-base * 0.625;
+            width: 100%;
+            margin: 0 0;
+            left: -30px;
+            padding: 0;
+            margin-left: 0 !important;
+        }
+        @media screen and (min-width: 410px) and (max-width: 415px) {
+            width: 65%;
+            left: -40px;
+        }
+        @media screen and (max-width: 405px) and (min-width: 320px) {
+            font-size: $font-size-base * 0.75;
+            width: 51%;
+        }
+        @media screen and (max-width: 319px) {
+            display: none;
+        }
     }
-  }
+}
 
 ::ng-deep {
     .leaflet-control-attribution {
@@ -374,7 +373,7 @@ div.miniMap {
             font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
-            font-size:$font-size-base*0.75;
+            font-size: $font-size-base*0.75;
             margin: auto;
         }
     }
@@ -427,6 +426,7 @@ div.miniMap {
         }
     }
 }
+
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: #FFFFFF !important;
     stroke-width: 2px;
@@ -483,7 +483,6 @@ div.miniMap {
     font: normal normal bold #{$font-size-base*1.5}/#{$font-size-base*1.625} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
-   
 }
 
 .num-data {
@@ -514,27 +513,27 @@ div.miniMap {
 
 .data-point-value {
     font-size: 1.8em;
-    
     width: 100%;
     @media screen and (max-width: 280px) {
-      font-size: 10px;
+        font-size: 10px;
     }
-  }
-  .loading-value {
-    opacity: 0.1;
-  }
-  .data-point-name {
-  
-    width: 100%;
-    text-align: center;
-  }
-
-.pointer{
-    cursor:pointer;
 }
 
-.dim{
-    color:#6E7281;
+.loading-value {
+    opacity: 0.1;
+}
+
+.data-point-name {
+    width: 100%;
+    text-align: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.dim {
+    color: #6E7281;
 }
 
 .up-text {
@@ -573,4 +572,9 @@ div.miniMap {
     .inp-grp {
         margin-top: .8rem;
     }
+}
+
+::ng-deep .c-btn {
+    border: 1px solid;
+    border-radius: 6px;
 }

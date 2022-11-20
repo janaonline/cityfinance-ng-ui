@@ -15,6 +15,7 @@
         [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
         style="height: 100%"
       >
+
         <!-- <p class="text-center" *ngIf="currentStateInView">
       Click on any ULB to view their data or Click on INDIA map to go back.
     </p> -->
@@ -22,10 +23,7 @@
       <div
         class="stateMap analytics-map"
         [id]="'mapidd' + randomNumber"
-        style="
-          background-image: url('../../../../assets/Layer\ 1.png') !important;
-        "
-      ></div>
+        style="background-image: url('../../../../assets/Layer\ 1.png') !important;"></div>
     </div>
     <div class="col-md-12 col-lg-6 col-sm-12">
       <div class="expo">Explore</div>
@@ -137,10 +135,7 @@
                 <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
                     <div *ngIf="!stateDim" class="num-data">
                         {{ dataForVisualization?.financialStatements || 0 | inrCurrency: { currencyTypeInUser: null } }}
-                        <span mat-raised-button
-                        [matTooltip]="dataAvailTooltip"
-                        matTooltipClass="my-tooltip"
-                        aria-label="Button that displays a tooltip with a custom message"><img src="../../../../assets/ticks/info_black_18dp.svg"></span>
+                        <span mat-raised-button [matTooltip]="dataAvailTooltip" matTooltipClass="my-tooltip" aria-label="Button that displays a tooltip with a custom message"><img src="../../../../assets/ticks/info_black_18dp.svg"></span>
                     </div>
                     <div *ngIf="stateDim" class="num-data">
                         {{ cityInfo?.area ? (cityInfo?.area | number: "1.0-0") : 0 }} Sq KM
@@ -167,7 +162,7 @@
                         {{ cityInfo?.area > 0 ? (cityInfo?.population / cityInfo?.area | number: "1.0-0") : 0 }}/ Sq KM
                     </div>
                     <div *ngIf="!stateDim" class="num-text my-1">
-                      ULBs Credit Rating Reports
+                        ULBs Credit Rating Reports
                     </div>
                     <div *ngIf="stateDim" class="num-text my-1">Population Density</div>
                 </div>
@@ -193,7 +188,7 @@
                     </div>
 
                     <div *ngIf="!stateDim" class="num-text my-1">
-                      Highest Financial Data Availability is in FY{{highestYear}}
+                        Highest Financial Data Availability is in FY {{highestYear}}
                     </div>
                     <div *ngIf="stateDim" class="num-text my-1">
                         Years of Financial Statements
