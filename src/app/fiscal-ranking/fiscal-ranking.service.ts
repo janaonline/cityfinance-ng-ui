@@ -26,4 +26,12 @@ export class FiscalRankingService {
       `${environment.api.url}FRHomePageContent`
     );
   }
+
+
+  verifyCaptcha(recaptcha: string) {
+    return this.http.post(`${environment.api.url}captcha_validate`, {
+      recaptcha,
+    });
+  }
+
 }

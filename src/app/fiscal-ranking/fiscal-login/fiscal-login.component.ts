@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from 'rxjs';
+import { rankingRouter } from 'src/app/dashboard/ranking/ranking.router';
+import { RankingService } from 'src/app/shared/services/ranking.service';
 import { environment } from 'src/environments/environment';
+import { FiscalRankingService } from '../fiscal-ranking.service';
 
 @Component({
   selector: 'app-fiscal-login',
@@ -9,9 +12,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./fiscal-login.component.scss']
 })
 export class FiscalLoginComponent implements OnInit {
-    registerForm: FormGroup;
+    censusForm: FormGroup;
+    emailForm: FormGroup;
+    mohuaForm:FormGroup;
     submitted: boolean = false;
-    
+    hide1=true;
 
     loginDetails = [
       {
@@ -27,7 +32,7 @@ export class FiscalLoginComponent implements OnInit {
         loginValidation: "emailValidation",
       },
     ];
-  
+    public passwordRequestForm: FormGroup;
     countDown: Subscription;
     counter = 60;
     tick = 1000;
@@ -56,30 +61,74 @@ export class FiscalLoginComponent implements OnInit {
     directLogin = false;
     customValidator: any;
 
-  constructor(private fb: FormBuilder) { }
+    pattern="^[ a-zA-Z][a-zA-Z ]*$";
 
-  ngOnInit(): void  {
-    this.registerForm = this.fb.group(
-      {
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.compose([Validators.required, this.customValidator.patternValidator()])],
-        otp: [""],
-      },
-      {
-        validator: this.customValidator.MatchPassword('password', 'confirmPassword'),
+  constructor(
+    private formBuilder: FormBuilder,
+     private fiscalrankingservice : FiscalRankingService
+     ) { 
+
+     }
+
+  ngOnInit(): void  
+  
+  {
+    this.censusForm = this.formBuilder.group({
+      text: ['', [Validators.required, Validators.pattern]],
+  });
+
+   
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+  });
+
+  this.mohuaForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    
+});
+    }
+
+    get c() {return this.censusForm.controls;}
+
+    get f() { return this.emailForm.controls; }
+    
+    get d() {return this.mohuaForm.controls;}
+
+    private resetCaptcha() {
+      this.reCaptcha.show = false;
+      this.reCaptcha.userGeneratedKey = null;
+      this.passwordRequestForm.controls.captcha.reset();
+      setTimeout(() => {
+        this.reCaptcha.show = true;
+      }, 500);
+    }
+  
+
+    resolveCaptcha(keyGenerated: string) {
+      this.reCaptcha.userGeneratedKey = keyGenerated;
+      this.fiscalrankingservice.verifyCaptcha(keyGenerated).subscribe((res) => {
+        if (!res["success"]) {
+          this.resetCaptcha();
+        }
+  
+        this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
       });
     }
 
-    get registerFormControl() {
-      return this.registerForm.controls;
-    }
-
+    
     onSubmit() {
       this.submitted = true;
-      if (this.registerForm.valid) {
-        alert('Form Submitted succesfully!!!\n Check the values in browser console.');
-        console.table(this.registerForm.value);
+      if(this.emailForm.invalid) { 
+        return;
+      } else {
+        console.log(JSON.stringify(this.emailForm.value));
       }
-    }
+  }
+
+  forget(){
+   this.hide1 = false;
+
+   console.log("from forget")
+  }
 
 }
