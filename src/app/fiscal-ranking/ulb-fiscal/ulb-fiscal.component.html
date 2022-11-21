@@ -62,12 +62,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                        <div class="row mt-4 pd-b" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 ">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
@@ -229,7 +229,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 l-h">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
@@ -253,21 +253,19 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style">
-                                        <div class="card-body">
+                                        <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
                                                     Download & Print
                                                 </div>
-                                                <div class="col-sm-12 c-sub-h com-style">
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
                                                     Please download and reupload the signed copy.
                                                 </div>
-                                                <div class="col-sm-12 com-style">
+                                                <div class="col-sm-12 com-style text-center mt-3">
                                                     <button class="btn btn-d-org">
-                                              <span class="material-icons-outlined">
-                                                cloud_download
-                                                </span>
-                                               Download File
-                                            </button>
+                                                      <img class="u-i me-3" src="../../../assets/circle/cloud_download_black_24dp.svg" alt="">
+                                                     Download File
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -276,22 +274,19 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style">
-                                        <div class="card-body">
+                                        <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
                                                     Upload Signed Copy
                                                 </div>
-                                                <div class="col-sm-12 c-sub-h com-style">
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
                                                     Please uploaded the signed copy.
                                                 </div>
-                                                <div class="col-sm-12 com-style">
+                                                <div class="col-sm-12 com-style text-center mt-3 ">
                                                     <button class="btn btn-up-org">
-                                            Upload File
-                                            <span class="material-icons-outlined">
-                                              cloud_upload
-                                              </span>
-
-                                          </button>
+                                                       Upload File
+                                                      <img class="u-i ms-3" src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
+                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -302,10 +297,10 @@
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
                     </div>

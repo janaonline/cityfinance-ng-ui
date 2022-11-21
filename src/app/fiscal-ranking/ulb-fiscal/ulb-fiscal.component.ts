@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 
 @Component({
@@ -671,7 +672,7 @@ export class UlbFiscalComponent implements OnInit {
   goverPar = {
     normalData: {
       key: 'normalData',
-      label: 'vhjbj',
+      label: '',
       yearData: [
         {
           label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
@@ -827,6 +828,46 @@ export class UlbFiscalComponent implements OnInit {
   }
   returnZero() {
     return 0;
+  }
+
+  stepperContinue(stepper: MatStepper, item) {
+    console.log("stepper", stepper, item);
+    // let lb: string = label;
+    // switch (label) {
+    //   case "enumeration": {
+    //     this.lGreen.enum = true;
+    //     this.lSelected.enum = false;
+    //     console.log("enum", this.scorePerformanceForm);
+    //     break;
+    //   }
+    //   case "valuation": {
+    //     this.lGreen.valu = true;
+    //     this.lSelected.valu = false;
+    //     //  console.log('valu', this.scorePerformanceForm)
+    //     break;
+    //   }
+    //   case "assessment": {
+    //     this.lGreen.asse = true;
+    //     this.lSelected.asse = false;
+    //     break;
+    //   }
+    //   case "billing_collection": {
+    //     //  console.log('bilii', this.scorePerformanceForm)
+    //     this.lGreen.bAndC = true;
+    //     this.lSelected.bAndC = false;
+    //     break;
+    //   }
+    //   case "reporting": {
+    //     this.lGreen.repo = true;
+    //     this.lSelected.repo = false;
+    //     //console.log('repo', this.scorePerformanceForm)
+    //     break;
+    //   }
+    // }
+    stepper.next();
+  }
+  stepperContinueSave(stepper: MatStepper, item) {
+    stepper.next();
   }
 
 }
