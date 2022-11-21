@@ -4,28 +4,30 @@
 // .LinearG {
 //     background-image: linear-gradient(rgba(38, 104, 172, 0.5), rgba(0, 0, 0, 0.6)) !important;
 // }
-.title {
-    text-align: center !important;
-    color: #FFFFFF;
-    #title-hd {
-        font-family: 'Manrope';
-        font-style: normal;
-        font-weight: 800;
-        font-size: 3rem;
-        line-height: 60px;
-    }
+.car-bg {
+    background: #2668AC;
+    mix-blend-mode: multiply;
+    //  opacity: 0.6;
 }
 
-.title1 {
+#title-hd {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 60px;
     text-align: center !important;
     color: #FFFFFF;
-    #title-p {
-        font-family: 'Manrope';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 31px;
-    }
+}
+
+#title-p {
+    text-align: center !important;
+    color: #FFFFFF;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 31px;
 }
 
 .heading-obj {
@@ -39,7 +41,7 @@
 }
 
 .cardB {
-    height: 370px !important;
+    height: 20rem !important;
     width: 100%;
 }
 
@@ -97,28 +99,29 @@
 }
 
 .cont {
-    margin-top: 150px;
-    margin-bottom: 50px;
+    margin-top: 3.5rem;
+    margin-bottom: 3rem;
 }
 
-@media only screen and(max-width:1305px){
-.iconsection{
-    margin-top: -50px !important;
-}
+@media only screen and(max-width:1305px) {
+    .iconsection {
+        margin-top: -50px !important;
+    }
 }
 
-@media only screen and(max-width:1024px){
-    .iconsection{
+@media only screen and(max-width:1024px) {
+    .iconsection {
         margin-top: -170px !important;
     }
-    }
+}
 
 .objectives-t {
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 800;
-    font-size: 112.50%;
+    font-size: 18px;
     line-height: 25px;
+    /* identical to box height */
     color: #101010;
 }
 
@@ -126,7 +129,7 @@
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 400;
-    font-size: 87.50%;
+    font-size: 14px;
     line-height: 23px;
     color: #565656;
 }
@@ -174,6 +177,8 @@
     font-weight: 800;
     font-size: 36px;
     line-height: 60px;
+    color: #FFFFFF;
+    padding-left: 8rem;
 }
 
 .h-p4 {
@@ -283,38 +288,33 @@
     }
 }
 
-.fluid {
-    margin-top: 80px !important;
-}
-
-.card1:hover {
-    transform: scale(1.05);
-    transition: all 1s ease-out 0s;
-    background-color: #fff7eb;
-    img,
-    .card-body,
-    .card-text,
-    span {
-        display: none;
-    }
-    .hidden-text1 {
-        display: inline-block !important;
-        margin-top: 75px !important;
-        .btn-d1 {
-            margin-top: 5rem !important;
-        }
-        .btn-view1 {
-            background: #e67e15 0% 0% no-repeat padding-box;
-            box-shadow: 0px 2px 8px #f7c199;
-            border-radius: 8px;
-            padding: 0.8rem 1.5rem;
-            font: normal normal bold #{$font-size-base * 0.875}/#{$font-size-base * 0.938} "Archivo";
-            letter-spacing: 0px;
-            color: #ffffff;
-        }
-    }
-}
-
+// .card1:hover {
+//     transform: scale(1.05);
+//     transition: all 1s ease-out 0s;
+//     background-color: #fff7eb;
+//     img,
+//     .card-body,
+//     .card-text,
+//     span {
+//         display: none;
+//     }
+//     .hidden-text1 {
+//         display: inline-block !important;
+//         margin-top: 75px !important;
+//         .btn-d1 {
+//             margin-top: 5rem !important;
+//         }
+//         .btn-view1 {
+//             background: #e67e15 0% 0% no-repeat padding-box;
+//             box-shadow: 0px 2px 8px #f7c199;
+//             border-radius: 8px;
+//             padding: 0.8rem 1.5rem;
+//             font: normal normal bold #{$font-size-base * 0.875}/#{$font-size-base * 0.938} "Archivo";
+//             letter-spacing: 0px;
+//             color: #ffffff;
+//         }
+//     }
+// }
 .hidden-text1 {
     display: none;
 }
@@ -338,7 +338,12 @@
     color: #565656;
 }
 
+.ShowDetails {
+    margin-top: 1.5rem;
+}
+
 .CardHover {
+    height: 155px;
     .HidePara {
         display: none;
     }
@@ -349,22 +354,112 @@
         display: none;
     }
     .HidePara {
-        transition-duration: 0.7s;
+        transition-duration: 0.5s;
         display: inline-block;
+        margin-top: 1rem;
     }
 }
 
-#CardSize:hover {
-    height: 180px !important;
-    small {
-        text-align: center;
-        margin-top: 40px;
-    }
-}
-
+// #CardSize:hover {
+//     //  height: 180px !important;
+//     small {
+//         text-align: center;
+//         margin-top: px;
+//     }
+// }
 .btn-exp {
     border: 1px solid #ff8a00;
     color: #ff8a00;
-    padding: 5px 20px;
+    padding: 7px 25px;
     background-color: #fff;
+}
+
+.header-Pos {
+    position: absolute;
+    top: 1.5rem;
+    margin: auto;
+    width: 100%;
+}
+
+.header-Pos-ic {
+    position: absolute;
+    bottom: 1.5rem;
+    margin: auto;
+    width: 100%;
+}
+
+.icon-txt {
+    vertical-align: middle;
+}
+
+.h-pos {
+    width: 70%;
+    margin: auto;
+    text-align: center;
+}
+
+.m-img {}
+
+.a-i-c {
+    align-items: center;
+}
+
+.h-sl {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 60px;
+    /* identical to box height, or 167% */
+    text-align: center;
+    color: #101010;
+}
+
+.sl-text {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    // line-height: 60px;
+    /* identical to box height, or 167% */
+    color: #101010;
+}
+
+.sl-sub-text {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    // line-height: 31px;
+    /* or 194% */
+    color: #565656;
+}
+
+.r-icon {
+    border-radius: 50rem;
+    border: 1px solid #d7d4d4;
+}
+
+.btn-read {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 31px;
+    /* identical to box height, or 194% */
+    color: #E67E15;
+    text-decoration: none;
+}
+
+.title-back {}
+
+.sub-back {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 31px;
+    color: #565656;
+}
+
+.h-c-s {
+    height: 20rem;
 }

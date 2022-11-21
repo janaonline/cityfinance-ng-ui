@@ -10,13 +10,17 @@ import { FiscalRankingService } from '../fiscal-ranking.service';
 })
 export class FiscalHomeComponent implements OnInit {
 
-
+  constructor(private fiscal: FiscalRankingService) {
+    // this.fiscal.getHeroes().subscribe((data:any)=>{
+    //   this.result = data
+    //   console.log("this myu data======>",this.result)
+    // })
+  }
   public objresult = [];
   public assresult = [];
   public salientresult = [];
   public rankresult = [];
   public iconresult = [];
-
 
 
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
@@ -134,12 +138,6 @@ export class FiscalHomeComponent implements OnInit {
   // },
   // ]
 
-  constructor(private fiscal: FiscalRankingService) {
-    // this.fiscal.getHeroes().subscribe((data:any)=>{
-    //   this.result = data
-    //   console.log("this myu data======>",this.result)
-    // })
-  }
 
   ngOnInit(): void {
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
@@ -179,11 +177,27 @@ export class FiscalHomeComponent implements OnInit {
         }
       }
       this.iconresult = data.data.filter(canicon);
-
       console.log("this myu data======>", data.data)
+      this.setDisplayItem()
     })
   }
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+  setDisplayItem() {
+    console.log("this myu data======>123", this.assresult);
+    this.assresult.forEach((el) => {
+      el.bakePage = false;
+    });
+    console.log("this myu data======>235", this.assresult);
+  }
+  selItem = false;
+  readMore(data, ind) {
+    console.log('display', data, ind);
+    data.bakePage = true;
+  }
+  readLess(data, ind) {
+    console.log('display', data, ind);
+    data.bakePage = false;
   }
 }

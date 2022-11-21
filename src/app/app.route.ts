@@ -14,7 +14,7 @@ import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.co
 import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 export const appRouter: Routes = [
 
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'fiscal/home', pathMatch: 'full' },
   { path: "home", component: NewHomeComponent },
   // { path: "oldhome", component: HomeComponent },
   // { path: "card", component: SharedCardComponent },
@@ -209,7 +209,7 @@ export const appRouter: Routes = [
     component: ProfileUpdateComponent,
   },
 
-  { path: "**", redirectTo: "home" },
+  { path: "**", redirectTo: "fiscal/home" },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRouter)],
