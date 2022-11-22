@@ -46,7 +46,7 @@
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.pdf?.name">
                         {{data.pdf?.name}}</label>
                 </div>
-                <div class="col-sm-5 col-lg-5 col-md-5" *ngIf="data.pdf?.progress" style="padding: 0;">
+                <div class="col-sm-3" *ngIf="data.pdf?.progress" style="padding: 0;">
                     <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.pdf?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.pdf?.progress + '%' }">
                         {{ data.pdf?.progress }}%
                     </div>
@@ -85,7 +85,7 @@
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.excel?.name">
                         {{data.excel?.name}}</label>
                 </div>
-                <div class="col-sm-5 col-lg-5 col-md-5" *ngIf="data.excel?.progress" style="padding: 0;">
+                <div class="col-sm-3" *ngIf="data.excel?.progress" style="padding: 0;">
                     <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.excel?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.excel?.progress + '%' }">
                         {{ data.excel?.progress }}%
                     </div>
