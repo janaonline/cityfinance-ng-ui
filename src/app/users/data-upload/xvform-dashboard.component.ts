@@ -995,12 +995,12 @@ export class DataUploadComponent extends UploadDataUtility
             try {
               const { name, type } = files[fileKey];
               const urlResponse: any = await this.dataUploadService
-                .getURLForFileUpload(name, type)
+                .newGetURLForFileUpload(name, type)
                 .toPromise();
               if (urlResponse.success) {
-                let { url, file_alias } = urlResponse.data[0];
+                let { url, file_url } = urlResponse.data[0];
                 urlObject[parentFormGroup][fileUrlKey] =
-                  urlResponse.data[0].file_alias;
+                  urlResponse.data[0].file_url;
                 url = url.replace("admin/", "");
                 const fileUploadResponse = await this.dataUploadService
                   .uploadFileToS3(files[fileKey], url)
@@ -1223,11 +1223,11 @@ export class DataUploadComponent extends UploadDataUtility
               try {
                 const { name, type } = files[fileKey];
                 const urlResponse: any = await this.dataUploadService
-                  .getURLForFileUpload(name, type)
+                  .newGetURLForFileUpload(name, type)
                   .toPromise();
                 if (urlResponse.success) {
-                  let { url, file_alias } = urlResponse.data[0];
-                  urlObject[parentFormGroup][fileUrlKey] = file_alias;
+                  let { url, file_url } = urlResponse.data[0];
+                  urlObject[parentFormGroup][fileUrlKey] = file_url;
                   url = url.replace("admin/", "");
                   const fileUploadResponse = await this.dataUploadService
                     .uploadFileToS3(files[fileKey], url)
