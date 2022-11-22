@@ -6,7 +6,7 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
-import { filter, timeout } from 'rxjs/operators';  
+import { filter, timeout } from 'rxjs/operators';
 @Injectable({
   providedIn: "root",
 })
@@ -76,16 +76,6 @@ export class DataEntryService {
       { headers }
     );
 
-    // return this.http.post(
-    //   "https://stgmformadminapi.dhwaniris.in//" + "getS3Url",
-    //   JSON.stringify([
-    //     {
-    //       file_name: fileName,
-    //       mime_type: fileType
-    //     }
-    //   ]),
-    //   { headers }
-    // );
   }
 
   uploadFileToS3(

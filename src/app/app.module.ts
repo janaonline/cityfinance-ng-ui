@@ -42,6 +42,9 @@ import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 import { NgxPaginationModule } from "ngx-pagination";
 
+
+
+
 @NgModule({
   entryComponents: [DialogComponent],
 
@@ -75,7 +78,8 @@ import { NgxPaginationModule } from "ngx-pagination";
     SlickCarouselModule,
     CollapseModule.forRoot(),
     MunicipalLawModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatFormFieldModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -102,6 +106,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
+    
     // InrCurrencyPipe,
   ],
   exports: [

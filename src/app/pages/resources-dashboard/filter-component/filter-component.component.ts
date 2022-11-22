@@ -58,6 +58,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "2018-19",
     "2019-20",
     "2020-21",
+    "2021-22",
   ].reverse();
   cType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
   // "Standardised Excel",
