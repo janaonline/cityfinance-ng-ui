@@ -691,9 +691,9 @@ export class PfmsComponent implements OnInit, OnDestroy {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           if (progessType == "otherProgress") {
             this[progessType] = Math.floor(Math.random() * 90) + 10;
@@ -736,7 +736,6 @@ export class PfmsComponent implements OnInit, OnDestroy {
               });
               sessionStorage.setItem("changeInPFMS", "true");
               // this.profileForm.get('cert').patchValue({name:file.name})
-
               console.log(file);
               console.log(s3URL);
             }
@@ -747,7 +746,6 @@ export class PfmsComponent implements OnInit, OnDestroy {
                 name: file.name,
               });
               // this.profileForm.get('cert').patchValue({name:file.name})
-
               console.log(file);
               console.log(s3URL);
             }

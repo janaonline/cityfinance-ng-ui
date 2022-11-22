@@ -6,7 +6,7 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
-import { filter, timeout } from 'rxjs/operators';  
+import { filter, timeout } from 'rxjs/operators';
 @Injectable({
   providedIn: "root",
 })
@@ -87,6 +87,19 @@ export class DataEntryService {
     //   { headers }
     // );
   }
+  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+    const headers = new HttpHeaders();
+    return this.http.post<S3FileURLResponse>(
+      `${environment.api.url}/getS3Url`,
+      JSON.stringify([
+        {
+          file_name: fileName,
+          mime_type: fileType,
+        },
+      ]),
+      { headers }
+    );
+  }
 
   uploadFileToS3(
     file: File,
@@ -98,6 +111,7 @@ export class DataEntryService {
       observe: "events",
     });
   }
+
 
   /**
    *

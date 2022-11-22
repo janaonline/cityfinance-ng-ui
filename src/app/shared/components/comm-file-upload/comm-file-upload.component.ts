@@ -173,7 +173,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   uploadFile(file, name, type, fileType) {
 
     this.data[fileType].progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
         const res = s3Response.data[0];
@@ -181,7 +181,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );
