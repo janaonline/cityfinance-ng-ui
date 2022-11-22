@@ -18,12 +18,14 @@ import { MatCardModule } from "@angular/material/card";
 import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
-    UlbFiscalComponent
+    UlbFiscalComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
