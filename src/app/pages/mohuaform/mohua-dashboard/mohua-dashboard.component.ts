@@ -494,7 +494,7 @@ export class MohuaDashboardComponent implements OnInit {
     const option: L.TooltipOptions = {
       sticky: true,
       offset: new L.Point(15, -8),
-      zoomAnimation: true,
+      // zoomAnimation: true,
     };
 
     layer.bindTooltip("<b>" + stateFound.name + "</b>", option);

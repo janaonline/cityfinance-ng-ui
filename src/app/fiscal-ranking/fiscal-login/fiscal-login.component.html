@@ -1,0 +1,141 @@
+<div class="container-fluid">
+
+  <div class="row hero d-flex justify-content-center align-items-center text-center">
+
+    <div class="col-md-3 border shadow mt-5 mb-5 bg-light rounded" style="width:25%;" *ngIf="hide1 ; else : Hide">
+
+
+      <form class="form-signin p-3 mt-4" [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+
+        <div class="city-fr-div">
+          <span class="city-fr">City Finance Rankings 2022</span>
+        </div>
+
+        <h1 class="mb-3 fw-bolder fs-2">Login</h1>
+
+        <div class=" row mb-3">
+
+          <div class="col-md-12">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+              <li class="nav-item" role="presentation">
+                <button class="nav-link button-b active" id="pills-home-tab" data-bs-toggle="pill"
+                  data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                  aria-selected="true">ULB</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link button-b" id="pills-profile-tab" data-bs-toggle="pill"
+                  data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                  aria-selected="false">State</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link button-b" id="pills-contact-tab" data-bs-toggle="pill"
+                  data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                  aria-selected="false">MoHUA</button>
+              </li>
+            </ul>
+          </div>
+
+
+          <div class="tab-content col-md-12" id="myTabContent">
+
+            <div class="tab-pane fade show active mt-3" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
+
+              <input type="text" formControlName="text" class="form-control py-4" placeholder="Census code/ULB"
+                [ngClass]="{ 'is-invalid': submitted && c.text.errors }">
+              <div *ngIf="submitted && c.text.errors" class="invalid-feedback">
+                <div *ngIf="c.text.errors.required">Text is required</div>
+                <div *ngIf="c.text.errors.text">Text must be a valid</div>
+              </div>
+
+              <input type="password" class="form-control py-4 mt-3" placeholder="password">
+
+            </div>
+
+            <div class="tab-pane fade mt-3" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
+
+              <input type="email" formControlName="email" class="form-control py-4" placeholder="Email@123"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+              </div> <input type="password" class="form-control py-4 mt-3" placeholder="password">
+
+            </div>
+
+            <div class="tab-pane fade mt-3" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
+
+              <input type="email" formControlName="mohua" class="form-control py-4" placeholder="Email@123"
+                [ngClass]="{ 'is-invalid': submitted && d.email.errors }">
+              <div *ngIf="submitted && d.email.errors" class="invalid-feedback">
+                <div *ngIf="d.email.errors.required">Email is required</div>
+                <div *ngIf="d.email.errors.email">Email must be a valid email address</div>
+              </div> <input type="password" class="form-control py-4 mt-3" placeholder="password">
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="checkbox mb-4 mt-3 d-flex" style="justify-content: space-between;">
+
+          <div class="col-md-6 text-start">
+            <button class="btn mb-3" style=" background-color: #ff8a00; padding: 6px 20px; color: white;"
+              type="submit">Log in</button>
+          </div>
+
+          <div class="mt-3 col-md-6 text-end"><a class="" style="color: #ff8a00; text-decoration: none;"
+              (click)="forget()">Forget Password ?</a>
+
+          </div>
+
+        </div>
+
+        <div class="border-top pt-3">
+          <a href="#" style="color: #ff8a00; text-decoration: none;"> Get OTP on your phone or Email</a>
+        </div>
+
+      </form>
+
+    </div>
+
+    <!-- forget -->
+    <ng-template #Hide>
+      <div class="col-md-3 border shadow mt-5 mb-5 bg-light rounded" style="width:25%;">
+        <form class="form-signin p-3 mt-4" [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+          <h1 class="mb-3 fw-bolder fs-2">Forgot password</h1>
+
+          <div class=" row mb-3">
+            <input type="email" formControlName="mohua" class="form-control py-4" placeholder="Email@123"
+              [ngClass]="{ 'is-invalid': submitted && d.email.errors }">
+            <div *ngIf="submitted && d.email.errors" class="invalid-feedback">
+              <div *ngIf="d.email.errors.required">Email is required</div>
+              <div *ngIf="d.email.errors.email">Email must be a valid email address</div>
+
+              <re-captcha style="margin-top: 1%; display: block; margin-bottom: 20px" *ngIf="reCaptcha.show"
+                (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha>
+
+            </div>
+
+            <div class="checkbox mb-4 mt-3 d-flex" style="justify-content: center;">
+              <div class="col-md-6 justify-content-center">
+                <button class="btn mb-3" style=" background-color: #ff8a00; padding: 6px 20px; color: white;"
+                  type="submit">Continue</button>
+              </div>
+            </div>
+
+            <div class="border-top pt-3">
+              <a href="#" style="color: #ff8a00; text-decoration: none;"> Sign in here</a>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </ng-template>
+    <!-- forget -->
+
+
+  </div>
+</div>
