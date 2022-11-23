@@ -155,6 +155,7 @@
 }
 
 .p-assess {
+    
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 400;
@@ -163,6 +164,8 @@
     color: #565656;
     height: 60px;
     overflow: hidden;
+    text-align: justify;
+    // letter-spacing:1px;
 }
 
 .how-it-work {
@@ -211,6 +214,7 @@
     font-size: 20px;
     line-height: 27px;
     color: #101010;
+    padding-left: 8% !important;
 }
 
 .salient-p {
