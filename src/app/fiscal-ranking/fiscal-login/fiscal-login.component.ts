@@ -104,7 +104,7 @@ export class FiscalLoginComponent implements OnInit {
       this.mohuaForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.compose([
-          Validators.required, Validators.minLength(5)])]
+          Validators.required, Validators.minLength(8)])]
 
 
       });
