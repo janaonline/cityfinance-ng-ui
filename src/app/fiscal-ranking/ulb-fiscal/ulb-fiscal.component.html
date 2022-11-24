@@ -94,20 +94,24 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 mb-3">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem.amount)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    placeholder="{{yearItem?.placeholder}}">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text br-a" id="basic-addon1">₹</span>
+                                                                    <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
+                                                                        placeholder="{{yearItem?.placeholder}}">
+                                                                </div>
+
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
                                                                 <span class="f-w">
-                                                                {{amount2Type}}
-                                                               </span> of {{yearItem?.label}}
+                                                                   {{yearItem?.inWords}}
+                                                               </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
                                                             </div>
                                                         </div>
 
@@ -143,7 +147,7 @@
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem.amount)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
                                                                     placeholder="{{yearItem?.placeholder}}">
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
@@ -151,8 +155,8 @@
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
                                                                 <span class="f-w">
-                                                              {{amount2Type}}
-                                                             </span> of {{yearItem?.label}}
+                                                                {{yearItem?.inWords}}
+                                                            </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
                                                             </div>
                                                         </div>
 
@@ -241,6 +245,59 @@
                         <div class="" *ngIf="stepItem?.id == 's4'">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
+                                    <div class="card com-style">
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-7">
+                                                    {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="input" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" (keyup)="amountKeyUp('click', goverParaNdata?.normalData?.yearData?.webUrlAnnual)" (change)="keyUpValidationNum($event, stepItem, goverParaNdata?.normalData?.yearData?.webUrlAnnual)"
+                                                        [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-7">
+                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('digitalRegtr', $event.target.value)" [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value" [ngModelOptions]="{standalone: true}">
+                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+
+                                            <div class="" *ngIf="goverParaNdata?.normalData?.yearData?.digitalRegtr?.value == 'Yes'">
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-7">
+                                                        {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngModelOptions]="{standalone: true}">
+                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                            <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                        </mat-radio-group>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-7">
+                                                        {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngModelOptions]="{standalone: true}">
+                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                            <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                        </mat-radio-group>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of goverPar | keyvalue : returnZero">
                                         <div class="card-body">
                                             <div class="loop">
@@ -255,10 +312,17 @@
                                                             <div class="col-sm-12 l-h">
                                                                 {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
                                                                 <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem.amount)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
                                                                     placeholder="{{yearItem?.placeholder}}">
                                                             </div>
+                                                            <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
+                                                                 [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">
+                                                                    <mat-radio-button value="1">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="2" class="ms-3">No</mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div> -->
                                                             <div class="col-sm-12 bot-text">
                                                                 {{yearItem?.bottomText}}
                                                             </div>

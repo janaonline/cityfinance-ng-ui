@@ -18,6 +18,8 @@ export class UlbFiscalComponent implements OnInit {
   userData;
   ulbName = '';
   stateName = '';
+  yearIdArr;
+  ulbId = "";
   constructor(
     private fb: FormBuilder,
     private fiscalService: FiscalRankingService,
@@ -25,7 +27,9 @@ export class UlbFiscalComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
+      this.ulbId = this.userData?.ulb;
     }
+    this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
     this.initializeForm();
   }
 
@@ -610,60 +614,129 @@ export class UlbFiscalComponent implements OnInit {
   //   },
   // };
   goverPar = {
-    normalData: {
-      key: 'normalData',
-      label: '',
-      yearData: [
-        {
-          label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
-          key: 'webUrlAnnual',
-          postion: '1',
-          value: '',
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: ''
-        },
-        {
-          label: 'Do you maintain a Digital Property Tax Register?',
-          key: 'digitalRegtr',
-          postion: '2',
-          value: '',
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: ''
-        },
-        {
-          label: 'Is the property tax register GIS-based?',
-          key: 'registerGis',
-          postion: '3',
-          value: '',
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: ''
-        },
-        {
-          label: 'Do you use accounting software?',
-          key: 'accountStwre',
-          postion: '4',
-          value: '',
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: ''
-        }
-      ]
-    },
+    // normalData: {
+    //   key: 'normalData',
+    //   label: '',
+    //   yearData: {
+    //     webUrlAnnual: {
+    //       label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
+    //       key: 'webUrlAnnual',
+    //       postion: '1',
+    //       value: '',
+    //       min: '',
+    //       max: '',
+    //       required: true,
+    //       type: '',
+    //       bottomText: ``,
+    //       placeHolder: '',
+    //       input: 'text',
+
+    //     },
+    //     digitalRegtr: {
+    //       label: 'Do you maintain a Digital Property Tax Register?',
+    //       key: 'digitalRegtr',
+    //       postion: '2',
+    //       value: '',
+    //       min: '',
+    //       max: '',
+    //       required: true,
+    //       type: '',
+    //       bottomText: ``,
+    //       placeHolder: '',
+    //       input: 'radio',
+
+    //     },
+    //     registerGis: {
+    //       label: 'Is the property tax register GIS-based?',
+    //       key: 'registerGis',
+    //       postion: '3',
+    //       value: '',
+    //       min: '',
+    //       max: '',
+    //       required: true,
+    //       type: '',
+    //       bottomText: ``,
+    //       placeHolder: '',
+    //       input: 'radio',
+    //       show: false,
+
+    //     },
+    //     accountStwre: {
+    //       label: 'Do you use accounting software?',
+    //       key: 'accountStwre',
+    //       postion: '4',
+    //       value: '',
+    //       min: '',
+    //       max: '',
+    //       required: true,
+    //       type: '',
+    //       bottomText: ``,
+    //       placeHolder: '',
+    //       input: 'radio',
+    //       show: false,
+    //     },
+    //   }
+
+    //   // yearData: [
+    //   //   {
+    //   //     label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
+    //   //     key: 'webUrlAnnual',
+    //   //     postion: '1',
+    //   //     value: 'Yes',
+    //   //     min: '',
+    //   //     max: '',
+    //   //     required: true,
+    //   //     type: '',
+    //   //     bottomText: ``,
+    //   //     placeHolder: '',
+    //   //     input: 'text',
+    //   //
+
+    //   //   },
+    //   //   {
+    //   //     label: 'Do you maintain a Digital Property Tax Register?',
+    //   //     key: 'digitalRegtr',
+    //   //     postion: '2',
+    //   //     value: '',
+    //   //     min: '',
+    //   //     max: '',
+    //   //     required: true,
+    //   //     type: '',
+    //   //     bottomText: ``,
+    //   //     placeHolder: '',
+    //   //     input: 'radio',
+    //   //     show: false,
+    //   //   },
+    //   //   {
+    //   //     label: 'Is the property tax register GIS-based?',
+    //   //     key: 'registerGis',
+    //   //     postion: '3',
+    //   //     value: '',
+    //   //     min: '',
+    //   //     max: '',
+    //   //     required: true,
+    //   //     type: '',
+    //   //     bottomText: ``,
+    //   //     placeHolder: '',
+    //   //     input: 'radio',
+    //   //     show: false,
+    //   //   },
+    //   //   {
+    //   //     label: 'Do you use accounting software?',
+    //   //     key: 'accountStwre',
+    //   //     postion: '4',
+    //   //     value: '',
+    //   //     min: '',
+    //   //     max: '',
+    //   //     required: true,
+    //   //     type: '',
+    //   //     bottomText: ``,
+    //   //     placeHolder: '',
+    //   //     input: 'radio',
+    //   //     show: false,
+    //   //   }
+    //   // ]
+    // },
     ownRevDetails: {
       key: 'ownRevDetails',
       label: 'Own Revenue Details',
@@ -678,7 +751,8 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
         {
           label: 'FY 2019-20 - by Cash/Cheque/DD',
@@ -690,7 +764,8 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
         {
           label: 'FY 2019-20 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)',
@@ -702,7 +777,8 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
       ]
     },
@@ -720,7 +796,8 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
         {
           label: 'Number of Properties exemt from paying Property Tax',
@@ -732,7 +809,8 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
         {
           label: 'Number of Properties for which Property Tax has been paid',
@@ -744,13 +822,185 @@ export class UlbFiscalComponent implements OnInit {
           required: true,
           type: '',
           bottomText: ``,
-          placeHolder: ''
+          placeHolder: '',
+          input: 'number'
         },
       ]
     },
   }
+  goverParaNdata = {
+    normalData: {
+      key: 'normalData',
+      label: '',
+      yearData: {
+        webUrlAnnual: {
+          label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
+          key: 'webUrlAnnual',
+          postion: '1',
+          value: '',
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'text',
+
+        },
+        digitalRegtr: {
+          label: 'Do you maintain a Digital Property Tax Register?',
+          key: 'digitalRegtr',
+          postion: '2',
+          value: '',
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'radio',
+
+        },
+        registerGis: {
+          label: 'Is the property tax register GIS-based?',
+          key: 'registerGis',
+          postion: '3',
+          value: '',
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'radio',
+          show: false,
+
+        },
+        accountStwre: {
+          label: 'Do you use accounting software?',
+          key: 'accountStwre',
+          postion: '4',
+          value: '',
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'radio',
+          show: false,
+        },
+      }
+
+      // yearData: [
+      //   {
+      //     label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
+      //     key: 'webUrlAnnual',
+      //     postion: '1',
+      //     value: 'Yes',
+      //     min: '',
+      //     max: '',
+      //     required: true,
+      //     type: '',
+      //     bottomText: ``,
+      //     placeHolder: '',
+      //     input: 'text',
+      //
+
+      //   },
+      //   {
+      //     label: 'Do you maintain a Digital Property Tax Register?',
+      //     key: 'digitalRegtr',
+      //     postion: '2',
+      //     value: '',
+      //     min: '',
+      //     max: '',
+      //     required: true,
+      //     type: '',
+      //     bottomText: ``,
+      //     placeHolder: '',
+      //     input: 'radio',
+      //     show: false,
+      //   },
+      //   {
+      //     label: 'Is the property tax register GIS-based?',
+      //     key: 'registerGis',
+      //     postion: '3',
+      //     value: '',
+      //     min: '',
+      //     max: '',
+      //     required: true,
+      //     type: '',
+      //     bottomText: ``,
+      //     placeHolder: '',
+      //     input: 'radio',
+      //     show: false,
+      //   },
+      //   {
+      //     label: 'Do you use accounting software?',
+      //     key: 'accountStwre',
+      //     postion: '4',
+      //     value: '',
+      //     min: '',
+      //     max: '',
+      //     required: true,
+      //     type: '',
+      //     bottomText: ``,
+      //     placeHolder: '',
+      //     input: 'radio',
+      //     show: false,
+      //   }
+      // ]
+    },
+  }
   signedFileName = '';
   signedFileUrl = '';
+  postData = {
+    "ulb": "5dd24729437ba31f7eb42eb8",
+    "design_year": "606aadac4dff55e6c075c507",
+    "population11": 100,
+    "populationFr": 69248,
+    "webLink": null,
+    "nameCmsnr": "suresh",
+    "nameOfNodalOfficer": "",
+    "designationOftNodalOfficer": "",
+    "email": "suresh.mali@gmail.com",
+    "mobile": "8512346122",
+    "webUrlAnnual": null,
+    "digitalRegtr": "Yes",
+    "registerGis": "Yes",
+    "accountStwre": "Yes",
+    "totalOwnRevenueArea": 123546,
+    "fy_19_20_cash": {
+      "type": "Cash",
+      "amount": 10000
+    },
+    "fy_19_20_online": {
+      "type": "UPI",
+      "amount": 99999
+    },
+    "fyData": [
+      {
+        "ulb": "5dd24729437ba31f7eb42eb8",
+        "year": "606aadac4dff55e6c075c507",
+        "amount": 10000,
+        "type": "",
+        "file": "",
+        "typeofdata": "", /* Number, PDF,Excel    */
+        "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
+      }
+
+    ],
+    "signedCopyOfFile": {
+      "name": '',
+      "url": ''
+    },
+    "property_tax_register": 10000,
+    "paying_property_tax": 456879,
+    "paid_property_tax": 100000,
+    "status": "PENDING",
+    "isDraft": true
+  };
   ngOnInit(): void {
     this.onLoad();
   }
@@ -846,8 +1096,10 @@ export class UlbFiscalComponent implements OnInit {
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
+    //  this.goverPar = formObjKey?.goverPar;
       this.fillDataInForm(res?.data?.data);
       this.changeNumToWords();
+      this.skipLogicForGov('onload');
     },
       (error) => {
         console.log(error);
@@ -919,14 +1171,30 @@ export class UlbFiscalComponent implements OnInit {
     console.log('this form.....revenueMob', this.revenueMob);
     console.log('this form..... expPerf', this.expPerf);
     console.log('this form..... goverPar', this.goverPar);
+    this.saveForm();
     stepper.next();
   }
   keyUpValidationNum(e, stepItem, yearItem) {
     console.log('validation', e, stepItem, yearItem)
   }
-  amount2Type;
-  amountKeyUp(type, val) {
-    this.amount2Type = toWords.convert(Number(val), {
+  skipLogicForGov(type) {
+
+  }
+  skipLogicRadio(type, val) {
+    console.log('vvvvv', type, val);
+
+    if (type == 'digitalRegtr' && val == 'Yes') {
+      //  goverPar.normalData.yearData.digitalRegtr.value
+    }
+  }
+  amountKeyUp(type, yearItem) {
+    yearItem.inWords = toWords.convert(Number(yearItem?.amount), {
+      currency: false,
+      doNotAddOnly: true,
+    });
+  }
+  amounttoWords(type, val) {
+    return toWords.convert(Number(val), {
       currency: false,
       doNotAddOnly: true,
     });
@@ -934,7 +1202,12 @@ export class UlbFiscalComponent implements OnInit {
   changeNumToWords() {
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
-        this.amountKeyUp('onLoad', el?.amount)
+        el.inWords = this.amounttoWords('onLoad', el?.amount)
+      })
+    }
+    for (const key in this.expPerf) {
+      this.expPerf[key].yearData.forEach((el) => {
+        el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
   }
@@ -1038,6 +1311,60 @@ export class UlbFiscalComponent implements OnInit {
         //this.data[fileType].error = true;
       }
     );
+  }
+
+  saveForm() {
+    this.updateValueInForm()
+    this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
+      console.log('post res', res);
+      swal('Saved', "Data save as draft successfully!", 'success')
+    },
+      (error) => {
+        console.log('post error', error)
+      }
+    )
+  }
+  updateValueInForm() {
+    this.postData = {
+      ulb: this.ulbId,
+      "design_year": this.yearIdArr[2022 - 23],
+      ...this.fiscalForm?.value?.basicUlbDetails,
+      ...this.fiscalForm?.value?.contactInfo,
+      "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
+      "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
+      "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
+      "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
+      "totalOwnRevenueArea": 123546,
+      "fy_19_20_cash": {
+        "type": "Cash",
+        "amount": 10000
+      },
+      "fy_19_20_online": {
+        "type": "UPI",
+        "amount": 99999
+      },
+      "fyData": [
+        // {
+        //   ulb: this.ulbId,
+        //   "year": "",
+        //   "amount": 10000,
+        //   "type": "",
+        //   "file": "",
+        //   "typeofdata": "", /* Number, PDF,Excel    */
+        //   "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
+        // }
+
+      ],
+      "signedCopyOfFile": {
+        "name": this.signedFileName,
+        "url": this.signedFileUrl
+      },
+      "property_tax_register": 10000,
+      "paying_property_tax": 456879,
+      "paid_property_tax": 100000,
+      "status": "PENDING",
+      "isDraft": true
+    };
   }
 
 }

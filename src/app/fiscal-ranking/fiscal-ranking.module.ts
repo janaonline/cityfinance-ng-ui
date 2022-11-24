@@ -19,6 +19,7 @@ import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { LoaderComponent } from './loader/loader.component';
     MatInputModule,
     MatCardModule,
     FiscalRankingRoutingModule,
+    MatRadioModule
     
   ],
   providers: [{
