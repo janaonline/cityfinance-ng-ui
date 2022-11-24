@@ -203,13 +203,13 @@ export class SolidWasteManagementComponent implements OnInit {
         const file = files[index];
 
         const subs = this.dataEntryService
-          .getURLForFileUpload(file.name, file.type)
+          .newGetURLForFileUpload(file.name, file.type)
           .pipe(
-            switchMap((res) =>
+            switchMap((res: any) =>
               this.initiateFileUploadProcess(
                 file,
                 res.data[0].url,
-                res.data[0].file_alias,
+                res.data[0].file_url,
                 file.name,
                 fieldKey
               )

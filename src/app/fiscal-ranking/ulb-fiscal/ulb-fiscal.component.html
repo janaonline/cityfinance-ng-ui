@@ -13,61 +13,66 @@
                         <span class="st-title com-style" [title]="stepItem?.label">{{stepItem?.label}}</span>
                     </ng-template>
                     <div class="container w-50 mt-4">
-                        <!-- ulb basic info -->
-                        <div class="" *ngIf="stepItem?.id == 's1'">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <div class="form">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ulb contact info -->
-                        <div class="" *ngIf="stepItem?.id == 's6'">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <div class="form">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <input type="input" class="form-control com-style" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
+                        <div class="form" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                            <form [formGroup]="fiscalForm" *ngIf="fiscalForm">
+                                <!-- ulb basic info -->
+                                <div class="" *ngIf="stepItem?.id == 's1'">
+                                    <div class="row mx-auto">
+                                        <div class="col-sm-12">
+                                            <div class="form" formGroupName="basicUlbDetails">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <input type="input" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="populationFr" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="webLink" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="nameCmsnr" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <!-- ulb contact info -->
+                                <div class="" *ngIf="stepItem?.id == 's6'">
+                                    <div class="row mx-auto">
+                                        <div class="col-sm-12">
+                                            <div class="form" formGroupName="contactInfo">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <input type="input" class="form-control com-style" formControlName="nameOfNodalOfficer" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="designationOftNodalOfficer" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
+                                                    </div>
+                                                    <div class="col-sm-12 mt-3">
+                                                        <input type="input" class="form-control com-style" formControlName="mobile" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="row mt-4" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+
+                        <div class="row mt-4 pd-b" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
 
@@ -78,7 +83,7 @@
                         <div class="" *ngIf="stepItem?.id == 's2'">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
-                                    <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero">
+                                    <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
                                         <div class="card-body">
                                             <div class="loop">
                                                 <div class="row">
@@ -87,24 +92,34 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 mb-3">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text br-a" id="basic-addon1">₹</span>
+                                                                    <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
+                                                                        placeholder="{{yearItem?.placeholder}}">
+                                                                </div>
+
                                                             </div>
-                                                            <div class="col-sm-12 bot-text">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                                <span class="f-w">
+                                                                   {{yearItem?.inWords}}
+                                                               </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
                                                             </div>
                                                         </div>
 
 
                                                     </div>
                                                     <!-- <div class="col-sm-3"></div>
-                                          <div class="col-sm-3"></div>
-                                          <div class="col-sm-3"></div> -->
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-3"></div> -->
                                                 </div>
                                             </div>
 
@@ -128,22 +143,28 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 ">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                    placeholder="{{yearItem?.placeholder}}">
                                                             </div>
-                                                            <div class="col-sm-12 bot-text">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                                <span class="f-w">
+                                                                {{yearItem?.inWords}}
+                                                            </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
                                                             </div>
                                                         </div>
 
 
                                                     </div>
                                                     <!-- <div class="col-sm-3"></div>
-                                        <div class="col-sm-3"></div>
-                                        <div class="col-sm-3"></div> -->
+                                      <div class="col-sm-3"></div>
+                                      <div class="col-sm-3"></div> -->
                                                 </div>
                                             </div>
 
@@ -189,19 +210,25 @@
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <button (click)="bs_pdf1.click()" class="btn form-btn com-style">
-                                                                 <div class="row">
-                                                                  <div class="col-sm-6 file-text ">
-                                                                    Select File
-                                                                  </div>
-                                                                  <div class="col-sm-6 text-end">
-                                                                    <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
-                                                                  </div>
-                                                                 </div>
-                                                                </button>
-                                                                <input #bs_pdf1 style="display: none;" onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                                               <div class="row">
+                                                                <div class="col-sm-6 file-text ">
+                                                                  Select File
+                                                                </div>
+                                                                <div class="col-sm-6 text-end">
+                                                                  <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                </div>
+                                                               </div>
+                                                              </button>
+                                                                <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)" type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
-                                                            <div class="col-sm-12 bot-text">
+                                                            <div class="col-sm-12">
+                                                                <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
+                                                            </div>
+                                                            <div class="col-sm-12 com-style f-w mt-3" *ngIf="yearItem?.file?.url">
+                                                                <a href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url)">
                                                                 {{yearItem?.bottomText}}
                                                             </div>
                                                         </div>
@@ -218,6 +245,59 @@
                         <div class="" *ngIf="stepItem?.id == 's4'">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
+                                    <div class="card com-style">
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-7">
+                                                    {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="input" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" (keyup)="amountKeyUp('click', goverParaNdata?.normalData?.yearData?.webUrlAnnual)" (change)="keyUpValidationNum($event, stepItem, goverParaNdata?.normalData?.yearData?.webUrlAnnual)"
+                                                        [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-7">
+                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('digitalRegtr', $event.target.value)" [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value" [ngModelOptions]="{standalone: true}">
+                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+
+                                            <div class="" *ngIf="goverParaNdata?.normalData?.yearData?.digitalRegtr?.value == 'Yes'">
+                                                <div class="row mb-3">
+                                                    <div class="col-sm-7">
+                                                        {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngModelOptions]="{standalone: true}">
+                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                            <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                        </mat-radio-group>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-7">
+                                                        {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngModelOptions]="{standalone: true}">
+                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                            <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                        </mat-radio-group>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of goverPar | keyvalue : returnZero">
                                         <div class="card-body">
                                             <div class="loop">
@@ -229,12 +309,20 @@
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 l-h">
                                                                 {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12">
-                                                                <input type="input" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}">
+                                                            <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
+                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem.amount)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                    placeholder="{{yearItem?.placeholder}}">
                                                             </div>
+                                                            <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
+                                                                 [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">
+                                                                    <mat-radio-button value="1">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="2" class="ms-3">No</mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div> -->
                                                             <div class="col-sm-12 bot-text">
                                                                 {{yearItem?.bottomText}}
                                                             </div>
@@ -253,21 +341,19 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style">
-                                        <div class="card-body">
+                                        <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
                                                     Download & Print
                                                 </div>
-                                                <div class="col-sm-12 c-sub-h com-style">
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
                                                     Please download and reupload the signed copy.
                                                 </div>
-                                                <div class="col-sm-12 com-style">
+                                                <div class="col-sm-12 com-style text-center mt-3">
                                                     <button class="btn btn-d-org">
-                                              <span class="material-icons-outlined">
-                                                cloud_download
-                                                </span>
-                                               Download File
-                                            </button>
+                                                    <img class="u-i me-3" src="../../../assets/circle/cloud_download_black_24dp.svg" alt="">
+                                                   Download File
+                                                  </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -276,22 +362,26 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style">
-                                        <div class="card-body">
+                                        <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
                                                     Upload Signed Copy
                                                 </div>
-                                                <div class="col-sm-12 c-sub-h com-style">
-                                                    Please uploaded the signed copy.
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
+                                                    Please upload the signed copy.
                                                 </div>
-                                                <div class="col-sm-12 com-style">
-                                                    <button class="btn btn-up-org">
-                                            Upload File
-                                            <span class="material-icons-outlined">
-                                              cloud_upload
-                                              </span>
-
-                                          </button>
+                                                <div class="col-sm-12 com-style text-center mt-3 ">
+                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()">
+                                                     Upload File
+                                                    <img class="u-i ms-3" src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
+                                                   </button>
+                                                    <input #bs_pdf_up style="display: none;" (change)="fileChangeEvent($event,'pdf', 'signed', '', stepItem)" onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
+                                                </div>
+                                                <div class="col-sm-12 com-style mt-3 text-center f-w" *ngIf="signedFileUrl">
+                                                    <a href="{{signedFileUrl}}" target="_blank">{{signedFileName}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -302,10 +392,10 @@
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
                     </div>
@@ -313,18 +403,18 @@
                 </mat-step>
                 <ng-template matStepperIcon="state">
                     <span class="material-icons n-circle">
-                  circle
-              </span>
+                    circle
+                  </span>
                 </ng-template>
                 <ng-template matStepperIcon="edit">
                     <span class="material-icons n-circle">
-                circle
-            </span>
+                   circle
+                  </span>
                 </ng-template>
                 <ng-template matStepperIcon="done">
                     <span class="material-icons">
-              check_circle
-              </span>
+                     check_circle
+                   </span>
                 </ng-template>
             </mat-horizontal-stepper>
         </div>
