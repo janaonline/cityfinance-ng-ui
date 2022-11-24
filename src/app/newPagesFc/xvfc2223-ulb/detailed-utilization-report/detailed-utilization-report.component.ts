@@ -312,13 +312,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
           ? Number(data?.grantPosition?.unUtilizedPrevYr).toFixed(2)
           : 0,
-        receivedDuringYr: data?.grantPosition?.receivedDuringYr
+        receivedDuringYr: (data?.grantPosition?.receivedDuringYr || data?.grantPosition?.receivedDuringYr === 0)
           ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
           : null,
-        expDuringYr: data?.grantPosition?.expDuringYr
+        expDuringYr: (data?.grantPosition?.expDuringYr || data?.grantPosition?.expDuringYr === 0)
           ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
           : null,
-        closingBal: data?.grantPosition?.closingBal
+        closingBal: (data?.grantPosition?.closingBal || data?.grantPosition?.closingBal === 0)
           ? Number(data?.grantPosition?.closingBal).toFixed(2)
           : null,
       },
