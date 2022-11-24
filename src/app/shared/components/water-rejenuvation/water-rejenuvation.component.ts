@@ -691,13 +691,13 @@ export class WaterRejenuvationComponent implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+      this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
         (s3Response) => {
           resolve();
           console.log(s3Response.data[0]);
           const res = s3Response.data[0];
-          this.uploadFileToS3(file, res["url"], res["file_alias"]);
-          this.photosArray.push({ url: res["file_alias"], name });
+          this.uploadFileToS3(file, res["url"], res["file_url"]);
+          this.photosArray.push({ url: res["file_url"], name });
         },
         (err) => {
           console.log(err);

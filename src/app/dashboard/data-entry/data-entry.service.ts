@@ -77,6 +77,19 @@ export class DataEntryService {
     );
 
   }
+  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+    const headers = new HttpHeaders();
+    return this.http.post<S3FileURLResponse>(
+      `${environment.api.url}/getS3Url`,
+      JSON.stringify([
+        {
+          file_name: fileName,
+          mime_type: fileType,
+        },
+      ]),
+      { headers }
+    );
+  }
 
   uploadFileToS3(
     file: File,
@@ -88,6 +101,7 @@ export class DataEntryService {
       observe: "events",
     });
   }
+
 
   /**
    *

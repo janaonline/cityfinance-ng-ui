@@ -634,7 +634,7 @@ export class GtcFormComponent implements OnInit {
    } else {
       this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 20;
    }
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
       (s3Response) => {
         if (upType == 'normal') {
           this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
@@ -650,7 +650,7 @@ export class GtcFormComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType,
           i,

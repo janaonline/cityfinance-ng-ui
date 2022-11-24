@@ -81,9 +81,9 @@ export class BulkEntryComponent implements OnInit {
   }
 
   uploadFile(file: File, fileIndex: number) {
-    this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
       (s3Response) => {
-        const fileAlias = s3Response["data"][0]["file_alias"];
+        const fileAlias = s3Response["data"][0]["file_url"];
         const s3URL = s3Response["data"][0].url;
         this.uploadFileToS3(
           file,

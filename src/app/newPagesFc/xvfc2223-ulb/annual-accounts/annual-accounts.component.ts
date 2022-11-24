@@ -821,6 +821,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       audit_status: "Audited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
+      //  year: this.Years["2021-22"],
       year: this.Years["2020-21"],
       status: null,
       rejectReason: null,
@@ -955,6 +956,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       audit_status: "Unaudited",
       submit_annual_accounts: null,
       submit_standardized_data: null,
+      // year: this.Years["2020-21"],
       year: this.Years["2021-22"],
       status: null,
       rejectReason: null,
@@ -1228,43 +1230,43 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.tab1dis = true;
       this.tab2dis = true;
     }
-  // if(isDraft && actionTakenByRole == "ULB"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else if(!isDraft && actionTakenByRole == "ULB"){
-  //   if(loggedInUser == "STATE"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
-  //   if(loggedInUser == "MoHUA"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
-  //  return true;
-  // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else{
-  //   return true;
-  // }
+    // if(isDraft && actionTakenByRole == "ULB"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else if(!isDraft && actionTakenByRole == "ULB"){
+    //   if(loggedInUser == "STATE"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
+    //   if(loggedInUser == "MoHUA"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
+    //  return true;
+    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else{
+    //   return true;
+    // }
 
-}
+  }
   auditedActionResponse = {
     status: null,
     rejectReason: null,
@@ -1494,7 +1496,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -1503,7 +1505,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );
