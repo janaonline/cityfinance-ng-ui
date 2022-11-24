@@ -128,21 +128,21 @@ export class DataEntryService {
       .pipe(map((response) => ({ ...response["data"] })));
   }
 
-  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
-    const headers = new HttpHeaders();
+  // newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+  //   const headers = new HttpHeaders();
 
-    return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getS3Url`,
-      JSON.stringify([
-        {
-          file_name: fileName,
-          mime_type: fileType,
-        },
-      ]),
-      { headers }
-    );
+  //   return this.http.post<S3FileURLResponse>(
+  //     `${environment.api.url}/getS3Url`,
+  //     JSON.stringify([
+  //       {
+  //         file_name: fileName,
+  //         mime_type: fileType,
+  //       },
+  //     ]),
+  //     { headers }
+  //   );
 
-  }
+  // }
 
   newUploadFileToS3(
     file: File,
