@@ -127,4 +127,31 @@ export class DataEntryService {
       .get(`${environment.api.url}/getProcessStatus/${fileId}`)
       .pipe(map((response) => ({ ...response["data"] })));
   }
+
+  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+    const headers = new HttpHeaders();
+
+    return this.http.post<S3FileURLResponse>(
+      `${environment.api.url}/getS3Url`,
+      JSON.stringify([
+        {
+          file_name: fileName,
+          mime_type: fileType,
+        },
+      ]),
+      { headers }
+    );
+
+  }
+
+  newUploadFileToS3(
+    file: File,
+    s3URL: string,
+    options = { reportProgress: true }
+  ) {
+    return this.http.put(s3URL, file, {
+      reportProgress: options.reportProgress,
+      observe: "events",
+    });
+  }
 }

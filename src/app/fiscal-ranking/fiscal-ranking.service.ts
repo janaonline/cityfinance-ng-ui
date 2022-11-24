@@ -33,5 +33,8 @@ export class FiscalRankingService {
       recaptcha,
     });
   }
+  postFiscalRankingData(body) {
+    return this.http.post(`${environment.api.url}fiscal-ranking/create`, body);
+  }
 
 }

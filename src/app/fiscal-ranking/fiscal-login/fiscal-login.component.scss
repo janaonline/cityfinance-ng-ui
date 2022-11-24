@@ -38,12 +38,42 @@ color: #101010;
   border: 2px groove rgb(2, 117, 216);
 }
 
+.login-btnn{
+  background-color: #ff8a00; 
+  padding: 6px 20px; 
+  color: white;
+}
+
+.forgo-otp{
+  color: #ff8a00; 
+  text-decoration: none;
+}
+
 .button-b {
     margin: 1px;
     padding: 6px 37px;
     background-color: rgb(255, 255, 255);
     color: rgb(72, 99, 255);
     border-radius: 5px;
+  }
+
+  .forgot-p{
+     justify-content: center;
+     background-color: #ff8a00; 
+     border-radius: 0.2rem;
+     color: white;
+  }
+
+  .sign{
+    background-color: #ff8a00; 
+    border-radius: 0.2rem;
+    color: white;
+  }
+
+  .sign1{
+    width: 100%;
+    box-shadow: 3px 5px 6px lightgray;
+    
   }
 
   // .button-b:active{
