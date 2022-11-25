@@ -6,6 +6,7 @@ import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
+import { Router } from '@angular/router';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 @Component({
@@ -23,7 +24,8 @@ export class UlbFiscalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private fiscalService: FiscalRankingService,
-    private dataEntryService: DataEntryService) {
+    private dataEntryService: DataEntryService,
+    private _router: Router) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
@@ -851,7 +853,7 @@ export class UlbFiscalComponent implements OnInit {
           label: 'Do you maintain a Digital Property Tax Register?',
           key: 'digitalRegtr',
           postion: '2',
-          value: '',
+          value: null,
           min: '',
           max: '',
           required: true,
@@ -865,7 +867,7 @@ export class UlbFiscalComponent implements OnInit {
           label: 'Is the property tax register GIS-based?',
           key: 'registerGis',
           postion: '3',
-          value: '',
+          value: null,
           min: '',
           max: '',
           required: true,
@@ -880,7 +882,7 @@ export class UlbFiscalComponent implements OnInit {
           label: 'Do you use accounting software?',
           key: 'accountStwre',
           postion: '4',
-          value: '',
+          value: null,
           min: '',
           max: '',
           required: true,
@@ -891,93 +893,34 @@ export class UlbFiscalComponent implements OnInit {
           show: false,
         },
       }
-
-      // yearData: [
-      //   {
-      //     label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
-      //     key: 'webUrlAnnual',
-      //     postion: '1',
-      //     value: 'Yes',
-      //     min: '',
-      //     max: '',
-      //     required: true,
-      //     type: '',
-      //     bottomText: ``,
-      //     placeHolder: '',
-      //     input: 'text',
-      //
-
-      //   },
-      //   {
-      //     label: 'Do you maintain a Digital Property Tax Register?',
-      //     key: 'digitalRegtr',
-      //     postion: '2',
-      //     value: '',
-      //     min: '',
-      //     max: '',
-      //     required: true,
-      //     type: '',
-      //     bottomText: ``,
-      //     placeHolder: '',
-      //     input: 'radio',
-      //     show: false,
-      //   },
-      //   {
-      //     label: 'Is the property tax register GIS-based?',
-      //     key: 'registerGis',
-      //     postion: '3',
-      //     value: '',
-      //     min: '',
-      //     max: '',
-      //     required: true,
-      //     type: '',
-      //     bottomText: ``,
-      //     placeHolder: '',
-      //     input: 'radio',
-      //     show: false,
-      //   },
-      //   {
-      //     label: 'Do you use accounting software?',
-      //     key: 'accountStwre',
-      //     postion: '4',
-      //     value: '',
-      //     min: '',
-      //     max: '',
-      //     required: true,
-      //     type: '',
-      //     bottomText: ``,
-      //     placeHolder: '',
-      //     input: 'radio',
-      //     show: false,
-      //   }
-      // ]
     },
   }
   signedFileName = '';
   signedFileUrl = '';
+  formSubmitted = false;
   postData = {
-    "ulb": "5dd24729437ba31f7eb42eb8",
-    "design_year": "606aadac4dff55e6c075c507",
-    "population11": 100,
-    "populationFr": 69248,
+    "ulb": "",
+    "design_year": "",
+    "population11": null,
+    "populationFr": null,
     "webLink": null,
-    "nameCmsnr": "suresh",
+    "nameCmsnr": "",
     "nameOfNodalOfficer": "",
     "designationOftNodalOfficer": "",
-    "email": "suresh.mali@gmail.com",
-    "mobile": "8512346122",
+    "email": "",
+    "mobile": "",
     "webUrlAnnual": null,
-    "digitalRegtr": "Yes",
-    "registerGis": "Yes",
-    "accountStwre": "Yes",
-    "totalOwnRevenueArea": 123546,
+    "digitalRegtr": null,
+    "registerGis": null,
+    "accountStwre": null,
+    "totalOwnRevenueArea": null,
     "fy_19_20_cash": {
       "type": "Cash",
-      "amount": 10000
+      "amount": null
     },
     "fy_19_20_online": {
       "type": "UPI",
-      "amount": 99999
+      "amount": null
     },
     "fyData": [
       {
@@ -995,9 +938,9 @@ export class UlbFiscalComponent implements OnInit {
       "name": '',
       "url": ''
     },
-    "property_tax_register": 10000,
-    "paying_property_tax": 456879,
-    "paid_property_tax": 100000,
+    "property_tax_register": null,
+    "paying_property_tax": null,
+    "paid_property_tax": null,
     "status": "PENDING",
     "isDraft": true
   };
@@ -1089,7 +1032,7 @@ export class UlbFiscalComponent implements OnInit {
     });
   }
   onLoad() {
-    this.fiscalService.getfiscalUlbForm().subscribe((res: any) => {
+    this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
       let formObjKey = res?.fyDynemic;
@@ -1168,11 +1111,8 @@ export class UlbFiscalComponent implements OnInit {
   stepperContinueSave(stepper: MatStepper, item) {
     console.log('this form.....', this.fiscalForm.value);
     // console.log('this form.....', JSON.stringify(this.fiscalForm.value));
-    console.log('this form.....revenueMob', this.revenueMob);
-    console.log('this form..... expPerf', this.expPerf);
-    console.log('this form..... goverPar', this.goverPar);
-    this.saveForm();
-    stepper.next();
+    this.saveForm(stepper, item);
+
   }
   keyUpValidationNum(e, stepItem, yearItem) {
     console.log('validation', e, stepItem, yearItem)
@@ -1182,7 +1122,6 @@ export class UlbFiscalComponent implements OnInit {
   }
   skipLogicRadio(type, val) {
     console.log('vvvvv', type, val);
-
     if (type == 'digitalRegtr' && val == 'Yes') {
       //  goverPar.normalData.yearData.digitalRegtr.value
     }
@@ -1313,11 +1252,18 @@ export class UlbFiscalComponent implements OnInit {
     );
   }
 
-  saveForm() {
+  saveForm(stepper: MatStepper, item) {
     this.updateValueInForm()
+    console.log('post body', this.postData);
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
       console.log('post res', res);
-      swal('Saved', "Data save as draft successfully!", 'success')
+      if (item?.id != 's7') {
+        swal('Saved', "Data save as draft successfully!", 'success');
+        stepper.next();
+      } else {
+        this.formSubmitted = true;
+      }
+
     },
       (error) => {
         console.log('post error', error)
@@ -1325,9 +1271,10 @@ export class UlbFiscalComponent implements OnInit {
     )
   }
   updateValueInForm() {
+    this.setFYData();
     this.postData = {
       ulb: this.ulbId,
-      "design_year": this.yearIdArr[2022 - 23],
+      "design_year": this.yearIdArr['2022-23'],
       ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
       "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
@@ -1343,18 +1290,7 @@ export class UlbFiscalComponent implements OnInit {
         "type": "UPI",
         "amount": 99999
       },
-      "fyData": [
-        // {
-        //   ulb: this.ulbId,
-        //   "year": "",
-        //   "amount": 10000,
-        //   "type": "",
-        //   "file": "",
-        //   "typeofdata": "", /* Number, PDF,Excel    */
-        //   "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
-        // }
-
-      ],
+      "fyData": this.fyDataArr,
       "signedCopyOfFile": {
         "name": this.signedFileName,
         "url": this.signedFileUrl
@@ -1367,4 +1303,109 @@ export class UlbFiscalComponent implements OnInit {
     };
   }
 
+  fyDataArr = [];
+  setFYData() {
+    let revPostArr = [];
+    let expPostArr = [];
+    let annFyPostArr = [];
+    for (const key in this.revenueMob) {
+      let dataObj = {}
+      this.revenueMob[key].yearData.forEach((el) => {
+        if (el?.amount != '' && el?.amount != null && el?.amount != undefined) {
+          dataObj = {
+            "ulb": this.ulbId,
+            "year": el?.year,
+            "amount": el?.amount,
+            "type": el?.type,
+            "file": "",
+            "typeofdata": 'Number', /* Number, PDF,Excel    */
+            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
+            key: el?.key
+          }
+          revPostArr.push(dataObj);
+        }
+      })
+    }
+    for (const key in this.expPerf) {
+      let dataObj = {}
+      this.expPerf[key].yearData.forEach((el) => {
+        if (el?.amount != '' && el?.amount != null && el?.amount != undefined) {
+          dataObj = {
+            "ulb": this.ulbId,
+            "year": el?.year,
+            "amount": el?.amount,
+            "type": el?.type,
+            "file": "",
+            "typeofdata": 'Number', /* Number, PDF,Excel    */
+            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
+            key: el?.key
+          }
+          expPostArr.push(dataObj);
+        }
+      })
+    }
+    for (const key in this.uploadFyDoc) {
+      let dataObj = {}
+      this.uploadFyDoc[key].yearData.forEach((el) => {
+        if (el?.file?.url != '' && el?.file?.url != null && el?.file?.url != undefined) {
+          dataObj = {
+            "ulb": this.ulbId,
+            "year": el?.year,
+            "type": el?.type,
+            "file": {
+              name: el?.file?.name,
+              url: el?.file?.url
+            },
+            "typeofdata": 'PDF', /* Number, PDF,Excel    */
+            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
+            key: el?.key
+          }
+          annFyPostArr.push(dataObj);
+        }
+      })
+    }
+    console.log('expPostArr', expPostArr);
+    console.log('revPostArr', revPostArr);
+    this.fyDataArr = revPostArr.concat(expPostArr);
+    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);
+    console.log('whole', this.fyDataArr);
+
+
+  }
+  amountPushInFY(type, index, yItem, stItem) {
+    console.log(type, index, yItem, stItem);
+    let dType = '';
+    let dataObj = {}
+    if (yItem?.key == "revenueMob" || yItem?.key == "goverPar") {
+      dType = 'Number';
+      dataObj = {
+        "ulb": this.ulbId,
+        "year": yItem?.year,
+        "amount": yItem?.amount,
+        "type": "",
+        "file": "",
+        "typeofdata": dType, /* Number, PDF,Excel    */
+        "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
+      }
+    } else if (yItem?.key == "uploadFyDoc") {
+      dType = 'PDF';
+      dataObj = {
+        "ulb": this.ulbId,
+        "year": yItem?.year,
+        "amount": null,
+        "type": "",
+        "file": {
+          name: yItem?.file?.name,
+          url: yItem?.file?.url
+        },
+        "typeofdata": dType, /* Number, PDF,Excel    */
+        "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
+      }
+    }
+
+
+  }
+  backTohome() {
+    this._router.navigateByUrl('../home')
+  }
 }
