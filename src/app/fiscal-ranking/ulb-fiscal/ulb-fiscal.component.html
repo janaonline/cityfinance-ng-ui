@@ -5,7 +5,7 @@
             City Finance Rankings 2022
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
             <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
@@ -100,7 +100,7 @@
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
+                                                                    <input type="number" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
                                                                         placeholder="{{yearItem?.placeholder}}">
                                                                 </div>
 
@@ -147,7 +147,7 @@
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
                                                                     placeholder="{{yearItem?.placeholder}}">
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
@@ -392,7 +392,7 @@
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
@@ -417,6 +417,25 @@
                    </span>
                 </ng-template>
             </mat-horizontal-stepper>
+        </div>
+    </div>
+    <div class="row w-50 mx-auto mb-4 mt-3" *ngIf="formSubmitted">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mx-auto mb-3">
+                        <div class="col-sm-12 text-center mt-3">
+                            <img src="../../../assets/circle/gifCheck.gif" class="w-80">
+                        </div>
+                        <div class="col-sm-12 text-center mt-3 h-label com-style">
+                            Form Submitted Successfully!
+                        </div>
+                        <div class="col-sm-12 text-center mt-3">
+                            <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

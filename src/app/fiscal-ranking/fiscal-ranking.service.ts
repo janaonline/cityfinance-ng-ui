@@ -17,10 +17,10 @@ export class FiscalRankingService {
   loginLogoutCheck = new Subject<any>();
 
   constructor(private http: HttpClient,) { }
-  getfiscalUlbForm() {
+  getfiscalUlbForm(dYr, id) {
     return this.http.get(
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
-      `${environment.api.url}fiscal-ranking/view?design_year=606aadac4dff55e6c075c507&ulb=5dd24729437ba31f7eb42eb8`
+      `${environment.api.url}fiscal-ranking/view?design_year=${dYr}&ulb=${id}`
     );
   }
   // cardApi : any="https://democityfinanceapi.dhwaniris.in/api/v1/FRHomePageContent";
