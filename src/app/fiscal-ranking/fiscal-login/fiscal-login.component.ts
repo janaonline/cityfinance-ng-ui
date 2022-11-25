@@ -60,8 +60,8 @@ export class FiscalLoginComponent implements OnInit {
     public loginForm: FormGroup;
     // public badCredentials: boolean;
     public formError: boolean;
-  
-    
+
+
     // public emailVerificationMessage: string;
     // otpVerificationMessage: boolean = false;
     public reCaptcha = {
@@ -76,10 +76,10 @@ export class FiscalLoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
      private fiscalrankingservice : FiscalRankingService
-     ) { 
+     ) {
 
      }
-     
+
 
   ngOnInit() {
     this.formGroupName = this.formBuilder.group({
@@ -96,12 +96,12 @@ export class FiscalLoginComponent implements OnInit {
     get c() { return this.formGroupName.controls;}
 
     onSubmit() {
-      
+
       this.loginError = null;
       this.submitted = true;
-      if(this.formGroupName.invalid) { 
+      if(this.formGroupName.invalid) {
         this.formError = true;
-        
+
       } else {
         console.log(JSON.stringify(this.formGroupName.value));
       }
@@ -125,7 +125,7 @@ export class FiscalLoginComponent implements OnInit {
         this.reCaptcha.show = true;
       }, 500);
     }
-  
+
 onClickUlb(){
 this.formGroupName=this.censusForm;
 this.resetAllForm();
@@ -140,7 +140,7 @@ this.submitted=false;
 }
 
 resetAllForm (){
-  
+
 
 //   this.censusForm.reset();
 // this.stateForm.reset();
@@ -153,7 +153,7 @@ onClickState(){
   this.formGroupName=this.stateForm;
   this.resetAllForm();
   console.log(this.formGroupName,"hii2",this.stateForm);
-  
+
 };
 onClickmahua(){
   this.formGroupName=this.mohuaForm;
@@ -167,7 +167,7 @@ onClickmahua(){
         if (!res["success"]) {
           this.resetCaptcha();
         }
-  
+
         this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
       });
     }

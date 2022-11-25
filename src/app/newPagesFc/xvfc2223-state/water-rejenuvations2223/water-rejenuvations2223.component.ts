@@ -1770,9 +1770,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         return;
       }
     }
-
-      const fileName = event.target.files[0].name;
-
+    const fileName = event.target.files[0].name;
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
@@ -1822,6 +1820,8 @@ export class WaterRejenuvations2223Component implements OnInit {
     let fileExtension = files[0].name.split('.').pop();
     console.log(fileExtension)
     this[progessType] = 10;
+    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    this.change = "true";
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
