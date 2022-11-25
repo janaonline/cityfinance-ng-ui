@@ -3,11 +3,18 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { BehaviorSubject, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FiscalRankingService {
+
+  public badCredentials: Subject<boolean> = new Subject<boolean>();
+
+  public helper = new JwtHelperService();
+
+  loginLogoutCheck = new Subject<any>();
 
   constructor(private http: HttpClient,) { }
   getfiscalUlbForm() {
@@ -27,7 +34,10 @@ export class FiscalRankingService {
     );
   }
 
-
+  signin(user) {
+    return this.http.post(environment.api.url + "login", user);
+  }
+  
   verifyCaptcha(recaptcha: string) {
     return this.http.post(`${environment.api.url}captcha_validate`, {
       recaptcha,
@@ -36,5 +46,15 @@ export class FiscalRankingService {
   postFiscalRankingData(body) {
     return this.http.post(`${environment.api.url}fiscal-ranking/create`, body);
   }
+
+  getToken() {
+    return localStorage.getItem("id_token");
+  }
+
+  loggedIn() {
+    return !this.helper.isTokenExpired(this.getToken());
+  }
+
+
 
 }

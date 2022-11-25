@@ -35,12 +35,17 @@ color: #101010;
 #pills-tab{
   background-color: white; 
   border-radius:5px;
-  border: 2px groove rgb(2, 117, 216);
+  border: 2px groove #2668AC;
+  padding-left: 0px !important;
+}
+
+.nav-item{
+  padding-left: 8px;
 }
 
 .login-btnn{
   background-color: #ff8a00; 
-  padding: 6px 20px; 
+  padding: 5px 25px !important; 
   color: white;
 }
 
@@ -51,10 +56,21 @@ color: #101010;
 
 .button-b {
     margin: 1px;
-    padding: 6px 37px;
-    background-color: rgb(255, 255, 255);
-    color: rgb(72, 99, 255);
+    padding: 10px 35px !important;
+    // background-color: rgb(255, 255, 255) !important;
     border-radius: 5px;
+    color: #2668AC;
+    width: 100% !important;
+  
+  }
+
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #2668AC !important;
+  }
+
+  @media only screen and(max-width: 1400px) and (min-width:1100) {
+    
   }
 
   .forgot-p{
