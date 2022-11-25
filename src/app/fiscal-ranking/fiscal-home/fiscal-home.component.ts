@@ -200,4 +200,14 @@ export class FiscalHomeComponent implements OnInit {
     console.log('display', data, ind);
     data.bakePage = false;
   }
+  truncateChar(text: string): string {
+    let charlimit = 86;
+    if (!text || text.length <= charlimit) {
+      return text;
+    }
+
+    let without_html = text.replace(/<(?:.|\n)*?>/gm, '');
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
+  }
 }
