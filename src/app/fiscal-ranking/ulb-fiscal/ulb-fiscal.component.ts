@@ -1055,7 +1055,7 @@ export class UlbFiscalComponent implements OnInit {
   fillDataInForm(data) {
     console.log('this form.....', this.fiscalForm);
     console.log('this form.....', data);
-    console.log('this form.....', data.nameCmsnr);
+    console.log('this form.....', data?.nameCmsnr);
     this.fiscalForm.patchValue({
       basicUlbDetails: {
         population11: data?.population11,
@@ -1112,7 +1112,7 @@ export class UlbFiscalComponent implements OnInit {
     stepper.next();
   }
   stepperContinueSave(stepper: MatStepper, item) {
-    console.log('this form.....', this.fiscalForm.value);
+    console.log('this form.....', this.fiscalForm?.value);
     // console.log('this form.....', JSON.stringify(this.fiscalForm.value));
     this.saveForm(stepper, item);
 
@@ -1417,7 +1417,11 @@ export class UlbFiscalComponent implements OnInit {
     let formdata = {
       ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
-      "fyData": this.fyDataArr,
+      revMob: this.revenueMob,
+      expPer: this.expPerf,
+      fisGov: this.goverPar,
+      upldDoc: this.uploadFyDoc,
+      nrmlData: this.goverParaNdata,
       "signedCopyOfFile": {
         "name": this.signedFileName,
         "url": this.signedFileUrl
