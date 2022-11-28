@@ -7,6 +7,8 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
+import { MatDialog } from '@angular/material/dialog';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 @Component({
@@ -25,7 +27,8 @@ export class UlbFiscalComponent implements OnInit {
     private fb: FormBuilder,
     private fiscalService: FiscalRankingService,
     private dataEntryService: DataEntryService,
-    private _router: Router) {
+    private _router: Router,
+    private dialog: MatDialog) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
@@ -1407,5 +1410,43 @@ export class UlbFiscalComponent implements OnInit {
   }
   backTohome() {
     this._router.navigateByUrl('../home')
+  }
+
+  onPreview() {
+    this.setFYData();
+    let formdata = {
+      ...this.fiscalForm?.value?.basicUlbDetails,
+      ...this.fiscalForm?.value?.contactInfo,
+      "fyData": this.fyDataArr,
+      "signedCopyOfFile": {
+        "name": this.signedFileName,
+        "url": this.signedFileUrl
+      },
+      "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
+      "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
+      "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
+      "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
+      "totalOwnRevenueArea": 123546,
+      "fy_19_20_cash": {
+        "type": "Cash",
+        "amount": 10000
+      },
+      "fy_19_20_online": {
+        "type": "UPI",
+        "amount": 99999
+      },
+    };
+    const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
+      data: formdata,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
   }
 }

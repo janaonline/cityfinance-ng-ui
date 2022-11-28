@@ -11,15 +11,11 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class FiscalRankingService {
 
   public badCredentials: Subject<boolean> = new Subject<boolean>();
-
   public helper = new JwtHelperService();
-
   loginLogoutCheck = new Subject<any>();
-
   constructor(private http: HttpClient,) { }
   getfiscalUlbForm(dYr, id) {
     return this.http.get(
-      // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
       `${environment.api.url}fiscal-ranking/view?design_year=${dYr}&ulb=${id}`
     );
   }
@@ -37,7 +33,7 @@ export class FiscalRankingService {
   signin(user) {
     return this.http.post(environment.api.url + "login", user);
   }
-  
+
   verifyCaptcha(recaptcha: string) {
     return this.http.post(`${environment.api.url}captcha_validate`, {
       recaptcha,

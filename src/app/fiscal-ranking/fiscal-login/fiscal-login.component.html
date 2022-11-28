@@ -15,25 +15,19 @@
 
                     <div class=" row mb-3">
 
-                        <div class="col-sm-12">
-                            <div class="row d-flex justify-content-center nav-pills mb-3 text-center mx-1" id="pills-tab" role="tablist">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-12 col-xl-12">
+                            <ul class="d-flex nav-pills mb-3 text-center" id="pills-tab" role="tablist">
 
-                                <!-- <div class="nav-item col-4" role="presentation">
-                <button class="nav-link button-b active" id="pills-home-tab" data-bs-toggle="pill"
-                  data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                  aria-selected="true" (click)="FormResetAll()">ULB</button>
-              </div>
-              <div class="nav-item col-4" role="presentation">
-                <button class="nav-link button-b" id="pills-profile-tab" data-bs-toggle="pill"
-                  data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-                  aria-selected="false" (click)="FormResetAll()">State</button>
-              </div>
-              <div class="nav-item col-4" role="presentation">
-                <button class="nav-link button-b" id="pills-contact-tab" data-bs-toggle="pill"
-                  data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                  aria-selected="false" (click)="FormResetAll()">MoHUA</button>
-              </div> -->
-                            </div>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link button-b active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" (click)="FormResetAll()">ULB</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link button-b" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" (click)="FormResetAll()">State</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link button-b" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" (click)="FormResetAll()">MoHUA</button>
+                                </li>
+                            </ul>
                         </div>
 
 
@@ -42,36 +36,36 @@
                             <div class="tab-pane fade show active mt-3" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
 
                                 <input type="email" formControlName="email1" class="form-control py-4" placeholder="Census Code/ULB" [ngClass]="{ 'is-invalid': submitted && c.email1.errors }">
-                                <div *ngIf="submitted && c.email1.errors.required" class="invalid-feedback">Email is required (ULB)</div>
-                                <div *ngIf=" submitted && c.email1.errors.email" class="invalid-feedback">Email must be a valid Email Address (ULB)</div>
+                                <div *ngIf="submitted && c.email1.errors.required" class="invalid-feedback">Census Code/ULB is required</div>
+                                <div *ngIf=" submitted && c.email1.errors.email" class="invalid-feedback">Census Code/ULB must be a valid</div>
 
-                                <input type="password" formControlName="password1" class="form-control py-4 mt-3" placeholder="password" [ngClass]="{ 'is-invalid': submitted && c.password1.errors }">
-                                <div *ngIf="submitted && c.password1.errors.required" class="invalid-feedback">Password is required (ULB)</div>
-                                <div *ngIf="submitted && c.password1.errors.minlength" class="invalid-feedback">Password min length is 8 (ULB)</div>
+                                <input type="password" formControlName="password1" class="form-control py-4 mt-3" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && c.password1.errors }">
+                                <div *ngIf="submitted && c.password1.errors.required" class="invalid-feedback">Password is required</div>
+                                <div *ngIf="submitted && c.password1.errors.minlength" class="invalid-feedback">Password min length is 8</div>
                             </div>
 
 
                             <div class="tab-pane fade mt-3" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
 
-                                <input type="email" formControlName="email2" class="form-control py-4" placeholder="Email@123" [ngClass]="{ 'is-invalid': submitted && c.email2.errors }">
-                                <div *ngIf="submitted && c.email2.errors.required" class="invalid-feedback">Email is required (State)</div>
-                                <div *ngIf=" submitted && c.email2.errors.email" class="invalid-feedback">Email must be a valid Email Address (State)</div>
+                                <input type="email" formControlName="email2" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email2.errors }">
+                                <div *ngIf="submitted && c.email2.errors.required" class="invalid-feedback">Email is required</div>
+                                <div *ngIf=" submitted && c.email2.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
 
-                                <input type="password" formControlName="password2" class="form-control py-4 mt-3" placeholder="password">
-                                <div *ngIf="submitted && c.password2.errors.required" class="invalid-feedback">Password is required (State)</div>
-                                <div *ngIf="submitted && c.password2.errors.minlength" class="invalid-feedback">Password min length is 8 (State)</div>
+                                <input type="password" formControlName="password2" class="form-control py-4 mt-3" placeholder="Password">
+                                <div *ngIf="submitted && c.password2.errors.required" class="invalid-feedback">Password is required</div>
+                                <div *ngIf="submitted && c.password2.errors.minlength" class="invalid-feedback">Password min length is 8</div>
                             </div>
 
 
                             <div class="tab-pane fade mt-3" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
 
-                                <input type="email" formControlName="email3" class="form-control py-4" placeholder="Email@1234" [ngClass]="{ 'is-invalid': submitted && c.email3.errors }">
-                                <div *ngIf="submitted && c.email3.errors.required" class="invalid-feedback">Email is required (Mohua)</div>
-                                <div *ngIf=" submitted && c.email3.errors.email" class="invalid-feedback">Email must be a valid Email Address (Mohua)</div>
+                                <input type="email" formControlName="email3" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email3.errors }">
+                                <div *ngIf="submitted && c.email3.errors.required" class="invalid-feedback">Email is required</div>
+                                <div *ngIf=" submitted && c.email3.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
 
-                                <input type="password" formControlName="password3" class="form-control py-4 mt-3" placeholder="password">
-                                <div *ngIf="submitted && c.password3.errors.required" class="invalid-feedback">Password is required (MohuA)</div>
-                                <div *ngIf="submitted && c.password3.errors.minlength" class="invalid-feedback">Password min length is 8 (mohua)</div>
+                                <input type="password" formControlName="password3" class="form-control py-4 mt-3" placeholder="Password">
+                                <div *ngIf="submitted && c.password3.errors.required" class="invalid-feedback">Password is required</div>
+                                <div *ngIf="submitted && c.password3.errors.minlength" class="invalid-feedback">Password min length is 8</div>
                             </div>
                         </div>
                     </div>
@@ -106,9 +100,9 @@
                     <h1 class="mb-3 fw-bolder fs-2">Forgot password</h1>
 
                     <div class=" row mb-3">
-                        <input type="email" formControlName="email4" class="form-control py-4" placeholder="Email@1234" [ngClass]="{ 'is-invalid': submitted && c.email4.errors }">
-                        <div *ngIf="submitted && c.email4.errors.required" class="invalid-feedback">Email is required (Forgot)</div>
-                        <div *ngIf=" submitted && c.email4.errors.email" class="invalid-feedback">Email must be a valid Email Address (Forgot)</div>
+                        <input type="email" formControlName="email4" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email4.errors }">
+                        <div *ngIf="submitted && c.email4.errors.required" class="invalid-feedback">Email is required</div>
+                        <div *ngIf=" submitted && c.email4.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
 
                         <re-captcha style="margin-top: 1%; display: block; margin-bottom: 20px" *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha>
 
