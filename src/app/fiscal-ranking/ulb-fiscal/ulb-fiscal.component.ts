@@ -979,10 +979,10 @@ export class UlbFiscalComponent implements OnInit {
     this.paying_property_tax = data?.paying_property_tax;
     this.paid_property_tax = data?.paid_property_tax;
     this.isDraft = data?.isDraft;
-    if (this.isDraft) {
-      this.isDisabled = false;
-    } else {
+    if (this.isDraft == false) {
       this.isDisabled = true;
+    } else {
+      this.isDisabled = false;
     }
     this.fiscalForm.patchValue({
       basicUlbDetails: {
@@ -1174,16 +1174,19 @@ export class UlbFiscalComponent implements OnInit {
   changeNumToWords() {
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.expPerf) {
       this.expPerf[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
