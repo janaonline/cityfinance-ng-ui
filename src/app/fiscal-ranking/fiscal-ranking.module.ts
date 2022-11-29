@@ -20,13 +20,15 @@ import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-preview.component';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
     UlbFiscalComponent,
-    LoaderComponent
+    LoaderComponent,
+    UlbFisPreviewComponent
   ],
   imports: [
     CommonModule,
