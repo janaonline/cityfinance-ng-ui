@@ -5,7 +5,7 @@
             City Finance Rankings 2022
         </div>
     </div>
-    <div class="row" *ngIf="!formSubmitted">
+    <div class="row" *ngIf="!formSubmitted" [ngClass]="{'disable': isDisabled}">
         <div class="col-sm-12">
             <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
@@ -22,19 +22,19 @@
                                             <div class="form" formGroupName="basicUlbDetails">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <input type="input" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
+                                                        <input type="text" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census">
+                                                        <input type="text" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="populationFr" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
+                                                        <input type="text" class="form-control com-style" formControlName="populationFr" id="{{stepItem?.id}}3" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2 aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="webLink" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
+                                                        <input type="text" class="form-control com-style" formControlName="webLink" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="nameCmsnr" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
+                                                        <input type="text" class="form-control com-style" formControlName="nameCmsnr" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
                                                     </div>
                                                 </div>
                                             </div>
@@ -57,7 +57,7 @@
                                                         <input type="input" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="mobile" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
+                                                        <input type="text" class="form-control com-style" formControlName="mobile" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,7 +72,7 @@
                                 <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" [disabled]="isDisabled" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
 
@@ -100,8 +100,8 @@
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="number" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
-                                                                        placeholder="{{yearItem?.placeholder}}">
+                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
+                                                                        placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
                                                                 </div>
 
                                                             </div>
@@ -148,7 +148,7 @@
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    placeholder="{{yearItem?.placeholder}}">
+                                                                    placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
@@ -209,7 +209,7 @@
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style">
+                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [disabled]="isDisabled">
                                                                <div class="row">
                                                                 <div class="col-sm-6 file-text ">
                                                                   Select File
@@ -307,14 +307,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i = index">
                                                         <div class="row">
                                                             <div class="col-sm-12 l-h">
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
-                                                                <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem.amount)" (change)="keyUpValidationNum($event, stepItem, yearItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    placeholder="{{yearItem?.placeholder}}">
+                                                                <input type="number" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                    placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
                                                             </div>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
                                                                 <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
@@ -325,6 +325,11 @@
                                                             </div> -->
                                                             <div class="col-sm-12 bot-text">
                                                                 {{yearItem?.bottomText}}
+                                                            </div>
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                                <span class="f-w">
+                                                                  {{yearItem?.inWords}}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -371,7 +376,7 @@
                                                     Please upload the signed copy.
                                                 </div>
                                                 <div class="col-sm-12 com-style text-center mt-3 ">
-                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()">
+                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()" [disabled]="isDisabled">
                                                      Upload File
                                                     <img class="u-i ms-3" src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
                                                    </button>
@@ -392,7 +397,8 @@
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'" (click)="stepperContinue(stepper, stepItem)">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'" [disabled]="isDisabled" (click)="stepperContinue(stepper, stepItem)">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id == 's7'" [disabled]="isDisabled" (click)="finalSubmit()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>

@@ -1,12 +1,18 @@
 
-import { Component, OnInit } from '@angular/core';
+
+///////-----------------------
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ClickOutsideDirective } from 'angular2-multiselect-dropdown';
-import { Subscription } from 'rxjs';
-import { rankingRouter } from 'src/app/dashboard/ranking/ranking.router';
-import { RankingService } from 'src/app/shared/services/ranking.service';
-import { environment } from 'src/environments/environment';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
+
+import { timer, Subscription } from "rxjs";
+import { Pipe, PipeTransform } from "@angular/core";
+import { environment } from "./../../../environments/environment";
+import { CommonService } from "src/app/shared/services/common.service";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 
 
 @Component({
@@ -15,169 +21,395 @@ import { FiscalRankingService } from '../fiscal-ranking.service';
   styleUrls: ['./fiscal-login.component.scss']
 })
 export class FiscalLoginComponent implements OnInit {
-    formGroupName:FormGroup;
-    stateForm: FormGroup;
-    mohuaForm:FormGroup;
-    censusForm:FormGroup;
-    submitted:boolean= false;
-    hide1=true;
-    hide2=false;
-    public loginError: string;
-    public emailVerificationMessage: string;
-    otpVerificationMessage: boolean = false;
-    public badCredentials: boolean;
+  loginDetails = [
+    {
+      role: "ULB",
+      loginName: "Census Code/ULB Code",
+      loginPlaceHolder: "Census Code/ULB Code",
+      loginValidation: "censusValidation",
+    },
+    {
+      role: "USER",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
+      loginValidation: "emailValidation",
+    },
+  ];
+  loginTabs = [
+    {
+      role: "ULB",
+      loginName: "Census Code/ULB Code",
+      loginPlaceHolder: "Census Code/ULB Code",
+      loginValidation: "censusValidation",
+      selected: true,
+    },
+    {
+      role: "STATE",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
+      loginValidation: "emailValidation",
+      selected: false,
+    },
+    {
+      role: "MoHUA",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
+      loginValidation: "emailValidation",
+      selected: false,
+    },
+  ];
 
-  Buttons = [
-    {name:"ULB"},{name:"State"},{name:"Mohua"}]
+  countDown: Subscription;
+  counter = 60;
+  tick = 1000;
+  counterTimer = false;
+  help = false;
+  noCodeError = false;
+  otpCreads: any = {};
+  loginSet: any = {};
+  ulbCode = "";
+  perFillUser;
+  public isOtpLogin = false;
+  selectedUserType = "";
+  public loginForm: FormGroup;
+  public badCredentials: boolean;
+  public submitted = false;
+  public formError: boolean;
 
-    loginDetails = [
-      {
-        role: "ULB",
-        loginName: "Census Code/ULB Code",
-        loginPlaceHolder: "Census Code/ULB Code",
-        loginValidation: "censusValidation",
-      },
-      {
-        role: "USER",
-        loginName: "Email",
-        loginPlaceHolder: "Email",
-        loginValidation: "emailValidation",
-      },
-    ];
-    public passwordRequestForm: FormGroup;
-    countDown: Subscription;
-    counter = 60;
-    tick = 1000;
-    counterTimer = false;
-    help = false;
-    noCodeError = false;
-    otpCreads: any = {};
-    loginSet: any = {};
-    ulbCode = "";
-    perFillUser;
-    public isOtpLogin = false;
-    selectedUserType = "";
-    public loginForm: FormGroup;
-    // public badCredentials: boolean;
-    public formError: boolean;
-
-
-    // public emailVerificationMessage: string;
-    // otpVerificationMessage: boolean = false;
-    public reCaptcha = {
-      show: true,
-      siteKey: environment.reCaptcha.siteKey,
-      userGeneratedKey: null,
-    };
-    public hide = true;
-    directLogin = false;
-    customValidator: any;
-
+  public loginError: string;
+  public emailVerificationMessage: string;
+  otpVerificationMessage: boolean = false;
+  public reCaptcha = {
+    show: false,
+    siteKey: environment.reCaptcha.siteKey,
+    userGeneratedKey: null,
+  };
+  public hide = true;
+  directLogin = false;
   constructor(
-    private formBuilder: FormBuilder,
-     private fiscalrankingservice : FiscalRankingService
-     ) {
-
-     }
-
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private commonService: CommonService,
+    private newCommonService: NewCommonService
+  ) {
+    // if (this.authService.loggedIn()) {
+    //   this.router.navigate(["/home"]);
+    //   return;
+    // }
+    // this.activatedRoute.queryParams.subscribe((param) => {
+    //   if (param.user && param.user == "USER") {
+    //     this.directLogin = true;
+    //   }
+    //   if (param.message) {
+    //     this.otpVerificationMessage = true;
+    //     setTimeout(() => {
+    //       this.otpVerificationMessage = false;
+    //     }, 3000);
+    //     this.emailVerificationMessage = param.message;
+    //   }
+    // });
+  }
 
   ngOnInit() {
-    this.formGroupName = this.formBuilder.group({
-            email1: ["", [Validators.required, Validators.email]],
-            password1: ["", [Validators.required, Validators.minLength(8)]],
-            email2: ['', [Validators.required, Validators.email]],
-            password2: ['', [Validators.required, Validators.minLength(8)]],
-            email3: ['', [Validators.required, Validators.email]],
-            password3: ['', [Validators.required, Validators.minLength(8)]],
-            email4: ['', [Validators.required, Validators.email]],
-     });
+    this.loginForm = this.fb.group({
+      email: ["", Validators.required],
+      password: ["", Validators.required],
+      otp: [""],
+    });
+    this.authService.badCredentials.subscribe((res) => {
+      this.badCredentials = res;
+    });
+    this.perFillUser = this.commonService.setUser(true);
+    if (this.perFillUser !== null) {
+      this.onSelectingUserType(this.perFillUser);
     }
-
-    get c() { return this.formGroupName.controls;}
-
-    onSubmit() {
-
-      this.loginError = null;
-      this.submitted = true;
-      if(this.formGroupName.invalid) {
-        this.formError = true;
-
-      } else {
-        console.log(JSON.stringify(this.formGroupName.value));
-      }
   }
 
-
-//   signinUser(data:any){
-// this.fiscalrankingservice.signin(data).subscribe((res)=>{
-// const user:any =res.find((a:any)=>{
-//   this.formGroupName.value.email === a.email && this.formGroupName.value.password === a.password
-// })
-
-// })
-//   }
-
-    private resetCaptcha() {
-      this.reCaptcha.show = false;
-      this.reCaptcha.userGeneratedKey = null;
-      this.passwordRequestForm.controls.captcha.reset();
-      setTimeout(() => {
-        this.reCaptcha.show = true;
-      }, 500);
-    }
-
-onClickUlb(){
-this.formGroupName=this.censusForm;
-this.resetAllForm();
-console.log(this.formGroupName,"hii1",this.censusForm);
-
-}
-
-FormResetAll(){
-
-  this.formGroupName.reset();
-this.submitted=false;
-}
-
-resetAllForm (){
-
-
-//   this.censusForm.reset();
-// this.stateForm.reset();
-// this.mohuaForm.reset();
-this.formGroupName.reset();
-this.submitted=false;
-}
-
-onClickState(){
-  this.formGroupName=this.stateForm;
-  this.resetAllForm();
-  console.log(this.formGroupName,"hii2",this.stateForm);
-
-};
-onClickmahua(){
-  this.formGroupName=this.mohuaForm;
-  this.resetAllForm();
-  console.log(this.formGroupName,"hii3",this.mohuaForm);
+  get lf() {
+    return this.loginForm.controls;
   }
 
-    resolveCaptcha(keyGenerated: string) {
-      this.reCaptcha.userGeneratedKey = keyGenerated;
-      this.fiscalrankingservice.verifyCaptcha(keyGenerated).subscribe((res) => {
-        if (!res["success"]) {
-          this.resetCaptcha();
+  login() {
+    this.loginError = null;
+    this.submitted = true;
+    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Login Failed. You must validate that you are human.";
+      return;
+    }
+
+    if (this.loginForm.valid) {
+      const body = { ...this.loginForm.value };
+      body["email"] = body["email"].trim();
+      this.loginForm.disable();
+
+      this.authService.signin(body).subscribe(
+        (res) => this.onSuccessfullLogin(res),
+        (error) => {
+          this.onLoginError(error);
         }
+      );
+    } else {
+      this.formError = true;
+    }
+  }
 
-        this.passwordRequestForm.controls.captcha.setValue(keyGenerated);
+  private onSuccessfullLogin(res) {
+    this.authService.loginLogoutCheck.next(true);
+    if (res && res["token"]) {
+      localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      localStorage.setItem("Years", JSON.stringify(res["allYears"]));
+
+      if (res["user"]?.role == "STATE") {
+        this.getStateSideBar(res["user"]);
+      } else {
+        this.getSideBar(res["user"]);
+      }
+      if (res["user"]?.role == "MoHUA" || res["user"]?.role == "ADMIN") {
+        this.getMohuaSideBar(res["user"]);
+      }
+      const userUtil = new UserUtility();
+      userUtil.updateUserDataInRealTime(res["user"]);
+
+      this.routeToProperLocation();
+    } else {
+      localStorage.removeItem("id_token");
+    }
+  }
+
+  /**
+   * @description Route to appropiate location post login.
+   * NOTE: This method must be called only post login.
+   */
+  routeToProperLocation() {
+    const rawPostLoginRoute =
+      sessionStorage.getItem("postLoginNavigation") || "home";
+    const formattedUrl = this.formatURL(rawPostLoginRoute);
+    if (typeof formattedUrl === "string") {
+      this.router.navigate([formattedUrl]);
+    } else {
+      this.router.navigate([formattedUrl.url], {
+        queryParams: { ...formattedUrl.queryParams },
       });
     }
-
-  forgot(){
-   this.hide1 = false;
   }
 
-  otp(){
-    this.hide2 = true;
-   }
+  /**
+   * @description Format string url into proper url that can be used with `Router`.
+   *
+   * @example
+   *
+   * 1. url = '/some/details'; return '/some/details'
+   * 2. url = '/some/details?param=1'
+   *          return {url: '/some/details', queryParams: {param: 1}}
+   */
+  private formatURL(url: string) {
+    if (!url.includes(`?`)) return url;
+    const [ulrPart, queryParamsInString] = url.split("?");
+    const queryParams = {};
+    queryParamsInString
+      .split("&")
+      .map(
+        (keyValue) =>
+          (queryParams[keyValue.split("=")[0]] = keyValue.split("=")[1])
+      );
+    return {
+      url: ulrPart,
+      queryParams,
+    };
+  }
 
+  private onLoginError(error) {
+    this.loginForm.enable();
+    this.loginError = error.error["message"] || "Server Error";
+    if (error.error.errors && error.error.errors.loginAttempts >= 3) {
+      this.reCaptcha.show = true;
+    }
+  }
+
+  resolveCaptcha(keyGenerated: string) {
+    this.reCaptcha.userGeneratedKey = keyGenerated;
+    this.authService.verifyCaptcha(keyGenerated).subscribe((res) => {
+      if (!res["success"]) {
+        this.reCaptcha.show = false;
+        this.reCaptcha.userGeneratedKey = null;
+        setTimeout(() => {
+          this.reCaptcha.show = true;
+        }, 500);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem("postLoginNavigation");
+  }
+  onSelectingUserType(value) {
+    if (this.directLogin) {
+      value = "USER";
+    }
+    debugger
+    this.selectedUserType = value;
+    this.loginSet = this.loginDetails.find(
+      (item) => item.role == this.selectedUserType
+    );
+    switch (value) {
+      case USER_TYPE.ULB:
+        return this.loginForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          Validators.minLength(6),
+          Validators.maxLength(6),
+        ]);
+      default:
+        this.loginForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.email,
+        ]);
+        break;
+    }
+  }
+
+  otpLogin() {
+    this.loginError = null;
+    const body = { ...this.loginForm.value };
+    body["email"] = body["email"].trim();
+    this.ulbCode = body["email"];
+    this.authService.otpSignIn(body).subscribe(
+      (res) => {
+        this.otpCreads = res;
+        this.isOtpLogin = true;
+      },
+      (error) => {
+        this.onLoginError(error);
+        this.countDown = null;
+      }
+    );
+  }
+
+  otpLoginSubmit() {
+    this.loginError = null;
+    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Login Failed. You must validate that you are human.";
+      return;
+    }
+    const body = { ...this.loginForm.value };
+    this.otpCreads.otp = body["otp"];
+    this.authService.otpVerify(this.otpCreads).subscribe(
+      (res) => this.onSuccessfullLogin(res),
+      (error) => this.onLoginError(error)
+    );
+  }
+
+  change() {
+    this.isOtpLogin = false;
+    this.countDown = null;
+  }
+
+  startCountDown(form = null) {
+    if (this.countDown) {
+      return true;
+    }
+
+    if (form?.controls.email.value === "") {
+      this.loginError = null;
+      this.noCodeError = true;
+      setTimeout(() => {
+        this.noCodeError = false;
+      }, 1500);
+
+      return true;
+    }
+
+    this.counterTimer = true;
+    this.countDown = timer(0, this.tick).subscribe(() => {
+      if (this.counter != 0) {
+        --this.counter;
+      } else {
+        this.countDown = null;
+        this.counterTimer = false;
+        this.counter = 60;
+      }
+    });
+    this.otpLogin();
+  }
+
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  passwordUser(user) {
+    this.commonService.setUser(false, user);
+  }
+  getSideBar(userData) {
+    let ulbId = userData?.ulb;
+    let role = userData?.role;
+    let isUA = false;
+    if (userData?.isUA == "Yes") {
+      isUA = true;
+    } else {
+      isUA = false;
+    }
+    this.newCommonService
+      .getLeftMenu(ulbId, role, isUA)
+      .subscribe((res: any) => {
+        console.log("left responces..", res);
+        localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+        //  this.leftMenu = res;
+      });
+  }
+  getStateSideBar(userData) {
+    let id = userData?.state;
+    let role = userData?.role;
+    let isUA = false;
+    if (userData?.isUA == "Yes") {
+      isUA = true;
+    } else {
+      isUA = false;
+    }
+    this.newCommonService.getLeftMenu(id, role, isUA).subscribe((res: any) => {
+      console.log("left state responces..", res);
+      localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
+      //  this.leftMenu = res;
+    });
+  }
+  getMohuaSideBar(userData) {
+    // let role = userData?.role;
+    let role = "MoHUA";
+    this.newCommonService.getLeftMenu("", role, null).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("MohuaLeftMenu", JSON.stringify(res?.data));
+      //  this.leftMenu = res;
+    });
+  }
+  forgot(){
+
+  }
+  getOtp() {
+
+  }
+  tabChanged(item) {
+    this.loginForm.reset();
+    console.log('item', item);
+    this.loginTabs.forEach((el) => {
+      el.selected = false;
+    });
+    item.selected = true;
+    this.onSelectingUserType(item);
+  }
 }
+
+@Pipe({
+  name: "formatTime",
+})
+export class FormatTimePipe implements PipeTransform {
+  transform(value: number): string {
+    const minutes: number = Math.floor(value / 60);
+    return (
+      ("00" + minutes).slice(-2) +
+      ":" +
+      ("00" + Math.floor(value - minutes * 60)).slice(-2)
+    );
+  }
+}
+
