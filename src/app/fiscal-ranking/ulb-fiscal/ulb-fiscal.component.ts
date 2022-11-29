@@ -1174,16 +1174,19 @@ export class UlbFiscalComponent implements OnInit {
   changeNumToWords() {
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.expPerf) {
       this.expPerf[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
+        if (el?.amount || el?.amount === 0)
         el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
