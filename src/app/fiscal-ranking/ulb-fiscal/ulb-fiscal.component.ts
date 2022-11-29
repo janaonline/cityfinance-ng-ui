@@ -13,6 +13,10 @@ import {
   customEmailValidator,
   mobileNoValidator,
 } from "src/app/util/reactiveFormValidators";
+import { UserUtility } from 'src/app/util/user/user';
+import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { ProfileService } from 'src/app/users/profile/service/profile.service';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 @Component({
@@ -28,12 +32,24 @@ export class UlbFiscalComponent implements OnInit {
   yearIdArr;
   ulbId = "";
   isDraft = true;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  userLoggedInDetails: IUserLoggedInDetails;
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
   constructor(
     private fb: FormBuilder,
     private fiscalService: FiscalRankingService,
     private dataEntryService: DataEntryService,
     private _router: Router,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private profileService: ProfileService,) {
+    this.initializeUserType();
+    this.initializeLoggedInUserDataFetch();
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    if (!this.loggedInUserType) {
+      this._router.navigate(["/fiscal/home"]);
+      // this.showLoader = false;
+    }
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
@@ -1611,5 +1627,17 @@ export class UlbFiscalComponent implements OnInit {
     const end = input?.selectionEnd || input?.selectionStart;
 
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+
+    // console.log(this._router.url);
+  }
+  private initializeLoggedInUserDataFetch() {
+    UserUtility.getUserLoggedInData().subscribe((data) => {
+      this.userLoggedInDetails = data;
+
+      console.log("hi", data);
+    });
   }
 }
