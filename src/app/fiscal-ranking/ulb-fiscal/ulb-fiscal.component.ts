@@ -979,10 +979,10 @@ export class UlbFiscalComponent implements OnInit {
     this.paying_property_tax = data?.paying_property_tax;
     this.paid_property_tax = data?.paid_property_tax;
     this.isDraft = data?.isDraft;
-    if (this.isDraft) {
-      this.isDisabled = false;
-    } else {
+    if (this.isDraft == false) {
       this.isDisabled = true;
+    } else {
+      this.isDisabled = false;
     }
     this.fiscalForm.patchValue({
       basicUlbDetails: {
