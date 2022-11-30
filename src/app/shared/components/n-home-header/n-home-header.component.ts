@@ -124,17 +124,30 @@ export class NHomeHeaderComponent implements OnInit {
     });
   }
   // routerLink="/fc-home-page";
-  loginLogout() {
-    if (this.btnName == "Login for 15th FC Grants") {
+  loginLogout(type) {
+    if(type == '15th_Fc'){
       this._router.navigateByUrl("/fc-home-page");
-    }
-    if (this.btnName == "Logout") {
-      this.btnName = "Login for 15th FC Grants";
+    }else if(type == 'ranking'){
+      this._router.navigateByUrl("/fiscal/login");
+    }else if(type == 'logout'){
       this.authService.loginLogoutCheck.next(false);
       // this.newCommonService.setFormStatus2223.next(false);
       localStorage.clear();
       this.removeSessionItem();
       this._router.navigateByUrl("/home");
+    }else {
+
     }
+    // if (this.btnName == "Login for 15th FC Grants") {
+    //   this._router.navigateByUrl("/fc-home-page");
+    // }
+    // if (this.btnName == "Logout") {
+    //   this.btnName = "Login for 15th FC Grants";
+    //   this.authService.loginLogoutCheck.next(false);
+    //   // this.newCommonService.setFormStatus2223.next(false);
+    //   localStorage.clear();
+    //   this.removeSessionItem();
+    //   this._router.navigateByUrl("/home");
+    // }
   }
 }

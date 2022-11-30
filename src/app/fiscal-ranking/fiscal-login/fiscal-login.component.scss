@@ -107,7 +107,7 @@
     border-bottom-right-radius: 8px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    padding: 3px 0;
+    padding: 3px;
     background-color: #fff;
 }
 
@@ -154,4 +154,8 @@ li>a.active {
 .input-group-text {
     background-color: #FFFFFF;
     border: 1px solid #ced4da;
+}
+
+.nav-pills .nav-link {
+    margin: auto;
 }

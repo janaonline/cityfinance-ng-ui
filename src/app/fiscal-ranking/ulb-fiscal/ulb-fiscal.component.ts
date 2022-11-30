@@ -45,9 +45,9 @@ export class UlbFiscalComponent implements OnInit {
     private profileService: ProfileService,) {
     this.initializeUserType();
     this.initializeLoggedInUserDataFetch();
-    this.loggedInUserType = this.loggedInUserDetails.role;
+    this.loggedInUserType = this.loggedInUserDetails?.role;
     if (!this.loggedInUserType) {
-      this._router.navigate(["/fiscal/home"]);
+      this._router.navigateByUrl('fiscal/login')
       // this.showLoader = false;
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
