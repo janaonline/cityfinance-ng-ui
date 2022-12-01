@@ -121,10 +121,12 @@ export class FiscalLoginComponent implements OnInit {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
-    this.perFillUser = this.commonService.setUser(true);
-    if (this.perFillUser !== null) {
-      this.onSelectingUserType(this.perFillUser);
-    }
+    // this.perFillUser = this.commonService.setUser(true);
+    // if (this.perFillUser !== null) {
+    //   this.onSelectingUserType(this.perFillUser);
+    // }
+   // this.onSelectingUserType(this.loginTabs[0]);
+    this.tabChanged(this.loginTabs[0])
   }
 
   get lf() {
@@ -138,12 +140,12 @@ export class FiscalLoginComponent implements OnInit {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
     }
+    console.log('login form....', this.loginForm);
 
     if (this.loginForm.valid) {
       const body = { ...this.loginForm.value };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
@@ -184,7 +186,7 @@ export class FiscalLoginComponent implements OnInit {
    */
   routeToProperLocation() {
     const rawPostLoginRoute =
-      sessionStorage.getItem("postLoginNavigation") || "home";
+      sessionStorage.getItem("postLoginNavigation") || "fiscal/ulb-form";
     const formattedUrl = this.formatURL(rawPostLoginRoute);
     if (typeof formattedUrl === "string") {
       this.router.navigate([formattedUrl]);
@@ -245,15 +247,14 @@ export class FiscalLoginComponent implements OnInit {
     sessionStorage.removeItem("postLoginNavigation");
   }
   onSelectingUserType(value) {
-    if (this.directLogin) {
-      value = "USER";
-    }
-    debugger
-    this.selectedUserType = value;
-    this.loginSet = this.loginDetails.find(
+    // if (this.directLogin) {
+    //   value = "USER";
+    // }
+    this.selectedUserType = value?.role;
+    this.loginSet = this.loginTabs.find(
       (item) => item.role == this.selectedUserType
     );
-    switch (value) {
+    switch (value?.role) {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([
           Validators.required,
@@ -389,6 +390,7 @@ export class FiscalLoginComponent implements OnInit {
 
   }
   tabChanged(item) {
+    console.log('login form', this.loginForm);
     this.loginForm.reset();
     console.log('item', item);
     this.loginTabs.forEach((el) => {

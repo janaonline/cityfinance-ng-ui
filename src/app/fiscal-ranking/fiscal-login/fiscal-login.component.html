@@ -1,4 +1,4 @@
-<div class="container-fluid m-0 p-0">
+<!-- <div class="container-fluid m-0 p-0">
     <div class="hero">
         <div class="lg-con">
             <div class="row g-0">
@@ -38,63 +38,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class=" row mb-3">
-                            <div class="col-sm-12">
-                                <ul class="d-flex nav-pills mb-3 text-center" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link button-b active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" (click)="FormResetAll()">ULB</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link button-b" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" (click)="FormResetAll()">State</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link button-b" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" (click)="FormResetAll()">MoHUA</button>
-                                    </li>
-                                </ul>
-                            </div>
-
-
-                            <div class="tab-content col-md-12" id="myTabContent">
-
-                                <div class="tab-pane fade show active mt-3" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
-
-                                    <input type="email" formControlName="email1" class="form-control py-4" placeholder="Census Code/ULB" [ngClass]="{ 'is-invalid': submitted && c.email1.errors }">
-                                    <div *ngIf="submitted && c.email1.errors.required" class="invalid-feedback">Census Code/ULB is required</div>
-                                    <div *ngIf=" submitted && c.email1.errors.email" class="invalid-feedback">Census Code/ULB must be a valid</div>
-
-                                    <input type="password" formControlName="password1" class="form-control py-4 mt-3" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && c.password1.errors }">
-                                    <div *ngIf="submitted && c.password1.errors.required" class="invalid-feedback">Password is required</div>
-                                    <div *ngIf="submitted && c.password1.errors.minlength" class="invalid-feedback">Password min length is 8</div>
-                                </div>
-
-
-                                <div class="tab-pane fade mt-3" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-
-                                    <input type="email" formControlName="email2" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email2.errors }">
-                                    <div *ngIf="submitted && c.email2.errors.required" class="invalid-feedback">Email is required</div>
-                                    <div *ngIf=" submitted && c.email2.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
-
-                                    <input type="password" formControlName="password2" class="form-control py-4 mt-3" placeholder="Password">
-                                    <div *ngIf="submitted && c.password2.errors.required" class="invalid-feedback">Password is required</div>
-                                    <div *ngIf="submitted && c.password2.errors.minlength" class="invalid-feedback">Password min length is 8</div>
-                                </div>
-
-
-                                <div class="tab-pane fade mt-3" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-
-                                    <input type="email" formControlName="email3" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email3.errors }">
-                                    <div *ngIf="submitted && c.email3.errors.required" class="invalid-feedback">Email is required</div>
-                                    <div *ngIf=" submitted && c.email3.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
-
-                                    <input type="password" formControlName="password3" class="form-control py-4 mt-3" placeholder="Password">
-                                    <div *ngIf="submitted && c.password3.errors.required" class="invalid-feedback">Password is required</div>
-                                    <div *ngIf="submitted && c.password3.errors.minlength" class="invalid-feedback">Password min length is 8</div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                         <div class="checkbox mb-4 mt-3 d-flex" style="justify-content: space-between;">
                             <div class="col-md-6 text-start">
                                 <button class="btn mb-3 login-btnn" type="submit">Log in</button>
@@ -108,83 +51,153 @@
                             <a class="forgo-otp" (click)="getOtp()"> Get OTP on your phone or Email</a>
                         </div>
                     </form>
-                    <!-- </div> -->
-
 
                 </div>
             </div>
-            <!-- forgot -->
-            <!-- <ng-template #Hide>
-                <div class="col-md-3 border shadow mt-5 mb-5 bg-light rounded" style="">
-                    <form class="form-signin p-3 mt-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                        <h1 class="mb-3 fw-bolder fs-2">Forgot password</h1>
-
-                        <div class=" row mb-3">
-                            <input type="email" formControlName="email4" class="form-control py-4" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && c.email4.errors }">
-                            <div *ngIf="submitted && c.email4.errors.required" class="invalid-feedback">Email is required</div>
-                            <div *ngIf=" submitted && c.email4.errors.email" class="invalid-feedback">Email must be a valid Email Address</div>
-
-                            <re-captcha style="margin-top: 1%; display: block; margin-bottom: 20px" *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey"></re-captcha>
-
-                            <div class="checkbox mb-4 mt-3 d-flex justify-content-center">
-                                <div class="col-md-12 justify-content-center">
-                                    <button class="btn mb-3 forgot-p" type="submit">Continue</button>
-                                </div>
-                            </div>
-
-                            <div class="border-top pt-3">
-                                <a class="forgo-otp"> Sign in here</a>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-
-            </ng-template> -->
-            <!-- forgot -->
-
-            <!-- OTP -->
-            <!-- <div class="row d-flex justify-content-center" *ngIf="hide2">
-
-                <div class="col-md-3 border shadow mt-5 mb-5 bg-light rounded" style="width:25%;">
-                    <form class="form-signin p-3 mt-4" [formGroup]="" (ngSubmit)="onSubmit()">
-
-                        <div class="mb-3">
-                            <input type="email" formControlName="mohua" class="form-control py-4" placeholder="Enter OTP" [ngClass]="{ 'is-invalid': submitted && d.email.errors }">
-                            <div *ngIf="submitted && d.email.errors" class="invalid-feedback">
-                                <div *ngIf="d.email.errors.required">OTP is required</div>
-                                <div *ngIf="d.email.errors.email">OTP must be a valid OTP</div>
-
-                            </div>
-
-                            <div class="checkbox mb-4 mt-3 d-flex sign" style="justify-content: center;">
-                                <div class="col-md-6 justify-content-center">
-                                    <button class="btn text-white" type="submit">Sign in</button>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="row d-flex justify-content-center">
-                                    <div class="col-md-5">
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-1 mt-1">Or</div>
-                                    <div class="col-md-5">
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 mt-3">
-                                <button class="btn sign1"> Sign in with your password</button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </div> -->
-            <!-- OTP -->
         </div>
     </div>
 
+</div> -->
+<div class="fc-grant">
+    <div class="container-fluid">
+        <!-- class="align-items-center d-flex flex-wrap"  overall-container classes-->
+        <div class="overall-container d-flex justify-content-center">
+            <div class="row mb-4">
+                <div class="col-sm-12 col-md-6 bg-white card sign-in pos-r">
+                    <div class="city-fr-div">
+                        <span class="city-fr">City Finance Rankings 2022</span>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-12 mb-4" *ngIf="!isOtpLogin">
+                            <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+                                <li class="nav-item" *ngFor="let item of loginTabs" [ngClass]="{'actClass': item.selected}">
+                                    <a (click)="tabChanged(item)" role="tab" class="nav-link" id="{{item?.role}}">
+                                        <span>{{ item?.role }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body" *ngIf="!isOtpLogin">
+                            <h5 class="text-center fw-bolder fs-2">Login</h5>
+                            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{ loginSet.loginName }}</mat-label>
+                                    <input matInput type="email" placeholder="{{ loginSet.loginName }}" formControlName="email" [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
+                                </mat-form-field>
+                                <br />
+                                <div class="forget-password">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password" [ngClass]="{
+                      'is-invalid': submitted && lf.password.errors
+                    }" />
+                                        <mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility" : "visibility_off" }}
+                                        </mat-icon>
+                                    </mat-form-field>
+
+                                    <div class="forget text-end">
+                                        <a class="text-decoration-none" style="color: #E67E15;" [routerLink]="['../../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
+                      password?</a>
+                                    </div>
+                                </div>
+
+                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                                </re-captcha>
+                                <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }}</span>
+                                <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
+                                <p *ngIf="loginError" class="error-message mt-1 text-left">
+                                    <span [innerHtml]="loginError"></span>
+                                </p>
+
+                                <div class="signbtn-wrapper">
+                                    <button type="submit" class="btn  btn-block login-btn btn-col" [ngClass]="{ 'loading-button': loginForm.disabled }">
+                    Login
+                  </button>
+                                </div>
+                            </form>
+                            <div class="signbtn-wrapper">
+                                <!-- <div class="strike">
+                                    <span>Or</span>
+                                </div> -->
+                                <hr>
+                                <a class="btn-otp" style="" (click)="startCountDown(loginForm)">
+                  Get OTP on your phone and email
+                                </a>
+                            </div>
+                            <!-- <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
+                  Registered?</span></a> -->
+                            <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;" (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                Need Help?
+              </a>
+
+                            <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                                <div class="mat-card pop1">
+                                    <div class="mat-card-content pop2">
+                                        Please write to us at 15fcgrant@cityfinance.in
+                                    </div>
+                                </div>
+                            </mde-popover>
+
+                            <br>
+                            <!-- style="margin-left: 8em;" style="display: grid" -->
+                            <div *ngIf="help" class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Not Registered?</a>
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Update Email ID?</a>
+                                <a class="text-decoration-none" style="margin-left: 9em; color: #337ab7;">Can not Access 15th FC
+                  Module?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isOtpLogin">
+                        <div class="card-body border">
+                            <h4 class="text-center">
+                                <b>Welcome {{ otpCreads?.name }}, {{ otpCreads?.state }}</b>
+                            </h4>
+                            <hr class="Sepline" />
+                            <div>
+                                <span style="font-size:0.875rem;font-weight: 700;"><b>An OTP has been sent to {{ otpCreads?.mobile }}
+                    and
+                    {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']" [click]="onChangeNumber()"
+                    *ngIf="selectedUserType === 'ULB'">Change?</a></span>
+                            </div>
+                            <div *ngIf="selectedUserType === 'ULB'">
+                                <span><b>Census Code/ ULB Code-{{ ulbCode }} </b><a (click)="change()">Change?</a></span>
+                            </div>
+                            <br />
+                            <form [formGroup]="loginForm" (ngSubmit)="otpLoginSubmit()">
+                                <div class="forget-password">
+                                    <a class="pull-right" (click)="startCountDown()">Resend OTP?
+                    <a *ngIf="counterTimer">{{ counter }} Sec</a>
+                                    </a>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Enter OTP</mat-label>
+                                        <input matInput type="text" formControlName="otp" placeholder="Enter OTP" />
+                                    </mat-form-field>
+                                </div>
+
+                                <p *ngIf="loginError" class="error-message mt-1 text-left">
+                                    <span [innerHtml]="loginError"></span>
+                                </p>
+
+                                <div class="signbtn-wrapper">
+                                    <button type="submit" class="btn btn-block login-btn btn-col">
+                    Sign In
+                  </button>
+                                </div>
+                                <div class="signbtn-wrapper">
+                                    <!-- <div class="strike">
+                                        <span>Or</span>
+                                    </div> -->
+                                    <hr>
+                                    <a class="btn-otp" (click)="change()">
+                    Sign in with your password
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

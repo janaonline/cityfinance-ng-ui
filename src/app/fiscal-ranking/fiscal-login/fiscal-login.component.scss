@@ -107,7 +107,7 @@
     border-bottom-right-radius: 8px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    padding: 3px 0;
+    padding: 3px;
     background-color: #fff;
 }
 
@@ -127,10 +127,12 @@
     font-size: 16px;
     // font: normal normal 600 14px/18px 'Montserrat';
     width: max-content;
+    text-decoration: none;
 }
 
 .nav>li>a {
     padding: .8rem 2rem;
+    text-decoration: none;
 }
 
 li>a.active {
@@ -154,4 +156,359 @@ li>a.active {
 .input-group-text {
     background-color: #FFFFFF;
     border: 1px solid #ced4da;
+}
+
+.nav-pills .nav-link {
+    margin: auto;
+}
+
+// old css login page
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+@import "../../../scss/reboot";
+@import "../../../scss/utilities";
+// .overall-container{
+//   margin-top: 90px;
+// }
+::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+::ng-deep .form-field-error-message {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+::ng-deep .mat-form-field-disabled .mat-form-field-outline {
+    background: #eaeaea;
+}
+
+:host {
+     ::ng-deep .selected-list,
+     ::ng-deep .mat-form-field-flex {
+        border: none !important;
+    }
+    // .signbtn-wrapper {
+    //   margin: 30px 0 30px;
+    // }
+    button.loading-button {
+        transition: all 0.5s;
+        margin: auto !important;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border-left: 4px solid #059b9a;
+        border-top: 4px solid #059b9a;
+        border-right: 4px solid white;
+        border-bottom: 4px solid white;
+        background: white !important;
+        pointer-events: none;
+        animation: 1s linear rotate-clockwise infinite;
+        animation-delay: 0.5s;
+        font-size: $font-size-base*0;
+    }
+}
+
+@keyframes rotate-clockwise {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+::ng-deep .mat-form-field-prefix .mat-icon,
+::ng-deep .mat-form-field-suffix .mat-icon {
+    font-size: $font-size-base*1;
+    line-height: 1.125;
+}
+
+::ng-deep label {
+    font-size: $font-size-base*0.813 !important;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+}
+
+::ng-deep .mat-label {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+}
+
+.fc-grant {
+    // background-image: url("../../../assets/images/backgrounds/Path.png");
+    // background-repeat: no-repeat;
+    // background-position: left;
+    // height: calc(100vh - 1px);
+    // background-size: contain;
+    background-image: linear-gradient(rgba(38, 104, 172, 0.2), rgba(0, 0, 0, 0.021)), url("../../../assets/sajal-das--YbOY0ZV_X4-unsplash\ 1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+    &>.container-fluid {
+        align-self: center;
+        width: 100%;
+    }
+    .text-white {
+        color: #ffffff;
+    }
+    h1 {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        padding: 20px 0;
+    }
+    h5 {
+        font-family: Poppins, "Roboto", sans-serif;
+    }
+    .formTitle {
+        font-size: $font-size-base*0.875;
+    }
+    table {
+        border-radius: 12px;
+        border-collapse: separate;
+        tr {
+            &:first-child {
+                td {
+                    &:first-child {
+                        border-top-left-radius: 10px;
+                    }
+                    &:last-child {
+                        border-top-right-radius: 10px;
+                    }
+                }
+            }
+            &:last-child {
+                td {
+                    &:first-child {
+                        border-bottom-left-radius: 10px;
+                    }
+                    &:last-child {
+                        border-bottom-right-radius: 10px;
+                    }
+                }
+            }
+            td {
+                color: #fff;
+                font-size: $font-size-base*0.875;
+                padding: 15px;
+                font-family: "Roboto", sans-serif;
+            }
+        }
+    }
+    h4 {
+        margin-bottom: 20px;
+    }
+    ul {
+        list-style-type: disc;
+        li {
+            color: #c3cb24;
+        }
+    }
+    .image-side {
+        p,
+        a {
+            color: #06868c;
+            font-size: $font-size-base*0.875;
+        }
+        p a {
+            text-decoration: underline;
+        }
+        .btn {
+            margin: 40px 15px 32px;
+            padding: 10px 20px;
+            color: #ffffff;
+            box-shadow: 0px 3px 5px #b5b5b5;
+        }
+    }
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+    .bg-white {
+        background: #fff;
+    }
+    .selected-list,
+    .mat-form-field-flex {
+        border: none !important;
+    }
+}
+
+.sign-in {
+    width: 85%;
+    // margin-top: 5rem !important;
+    text-align: center;
+    padding: 5px 25px 10px;
+    border-radius: 10px;
+    margin-top: 14%;
+    font-family: 'Manrope';
+    .forget span {
+        color: #2c2c2c;
+        font-size: $font-size-base*0.875;
+    }
+    .sign-in .mat-form-field:last-child .mat-form-field-wrapper {
+        padding-bottom: 0 !important;
+    }
+    .login-btn {
+        display: block; //changes in the button
+        border-color: unset;
+        border-radius: 5px;
+        width: 100%;
+        margin: 30px 0 30px;
+        font-family: 'Manrope';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .btn-col {
+        background-color: #ff8a00;
+        color: #FFFFFF;
+    }
+    .btn-otp {
+        font-family: 'Manrope';
+        font-size: $font-size-base*1;
+        font-weight: 600;
+        color: #E67E15;
+        text-decoration: none;
+    }
+    .text-dark {
+        color: #2c2c2c;
+    }
+    .last-para {
+        font-size: $font-size-base*0.875;
+        font-weight: 400;
+    }
+    .last-para a {
+        color: #ffc70a;
+    }
+    .forget-password {
+        position: relative;
+    }
+    .forget {
+        position: absolute;
+        right: 0;
+        bottom: -5px;
+    }
+    .mat-form-field {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 1024px) {
+    .fc-grant {
+        background-size: cover;
+        height: auto;
+    }
+    .image-side .btn {
+        margin: 20px 5px !important;
+        padding: 10px 20px;
+        color: #ffffff;
+    }
+    .sign-in {
+        width: 100%;
+        margin: 50px 0;
+    }
+    .image-side .btn {
+        color: #ffffff;
+    }
+    .image-side {
+        background-color: #ffffff;
+        padding: 0;
+    }
+    .image-side .img-wrapper,
+    .image-side p {
+        padding: 15px 15px;
+    }
+    .container-fluid {
+        padding: 0;
+    }
+}
+
+.container {
+    overflow-y: hidden;
+    margin-left: -1vw;
+    // height: 1000px;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+    overflow: -moz-scrollbars-none;
+}
+
+:host {
+    .card-body {
+        overflow: hidden !important;
+        overflow-y: hidden !important;
+    }
+    .error-message {
+        margin-top: 1rem;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+    input:-webkit-autofill:disabled {
+        -webkit-box-shadow: 0 0 0 30px #eaeaea inset !important;
+    }
+}
+
+.img-wrapper {
+    margin-bottom: 30px;
+}
+
+.user {
+    margin-bottom: 20px;
+}
+
+.user {
+    margin-bottom: 20px;
+}
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.strike>span {
+    position: relative;
+    display: inline-block;
+}
+
+.strike>span:before,
+.strike>span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background: #06868c;
+}
+
+.strike>span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike>span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.pop1 {
+    margin-left: -3pc;
+    margin-top: -52px;
+}
+
+.pop2 {
+    max-width: 300px;
+    font-size: large;
+    padding: 1ch;
 }
