@@ -125,7 +125,8 @@ export class FiscalLoginComponent implements OnInit {
     // if (this.perFillUser !== null) {
     //   this.onSelectingUserType(this.perFillUser);
     // }
-    this.onSelectingUserType(this.loginTabs[0]);
+   // this.onSelectingUserType(this.loginTabs[0]);
+    this.tabChanged(this.loginTabs[0])
   }
 
   get lf() {
@@ -250,9 +251,9 @@ export class FiscalLoginComponent implements OnInit {
     //   value = "USER";
     // }
     this.selectedUserType = value?.role;
-    // this.loginSet = this.loginTabs.find(
-    //   (item) => item.role == this.selectedUserType
-    // );
+    this.loginSet = this.loginTabs.find(
+      (item) => item.role == this.selectedUserType
+    );
     switch (value?.role) {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([

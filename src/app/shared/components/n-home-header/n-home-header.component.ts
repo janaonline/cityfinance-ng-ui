@@ -134,7 +134,7 @@ export class NHomeHeaderComponent implements OnInit {
       // this.newCommonService.setFormStatus2223.next(false);
       localStorage.clear();
       this.removeSessionItem();
-      this._router.navigateByUrl("/home");
+      this._router.navigateByUrl("/fiscal/home");
     }else {
 
     }
