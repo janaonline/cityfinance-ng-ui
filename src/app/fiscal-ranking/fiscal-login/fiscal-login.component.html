@@ -103,7 +103,7 @@
 
                                 <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
                                 </re-captcha>
-                                <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }}</span>
+                                <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }} is requried.</span>
                                 <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
                                 <p *ngIf="loginError" class="error-message mt-1 text-left">
                                     <span [innerHtml]="loginError"></span>
@@ -126,9 +126,9 @@
                             </div>
                             <!-- <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
                   Registered?</span></a> -->
-                            <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;" (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                            <!-- <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;" (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
                 Need Help?
-              </a>
+              </a> -->
 
                             <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
                                 <div class="mat-card pop1">
