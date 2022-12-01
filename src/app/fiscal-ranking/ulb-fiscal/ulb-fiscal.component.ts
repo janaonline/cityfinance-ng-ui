@@ -822,18 +822,35 @@ export class UlbFiscalComponent implements OnInit {
     "designationOftNodalOfficer": "",
     "email": "",
     "mobile": "",
-    "webUrlAnnual": null,
-    "digitalRegtr": null,
-    "registerGis": null,
-    "accountStwre": null,
-    "totalOwnRevenueArea": null,
+    "webUrlAnnual": {
+      status: "",
+      value : null
+    },
+    "digitalRegtr": {
+      status: "",
+      value : null
+    },
+    "registerGis": {
+      status: "",
+      value : null
+    },
+    "accountStwre": {
+      status: "",
+      value : null
+    },
+    "totalOwnRevenueArea":  {
+      status: "",
+      value : null
+    },
     "fy_19_20_cash": {
       "type": "Cash",
-      "amount": null
+      "amount": null,
+      status: "",
     },
     "fy_19_20_online": {
       "type": "UPI",
-      "amount": null
+      "amount": null,
+      status: "",
     },
     "fyData": [
       {
@@ -849,11 +866,21 @@ export class UlbFiscalComponent implements OnInit {
     ],
     "signedCopyOfFile": {
       "name": '',
-      "url": ''
+      "url": '',
+      status: ''
     },
-    "property_tax_register": null,
-    "paying_property_tax": null,
-    "paid_property_tax": null,
+    "property_tax_register":  {
+      status: "",
+      value : null
+    },
+    "paying_property_tax":  {
+      status: "",
+      value : null
+    },
+    "paid_property_tax": {
+      status: "",
+      value : null
+    },
     "status": "PENDING",
     "isDraft": this.isDraft
   };
@@ -968,16 +995,16 @@ export class UlbFiscalComponent implements OnInit {
     console.log('this form.....', data?.nameCmsnr);
     this.signedFileUrl = data?.signedCopyOfFile?.url;
     this.signedFileName = data?.signedCopyOfFile?.name;
-    this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual;
-    this.goverParaNdata.normalData.yearData.digitalRegtr.value = data?.digitalRegtr;
-    this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis;
-    this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre;
-    this.totalOwnRevenueArea = data?.totalOwnRevenueArea;
+    this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value;
+    this.goverParaNdata.normalData.yearData.digitalRegtr.value = data?.digitalRegtr?.value;
+    this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value;
+    this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value;
+    this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value;
     this.fy_19_20_cash = data?.fy_19_20_cash?.amount;
     this.fy_19_20_online = data?.fy_19_20_online?.amount;
-    this.property_tax_register = data?.property_tax_register;
-    this.paying_property_tax = data?.paying_property_tax;
-    this.paid_property_tax = data?.paid_property_tax;
+    this.property_tax_register = data?.property_tax_register?.value;
+    this.paying_property_tax = data?.paying_property_tax?.value;
+    this.paid_property_tax = data?.paid_property_tax?.value;
     this.isDraft = data?.isDraft;
     if (this.isDraft == false) {
       this.isDisabled = true;
@@ -1318,27 +1345,54 @@ export class UlbFiscalComponent implements OnInit {
       "design_year": this.yearIdArr['2022-23'],
       ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
-      "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
-      "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
-      "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
-      "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
-      "totalOwnRevenueArea": this.totalOwnRevenueArea,
+      "webUrlAnnual": {
+        value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
+        status: 'PENDING',
+      },
+      "digitalRegtr": {
+        value: this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
+        status: 'PENDING',
+      },
+      "registerGis": {
+        value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
+        status: 'PENDING',
+      },
+      "accountStwre":{
+        value: this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
+        status: 'PENDING',
+      },
+      "totalOwnRevenueArea": {
+        value: this.totalOwnRevenueArea,
+        status: 'PENDING',
+      },
       "fy_19_20_cash": {
         "type": "Cash",
-        "amount": this.fy_19_20_cash
+        "amount": this.fy_19_20_cash,
+        status: 'PENDING'
       },
       "fy_19_20_online": {
         "type": "UPI",
-        "amount": this.fy_19_20_online
+        "amount": this.fy_19_20_online,
+        status: 'PENDING'
       },
       "fyData": this.fyDataArr,
       "signedCopyOfFile": {
         "name": this.signedFileName,
-        "url": this.signedFileUrl
+        "url": this.signedFileUrl,
+        status: 'PENDING'
       },
-      "property_tax_register": this.property_tax_register,
-      "paying_property_tax": this.paying_property_tax,
-      "paid_property_tax": this.paid_property_tax,
+      "property_tax_register":  {
+        status: "PENDING",
+        value : this.property_tax_register
+      },
+      "paying_property_tax":  {
+        status: "PENDING",
+        value : this.paying_property_tax
+      },
+      "paid_property_tax": {
+        status: "PENDING",
+        value : this.paid_property_tax
+      },
       "status": "PENDING",
       "isDraft": this.isDraft
     };
