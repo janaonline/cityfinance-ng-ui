@@ -94,22 +94,22 @@ export class FiscalLoginComponent implements OnInit {
     private commonService: CommonService,
     private newCommonService: NewCommonService
   ) {
-    // if (this.authService.loggedIn()) {
-    //   this.router.navigate(["/home"]);
-    //   return;
-    // }
-    // this.activatedRoute.queryParams.subscribe((param) => {
-    //   if (param.user && param.user == "USER") {
-    //     this.directLogin = true;
-    //   }
-    //   if (param.message) {
-    //     this.otpVerificationMessage = true;
-    //     setTimeout(() => {
-    //       this.otpVerificationMessage = false;
-    //     }, 3000);
-    //     this.emailVerificationMessage = param.message;
-    //   }
-    // });
+    if (this.authService.loggedIn()) {
+      this.router.navigate(["/fiscal/home"]);
+      return;
+    }
+    this.activatedRoute.queryParams.subscribe((param) => {
+      if (param.user && param.user == "USER") {
+        this.directLogin = true;
+      }
+      if (param.message) {
+        this.otpVerificationMessage = true;
+        setTimeout(() => {
+          this.otpVerificationMessage = false;
+        }, 3000);
+        this.emailVerificationMessage = param.message;
+      }
+    });
   }
 
   ngOnInit() {
@@ -247,9 +247,9 @@ export class FiscalLoginComponent implements OnInit {
     sessionStorage.removeItem("postLoginNavigation");
   }
   onSelectingUserType(value) {
-    // if (this.directLogin) {
-    //   value = "USER";
-    // }
+    if (this.directLogin) {
+      value = "USER";
+    }
     this.selectedUserType = value?.role;
     this.loginSet = this.loginTabs.find(
       (item) => item.role == this.selectedUserType
@@ -273,8 +273,9 @@ export class FiscalLoginComponent implements OnInit {
 
   otpLogin() {
     this.loginError = null;
+    this.submitted = true;
     const body = { ...this.loginForm.value };
-    body["email"] = body["email"].trim();
+    body["email"] = body["email"] ? body["email"].trim() : null;
     this.ulbCode = body["email"];
     this.authService.otpSignIn(body).subscribe(
       (res) => {
@@ -312,7 +313,7 @@ export class FiscalLoginComponent implements OnInit {
       return true;
     }
 
-    if (form?.controls.email.value === "") {
+    if (form?.controls.email.value === "" || form?.controls.email.value === null) {
       this.loginError = null;
       this.noCodeError = true;
       setTimeout(() => {
@@ -383,12 +384,6 @@ export class FiscalLoginComponent implements OnInit {
       //  this.leftMenu = res;
     });
   }
-  forgot(){
-
-  }
-  getOtp() {
-
-  }
   tabChanged(item) {
     console.log('login form', this.loginForm);
     this.loginForm.reset();
@@ -398,6 +393,7 @@ export class FiscalLoginComponent implements OnInit {
     });
     item.selected = true;
     this.onSelectingUserType(item);
+    this.loginError = null;
   }
 }
 
