@@ -1125,11 +1125,21 @@ export class UlbFiscalComponent implements OnInit {
       },
     };
     this.changeNumToWords();
+    this.addSomeKey();
   }
   returnZero() {
     return 0;
   }
+  addSomeKey(){
+    for (const key in this.uploadFyDoc) {
+      if(key != 'guidanceNotes'){
+        this.uploadFyDoc[key].yearData.forEach((el) => {
+         el['fileProcess'] = false;
+        })
+      }
 
+    }
+  }
   stepperContinue(stepper: MatStepper, item) {
     console.log("stepper", stepper, item);
     // let lb: string = label;
@@ -1221,6 +1231,11 @@ export class UlbFiscalComponent implements OnInit {
   fileUpLoader = false;
   async fileChangeEvent(event, fileType, inputType, yrItem, stepItem) {
     console.log(fileType, event);
+    if (inputType == 'signed') {
+      this.fileUpLoader = false;
+    } else if (inputType == 'annualDoc') {
+      yrItem.fileProcess = true;
+    }
     this.fileUpLoader = true;
     console.log("aaa", event.target.files[0].size);
     let files;
@@ -1298,13 +1313,15 @@ export class UlbFiscalComponent implements OnInit {
         //   this.data[fileType].progress = 70;
         if (res.type === HttpEventType.Response) {
           if (inputType == 'signed') {
+            this.fileUpLoader = false;
             this.signedFileUrl = fileAlias;
             this.signedFileName = name;
           } else if (inputType == 'annualDoc') {
             yrItem.file.url = fileAlias;
             yrItem.file.name = name;
+            yrItem.fileProcess = false;
           }
-          this.fileUpLoader = false;
+
           // this.data[fileType].progress = 100;
           // this.data[fileType].file = file;
           // this.data[fileType].url = fileAlias;
@@ -1441,23 +1458,26 @@ export class UlbFiscalComponent implements OnInit {
     }
     for (const key in this.uploadFyDoc) {
       let dataObj = {}
-      this.uploadFyDoc[key].yearData.forEach((el) => {
-        if (el?.file?.url != '' && el?.file?.url != null && el?.file?.url != undefined) {
-          dataObj = {
-            "ulb": this.ulbId,
-            "year": el?.year,
-            "type": el?.type,
-            "file": {
-              name: el?.file?.name,
-              url: el?.file?.url
-            },
-            "typeofdata": 'PDF', /* Number, PDF,Excel    */
-            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
-            key: el?.key
+      if(key != 'guidanceNotes'){
+        this.uploadFyDoc[key].yearData.forEach((el) => {
+          if (el?.file?.url != '' && el?.file?.url != null && el?.file?.url != undefined) {
+            dataObj = {
+              "ulb": this.ulbId,
+              "year": el?.year,
+              "type": el?.type,
+              "file": {
+                name: el?.file?.name,
+                url: el?.file?.url
+              },
+              "typeofdata": 'PDF', /* Number, PDF,Excel    */
+              "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
+              key: el?.key
+            }
+            annFyPostArr.push(dataObj);
           }
-          annFyPostArr.push(dataObj);
-        }
-      })
+        })
+      }
+
     }
     console.log('expPostArr', expPostArr);
     console.log('revPostArr', revPostArr);
@@ -1593,15 +1613,18 @@ export class UlbFiscalComponent implements OnInit {
         }
       })
       for (const key in this.uploadFyDoc) {
-        this.uploadFyDoc[key].yearData.forEach((el) => {
-          if (el?.file?.url == '' || el?.file?.url == null) {
+        if(key != 'guidanceNotes'){
+          this.uploadFyDoc[key].yearData.forEach((el) => {
             if (el?.file?.url == '' || el?.file?.url == null) {
-              el['error'] = true
-            } else {
-              el['error'] = false
+              if (el?.file?.url == '' || el?.file?.url == null) {
+                el['error'] = true
+              } else {
+                el['error'] = false
+              }
             }
-          }
-        })
+          })
+        }
+
       }
     }
     let totalObj = { ...this.revenueMob, ...this.expPerf, ...this.goverPar, ...this.uploadFyDoc }

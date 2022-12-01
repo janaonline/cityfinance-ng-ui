@@ -10,7 +10,8 @@
             <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
                     <ng-template matStepLabel>
-                        <span class="st-title com-style" [title]="stepItem?.label">{{stepItem?.label}}</span>
+                        <span class="st-title com-style" [title]="stepItem?.label">{{((stepItem?.label).split(' '))[0]}} {{((stepItem?.label).split(' '))[1]}}<br>
+                          {{((stepItem?.label).split(' '))[2]}}</span>
                     </ng-template>
                     <div class="container w-50 mt-4">
                         <div class="form" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
@@ -208,7 +209,7 @@
                                                             <div class="col-sm-12">
                                                                 {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12" *ngIf="yearItem?.readonly == false">
                                                                 <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [disabled]="isDisabled">
                                                                <div class="row">
                                                                 <div class="col-sm-6 file-text ">
@@ -222,13 +223,16 @@
                                                                 <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)" type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
-                                                            <div class="col-sm-12">
-                                                                <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
+                                                            <div class="col-sm-12 text-center">
+                                                                <app-loader [fileUpLoader]="yearItem?.fileProcess"></app-loader>
+                                                            </div>
+                                                            <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.readonly == true">
+                                                                <span class="al-up">Already Uploaded on Cityfinance</span>
                                                             </div>
                                                             <div class="col-sm-12 com-style f-w mt-3" *ngIf="yearItem?.file?.url">
                                                                 <a href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
                                                             </div>
-                                                            <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url)">
+                                                            <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url) && (yearItem?.readonly == false)">
                                                                 {{yearItem?.bottomText}}
                                                             </div>
                                                         </div>
