@@ -58,13 +58,13 @@
                                             <div class="form" formGroupName="contactInfo">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <input type="input" class="form-control com-style" formControlName="nameOfNodalOfficer" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
+                                                        <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="designationOftNodalOfficer" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
+                                                        <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
-                                                        <input type="input" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
+                                                        <input type="email" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
                                                         <input type="text" class="form-control com-style" formControlName="mobile" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
@@ -239,7 +239,10 @@
                                                                 <span class="al-up">Already Uploaded on Cityfinance</span>
                                                             </div>
                                                             <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.file?.url">
-                                                                <a href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
+                                                                <a class="w-90" href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
+                                                                <a (click)="clearFile('annualDoc', yearItem, stepItem)" class="w-10" target="_blank">
+                                                                    <img src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                </a>
                                                             </div>
                                                             <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url) && (yearItem?.readonly == false)">
                                                                 {{yearItem?.bottomText}}
