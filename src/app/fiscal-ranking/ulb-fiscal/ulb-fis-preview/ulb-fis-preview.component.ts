@@ -8,35 +8,37 @@ import { Router } from '@angular/router';
   styleUrls: ['./ulb-fis-preview.component.scss']
 })
 export class UlbFisPreviewComponent implements OnInit {
-  // fiscalService: any;
-  // yearIdArr: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private _router: Router
-  ) { }
+  ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    if (this.userData?.role == "ULB") {
+      this.ulbName = this.userData?.name;
+      this.ulbId = this.userData?.ulb;
+    }
+    this.stateName = this.userData?.stateName;
+   }
 
+  userData;
+  ulbName = '';
+  stateName = '';
+  yearIdArr;
+  ulbId = "";
   ngOnInit(): void {
     //preview data
     console.log('preview data', this.data)
   }
+  returnZero() {
+    return 0;
+  }
+  closeMat(){
+    this.dialog.closeAll();
+  }
+  downloadAsPdf(){
 
-
-
-  // onLoad() {
-  //   this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
-  //     console.log('fiscal res', res);
-  //     this.formObjKey = res?.fyDynemic;
-  //   },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   )
-  // }
-
-  // ulbId(arg0: any, ulbId: any) {
-  //   throw new Error('Method not implemented.');
-  // }
+  }
 
 }

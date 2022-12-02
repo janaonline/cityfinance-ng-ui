@@ -1232,11 +1232,10 @@ export class UlbFiscalComponent implements OnInit {
   async fileChangeEvent(event, fileType, inputType, yrItem, stepItem) {
     console.log(fileType, event);
     if (inputType == 'signed') {
-      this.fileUpLoader = false;
+      this.fileUpLoader = true;
     } else if (inputType == 'annualDoc') {
       yrItem.fileProcess = true;
     }
-    this.fileUpLoader = true;
     console.log("aaa", event.target.files[0].size);
     let files;
     let fileSize = event?.target?.files[0]?.size / 1048576; //size in mb
@@ -1538,36 +1537,368 @@ export class UlbFiscalComponent implements OnInit {
   backTohome() {
     this._router.navigateByUrl('../home')
   }
+fullFormArray;
+stePreDataArray;
+getFullDataArray(){
+  this.stePreDataArray = [
+    {
+      label: `Basic ULB Details`,
+      key: 'basicDet',
+      id: 's1',
+      icon: '',
+      text: '',
+      value: {
+            basicUlbDetails: {
+              key: 'basicUlbDetails',
+              label: '',
+              yearData: [
+                {
+                  label: 'Name of ULB',
+                  value: this.ulbName,
+                  status: ''
+                },
+                {
+                  label: 'Population as per 2011 Census',
+                  value: this.fiscalForm?.value?.basicUlbDetails?.population11,
+                  status: ''
+                },
+                {
+                  label: 'Population as on 1st April 2022',
+                  value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
+                  status: ''
+                },
+                {
+                  label: 'ULB website URL link',
+                  value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
+                  status: ''
+                },
+                {
+                  label: 'Name of Commissioner / Executive Officer',
+                  value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+                  status: ''
+                }
+              ]
+             },
+          },
+    },
+    {
+      label: `Revenue Mobilization Parameters`,
+      key: 'revenueMob',
+      id: 's2',
+      icon: '',
+      text: '',
+      value: this.revenueMob
+    },
+    {
+      label: `Expenditure Performance Parameters`,
+      key: 'expPerf',
+      id: 's3',
+      icon: '',
+      text: '',
+      value: this.expPerf
+    },
+    {
+      label: `Fiscal Governance Parameters`,
+      key: 'fisGov',
+      id: 's4',
+      icon: '',
+      text: '',
+      value:  {
+      "normalData": {
+				"key": "normalData",
+				"label": "",
+				"yearData": [{
+					"label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available",
+					"key": "webUrlAnnual",
+					"value": "",
+				}, {
+					"label": "Do you maintain a Digital Property Tax Register?",
+					"key": "digitalRegtr",
+					"value": "",
+				}, {
+					"label": "Is the property tax register GIS-based?",
+					"key": "registerGis",
+					"value": "",
+				}, {
+					"label": "Do you use accounting software?",
+					"key": "accountStwre",
+					"value": "",
+				}]
+			},
+      ownRevDetails: {
+        key: 'ownRevDetails',
+        label: 'Own Revenue Details',
+        yearData: [
+          {
+            label: 'Total Own Revenue Arrears as on 31st March 2020',
+            key: 'totalOwnRevenArr_20',
+            amount: this.totalOwnRevenueArea,
+          },
+          {
+            label: 'FY 2019-20 - by Cash/Cheque/DD',
+            key: 'fy_19_20_cash',
+            amount: this.fy_19_20_cash,
+          },
+          {
+            label: 'FY 2019-20 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)',
+            key: 'fy_19_20_online',
+            amount: this.fy_19_20_online,
+          },
+        ]
+      },
+      propertyDetails: {
+        key: 'propertyDetails',
+        label: 'Property Details',
+        yearData: [
+          {
+            label: 'Number of Properties assessed/listed as per Property Tax Register',
+            key: 'NoOfProlisted',
+            amount: this.property_tax_register,
+          },
+          {
+            label: 'Number of Properties exemt from paying Property Tax',
+            key: 'NoOfProExemtfromPayProTax',
+            amount: this.paying_property_tax,
+          },
+          {
+            label: 'Number of Properties for which Property Tax has been paid',
+            key: 'NoOfProwhichProTaxPaid',
+            amount: this.paid_property_tax,
+          },
+        ]
+      },
+       },
+    },
+    {
+      label: `Upload Financial Documents`,
+      key: 'upFy',
+      id: 's5',
+      icon: '',
+      text: '',
+      value: this.uploadFyDoc
+    },
+    {
+      label: `Contact Information`,
+      key: 'conInfo',
+      id: 's6',
+      icon: '',
+      text: '',
+      value: {
+            contactInfo:{
+              key: 'contactInfo',
+              label: '',
+              yearData: [
+                {
+                  label: 'Name of the Nodal Officer',
+                  value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
+                  status: ''
+                },
+                {
+                  label: 'Designation of the Nodal Officer',
+                  value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
+                  status: ''
+                },
+                {
+                  label: 'Email ID',
+                  value: this.fiscalForm?.value?.contactInfo?.email,
+                  status: ''
+                },
+                {
+                  label: 'Mobile number',
+                  value: this.fiscalForm?.value?.contactInfo?.mobile,
+                  status: ''
+                }
+              ]
+            },
+     },
+  },
+    {
+      label: `Self Declaration`,
+      key: 'selDec',
+      id: 's7',
+      icon: '',
+      text: '',
+      value: {
+        "signedCopyOfFile": {
+          lebel: '',
+          key: 'signedCopyOfFile',
+          yearData: [
+           {
+            lebel: 'Signed Copy Of File',
+            "name": this.signedFileName,
+            "url": this.signedFileUrl,
+             status: 'PENDING'
+           }
+          ]
+        },
+      }
+    },
+
+  ];
+  // this.fullFormArray = {
+  //   details1: {
+  //     basicUlbDetails: {
+  //       key: 'basicUlbDetails',
+  //       label: 'Basic ULB Details',
+  //       yearData: [
+  //         {
+  //           label: 'Name of ULB',
+  //           value: this.ulbName,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Population as per 2011 Census',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.population11,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Population as on 1st April 2022',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'ULB website URL link',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Name of Commissioner / Executive Officer',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+  //           status: ''
+  //         }
+  //       ]
+  //    },
+  //   },
+  //   revMob: this.revenueMob,
+  //   expPer: this.expPerf,
+  //   fiscalGov: {
+  //     "normalData": {
+	// 			"key": "normalData",
+	// 			"label": "",
+	// 			"yearData": [{
+	// 				"label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available",
+	// 				"key": "webUrlAnnual",
+	// 				"value": "",
+	// 			}, {
+	// 				"label": "Do you maintain a Digital Property Tax Register?",
+	// 				"key": "digitalRegtr",
+	// 				"value": "",
+	// 			}, {
+	// 				"label": "Is the property tax register GIS-based?",
+	// 				"key": "registerGis",
+	// 				"value": "",
+	// 			}, {
+	// 				"label": "Do you use accounting software?",
+	// 				"key": "accountStwre",
+	// 				"value": "",
+	// 			}]
+	// 		},
+  //     ownRevDetails: {
+  //       key: 'ownRevDetails',
+  //       label: 'Own Revenue Details',
+  //       yearData: [
+  //         {
+  //           label: 'Total Own Revenue Arrears as on 31st March 2020',
+  //           key: 'totalOwnRevenArr_20',
+  //           amount: this.totalOwnRevenueArea,
+  //         },
+  //         {
+  //           label: 'FY 2019-20 - by Cash/Cheque/DD',
+  //           key: 'fy_19_20_cash',
+  //           amount: this.fy_19_20_cash,
+  //         },
+  //         {
+  //           label: 'FY 2019-20 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)',
+  //           key: 'fy_19_20_online',
+  //           amount: this.fy_19_20_online,
+  //         },
+  //       ]
+  //     },
+  //     propertyDetails: {
+  //       key: 'propertyDetails',
+  //       label: 'Property Details',
+  //       yearData: [
+  //         {
+  //           label: 'Number of Properties assessed/listed as per Property Tax Register',
+  //           key: 'NoOfProlisted',
+  //           amount: this.property_tax_register,
+  //         },
+  //         {
+  //           label: 'Number of Properties exemt from paying Property Tax',
+  //           key: 'NoOfProExemtfromPayProTax',
+  //           amount: this.paying_property_tax,
+  //         },
+  //         {
+  //           label: 'Number of Properties for which Property Tax has been paid',
+  //           key: 'NoOfProwhichProTaxPaid',
+  //           amount: this.paid_property_tax,
+  //         },
+  //       ]
+  //     },
+  //   },
+  //   upldDoc: this.uploadFyDoc,
+  //   details2: {
+  //     contactInfo:{
+  //       key: 'contactInfo',
+  //       label: 'Contact Info',
+  //       yearData: [
+  //         {
+  //           label: 'Name of the Nodal Officer',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.designationOftNodalOfficer,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Designation of the Nodal Officer',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.nameOfNodalOfficer,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Email ID',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.email,
+  //           status: ''
+  //         },
+  //         {
+  //           label: 'Mobile number',
+  //           value: this.fiscalForm?.value?.basicUlbDetails?.mobile,
+  //           status: ''
+  //         }
+  //       ]
+  //     },
+  //   }
+
+  // }
+}
   onPreview() {
     this.setFYData();
-    let formdata = {
-      ...this.fiscalForm?.value?.basicUlbDetails,
-      ...this.fiscalForm?.value?.contactInfo,
-      revMob: this.revenueMob,
-      expPer: this.expPerf,
-      fisGov: this.goverPar,
-      upldDoc: this.uploadFyDoc,
-      nrmlData: this.goverParaNdata,
-      "signedCopyOfFile": {
-        "name": this.signedFileName,
-        "url": this.signedFileUrl
-      },
-      "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
-      "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
-      "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
-      "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
-      "totalOwnRevenueArea": 123546,
-      "fy_19_20_cash": {
-        "type": "Cash",
-        "amount": 10000
-      },
-      "fy_19_20_online": {
-        "type": "UPI",
-        "amount": 99999
-      },
-    };
+    this.getFullDataArray();
+    // let formdata = {
+    //   ...this.fiscalForm?.value?.basicUlbDetails,
+    //   ...this.fiscalForm?.value?.contactInfo,
+    //   revMob: this.revenueMob,
+    //   expPer: this.expPerf,
+    //   fisGov: this.goverPar,
+    //   upldDoc: this.uploadFyDoc,
+    //   nrmlData: this.goverParaNdata,
+    //   "signedCopyOfFile": {
+    //     "name": this.signedFileName,
+    //     "url": this.signedFileUrl
+    //   },
+    //   "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
+    //   "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
+    //   "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
+    //   "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
+    //   "totalOwnRevenueArea": 123546,
+    //   "fy_19_20_cash": {
+    //     "type": "Cash",
+    //     "amount": 10000
+    //   },
+    //   "fy_19_20_online": {
+    //     "type": "UPI",
+    //     "amount": 99999
+    //   },
+    // };
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
-      data: formdata,
+      data: this.stePreDataArray,
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
