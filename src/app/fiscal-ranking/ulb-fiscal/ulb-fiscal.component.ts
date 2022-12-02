@@ -1231,11 +1231,6 @@ export class UlbFiscalComponent implements OnInit {
   fileUpLoader = false;
   async fileChangeEvent(event, fileType, inputType, yrItem, stepItem) {
     console.log(fileType, event);
-    if (inputType == 'signed') {
-      this.fileUpLoader = true;
-    } else if (inputType == 'annualDoc') {
-      yrItem.fileProcess = true;
-    }
     console.log("aaa", event.target.files[0].size);
     let files;
     let fileSize = event?.target?.files[0]?.size / 1048576; //size in mb
@@ -1265,6 +1260,11 @@ export class UlbFiscalComponent implements OnInit {
     } else {
       swal("File Limit Error", "Maximum 5 mb file can be allowed.", "error");
       return;
+    }
+    if (inputType == 'signed') {
+      this.fileUpLoader = true;
+    } else if (inputType == 'annualDoc') {
+      yrItem.fileProcess = true;
     }
   }
 
