@@ -1,1 +1,72 @@
-<p>ulb-fis-preview works!</p>
+<div class="container-fluid">
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../assets/form-icon/close_black_24dp.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+          Submissions for Fiscal Rankings for FY 2022-23
+         </span>
+            <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <!-- <div class="col-sm-6">
+          <p class="form-status" style="">
+              <b>Form Current Status:</b>&nbsp; {{formStatusCheck}}
+          </p>
+      </div> -->
+        <div class="col-sm-12 text-end">
+            <button id="donwloadButton" style="" class="btn btn-primary" (click)="downloadAsPdf()">Download as PDF</button>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-12">
+            <div class="card mb-3" *ngFor="let stepItem of data; let rowIndex =index">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 m-hed text-center">
+                            {{stepItem?.label}}
+                        </div>
+                    </div>
+                    <div class="" *ngFor="let yearObj of stepItem?.value| keyvalue : returnZero; let y_i=index">
+                        <div class="row">
+                            <div class="col-sm-12 f-label mb-2">
+                                {{yearObj?.value?.label}}
+                            </div>
+                        </div>
+                        <div class="mb-3" *ngIf="yearObj?.value?.key == 'guidanceNotes'">
+                            <div class="col-sm-12">
+                                <!-- <div> -->
+                                <div class="form-l com-style" *ngFor="let elem of yearObj?.value?.yearData">
+                                    {{elem?.pos}}. {{elem?.desc}}
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                        <div class="div" *ngIf="yearObj?.value?.key != 'guidanceNotes'">
+                            <div class="row mb-1" *ngFor="let elem of yearObj?.value?.yearData; let y_i=index">
+                                <div class="col-sm-6">
+                                    {{elem?.label}}
+                                </div>
+                                <div class="col-sm-6" *ngIf="elem?.value">
+                                    {{elem?.value}}
+                                </div>
+                                <div class="col-sm-6" *ngIf="elem?.amount">
+                                    {{elem?.amount}}
+                                </div>
+                                <div class="col-sm-6" *ngIf="elem?.file?.url">
+                                    <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

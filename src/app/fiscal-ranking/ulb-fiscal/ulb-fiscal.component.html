@@ -24,9 +24,18 @@
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
+
+                                                        <!-- <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Name of ULB</mat-label>
+                                                            <input class="com-style" matInput placeholder="Name of ULB" formControlName="ulbName">
+                                                        </mat-form-field> -->
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
                                                         <input type="text" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
+                                                        <!-- <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Population as per 2011 Census</mat-label>
+                                                            <input class="com-style" formControlName="population11" matInput placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
+                                                        </mat-form-field> -->
                                                     </div>
                                                     <div class="col-sm-12 mt-3">
                                                         <input type="text" class="form-control com-style" formControlName="populationFr" id="{{stepItem?.id}}3" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2 aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
@@ -209,7 +218,7 @@
                                                             <div class="col-sm-12">
                                                                 {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12" *ngIf="yearItem?.readonly == false">
+                                                            <div class="col-sm-12 mb-3" *ngIf="yearItem?.readonly == false">
                                                                 <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [disabled]="isDisabled">
                                                                <div class="row">
                                                                 <div class="col-sm-6 file-text ">
@@ -223,13 +232,13 @@
                                                                 <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)" type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
-                                                            <div class="col-sm-12 text-center">
+                                                            <div class="col-sm-12 text-center w-70">
                                                                 <app-loader [fileUpLoader]="yearItem?.fileProcess"></app-loader>
                                                             </div>
                                                             <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.readonly == true">
                                                                 <span class="al-up">Already Uploaded on Cityfinance</span>
                                                             </div>
-                                                            <div class="col-sm-12 com-style f-w mt-3" *ngIf="yearItem?.file?.url">
+                                                            <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.file?.url">
                                                                 <a href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
                                                             </div>
                                                             <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url) && (yearItem?.readonly == false)">
@@ -256,8 +265,7 @@
                                                     {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}
                                                 </div>
                                                 <div class="col-sm-5">
-                                                    <input type="input" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" (keyup)="amountKeyUp('click', goverParaNdata?.normalData?.yearData?.webUrlAnnual)" (change)="keyUpValidationNum($event, stepItem, goverParaNdata?.normalData?.yearData?.webUrlAnnual)"
-                                                        [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}">
+                                                    <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -317,7 +325,7 @@
                                                                 {{yearItem?.label}}
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
-                                                                <input type="number" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
+                                                                <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
                                                                     placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
                                                             </div>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
