@@ -1828,6 +1828,45 @@ getFullDataArray(){
 
       }
     }
+
+    let normalGovData =  [
+      {
+      "key": "webUrlAnnual",
+      "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
+       error: false
+    },
+     {
+      "key": "digitalRegtr",
+      "value": this.goverParaNdata.normalData.yearData.digitalRegtr.value,
+       error: false
+    },
+     {
+      "key": "registerGis",
+      "value": this.goverParaNdata.normalData.yearData.registerGis.value,
+      error: false
+    },
+    {
+      "key": "accountStwre",
+      "value": this.goverParaNdata.normalData.yearData.accountStwre.value,
+      error: false
+    }
+  ];
+  let digiVal = this.goverParaNdata.normalData.yearData.digitalRegtr.value;
+  normalGovData.forEach((el)=>{
+    if((el?.key == 'webUrlAnnual' || el?.key == 'digitalRegtr') && (el?.value == '' || el?.value == null)){
+      el.error = true
+    }else if((el?.key == 'registerGis' || el?.key == 'accountStwre') && (el?.value == '' || el?.value == null) && digiVal == 'Yes'){
+      el.error = true
+    } else {
+      el.error = false;
+    }
+  })
+  normalGovData.forEach((el)=>{
+    if(el?.error == true){
+      this.formError = false;
+      return
+    }
+  })
     let totalObj = { ...this.revenueMob, ...this.expPerf, ...this.goverPar, ...this.uploadFyDoc }
     console.log('total obj', totalObj);
     this.checkFinalValidation(totalObj)
