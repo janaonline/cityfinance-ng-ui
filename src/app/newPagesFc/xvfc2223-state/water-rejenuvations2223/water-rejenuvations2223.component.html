@@ -64,10 +64,10 @@
                                             <span style="height:4rem">{{1+waterBodiesIndex}}</span>
                                         </td>
                                         <td>
-                                            <input style="height:4rem" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
+                                            <input style="height:4rem" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
                                         </td>
                                         <td>
-                                            <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null" type="text"
+                                            <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"
                                             />
                                         </td>
                                         <td>
@@ -92,7 +92,7 @@
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat') }" (blur)="latLong($event.target.value,projectRow,'lat')" formControlName="lat"
                                                 pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" (blur)="latLong($event.target.value,projectRow,'long')" formControlName="long"
-                                                style="margin-left: 1ch; height:4rem" type="text" min="1">
+                                                style="margin-left: 1ch; height:4rem" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
                                             <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -235,13 +235,13 @@
 
                                         <td>
 
-                                            <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
+                                            <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
                                         </td>
                                         <td style="display: flex;position: relative;bottom: 2px;">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}" formControlName="lat" (blur)="latLong($event.target.value,projectRow,'lat')" pattern="^\d*(\.\d{0,6})?$"
                                                 type="number" min="1">
                                             <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" formControlName="long" (blur)="latLong($event.target.value,projectRow,'long')"
-                                                style="margin-left: 1pc;" type="text" min="1">
+                                                style="margin-left: 1pc;" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
                                             <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -325,10 +325,11 @@
                                             <span>{{1+sliIndex}}</span>
                                         </td>
                                         <td>
-                                            <input formControlName="name" matTooltipPosition="above" [matTooltip]="" type="text" />
+                                            <input formControlName="name" matTooltipPosition="above" [matTooltip]="" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null"
+                                            />
                                         </td>
                                         <td>
-                                            <input formControlName="component" matTooltipPosition="above" [matTooltip]="" type="text">
+                                            <input formControlName="component" matTooltipPosition="above" [matTooltip]="" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null">
                                         </td>
                                         <td>
 
