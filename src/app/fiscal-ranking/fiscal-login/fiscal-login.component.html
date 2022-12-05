@@ -1,0 +1,203 @@
+<!-- <div class="container-fluid m-0 p-0">
+    <div class="hero">
+        <div class="lg-con">
+            <div class="row g-0">
+                <div class="col-sm-12 border shadow mt-5 mb-5 bg-light pos-r rounded">
+                    <form class="form-signin p-3 mt-4" [formGroup]="loginForm" (ngSubmit)="login()">
+                        <div class="city-fr-div">
+                            <span class="city-fr">City Finance Rankings 2022</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <h1 class="mb-3 fw-bolder fs-2">Login</h1>
+                            </div>
+                            <div class="col-sm-12 mb-4">
+                                <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+                                    <li class="nav-item" *ngFor="let item of loginTabs" [ngClass]="{'actClass': item.selected}">
+                                        <a (click)="tabChanged(item)" role="tab" class="nav-link" id="{{item?.role}}">
+                                            <span>{{ item?.role }} </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-12" *ngFor="let item of loginTabs">
+                                <div class="row" *ngIf="item.selected">
+                                    <div class="col-sm-12 mb-4">
+                                        <input type="text" class="form-control" placeholder="{{item?.loginPlaceHolder}}" formControlName="email" [ngClass]="{ 'is-invalid': submitted && lf.email.errors }">
+                                    </div>
+                                    <div class="col-sm-12 mb-4">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" [type]="hide ? 'password' : 'text'" placeholder="Enter Password" formControlName="password" [ngClass]="{
+                                            'is-invalid': submitted && lf.password.errors}">
+                                            <span class="input-group-text">
+                                            <mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility" : "visibility_off" }}
+                                            </mat-icon>
+                                          </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkbox mb-4 mt-3 d-flex" style="justify-content: space-between;">
+                            <div class="col-md-6 text-start">
+                                <button class="btn mb-3 login-btnn" type="submit">Log in</button>
+                            </div>
+                            <div class="mt-3 col-md-6 text-end">
+                                <a class="forgo-otp" (click)="forgot()">Forgot Password ?</a>
+                            </div>
+
+                        </div>
+                        <div class="border-top pt-3">
+                            <a class="forgo-otp" (click)="getOtp()"> Get OTP on your phone or Email</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> -->
+<div class="fc-grant">
+    <div class="container-fluid">
+        <!-- class="align-items-center d-flex flex-wrap"  overall-container classes-->
+        <div class="overall-container d-flex justify-content-center">
+            <div class="row mb-4">
+                <div class="col-sm-12 col-md-6 bg-white card sign-in pos-r">
+                    <div class="city-fr-div">
+                        <span class="city-fr">City Finance Rankings 2022</span>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-12 mb-4" *ngIf="!isOtpLogin">
+                            <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+                                <li class="nav-item" *ngFor="let item of loginTabs" [ngClass]="{'actClass': item.selected}">
+                                    <a (click)="tabChanged(item)" role="tab" class="nav-link" id="{{item?.role}}">
+                                        <span>{{ item?.role }} </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body" *ngIf="!isOtpLogin">
+                            <h5 class="text-center fw-bolder fs-2">Login</h5>
+                            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{ loginSet.loginName }}</mat-label>
+                                    <input matInput type="email" placeholder="{{ loginSet.loginName }}" formControlName="email" [ngClass]="{ 'is-invalid': submitted && lf.email.errors }" />
+                                </mat-form-field>
+                                <br />
+                                <div class="forget-password">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password" [ngClass]="{
+                      'is-invalid': submitted && lf.password.errors
+                    }" />
+                                        <mat-icon matSuffix (click)="hide = !hide">{{ hide ? "visibility" : "visibility_off" }}
+                                        </mat-icon>
+                                    </mat-form-field>
+
+                                    <div class="forget text-end">
+                                        <a class="text-decoration-none" style="color: #E67E15;" [routerLink]="['../../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
+                      password?</a>
+                                    </div>
+                                </div>
+
+                                <re-captcha *ngIf="reCaptcha.show" (resolved)="resolveCaptcha($event)" [siteKey]="reCaptcha.siteKey">
+                                </re-captcha>
+                                <span *ngIf="noCodeError" class="text-danger pull-left">{{loginSet.loginName }} is requried.</span>
+                                <span *ngIf="otpVerificationMessage" class="text-primary pull-left">{{emailVerificationMessage }}</span>
+                                <p *ngIf="loginError" class="error-message mt-1 text-left">
+                                    <span [innerHtml]="loginError"></span>
+                                </p>
+
+                                <div class="signbtn-wrapper">
+                                    <button type="submit" class="btn  btn-block login-btn btn-col" [ngClass]="{ 'loading-button': loginForm.disabled }">
+                    Login
+                  </button>
+                                </div>
+                            </form>
+                            <div class="signbtn-wrapper">
+                                <!-- <div class="strike">
+                                    <span>Or</span>
+                                </div> -->
+                                <hr>
+                                <a class="btn-otp" style="" (click)="startCountDown(loginForm)">
+                  Get OTP on your phone and email
+                                </a>
+                            </div>
+                            <!-- <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
+                  Registered?</span></a> -->
+                            <!-- <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;" (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                Need Help?
+              </a> -->
+
+                            <mde-popover mdePopoverOffsetX="19" mdePopoverOffsetY="-55" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                                <div class="mat-card pop1">
+                                    <div class="mat-card-content pop2">
+                                        Please write to us at 15fcgrant@cityfinance.in
+                                    </div>
+                                </div>
+                            </mde-popover>
+
+                            <br>
+                            <!-- style="margin-left: 8em;" style="display: grid" -->
+                            <div *ngIf="help" class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Not Registered?</a>
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Update Email ID?</a>
+                                <a class="text-decoration-none" style="margin-left: 9em; color: #337ab7;">Can not Access 15th FC
+                  Module?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isOtpLogin">
+                        <div class="card-body border">
+                            <h4 class="text-center">
+                                <b>Welcome {{ otpCreads?.name }}, {{ otpCreads?.state }}</b>
+                            </h4>
+                            <hr class="Sepline" />
+                            <div>
+                                <span style="font-size:0.875rem;font-weight: 700;"><b>An OTP has been sent to {{ otpCreads?.mobile }}
+                    and
+                    {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']" [click]="onChangeNumber()"
+                    *ngIf="selectedUserType === 'ULB'">Change?</a></span>
+                            </div>
+                            <div *ngIf="selectedUserType === 'ULB'">
+                                <span><b>Census Code/ ULB Code-{{ ulbCode }} </b><a (click)="change()">Change?</a></span>
+                            </div>
+                            <br />
+                            <form [formGroup]="loginForm" (ngSubmit)="otpLoginSubmit()">
+                                <div class="forget-password">
+                                    <a class="pull-right" (click)="startCountDown()">Resend OTP?
+                    <a *ngIf="counterTimer">{{ counter }} Sec</a>
+                                    </a>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Enter OTP</mat-label>
+                                        <input matInput type="text" formControlName="otp" placeholder="Enter OTP" />
+                                    </mat-form-field>
+                                </div>
+
+                                <p *ngIf="loginError" class="error-message mt-1 text-left">
+                                    <span [innerHtml]="loginError"></span>
+                                </p>
+
+                                <div class="signbtn-wrapper">
+                                    <button type="submit" class="btn btn-block login-btn btn-col">
+                    Sign In
+                  </button>
+                                </div>
+                                <div class="signbtn-wrapper">
+                                    <!-- <div class="strike">
+                                        <span>Or</span>
+                                    </div> -->
+                                    <hr>
+                                    <a class="btn-otp" (click)="change()">
+                    Sign in with your password
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

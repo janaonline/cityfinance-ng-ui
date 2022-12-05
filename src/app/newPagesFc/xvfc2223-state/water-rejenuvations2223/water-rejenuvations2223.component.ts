@@ -1542,11 +1542,11 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+      this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
-          await this.uploadFileToS3(file, res["url"], res["file_alias"]);
-          this.photosArray.push({ url: res["file_alias"], name });
+          await this.uploadFileToS3(file, res["url"], res["file_url"]);
+          this.photosArray.push({ url: res["file_url"], name });
           resolve();
         },
         (err) => {
@@ -1770,9 +1770,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         return;
       }
     }
-
-      const fileName = event.target.files[0].name;
-
+    const fileName = event.target.files[0].name;
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
@@ -1822,6 +1820,8 @@ export class WaterRejenuvations2223Component implements OnInit {
     let fileExtension = files[0].name.split('.').pop();
     console.log(fileExtension)
     this[progessType] = 10;
+    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    this.change = "true";
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
@@ -1833,9 +1833,9 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFiles(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

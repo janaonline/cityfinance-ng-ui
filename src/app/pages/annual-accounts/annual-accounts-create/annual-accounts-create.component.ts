@@ -47,7 +47,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   @ViewChild("excel18_19") excel18_19: ElementRef;
   @ViewChild("pdf19_20") pdf19_20: ElementRef;
   @ViewChild("excel19_20") excel19_20: ElementRef;
-  
+
   @ViewChild("template") template: TemplateRef<any>;
   @ViewChild("saveTemplate") saveTemplate: TemplateRef<any>;
   @ViewChild("fileTemplate") fileTemplate: TemplateRef<any>;
@@ -120,7 +120,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
       excel: false,
       name: { pdf: null, excel: null },
     },
-   
+
   };
 
   historyYear;
@@ -315,15 +315,18 @@ export class AnnualAccountsCreateComponent implements OnInit {
         this.loader[year][type] = true;
         this.loader[year]["name"][type] = fileName;
 
-        this.dataEntryService.getURLForFileUpload(fileName, fileType).subscribe(
-          (response) => {
+        this.dataEntryService.newGetURLForFileUpload(fileName, fileType).subscribe(
+          (response: any) => {
             const s3Url = response["data"][0].url;
-            const finalUrl = response["data"][0].file_alias;
+            const finalUrl = response["data"][0].file_url;
             this.dataEntryService
               .uploadFileToS3(event.target.files[0], s3Url)
               .subscribe(
                 (response) => {
-                  if (response["body"]) {
+
+                  console.log('ressss', response);
+
+                  //if (response["data"]) {
                     let params = {
                       ulb: this.validateForm.value.ulb,
                       bodyType: "ulb",
@@ -332,6 +335,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
                     };
                     this.annualAccountsService.getYearHistory(params).subscribe(
                       async (res) => {
+                        debugger
                         this.loader[year][type] = false;
                         if (res["data"].haveHistory) {
                           this.historyYear = res["data"].historyData;
@@ -349,7 +353,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
                         this.loader[year][type] = false;
                       }
                     );
-                  }
+                //  }
                 },
                 (error) => {
                   console.error(error);
