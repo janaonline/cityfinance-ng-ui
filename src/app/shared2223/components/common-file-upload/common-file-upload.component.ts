@@ -83,7 +83,7 @@ export class CommonFileUploadComponent implements OnInit {
     // debugger;
     console.log("isDisabled", this.isDisabled);
 
-    if (this.quesName == "Auditor Report" || this.quesName == 'Supporting Document') {
+    if (this.quesName == "Auditor Report" || this.quesName == 'Supporting Document :') {
       this.showExcel = false;
     } else {
       this.showExcel = true;
