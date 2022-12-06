@@ -1774,7 +1774,8 @@ getFullDataArray(){
 
 }
   onPreview() {
-    this.setFYData();
+    this.isDraft = true;
+    this.updateValueInForm();
     this.getFullDataArray();
     // let formdata = {
     //   ...this.fiscalForm?.value?.basicUlbDetails,
@@ -1803,7 +1804,10 @@ getFullDataArray(){
     //   },
     // };
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
-      data: this.stePreDataArray,
+      data: {
+        showData: this.stePreDataArray,
+        preData: this.postData
+      },
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
