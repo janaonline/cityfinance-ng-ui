@@ -23,28 +23,44 @@
                                             <div class="form" formGroupName="basicUlbDetails">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB">
-
-                                                        <!-- <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Name of ULB</mat-label>
-                                                            <input class="com-style" matInput placeholder="Name of ULB" formControlName="ulbName">
-                                                        </mat-form-field> -->
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Name of ULB*</mat-label>
+                                                            <input class="com-style" matInput placeholder="Name of ULB*" formControlName="ulbName">
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
-                                                        <!-- <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Population as per 2011 Census</mat-label>
-                                                            <input class="com-style" formControlName="population11" matInput placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
-                                                        </mat-form-field> -->
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Population as per 2011 Census*</mat-label>
+                                                            <input class="com-style" formControlName="population11" matInput placeholder="Population as per 2011 Census*" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="populationFr" id="{{stepItem?.id}}3" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2 aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style"
+                                                        formControlName="populationFr" id="{{stepItem?.id}}3"
+                                                        (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)"
+                                                         #inputText2 aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Population as on 1st April 2022</mat-label>
+                                                            <input class="com-style" formControlName="populationFr" matInput placeholder="Population as on 1st April 2022" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2>
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="webLink" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="webLink"
+                                                        id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">ULB website URL link</mat-label>
+                                                            <input class="com-style" formControlName="webLink" matInput placeholder="ULB website URL link" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="nameCmsnr" id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer ">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="nameCmsnr"
+                                                        id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer "> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Name of Commissioner / Executive Officer*</mat-label>
+                                                            <input class="com-style" formControlName="nameCmsnr" matInput placeholder="Name of Commissioner / Executive Officer*" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
                                                 </div>
                                             </div>
@@ -58,16 +74,36 @@
                                             <div class="form" formGroupName="contactInfo">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer"
+                                                        id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Name of the Nodal Officer*</mat-label>
+                                                            <input class="com-style" formControlName="nameOfNodalOfficer" matInput placeholder="Name of the Nodal Officer*" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer"
+                                                         id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Designation of the Nodal Officer*</mat-label>
+                                                            <input class="com-style" formControlName="designationOftNodalOfficer" matInput placeholder="Designation of the Nodal Officer*" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="email" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3" aria-describedby="{{stepItem?.id}}3" placeholder="Email ID">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3"
+                                                        aria-describedby="{{stepItem?.id}}3" placeholder="Email ID"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Email ID*</mat-label>
+                                                            <input class="com-style" formControlName="email" matInput placeholder="Email ID*" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
-                                                    <div class="col-sm-12 mt-3">
-                                                        <input type="text" class="form-control com-style" formControlName="mobile" id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number">
+                                                    <div class="col-sm-12 mt-4">
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="mobile"
+                                                         id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number"> -->
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label class="com-style">Mobile number*</mat-label>
+                                                            <input class="com-style" formControlName="mobile" matInput placeholder="Mobile number*" (keydown)="changeDecInForm()">
+                                                        </mat-form-field>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,13 +141,13 @@
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
                                                         <div class="row">
                                                             <div class="col-sm-12 mb-3">
-                                                                {{yearItem?.label}}
+                                                                {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" id="{{yearItem?.key}}"
-                                                                        placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
+                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic"
+                                                                        id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
                                                                 </div>
 
                                                             </div>
@@ -154,11 +190,11 @@
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
                                                             <div class="col-sm-12 ">
-                                                                {{yearItem?.label}}
+                                                                {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
+                                                                    [disabled]="yearItem?.readonly" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
@@ -216,7 +252,7 @@
                                                     <div class="col-sm-4 com-style" *ngFor="let yearItem of item?.value?.yearData">
                                                         <div class="row">
                                                             <div class="col-sm-12">
-                                                                {{yearItem?.label}}
+                                                                {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12 mb-3" *ngIf="yearItem?.readonly == false">
                                                                 <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [disabled]="isDisabled">
@@ -265,15 +301,16 @@
                                         <div class="card-body">
                                             <div class="row mb-3">
                                                 <div class="col-sm-7">
-                                                    {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}
+                                                    {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}*
                                                 </div>
                                                 <div class="col-sm-5">
-                                                    <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}">
+                                                    <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}"
+                                                        (keydown)="changeDecInForm()">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-sm-7">
-                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}
+                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}*
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('digitalRegtr', $event.target.value)" [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value" [ngModelOptions]="{standalone: true}">
@@ -325,11 +362,11 @@
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i = index">
                                                         <div class="row">
                                                             <div class="col-sm-12 l-h">
-                                                                {{yearItem?.label}}
+                                                                {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
-                                                                <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
+                                                                <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon"
+                                                                    id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
                                                             </div>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
                                                                 <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
@@ -395,7 +432,7 @@
                                                      Upload File
                                                     <img class="u-i ms-3" src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
                                                    </button>
-                                                    <input #bs_pdf_up style="display: none;" (change)="fileChangeEvent($event,'pdf', 'signed', '', stepItem)" onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                                    <input #bs_pdf_up style="display: none;" (change)="fileChangeEvent($event,'pdf', 'signed', '', stepItem)" onclick="this.value=null;" type="file" accept=".pdf" #file (keydown)="changeDecInForm()">
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
@@ -461,4 +498,33 @@
     </div>
 </div>
 
+<ng-template #templateSaveChange>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
+                Save & Proceed
+              </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
 <!-- </form> -->
