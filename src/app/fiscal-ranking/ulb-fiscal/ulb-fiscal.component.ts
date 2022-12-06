@@ -1131,16 +1131,6 @@ export class UlbFiscalComponent implements OnInit {
         ]
       },
     };
-    console.log('fiscal form.....', this.fiscalForm);
-    if(this.isPopAvl11){
-      this.fiscalForm.controls.basicUlbDetails.controls.population11.disable();
-    }
-    if(this.isPopAvlFr){
-      this.fiscalForm.controls.basicUlbDetails.controls.populationFr.disable();
-    }
-    this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
-    this.changeNumToWords();
-    this.addSomeKey();
     if (this.isDraft == false) {
       this.isDisabled = true;
       this.fiscalForm.disable();
@@ -1152,6 +1142,17 @@ export class UlbFiscalComponent implements OnInit {
       this.isDisabled = true;
       this.fiscalForm.disable();
     }
+    console.log('fiscal form.....', this.fiscalForm);
+    if(this.isPopAvl11){
+      this.fiscalForm.controls.basicUlbDetails.controls.population11.disable();
+    }
+    if(this.isPopAvlFr){
+      this.fiscalForm.controls.basicUlbDetails.controls.populationFr.disable();
+    }
+    this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
+    this.changeNumToWords();
+    this.addSomeKey();
+
   }
   returnZero() {
     return 0;
@@ -1919,7 +1920,6 @@ getFullDataArray(){
       el.error = false;
     }
   })
-  debugger
   normalGovData.forEach((el)=>{
     if(el?.error == true){
       this.formError = false;
@@ -1947,11 +1947,6 @@ getFullDataArray(){
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
   finalSubmit() {
-    this.isDraft = false;
-    this.updateValueInForm();
-    this.checkValidation();
-    console.log('800390 fiscalForm', this.fiscalForm)
-    console.log('800390 fiscalForm', )
     if (this.fiscalForm.status != "INVALID" && this.formError) {
       console.log('post body', this.postData);
       this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
@@ -1966,7 +1961,51 @@ getFullDataArray(){
 
         }
       )
-    } else {
+    }
+  }
+
+  finalSubmitAlert(){
+    this.isDraft = false;
+    this.updateValueInForm();
+    this.checkValidation();
+    if(this.fiscalForm.status != "INVALID" && this.formError){
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this form? Once submitted,
+       it will become uneditable and will be sent to MoHUA for Review.
+        Alternatively, you can save as draft for now and submit it later.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalSubmit();
+          break;
+        case "draft":
+          this.isDraft = true;
+          this.updateValueInForm();
+          this.saveFormAsDraft();
+          break;
+        case "cancel":
+          break;
+      }
+    })
+  }else {
       swal("Missing Data !", `${this.errorMsg}`, "error");
     }
   }
