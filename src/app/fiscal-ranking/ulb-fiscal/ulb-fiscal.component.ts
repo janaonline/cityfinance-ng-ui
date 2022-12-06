@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { EmailValidator, FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   customEmailValidator,
   mobileNoValidator,
@@ -57,6 +57,7 @@ export class UlbFiscalComponent implements OnInit {
     }
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
     this.initializeForm();
+    this.navigationCheck();
   }
 
   stepperArray = [
@@ -112,7 +113,6 @@ export class UlbFiscalComponent implements OnInit {
 
   ];
   fiscalFormFeild;
-
   fiscalForm;
   revenueMob;
   expPerf;
@@ -886,21 +886,23 @@ export class UlbFiscalComponent implements OnInit {
   };
   ngOnInit(): void {
     this.onLoad();
+    sessionStorage.setItem("changeInFR", "false");
+
   }
   initializeForm() {
     this.fiscalForm = this.fb.group({
       basicUlbDetails: this.fb.group({
-        ulbName: [{ value: this.ulbName, disabled: true }, Validators.required],
-        population11: [null, Validators.required],
-        populationFr: [null, Validators.required],
-        webLink: [null],
-        nameCmsnr: [null],
+        ulbName: [this.ulbName],
+        population11: ['', Validators.required],
+        populationFr: [''],
+        webLink: [''],
+        nameCmsnr: ['', Validators.required],
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
         designationOftNodalOfficer: [null, Validators.required],
-        mobile: [null, Validators.required, mobileNoValidator],
-        email: [null, Validators.required],
+        mobile: [null, [Validators.required, mobileNoValidator]],
+        email: [null, [Validators.required, Validators.email, customEmailValidator]],
       }),
       // revenueMob: this.fb.array([
       //   this.fb.group({
@@ -980,41 +982,53 @@ export class UlbFiscalComponent implements OnInit {
       this.revenueMob = formObjKey?.revenueMob;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
     //  this.goverPar = formObjKey?.goverPar;
-      this.fillDataInForm(res?.data?.data);
+      this.fillDataInForm(res?.data);
       this.changeNumToWords();
       this.skipLogicForGov('onload');
     },
       (error) => {
         console.log(error);
       }
-    )
+    );
+  }
+  isPopAvl11 = false;
+  isPopAvlFr = false;
+  changeDecInForm(){
+   // this.fiscalForm?.controls.contactInfo.valueChanges.subscribe((el) => {
+    //  console.log("changes form", el);
+      console.log('form', this.fiscalForm);
+      sessionStorage.setItem("changeInFR", "true");
+   // });
   }
   fillDataInForm(data) {
     console.log('this form.....', this.fiscalForm);
-    console.log('this form.....', data);
-    console.log('this form.....', data?.nameCmsnr);
     this.signedFileUrl = data?.signedCopyOfFile?.url;
     this.signedFileName = data?.signedCopyOfFile?.name;
-    this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value;
-    this.goverParaNdata.normalData.yearData.digitalRegtr.value = data?.digitalRegtr?.value;
-    this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value;
-    this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value;
-    this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value;
-    this.fy_19_20_cash = data?.fy_19_20_cash?.amount;
-    this.fy_19_20_online = data?.fy_19_20_online?.amount;
-    this.property_tax_register = data?.property_tax_register?.value;
-    this.paying_property_tax = data?.paying_property_tax?.value;
-    this.paid_property_tax = data?.paid_property_tax?.value;
+    this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value ? data?.webUrlAnnual?.value : null;
+    this.goverParaNdata.normalData.yearData.digitalRegtr.value = data?.digitalRegtr?.value ? data?.digitalRegtr?.value : null;
+    this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value ? data?.registerGis?.value : null;
+    this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
+    this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
+    this.fy_19_20_cash = data?.fy_19_20_cash?.amount ? data?.fy_19_20_cash?.amount : null;
+    this.fy_19_20_online = data?.fy_19_20_online?.amount ? data?.fy_19_20_online?.amount: null;
+    this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
+    this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
+    this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
     this.isDraft = data?.isDraft;
     if (this.isDraft == false) {
       this.isDisabled = true;
     } else {
       this.isDisabled = false;
     }
+    if(this.userData?.role != 'ULB'){
+      this.isDisabled = true;
+    }
+    this.isPopAvl11 = data?.population11?.readonly;
+    this.isPopAvlFr = data?.populationFr?.readonly;
     this.fiscalForm.patchValue({
       basicUlbDetails: {
-        population11: data?.population11,
-        populationFr: data?.populationFr,
+        population11: data?.population11?.value,
+        populationFr: data?.populationFr?.value,
         webLink: data?.webLink,
         nameCmsnr: data?.nameCmsnr,
       },
@@ -1124,6 +1138,14 @@ export class UlbFiscalComponent implements OnInit {
         ]
       },
     };
+    console.log('fiscal form.....', this.fiscalForm);
+    if(this.isPopAvl11){
+      this.fiscalForm.controls.basicUlbDetails.controls.population11.disable();
+    }
+    if(this.isPopAvlFr){
+      this.fiscalForm.controls.basicUlbDetails.controls.populationFr.disable();
+    }
+    this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
     this.changeNumToWords();
     this.addSomeKey();
   }
@@ -1192,6 +1214,7 @@ export class UlbFiscalComponent implements OnInit {
   }
   skipLogicRadio(type, val) {
     console.log('vvvvv', type, val);
+    sessionStorage.setItem("changeInFR", "true");
     if (type == 'digitalRegtr' && val == 'Yes') {
       //  goverPar.normalData.yearData.digitalRegtr.value
     }
@@ -1315,18 +1338,13 @@ export class UlbFiscalComponent implements OnInit {
             this.fileUpLoader = false;
             this.signedFileUrl = fileAlias;
             this.signedFileName = name;
+
           } else if (inputType == 'annualDoc') {
             yrItem.file.url = fileAlias;
             yrItem.file.name = name;
             yrItem.fileProcess = false;
           }
-
-          // this.data[fileType].progress = 100;
-          // this.data[fileType].file = file;
-          // this.data[fileType].url = fileAlias;
-          //  if (this.compName == "AnnualAccount" && this.userData?.role == 'ULB')
-          //  sessionStorage.setItem("changeInAnnualAcc", "true");
-          //  this.getFileUploadResult.emit(this.data);
+          sessionStorage.setItem("changeInFR", "true");
         }
       },
       (err) => {
@@ -1337,7 +1355,6 @@ export class UlbFiscalComponent implements OnInit {
   }
 
   saveForm(stepper: MatStepper, item) {
-
     console.log('post body', this.postData);
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
       console.log('post res', res);
@@ -1346,8 +1363,9 @@ export class UlbFiscalComponent implements OnInit {
         stepper.next();
       } else {
         this.formSubmitted = true;
-      }
 
+      }
+      sessionStorage.setItem("changeInFR", "false");
     },
       (error) => {
         console.log('post error', error)
@@ -1359,8 +1377,19 @@ export class UlbFiscalComponent implements OnInit {
     this.postData = {
       ulb: this.ulbId,
       "design_year": this.yearIdArr['2022-23'],
-      ...this.fiscalForm?.value?.basicUlbDetails,
+      // ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
+      webLink: this.fiscalForm?.value?.basicUlbDetails?.webLink,
+      nameCmsnr: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+      ulbName: this.ulbName,
+      population11: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.population11.value,
+        readonly: this.isPopAvl11
+      },
+      populationFr: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.populationFr.value,
+        readonly: this.isPopAvl11
+      },
       "webUrlAnnual": {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
         status: 'PENDING',
@@ -1393,8 +1422,8 @@ export class UlbFiscalComponent implements OnInit {
       },
       "fyData": this.fyDataArr,
       "signedCopyOfFile": {
-        "name": this.signedFileName,
-        "url": this.signedFileUrl,
+        "name": this.signedFileName ? this.signedFileName : null,
+        "url": this.signedFileUrl ? this.signedFileUrl : null,
         status: 'PENDING'
       },
       "property_tax_register":  {
@@ -1412,6 +1441,10 @@ export class UlbFiscalComponent implements OnInit {
       "status": "PENDING",
       "isDraft": this.isDraft
     };
+    // this.isPopAvl11 = data?.populationFr?.readonly;
+    // this.isPopAvlFr = data?.populationFr?.readonly;
+    // delete this.postData.population11;
+    // delete this.postData.populationFr;
   }
 
   fyDataArr = [];
@@ -1430,8 +1463,9 @@ export class UlbFiscalComponent implements OnInit {
             "type": el?.type,
             "file": "",
             "typeofdata": 'Number', /* Number, PDF,Excel    */
-            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
-            key: el?.key
+            "status": el?.status ? el?.status : 'PENDING', /* PENDING,APPROVED,REJECTED    */
+            key: el?.key,
+            readonly: el?.readonly
           }
           revPostArr.push(dataObj);
         }
@@ -1448,8 +1482,9 @@ export class UlbFiscalComponent implements OnInit {
             "type": el?.type,
             "file": "",
             "typeofdata": 'Number', /* Number, PDF,Excel    */
-            "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
-            key: el?.key
+            "status": el?.status ? el?.status : 'PENDING', /* PENDING,APPROVED,REJECTED    */
+            key: el?.key,
+            readonly: el?.readonly
           }
           expPostArr.push(dataObj);
         }
@@ -1469,7 +1504,7 @@ export class UlbFiscalComponent implements OnInit {
                 url: el?.file?.url
               },
               "typeofdata": 'PDF', /* Number, PDF,Excel    */
-              "status": "PENDING", /* PENDING,APPROVED,REJECTED    */
+              "status": el?.status ? el?.status : 'PENDING', /* PENDING,APPROVED,REJECTED    */
               key: el?.key,
               readonly: el?.readonly
             }
@@ -1897,6 +1932,7 @@ getFullDataArray(){
         // swal('Saved', "Data save as draft successfully!", 'success')
         this.formSubmitted = true;
         this.isDisabled = true;
+        sessionStorage.setItem("changeInFR", "false");
       },
         (error) => {
           console.log('post error', error);
@@ -1939,6 +1975,7 @@ getFullDataArray(){
     ) {
       e.preventDefault();
     }
+    sessionStorage.setItem("changeInFR", "true");
   }
 
   private replaceSelection(input, key) {
@@ -1963,5 +2000,91 @@ getFullDataArray(){
   clearFile(type, yrItem, stpItem){
     yrItem.file.url = '';
     yrItem.file.name = '';
+    sessionStorage.setItem("changeInFR", "true");
+  }
+  routerNavigate = null;
+  response;
+  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  dialogRef;
+  modalRef;
+  @ViewChild("templateSaveChange") template;
+
+  navigationCheck() {
+   // if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.alertError =
+            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+          const changeInFr = sessionStorage.getItem("changeInFR");
+          if (event.url === "/" || event.url === "fiscal/login") {
+            sessionStorage.setItem("changeInFR", "false");
+            return;
+          }
+          if (changeInFr === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+   // }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          // this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    // await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.isDraft = true;
+      this.updateValueInForm();
+      this.saveFormAsDraft()
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+   // await this.formSave("draft");
+    //return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  saveFormAsDraft(){
+    this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
+      console.log('post res', res);
+        swal('Saved', "Data save as draft successfully!", 'success');
+        sessionStorage.setItem("changeInFR", "false");
+    },
+      (error) => {
+        console.log('post error', error)
+      }
+    )
+  }
+  async discard() {
+    sessionStorage.setItem("changeInFR", "false");
+    await this.dialogRef.close(true);
+    if (this.routerNavigate) {
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+  }
+  alertClose() {
+    this.stay();
   }
 }
