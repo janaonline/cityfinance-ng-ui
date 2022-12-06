@@ -5,7 +5,7 @@
             City Finance Rankings 2022
         </div>
     </div>
-    <div class="row" *ngIf="!formSubmitted" [ngClass]="{'disable': isDisabled}">
+    <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
             <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
@@ -17,7 +17,7 @@
                         <div class="form" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
                             <form [formGroup]="fiscalForm" *ngIf="fiscalForm">
                                 <!-- ulb basic info -->
-                                <div class="" *ngIf="stepItem?.id == 's1'">
+                                <div class="" *ngIf="stepItem?.id == 's1'" [ngClass]="{'disable': isDisabled}">
                                     <div class="row mx-auto">
                                         <div class="col-sm-12">
                                             <div class="form" formGroupName="basicUlbDetails">
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <!-- ulb contact info -->
-                                <div class="" *ngIf="stepItem?.id == 's6'">
+                                <div class="" *ngIf="stepItem?.id == 's6'" [ngClass]="{'disable': isDisabled}">
                                     <div class="row mx-auto">
                                         <div class="col-sm-12">
                                             <div class="form" formGroupName="contactInfo">
@@ -126,7 +126,7 @@
 
                     <div class="container w-80 mt-4">
                         <!-- revenue mobilization para -->
-                        <div class="" *ngIf="stepItem?.id == 's2'">
+                        <div class="" *ngIf="stepItem?.id == 's2'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
@@ -175,7 +175,7 @@
                             </div>
                         </div>
                         <!-- exppenditure performance para -->
-                        <div class="" *ngIf="stepItem?.id == 's3'">
+                        <div class="" *ngIf="stepItem?.id == 's3'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of expPerf | keyvalue : returnZero">
@@ -294,7 +294,7 @@
                             </div>
                         </div>
                         <!-- fiscal governance -->
-                        <div class="" *ngIf="stepItem?.id == 's4'">
+                        <div class="" *ngIf="stepItem?.id == 's4'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card com-style mb-3">
@@ -397,7 +397,7 @@
                         <div class="" *ngIf="stepItem?.id == 's7'">
                             <div class="row mx-auto">
                                 <div class="col-sm-6">
-                                    <div class="card card-form mb-4 com-style">
+                                    <div class="card card-form mb-4 com-style h-100">
                                         <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
@@ -418,7 +418,7 @@
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="card card-form mb-4 com-style">
+                                    <div class="card card-form mb-4 com-style h-100">
                                         <div class="card-body pd-m">
                                             <div class="row">
                                                 <div class="col-sm-12 c-head com-style">
@@ -453,7 +453,7 @@
                                 <button class="btn btn-f-next com-style" *ngIf="stepItem?.id == 's7'" [disabled]="isDisabled" (click)="finalSubmit()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)" [disabled]="isDisabled">Save & Continue Later</button>
                             </div>
                         </div>
                     </div>

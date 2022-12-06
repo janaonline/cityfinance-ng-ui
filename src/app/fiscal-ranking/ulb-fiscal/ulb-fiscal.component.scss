@@ -223,7 +223,8 @@
 
 .disable {
     input,
-    .mat-radio-button {
+    .mat-radio-button,
+    .mat-form-field {
         pointer-events: none;
     }
 }
