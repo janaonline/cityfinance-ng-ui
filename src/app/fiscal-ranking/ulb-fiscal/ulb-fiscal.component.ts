@@ -1015,14 +1015,7 @@ export class UlbFiscalComponent implements OnInit {
     this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
     this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
     this.isDraft = data?.isDraft;
-    if (this.isDraft == false) {
-      this.isDisabled = true;
-    } else {
-      this.isDisabled = false;
-    }
-    if(this.userData?.role != 'ULB'){
-      this.isDisabled = true;
-    }
+
     this.isPopAvl11 = data?.population11?.readonly;
     this.isPopAvlFr = data?.populationFr?.readonly;
     this.fiscalForm.patchValue({
@@ -1148,6 +1141,17 @@ export class UlbFiscalComponent implements OnInit {
     this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
     this.changeNumToWords();
     this.addSomeKey();
+    if (this.isDraft == false) {
+      this.isDisabled = true;
+      this.fiscalForm.disable();
+    } else {
+      this.isDisabled = false;
+      this.fiscalForm.enable();
+    }
+    if(this.userData?.role != 'ULB'){
+      this.isDisabled = true;
+      this.fiscalForm.disable();
+    }
   }
   returnZero() {
     return 0;
@@ -1157,10 +1161,25 @@ export class UlbFiscalComponent implements OnInit {
       if(key != 'guidanceNotes'){
         this.uploadFyDoc[key].yearData.forEach((el) => {
          el['fileProcess'] = false;
+         el['error'] = false;
         })
       }
-
     }
+    for (const key in this.expPerf) {
+        this.expPerf[key].yearData.forEach((el) => {
+         el['error'] = false;
+        })
+    }
+    for (const key in this.revenueMob) {
+      this.revenueMob[key].yearData.forEach((el) => {
+       el['error'] = false;
+      })
+  }
+  for (const key in this.goverPar) {
+    this.goverPar[key].yearData.forEach((el) => {
+     el['error'] = false;
+    })
+}
   }
   stepperContinue(stepper: MatStepper, item) {
     console.log("stepper", stepper, item);
@@ -1900,6 +1919,7 @@ getFullDataArray(){
       el.error = false;
     }
   })
+  debugger
   normalGovData.forEach((el)=>{
     if(el?.error == true){
       this.formError = false;
@@ -1927,9 +1947,12 @@ getFullDataArray(){
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
   finalSubmit() {
+    this.isDraft = false;
+    this.updateValueInForm();
     this.checkValidation();
+    console.log('800390 fiscalForm', this.fiscalForm)
+    console.log('800390 fiscalForm', )
     if (this.fiscalForm.status != "INVALID" && this.formError) {
-      this.isDraft = false;
       console.log('post body', this.postData);
       this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
         console.log('post res', res);
