@@ -449,7 +449,7 @@
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'" [disabled]="isDisabled" (click)="stepperContinue(stepper, stepItem)">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'" (click)="stepperContinue(stepper, stepItem)">Next</button>
                                 <button class="btn btn-f-next com-style" *ngIf="stepItem?.id == 's7'" [disabled]="isDisabled" (click)="finalSubmit()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
