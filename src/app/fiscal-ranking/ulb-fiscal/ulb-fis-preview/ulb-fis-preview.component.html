@@ -47,19 +47,20 @@
                             </div>
                         </div>
                         <div class="div" *ngIf="yearObj?.value?.key != 'guidanceNotes'">
-                            <div class="row mb-1" *ngFor="let elem of yearObj?.value?.yearData; let y_i=index">
+                            <div class="row mb-1 bg-amt pd-r" *ngFor="let elem of yearObj?.value?.yearData; let y_i=index">
                                 <div class="col-sm-6 yr-l">
                                     {{elem?.label}}
                                 </div>
                                 <div class="col-sm-6 yr-ans" *ngIf="elem?.value">
                                     {{elem?.value}}
                                 </div>
-                                <div class="col-sm-6 yr-ans" *ngIf="elem?.amount">
-                                    {{elem?.amount}}
+                                <div class="col-sm-6 yr-ans rp-pd" *ngIf="elem?.amount">
+                                    {{elem?.amount | currency:"INR":"symbol"}}
                                 </div>
                                 <div class="col-sm-6 yr-ans" *ngIf="elem?.file?.url">
                                     <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
                                 </div>
+
                             </div>
                         </div>
 

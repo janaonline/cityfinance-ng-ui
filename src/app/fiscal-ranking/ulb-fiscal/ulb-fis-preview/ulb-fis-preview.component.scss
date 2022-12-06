@@ -40,3 +40,18 @@
     font-family: 'Manrope';
     font-style: normal;
 }
+
+::ng-deep .rp-pd::first-letter {
+    // color: red;
+    padding-right: 0.3em !important;
+}
+
+// .bg-amt:nth-child(odd) {
+//     background: #FFFFFF
+// }
+// .bg-amt:nth-child(even) {
+//     background: #CCC
+// }
+// .pd-r {
+//     padding: 5px 2px;
+// }
