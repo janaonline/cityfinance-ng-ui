@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { FiscalRankingService } from '../../fiscal-ranking.service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-ulb-fis-preview',
   templateUrl: './ulb-fis-preview.component.html',
@@ -18,6 +21,7 @@ export class UlbFisPreviewComponent implements OnInit {
     private dialog: MatDialog,
     private _router: Router,
     private _questionnaireService: QuestionnaireService,
+    private fiscalService: FiscalRankingService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
@@ -95,15 +99,14 @@ export class UlbFisPreviewComponent implements OnInit {
   }
 
   clickedDownloadAsPDF(template) {
-    // this.downloadForm();
-    // let canNavigate = sessionStorage.getItem("changeInUti");
-    // if (canNavigate == "true") {
-    //   this.openDialog(template);
-    //   return;
-    // } else {
-    //   this.downloadAsPdf();
-    // }
-    this.downloadAsPdf();
+    let canNavigate = sessionStorage.getItem("changeInFR");
+    if (canNavigate == "true") {
+      this.openDialog(template);
+      return;
+    } else {
+      this.downloadAsPdf();
+    }
+   // this.downloadAsPdf();
   }
   downloadAsPdf(){
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -156,6 +159,31 @@ export class UlbFisPreviewComponent implements OnInit {
 
   stay() {
     this.dialogRef.close();
+  }
+  async proceed(uploadedFiles) {
+    this.dialogRef.close();
+    this.dialog.closeAll();
+   // this.preData.body["isDraft"] = true;
+    await this.submit();
+    sessionStorage.setItem("changeInFr", "false");
+    await this.downloadAsPdf();
+  }
+
+  async submit() {
+    return new Promise((resolve, rej) => {
+      this.fiscalService.postFiscalRankingData(this.data?.preData).subscribe((res) => {
+        console.log('post res', res);
+          swal('Saved', "Data save as draft successfully!", 'success');
+          sessionStorage.setItem("changeInFR", "false");
+          resolve('success');
+      },
+        (error) => {
+          console.log('post error', error);
+          resolve(error);
+        }
+      )
+
+    });
   }
 
 }
