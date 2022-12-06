@@ -276,7 +276,7 @@
                                                             </div>
                                                             <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.file?.url">
                                                                 <a class="w-90" href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
-                                                                <a (click)="clearFile('annualDoc', yearItem, stepItem)" class="w-10" target="_blank">
+                                                                <a (click)="clearFile('annualDoc', yearItem, stepItem)" class="w-10" target="_blank" [ngClass]="{'pe-none': isDisabled}">
                                                                     <img src="../../../assets/form-icon/close_black_24dp.svg">
                                                                 </a>
                                                             </div>
