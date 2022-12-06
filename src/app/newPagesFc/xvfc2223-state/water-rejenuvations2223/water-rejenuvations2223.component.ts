@@ -313,7 +313,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         area: this.fb.control(data.area, [
           Validators.required,
@@ -321,7 +321,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         ]),
         nameOfBody: this.fb.control(data.nameOfBody, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
@@ -481,11 +481,11 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         component: this.fb.control(data.component, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(200),
         ]),
         indicator: this.fb.control(data.indicator, [
           Validators.required,
@@ -562,11 +562,11 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         treatmentPlant: this.fb.control(data.treatmentPlant, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         targetCust: this.fb.control(data.targetCust, [
           Validators.required,
@@ -1495,8 +1495,15 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
   }
   async onFileChange(event, waterIndex, uaIndex) {
+    console.log('pic uplaod', event);
     if (this.formDisable) return
     this.photosArray = [];
+    let file = event.target.files[0];
+    let fileExtension = file.name.split(".").pop();
+    if(fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg'){
+      swal('Error', 'Please select "PNG" or "JPG", or "JPEG" type file', 'error')
+      return
+    }
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
     let title = "Success";
@@ -1504,7 +1511,6 @@ export class WaterRejenuvations2223Component implements OnInit {
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
     let leftNum = this.checkPhotos(files.length, photoControl);
-
     if (typeof leftNum === "boolean") {
       swal(
         `Max ${this.maxPhotos} photos are allowed`,
