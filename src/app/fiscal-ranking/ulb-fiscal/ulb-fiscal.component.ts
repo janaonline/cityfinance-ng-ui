@@ -985,6 +985,7 @@ export class UlbFiscalComponent implements OnInit {
       this.fillDataInForm(res?.data);
       this.changeNumToWords();
       this.skipLogicForGov('onload');
+      console.log('revenueMob', this.revenueMob);
     },
       (error) => {
         console.log(error);
@@ -1150,13 +1151,14 @@ export class UlbFiscalComponent implements OnInit {
       this.fiscalForm.controls.basicUlbDetails.controls.populationFr.disable();
     }
     this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
-    this.changeNumToWords();
+   // this.changeNumToWords();
     this.addSomeKey();
 
   }
   returnZero() {
     return 0;
   }
+
   addSomeKey(){
     for (const key in this.uploadFyDoc) {
       if(key != 'guidanceNotes'){
@@ -1233,7 +1235,7 @@ export class UlbFiscalComponent implements OnInit {
 
   }
   skipLogicRadio(type, val) {
-    console.log('vvvvv', type, val);
+  //  console.log('vvvvv', type, val);
     if(!this.isDisabled){
       sessionStorage.setItem("changeInFR", "true");
       if (type == 'digitalRegtr' && val == 'Yes') {
@@ -1242,10 +1244,13 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   amountKeyUp(type, yearItem) {
-    yearItem.inWords = toWords.convert(Number(yearItem?.amount), {
-      currency: false,
-      doNotAddOnly: true,
-    });
+    if(yearItem?.amount != ''){
+      yearItem.inWords = toWords.convert(Number(yearItem?.amount), {
+        currency: false,
+        doNotAddOnly: true,
+      });
+    }
+    console.log('revenueMob', this.revenueMob, yearItem);
   }
   amounttoWords(type, val) {
     return toWords.convert(Number(val), {
@@ -1617,22 +1622,25 @@ getFullDataArray(){
                 },
                 {
                   label: 'Population as per 2011 Census',
-                  value: this.fiscalForm?.value?.basicUlbDetails?.population11,
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.population11?.value,
                   status: ''
                 },
                 {
                   label: 'Population as on 1st April 2022',
-                  value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
+                  value: this.fiscalForm?.controls.basicUlbDetails?.controls?.populationFr?.value,
+                  // value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
                   status: ''
                 },
                 {
                   label: 'ULB website URL link',
-                  value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
+                  // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
                   status: ''
                 },
                 {
                   label: 'Name of Commissioner / Executive Officer',
-                  value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+                 // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
                   status: ''
                 }
               ]
@@ -1672,15 +1680,15 @@ getFullDataArray(){
 				}, {
 					"label": "Do you maintain a Digital Property Tax Register?",
 					"key": "digitalRegtr",
-					"value": this.goverParaNdata.normalData.yearData.digitalRegtr.value,
+					"value": this.goverParaNdata.normalData.yearData.digitalRegtr.value ? this.goverParaNdata.normalData.yearData.digitalRegtr.value : 'N/A',
 				}, {
 					"label": "Is the property tax register GIS-based?",
 					"key": "registerGis",
-					"value": this.goverParaNdata.normalData.yearData.registerGis.value,
+					"value": this.goverParaNdata.normalData.yearData.registerGis.value ? this.goverParaNdata.normalData.yearData.registerGis.value : 'N/A',
 				}, {
 					"label": "Do you use accounting software?",
 					"key": "accountStwre",
-					"value": this.goverParaNdata.normalData.yearData.accountStwre.value,
+					"value": this.goverParaNdata.normalData.yearData.accountStwre.value ? this.goverParaNdata.normalData.yearData.accountStwre.value : 'N/A',
 				}]
 			},
       ownRevDetails: {
@@ -1748,22 +1756,26 @@ getFullDataArray(){
               yearData: [
                 {
                   label: 'Name of the Nodal Officer',
-                  value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
+                 // value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
+                  value: this.fiscalForm?.controls?.contactInfo?.controls?.designationOftNodalOfficer?.value,
                   status: ''
                 },
                 {
                   label: 'Designation of the Nodal Officer',
-                  value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
+                  //value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
+                  value: this.fiscalForm?.controls?.contactInfo?.controls?.nameOfNodalOfficer?.value,
                   status: ''
                 },
                 {
                   label: 'Email ID',
-                  value: this.fiscalForm?.value?.contactInfo?.email,
+                  value: this.fiscalForm?.controls?.contactInfo?.controls?.email?.value,
+                 // value: this.fiscalForm?.value?.contactInfo?.email,
                   status: ''
                 },
                 {
                   label: 'Mobile number',
-                  value: this.fiscalForm?.value?.contactInfo?.mobile,
+                  value: this.fiscalForm?.controls?.contactInfo?.controls?.mobile?.value,
+                 // value: this.fiscalForm?.value?.contactInfo?.mobile,
                   status: ''
                 }
               ]

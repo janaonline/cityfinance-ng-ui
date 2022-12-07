@@ -54,11 +54,17 @@
                                 <div class="col-sm-6 yr-ans" *ngIf="elem?.value">
                                     {{elem?.value}}
                                 </div>
-                                <div class="col-sm-6 yr-ans rp-pd" *ngIf="elem?.amount">
+                                <div class="col-sm-6 yr-ans rp-pd" *ngIf="elem?.amount || elem?.amount === 0">
                                     {{elem?.amount | currency:"INR":"symbol"}}
                                 </div>
-                                <div class="col-sm-6 yr-ans" *ngIf="elem?.file?.url">
-                                    <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
+                                <div class="col-sm-6 yr-ans" *ngIf="yearObj?.value?.key == 'auditedAnnualFySt' || yearObj?.value?.key == 'appAnnualBudget'">
+                                    <div *ngIf="elem?.file?.url && elem?.readonly == false">
+                                        <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
+                                    </div>
+                                    <div *ngIf="!elem?.file?.url && elem?.readonly == true">
+                                        Already uploaded on Cityfinance.
+                                    </div>
+
                                 </div>
 
                             </div>

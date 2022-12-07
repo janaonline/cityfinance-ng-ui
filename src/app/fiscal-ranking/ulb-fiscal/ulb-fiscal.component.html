@@ -139,7 +139,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
-                                                        <div class="row">
+
+                                                        <div class="row" *ngIf="yearItem?.key">
                                                             <div class="col-sm-12 mb-3">
                                                                 {{yearItem?.label}}*
                                                             </div>
@@ -151,13 +152,13 @@
                                                                 </div>
 
                                                             </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                 <span class="f-w">
                                                                    {{yearItem?.inWords}}
-                                                               </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
+                                                               </span> {{yearItem?.bottomText}} of {{yearItem?.label}}
                                                             </div>
                                                         </div>
 
@@ -196,10 +197,10 @@
                                                                 <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
                                                                     [disabled]="yearItem?.readonly" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
                                                             </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem.amount">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
                                                             </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                 <span class="f-w">
                                                                 {{yearItem?.inWords}}
                                                             </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
@@ -378,7 +379,7 @@
                                                             <div class="col-sm-12 bot-text">
                                                                 {{yearItem?.bottomText}}
                                                             </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem.amount">
+                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                 <span class="f-w">
                                                                   {{yearItem?.inWords}}
                                                                 </span>
