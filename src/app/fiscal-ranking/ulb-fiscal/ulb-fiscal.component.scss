@@ -227,6 +227,10 @@
     .mat-form-field {
         pointer-events: none;
     }
+    .form-control,
+    .br-a {
+        background-color: #ccc;
+    }
 }
 
 ::ng-deep .st-title {
