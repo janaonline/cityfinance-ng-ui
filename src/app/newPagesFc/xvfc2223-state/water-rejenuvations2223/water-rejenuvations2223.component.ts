@@ -992,17 +992,16 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
 
             ]),
-            photos: this.fb.control([], [
+            photos: this.fb.array([], [
               Validators.required,
-
             ]),
             lat: this.fb.control(null, [
               Validators.required,
-              // Validators.min(1),
+              Validators.pattern(this.latLongRegex)
             ]),
             long: this.fb.control(null, [
               Validators.required,
-              // Validators.min(1),
+              Validators.pattern(this.latLongRegex)
             ]),
             bod: this.fb.control(null, [
               Validators.required,
@@ -1508,6 +1507,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     let msg = "Photo uploaded successfully.";
     let title = "Success";
     let status = "success";
+
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
     let leftNum = this.checkPhotos(files.length, photoControl);
@@ -1693,11 +1693,11 @@ export class WaterRejenuvations2223Component implements OnInit {
   onPreview() {
     let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
     if (change == "true")
-      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
-    let data = this.waterRejenuvation.value;
+      this.waterRejenuvation?.controls?.isDraft?.patchValue(!this.formStatus);
+    let data = this.waterRejenuvation?.value;
     console.log(data);
-    for (let index = 0; index < data.uaData.length; index++) {
-      data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
+    for (let index = 0; index < data?.uaData?.length; index++) {
+      data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,

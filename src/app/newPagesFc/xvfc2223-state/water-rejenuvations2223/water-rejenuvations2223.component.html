@@ -74,15 +74,17 @@
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$">
                                         </td>
                                         <td style="width: 9%;" class="icon">
-                                            <div class="image-upload" style="display: inline-block;">
+                                            <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
                                                 <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                                 </label>
                                                 <input style="display: none;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" [ngClass]="{'disableInputs': isDisabled }" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required multiple />
                                             </div>
-                                            <a style="margin-left: 1ch;" (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
+                                            <a style="margin-left: 1ch; pointer-events: all;" (click)="imgPreview(waterBodiesIndex,projectIndex)">
+                                                <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                                     collections
-                                                </span></a>
+                                                </span>
+                                            </a>
                                             <a style="margin-left: 1ch;" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'disableInputs': isDisabled }">
                                                 <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                                     delete_forever
@@ -166,11 +168,11 @@
                                         </td>
                                         <!-- [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}" -->
                                         <td class="d-flex rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                            <!-- [name]="'dprCompletion1' + waterBodiesIndex" [attr.name]="'dprCompletion1' + waterBodiesIndex" -->
                                             <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB',projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
-                                            <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}">Yes</label>&nbsp;&nbsp;
+                                            <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
                                             <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                            <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}">No</label>
+                                            <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
+
                                         </td>
                                         <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                             <div class="" *ngIf="waterRejenuvation?.value?.uaData[0].waterBodies[waterBodiesIndex].dprCompletion == 'Yes'">
