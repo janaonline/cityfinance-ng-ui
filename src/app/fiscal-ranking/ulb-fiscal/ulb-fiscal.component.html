@@ -305,7 +305,7 @@
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}"
-                                                        (keydown)="changeDecInForm()">
+                                                        (keydown)="changeDecInForm()" [disabled]="isDisabled">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -313,7 +313,7 @@
                                                     {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}*
                                                 </div>
                                                 <div class="col-sm-5">
-                                                    <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('digitalRegtr', $event.target.value)" [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value" [ngModelOptions]="{standalone: true}">
+                                                    <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('digitalRegtr', $event.target.value)" [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
                                                         <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                         <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                                     </mat-radio-group>
@@ -326,7 +326,7 @@
                                                         {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngModelOptions]="{standalone: true}">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                             <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                                         </mat-radio-group>
@@ -338,7 +338,7 @@
                                                         {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngModelOptions]="{standalone: true}">
+                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                             <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                                         </mat-radio-group>

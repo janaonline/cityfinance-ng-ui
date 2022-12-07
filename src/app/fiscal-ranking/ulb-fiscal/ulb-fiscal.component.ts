@@ -1234,9 +1234,11 @@ export class UlbFiscalComponent implements OnInit {
   }
   skipLogicRadio(type, val) {
     console.log('vvvvv', type, val);
-    sessionStorage.setItem("changeInFR", "true");
-    if (type == 'digitalRegtr' && val == 'Yes') {
-      //  goverPar.normalData.yearData.digitalRegtr.value
+    if(!this.isDisabled){
+      sessionStorage.setItem("changeInFR", "true");
+      if (type == 'digitalRegtr' && val == 'Yes') {
+        //  goverPar.normalData.yearData.digitalRegtr.value
+      }
     }
   }
   amountKeyUp(type, yearItem) {
