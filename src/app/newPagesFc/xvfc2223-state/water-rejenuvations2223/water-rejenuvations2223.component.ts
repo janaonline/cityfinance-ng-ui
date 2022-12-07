@@ -1099,10 +1099,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   }
   onChange(item, index, type, mIndex) {
-    // let remainingGroups = item.filter(ele=> ele.ReqId != index);
-    //'waterB'
-    // rWater
-    //'sWater'
+  // console.log('radio', item, index, type, mIndex)
     if (type == 'waterB') {
       if (this.waterRejenuvation?.value?.uaData[mIndex]?.waterBodies[index]?.dprCompletion == 'Yes') {
       this.toggle = false
@@ -1119,16 +1116,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     }
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation.value)
-    console.log('formvalue after selectse', this.waterRejenuvation.value.uaData[0].waterBodies[index].dprCompletion)
-    // if (this.waterRejenuvation?.value?.uaData[0]?.waterBodies[index]?.dprCompletion == 'Yes') {
-    //   this.toggle = false
-    // } else if (this.waterRejenuvation?.value?.uaData[0]?.reuseWater[index]?.dprCompletion == 'Yes') {
-    //   this.toggle1 = false
-    // } else if (this.waterRejenuvation?.value?.uaData[0]?.serviceLevelIndicators[index]?.dprCompletion == 'Yes') {
-    //   this.toggle2 = false
-    // }
-    console.log('formvalue after select', this.waterRejenuvation.get('dprCompletion')?.value);
-   console.log(item, index)
+    console.log('formvalue after select', this.waterRejenuvation.value.uaData[0].waterBodies[index].dprCompletion)
   }
   checkValidation() {
     console.log('form form', this.waterRejenuvation);
