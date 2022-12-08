@@ -4,6 +4,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
 import { NavigationStart, Router } from '@angular/router';
 import { SweetAlert } from "sweetalert/typings/core";
+import { I } from "@angular/cdk/keycodes";
 const swal1: SweetAlert = require("sweetalert");
 // ES6 Modules or TypeScript
 // import { SweetAlert } from "sweetalert/typings/core";
@@ -312,9 +313,19 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   popError = false;
   formId = '';
   slbFormData;
+  formShow;
+  showMess = ''
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
+      if(res?.show){
+        this.formShow = res?.show;
+        this.showMess = res?.message;
+      }else {
+        this.formShow = false;
+      }
+
+     if(this.formShow == false){
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
       this.slbFormData = { ...res?.data };
@@ -343,7 +354,12 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       Object.assign(this.formData, this.slbData["data"]);
       this.checkActionDisable(res?.data);
       console.log("After processing Range -", this.formData);
-    });
+     }
+    },
+    (error)=>{
+
+    }
+    );
   }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
