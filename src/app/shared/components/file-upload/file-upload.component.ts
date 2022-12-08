@@ -203,7 +203,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-
+        //let folderName = `${this.userData?.role}/${this.Years['2022-23']}/annual-accounts/${this.userData?.ulb}`
         const subs = this.dataEntryService
           .newGetURLForFileUpload(file.name, file.type)
           .pipe(

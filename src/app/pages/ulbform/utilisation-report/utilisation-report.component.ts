@@ -1290,16 +1290,16 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     }
     // if (files.length) this.addPhotosUrl(this.photoUrl, urlIndex);
   }
-
+  Years = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   uploadFile(file: File, fileIndex: number, urlIndex) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+     let folderName = `${this.userData?.role}/${this.Years['2021-22']}/DUR/${this.userData?.ulb}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
           //  this.photoUrl = this.tabelRows['controls'][urlIndex]['controls']['photos'].value;
-
           this.photoUrl.push({ url: fileAlias });
-
           //  this.tabelRows['controls'][urlIndex].patchValue({
           //    photos: photoUrl
           //  })

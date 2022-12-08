@@ -171,12 +171,16 @@ export class CommonFileUploadComponent implements OnInit {
       return;
     }
   }
-
+  Year = JSON.parse(localStorage.getItem("Years"));
   uploadFile(file, name, type, fileType) {
     console.log("this.data", this.data);
-
+    let ulbId = this.userData?.ulb;
+    if (!ulbId) {
+      ulbId = localStorage.getItem("ulb_id");
+     }
     this.data[fileType].progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/${this.Year['2022-23']}/Annual-accounts/${ulbId}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
         const res = s3Response.data[0];

@@ -74,7 +74,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     }
 
   }
-
+  Year = JSON.parse(localStorage.getItem("Years"));
   uploadDeclaration: boolean = false;
   uploadCertificate: boolean = true;
   odfUrl = "";
@@ -637,7 +637,14 @@ export class OdfFormComponent implements OnInit, OnDestroy {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      let formName = ''
+      if (this.isGfc) {
+        formName = 'GFC';
+      }else{
+        formName = 'ODF';
+      }
+     let folderName = `${this.userData?.role}/${this.Year['2022-23']}/${formName}/${this.userData?.ulb}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
