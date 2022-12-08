@@ -784,7 +784,8 @@ export class AnnualAccountsComponent implements OnInit {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+   let folderName = `${this.userData?.role}/${this.Years['2021-22']}/Annual-accounts/${this.userData?.ulb}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];

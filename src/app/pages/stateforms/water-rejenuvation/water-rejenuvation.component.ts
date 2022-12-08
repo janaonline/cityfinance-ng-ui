@@ -928,7 +928,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+      let folderName = `${this.userData?.role}/${this.Year['2021-22']}/water-rejenuation/${this.userData?.state}`
+      this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
           await this.uploadFileToS3(file, res["url"], res["file_url"]);

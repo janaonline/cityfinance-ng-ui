@@ -46,9 +46,12 @@ export class TableApproveReturnDialogComponent implements OnInit {
     private newCommonService: NewCommonService
   ) {
     console.log(data);
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeForm();
   }
-
+  design_year;
+  userData;
   ngOnInit(): void {
     // this.onLoad();
   }
@@ -82,25 +85,10 @@ export class TableApproveReturnDialogComponent implements OnInit {
         design_year: [this.getDesignYear()],
       });
     }
-    this.onLoad();
+
   }
 
-  onLoad() {
-    //  this.getSubmittedReviewData();
-  }
 
-  // getSubmittedReviewData(){
-  //   const body = {
-  //     formId:"62aa1d6ec9a98b2254632a9a",
-  //     design_year:"606aafb14dff55e6c075d3ae",
-  //     ulb:["5dd2474883f0771f8da4da1d"]
-  //   }
-  //   this.newCommonService.getTableApproveRejectData(body).subscribe((res:any) =>{
-  //     console.log(res)
-  //     // this.patchFunction(res);
-  //   })
-
-  // }
   getDesignYear() {
     let design_year = JSON.parse(localStorage.getItem("Years"));
     return design_year["2022-23"];
@@ -180,7 +168,9 @@ export class TableApproveReturnDialogComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      //let folderName = `${this.userData?.role}/${this.Years['2022-23']}//${this.userData?.ulb}`
+      let folderName = `${this.userData?.role}/${this.design_year['2022-23']}/Shared/Supporting Douments`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;

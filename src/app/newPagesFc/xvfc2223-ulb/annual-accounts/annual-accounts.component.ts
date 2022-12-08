@@ -1496,7 +1496,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/${this.Years['2022-23']}/Annual-accounts/${this.userData?.ulb}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -1545,10 +1546,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       let newObj = {
         alias: fileAlias,
         financialYear: "",
-        design_year: this.Years["2021-22"],
+        design_year: this.Years["2022-23"],
       };
       if (fileType === "audited") {
-        newObj.financialYear = "2019-20";
+        newObj.financialYear = "2020-21";
       } else {
         newObj.financialYear = "2021-22";
       }

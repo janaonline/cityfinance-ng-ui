@@ -634,7 +634,8 @@ export class GtcFormComponent implements OnInit {
    } else {
       this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 20;
    }
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+   let folderName = `${this.userData?.role}/${this.years['2022-23']}/GTC/${this.userData?.state}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         if (upType == 'normal') {
           this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;

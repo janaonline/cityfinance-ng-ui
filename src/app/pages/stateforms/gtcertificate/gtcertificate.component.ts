@@ -156,12 +156,13 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   ) {
     this.initializeUserType();
     this.navigationCheck();
-
-
+    this.years = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   }
   @ViewChild("template1") template1;
   @ViewChild("template") template;
-
+  userData;
+  years;
   uploadedFiles;
   millionTiedFileUrl = '';
   nonMillionTiedFileUrl = '';
@@ -850,7 +851,8 @@ apiData={}
   flag = 0
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/${this.years['2021-22']}/GTC/${this.userData?.state}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;

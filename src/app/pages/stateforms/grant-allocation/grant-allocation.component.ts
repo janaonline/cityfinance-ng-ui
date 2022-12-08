@@ -25,6 +25,8 @@ export class GrantAllocationComponent implements OnInit {
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
   isDisabled = false;
+  userData;
+  years;
   constructor(
     private dataEntryService: DataEntryService,
     private _gAservices: GAservicesService,
@@ -53,6 +55,8 @@ export class GrantAllocationComponent implements OnInit {
         }
       }
     });
+    this.years = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
       case USER_TYPE.PARTNER:
@@ -240,7 +244,8 @@ export class GrantAllocationComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+     let folderName = `${this.userData?.role}/${this.years['2021-22']}/Grant-allocation/${this.userData?.state}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
           this.progessType = Math.floor(Math.random() * 90) + 10;

@@ -1536,7 +1536,8 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+      let folderName = `${this.userData?.role}/${this.Year['2022-23']}/water-rejenuation/${this.userData?.state}`
+      this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
           await this.uploadFileToS3(file, res["url"], res["file_url"]);
@@ -1827,7 +1828,8 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFiles(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/${this.Year['2022-23']}/water-rejenuation/${this.userData?.state}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
