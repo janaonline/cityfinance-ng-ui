@@ -55,11 +55,12 @@ export class ActionPlanComponent implements OnInit {
 
   ) {
     this.initializeUserType();
+
     this.stateId = this.userData?.state;
     if (!this.stateId) {
-      this.stateId = localStorage.getItem("stateId");
+      this.stateId = localStorage.getItem("state_id");
     }
-    this.getUAList();
+
   }
  // disableAllForms = false;
  // actionFormDisable = false;
@@ -74,7 +75,7 @@ export class ActionPlanComponent implements OnInit {
   isPreYear = false;
   preMess = '';
   ngOnInit(): void {
-
+    this.getUAList();
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.stateId).subscribe(
@@ -582,6 +583,7 @@ export class ActionPlanComponent implements OnInit {
     );
   }
   getUAList() {
+
     this.stateService.getUAList(this.stateId).subscribe((res: any) => {
       console.log('ua list...', res);
       this.uasData = res?.data;

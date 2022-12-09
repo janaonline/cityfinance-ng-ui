@@ -35,6 +35,7 @@ export class GrantAllocationComponent implements OnInit {
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
+
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -237,21 +238,26 @@ export class GrantAllocationComponent implements OnInit {
       let tabArray = this.gtcFormData[i]?.quesArray;
       for (let j = 0; j < tabArray.length; j++) {
         let el = tabArray[j];
-        let nextEl = tabArray[j + 1];
-        if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
-          tabArray[0].isDisableQues = false;
-          break;
-        } else if (el?.isDraft == false && el?.status != "REJECTED") {
+        if(this.userData?.role == 'STATE'){
+          let nextEl = tabArray[j + 1];
+          if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
+            tabArray[0].isDisableQues = false;
+            break;
+          } else if (el?.isDraft == false && el?.status != "REJECTED") {
+            el.isDisableQues = true;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
+          } else if (el?.isDraft == false && el?.status == "REJECTED") {
+            el.isDisableQues = false;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
+          }
+        }else {
           el.isDisableQues = true;
-          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-            nextEl.isDisableQues = false;
-          }
-        } else if (el?.isDraft == false && el?.status == "REJECTED") {
-          el.isDisableQues = false;
-          if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-            nextEl.isDisableQues = false;
-          }
         }
+
       }
     }
   }
