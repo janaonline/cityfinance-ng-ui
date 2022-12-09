@@ -117,7 +117,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     // this.id = sessionStorage.getItem("sessionID");
     this.stateId = this.userData?.state;
     if (!this.stateId) {
-      this.stateId = localStorage.getItem("stateId");
+      this.stateId = localStorage.getItem("state_id");
     }
     this.navigationCheck();
 

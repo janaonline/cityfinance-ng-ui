@@ -168,3 +168,10 @@ a.disabled {
     opacity: 1;
     display: inline-block;
 }
+
+.stiky-tp {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
