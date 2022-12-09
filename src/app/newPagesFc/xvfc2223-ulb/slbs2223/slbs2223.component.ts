@@ -167,7 +167,6 @@ export class Slbs2223Component implements OnInit {
             this.isPreviousData;
            this.isPreviousMsg = ''
           }
-
         }
       );
     });
