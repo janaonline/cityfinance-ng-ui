@@ -115,7 +115,7 @@ export class UlbFisPreviewComponent implements OnInit {
 
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "fiscalRanking2022.pdf");
+        this.downloadFile(res.slice(0), "pdf", "fiscalRanking_2022-23.pdf");
      //   this.showLoader = false;
       },
       (err) => {
