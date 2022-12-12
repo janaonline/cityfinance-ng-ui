@@ -1170,12 +1170,20 @@ export class UlbFiscalComponent implements OnInit {
     }
     for (const key in this.expPerf) {
         this.expPerf[key].yearData.forEach((el) => {
-         el['error'] = false;
+       //  el['error'] = false;
+       if(Object.keys(el).length > 0){
+        el['error'] = false;
+      }
         })
     }
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
-       el['error'] = false;
+       // console.log('Object.keys(el).length', Object.keys(el).length);
+        if(Object.keys(el).length > 0){
+          el['error'] = false;
+        }
+
+
       })
   }
   for (const key in this.goverPar) {
@@ -1321,7 +1329,8 @@ export class UlbFiscalComponent implements OnInit {
   uploadFile(file, name, type, inputType, yrItem, stepItem) {
     //  console.log("this.data", this.data);
     // this.data[fileType].progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulb}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         console.log('dgffffffffff', s3Response.data[0])
         //  this.data[fileType].progress = 50;
@@ -1857,19 +1866,22 @@ getFullDataArray(){
   errorArr = [];
   checkValidation() {
     for (const key in this.revenueMob) {
+      console.log('keyyyyyyyy', key);
       this.revenueMob[key].yearData.forEach((el) => {
-        if (el?.amount == '' || el?.amount == null) {
-          el['error'] = true;
-        } else {
-          el['error'] = false
+        if(Object.keys(el).length > 0){
+          if (el?.amount === '' || el?.amount ===  null || el?.amount ===  undefined) {
+            el['error'] = true;
+          } else {
+            el['error'] = false
+          }
         }
       })
     }
     for (const key in this.expPerf) {
       this.expPerf[key].yearData.forEach((el) => {
-        if (el?.amount == '' || el?.amount == null) {
-          if (el?.amount == '' || el?.amount == null) {
-            el['error'] = true
+        if(Object.keys(el).length > 0){
+          if (el?.amount === '' || el?.amount === null || el?.amount ===  undefined) {
+            el['error'] = true;
           } else {
             el['error'] = false
           }
@@ -1878,24 +1890,29 @@ getFullDataArray(){
     }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
-        if (el?.amount == '' || el?.amount == null) {
-          if (el?.amount == '' || el?.amount == null) {
-            el['error'] = true
+        if(Object.keys(el).length > 0){
+          if (el?.amount === '' || el?.amount === null || el?.amount ===  undefined) {
+            el['error'] = true;
           } else {
-            el['error'] = false
+            el['error'] = false;
           }
         }
       })
       for (const key in this.uploadFyDoc) {
         if(key != 'guidanceNotes'){
           this.uploadFyDoc[key].yearData.forEach((el) => {
-            if (el?.file?.url == '' || el?.file?.url == null) {
-              if (el?.file?.url == '' || el?.file?.url == null) {
-                el['error'] = true
-              } else {
-                el['error'] = false
-              }
+            if(el?.readonly == false){
+             // if (el?.file?.url == '' || el?.file?.url == null) {
+                if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url ===  undefined) {
+                  el['error'] = true;
+                } else {
+                  el['error'] = false;
+                }
+             // }
+            }else {
+              el['error'] = false;
             }
+
           })
         }
 
@@ -1980,8 +1997,13 @@ getFullDataArray(){
 
   finalSubmitAlert(){
     this.isDraft = false;
+    this.formError = true;
     this.updateValueInForm();
     this.checkValidation();
+    if(this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == ''){
+      swal('Error', "Please upload a signed copy of this form", 'error');
+      return
+    }
     if(this.fiscalForm.status != "INVALID" && this.formError){
     swal(
       "Confirmation !",
