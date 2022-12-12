@@ -73,6 +73,37 @@
                             <span *ngIf="!data?.dataPreview?.comManual?.name">N/A</span>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6 questionClass qus-h">
+                            <span>(E) Number of extant acts for municipal bodies<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.actMunicipal}}
+                            <span *ngIf="!data?.dataPreview?.actMunicipal">N/A</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 questionClass qus-h">
+                            <span>(F) Please write names of all the extant acts<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-6 questionClass opacityClass ans-h">
+                            {{data?.dataPreview?.extantAct}}
+                            <span *ngIf="!data?.dataPreview?.extantAct">N/A</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 questionClass qus-h">
+                            <span>(G) Upload those extant acts to the portal<sup class="text-danger">*</sup>
+                            </span>
+                        </div>
+                        <div class="col-6 questionClass opacityClass ans-h">
+                            <a href="{{data?.dataPreview?.extantActDoc?.url}}" target="_blank">
+                                {{data?.dataPreview?.extantActDoc?.name}}</a>
+                            <span *ngIf="!data?.dataPreview?.extantActDoc?.name">N/A</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -11,12 +11,12 @@
             </div>
         </div>
         <div class="card">
-            <div class="row mt-3 mb-1 question">
+            <div class="row mt-3 mb-3 question">
                 <div class="col-7">
                     <span class="fontStyle">
                         (A) Upload a copy of notification/Memorandum<sup class="text-danger">*</sup>
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case of multiple notifications, kindly merge the documents and upload." matTooltipPosition="above">
+                    <span matTooltipClass="tooltip-red" matTooltip="In case of multiple notifications, kindly merge the documents and upload." matTooltipPosition="above">
                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                     </span>
                 </div>
@@ -27,17 +27,17 @@
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
-                        <p class="errorMessege">{{errorMessegeStateAct}}</p>
+                        <span class="errorMessege">{{errorMessegeStateAct}}</span>
                     </label>
                     <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                     <div>
-                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors && (!errorMessegeStateAct)" class="customDate text-danger">
+                        <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors && (!errorMessegeStateAct)" class="text-danger">
                             <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="showStateAct">
+            <div class="row mb-3" *ngIf="showStateAct">
                 <div class="col-7 filePadding mb-3">
                     {{stateActFileName}}
                 </div>
@@ -63,7 +63,7 @@
                     <span class="fontStyle">
                         (B) Act Page Number<sup class="text-danger">*</sup>
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification." matTooltipPosition="above">
+                    <span matTooltipClass="tooltip-red" matTooltip="Input will indicate the page number where Minimum Floor rate or Value card is given in the Notification." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -79,12 +79,12 @@
 
                 </div>
             </div>
-            <div class="row mt-4 mb-1 question">
+            <div class="row mb-3 question">
                 <div class="col-7">
                     <span class="fontStyle">
                         (C) Minimum Floor rate details/Value card
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Min Floor rate should have different slab-wise property rates with different areas; Classification of Residential, Commercial and Industrial." matTooltipPosition="above">
+                    <span matTooltipClass="tooltip-red" matTooltip="Min Floor rate should have different slab-wise property rates with different areas; Classification of Residential, Commercial and Industrial." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -95,13 +95,13 @@
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
-                        <p class="errorMessege">{{errorMessege}}</p>
+                        <span class="errorMessege">{{errorMessege}}</span>
                     </label>
                     <input #ipt2 id="ipt2" name="cin1" type="file" (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
 
                 </div>
             </div>
-            <div class="row" *ngIf="showMinimumFloor">
+            <div class="row mb-3" *ngIf="showMinimumFloor">
                 <div class="col-7 filePadding mb-3">
                     {{minimumFloorFileName}}
                 </div>
@@ -121,12 +121,12 @@
                     </span>
                 </div>
             </div>
-            <div class="row mt-3 mb-1 question" [ngClass]="{'marginClass' : minimumFloorFileName}">
+            <div class="row mb-3 question" [ngClass]="{'marginClass' : minimumFloorFileName}">
                 <div class="col-7">
                     <span class="fontStyle">
                         (D) Rules, by laws issued for operationalization of the notification
                     </span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="PT Calculation linked to Guidance Value/ Annual rental Value/ Unit Area Value/Circle Rate." matTooltipPosition="above">
+                    <span matTooltipClass="tooltip-red" matTooltip="PT Calculation linked to Guidance Value/ Annual rental Value/ Unit Area Value/Circle Rate." matTooltipPosition="above">
                             <img src="../../../../assets/ticks/info_black_18dp.svg">
                         </span>
                 </div>
@@ -137,12 +137,12 @@
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
                         </a>
-                        <p class="errorMessege">{{errorMessegeOther}}</p>
+                        <span class="errorMessege">{{errorMessegeOther}}</span>
                     </label>
                     <input #ipt3 id="ipt3" name="cin2" type="file" (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
                 </div>
             </div>
-            <div class="row" *ngIf="showRulesLaws">
+            <div class="row mb-3" *ngIf="showRulesLaws">
                 <div class="col-7 filePadding mb-3">
                     {{rulesLawsFileName}}
                 </div>
@@ -157,6 +157,91 @@
                     </a>
                     <span [ngClass]="{'customDisable': isDisabled }">
                         <a (click)="clearFile('rulesByLaws')" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (E) Number of extant acts for municipal bodies<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-5">
+                    <span class="fontStyle">
+                        <input (change)="inputChange()" type="text" class="form-control customWidth" formControlName="actMunicipal"
+                         [ngClass]="{ 'is-invalid': submitted && f?.actMunicipal?.controls?.errors,'greyInputs': isDisabled }"
+                         placeholder="Number of extant acts for municipal bodies." (keydown)="numberLimitV($event, inputText)" #inputText>
+                    </span>
+                    <div *ngIf="submitted && f.actMunicipal.errors" class="text-danger">
+                        <div *ngIf="f.actMunicipal.errors.required">Number of extant acts for municipal bodies is required.</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (F) Please write names of all the extant acts<sup class="text-danger">*</sup>
+                    </span>
+                    <span matTooltipClass="tooltip-red" matTooltip="Please enter names of all the extant acts, separated by a semi-colon ';'" matTooltipPosition="above">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                    </span>
+                </div>
+                <div class="col-5">
+                    <span class="fontStyle">
+                        <input (change)="inputChange()" type="text" class="form-control customWidth"
+                        formControlName="extantAct"
+                        [ngClass]="{ 'is-invalid': submitted && f?.extantAct?.controls?.errors,'greyInputs': isDisabled }"
+                        placeholder="Enter names of all the extant acts" min="1" max="1000"
+                         maxlength="1000">
+                    </span>
+                    <div *ngIf="submitted && f.extantAct.errors" class="text-danger">
+                        <div *ngIf="f.extantAct.errors.required">Names of all the extant acts is required.</div>
+                        <div *ngIf="f.extantAct.errors.maxlength">Maximum 1000 character are allowed.</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mb-3 question">
+                <div class="col-7">
+                    <span class="fontStyle">
+                        (G) Upload those extant acts to the portal<sup class="text-danger">*</sup>
+                    </span>
+                </div>
+                <div class="col-5 image-upload">
+                    <label for="ipt4" [ngClass]="{'customDisable': isDisabled }">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': isDisabled}">Upload
+                            PDF
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <!-- <p class="errorMessege">{{errorMessegeStateAct}}</p> -->
+                    </label>
+                    <input #ipt4 id="ipt4" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.extantActDoc?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'extantActDoc')" accept=".pdf" />
+                    <div>
+                        <div *ngIf="submitted && f?.extantActDoc?.controls?.name?.errors && (!extantActDocError)" class="text-danger">
+                            <div *ngIf="f?.extantActDoc?.controls?.name?.errors.required">File is required.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3" *ngIf="showextantActDocFile">
+                <div class="col-7 filePadding mb-3">
+                    {{extantActDocFileName}}
+                </div>
+                <div class="col-3 progressBar" *ngIf="extantActDoc">
+                    <div class="progress-bar" *ngIf="extantActDoc" role="progressbar" attr.aria-valuenow="{{ extantActDoc }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: extantActDoc + '%' }">
+                        {{ extantActDoc }}%
+                    </div>
+                </div>
+                <div class="col-2 filePadding">
+                    <a href="{{ extantActDocFileUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span [ngClass]="{'customDisable': isDisabled }">
+                        <a (click)="clearFile('extantActDoc')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>
