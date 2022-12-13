@@ -775,6 +775,11 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
     if (event?.target) files = event.target.files[0];
@@ -784,7 +789,7 @@ export class AnnualAccountsComponent implements OnInit {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-   let folderName = `${this.userData?.role}/${this.Years['2021-22']}/Annual-accounts/${this.userData?.ulb}`
+   let folderName = `${this.userData?.role}/2021-22/annual_accounts/${this.userData?.ulbCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;

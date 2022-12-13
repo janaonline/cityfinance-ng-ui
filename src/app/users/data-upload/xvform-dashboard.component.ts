@@ -16,7 +16,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 import { atLeast1AplhabetRequired, nonEmptyValidator } from 'src/app/util/reactiveFormValidators';
-import { SweetAlert } from 'sweetalert/typings/core';
 
 import { DataEntryService } from '../../dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from '../../models/user/userType';
@@ -39,7 +38,7 @@ import {
   UNDER_REVIEW_BY_STATE
 } from './util/request-status';
 import { UploadDataUtility } from './util/upload-data.util';
-
+import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-data-upload",
@@ -69,6 +68,7 @@ export class DataUploadComponent extends UploadDataUtility
       moduleName: MODULES_NAME.ULB_DATA_UPLOAD,
       action: ACTIONS.UPLOAD,
     });
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.activatedRoute.params.subscribe((val) => {
       const { id, uploadId } = val;
       if (id) {
@@ -98,7 +98,7 @@ export class DataUploadComponent extends UploadDataUtility
       );
     }
   }
-
+  userData;
   questionForState = [
     {
       question:
@@ -994,8 +994,10 @@ export class DataUploadComponent extends UploadDataUtility
           if (files[fileKey]) {
             try {
               const { name, type } = files[fileKey];
+              // state_files
+              let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.stateCode}`
               const urlResponse: any = await this.dataUploadService
-                .newGetURLForFileUpload(name, type)
+                .newGetURLForFileUpload(name, type, folderName)
                 .toPromise();
               if (urlResponse.success) {
                 let { url, file_url } = urlResponse.data[0];
@@ -1222,8 +1224,9 @@ export class DataUploadComponent extends UploadDataUtility
             if (files[fileKey]) {
               try {
                 const { name, type } = files[fileKey];
+                let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.stateCode}`
                 const urlResponse: any = await this.dataUploadService
-                  .newGetURLForFileUpload(name, type)
+                  .newGetURLForFileUpload(name, type, folderName)
                   .toPromise();
                 if (urlResponse.success) {
                   let { url, file_url } = urlResponse.data[0];

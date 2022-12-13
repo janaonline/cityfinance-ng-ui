@@ -139,6 +139,11 @@ export class CommonFileUploadComponent implements OnInit {
       sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(fileType, event);
     console.log("aaa", event.target.files[0].size);
     let files;
@@ -174,12 +179,14 @@ export class CommonFileUploadComponent implements OnInit {
   Year = JSON.parse(localStorage.getItem("Years"));
   uploadFile(file, name, type, fileType) {
     console.log("this.data", this.data);
-    let ulbId = this.userData?.ulb;
+    let ulbId = this.userData?.ulbCode;
+    let formName = 'annual_accounts'
     if (!ulbId) {
       ulbId = localStorage.getItem("ulb_id");
+      let formName = 'annual_accounts'
      }
     this.data[fileType].progress = 20;
-    let folderName = `${this.userData?.role}/${this.Year['2022-23']}/Annual-accounts/${ulbId}`
+    let folderName = `${this.userData?.role}/2022-23/${formName}/${ulbId}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;

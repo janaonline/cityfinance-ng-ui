@@ -577,6 +577,11 @@ export class GtcFormComponent implements OnInit {
   }
 
   async fileChangeEvent(event, fileType, cIndex, qIndex, upType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(fileType, event);
     console.log("index", cIndex, qIndex);
 
@@ -634,7 +639,7 @@ export class GtcFormComponent implements OnInit {
    } else {
       this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 20;
    }
-   let folderName = `${this.userData?.role}/${this.years['2022-23']}/GTC/${this.userData?.state}`
+   let folderName = `${this.userData?.role}/2022-23/gtc/${this.userData?.stateCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         if (upType == 'normal') {

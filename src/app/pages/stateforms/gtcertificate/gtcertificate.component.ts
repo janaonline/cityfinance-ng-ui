@@ -800,6 +800,11 @@ this.uploadedFiles.isDraft = false
   }
 
   fileChangeEvent(event, progessType, fileName) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(event, fileName)
     this.submitted = false;
     this.resetFileTracker();
@@ -851,7 +856,7 @@ apiData={}
   flag = 0
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      let folderName = `${this.userData?.role}/${this.years['2021-22']}/GTC/${this.userData?.state}`
+      let folderName = `${this.userData?.role}/2021-22/gtc/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];

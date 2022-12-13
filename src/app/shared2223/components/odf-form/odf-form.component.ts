@@ -556,6 +556,11 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     this.change = "true";
   }
   fileChangeEvent(event, progessType, fileName) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.firstClick = true;
     if (event.target.files[0].size >= 5000000) {
       this.ipt.nativeElement.value = "";
@@ -639,11 +644,11 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       let formName = ''
       if (this.isGfc) {
-        formName = 'GFC';
+        formName = 'gfc';
       }else{
-        formName = 'ODF';
+        formName = 'odf';
       }
-     let folderName = `${this.userData?.role}/${this.Year['2022-23']}/${formName}/${this.userData?.ulb}`
+     let folderName = `${this.userData?.role}/2022-23/${formName}/${this.userData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
