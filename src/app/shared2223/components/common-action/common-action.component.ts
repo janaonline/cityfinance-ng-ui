@@ -221,7 +221,11 @@ export class CommonActionComponent implements OnInit, OnChanges {
 
   fileChangeEvent(event, progessType) {
     console.log(progessType);
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if (progessType == "commonActProgress") {
       if (event.target.files[0].size >= 20000000) {
         this.errorMessegeCommonAction = "File size should be less than 20Mb.";
@@ -295,11 +299,20 @@ export class CommonActionComponent implements OnInit, OnChanges {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      let ulbId = this.userData?.ulb;
-        if (!ulbId) {
-          ulbId = localStorage.getItem("ulb_id");
+      let id = '';
+      if (this.actionFor == 'ULBForm'){
+        id = this.userData?.ulb;
+        if (!id) {
+          id = localStorage.getItem("ulb_id");
          }
-     let folderName = `${this.userData?.role}/${this.Years['2022-23']}/Supporting Documents/${ulbId}`
+      }else{
+        id = this.userData?.state;
+        if (!id) {
+          id = localStorage.getItem("state_id");
+         }
+      }
+
+     let folderName = `${this.userData?.role}/2022-23/Supporting Documents/${id}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];

@@ -1228,6 +1228,11 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
    */
   filesAlreadyInProcess: number[] = [];
   onFileChange(event, i, projectIndex) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.resetFileTracker();
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
@@ -1294,7 +1299,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
   userData = JSON.parse(localStorage.getItem("userData"));
   uploadFile(file: File, fileIndex: number, urlIndex) {
     return new Promise((resolve, reject) => {
-     let folderName = `${this.userData?.role}/${this.Years['2021-22']}/DUR/${this.userData?.ulb}`
+     let folderName = `${this.userData?.role}/2021-22/dur/${this.userData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
