@@ -19,7 +19,8 @@ export class ReviewUlbComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
   }
 
-  formId = "62aa1b04729673217e5ca3aa";
+  //formId = "62aa1b04729673217e5ca3aa";
+  formId = "62aa1cc9c9a98b2254632a8e";
   formUrl = "";
   data;
   title = "";
@@ -30,6 +31,7 @@ export class ReviewUlbComponent implements OnInit {
   stateId = '';
   stateList = [];
   userData;
+  reviewTableName = 'Review Grant Application';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
@@ -66,6 +68,11 @@ export class ReviewUlbComponent implements OnInit {
         let formId = params["formId"];
         this.formId = formId;
         console.log("sasasasasasaaaaaaaaaaa", formId);
+      }
+      if (params && params.state) {
+       // let formId = params["state"];
+        this.stateId = params["state"];
+        console.log("sasasasasasaaaaaaaaaaa", );
       }
     });
   }

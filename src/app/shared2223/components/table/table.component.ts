@@ -72,6 +72,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() formId;
   @Input() dropdownData;
   @Input() state_id_i;
+  @Input() tableName;
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -94,24 +95,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    console.log('scrolllllll', windowScroll, this.elementPosition);
     if (windowScroll < this.elementPosition) {
-      // this.sticky = false;
-      // this.stiHieght = false;
-      if (windowScroll > 120) {
-        // this.sticky = true;
-        // this.stiHieght = false;
-      }
     } else if (windowScroll > this.elementPosition) {
-      // this.sticky = true;
-      // this.stiHieght = false;
-      if (windowScroll >= 200) {
-        // this.sticky = true;
-        // this.stiHieght = true;
-      }
     } else {
-      // this.sticky = false;
-      // this.stiHieght = false;
     }
   }
   // MatPaginator Inputs
@@ -121,8 +107,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   // MatPaginator Output
   pageEvent: PageEvent;
-
-
   ngOnInit(): void {
     this.updatedTableData();
     this.params["limit"] = 10;
@@ -134,7 +118,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     if (this.userData?.role !== "STATE") {
-      this.params["state"] = this.state_id_i;
+      this.params["state"] = this.state_id_i ? this.state_id_i : null;
     }
     this.initializeListFetchParams();
     let skValue = sessionStorage.getItem('skipValue')
@@ -153,14 +137,13 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           status_s: sesParams?.status ? sesParams?.status : '',
           filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
           filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
+          state_name_s : sesParams?.state ? sesParams?.state : ''
         })
       }
       this.params["skip"] = Number(skValue);
       let page = Math.round(Number(skValue) / 10);
       this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
     } else {
-      // this.params["skip"] = 0;
-      // this.tableDefaultOptions.currentPage = 1;
     }
     this.callAPI();
     let formData = this.dropdownData?.find(({ _id }) => {
@@ -240,19 +223,23 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.tableDefaultOptions.currentPage = 1;
     console.log("value changes", this.filterForm?.value);
     this.filterFormValue = this.filterForm?.value;
-    this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
-    this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
-    this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
-    this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
-    this.params["UA"] = this.filterForm?.value?.ua_name_s;
-    this.params["status"] = this.filterForm?.value?.status_s;
-    this.params["filled1"] = this.filterForm?.value?.filled_1;
-    this.params["populationType"] = this.filterForm?.value?.population_type_s;
-    // if (this.userData?.role !== "STATE") {
-    //   this.params["state"] = this.filterForm?.value?.state_name_s;
-    // }
-    this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
-    this.params["skip"] = 0;
+
+    if(this.tableName == 'Review State Forms'){
+        this.params["state"] = this.filterForm?.value?.state_name_s;
+        this.params["status"] = this.filterForm?.value?.status_s;
+    }else{
+      this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+      this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+      this.params["UA"] = this.filterForm?.value?.ua_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+      this.params["filled1"] = this.filterForm?.value?.filled_1;
+      this.params["populationType"] = this.filterForm?.value?.population_type_s;
+      this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    }
+
+       this.params["skip"] = 0;
     this.callAPI();
   }
   isChecked(element: any) {
@@ -427,6 +414,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     let skipValue: any = this.listFetchOption.skip
     sessionStorage.setItem("skipValue", skipValue);
     sessionStorage.setItem("params", JSON.stringify(this.params));
+    sessionStorage.setItem("state_id", data?.state_id);
 
   }
   viewStateForm(data) {
@@ -484,8 +472,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params = {
       design_year: "606aafb14dff55e6c075d3ae",
       formId: this.formId,
-
     };
+    this.params["state"] = this.state_id_i ? this.state_id_i : null;
+
     this.listFetchOption = {
       filter: null,
       sort: null,

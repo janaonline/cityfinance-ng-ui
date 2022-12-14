@@ -8,23 +8,23 @@
 </div>
 <!-- <form > -->
 <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu>
-    <div class="table-responsive">
-        <!-- .....................loader.......................... -->
-        <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
-            <div class="spinner-grow text-success" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-danger ms-2" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <div class="spinner-grow text-warning ms-2" role="status">
-                <span class="visually-hidden ">Loading...</span>
-            </div>
-            <div class="spinner-grow text-info ms-2" role="status">
-                <span class="visually-hidden ">Loading...</span>
-            </div>
-        </div>
 
+    <!-- .....................loader.......................... -->
+    <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+        <div class="spinner-grow text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger ms-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning ms-2" role="status">
+            <span class="visually-hidden ">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info ms-2" role="status">
+            <span class="visually-hidden ">Loading...</span>
+        </div>
+    </div>
+    <div class="table-responsive" *ngIf="!isLoader">
         <!-- -----------review ulb table----- -->
         <table class="table table-striped ulb-table" *ngIf="title == 'Review Grant Application'">
             <thead>
