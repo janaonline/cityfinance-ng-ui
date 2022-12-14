@@ -25,6 +25,8 @@
         </div>
     </div>
     <div class="table-responsive" *ngIf="!isLoader">
+        <!-- <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+        </mat-paginator> -->
         <!-- -----------review ulb table----- -->
         <table class="table table-striped ulb-table" *ngIf="title == 'Review Grant Application'">
             <thead>
@@ -234,8 +236,6 @@
     <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo" *ngIf="!(data?.length == 0)" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
         screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
-    <!-- <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
-    </mat-paginator> -->
 </div>
 <!-- </form> -->
 

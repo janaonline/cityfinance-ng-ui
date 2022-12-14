@@ -187,7 +187,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           isChecked: this.isChecked(element),
         }));
         this.tableDefaultOptions.totalCount = this.total;
-        this.pageSizeOptions = [10, 25, 50, 100, this.total];
+        if (this.title == 'Review Grant Application') {
+          this.pageSizeOptions = [10, 25, 50, 100, this.total];
+        } else {
+          this.pageSizeOptions = [5, 10, 20, this.total];
+        }
+
         (this.ulbType =
           Object.keys(res["ulbType"]).length > 0
             ? Object.values(res["ulbType"])
