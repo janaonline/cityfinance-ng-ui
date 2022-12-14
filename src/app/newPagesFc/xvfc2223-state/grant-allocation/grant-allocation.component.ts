@@ -318,6 +318,11 @@ export class GrantAllocationComponent implements OnInit {
   }
   /* for upload excel file */
   async fileChangeEvent(event, fileType, cIndex, qIndex) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(fileType, event);
     console.log("index", cIndex, qIndex);
 
@@ -370,7 +375,7 @@ export class GrantAllocationComponent implements OnInit {
     console.log("this.data", file, name, type, fileType, i, j);
 
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 20;
-    let folderName = `${this.userData?.role}/${this.years['2022-23']}/Grant-allocation/${this.userData?.state}`
+    let folderName = `${this.userData?.role}/2022-23/grant_allocation/${this.userData?.stateCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
