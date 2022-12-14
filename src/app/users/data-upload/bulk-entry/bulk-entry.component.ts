@@ -81,7 +81,7 @@ export class BulkEntryComponent implements OnInit {
   }
   userData = JSON.parse(localStorage.getItem("userData"));
   uploadFile(file: File, fileIndex: number) {
-    let folderName = `${this.userData?.role}/ulb_bulk_upload`
+    let folderName = `${this.userData?.role}/${this.bulkEntryForm.get("year").value}/ulb_bulk_upload`
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
       (s3Response) => {
         const fileAlias = s3Response["data"][0]["file_url"];
