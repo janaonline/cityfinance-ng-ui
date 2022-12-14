@@ -25,7 +25,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TableApproveReturnDialogComponent } from './components/table/table-approve-return-dialog/table-approve-return-dialog.component';
 import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-table.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -54,7 +54,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     BsDatepickerModule.forRoot(),
     NgxPaginationModule,
     ButtonsModule.forRoot(),
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule
 
   ],
   exports: [

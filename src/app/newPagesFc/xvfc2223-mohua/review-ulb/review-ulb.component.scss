@@ -2,6 +2,11 @@
     border-radius: 6px
 }
 
+.form-select {
+    display: inline-block;
+    width: 70%;
+}
+
 .pd-c {
     padding-right: 0.1rem;
     padding-left: 0.25rem;
@@ -13,4 +18,8 @@
     font-size: 20px;
     margin-top: 0.2rem;
     font-weight: 600;
+}
+
+.l-l {
+    font-weight: 500;
 }

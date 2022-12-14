@@ -7,6 +7,8 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  HostListener,
+  ElementRef,
 } from "@angular/core";
 import { NewCommonService } from "../../services/new-common.service";
 import { CommonService } from "src/app/shared/services/common.service";
@@ -19,6 +21,7 @@ import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog/table-approve-return-dialog.component";
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
+import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
@@ -68,6 +71,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   //  data: UserData[] = [];
   @Input() formId;
   @Input() dropdownData;
+  @Input() state_id_i;
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -85,14 +89,53 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   formStateRouterLink;
   isLoader = false;
   formName;
+  elementPosition: any;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    console.log('scrolllllll', windowScroll, this.elementPosition);
+    if (windowScroll < this.elementPosition) {
+      // this.sticky = false;
+      // this.stiHieght = false;
+      if (windowScroll > 120) {
+        // this.sticky = true;
+        // this.stiHieght = false;
+      }
+    } else if (windowScroll > this.elementPosition) {
+      // this.sticky = true;
+      // this.stiHieght = false;
+      if (windowScroll >= 200) {
+        // this.sticky = true;
+        // this.stiHieght = true;
+      }
+    } else {
+      // this.sticky = false;
+      // this.stiHieght = false;
+    }
+  }
+  // MatPaginator Inputs
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions: number[] = [];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
+
   ngOnInit(): void {
     this.updatedTableData();
     this.params["limit"] = 10;
   }
-
+  ngAfterViewInit() {
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
+    if (this.userData?.role !== "STATE") {
+      this.params["state"] = this.state_id_i;
+    }
     this.initializeListFetchParams();
     let skValue = sessionStorage.getItem('skipValue')
     let sesParams = JSON.parse(sessionStorage.getItem("params"));
@@ -161,6 +204,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           isChecked: this.isChecked(element),
         }));
         this.tableDefaultOptions.totalCount = this.total;
+        this.pageSizeOptions = [10, 25, 50, 100, this.total];
         (this.ulbType =
           Object.keys(res["ulbType"]).length > 0
             ? Object.values(res["ulbType"])
@@ -204,9 +248,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["status"] = this.filterForm?.value?.status_s;
     this.params["filled1"] = this.filterForm?.value?.filled_1;
     this.params["populationType"] = this.filterForm?.value?.population_type_s;
-    if (this.userData?.role !== "STATE") {
-      this.params["state"] = this.filterForm?.value?.state_name_s;
-    }
+    // if (this.userData?.role !== "STATE") {
+    //   this.params["state"] = this.filterForm?.value?.state_name_s;
+    // }
     this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
     this.params["skip"] = 0;
     this.callAPI();
@@ -226,6 +270,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
+  }
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    console.log('page change', setPageSizeOptionsInput)
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
+  }
+  pageChange(e) {
+    console.log('page change', e)
   }
   searchUsersBy(filterForm: {}, skip?: number) {
     this.listFetchOption.filter = filterForm;
@@ -445,11 +498,19 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
     this.filterForm.reset();
   }
+  pageName = 'Get All Data'
+  getAllData(type) {
+    this.params['limit'] = 461;
+    this.callAPI();
+    if (this.pageName == 'Get All Data') {
+      this.pageName = 'Set Pagination';
+      this.params['limit'] = 10;
+      this.params['skip'] = 0;
+    } else {
+      this.pageName = 'Get All Data';
+    }
 
-  // getAllData() {
-  //   this.params['limit'] = 200;
-  //   this.callAPI();
-  // }
+  }
 
 }
 
