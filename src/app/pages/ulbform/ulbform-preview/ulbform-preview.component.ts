@@ -646,6 +646,7 @@ h6 {
   financialYear;
   state;
   ulb;
+  ulbId = '';
 
   canDownload = true;
   downloadSub;
@@ -654,11 +655,13 @@ h6 {
   ngOnInit(): void {
     console.log(this.userDetails);
     if(this.userDetails.role == USER_TYPE.ULB){
-        this.state = this.userData.stateName;
-        this.ulb = this.userData.name
+        this.state = this.userData?.stateName;
+        this.ulb = this.userData?.name;
+        this.ulbId = this.userData?.ulb;
     }else {
         this.state = sessionStorage.getItem('stateName');
         this.ulb = sessionStorage.getItem('ulbName');
+        this.ulbId = sessionStorage.getItem('ulb_id')
     }
     this.downloadSub = this.ulbformService.initiateDownload.subscribe(
       (proceedSelected) => {
@@ -717,7 +720,7 @@ h6 {
 
   getAllForm() {
     this.ulbformService
-      .getAllForms(this.userData.ulb, this.designYear, this.financialYear)
+      .getAllForms(this.ulbId, this.designYear, this.financialYear)
       .subscribe((res) => {
         this.showLoader = false;
         this.setAllData(res[0]);
@@ -726,10 +729,10 @@ h6 {
 
   setAllData(data) {
     //this.setLinkPfms(data.pfmsAccounts[0]);
-    this.setDetailUtilData(data.utilizationReport[0]);
-    this.setAnnualAccount(data.annualAccountData[0]);
+    this.setDetailUtilData(data?.utilizationReport[0]);
+    this.setAnnualAccount(data?.annualAccountData[0]);
   //  if (data.isUA == "Yes")
-    this.setSlbData(data.SLBs[0]);
+    this.setSlbData(data?.SLBs[0]);
   //  if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
     this.showLoader = false;
   }

@@ -741,6 +741,7 @@
     </div>
 
     <!-- save and next -->
+    {{loggedInUserDetails.role}}
     <div class="row footerBtnDiv d-flex" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
         <div class="col-sm-6">
             <a type="button" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</a>

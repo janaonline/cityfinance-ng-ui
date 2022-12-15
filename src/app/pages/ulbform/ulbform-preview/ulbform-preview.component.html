@@ -15,16 +15,15 @@
         </div>
     </div>
     <div class="sbDate">
-        <b>ULB Submission Status:</b> {{data.submissionByUlb}}
+        <b>ULB Submission Status:</b> {{data?.submissionByUlb}}
     </div>
     <div class="sbDate">
-        <b>Latest Action Status:</b> {{data.actionInfo}}
+        <b>Latest Action Status:</b> {{data?.actionInfo}}
     </div>
     <!-- Date & Time of submission : {{ subDate | date:'medium' }} -->
     <div class="pull-right b-hide dndDiv">
         <button id="donwloadButton" style="right: 0%;
-      outline: none; margin-bottom: 10px; position: relative; z-index:4" (click)="openModal()"
-            class="btn btn-primary btn-upload">
+      outline: none; margin-bottom: 10px; position: relative; z-index:4" (click)="openModal()" class="btn btn-primary btn-upload">
             Download as PDF
         </button>
     </div>
