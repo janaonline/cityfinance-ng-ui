@@ -1,23 +1,27 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card-body" style="" *ngIf="isMillionPlus == 'No' && isUA == 'No'">
-            <div style="">
-                <span class="quesIn"><b>Do you wish to submit Details for Performance Conditions ?<span
-              style="color: red;"></span>
-                </b>
-                </span>
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="quesIn"><b>Do you wish to submit Details for Performance Conditions ?<span
+                        style="color: red;"></span>
+                    </b>
+                    </span>
+                </div>
             </div>
             <!-- <div style="margin-bottom: 2pc;"> -->
 
-            <div style="">
-                <button [disabled]="isDisabled" [ngClass]="{'btnClick': clickAnswer}" value="1" id="yes" class="btn" style="margin: 1pc 2pc; width: 8%" (click)="answer(true)">Yes</button>
-                <button [disabled]="isDisabled" [ngClass]="{'btnClick': !clickAnswer}" value="1" id="no" class="btn" style="margin: 1pc 2pc; width: 8%" (click)="answer(false)">No</button>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button [disabled]="isDisabled" [ngClass]="{'btnClick': clickAnswer}" value="1" id="yes" class="btn" (click)="answer(true)">Yes</button>
+                    <button [disabled]="isDisabled" [ngClass]="{'btnClick': !clickAnswer}" value="1" id="no" class="btn ms-3" (click)="answer(false)">No</button>
+                </div>
             </div>
             <!-- </div> -->
         </div>
     </div>
 </div>
-<div *ngIf="clickAnswer || isMillionPlus == 'Yes' || isUA == 'Yes'">
+<div class="row" *ngIf="clickAnswer || isMillionPlus == 'Yes' || isUA == 'Yes'">
     <div class="col-sm-12" style="margin-bottom: 1rem;">
         <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
             <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
@@ -46,14 +50,14 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 footerBtnDiv" *ngIf="
+    <div class="row footerBtnDiv" *ngIf="
     (loggedInUserDetails.role === USER_TYPE.STATE) ||
     (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
-    (loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
-        <div class="col-lg-6 col-md-6 col-sm-6">
+    (loggedInUserDetails.role === USER_TYPE.MoHUA)">
+        <div class="col-sm-6">
             <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true" [routerLink]="['../annual_acc']">BACK</a>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+        <div class="col-sm-6 text-end">
             <!-- <button type="button" class="btn footerBtn" id="saveDraft"
                   (click)="saveAsDraft()">SAVE AS DRAFT</button>
               -->
