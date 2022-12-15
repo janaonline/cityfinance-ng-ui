@@ -67,8 +67,8 @@
 
 </div>
 
-<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn backbtn" (click)="submitBlank()">BACK</button>
-<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn footerBtn" style="float: right;" (click)="submitBlank()">SAVE</button>
+<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</button>
+<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn footerBtn" style="float: right;" (click)="submitBlank()" [disabled]="isDisabled">SAVE</button>
 
 <ng-template #previewPopup>
     <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
