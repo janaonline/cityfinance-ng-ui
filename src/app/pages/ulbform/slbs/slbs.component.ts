@@ -94,6 +94,9 @@ export class SlbsComponent implements OnInit, OnDestroy {
       if (masterData['actionTakenByRole'] == 'ULB' && masterData['isSubmit'] == true) {
         this.isDisabled = true;
       }
+      if(this.loggedInUserDetails?.role !== USER_TYPE.ULB){
+        this.isDisabled = true;
+      }
     }
     await this.getSlbData();
 
