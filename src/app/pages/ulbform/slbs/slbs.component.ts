@@ -546,7 +546,6 @@ export class SlbsComponent implements OnInit, OnDestroy {
     }
   }
   checkStatus(ev) {
-    debugger
     this.btnSave = 'SAVE'
     sessionStorage.setItem("changeInSLB", "true");
     console.log("actionValues", ev);
