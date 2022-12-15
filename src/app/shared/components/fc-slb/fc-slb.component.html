@@ -748,7 +748,7 @@
         <div class="col-sm-6 text-end">
             <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
             <!--  -->
-            <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE</button>
+            <button type="button" class="btn footerBtn" id="saveNext" [disabled]="isDisabled" (click)="saveNext(template1)">SAVE</button>
         </div>
     </div>
 </div>
