@@ -179,11 +179,11 @@ export class PreviewSlbComponentComponent implements OnInit {
   ngOnChanges(changes : SimpleChange) {
     console.log("changes=============//>", changes);
     if(this.data?.blank == true){
-      this.blankAns = 'Yes'
+      this.blankAns = 'No'
     }else if(this.data?.blank === false ){
-      this.blankAns = 'No';
+      this.blankAns = 'Yes';
     }else {
-      this.blankAns = 'No';
+      this.blankAns = 'N/A';
     }
   }
   formStatusCheck = "";

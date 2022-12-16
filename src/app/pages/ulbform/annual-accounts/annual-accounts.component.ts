@@ -12,6 +12,7 @@ import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -331,9 +332,14 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
-    let ulbId = sessionStorage.getItem("ulb_id"),
-      takeStateAction = localStorage.getItem("takeStateAction");
+    let ulbId = sessionStorage.getItem("ulb_id")
+   // takeStateAction = localStorage.getItem("takeStateAction");
     if (ulbId != null || this.finalSubmitUtiStatus == "true") {
+      this.isDisabled = true;
+      this.provisionDisable = true
+      this.auditedDisable = true
+    }
+    if(this.userData?.role != 'ULB'){
       this.isDisabled = true;
       this.provisionDisable = true
       this.auditedDisable = true
