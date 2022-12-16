@@ -22,6 +22,15 @@
     <div style="position: relative; padding: 2% 2%" class="scrol">
         <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
 
+        <div class="row" style="margin-top: 1rem; margin-bottom: 1rem;">
+            <div class="col-sm-12">
+                <span class="quesIn" style="font-weight: normal;">Do you wish to submit Details for Performance Conditions ?<span
+                  style="color: red;">*</span>
+
+                </span>
+                <span class="quesIn" style="margin-left: 1.5rem; font-weight: normal;">{{blankAns}}</span>
+            </div>
+        </div>
         <table aria-describedby="Water Waste Management Form" class="t-tb-tr tb-th-s" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
             <thead style="color: #047474" class="tb-th-s">
                 <th style="padding: 1%" scope="col" class="tb-th-s">Service Level Indicators</th>

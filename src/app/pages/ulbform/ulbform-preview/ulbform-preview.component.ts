@@ -20,6 +20,8 @@ import { templateJitUrl } from "@angular/compiler";
 import { UlbformService } from "../ulbform.service";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-ulbform-preview",
   templateUrl: "./ulbform-preview.component.html",
@@ -410,6 +412,7 @@ h6 {
     document: {
       message: null,
     },
+    blank: null,
     millionPlusCities: {
       documents: {
         cityPlan: [],
@@ -724,7 +727,12 @@ h6 {
       .subscribe((res) => {
         this.showLoader = false;
         this.setAllData(res[0]);
-      });
+      },
+      (error)=>{
+        swal('Error', 'Somthing went wrong, please try after sometimes.', 'error');
+        this.showLoader = false;
+      }
+      );
   }
 
   setAllData(data) {
