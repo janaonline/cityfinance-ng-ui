@@ -38,35 +38,31 @@
     <div class="col-sm-12 mb-2">
         <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
     </div>
-    <div class="col-sm-12 mb-1">
-        <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
+    <div class="col-sm-12 mb-1" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
     loggedInUserType === USER_TYPE.MoHUA) &&
   (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
+        <div class="card mt-1 mb-2 p-1 box-shadow">
             <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
   (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
-            <div class="card-body">
+            <div class="card-body mb-3">
                 <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
                 </app-state-action-ulb>
             </div>
         </div>
-    </div>
-    <div class="row footerBtnDiv" *ngIf="
-    (loggedInUserDetails.role === USER_TYPE.STATE) ||
-    (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
-    (loggedInUserDetails.role === USER_TYPE.MoHUA)">
-        <div class="col-sm-6">
-            <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true" [routerLink]="['../annual_acc']">BACK</a>
-        </div>
-        <div class="col-sm-6 text-end">
-            <!-- <button type="button" class="btn footerBtn" id="saveDraft"
-                  (click)="saveAsDraft()">SAVE AS DRAFT</button>
-              -->
-            <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
-        </div>
-    </div>
 
+        <div class="row footerBtnDiv">
+            <div class="col-sm-6">
+                <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true" [routerLink]="['../annual_acc']">BACK</a>
+            </div>
+            <div class="col-sm-6 text-end">
+                <!-- <button type="button" class="btn footerBtn" id="saveDraft"
+                      (click)="saveAsDraft()">SAVE AS DRAFT</button>
+                  -->
+                <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 <button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</button>
 <button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn footerBtn" style="float: right;" (click)="submitBlank()" [disabled]="isDisabled">SAVE</button>
 
