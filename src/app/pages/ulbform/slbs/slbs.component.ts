@@ -95,6 +95,9 @@ export class SlbsComponent implements OnInit, OnDestroy {
         this.isDisabled = true;
       }
     }
+    if(this.loggedInUserDetails?.role !== USER_TYPE.ULB){
+      this.isDisabled = true;
+    }
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
@@ -162,7 +165,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
     return newForm;
   }
   statePostData;
-
+  blankDataQus = null;
   getSlbData() {
     let ulbId = sessionStorage.getItem("ulb_id");
 
@@ -170,11 +173,11 @@ export class SlbsComponent implements OnInit, OnDestroy {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
       this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
-
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
         if (res['data'].length > 0) {
+          this.blankDataQus = res['data'][0]['blank'] ? res['data'][0]['blank'] : null;
           if (res['data'][0]['blank']) {
             this.clickAnswer = false
           } else {
@@ -224,7 +227,11 @@ export class SlbsComponent implements OnInit, OnDestroy {
         console.log("slbsResppppppppp", res);
 
         resolve(res);
-      });
+      },
+      (error)=>{
+        resolve(error);
+      }
+      );
     });
 
   }
@@ -418,7 +425,8 @@ export class SlbsComponent implements OnInit, OnDestroy {
   }
   clickAnswer;
   answer(ans) {
-    this.clickAnswer = ans
+    this.clickAnswer = ans;
+    this.blankDataQus = ans;
     console.log(ans)
   }
   checkIfCompletedOrNot(value) {
@@ -465,6 +473,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
       waterManagement: this.waterWasteManagementForm.getRawValue(),
       waterPotability: this.waterPotability,
       preWater: waterValue,
+      blank: this.blankDataQus,
       isCompleted: this.isCompleted,
     };
     console.log(this.previewData);

@@ -12,6 +12,7 @@ import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -331,9 +332,14 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
-    let ulbId = sessionStorage.getItem("ulb_id"),
-      takeStateAction = localStorage.getItem("takeStateAction");
+    let ulbId = sessionStorage.getItem("ulb_id")
+   // takeStateAction = localStorage.getItem("takeStateAction");
     if (ulbId != null || this.finalSubmitUtiStatus == "true") {
+      this.isDisabled = true;
+      this.provisionDisable = true
+      this.auditedDisable = true
+    }
+    if(this.userData?.role != 'ULB'){
       this.isDisabled = true;
       this.provisionDisable = true
       this.auditedDisable = true
@@ -775,6 +781,11 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
     if (event?.target) files = event.target.files[0];
@@ -784,7 +795,7 @@ export class AnnualAccountsComponent implements OnInit {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-   let folderName = `${this.userData?.role}/${this.Years['2021-22']}/Annual-accounts/${this.userData?.ulb}`
+   let folderName = `${this.userData?.role}/2021-22/annual_accounts/${this.userData?.ulbCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;

@@ -1485,6 +1485,11 @@ export class WaterRejenuvations2223Component implements OnInit {
     console.log('pic uplaod', event);
     if (this.formDisable) return
     this.photosArray = [];
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     let file = event.target.files[0];
     let fileExtension = file.name.split(".").pop();
     if(fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg'){
@@ -1536,7 +1541,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      let folderName = `${this.userData?.role}/${this.Year['2022-23']}/water-rejenuation/${this.userData?.state}`
+      let folderName = `${this.userData?.role}/2022-23/projects_wss/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
@@ -1746,13 +1751,17 @@ export class WaterRejenuvations2223Component implements OnInit {
   }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
-    this.change = "true";
+    // sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt.nativeElement.value = "";
@@ -1773,6 +1782,8 @@ export class WaterRejenuvations2223Component implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
+      sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+      this.change = "true"
 
   }
   clearFile(type: string = '') {
@@ -1828,7 +1839,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFiles(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      let folderName = `${this.userData?.role}/${this.Year['2022-23']}/water-rejenuation/${this.userData?.state}`
+      let folderName = `${this.userData?.role}/'2022-23'/projects_wss/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];

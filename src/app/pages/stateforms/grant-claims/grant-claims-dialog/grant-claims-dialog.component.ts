@@ -207,7 +207,7 @@ li {
   uploadFile(file: File) {
     console.log(file);
     return new Promise((resolve, reject) => {
-    let folderName = `${this.userData?.role}/${this.years['2021-22']}/Claim-grants/${this.userData?.state}`
+    let folderName = `${this.userData?.role}/2021-22/submit_claims/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           console.log('s3333..', s3Response)

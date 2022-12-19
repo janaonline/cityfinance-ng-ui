@@ -13,7 +13,8 @@ import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/di
 import { SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { ISolidWasteQuestion, SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { QuestionsIdMapping, solidWasteForm } from '../configs/solid-waste-management';
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 /**
  * These are thew question ids that are mapped to files that user select and the question.
  * This will be used to unique identify each question and their respective file.
@@ -182,6 +183,7 @@ export class SolidWasteManagementComponent implements OnInit {
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
+
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
@@ -201,7 +203,11 @@ export class SolidWasteManagementComponent implements OnInit {
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-
+        let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(file);
+        if(isfileValid == false){
+          swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+           return;
+        }
         const subs = this.dataEntryService
           .newGetURLForFileUpload(file.name, file.type)
           .pipe(
