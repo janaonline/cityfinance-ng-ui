@@ -47,11 +47,13 @@
                         <div class="card cd-2" *ngFor="let item of fqCardData" style="">
                             <div class="row g-0 al-c">
                                 <div class="col-sm-3">
-                                    <img src={{item.imageurl}} class="bg-light p-3 tp-i-r" style="">
+                                    <div class="circle">
+                                        <img src={{item?.image}} class="bg-light tp-i-r-b" style="">
+                                    </div>
                                 </div>
                                 <div class="col-sm-9 text-start">
                                     <div class="card-body fq-c">
-                                        <div class="cd-2-tl">{{item.title}}</div>
+                                        <div class="cd-2-tl">{{item?.title}}</div>
                                         <div class="cd-2-dn">
                                             <!-- href="{{item?.icon_down}}" -->
                                             <a class="fq-d-t" (click)="downloadClick(item)">
@@ -242,31 +244,35 @@
         </div>
 
         <!-- salient features -->
-        <!-- <div class="w-100" style="background-color: #1E5492;">
-            <div class="container">
+        <div class="w-100" style="background-color: #1E5492;">
+            <div class="container" style="padding: 3rem 0;">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="h-p3">Salient Features </div>
+                    <div class="col-sm-12 ms-3">
+                        <div class="h-p3">Salient Features</div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="card col-sm-4" *ngFor="let data of salientresult">
-                        <div class="row justify-content-between align-items-center pt-2">
-                            <div class="col-md-8 sailent-t">
-                                <span>{{data.title}}</span>
+                <div class="row mt-4">
+                    <div class="col-sm-4" *ngFor="let data of salientresult">
+                        <div class="card ms-3">
+                            <div class="row justify-content-between align-items-center pt-2">
+                                <div class="col-md-8 sailent-t">
+                                    <span>{{data.title}}</span>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
+                            <div class="card-body salient-p">
+                                <p class="card-text" [innerHTML]="data.text"></p>
                             </div>
                         </div>
-                        <div class="card-body salient-p">
-                            <p class="card-text" [innerHTML]="data.text"></p>
-                        </div>
+
                     </div>
                 </div>
             </div>
-        </div> -->
-
+        </div>
+        <!--
         <div class="fluid cards-loop3 p-4 mt-5 mb-5">
             <div class="row d-flex justify-content-center justify-content-between pt-4 pb-4">
                 <div class="col-sm-12">
@@ -286,7 +292,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Ranking -->
         <div class="fluid mt-5 mb-5">

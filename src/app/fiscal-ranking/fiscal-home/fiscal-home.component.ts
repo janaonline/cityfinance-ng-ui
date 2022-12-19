@@ -140,35 +140,34 @@ export class FiscalHomeComponent implements OnInit {
   // },
   // ]
   fqCardData= [
-
     {
-      image : "../../../assets/M FIGMA/online-library 1.png",
+      image : "../../../assets/M FIGMA/draftIcon.png",
       title: "Draft Guidelines",
       text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
        comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
        before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
        considering the feedback received.`,
-      url: `https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/606aafb14dff55e6c075d3ae/fiscalRanking/5fa2465e072dab780a6f109c/City%20Finance%20Rankings%202022_Guidelines_c3363df4-5cea-4117-a57e-241de2272dd3.pdf`,
+      url: `https://democityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_Guidelines_bfbcc3a6-15a6-4a23-b21f-63590a514c4b.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
       key: 'draftGuidelines'
      },
      {
-      image : "../../../assets/M FIGMA/collection 1.png",
+      image : "../../../assets/M FIGMA/faqIcon.png",
       title: "FAQ",
       text: "",
-      url: `https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/606aafb14dff55e6c075d3ae/fiscalRanking/5fa2465e072dab780a6f109c/City%20Finance%20Rankings%202022_FAQs_ecde3f30-ec0e-4975-afb8-cc0930e11c2e.pdf`,
+      url: `https://democityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_FAQs_ee0abc57-8114-4fa2-9d58-b444adf6bf64.pdf`,
       isModal: false,
       icon_down: '',
       section: 'download_file',
       key: 'faq'
      },
      {
-      image : "../../../assets/M FIGMA/medal 1.png",
+      image : "../../../assets/M FIGMA/brochIcon.png",
       title: "Brochure",
       text: "",
-      url: '',
+      url: 'https://democityfinance.s3.ap-south-1.amazonaws.com/Cityfinance%20Brochure_12f6679f-129b-43b5-ab47-2b7304cc36df.pdf',
       isModal: false,
       icon_down: '',
       section: 'download_file',

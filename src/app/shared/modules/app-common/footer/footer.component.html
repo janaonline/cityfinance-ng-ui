@@ -60,11 +60,11 @@
         </h6>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-        <h6 class="info-dir foot-links">
-          Director, AMRUT <br />
+        <h6 class="info-dir foot-links" [innerHtml]="address">
+          <!-- Director, AMRUT <br />
           Ministry of Housing and Urban Affairs <br />
           210 C, Nirman Bhawan, Maulana Azad Road <br />
-          New Delhi-110011
+          New Delhi-110011 -->
         </h6>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 email-sec">
@@ -72,9 +72,11 @@
           Email: <br />
           <a
             class="foot-links"
-            href="mailto:contact@cityfinance.in"
+            href="{{mailId}}"
             style="color: #ff9922"
-            >contact@cityfinance.in</a
+            >{{mailLabel}}
+            <!-- contact@cityfinance.in -->
+            </a
           >
         </h4>
         <br />
