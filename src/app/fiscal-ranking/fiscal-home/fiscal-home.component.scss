@@ -57,28 +57,29 @@
     padding: 10px 18px;
 }
 
-.li1 i {
-    border-radius: 70rem;
-    font-size: 25px;
+.li1 {
+    display: inline-flex;
+    width: 15%;
 }
 
 .icon-t {
     font-family: 'Manrope';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 33px;
+    font-size: 17px;
+    font-weight: normal;
+    // line-height: 21px;
+    // line-height: 33px;
     color: #FFFFFF;
 }
 
 .icon-p {
     font-family: 'Manrope';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 33px;
+    font-size: 18px;
     color: #FFFFFF;
-    text-align: start;
+    font-weight: 600;
+    float: left;
+    //  text-align: start;
 }
 
 .title-m-h {
@@ -111,7 +112,7 @@
 }
 
 .cont {
-    margin-top: 3.5rem;
+    margin-top: 7rem;
     margin-bottom: 3rem;
 }
 
@@ -206,7 +207,6 @@
     font-size: 36px;
     line-height: 60px;
     color: #FFFFFF;
-    padding-left: 10rem;
 }
 
 .h-p4 {
@@ -372,7 +372,8 @@
 }
 
 .CardHover {
-    height: 155px;
+    height: 195px;
+    padding: 0.5rem 0;
     .HidePara {
         display: none;
     }
@@ -412,7 +413,7 @@
 
 .header-Pos-ic {
     position: absolute;
-    bottom: 1.5rem;
+    bottom: -3rem;
     margin: auto;
     width: 100%;
 }
@@ -427,7 +428,10 @@
     text-align: center;
 }
 
-.m-img {}
+.m-img {
+    width: 100%;
+    height: 170px;
+}
 
 .a-i-c {
     align-items: center;
@@ -492,4 +496,58 @@
 .h-c-s {
     height: 23rem;
     width: 95%;
+}
+
+.tp-i-r {
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid blue;
+}
+
+.tp-i-r-b {
+    height: 60px;
+    border-radius: 50%;
+}
+
+.cd-2 {
+    width: 15rem;
+    margin: 1rem;
+    font-family: 'Manrope' !important;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+}
+
+.fq-c {
+    padding: 1rem 0.5rem;
+    font-family: 'Manrope';
+}
+
+.al-c {
+    align-items: center;
+}
+
+.fq-d-t {
+    color: #E67E15;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.cd-2-tl {
+    font-family: 'Manrope';
+    font-weight: 700;
+    font-size: 19px;
+    color: #565656;
+}
+
+.d-i {
+    color: #E67E15;
+}
+
+.wd-4 {
+    width: 38%;
+}
+
+.wd-6 {
+    width: 60%;
 }

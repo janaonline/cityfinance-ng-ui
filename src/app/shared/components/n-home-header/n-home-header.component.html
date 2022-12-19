@@ -67,9 +67,9 @@
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn">
+                    <!-- <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/fiscal/ulb-form">Fiscal Ranking</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
@@ -97,8 +97,8 @@
                   </button>
                     <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
                         <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">15th FC Grant</a></li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li>
+                        <!-- <hr class="m-0">
+                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li> -->
                     </ul>
                 </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">

@@ -1,0 +1,57 @@
+.cd-2 {
+    font-family: 'Manrope' !important;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+}
+
+.al-c {
+    align-items: center;
+}
+
+.fq-d-t {
+    color: #E67E15;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.cd-2-tl {
+    font-family: 'Manrope';
+    font-weight: 700;
+    font-size: 19px;
+    color: #565656;
+}
+
+.d-i {
+    color: #E67E15;
+}
+
+.btn-pr {
+    background-color: #E67E15;
+    color: #FFFFFF;
+}
+
+.tp-i-r {
+    height: 65px;
+    border-radius: 50%;
+    //border: 1px solid blue;
+}
+
+.popW {
+    width: 30rem;
+}
+
+.details {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+}
+
+::ng-deep .mailId,
+::ng-deep .clr {
+    color: #E67E15;
+    display: inline-block;
+    position: relative;
+}
