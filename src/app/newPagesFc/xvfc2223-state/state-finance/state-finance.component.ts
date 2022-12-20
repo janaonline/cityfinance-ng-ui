@@ -8,7 +8,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 import { StateFinancePreviewComponent } from './state-finance-preview/state-finance-preview.component';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
-import { I } from '@angular/cdk/keycodes';
+
 @Component({
   selector: 'app-state-finance',
   templateUrl: './state-finance.component.html',

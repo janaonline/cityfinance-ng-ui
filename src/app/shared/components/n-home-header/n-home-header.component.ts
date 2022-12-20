@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from "@angular/core";
 import { NavigationEnd, Router, Event } from "@angular/router";
 import { UserUtility } from "src/app/util/user/user";
 import { Login_Logout } from "src/app/util/logout.util";
@@ -136,5 +136,23 @@ export class NHomeHeaderComponent implements OnInit {
       this.removeSessionItem();
       this._router.navigateByUrl("/home");
     }
+  }
+  isSticky = false;
+  public screenHeight: any;
+  elementPosition;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+  ngAfterViewInit() {
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+  @HostListener('window:scroll', ['$event'])
+  handleScrollTop() {
+    const windowScroll = window.pageYOffset;
+   // console.log('topppppp', );
+    if (window.pageYOffset >= this.elementPosition) {
+      this.isSticky = true;
+    }else{
+      this.isSticky = false;
+    }
+
   }
 }

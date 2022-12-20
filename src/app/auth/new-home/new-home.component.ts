@@ -23,7 +23,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     elem.createdAt = elem.createdAt.split("T")[0]
     return elem
     })
-    console.log("response", response)
+  //  console.log("response", response)
     this.whatNewData = response
 }, (err: any) => {
   this.whatNewData = []
@@ -145,7 +145,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     .subscribe(value => {
       if(value.length >= 1){
         this._commonService.postGlobalSearchData(value,"", "").subscribe((res: any) => {
-          console.log(res?.data);
+      //    console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
           if(res?.data.length > 0 ){
@@ -162,7 +162,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
               id: '',
               type: '',
             }
-            console.log('no data found')
+          //  console.log('no data found')
           }
         });
       }
@@ -176,7 +176,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
   loadRecentSearchValue() {
     this._commonService.getRecentSearchValue().subscribe((res:any)=>{
-     console.log('recent search value', res);
+   //  console.log('recent search value', res);
 
     //  for(let i=0; i<3; i++){
     //    let obj = {
@@ -188,21 +188,21 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
 
     //  }
     this.recentSearchArray = res?.data;
-     console.log('ser array', this.recentSearchArray)
+    // console.log('ser array', this.recentSearchArray)
 
     },
     (error)=> {
-      console.log('recent search error', error)
+   //   console.log('recent search error', error)
     }
     )
   }
   globalSearchClick(){
-    console.log('filterOptions', this.filteredOptions)
-    console.log('form control', this.globalFormControl.value)
+  //  console.log('filterOptions', this.filteredOptions)
+  //  console.log('form control', this.globalFormControl.value)
     let searchArray:any = this.filteredOptions;
     let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
-    console.log(searchValue);
-    
+  //  console.log(searchValue);
+
 
     if(!searchValue || searchValue?.type == "keyWord"){
       this._commonService.updateSearchItem(this.globalFormControl.value);
@@ -212,7 +212,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
       }
     this.dashboardNav(option);
     }
-    
+
     // let postBody = {
     //   type: searchValue.type,
     //   searchKeyword: searchValue._id
@@ -221,13 +221,13 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     let type = searchValue?.type;
     this.checkType(type);
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
-       console.log('serach res', res)
-      
-   
-       
+   //    console.log('serach res', res)
+
+
+
     },
     (error)=>{
-      console.log(error)
+   //   console.log(error)
     });
     let  option = {
       type: searchValue.type,
@@ -259,16 +259,16 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
    }
   }
   dashboardNav(option) {
-    console.log('option', option)
+    //console.log('option', option)
     this.checkType(option);
     if(option.type != "searchKeyword")
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
-      console.log('serach res', res)
+     // console.log('serach res', res)
    },
    (error)=>{
-     console.log(error)
+    // console.log(error)
    });
-    console.log('option', option)
+    //console.log('option', option)
 
     if(option?.type == 'state'){
       this.getYears(option);
@@ -336,25 +336,25 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
   }
 
   slickInit(e) {
-    console.log('slick initialized');
+    //console.log('slick initialized');
   }
 
   breakpoint(e) {
-    console.log('breakpoint');
+ //   console.log('breakpoint');
   }
 
   afterChange(e) {
-    console.log('afterChange');
+  //  console.log('afterChange');
   }
 
   beforeChange(e) {
-    console.log('beforeChange');
+  //  console.log('beforeChange');
   }
   getYears(searchStateId: any) {
     const paramContent: any = {
       "state": searchStateId._id
     };
-    console.log('paramContent', paramContent)
+   // console.log('paramContent', paramContent)
     let financialYearList: any = [];
     let promise = new Promise((resolve, reject) => {
       this._commonService.getStateWiseFYs(paramContent).subscribe((res: any) => {
@@ -367,7 +367,7 @@ this.resourceDashboard.getPdfData(this.pdfInput).subscribe((res: any)=> {
     });
     financialYearList.push(promise);
     Promise.all(financialYearList).then(value => {
-      console.log('financialYearList', value);
+     // console.log('financialYearList', value);
       let yearList = value && value.length ? value[0] : [];
       this.stopNavigation = yearList
       sessionStorage.setItem('financialYearList', JSON.stringify(yearList));

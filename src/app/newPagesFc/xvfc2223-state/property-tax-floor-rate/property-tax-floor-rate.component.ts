@@ -20,6 +20,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   @ViewChild("ipt") ipt: any;
   @ViewChild("ipt2") ipt2: any;
   @ViewChild("ipt3") ipt3: any;
+  @ViewChild("ipt4") ipt4: any;
   alertError =
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
@@ -47,6 +48,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   isDisabled:boolean = false;
   dialogRef;
   stateActFileUrl;
+  extantActDocFileName;
+  showextantActDocFile;
+  extantActDocFileUrl;
+  extantActDocError;
   // isDisabled:boolean =false
   previewFormData:any;
   @ViewChild("templateSave") template;
@@ -110,6 +115,12 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         url: ["", Validators.required],
         name: ["", Validators.required],
       }),
+      actMunicipal: ["", Validators.required],
+      extantAct: ["", [Validators.required, Validators.maxLength(1000)]],
+      extantActDoc: this.formBuilder.group({
+        url: ["", Validators.required],
+        name: ["", Validators.required],
+      }),
     });
   }
 
@@ -154,6 +165,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.rulesLawsFileName = data?.data?.comManual?.name;
     this.ruleUrl = data?.data?.floorRate?.url;
     this.rulesLawsFileName ? this.showRulesLaws = true : false;
+    this.extantActDocFileName = data?.data?.extantActDoc?.name;
+    this.extantActDocFileUrl = data?.data?.extantActDoc?.url;
+    this.showextantActDocFile = data?.data?.extantActDoc?.url ? true : false
 
     this.propertyForm.patchValue({
       actPage: data?.data?.actPage,
@@ -171,7 +185,13 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         url: data?.data?.stateNotification?.url,
         name: data?.data?.stateNotification?.name,
       },
-        });
+      actMunicipal: data?.data?.actMunicipal,
+      extantAct: data?.data?.extantAct,
+      extantActDoc: {
+        url: data?.data?.extantActDoc?.url,
+        name: data?.data?.extantActDoc?.name,
+      },
+  });
 
   }
   alertFormFinalSubmit() {
@@ -345,6 +365,15 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         return;
       }
     }
+    if(progessType == 'extantActDoc'){
+      if (event.target.files[0].size >= 15000000) {
+        this.ipt4.nativeElement.value = "";
+        this.errorMessegeOther = 'File size should be less than 15Mb.'
+        this.propertyForm.controls.extantActDoc.reset();
+        swal('Error', 'File size should be less than 15Mb.', 'error')
+        return;
+      }
+    }
       const fileName = event.target.files[0].name;
       if(progessType == 'rulesByLawsProgress'){
         this.rulesLawsFileName = event.target.files[0].name;
@@ -357,6 +386,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
+      }
+      if (progessType == 'extantActDoc') {
+        this.extantActDocFileName = event.target.files[0].name;
+        this.showextantActDocFile = true;
       }
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected,progessType));
@@ -384,7 +417,19 @@ export class PropertyTaxFloorRateComponent implements OnInit {
           name: ''
        }
       });
-    }else{
+    } else if (type =='extantActDoc'){
+      this.ipt4.nativeElement.value = "";
+      this.showextantActDocFile = false;
+      this.extantActDocFileName = '';
+      this.extantActDocFileUrl = ''
+      this.propertyForm.patchValue({
+        extantActDoc:{
+          url: '',
+          name: ''
+       }
+      });
+    }
+    else{
       this.showStateAct = false;
       this.ipt.nativeElement.value = "";
       this.stateActFileName = ''
@@ -414,6 +459,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         }
         if(progessType == 'rulesByLawsProgress'){
           this.showRulesLaws = false
+        }
+        if(progessType == 'extantActDoc'){
+          this.showextantActDocFile = false
         }
         swal("Only PDF File can be Uploaded.")
         return;
@@ -517,6 +565,14 @@ export class PropertyTaxFloorRateComponent implements OnInit {
               console.log(file)
               console.log(s3URL)
             }
+            if (progressType == 'extantActDoc') {
+              this.extantActDocFileUrl = fileAlias;
+             // this.ruleUrl = this.rulesLawsUrl
+              this.propertyForm.get('extantActDoc').patchValue({
+                url: fileAlias,
+                name: file.name
+              })
+          }
 
           }
         },
@@ -716,5 +772,40 @@ export class PropertyTaxFloorRateComponent implements OnInit {
         }
       });
     }
+  }
+  numberLimitV(e, input) {
+    // console.log("sss", e, input);
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (+newValue > 99 || +newValue < 1) {
+      e.preventDefault();
+    }
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
 }

@@ -153,12 +153,10 @@
     th {
         color: #047474;
     }
-
     .population {
         width: 11rem;
         margin-left: 2%;
     }
-
     .non-ulb-view-table {
         // width: 115%;
         // transform: translateX(-7%);
@@ -341,7 +339,12 @@ td {
     // width: 100%;
 }
 
-.next-btn{
+.next-btn {
     margin-left: -103px !important;
     position: absolute;
+}
+
+.mr-t {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
 }
