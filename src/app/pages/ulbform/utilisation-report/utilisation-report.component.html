@@ -89,7 +89,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 pointer-events-none">
                         <input disabled="true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)"
                             formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&

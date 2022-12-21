@@ -500,8 +500,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
       name: data.name,
       designation: data.designation,
       grantPosition: {
-        unUtilizedPrevYr: data.grantPosition.unUtilizedPrevYr,
-        receivedDuringYr: data.grantPosition.receivedDuringYr,
+        unUtilizedPrevYr: (data.grantPosition.unUtilizedPrevYr || data.grantPosition.unUtilizedPrevYr === 0) ? data.grantPosition.unUtilizedPrevYr : null,
+        receivedDuringYr: data.grantPosition.receivedDuringY,
         expDuringYr: data.grantPosition.expDuringYr,
         closingBal: data.grantPosition.closingBal,
       },
@@ -537,7 +537,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: new FormControl(0, Validators.required),
+        unUtilizedPrevYr: [{value: 0, isDisabled: true}],
         receivedDuringYr: new FormControl(0, Validators.required),
         expDuringYr: new FormControl(0, Validators.required),
         closingBal: [],
