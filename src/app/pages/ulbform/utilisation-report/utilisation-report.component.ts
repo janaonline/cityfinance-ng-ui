@@ -537,7 +537,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: [{value: 0, isDisabled: true}],
+        unUtilizedPrevYr: new FormControl(0, Validators.required) ,
         receivedDuringYr: new FormControl(0, Validators.required),
         expDuringYr: new FormControl(0, Validators.required),
         closingBal: [],
