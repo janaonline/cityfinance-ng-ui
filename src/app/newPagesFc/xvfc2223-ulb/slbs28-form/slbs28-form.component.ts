@@ -314,7 +314,8 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   formId = '';
   slbFormData;
   formShow;
-  showMess = ''
+  showMess = '';
+  preSLBDataNotFilled;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
@@ -324,7 +325,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       }else {
         this.formShow = false;
       }
-
+      this.preSLBDataNotFilled = res?.slbDataNotFilled;
      if(this.formShow == false){
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
@@ -343,8 +344,13 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
             el["targetDisable"] = true;
             this.isDisabled = true;
           } else if (this.ulbData?.role == "ULB" && this.slbFormData?.status === "REJECTED") {
-            el["actualDisable"] = false;
-            el["targetDisable"] = false;
+            if(this.preSLBDataNotFilled){
+              el["actualDisable"] = false;
+              el["targetDisable"] = false;
+            }else{
+              el["actualDisable"] = false;
+              el["targetDisable"] = el["targetDisable"] ? el["targetDisable"] : false;
+            }
             this.isDisabled = false;
           }
           let rangeArr = el["range"].split("-");
