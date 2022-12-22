@@ -316,6 +316,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   formShow;
   showMess = '';
   preSLBDataNotFilled;
+  isloadingComplte = false;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
@@ -326,6 +327,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         this.formShow = false;
       }
       this.preSLBDataNotFilled = res?.slbDataNotFilled;
+      this.isloadingComplte = true;
      if(this.formShow == false){
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
@@ -363,7 +365,8 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
      }
     },
     (error)=>{
-
+      this.isloadingComplte = false;
+      swal('Error', "Network issues, please try after some times.", "error");
     }
     );
   }
