@@ -253,11 +253,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   }
   utiData;
   canTakeAction = false;
+  isloadingComplte = false;
   getUtiReport() {
     this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
         this.utiData = res?.data;
+        this.isloadingComplte = true;
         this.analytics = res["analytics"];
         this.action = res?.data["action"];
         this.url = res?.data["url"];
@@ -299,6 +301,8 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log("error", error);
+        swal('Error', "Network issues, please try after some times.", "error");
+        this.isloadingComplte = false;
       }
     );
   }
