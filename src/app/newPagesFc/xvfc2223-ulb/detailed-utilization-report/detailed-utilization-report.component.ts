@@ -253,11 +253,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   }
   utiData;
   canTakeAction = false;
+  isloadingComplte = false;
   getUtiReport() {
     this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
         this.utiData = res?.data;
+        this.isloadingComplte = true;
         this.analytics = res["analytics"];
         this.action = res?.data["action"];
         this.url = res?.data["url"];
@@ -299,6 +301,33 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log("error", error);
+        swal(
+          "Error !",
+          `Slow internet connection, please refresh and try again`,
+          "error",
+          {
+            buttons: {
+              Submit: {
+                text: "Refresh now",
+                value: "refresh_now",
+              },
+              Cancel: {
+                text: "Cancel",
+                value: "cancel",
+              },
+            },
+          }
+        ).then((value) => {
+          switch (value) {
+            case "refresh_now":
+              this.onLoad();
+              break;
+            case "cancel":
+              break;
+          }
+        });
+      //  swal('Error', "Slow internet connection, please refresh and try again", "error");
+        this.isloadingComplte = false;
       }
     );
   }
