@@ -319,7 +319,8 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   isloadingComplte = false;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
-    this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
+    this.newCommonService.get28SlbsData(this.ulbId).subscribe(
+      (res: any) => {
       if(res?.show){
         this.formShow = res?.show;
         this.showMess = res?.message;
@@ -364,9 +365,35 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       console.log("After processing Range -", this.formData);
      }
     },
-    (error)=>{
+    (error) => {
+      console.log('error', error);
       this.isloadingComplte = false;
-      swal('Error', "Network issues, please try after some times.", "error");
+      // swal('Error', "Network issues, please try after some times.", "error");
+      swal(
+        "Error !",
+        `Slow internet connection, please refresh and try again`,
+        "error",
+        {
+          buttons: {
+            Submit: {
+              text: "Refresh now",
+              value: "refresh_now",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "refresh_now":
+            this.onLoad();
+            break;
+          case "cancel":
+            break;
+        }
+      });
     }
     );
   }

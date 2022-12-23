@@ -301,7 +301,32 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log("error", error);
-        swal('Error', "Network issues, please try after some times.", "error");
+        swal(
+          "Error !",
+          `Slow internet connection, please refresh and try again`,
+          "error",
+          {
+            buttons: {
+              Submit: {
+                text: "Refresh now",
+                value: "refresh_now",
+              },
+              Cancel: {
+                text: "Cancel",
+                value: "cancel",
+              },
+            },
+          }
+        ).then((value) => {
+          switch (value) {
+            case "refresh_now":
+              this.onLoad();
+              break;
+            case "cancel":
+              break;
+          }
+        });
+      //  swal('Error', "Slow internet connection, please refresh and try again", "error");
         this.isloadingComplte = false;
       }
     );
