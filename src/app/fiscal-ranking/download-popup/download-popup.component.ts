@@ -22,7 +22,7 @@ export class DownloadPopupComponent implements OnInit {
     const link = this.renderer.createElement('a');
       link.setAttribute('target', '_blank');
       link.setAttribute('href', `${url}`);
-      link.setAttribute('download', `CityFinance_Ranking_2022_${this.data?.key}.pdf`);
+      link.setAttribute('download', `City Finance Rankings 2022_Draft Guidelines.pdf`);
       link.click();
       link.remove();
   }

@@ -354,7 +354,7 @@
     font-weight: 800;
     font-size: 36px;
     line-height: 60px;
-    text-align: center;
+    //  text-align: center;
     color: #101010;
 }
 
@@ -367,12 +367,27 @@
     color: #565656;
 }
 
+.lst-d {
+    background-color: #F7F7F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.HidePara {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #565656;
+}
+
 .ShowDetails {
     margin-top: 1.5rem;
 }
 
 .CardHover {
-    height: 195px;
+    height: 199px;
     padding: 0.5rem 0;
     .HidePara {
         display: none;
@@ -386,7 +401,7 @@
     .HidePara {
         transition-duration: 0.5s;
         display: inline-block;
-        margin-top: 1rem;
+        // margin-top: 1rem;
     }
 }
 
@@ -413,7 +428,7 @@
 
 .header-Pos-ic {
     position: absolute;
-    bottom: -3rem;
+    bottom: -4rem;
     margin: auto;
     width: 100%;
 }
@@ -423,14 +438,19 @@
 }
 
 .h-pos {
-    width: 70%;
+    width: 50%;
     margin: auto;
     text-align: center;
 }
 
-.m-img {
+.pm-img {
     width: 100%;
     height: 170px;
+}
+
+.m-img {
+    width: 100%;
+    height: 175px;
 }
 
 .a-i-c {
@@ -470,7 +490,8 @@
 
 .r-icon {
     border-radius: 50rem;
-    border: 1px solid #d7d4d4;
+    border: 1px solid #F5F5F5;
+    background: #F5F5F5;
 }
 
 .btn-read {
@@ -505,13 +526,14 @@
 }
 
 .tp-i-r-b {
-    height: 60px;
+    height: 65px;
     border-radius: 50%;
 }
 
 .cd-2 {
-    width: 15rem;
-    margin: 1rem;
+    width: 256px;
+    height: 102px;
+    margin: 1.5rem;
     font-family: 'Manrope' !important;
     background: #FFFFFF;
     box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
@@ -565,10 +587,31 @@
 
 .f {
     color: #1E5492;
-    
 }
 
 .cf {
     font-size: 40px;
     font-weight: 500;
+}
+
+.header-Pos-btm {
+    position: absolute;
+    bottom: 5.5rem;
+    margin: auto;
+    width: 100%;
+}
+
+.btm-h-t {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 31px;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.circle {
+    padding-left: 0.75rem;
 }
