@@ -108,11 +108,16 @@
 
 .cards-loop2 {
     background-color: #2668AC;
-    height: 525px;
+    // height: 525px;
 }
 
 .cont {
     margin-top: 7rem;
+    margin-bottom: 4rem;
+}
+
+.mr-t-b {
+    margin-top: 3rem;
     margin-bottom: 3rem;
 }
 
@@ -237,7 +242,12 @@
     font-size: 20px;
     line-height: 27px;
     color: #101010;
-    padding-left: 8% !important;
+    //  padding-left: 8% !important;
+}
+
+.cd-sl {
+    box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
 }
 
 .salient-p {
@@ -365,6 +375,7 @@
     font-size: 18px;
     line-height: 31px;
     color: #565656;
+    margin-top: 1.25rem;
 }
 
 .lst-d {
@@ -417,6 +428,7 @@
     color: #ff8a00;
     padding: 7px 25px;
     background-color: #fff;
+    margin-top: 2rem;
 }
 
 .header-Pos {
@@ -515,8 +527,14 @@
 }
 
 .h-c-s {
-    height: 23rem;
-    width: 95%;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+}
+
+.pd25 {
+    padding: 2.5rem 0;
 }
 
 .tp-i-r {
@@ -575,8 +593,13 @@
 }
 
 .initiative {
-    font-size: 15px;
-    font-weight: 500;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    text-align: center;
     color: #808080;
 }
 
