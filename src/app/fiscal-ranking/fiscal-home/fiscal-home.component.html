@@ -142,7 +142,7 @@
             </div>
         </div>
         <!-- cards4-loop -->
-        <div class="container mt-5 mb-5">
+        <div class="container mr-t-b">
             <!-- heading-->
             <div class="h-p justify-content-center text-center">
                 <div class="heading-obj">
@@ -169,28 +169,36 @@
             </div>
         </div>
         <!-- cards3-loop -->
-        <div class="container-fluid cards-loop2 m-0 p-0">
-            <div class="container mt-2 mb-2 pt-2">
+        <div class="container-fluid cards-loop2 mr-t-b">
+            <div class="container mt-2 mb-2 pd25">
                 <div class="row assessment-h pt-3 pb-3 g-0">
                     <div class="col-sm-12">Assessment Parameters</div>
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-4 col-lg-4 col-sm-4 py-3 " *ngFor="let data of assresult; let ind= index">
                         <div class="card shadow h-c-s" *ngIf="!data.bakePage">
-                            <img src={{data.imageurl}} class="card-img-top mt-5" style="height:90px; width:100px; margin-left: 7%;">
-                            <div class="card-body mt-3">
-                                <span class="title-assess">{{data.title}}</span>
-                                <p class="card-text p-assess" [innerHTML]="truncateChar(data.text)"></p>
-
-                                <div class="mt-3">
-                                    <a class="btn-read" (click)="readMore(data, ind)">
-                                  Read More
-                                </a>
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <img src={{data.imageurl}} class="card-img-top" style="height:113px; width:113px;">
+                                    </div>
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="title-assess">{{data.title}}</div>
+                                    </div>
+                                    <div class="col-sm-12 mt-3">
+                                        <div class="p-assess" [innerHTML]="truncateChar(data.text)">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 mt-3">
+                                        <a class="btn-read" (click)="readMore(data, ind)">
+                                    Read More
+                                  </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card shadow h-c-s" style="justify-content: center;" *ngIf="data.bakePage">
-                            <div class="card-body ">
+                            <div class="card-body p-4">
                                 <a class="btn-read" (click)="readLess(data, ind)">
                                     <img src="../../../assets/circle/west_black_24dp.svg" alt="">
                                 </a>
@@ -206,13 +214,13 @@
             </div>
         </div>
         <!-- image and ULB -->
-        <div class="container-fluid mt-4 mb-4" #highlightContainer>
+        <div class="container-fluid mr-t-b" #highlightContainer>
             <div class="h-p2 text-center">
                 <h2 style="" class="h-sl">How it works</h2>
                 <!-- <p>The end-to-end processes of the national city finance rankings 2022, involving data <br> collection,
               review and approval, as well as computation of scores and ranks.</p> -->
             </div>
-            <div class="row d-flex justify-content-center align-items-center mt-4 g-0">
+            <div class="row d-flex justify-content-center align-items-center mt-4 g-0 mb-4">
                 <div class="img-ulb col-md-5">
                     <img src="../../../assets/M FIGMA/travel-nomades-8W-iJDxE96k-unsplash 1.png" class="rounded">
                 </div>
@@ -242,7 +250,7 @@
             </div>
         </div>
         <!-- salient features -->
-        <div class="w-100" style="background-color: #1E5492;">
+        <div class="w-100 mr-t-b" style="background-color: #1E5492;">
             <div class="container" style="padding: 3rem 0;">
                 <div class="row g-0">
                     <div class="col-sm-12 ms-3">
@@ -251,18 +259,22 @@
                 </div>
                 <div class="row mt-4 g-0">
                     <div class="col-sm-4" *ngFor="let data of salientresult">
-                        <div class="card ms-3">
-                            <div class="row justify-content-between align-items-center pt-2">
-                                <div class="col-md-8 sailent-t">
-                                    <span>{{data.title}}</span>
-                                </div>
-                                <div class="col-md-3">
-
-                                    <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
-                                </div>
-                            </div>
+                        <div class="card ms-3 cd-sl">
                             <div class="card-body salient-p">
-                                <p class="card-text" [innerHTML]="data.text"></p>
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-md-9 sailent-t">
+                                        <span>{{data.title}}</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src={{data.imageurl}} class="card-img-top img-fluid" style="height: 60px; width: 60px;">
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-sm-12">
+                                        <div class="" [innerHTML]="data.text"></div>
+                                    </div>
+                                </div>
+                                <!-- <p class="card-text" ></p> -->
                             </div>
                         </div>
 
@@ -273,7 +285,7 @@
 
 
         <!-- Ranking -->
-        <div class="fluid mt-5 mb-5" style="padding: 3rem;">
+        <div class="fluid mr-t-b p-3">
             <div class="h-p4 justify-content-center text-center mb-3">
                 <span>Ranking Categories </span>
             </div>
@@ -287,7 +299,7 @@
             </div>
         </div>
 
-        <div class="mt-5">
+        <div class="mr-t-b mb-4">
             <div class="row d-flex justify-content-center m-0 p-0 g-0">
                 <div class="col-md-6 lst-d" style="">
                     <div class="p-5">
@@ -303,7 +315,7 @@
                             The City Finance platform serves as a national framework of standardized, timely and credible financial information on India’s cities (urban local bodies).<br> The platform hosts more than 8,400 audited annual accounts of nearly
                             3,000 municipalities (ULBs) in a standardized and comparable format.
                         </div>
-                        <a class="btn btn-exp mt-4" href="https://cityfinance.in/home" target="_blank" style="">Explore</a>
+                        <a class="btn btn-exp" href="https://cityfinance.in/home" target="_blank" style="">Explore</a>
                     </div>
                 </div>
 
@@ -313,13 +325,13 @@
             </div>
         </div>
 
-        <div class="fluid mt-5">
+        <div class="fluid mt-3 mb-3">
             <div class="row d-flex text-center g-0">
-                <div class="col-12">
-                    <p class="initiative">An Initiative by
+                <div class="col-sm-12">
+                    <div class="initiative">An Initiative by
                         <img src="../../../assets/M FIGMA/GOI.png" alt="" class="m-3"> supported by its knowledge partner
                         <img src="../../../assets/M FIGMA/janagraha 1.png" alt="" class="m-3">
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
