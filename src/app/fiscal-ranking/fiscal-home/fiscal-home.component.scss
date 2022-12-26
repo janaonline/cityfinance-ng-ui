@@ -263,6 +263,17 @@
 .autoplay-items {
     margin: 0;
     padding: 0;
+    position: relative;
+
+    &::before{
+        content: '';
+        height: 100%;
+        width: 1px;
+        border: 1px dashed #c0e2ff;
+        position: absolute;
+        left: 15px;
+        top: 32px;
+    }
     & li {
         list-style: none;
         position: relative;
@@ -322,7 +333,8 @@
         }
         &:last-child {
             &::before {
-                display: none;
+                height: 100%;
+                background: #fff;
             }
         }
     }
