@@ -1,4 +1,4 @@
-.cd-2 {
+::ng-deep .mat-dialog-container {
     font-family: 'Manrope' !important;
     background: #FFFFFF;
     box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
@@ -39,12 +39,16 @@
 
 .popW {
     width: 30rem;
+    // font-family: 'Manrope' !important;
+    // background: #FFFFFF;
+    // box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    // border-radius: 15px;
 }
 
 .details {
     font-family: 'Manrope';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 14px;
     line-height: 19px;
     color: #000000;
