@@ -18,13 +18,15 @@ export class DownloadPopupComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  simpleDownload(url){
+   async simpleDownload(url){
     const link = this.renderer.createElement('a');
       link.setAttribute('target', '_blank');
       link.setAttribute('href', `${url}`);
-      link.setAttribute('download', `City Finance Rankings 2022_Draft Guidelines.pdf`);
+      link.setAttribute('download', 'City Finance Rankings 2022_Draft Guidelines.pdf');
+    //  link.download = `City Finance Rankings 2022_Draft Guidelines.pdf`
       link.click();
       link.remove();
+
   }
   closeDia(){
     this.dialog.closeAll();

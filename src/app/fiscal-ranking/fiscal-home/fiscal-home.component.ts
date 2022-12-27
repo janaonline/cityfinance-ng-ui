@@ -62,7 +62,7 @@ export class FiscalHomeComponent implements OnInit {
 
   fqCardData= [
     {
-      image : "../../../assets/M FIGMA/draftIcon.png",
+      image : "../../../assets/M FIGMA/newDraft.png",
       title: "Draft Guidelines",
       text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
        comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
@@ -85,7 +85,7 @@ export class FiscalHomeComponent implements OnInit {
     //   key: 'faq'
     //  },
      {
-      image : "../../../assets/M FIGMA/brochIcon.png",
+      image : "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
       url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_Brochure_12fb3ede-e2cd-4756-92ec-0fca129a9109.pdf',
@@ -136,6 +136,9 @@ export class FiscalHomeComponent implements OnInit {
       console.log("this myu data======>", data.data)
       this.setDisplayItem()
     })
+
+    console.log('file..banner', this.iconresult);
+
   }
   ngOnDestroy() {
     clearInterval(this.interval);
