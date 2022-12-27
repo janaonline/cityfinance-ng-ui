@@ -154,7 +154,9 @@ export class PreviewSlbComponentComponent implements OnInit {
   font-weight: normal !important;
   font-size: 10px !important;
 }
-
+.quesIn{
+  font-size: 10px;
+}
 
   </style>`;
 
@@ -162,7 +164,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   changeFromOutSide: any;
 
   subParentForModal;
-
+  blankAns = 'N/A'
   states: { [stateId: string]: IState };
   water_index_qus = "";
   fileUrl = "";
@@ -174,8 +176,15 @@ export class PreviewSlbComponentComponent implements OnInit {
     public _matDialog: MatDialog
   ) { }
 
-  ngOnChanges(changes : SimpleChange) { 
+  ngOnChanges(changes : SimpleChange) {
     console.log("changes=============//>", changes);
+    if(this.data?.blank == true){
+      this.blankAns = 'No'
+    }else if(this.data?.blank === false ){
+      this.blankAns = 'Yes';
+    }else {
+      this.blankAns = 'N/A';
+    }
   }
   formStatusCheck = "";
   statusArray = [

@@ -24,6 +24,7 @@ import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-pre
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { MdePopoverModule } from '@material-extended/mde';
+import { DownloadPopupComponent } from './download-popup/download-popup.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MdePopoverModule } from '@material-extended/mde';
     FiscalLoginComponent,
     UlbFiscalComponent,
     LoaderComponent,
-    UlbFisPreviewComponent
+    UlbFisPreviewComponent,
+    DownloadPopupComponent
   ],
   imports: [
     CommonModule,

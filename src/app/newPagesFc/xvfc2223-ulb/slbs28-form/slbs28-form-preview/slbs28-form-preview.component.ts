@@ -194,7 +194,8 @@ tr:nth-child(even) {
   }
 
   async submit() {
-    let body = { ...this.data?.saveDataJson };
+    delete this.data?.saveDataJson["isDraft"];
+    let body = { ...this.data?.saveDataJson, isDraft: true };
     return new Promise((resolve, rej) => {
       this.newCommonService.post28SlbsData(body).subscribe(
         (res) => {

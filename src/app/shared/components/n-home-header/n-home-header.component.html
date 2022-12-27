@@ -33,13 +33,17 @@
               <span class="fy">finance.in</span>
           </a> -->
             <a class="navbar-brand" routerLinkActive="active" routerLink="/fiscal/home" [ngClass]="sticky ? 'show' : ''">
-                <span class="city">city</span>
-                <span class="fy">finance.in</span>
+                <img src="../../../../assets/M FIGMA/city-finance-ranking.png" alt="">
+                <!-- <span class="city">city</span>
+                <span class="fy">finance.in</span> -->
             </a>
             <div class="collapse navbar-collapse me-3" id="">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home">About</a>
+                        <a class="navbar-brand cityLogo" aria-current="page" routerLinkActive="active" routerLink="/home">
+                            <span class="city">city</span>
+                            <span class="fy">finance.in</span>
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,9 +71,9 @@
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn">
+                    <!-- <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/fiscal/ulb-form">Fiscal Ranking</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
@@ -97,8 +101,8 @@
                   </button>
                     <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
                         <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">15th FC Grant</a></li>
-                        <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li>
+                        <!-- <hr class="m-0">
+                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li> -->
                     </ul>
                 </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
