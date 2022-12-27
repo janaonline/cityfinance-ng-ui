@@ -264,8 +264,7 @@
     margin: 0;
     padding: 0;
     position: relative;
-
-    &::before{
+    &::before {
         content: '';
         height: 100%;
         width: 1px;
@@ -654,4 +653,9 @@
 
 .circle {
     padding-left: 0.75rem;
+    // background: rgba(230, 126, 21, 0.2);
+    // border-radius: 50%;
+    // width: 55px;
+    // height: 55px;
+    // border: 1px solid rgba(230, 126, 21, 0.2);
 }
