@@ -1,14 +1,15 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DownloadPopupComponent } from '../download-popup/download-popup.component';
+declare var $: any;
 @Component({
   selector: 'app-fiscal-home',
   templateUrl: './fiscal-home.component.html',
   styleUrls: ['./fiscal-home.component.scss']
 })
-export class FiscalHomeComponent implements OnInit {
+export class FiscalHomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fiscal: FiscalRankingService,
@@ -25,6 +26,7 @@ export class FiscalHomeComponent implements OnInit {
   public salientresult = [];
   public rankresult = [];
   public iconresult = [];
+
 
 
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
@@ -96,6 +98,7 @@ export class FiscalHomeComponent implements OnInit {
       key: 'brochure'
      },
   ]
+
   ngOnInit(): void {
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
         console.log("this myu data======>", data.data)
@@ -104,8 +107,15 @@ export class FiscalHomeComponent implements OnInit {
     },
     (error)=>{
       alert('Network issues');
-    })
+    });
+
   }
+  @ViewChild('carousel') _carousel: ElementRef<HTMLInputElement>;
+  ngAfterViewInit(): void {
+    const myCarousel = this._carousel.nativeElement;
+    const carousel = $(myCarousel).carousel();
+  }
+
   filterFromObj(data){
     console.log('data,,,,', data);
     data?.forEach((el)=>{
