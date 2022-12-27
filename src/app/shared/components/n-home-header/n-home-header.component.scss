@@ -48,8 +48,9 @@ $value in $text-sizes {
     font-size: $font-size-base*.75;
     padding-top: $spacer*.625;
     padding-bottom: $spacer*.625;
-    padding-left: $spacer*2;
-    padding-right: $spacer*2;
+    padding-left: $spacer*1;
+    padding-right: $spacer*1;
+    letter-spacing: 1px;
     &:hover {
         background: shade-color($secondary, 10);
         color: $white;
@@ -151,6 +152,23 @@ a.disabled {
     margin: 0.2rem 0;
 }
 
+.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.6em;
+    vertical-align: middle;
+    content: "";
+    border-top: 0.5em solid;
+    border-right: 0.5em solid transparent;
+    border-bottom: 0;
+    border-left: 0.5em solid transparent;
+}
+
+.navbar-brand {
+    visibility: visible;
+    opacity: 1;
+    display: inline-block;
+}
+
 .stiky-tp {
     position: fixed;
     top: 0;
@@ -158,6 +176,6 @@ a.disabled {
     z-index: 999;
 }
 
-// .stiky-tp + .content {
-//   padding-top: 60px;
-// }
+.cityLogo {
+    margin-top: 10%;
+}

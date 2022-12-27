@@ -90,7 +90,7 @@ export class AnnualAccountsComponent implements OnInit {
   actionResAn;
   saveBtn = "NEXT";
   provisionDisable = true
-     auditedDisable = true
+  auditedDisable = true
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -587,7 +587,7 @@ export class AnnualAccountsComponent implements OnInit {
             ) {
               this.data.isDraft = false;
             } else {
-              if(this.data.audited.submit_standardized_data === false){
+              if (this.data.audited.submit_standardized_data === false) {
                 this.data.isDraft = false
                 return;
               }
@@ -737,9 +737,9 @@ export class AnnualAccountsComponent implements OnInit {
   }
   answer(question, val, isAudit = null, fromStart = false) {
     let status = isAudit ? "audited" : "unAudited";
-    if(isAudit && this.loggedInUserType == USER_TYPE.ULB){
+    if (isAudit && this.loggedInUserType == USER_TYPE.ULB) {
       this.auditedDisable = false
-    }else if (!isAudit && this.loggedInUserType == USER_TYPE.ULB){
+    } else if (!isAudit && this.loggedInUserType == USER_TYPE.ULB) {
       this.provisionDisable = false
     }
 
@@ -781,6 +781,11 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
     if (event?.target) files = event.target.files[0];
@@ -790,7 +795,8 @@ export class AnnualAccountsComponent implements OnInit {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+   let folderName = `${this.userData?.role}/2021-22/annual_accounts/${this.userData?.ulbCode}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -799,7 +805,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );
@@ -1046,55 +1052,55 @@ export class AnnualAccountsComponent implements OnInit {
   saveStateActionData() {
     console.log("this data....", this.data);
     let stateData = this.data;
-    if(this.data.hasOwnProperty('provisional_data')){
+    if (this.data.hasOwnProperty('provisional_data')) {
       stateData.unAudited.provisional_data.bal_sheet.status =
-      this.unAuditAct[0]?.status;
-    stateData.unAudited.provisional_data.bal_sheet.rejectReason =
-      this.unAuditAct[0]?.rejectReason;
-    stateData.unAudited.provisional_data.bal_sheet_schedules.status =
-      this.unAuditAct[1]?.status;
-    stateData.unAudited.provisional_data.bal_sheet_schedules.rejectReason =
-      this.unAuditAct[1]?.rejectReason;
-    stateData.unAudited.provisional_data.inc_exp.status =
-      this.unAuditAct[2]?.status;
-    stateData.unAudited.provisional_data.inc_exp.rejectReason =
-      this.unAuditAct[2]?.rejectReason;
-    stateData.unAudited.provisional_data.inc_exp_schedules.status =
-      this.unAuditAct[3]?.status;
-    stateData.unAudited.provisional_data.inc_exp_schedules.rejectReason =
-      this.unAuditAct[3]?.rejectReason;
-    stateData.unAudited.provisional_data.cash_flow.status =
-      this.unAuditAct[4]?.status;
-    stateData.unAudited.provisional_data.cash_flow.rejectReason =
-      this.unAuditAct[4]?.rejectReason;
+        this.unAuditAct[0]?.status;
+      stateData.unAudited.provisional_data.bal_sheet.rejectReason =
+        this.unAuditAct[0]?.rejectReason;
+      stateData.unAudited.provisional_data.bal_sheet_schedules.status =
+        this.unAuditAct[1]?.status;
+      stateData.unAudited.provisional_data.bal_sheet_schedules.rejectReason =
+        this.unAuditAct[1]?.rejectReason;
+      stateData.unAudited.provisional_data.inc_exp.status =
+        this.unAuditAct[2]?.status;
+      stateData.unAudited.provisional_data.inc_exp.rejectReason =
+        this.unAuditAct[2]?.rejectReason;
+      stateData.unAudited.provisional_data.inc_exp_schedules.status =
+        this.unAuditAct[3]?.status;
+      stateData.unAudited.provisional_data.inc_exp_schedules.rejectReason =
+        this.unAuditAct[3]?.rejectReason;
+      stateData.unAudited.provisional_data.cash_flow.status =
+        this.unAuditAct[4]?.status;
+      stateData.unAudited.provisional_data.cash_flow.rejectReason =
+        this.unAuditAct[4]?.rejectReason;
 
     }
-   if(this.data.hasOwnProperty('provisional_data')){
-    stateData.audited.provisional_data.bal_sheet.status =
-      this.AuditAct[0]?.status;
-    stateData.audited.provisional_data.bal_sheet.rejectReason =
-      this.AuditAct[0]?.rejectReason;
-    stateData.audited.provisional_data.bal_sheet_schedules.status =
-      this.AuditAct[1]?.status;
-    stateData.audited.provisional_data.bal_sheet_schedules.rejectReason =
-      this.AuditAct[1]?.rejectReason;
-    stateData.audited.provisional_data.inc_exp.status =
-      this.AuditAct[2]?.status;
-    stateData.audited.provisional_data.inc_exp.rejectReason =
-      this.AuditAct[2]?.rejectReason;
-    stateData.audited.provisional_data.inc_exp_schedules.status =
-      this.AuditAct[3]?.status;
-    stateData.audited.provisional_data.inc_exp_schedules.rejectReason =
-      this.AuditAct[3]?.rejectReason;
-    stateData.audited.provisional_data.cash_flow.status =
-      this.AuditAct[4]?.status;
-    stateData.audited.provisional_data.cash_flow.rejectReason =
-      this.AuditAct[4]?.rejectReason;
-    stateData.audited.provisional_data.auditor_report.status =
-      this.AuditAct[5]?.status;
-    stateData.audited.provisional_data.auditor_report.rejectReason =
-      this.AuditAct[5]?.rejectReason;
-   }
+    if (this.data.hasOwnProperty('provisional_data')) {
+      stateData.audited.provisional_data.bal_sheet.status =
+        this.AuditAct[0]?.status;
+      stateData.audited.provisional_data.bal_sheet.rejectReason =
+        this.AuditAct[0]?.rejectReason;
+      stateData.audited.provisional_data.bal_sheet_schedules.status =
+        this.AuditAct[1]?.status;
+      stateData.audited.provisional_data.bal_sheet_schedules.rejectReason =
+        this.AuditAct[1]?.rejectReason;
+      stateData.audited.provisional_data.inc_exp.status =
+        this.AuditAct[2]?.status;
+      stateData.audited.provisional_data.inc_exp.rejectReason =
+        this.AuditAct[2]?.rejectReason;
+      stateData.audited.provisional_data.inc_exp_schedules.status =
+        this.AuditAct[3]?.status;
+      stateData.audited.provisional_data.inc_exp_schedules.rejectReason =
+        this.AuditAct[3]?.rejectReason;
+      stateData.audited.provisional_data.cash_flow.status =
+        this.AuditAct[4]?.status;
+      stateData.audited.provisional_data.cash_flow.rejectReason =
+        this.AuditAct[4]?.rejectReason;
+      stateData.audited.provisional_data.auditor_report.status =
+        this.AuditAct[5]?.status;
+      stateData.audited.provisional_data.auditor_report.rejectReason =
+        this.AuditAct[5]?.rejectReason;
+    }
 
     console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(

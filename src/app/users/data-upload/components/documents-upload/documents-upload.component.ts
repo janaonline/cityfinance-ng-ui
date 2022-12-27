@@ -15,7 +15,8 @@ import { JSONUtility } from 'src/app/util/jsonUtil';
 import { MillionPlusCitiesDocuments, SolidWasteManagementDocuments } from '../../models/financial-data.interface';
 import { FinancialUploadQuestion } from '../../models/financial-upload-question';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
-
+import { SweetAlert } from 'sweetalert/typings/core';
+const swal: SweetAlert = require("sweetalert");
 /**
  * These are thew question ids that are mapped to files that user select and the question.
  * This will be used to unique identify each question and their respective file.
@@ -189,7 +190,7 @@ export class DocumentsUploadComponent
       });
     }
   }
-
+  userData = JSON.parse(localStorage.getItem("userData"));
   ngOnInit() {}
 
   cancelFileUpload(questionKey: fileKeys, fileNameToFilter: string) {
@@ -232,6 +233,11 @@ export class DocumentsUploadComponent
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target["files"]);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
@@ -283,15 +289,15 @@ export class DocumentsUploadComponent
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-
+        let folderName = `${this.userData?.role}/2020-21/4slb/${this.userData?.ulbCode}`
         const subs = this.dataEntryService
-          .getURLForFileUpload(file.name, file.type)
+          .newGetURLForFileUpload(file.name, file.type, folderName)
           .pipe(
-            switchMap((res) =>
+            switchMap((res: any) =>
               this.initiateFileUploadProcess(
                 file,
                 res.data[0].url,
-                res.data[0].file_alias,
+                res.data[0].file_url,
                 file.name,
                 fieldKey
               )

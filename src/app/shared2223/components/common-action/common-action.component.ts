@@ -76,6 +76,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
 
 
   }
+  Years = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   toggle: any;
   mohuaReview = false;
   ngOnInit(): void {
@@ -199,7 +201,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     console.log(this.loggedInUserType);
   }
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true");
+   // sessionStorage.setItem("changeInPto", "true");
     this.change = "true";
   }
   userEvent;
@@ -219,7 +221,11 @@ export class CommonActionComponent implements OnInit, OnChanges {
 
   fileChangeEvent(event, progessType) {
     console.log(progessType);
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if (progessType == "commonActProgress") {
       if (event.target.files[0].size >= 20000000) {
         this.errorMessegeCommonAction = "File size should be less than 20Mb.";
@@ -293,9 +299,23 @@ export class CommonActionComponent implements OnInit, OnChanges {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      let id = '';
+      if (this.actionFor == 'ULBForm'){
+        id = this.userData?.ulb;
+        if (!id) {
+          id = localStorage.getItem("ulb_id");
+         }
+      }else{
+        id = this.userData?.state;
+        if (!id) {
+          id = localStorage.getItem("state_id");
+         }
+      }
+
+     let folderName = `${this.userData?.role}/2022-23/Supporting Documents/${id}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

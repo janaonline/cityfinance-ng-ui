@@ -313,7 +313,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         area: this.fb.control(data.area, [
           Validators.required,
@@ -321,7 +321,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         ]),
         nameOfBody: this.fb.control(data.nameOfBody, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
@@ -481,11 +481,11 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         component: this.fb.control(data.component, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(200),
         ]),
         indicator: this.fb.control(data.indicator, [
           Validators.required,
@@ -562,11 +562,11 @@ export class WaterRejenuvations2223Component implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         treatmentPlant: this.fb.control(data.treatmentPlant, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         targetCust: this.fb.control(data.targetCust, [
           Validators.required,
@@ -992,17 +992,16 @@ export class WaterRejenuvations2223Component implements OnInit {
               Validators.required,
 
             ]),
-            photos: this.fb.control([], [
+            photos: this.fb.array([], [
               Validators.required,
-
             ]),
             lat: this.fb.control(null, [
               Validators.required,
-              // Validators.min(1),
+              Validators.pattern(this.latLongRegex)
             ]),
             long: this.fb.control(null, [
               Validators.required,
-              // Validators.min(1),
+              Validators.pattern(this.latLongRegex)
             ]),
             bod: this.fb.control(null, [
               Validators.required,
@@ -1100,10 +1099,7 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   }
   onChange(item, index, type, mIndex) {
-    // let remainingGroups = item.filter(ele=> ele.ReqId != index);
-    //'waterB'
-    // rWater
-    //'sWater'
+  // console.log('radio', item, index, type, mIndex)
     if (type == 'waterB') {
       if (this.waterRejenuvation?.value?.uaData[mIndex]?.waterBodies[index]?.dprCompletion == 'Yes') {
       this.toggle = false
@@ -1120,16 +1116,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       }
     }
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation.value)
-    console.log('formvalue after selectse', this.waterRejenuvation.value.uaData[0].waterBodies[index].dprCompletion)
-    // if (this.waterRejenuvation?.value?.uaData[0]?.waterBodies[index]?.dprCompletion == 'Yes') {
-    //   this.toggle = false
-    // } else if (this.waterRejenuvation?.value?.uaData[0]?.reuseWater[index]?.dprCompletion == 'Yes') {
-    //   this.toggle1 = false
-    // } else if (this.waterRejenuvation?.value?.uaData[0]?.serviceLevelIndicators[index]?.dprCompletion == 'Yes') {
-    //   this.toggle2 = false
-    // }
-    console.log('formvalue after select', this.waterRejenuvation.get('dprCompletion')?.value);
-   console.log(item, index)
+    console.log('formvalue after select', this.waterRejenuvation.value.uaData[0].waterBodies[index].dprCompletion)
   }
   checkValidation() {
     console.log('form form', this.waterRejenuvation);
@@ -1495,16 +1482,28 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
   }
   async onFileChange(event, waterIndex, uaIndex) {
+    console.log('pic uplaod', event);
     if (this.formDisable) return
     this.photosArray = [];
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
+    let file = event.target.files[0];
+    let fileExtension = file.name.split(".").pop();
+    if(fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg'){
+      swal('Error', 'Please select "PNG" or "JPG", or "JPEG" type file', 'error')
+      return
+    }
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
     let title = "Success";
     let status = "success";
+
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
     let leftNum = this.checkPhotos(files.length, photoControl);
-
     if (typeof leftNum === "boolean") {
       swal(
         `Max ${this.maxPhotos} photos are allowed`,
@@ -1542,11 +1541,12 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+      let folderName = `${this.userData?.role}/2022-23/projects_wss/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
-          await this.uploadFileToS3(file, res["url"], res["file_alias"]);
-          this.photosArray.push({ url: res["file_alias"], name });
+          await this.uploadFileToS3(file, res["url"], res["file_url"]);
+          this.photosArray.push({ url: res["file_url"], name });
           resolve();
         },
         (err) => {
@@ -1687,11 +1687,11 @@ export class WaterRejenuvations2223Component implements OnInit {
   onPreview() {
     let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
     if (change == "true")
-      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
-    let data = this.waterRejenuvation.value;
+      this.waterRejenuvation?.controls?.isDraft?.patchValue(!this.formStatus);
+    let data = this.waterRejenuvation?.value;
     console.log(data);
-    for (let index = 0; index < data.uaData.length; index++) {
-      data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
+    for (let index = 0; index < data?.uaData?.length; index++) {
+      data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,
@@ -1751,13 +1751,17 @@ export class WaterRejenuvations2223Component implements OnInit {
   }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
-    this.change = "true";
+    // sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt.nativeElement.value = "";
@@ -1770,9 +1774,7 @@ export class WaterRejenuvations2223Component implements OnInit {
         return;
       }
     }
-
-      const fileName = event.target.files[0].name;
-
+    const fileName = event.target.files[0].name;
       if (progessType == 'stateActProgress') {
         this.stateActFileName = event.target.files[0].name;
         this.showStateAct = true;
@@ -1780,6 +1782,8 @@ export class WaterRejenuvations2223Component implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
+      sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+      this.change = "true"
 
   }
   clearFile(type: string = '') {
@@ -1822,6 +1826,8 @@ export class WaterRejenuvations2223Component implements OnInit {
     let fileExtension = files[0].name.split('.').pop();
     console.log(fileExtension)
     this[progessType] = 10;
+    sessionStorage.setItem("changeInWaterRejenuvation2223", "true")
+    this.change = "true";
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
         continue;
@@ -1833,9 +1839,10 @@ export class WaterRejenuvations2223Component implements OnInit {
 
   uploadFiles(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/'2022-23'/projects_wss/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

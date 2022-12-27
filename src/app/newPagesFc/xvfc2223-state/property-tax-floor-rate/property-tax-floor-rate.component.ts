@@ -323,11 +323,16 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     });
   }
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true")
-    this.change = "true";
+    // sessionStorage.setItem("changeInPto", "true")
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(progessType)
     if(progessType == 'minimumFloorProgress'){
       if (event.target.files[0].size >= 20000000) {
@@ -394,6 +399,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected,progessType));
       this.upload(progessType, fileName);
+      sessionStorage.setItem("changeInPto", "true")
+      this.change = "true";
 
   }
   clearFile(type: string = '') {
@@ -488,9 +495,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/2022-23/property_tax_notification/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           if(progessType == 'rulesByLawsProgress'){
             this[progessType] = Math.floor(Math.random() * 90) + 10;

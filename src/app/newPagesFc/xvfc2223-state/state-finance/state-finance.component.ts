@@ -314,13 +314,17 @@ export class StateFinanceComponent implements OnInit {
     });
   }
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true")
-    this.change = "true";
+    // sessionStorage.setItem("changeInPto", "true")
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if(progessType == 'stateActProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt.nativeElement.value = "";
@@ -343,7 +347,8 @@ export class StateFinanceComponent implements OnInit {
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
       this.upload(progessType, fileName);
-
+      sessionStorage.setItem("changeInPto", "true")
+      this.change = "true";
   }
   clearFile(type: string = '') {
     if(type == 'stateAct'){
@@ -397,9 +402,10 @@ export class StateFinanceComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/2022-23/sfc/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          let fileAlias = s3Response["data"][0]["file_alias"];
+          let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           // if(progessType == 'rulesByLawsProgress'){
           //   this[progessType] = Math.floor(Math.random() * 90) + 10;

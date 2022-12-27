@@ -6,7 +6,8 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
-import { filter, timeout } from 'rxjs/operators';  
+import { filter, timeout } from 'rxjs/operators';
+
 @Injectable({
   providedIn: "root",
 })
@@ -76,16 +77,20 @@ export class DataEntryService {
       { headers }
     );
 
-    // return this.http.post(
-    //   "https://stgmformadminapi.dhwaniris.in//" + "getS3Url",
-    //   JSON.stringify([
-    //     {
-    //       file_name: fileName,
-    //       mime_type: fileType
-    //     }
-    //   ]),
-    //   { headers }
-    // );
+  }
+  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
+    const headers = new HttpHeaders();
+    return this.http.post<S3FileURLResponse>(
+      `${environment.api.url}/getS3Url`,
+      JSON.stringify([
+        {
+          folder: folderName,
+          file_name: fileName,
+          mime_type: fileType,
+        },
+      ]),
+      { headers }
+    );
   }
 
   uploadFileToS3(
@@ -98,6 +103,7 @@ export class DataEntryService {
       observe: "events",
     });
   }
+
 
   /**
    *
@@ -122,5 +128,43 @@ export class DataEntryService {
     return this.http
       .get(`${environment.api.url}/getProcessStatus/${fileId}`)
       .pipe(map((response) => ({ ...response["data"] })));
+  }
+
+  // newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+  //   const headers = new HttpHeaders();
+
+  //   return this.http.post<S3FileURLResponse>(
+  //     `${environment.api.url}/getS3Url`,
+  //     JSON.stringify([
+  //       {
+  //         file_name: fileName,
+  //         mime_type: fileType,
+  //       },
+  //     ]),
+  //     { headers }
+  //   );
+
+  // }
+
+  newUploadFileToS3(
+    file: File,
+    s3URL: string,
+    options = { reportProgress: true }
+  ) {
+    return this.http.put(s3URL, file, {
+      reportProgress: options.reportProgress,
+      observe: "events",
+    });
+  }
+  checkSpcialCharInFileName(files){
+    let file = files[0];
+    let name = ((file.name).split('.'))[0];
+    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?";
+    for (let i = 0; i < name.length; i++) {
+       if (iChars.indexOf(name.charAt(i)) != -1) {
+           return false;
+       }
+    }
+    return true;
   }
 }

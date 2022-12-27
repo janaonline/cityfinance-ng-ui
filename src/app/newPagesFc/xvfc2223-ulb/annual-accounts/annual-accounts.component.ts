@@ -43,6 +43,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   USER_TYPE = USER_TYPE;
   loggedInUserType;
   sideMenuItem: any;
+  finalStatus = "Under review by state"
   unAuditQues = [
     {
       name: "Balance Sheet",
@@ -53,10 +54,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       tooltip: '',
-      status: null,
-      rejectReason: null,
       qusDis: true,
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -78,8 +87,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -100,8 +117,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -122,8 +147,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -144,8 +177,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -159,10 +200,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: true,
       actError: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       tooltip: '',
-      rejectReason: null,
       qusDis: true,
-      responseFile: {
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -176,10 +225,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       action: false,
       actError: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       tooltip: '',
-      rejectReason: null,
       qusDis: true,
-      responseFile: {
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -200,8 +257,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -222,8 +287,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -236,11 +309,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "inc_exp_schedules",
       action: true,
       actError: false,
-      status: null,
-      rejectReason: null,
       qusDis: true,
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
       tooltip: '',
-      responseFile: {
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -253,11 +334,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "cash_flow",
       action: true,
       actError: false,
-      status: null,
-      rejectReason: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -272,11 +361,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "bal_sheet",
       action: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       actError: false,
       qusDis: true,
       tooltip: '',
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -297,8 +394,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -319,8 +424,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -341,8 +454,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -363,8 +484,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -377,11 +506,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "bal_sheet_schedules",
       action: true,
       actError: false,
-      status: null,
-      rejectReason: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -394,11 +531,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "inc_exp",
       action: false,
       status: null,
+      state_status: null,
+      mohua_status: null,
       actError: false,
       rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -419,8 +564,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -441,8 +594,16 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         error: false,
       },
       status: null,
+      state_status: null,
+      mohua_status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -455,11 +616,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "inc_exp_schedules",
       action: true,
       actError: false,
-      status: null,
-      rejectReason: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -472,11 +641,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "cash_flow",
       actError: false,
       action: true,
-      status: null,
-      rejectReason: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -489,11 +666,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       key: "auditor_report",
       action: true,
       actError: false,
-      status: null,
-      rejectReason: null,
       qusDis: true,
       tooltip: '',
-      responseFile: {
+      status: null,
+      state_status: null,
+      mohua_status: null,
+      rejectReason: null,
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        url: '',
+        name: '',
+      },
+      responseFile_mohua: {
         url: '',
         name: '',
       }
@@ -512,13 +697,15 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
             name: null,
           },
           excel: { url: null, name: null },
-          // assets: { value: "", error: false },
-          // f_assets: { value: "", error: false },
-          // s_grant: { value: "", error: false },
-          // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -535,7 +722,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -548,7 +741,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -563,7 +762,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -576,7 +781,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -588,7 +799,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -608,7 +825,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       year: this.Years["2020-21"],
       status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        name: '',
+        url: ''
+      },
+      responseFile_mohua: {
         name: '',
         url: ''
       }
@@ -627,7 +850,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           // c_grant: { value: "", error: false },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -644,7 +873,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -659,7 +894,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           // expense: { value: "", error: false },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -674,7 +915,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -687,7 +934,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           excel: { url: null, name: null },
           status: null,
           rejectReason: null,
-          responseFile: {
+          rejectReason_state: null,
+          rejectReason_mohua: null,
+          responseFile_state: {
+            url: '',
+            name: '',
+          },
+          responseFile_mohua: {
             url: '',
             name: '',
           }
@@ -707,7 +960,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       year: this.Years["2021-22"],
       status: null,
       rejectReason: null,
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        name: '',
+        url: ''
+      },
+      responseFile_mohua: {
         name: '',
         url: ''
       }
@@ -777,7 +1036,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   backRouter;
   overAllFormDis = true;
   ngOnInit(): void {
-
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
     this.clickedSave = false;
@@ -876,13 +1134,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   action = "";
   url = "";
   canTakeAction = false;
+  formData;
   onLoad() {
-    // let ulbId = sessionStorage.getItem("ulb_id");
-    // if (ulbId != null || this.finalSubmitUtiStatus == "true") {
-    //   this.isDisabled = true;
-    //   this.provisionDisable = true
-    //   this.auditedDisable = true
-    // }
     this.newCommonService
       .getAnnualData({
         design_year: this.Years["2022-23"],
@@ -977,47 +1230,53 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.tab1dis = true;
       this.tab2dis = true;
     }
-  // if(isDraft && actionTakenByRole == "ULB"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else if(!isDraft && actionTakenByRole == "ULB"){
-  //   if(loggedInUser == "STATE"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
-  //   if(loggedInUser == "MoHUA"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
-  //  return true;
-  // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
-  //   if(loggedInUser == "ULB"){
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
-  // } else{
-  //   return true;
-  // }
+    // if(isDraft && actionTakenByRole == "ULB"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else if(!isDraft && actionTakenByRole == "ULB"){
+    //   if(loggedInUser == "STATE"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
+    //   if(loggedInUser == "MoHUA"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
+    //  return true;
+    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
+    //   if(loggedInUser == "ULB"){
+    //     return false;
+    //   }else{
+    //     return true;
+    //   }
+    // } else{
+    //   return true;
+    // }
 
-}
+  }
   auditedActionResponse = {
     status: null,
     rejectReason: null,
-    responseFile: {
+    rejectReason_state: null,
+    rejectReason_mohua: null,
+    responseFile_state: {
+      name: '',
+      url: ''
+    },
+    responseFile_mohua: {
       name: '',
       url: ''
     }
@@ -1025,12 +1284,19 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   unAuditedActionResponse = {
     status: null,
     rejectReason: null,
-    responseFile: {
+    rejectReason_state: null,
+    rejectReason_mohua: null,
+    responseFile_state: {
+      name: '',
+      url: ''
+    },
+    responseFile_mohua: {
       name: '',
       url: ''
     }
   };
   dataPopulate(res) {
+    this.formData = res;
     delete res.modifiedAt;
     delete res.createdAt;
     delete res.isActive;
@@ -1046,17 +1312,17 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       !toStoreResponse?.unAudited?.submit_annual_accounts &&
       this.loggedInUserType != USER_TYPE.ULB
     ) {
-      const status = JSON.parse(sessionStorage.getItem("allStatus"));
-      //  status.annualAccounts.status = "N/A";
-      // this._ulbformService.allStatus.next(status);
-    }
-    //   console.log("annnualREs", this.data["status"]);
 
+    }
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     this.unAuditedActionResponse.status = res?.status;
     this.unAuditedActionResponse.rejectReason = res?.rejectReason;
+    this.unAuditedActionResponse.rejectReason_state = res?.rejectReason_state;
+    this.unAuditedActionResponse.rejectReason_state = res?.rejectReason_mohua;
     this.auditedActionResponse.status = res?.status;
     this.auditedActionResponse.rejectReason = res?.rejectReason;
+    this.auditedActionResponse.rejectReason_state = res?.rejectReason_state;
+    this.auditedActionResponse.rejectReason_state = res?.rejectReason_mohua;
     //unaudited status -- true
     if (res?.audited?.submit_annual_accounts == true) {
       let proviDataAu = res?.audited?.provisional_data;
@@ -1070,8 +1336,14 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
         }
       });
-      this.setStatusOnInputs('auditQues')
-      this.auditedActionResponse.responseFile = proviDataAu?.bal_sheet?.responseFile;
+      this.setStatusOnInputs('auditQues');
+      if (!res?.audited?.responseFile_state?.url) {
+        this.data.audited.responseFile_state = proviDataAu?.bal_sheet?.responseFile_state
+      }
+      if (!res?.audited?.responseFile_mohua?.url) {
+        this.data.audited.responseFile_mohua = proviDataAu?.bal_sheet?.responseFile_mohua;
+      }
+
     }
     //unaudited status -- false
     if (this.data?.audited?.submit_annual_accounts == false) {
@@ -1091,12 +1363,18 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           el["amount"]["value"] = proviDataUn[key];
         }
       });
-      this.setStatusOnInputs('unAuditQues')
-      this.unAuditedActionResponse.responseFile = proviDataUn?.bal_sheet?.responseFile;
+      this.setStatusOnInputs('unAuditQues');
+      if (!res?.unAudited?.responseFile_state?.url) {
+        this.data.unAudited.responseFile_state = proviDataUn?.bal_sheet?.responseFile_state;
+      }
+      if (!res?.unAudited?.responseFile_mohua?.url) {
+        this.data.unAudited.responseFile_mohua = proviDataUn?.bal_sheet?.responseFile_mohua;
+      }
+      // this.unAuditedActionResponse.responseFile_state = proviDataUn?.bal_sheet?.responseFile_state;
+      // this.unAuditedActionResponse.responseFile_mohua = proviDataUn?.bal_sheet?.responseFile_mohua;
     }
-
-
-
+    this.setTabWiseStatusInputs('unAuditQues');
+    this.setTabWiseStatusInputs('auditQues');
     console.log("pop data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
@@ -1170,7 +1448,13 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       excel: { url: e.excel?.url, name: e.excel?.name },
       status: 'PENDING',
       rejectReason: '',
-      responseFile: {
+      rejectReason_state: null,
+      rejectReason_mohua: null,
+      responseFile_state: {
+        name: '',
+        url: ''
+      },
+      responseFile_mohua: {
         name: '',
         url: ''
       }
@@ -1203,6 +1487,11 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //  this.checkDiff();
   }
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
     if (event?.target) files = event.target.files[0];
@@ -1212,7 +1501,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/2022-23/annual_accounts/${this.userData?.ulbCode}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -1221,7 +1511,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );
@@ -1261,10 +1551,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       let newObj = {
         alias: fileAlias,
         financialYear: "",
-        design_year: this.Years["2021-22"],
+        design_year: this.Years["2022-23"],
       };
       if (fileType === "audited") {
-        newObj.financialYear = "2019-20";
+        newObj.financialYear = "2020-21";
       } else {
         newObj.financialYear = "2021-22";
       }
@@ -1778,7 +2068,9 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         sessionStorage.setItem("changeInAnnualAcc", "false");
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved as draft successfully", "success");
-        this.onLoad();
+        setTimeout(() => {
+          this.onLoad();
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -1808,7 +2100,9 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.setDisableField();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Data saved successfully", "success");
-        this.onLoad();
+        setTimeout(() => {
+          this.onLoad();
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -1868,56 +2162,70 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.actReturn = false;
       item.actError = false;
       item['status'] = actRes;
+      if (this.userData?.role == 'STATE') {
+        item['state_status'] = actRes;
+      } else {
+        item['mohua_status'] = actRes;
+      }
     } else if (actType == 'Return') {
       actRes = "REJECTED"
       // item.actError = false;
       item['status'] = actRes;
+      if (this.userData?.role == 'STATE') {
+        item['state_status'] = actRes;
+      } else {
+        item['mohua_status'] = actRes;
+      }
       this.actReturn = true;
     } else if (actType == 'returnRes') {
       reason = true;
       item.actError = false;
     }
-
-
     switch (item?.key) {
       case "c_grant":
         if (reason) {
-          this.data[fileType].provisional_data.bal_sheet['rejectReason'] = this.actRemarks
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.bal_sheet['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.bal_sheet['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.bal_sheet['status'] = actRes;
         }
         break;
       case "bal_sheet_schedules":
         if (reason) {
-          this.data[fileType].provisional_data.bal_sheet_schedules['rejectReason'] = this.actRemarks
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.bal_sheet_schedules['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.bal_sheet_schedules['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.bal_sheet_schedules['status'] = actRes;
         }
         break;
       case "expense":
         if (reason) {
-          this.data[fileType].provisional_data.inc_exp['rejectReason'] = this.actRemarks
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.inc_exp['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.inc_exp['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.inc_exp['status'] = actRes;
         }
         break;
       case "inc_exp_schedules":
         if (reason) {
-          this.data[fileType].provisional_data.inc_exp_schedules['rejectReason'] = this.actRemarks
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.inc_exp_schedules['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.inc_exp_schedules['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.inc_exp_schedules['status'] = actRes;
         }
         break;
       case "cash_flow":
         if (reason) {
-          this.data[fileType].provisional_data.cash_flow['rejectReason'] = this.actRemarks
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.cash_flow['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.cash_flow['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.cash_flow['status'] = actRes;
         }
         break;
       case "auditor_report":
         if (reason) {
-          this.data[fileType].provisional_data.auditor_report['rejectReason'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.STATE) this.data[fileType].provisional_data.auditor_report['rejectReason_state'] = this.actRemarks;
+          if (this.loggedInUserType == USER_TYPE.MoHUA) this.data[fileType].provisional_data.auditor_report['rejectReason_mohua'] = this.actRemarks;
         } else {
           this.data[fileType].provisional_data.auditor_report['status'] = actRes;
         }
@@ -1932,32 +2240,69 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   getUploadActionFileData(e, type) {
     console.log('action......file', e, type);
     this.actionFileData[type] = e;
-
     if (this.data[type].submit_annual_accounts) {
       for (const key in this.data[type].provisional_data) {
         if (typeof (this.data[type].provisional_data[key]) == 'object') {
-          let actionFile = {
-            responseFile: {
-              url: e?.pdf?.url,
-              name: e?.pdf?.name
-            }
-          };
+          let actionFile;
+          if (this.userData?.role == 'STATE') {
+            actionFile = {
+              responseFile_state: {
+                url: e?.pdf?.url,
+                name: e?.pdf?.name
+              }
+            };
+          } else {
+            actionFile = {
+              responseFile_mohua: {
+                url: e?.pdf?.url,
+                name: e?.pdf?.name
+              }
+            };
+          }
+
           Object.assign(this.data[type].provisional_data[key], actionFile);
-          // this.data[type].provisional_data[key]["responseFile"]["url"] = e?.pdf?.url;
-          // this.data[type].provisional_data[key]["responseFile"]["name"] = e?.pdf?.name;
+          // this.data[type].provisional_data[key]["responseFile_state"]["url"] = e?.pdf?.url;
+          // this.data[type].provisional_data[key]["responseFile_state"]["name"] = e?.pdf?.name;
+
         }
 
       }
-    } else {
-      let actionFile = {
-        responseFile: {
-          url: e?.pdf?.url,
-          name: e?.pdf?.name
-        }
-      };
+      let actionFile;
+      if (this.userData?.role == 'STATE') {
+        actionFile = {
+          responseFile_state: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      } else {
+        actionFile = {
+          responseFile_mohua: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      }
       Object.assign(this.data[type], actionFile);
-      // this.data[type]["responseFile"]["name"] = e?.pdf?.name;
-      // this.data[type]["responseFile"]["url"] = e?.pdf?.url;
+
+    } else {
+      let actionFile;
+      if (this.userData?.role == 'STATE') {
+        actionFile = {
+          responseFile_state: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      } else {
+        actionFile = {
+          responseFile_mohua: {
+            url: e?.pdf?.url,
+            name: e?.pdf?.name
+          }
+        };
+      }
+      Object.assign(this.data[type], actionFile);
     }
 
     console.log('this. data for action', this.data);
@@ -1968,13 +2313,25 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   isAudActionVal = true;
   isUnAudActionVal = true;
   checkAudActValidation() {
+    let rejectRes = '';
+    if (this.userData?.role == 'STATE') {
+      rejectRes = this.data?.audited?.rejectReason_state;
+    } else {
+      rejectRes = this.data?.audited?.rejectReason_mohua;
+    }
     if (this.data.audited.submit_annual_accounts) {
       this.setStatusOnInputs('auditQues')
+      let rejectResItem = '';
       this.auditQues.forEach((item) => {
+        if (this.userData?.role == 'STATE') {
+          rejectResItem = item?.data?.rejectReason_state;
+        } else {
+          rejectResItem = item?.data?.rejectReason_mohua;
+        }
         // if (item?.type == 'file')
         if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
           item.actError = true;
-        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+        } else if (item?.data?.status == 'REJECTED' && (rejectResItem == '' || rejectResItem == null)) {
           item.actError = true;
         } else {
           item.actError = false;
@@ -1983,7 +2340,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     } else if (this.data.audited.submit_annual_accounts == false) {
       if (this.data?.audited.status == 'PENDING' || this.data?.audited?.status == null) {
         this.isAudActionVal = false;
-      } else if (this.data?.audited.status == 'REJECTED' && (this.data?.audited?.rejectReason == '' || this.data?.audited?.rejectReason == null)) {
+      } else if (this.data?.audited.status == 'REJECTED' && (rejectRes == '' || rejectRes == null)) {
         this.isAudActionVal = false;
       } else {
         this.isAudActionVal = true;
@@ -1991,14 +2348,26 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
   }
   checkUnAudActValidation() {
+    let rejectRes = '';
+    if (this.userData?.role == 'STATE') {
+      rejectRes = this.data?.unAudited?.rejectReason_state;
+    } else {
+      rejectRes = this.data?.unAudited?.rejectReason_mohua;
+    }
+
     if (this.data.unAudited.submit_annual_accounts) {
       this.setStatusOnInputs('unAuditQues');
+      let rejectResItem = '';
       this.unAuditQues.forEach((item) => {
+        if (this.userData?.role == 'STATE') {
+          rejectResItem = item?.data?.rejectReason_state;
+        } else {
+          rejectResItem = item?.data?.rejectReason_mohua;
+        }
         // if (item?.type == 'file')
-
         if (item?.data?.status == 'PENDING' || item?.data?.status == null) {
           item.actError = true;
-        } else if (item?.data?.status == 'REJECTED' && (item?.data?.rejectReason == '' || item?.data?.rejectReason == null)) {
+        } else if (item?.data?.status == 'REJECTED' && (rejectResItem == '' || rejectResItem == null)) {
           item.actError = true;
         } else {
           item.actError = false;
@@ -2007,7 +2376,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     } else if (this.data.unAudited.submit_annual_accounts == false) {
       if (this.data?.unAudited.status == 'PENDING' || this.data?.unAudited?.status == null) {
         this.isUnAudActionVal = false;
-      } else if (this.data?.unAudited.status == 'REJECTED' && (this.data?.unAudited?.rejectReason == '' || this.data?.unAudited?.rejectReason == null)) {
+      } else if (this.data?.unAudited.status == 'REJECTED' && (rejectRes == '' || rejectRes == null)) {
         this.isUnAudActionVal = false;
       } else {
         this.isUnAudActionVal = true;
@@ -2015,6 +2384,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
   }
   checkActionValidation() {
+
     this.checkUnAudActValidation()
     this.checkAudActValidation();
     //action validation for 4 cases
@@ -2132,7 +2502,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.newCommonService.setFormStatus2223.next(true);
         setTimeout(() => {
           this.onLoad();
-        }, 300)
+        }, 700)
 
       },
       (error) => {
@@ -2147,23 +2517,24 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           let stObj = {
             status: this.auditQues[0]?.data?.status,
             rejectReason: this.auditQues[0]?.data?.rejectReason,
-            responseFile: this.auditQues[0]?.data?.responseFile
+            rejectReason_state: this.auditQues[0]?.data?.rejectReason_state,
+            rejectReason_mohua: this.auditQues[0]?.data?.rejectReason_mohua,
+            responseFile_state: this.auditQues[0]?.data?.responseFile_state,
+            responseFile_mohua: this.auditQues[0]?.data?.responseFile_mohua
           }
           this.auditQues[i]['data'] = stObj;
-          // this.auditQues[i]['data'].status = this.auditQues[0]?.data?.status;
-          // this.auditQues[i]['data'].rejectReason = this.auditQues[0]?.data?.rejectReason;
-          // this.auditQues[i]['data'].responseFile = this.auditQues[0]?.data?.responseFile;
         }
         if (i > 6 && i < 9) {
           let stObj = {
             status: this.auditQues[6]?.data?.status,
             rejectReason: this.auditQues[6]?.data?.rejectReason,
-            responseFile: this.auditQues[6]?.data?.responseFile
+            //-------------------
+            rejectReason_state: this.auditQues[6]?.data?.rejectReason_state,
+            rejectReason_mohua: this.auditQues[6]?.data?.rejectReason_mohua,
+            responseFile_state: this.auditQues[6]?.data?.responseFile_state,
+            responseFile_mohua: this.auditQues[6]?.data?.responseFile_mohua
           }
           this.auditQues[i]['data'] = stObj;
-          // this.auditQues[i]['data'].status = this.auditQues[6]?.data?.status;
-          // this.auditQues[i]['data'].rejectReason = this.auditQues[6]?.data?.rejectReason;
-          // this.auditQues[i]['data'].responseFile = this.auditQues[6]?.data?.responseFile;
         }
       }
     }
@@ -2173,7 +2544,11 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           let stObj = {
             status: this.unAuditQues[0]?.data?.status,
             rejectReason: this.unAuditQues[0]?.data?.rejectReason,
-            responseFile: this.unAuditQues[0]?.data?.responseFile
+            //--------------
+            rejectReason_state: this.unAuditQues[0]?.data?.rejectReason_state,
+            rejectReason_mohua: this.unAuditQues[0]?.data?.rejectReason_mohua,
+            responseFile_state: this.unAuditQues[0]?.data?.responseFile_state,
+            responseFile_mohua: this.unAuditQues[0]?.data?.responseFile_mohua
           }
           this.unAuditQues[i]['data'] = stObj;
         }
@@ -2181,7 +2556,11 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           let stObj = {
             status: this.unAuditQues[6]?.data?.status,
             rejectReason: this.unAuditQues[6]?.data?.rejectReason,
-            responseFile: this.unAuditQues[6]?.data?.responseFile
+            //-------
+            rejectReason_state: this.unAuditQues[6]?.data?.rejectReason_state,
+            rejectReason_mohua: this.unAuditQues[6]?.data?.rejectReason_mohua,
+            responseFile_state: this.unAuditQues[6]?.data?.responseFile_state,
+            responseFile_mohua: this.unAuditQues[6]?.data?.responseFile_mohua
           }
           this.unAuditQues[i]['data'] = stObj;
         }
@@ -2268,4 +2647,244 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
     console.log('data...', this.data);
   }
+  stateReview = false;
+  mohuaReview = false;
+  state_status_aud = '';
+  mohua_status_aud = '';
+  state_status_unAud = '';
+  mohua_status_unAud = '';
+  setTabWiseStatusInputs(type) {
+    //audited status set........
+    if (type == 'auditQues') {
+      if (this.formData?.audited?.submit_annual_accounts == false) {
+        if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Under Review by MoHUA";
+          this.state_status_aud = 'APPROVED';
+          // this.state_status_unAud = 'APPROVED';
+
+        } else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Returned by State";
+          this.state_status_aud = this.formData?.audited?.status;
+          // this.state_status_unAud = this.formData?.unAudited?.status;
+        } else if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Approved by MoHUA";
+          this.mohuaReview = true;
+          this.state_status_aud = 'APPROVED';
+          this.mohua_status_aud = 'APPROVED';
+          //  this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_unAud = 'APPROVED';
+
+        }
+        else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Returned by MoHUA";
+          this.mohuaReview = true;
+          this.state_status_aud = 'APPROVED';
+          this.mohua_status_aud = this.formData?.audited?.status;
+        } else {
+          this.stateReview = false;
+        }
+      }
+      if (this.formData?.audited?.submit_annual_accounts == true) {
+        //  for (let i = 0; i < this.auditQues.length; i++) {
+        this.auditQues.forEach((el) => {
+          if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Under Review by MoHUA";
+            el.state_status = el?.data?.status;
+
+          } else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Returned by State";
+            el.state_status = el?.data?.status;;
+          } else if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Approved by MoHUA";
+            this.mohuaReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = 'APPROVED';
+
+          }
+          else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Returned by MoHUA";
+            this.mohuaReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = el?.data?.status;;
+          } else {
+            this.stateReview = false;
+          }
+          //   }
+        })
+      }
+
+    }
+    //unAudited status set.......
+    // debugger
+    if (type == 'unAuditQues') {
+      if (this.formData?.unAudited?.submit_annual_accounts == false) {
+        if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Under Review by MoHUA";
+          //  this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          this.stateReview = true;
+
+        } else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "STATE"
+        ) {
+          this.finalStatus = "Returned by State";
+          this.stateReview = true;
+          // this.state_status_aud = this.formData?.audited?.status;
+          this.state_status_unAud = this.formData?.unAudited?.status;
+        } else if (
+          this.formData?.status == "APPROVED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Approved by MoHUA";
+          this.mohuaReview = true;
+          //  this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_aud = 'APPROVED';
+          this.mohua_status_unAud = 'APPROVED';
+          this.stateReview = true;
+
+        }
+        else if (
+          this.formData?.status == "REJECTED" &&
+          this.formData?.actionTakenByRole == "MoHUA"
+        ) {
+          this.finalStatus = "Returned by MoHUA";
+          this.mohuaReview = true;
+          //   this.state_status_aud = 'APPROVED';
+          this.state_status_unAud = 'APPROVED';
+          //  this.mohua_status_aud = this.formData?.audited?.status;
+          this.mohua_status_unAud = this.formData?.unAudited?.status;
+          this.stateReview = true;
+        } else {
+          this.stateReview = false;
+        }
+      }
+      if (this.formData?.unAudited?.submit_annual_accounts == true) {
+        // for (let i = 0; i < this.unAuditQues.length; i++) {
+        // }
+        this.unAuditQues.forEach((el) => {
+          if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Under Review by MoHUA";
+            el.state_status = el?.data?.status;
+            this.stateReview = true;
+          } else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "STATE"
+          ) {
+            this.finalStatus = "Returned by State";
+            el.state_status = el?.data?.status;
+            this.stateReview = true;
+          } else if (
+            this.formData?.status == "APPROVED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Approved by MoHUA";
+            this.mohuaReview = true;
+            this.stateReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = 'APPROVED';
+          }
+          else if (
+            this.formData?.status == "REJECTED" &&
+            this.formData?.actionTakenByRole == "MoHUA"
+          ) {
+            this.finalStatus = "Returned by MoHUA";
+            this.mohuaReview = true;
+            this.stateReview = true;
+            el.state_status = 'APPROVED';
+            el.mohua_status = el?.data?.status;
+          } else {
+            this.stateReview = false;
+          }
+          //   }
+        })
+      }
+
+    }
+  }
+  // setActionStatus(): void {
+  //   if (this.canTakeAction == true && this.formData?.actionTakenByRole == "ULB") {
+  //     this.stateReview = true;
+  //   }
+  //   //audited status set........
+  //   //unAudited status set.......
+  //   if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == false) {
+  //     if (
+  //       this.formData?.status == "APPROVED" &&
+  //       this.formData?.actionTakenByRole == "STATE"
+  //     ) {
+  //       this.finalStatus = "Under Review by MoHUA";
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+
+  //     } else if (
+  //       this.formData?.status == "REJECTED" &&
+  //       this.formData?.actionTakenByRole == "STATE"
+  //     ) {
+  //       this.finalStatus = "Returned by State";
+  //       this.state_status_aud = this.formData?.audited?.status;
+  //       this.state_status_unAud = this.formData?.unAudited?.status;
+  //     } else if (
+  //       this.formData?.status == "APPROVED" &&
+  //       this.formData?.actionTakenByRole == "MoHUA"
+  //     ) {
+  //       this.finalStatus = "Approved by MoHUA";
+  //       this.mohuaReview = true;
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+  //       this.mohua_status_aud = 'APPROVED';
+  //       this.mohua_status_unAud = 'APPROVED';
+
+  //     }
+  //     else if (
+  //       this.formData?.status == "REJECTED" &&
+  //       this.formData?.actionTakenByRole == "MoHUA"
+  //     ) {
+  //       this.finalStatus = "Returned by MoHUA";
+  //       this.mohuaReview = true;
+  //       this.state_status_aud = 'APPROVED';
+  //       this.state_status_unAud = 'APPROVED';
+  //       this.mohua_status_aud = this.formData?.audited?.status;
+  //       this.mohua_status_unAud = this.formData?.unAudited?.status;
+  //     }
+  //   } else if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == true) {
+
+  //   } else if (this.formData?.unAudited?.submit_annual_accounts == false && this.formData?.audited?.submit_annual_accounts == true) {
+
+  //   } else if (this.formData?.unAudited?.submit_annual_accounts == true && this.formData?.audited?.submit_annual_accounts == true) {
+
+  //   }
+
+  // }
 }

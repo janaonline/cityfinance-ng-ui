@@ -1228,6 +1228,11 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
    */
   filesAlreadyInProcess: number[] = [];
   onFileChange(event, i, projectIndex) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.resetFileTracker();
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
@@ -1290,16 +1295,16 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     }
     // if (files.length) this.addPhotosUrl(this.photoUrl, urlIndex);
   }
-
+  Years = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   uploadFile(file: File, fileIndex: number, urlIndex) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+     let folderName = `${this.userData?.role}/2021-22/dur/${this.userData?.ulbCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_alias"];
+          const fileAlias = s3Response["data"][0]["file_url"];
           //  this.photoUrl = this.tabelRows['controls'][urlIndex]['controls']['photos'].value;
-
           this.photoUrl.push({ url: fileAlias });
-
           //  this.tabelRows['controls'][urlIndex].patchValue({
           //    photos: photoUrl
           //  })

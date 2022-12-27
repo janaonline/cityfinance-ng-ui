@@ -31,6 +31,8 @@ export class GrantClaimsDialogComponent implements OnInit {
   file_name= ''
   file_url = ''
   year;
+  userData;
+  years;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<GrantClaimsDialogComponent>,
@@ -38,7 +40,10 @@ export class GrantClaimsDialogComponent implements OnInit {
     private _questionnaireService: QuestionnaireService,
     private grantClaimService : GrantClaimsService,
     private dataEntryService: DataEntryService,
-  ) { }
+  ) {
+    this.years = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+  }
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -202,10 +207,11 @@ li {
   uploadFile(file: File) {
     console.log(file);
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+    let folderName = `${this.userData?.role}/2021-22/submit_claims/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           console.log('s3333..', s3Response)
-          const fileAlias = s3Response["data"][0]["file_alias"];
+          const fileAlias = s3Response["data"][0]["file_url"];
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(file, s3URL, fileAlias);
           resolve("success");

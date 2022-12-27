@@ -83,7 +83,7 @@ export class CommonFileUploadComponent implements OnInit {
     // debugger;
     console.log("isDisabled", this.isDisabled);
 
-    if (this.quesName == "Auditor Report" || this.quesName == 'Supporting Document') {
+    if (this.quesName == "Auditor Report" || this.quesName == 'Supporting Document :') {
       this.showExcel = false;
     } else {
       this.showExcel = true;
@@ -139,6 +139,11 @@ export class CommonFileUploadComponent implements OnInit {
       sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(fileType, event);
     console.log("aaa", event.target.files[0].size);
     let files;
@@ -171,12 +176,18 @@ export class CommonFileUploadComponent implements OnInit {
       return;
     }
   }
-
+  Year = JSON.parse(localStorage.getItem("Years"));
   uploadFile(file, name, type, fileType) {
     console.log("this.data", this.data);
-
+    let ulbId = this.userData?.ulbCode;
+    let formName = 'annual_accounts'
+    if (!ulbId) {
+      ulbId = localStorage.getItem("ulb_id");
+      let formName = 'annual_accounts'
+     }
     this.data[fileType].progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/2022-23/${formName}/${ulbId}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
         const res = s3Response.data[0];
@@ -184,7 +195,7 @@ export class CommonFileUploadComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );
