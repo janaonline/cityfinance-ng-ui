@@ -64,10 +64,11 @@ export class FiscalHomeComponent implements OnInit {
     {
       image : "../../../assets/M FIGMA/newDraft.png",
       title: "Draft Guidelines",
-      text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
-       comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
-       before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
-       considering the feedback received.`,
+      // text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
+      //  comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
+      //  before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
+      //  considering the feedback received.`,
+      text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
       url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/CFR%20guideline-22%20dec%20low%20res_07265488-8e9b-41cd-a0f6-4db831fb9872.pdf`,
       isModal: true,
       icon_down: '',
@@ -97,48 +98,36 @@ export class FiscalHomeComponent implements OnInit {
   ]
   ngOnInit(): void {
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
-      function canobjective(res) {
-        if (res.section == "Objective") {
-          return res;
-        }
-      }
-      this.objresult = data.data.filter(canobjective);
-      function canassement(res) {
-        if (res.section == "Assessment Parameters") {
-          return res;
-        }
-      }
-      this.assresult = data.data.filter(canassement);
-
-      // "Salient Features"
-      function cansalient(res) {
-        if (res.section == "Salient Features") {
-          return res;
-        }
-      }
-      this.salientresult = data.data.filter(cansalient);
-
-      // "Ranking Categories"
-      function canranking(res) {
-        if (res.section == "Ranking Categories") {
-          return res;
-        }
-      }
-      this.rankresult = data.data.filter(canranking);
-
-      //"icon 3"
-      function canicon(res) {
-        if (res.section == "Banner Icon") {
-          return res;
-        }
-      }
-      this.iconresult = data.data.filter(canicon);
-      console.log("this myu data======>", data.data)
-      this.setDisplayItem()
+        console.log("this myu data======>", data.data)
+        this.setDisplayItem();
+        this.filterFromObj(data?.data);
+    },
+    (error)=>{
+      alert('Network issues');
     })
-
-    console.log('file..banner', this.iconresult);
-
+  }
+  filterFromObj(data){
+    console.log('data,,,,', data);
+    data?.forEach((el)=>{
+     if(el?.section == "Objective"){
+       this.objresult.push(el);
+      }
+     if(el?.section == "Assessment Parameters"){
+      this.assresult.push(el);
+      }
+     if(el?.section == "Salient Features"){
+      this.salientresult.push(el);
+     }
+     if(el?.section == "Ranking Categories"){
+      this.rankresult.push(el);
+     }
+     if(el?.section == "Banner Icon"){
+      this.iconresult.push(el);
+     }
+   });
+    this.iconresult.sort((a, b) => a.seq - b.seq);
+    console.log('array', this.objresult);
+    console.log('array', this.iconresult);
   }
   ngOnDestroy() {
     clearInterval(this.interval);
