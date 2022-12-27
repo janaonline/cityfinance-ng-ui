@@ -18,12 +18,17 @@ import { MatCardModule } from "@angular/material/card";
 import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { LoaderComponent } from './loader/loader.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-preview.component';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
-    UlbFiscalComponent
+    UlbFiscalComponent,
+    LoaderComponent,
+    UlbFisPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +46,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     MatInputModule,
     MatCardModule,
     FiscalRankingRoutingModule,
+    MatRadioModule
     
   ],
   providers: [{

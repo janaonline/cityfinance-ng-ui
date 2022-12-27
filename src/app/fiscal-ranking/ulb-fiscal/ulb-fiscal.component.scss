@@ -61,6 +61,11 @@
     line-height: 22px;
 }
 
+.form-ic {
+    display: inline-block;
+    width: 80%;
+}
+
 .btn-f-next {
     background: #E67E15;
     border-radius: 8px;
@@ -190,4 +195,35 @@
 
 .l-h {
     height: 5rem;
+}
+
+.f-w {
+    font-weight: 600 !important;
+}
+
+.br-a {
+    background: #fff;
+    border-right-width: 0;
+}
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+    margin-left: 16px;
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #E67E15;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle,
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+::ng-deep .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #E67E15;
+}
+
+.disable {
+    input,
+    .mat-radio-button {
+        pointer-events: none;
+    }
 }

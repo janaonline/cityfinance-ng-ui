@@ -30,7 +30,7 @@ const swal: SweetAlert = require("sweetalert");
 //           nonmillion_untied:{$exists: true}
 //           }
 //       },
-      
+
 //       {
 //           $addFields:{
 //               "nonmillion_untied.isDraft":true
@@ -674,7 +674,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           pdfName: millionName,
           status: actionA ? actionA : 'PENDING',
           rejectReason: rrA ? rrA: null,
-          isDraft: milDisable ? false : this.inDraftMode 
+          isDraft: milDisable ? false : this.inDraftMode
         },
         nonmillion_tied:
         {
@@ -682,7 +682,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           pdfName: nonMilTiedName,
           status: actionB ? actionB : 'PENDING',
           rejectReason: rrB ? rrB : null,
-          isDraft: nonmilTiedDisable ? false : this.inDraftMode 
+          isDraft: nonmilTiedDisable ? false : this.inDraftMode
         },
         nonmillion_untied:
         {
@@ -690,7 +690,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           pdfName: nonMilUntiedName,
           status: actionc ? actionc : 'PENDING',
           rejectReason: rrC ? rrC : null,
-          isDraft: nonmilUntiedDisable ? false : this.inDraftMode 
+          isDraft: nonmilUntiedDisable ? false : this.inDraftMode
         },
         isDraft: true
       };
@@ -745,7 +745,7 @@ this.uploadedFiles.isDraft = false
 
   clearFiles(fileName) {
     sessionStorage.setItem("changeInGTC", "true")
-   
+
     this.change = "true"
     if (fileName == 'fileName_millionTied') {
       this.clickedCrossB = true
@@ -850,9 +850,9 @@ apiData={}
   flag = 0
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_alias"];
+          const fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(
@@ -933,7 +933,7 @@ clickedCrossC = false
     if(res['data'].length>0){
       this.apiData = res['data'][0];
       if(year =='2021-22' && inst =='1'){
-      
+
         if ( res['data'][0].hasOwnProperty('million_tied')  && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
           this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
@@ -968,7 +968,7 @@ clickedCrossC = false
         }
         if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
           this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
-          this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];  
+          this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];
           this.formDisableC_2122 = !res['data'][0]['isDraft'];
           this.nonmillionUntiedDisable_2122 =  !res['data'][0]['nonmillion_untied']['isDraft']
         }
@@ -994,10 +994,10 @@ clickedCrossC = false
       }
         resolve(res['data'][0])
     }
-  
+
   })
    })
-  
+
 }
   private uploadFileToS3(
     file: File,
@@ -1124,7 +1124,7 @@ clickedCrossC = false
       first_2122:{},
       second_2122:{},
     };
- 
+
 PreviewFiles.second_2021 = await this.callGetAPI('2020-21','2');
 
 // this.callGetAPI('2021-22','1');
@@ -1132,8 +1132,8 @@ PreviewFiles.first_2122 = await this.callGetAPI('2021-22','1');
 
 // this.callGetAPI('2021-22','2');
 PreviewFiles.second_2122 = await this.callGetAPI('2021-22','2');
-    
-  
+
+
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
       {
         data: PreviewFiles,

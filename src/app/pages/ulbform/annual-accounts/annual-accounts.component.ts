@@ -790,7 +790,7 @@ export class AnnualAccountsComponent implements OnInit {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -799,7 +799,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType
         );

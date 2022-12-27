@@ -5,9 +5,20 @@
 //     background-image: linear-gradient(rgba(38, 104, 172, 0.5), rgba(0, 0, 0, 0.6)) !important;
 // }
 .car-bg {
-    background: #2668AC;
-    mix-blend-mode: multiply;
-    //  opacity: 0.6;
+    // mix-blend-mode: multiply;
+    margin: 0;
+    padding: 0;
+}
+
+.img-container {
+    &::before {
+        content: '';
+        background: #2668AC;
+        mix-blend-mode: multiply;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 #title-hd {
@@ -41,8 +52,9 @@
 }
 
 .cardB {
-    height: 20rem !important;
+    // height: 20rem !important;
     width: 100%;
+    padding: 10px 18px;
 }
 
 .li1 i {
@@ -103,9 +115,24 @@
     margin-bottom: 3rem;
 }
 
-@media only screen and(max-width:1305px) {
+@media only screen and(max-width:1199px) {
     .iconsection {
         margin-top: -50px !important;
+    }
+    .cardB {
+        height: 27rem !important;
+    }
+}
+
+@media screen and (max-width: 1399px) and (min-width: 1200px) {
+    .cardB {
+        height: 23rem !important;
+    }
+}
+
+@media only screen and(min-width:1400px) {
+    .cardB {
+        height: 22rem !important;
     }
 }
 
@@ -121,7 +148,6 @@
     font-weight: 800;
     font-size: 18px;
     line-height: 25px;
-    /* identical to box height */
     color: #101010;
 }
 
@@ -159,8 +185,10 @@
     font-size: 16px;
     line-height: 31px;
     color: #565656;
-    height: 60px;
-    overflow: hidden;
+    height: 6rem;
+    // overflow: hidden;
+    // text-align: justify;
+    // letter-spacing:1px;
 }
 
 .how-it-work {
@@ -178,7 +206,7 @@
     font-size: 36px;
     line-height: 60px;
     color: #FFFFFF;
-    padding-left: 8rem;
+    padding-left: 10rem;
 }
 
 .h-p4 {
@@ -209,6 +237,7 @@
     font-size: 20px;
     line-height: 27px;
     color: #101010;
+    padding-left: 8% !important;
 }
 
 .salient-p {
@@ -461,5 +490,6 @@
 }
 
 .h-c-s {
-    height: 20rem;
+    height: 23rem;
+    width: 95%;
 }

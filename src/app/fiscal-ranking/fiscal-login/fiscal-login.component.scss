@@ -1,53 +1,157 @@
-.hero{
-    background-image:linear-gradient(rgba(38, 104, 172, 0.2), rgba(0, 0, 0, 0.021)), url("../../../assets/sajal-das--YbOY0ZV_X4-unsplash\ 1.jpg");
+.hero {
+    background-image: linear-gradient(rgba(38, 104, 172, 0.2), rgba(0, 0, 0, 0.021)), url("../../../assets/sajal-das--YbOY0ZV_X4-unsplash\ 1.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 75vh;
-  
+    //  height: 75vh;
 }
 
-.city-fr-div{
-  position: absolute;
-width: 240px;
-height: 26px;
-left: 675px;
-top: 190px;
-background: #FFFFFF;
-box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
-border-radius: 5px;
+.pos-r {
+    position: relative;
 }
 
-.city-fr{
-  font-family: 'Manrope';
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 24px;
-/* identical to box height, or 150% */
-
-text-align: center;
-
-color: #101010;
-
+.city-fr-div {
+    position: absolute;
+    width: 241px;
+    height: 26px;
+    /* left: 28%; */
+    top: -12px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 24px 8px rgb(0 0 0 / 7%);
+    border-radius: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
 }
 
-#pills-tab{
-  background-color: white; 
-  border-radius:5px;
-  border: 2px groove rgb(2, 117, 216);
+.city-fr {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #101010;
+}
+
+.login-btnn {
+    background-color: #ff8a00;
+    padding: 5px 25px;
+    color: white;
+}
+
+.forgo-otp {
+    color: #ff8a00;
+    text-decoration: none;
 }
 
 .button-b {
     margin: 1px;
-    padding: 6px 37px;
-    background-color: rgb(255, 255, 255);
-    color: rgb(72, 99, 255);
+    padding: 10px 36px;
     border-radius: 5px;
-  }
+    color: #2668AC;
+    width: 100% !important;
+}
 
-  // .button-b:active{
-  //   background-color: rgb(72, 99, 255)  !important;
-  // }
+@media only screen and(max-width: 1400px) and (min-width:1100px) {
+    .city-fr {
+        font-family: 'Manrope';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #101010;
+    }
+    .button-b {
+        margin: 1px;
+        padding: 5px 18px;
+        border-radius: 3px;
+        color: #2668AC;
+        width: 100% !important;
+    }
+}
 
+.forgot-p {
+    justify-content: center;
+    background-color: #ff8a00;
+    border-radius: 0.2rem;
+    color: white;
+}
 
+.sign {
+    background-color: #ff8a00;
+    border-radius: 0.2rem;
+    color: white;
+}
+
+.sign1 {
+    width: 100%;
+    box-shadow: 3px 5px 6px lightgray;
+}
+
+// .button-b:active{
+//   background-color: rgb(72, 99, 255)  !important;
+// }
+.lg-con {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav {
+    justify-content: center;
+    flex-wrap: nowrap;
+    border: 1px solid blue;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: 3px 0;
+    background-color: #fff;
+}
+
+.nav-item {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    //  border: 1px solid #D9DCE6;
+    text-align: center;
+    width: 100%;
+}
+
+.nav-pills .nav-link {
+    background: none;
+    border: 0;
+    border-radius: inherit;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-size: 16px;
+    // font: normal normal 600 14px/18px 'Montserrat';
+    width: max-content;
+}
+
+.nav>li>a {
+    padding: .8rem 2rem;
+}
+
+li>a.active {
+    background: #2668AC;
+    border-radius: 5px;
+}
+
+.actClass {
+    background: #2668AC;
+    border-radius: 5px;
+    color: #FFFFFF;
+    a {
+        color: #FFFFFF !important;
+    }
+}
+
+.form-control {
+    height: 40px;
+}
+
+.input-group-text {
+    background-color: #FFFFFF;
+    border: 1px solid #ced4da;
+}

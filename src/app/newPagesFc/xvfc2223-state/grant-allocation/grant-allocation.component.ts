@@ -370,7 +370,7 @@ export class GrantAllocationComponent implements OnInit {
     console.log("this.data", file, name, type, fileType, i, j);
 
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = 20;
-    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
       (s3Response) => {
         this.gtcFormData[i].quesArray[j]["file"]["progress"] = 50;
         const res = s3Response.data[0];
@@ -378,7 +378,7 @@ export class GrantAllocationComponent implements OnInit {
         this.uploadFileToS3(
           file,
           res["url"],
-          res["file_alias"],
+          res["file_url"],
           name,
           fileType,
           i,
