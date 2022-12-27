@@ -71,7 +71,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       //  before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
       //  considering the feedback received.`,
       text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines.pdf`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
@@ -91,7 +91,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       image : "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
-      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Brochure.pdf',
+      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
       isModal: false,
       icon_down: '',
       section: 'download_file',
