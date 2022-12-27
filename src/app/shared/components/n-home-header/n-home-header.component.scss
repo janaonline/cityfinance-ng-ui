@@ -150,3 +150,14 @@ a.disabled {
 .dropdown-divider {
     margin: 0.2rem 0;
 }
+
+.stiky-tp {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+// .stiky-tp + .content {
+//   padding-top: 60px;
+// }

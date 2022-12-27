@@ -253,11 +253,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   }
   utiData;
   canTakeAction = false;
+  isloadingComplte = false;
   getUtiReport() {
     this.newCommonService.getUtiData(this.ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
         this.utiData = res?.data;
+        this.isloadingComplte = true;
         this.analytics = res["analytics"];
         this.action = res?.data["action"];
         this.url = res?.data["url"];
@@ -299,6 +301,33 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       },
       (error) => {
         console.log("error", error);
+        swal(
+          "Error !",
+          `Slow internet connection, please refresh and try again`,
+          "error",
+          {
+            buttons: {
+              Submit: {
+                text: "Refresh now",
+                value: "refresh_now",
+              },
+              Cancel: {
+                text: "Cancel",
+                value: "cancel",
+              },
+            },
+          }
+        ).then((value) => {
+          switch (value) {
+            case "refresh_now":
+              this.onLoad();
+              break;
+            case "cancel":
+              break;
+          }
+        });
+      //  swal('Error', "Slow internet connection, please refresh and try again", "error");
+        this.isloadingComplte = false;
       }
     );
   }
@@ -312,13 +341,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
           ? Number(data?.grantPosition?.unUtilizedPrevYr).toFixed(2)
           : 0,
-        receivedDuringYr: data?.grantPosition?.receivedDuringYr
+        receivedDuringYr: (data?.grantPosition?.receivedDuringYr || data?.grantPosition?.receivedDuringYr === 0)
           ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
           : null,
-        expDuringYr: data?.grantPosition?.expDuringYr
+        expDuringYr: (data?.grantPosition?.expDuringYr || data?.grantPosition?.expDuringYr === 0)
           ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
           : null,
-        closingBal: data?.grantPosition?.closingBal
+        closingBal: (data?.grantPosition?.closingBal || data?.grantPosition?.closingBal === 0)
           ? Number(data?.grantPosition?.closingBal).toFixed(2)
           : null,
       },

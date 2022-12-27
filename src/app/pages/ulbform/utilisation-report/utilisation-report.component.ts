@@ -500,7 +500,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
       name: data.name,
       designation: data.designation,
       grantPosition: {
-        unUtilizedPrevYr: data.grantPosition.unUtilizedPrevYr,
+        unUtilizedPrevYr: (data.grantPosition.unUtilizedPrevYr || data.grantPosition.unUtilizedPrevYr === 0) ? data.grantPosition.unUtilizedPrevYr : null,
         receivedDuringYr: data.grantPosition.receivedDuringYr,
         expDuringYr: data.grantPosition.expDuringYr,
         closingBal: data.grantPosition.closingBal,

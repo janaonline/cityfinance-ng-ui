@@ -160,12 +160,16 @@ export class Slbs2223Component implements OnInit {
         resolve(res);
       },
         (error) => {
-          this.isPreviousData = false;
-          this.isPreviousMsg = error?.error?.message
+          if(error?.error?.show){
+            this.isPreviousData = false;
+            this.isPreviousMsg = error?.error?.message
+          }else {
+            this.isPreviousData;
+           this.isPreviousMsg = ''
+          }
         }
       );
     });
-
   }
   createDataForms(data?: IFinancialData) {
     this.waterWasteManagementForm = this.createWasteWaterUploadForm(data);

@@ -69,20 +69,25 @@ export class WaterSupplyComponent implements OnInit {
   { key: "5", name: "Target <br> 2023-24" },
   { key: "6", name: "Target <br> 2024-25" }]
 
-
+  Year = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   constructor(
     private dialog: MatDialog,
     private stateService: State2223Service,
     public stateDashboardService: StateDashboardService,
   ) {
     this.getDesignYear();
-    this.id = sessionStorage.getItem("sessionID");
+    this.id = this.userData?.state;
+    if (!this.id) {
+      this.id = localStorage.getItem("state_id");
+    }
+  //  this.id = sessionStorage.getItem("sessionID");
     this.setUaList()
   }
-  
+
 
   ngOnInit() {
-    
+
   }
   setUaList(){
     this.stateDashboardService.getCardData(this.id).subscribe(
@@ -107,7 +112,7 @@ export class WaterSupplyComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
- 
+
   openDialog(template, item) {
     this.templateData = item
     console.log('tempdata', item)
@@ -137,7 +142,7 @@ export class WaterSupplyComponent implements OnInit {
         firstWeightedScore: this.firstWeightedScore,
         secondWeightedScore: this.secondWeightedScore,
         thirdWeightedScore: this.thirdWeightedScore,
-        fourthWeightedScore: this.fourthWeightedScore, 
+        fourthWeightedScore: this.fourthWeightedScore,
         totalAplusB:this.totalAplusB,
         noDataFound: this.noDataFound
       }
@@ -151,12 +156,12 @@ export class WaterSupplyComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  
+
   getDesignYear(){
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.yearValue = this.design_year["2022-23"];
   }
-  
+
   foldCard(index, ua_id) {
     console.log(ua_id)
     let params = {
@@ -168,17 +173,17 @@ export class WaterSupplyComponent implements OnInit {
         this.getData = res['data']
         this.gfcScoreRoundOff = parseFloat(this.getData?.gfc?.score).toFixed(2)
         this.odfScoreRoundOff = parseFloat(this.getData?.odf?.score).toFixed(2)
-        this.combinedActualTarget = this.targetActual  
+        this.combinedActualTarget = this.targetActual
         this.getTotalWeightedScore();
         this.setRowData();
         this.odfGfcTotalScore = this.getData?.odf.score + this.getData?.gfc.score
-        this.odfGfcTotalScore = parseFloat(this.odfGfcTotalScore).toFixed(2)    
+        this.odfGfcTotalScore = parseFloat(this.odfGfcTotalScore).toFixed(2)
         this.checkScore();
-        this.parseWeightedScore(); 
+        this.parseWeightedScore();
         this.totalAplusB =parseFloat(this.totalWeightedScore) + parseFloat(this.odfGfcTotalScore)
         res?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false
         if(this.noDataFound){
-          swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");    
+          swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
         }
       },
       (err) => {
@@ -198,7 +203,7 @@ export class WaterSupplyComponent implements OnInit {
   }
    checkScore(){
     let totalSummaryData =parseFloat(this.totalWeightedScore) + parseFloat(this.odfGfcTotalScore)
-        
+
         if(totalSummaryData < 30){
           this.recommendedData = '0 %'
         }else if(totalSummaryData > 30 && totalSummaryData <= 45){
@@ -212,7 +217,7 @@ export class WaterSupplyComponent implements OnInit {
         }
    }
    setRowData(){
-    this.firstRowData = [parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2021).toFixed(2),      
+    this.firstRowData = [parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2021).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_actual2122).toFixed(2),
       parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay2223).toFixed(2),
@@ -245,16 +250,16 @@ export class WaterSupplyComponent implements OnInit {
            ]
    }
    getTotalWeightedScore(){
-    this.totalWeightedScore = this.getData?.fourSLB?.data?.waterSuppliedPerDay_score + 
-                                  this.getData?.fourSLB?.data?.reduction_score + 
+    this.totalWeightedScore = this.getData?.fourSLB?.data?.waterSuppliedPerDay_score +
+                                  this.getData?.fourSLB?.data?.reduction_score +
                                   this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage_score +
                                   this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply_score
     this.totalWeightedScore = parseFloat(this.totalWeightedScore).toFixed(2)
    }
   parseWeightedScore(){
-    this.firstWeightedScore = parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_score).toFixed(2) 
-        this.secondWeightedScore = parseFloat(this.getData?.fourSLB?.data?.reduction_score).toFixed(2) 
-        this.thirdWeightedScore = parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage_score).toFixed(2) 
+    this.firstWeightedScore = parseFloat(this.getData?.fourSLB?.data?.waterSuppliedPerDay_score).toFixed(2)
+        this.secondWeightedScore = parseFloat(this.getData?.fourSLB?.data?.reduction_score).toFixed(2)
+        this.thirdWeightedScore = parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage_score).toFixed(2)
         this.fourthWeightedScore = parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply_score).toFixed(2)
   }
 }

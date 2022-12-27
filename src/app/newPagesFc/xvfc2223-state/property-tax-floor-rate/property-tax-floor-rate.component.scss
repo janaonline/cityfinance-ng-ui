@@ -37,7 +37,6 @@
     font-style: italic;
 }
 
-
 .textEnd {
     text-align: end;
 }
@@ -52,7 +51,6 @@
     // box-shadow: 2px 4px 5px #cecece;
 }
 
-
 .fontStyle {
     font-weight: 500;
 }
@@ -62,15 +60,12 @@
 }
 
 .btnUpload {
-    background-color: #059b9a;
-    margin-left: 1pc;
-    margin-bottom: 1pc;
-    color: white;
     font-size: 12px;
-}
-
-.marginClass {
-    margin-top: 4%;
+    background-color: #059b9a;
+    margin-left: .3rem;
+    margin-bottom: 0.25rem;
+    color: white;
+    width: 200px;
 }
 
 .btnUpload:active {
@@ -81,11 +76,10 @@
     cursor: pointer;
 }
 
-
 .btnUpload {
     background-color: #059b9a;
     margin-left: .3rem;
-    margin-bottom: 1pc;
+    margin-bottom: 0.25rem;
     color: white;
     width: 200px;
 }
@@ -107,14 +101,12 @@
     background-color: #ffc500;
 }
 
-
 .customDate {
     width: max-content;
     color: #dc3545;
     font-size: 15px;
     margin-top: -26px;
 }
-
 
 .card {
     // width: 96%;
@@ -127,38 +119,37 @@
     margin: auto;
 }
 
-
 .image-upload>input {
     display: none;
 }
-
 
 .image-upload img {
     cursor: pointer;
 }
 
-.greyInputs{
+.greyInputs {
     pointer-events: none;
     background-color: #c9c9c9;
-    color:black;
+    color: black;
     opacity: 0.5;
 }
-.fadedClass{
+
+.fadedClass {
     pointer-events: none;
     background-color: #059b9a;
     color: white;
     opacity: 0.5;
 }
-.marginClass{
-    margin-top: 1.9rem !important;
+
+.marginClass {
+    margin-top: 1rem !important;
 }
-.customDisable{
+
+.customDisable {
     cursor: not-allowed;
     display: inline-block;
     pointer-events: none;
 }
-
-
 
 .disabled {
     color: gray;
@@ -178,9 +169,10 @@ input[type='radio'] {
     -webkit-appearance: none;
 }
 
-.progressBar{
+.progressBar {
     padding: 0;
 }
+
 .modal-body {
     position: relative;
     flex: 1 1 auto;
@@ -207,4 +199,9 @@ input[type='radio'] {
     color: #fff;
     background-color: #198754;
     border-color: #198754;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
 }

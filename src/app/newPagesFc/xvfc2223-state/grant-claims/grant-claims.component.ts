@@ -63,9 +63,10 @@ export class GrantClaimsComponent implements OnInit {
   ) {
     // this.financial_year = JSON.parse(localStorage.getItem('Years'));
     this.stateId = sessionStorage.getItem("state_id");
-    if (!this.stateId) {
-      this.stateId = JSON.parse(localStorage.getItem("userData")).state;
-    }
+      if (!this.stateId) {
+        this.stateId = localStorage.getItem("state_id");
+      }
+
   }
 
 

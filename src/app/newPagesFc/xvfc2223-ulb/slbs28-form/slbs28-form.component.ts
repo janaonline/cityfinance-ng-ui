@@ -4,6 +4,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
 import { NavigationStart, Router } from '@angular/router';
 import { SweetAlert } from "sweetalert/typings/core";
+import { I } from "@angular/cdk/keycodes";
 const swal1: SweetAlert = require("sweetalert");
 // ES6 Modules or TypeScript
 // import { SweetAlert } from "sweetalert/typings/core";
@@ -312,9 +313,23 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   popError = false;
   formId = '';
   slbFormData;
+  formShow;
+  showMess = '';
+  preSLBDataNotFilled;
+  isloadingComplte = false;
   onLoad() {
     sessionStorage.setItem("changeIn28SLB", "false");
-    this.newCommonService.get28SlbsData(this.ulbId).subscribe((res: any) => {
+    this.newCommonService.get28SlbsData(this.ulbId).subscribe(
+      (res: any) => {
+      if(res?.show){
+        this.formShow = res?.show;
+        this.showMess = res?.message;
+      }else {
+        this.formShow = false;
+      }
+      this.preSLBDataNotFilled = res?.slbDataNotFilled;
+      this.isloadingComplte = true;
+     if(this.formShow == false){
       console.log("28 slbs data DATA", res);
       this.slbData = res?.data;
       this.slbFormData = { ...res?.data };
@@ -332,8 +347,13 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
             el["targetDisable"] = true;
             this.isDisabled = true;
           } else if (this.ulbData?.role == "ULB" && this.slbFormData?.status === "REJECTED") {
-            el["actualDisable"] = false;
-            el["targetDisable"] = false;
+            if(this.preSLBDataNotFilled){
+              el["actualDisable"] = false;
+              el["targetDisable"] = false;
+            }else{
+              el["actualDisable"] = false;
+              el["targetDisable"] = el["targetDisable"] ? el["targetDisable"] : false;
+            }
             this.isDisabled = false;
           }
           let rangeArr = el["range"].split("-");
@@ -343,7 +363,39 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       Object.assign(this.formData, this.slbData["data"]);
       this.checkActionDisable(res?.data);
       console.log("After processing Range -", this.formData);
-    });
+     }
+    },
+    (error) => {
+      console.log('error', error);
+      this.isloadingComplte = false;
+      // swal('Error', "Network issues, please try after some times.", "error");
+      swal(
+        "Error !",
+        `Slow internet connection, please refresh and try again`,
+        "error",
+        {
+          buttons: {
+            Submit: {
+              text: "Refresh now",
+              value: "refresh_now",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      ).then((value) => {
+        switch (value) {
+          case "refresh_now":
+            this.onLoad();
+            break;
+          case "cancel":
+            break;
+        }
+      });
+    }
+    );
   }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));

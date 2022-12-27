@@ -219,6 +219,9 @@ export class DashboardComponent implements OnInit {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
     this.yearValue = this.design_year["2022-23"];
   }
 
