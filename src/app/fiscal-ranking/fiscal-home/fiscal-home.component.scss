@@ -18,6 +18,9 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        //         background: #2668AC;
+        mix-blend-mode: multiply;
+        opacity: 0.6;
     }
 }
 
@@ -264,8 +267,7 @@
     margin: 0;
     padding: 0;
     position: relative;
-
-    &::before{
+    &::before {
         content: '';
         height: 100%;
         width: 1px;
@@ -475,7 +477,7 @@
 
 .m-img {
     width: 100%;
-    height: 175px;
+    height: 176px;
 }
 
 .a-i-c {
@@ -654,4 +656,9 @@
 
 .circle {
     padding-left: 0.75rem;
+    // background: rgba(230, 126, 21, 0.2);
+    // border-radius: 50%;
+    // width: 55px;
+    // height: 55px;
+    // border: 1px solid rgba(230, 126, 21, 0.2);
 }

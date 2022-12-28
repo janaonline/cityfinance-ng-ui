@@ -1,14 +1,15 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DownloadPopupComponent } from '../download-popup/download-popup.component';
+declare var $: any;
 @Component({
   selector: 'app-fiscal-home',
   templateUrl: './fiscal-home.component.html',
   styleUrls: ['./fiscal-home.component.scss']
 })
-export class FiscalHomeComponent implements OnInit {
+export class FiscalHomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fiscal: FiscalRankingService,
@@ -25,6 +26,7 @@ export class FiscalHomeComponent implements OnInit {
   public salientresult = [];
   public rankresult = [];
   public iconresult = [];
+
 
 
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
@@ -62,13 +64,14 @@ export class FiscalHomeComponent implements OnInit {
 
   fqCardData= [
     {
-      image : "../../../assets/M FIGMA/draftIcon.png",
+      image : "../../../assets/M FIGMA/newDraft.png",
       title: "Draft Guidelines",
-      text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
-       comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
-       before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
-       considering the feedback received.`,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/CFR%20guideline-22%20dec%20low%20res_07265488-8e9b-41cd-a0f6-4db831fb9872.pdf`,
+      // text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
+      //  comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
+      //  before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
+      //  considering the feedback received.`,
+      text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
@@ -85,57 +88,56 @@ export class FiscalHomeComponent implements OnInit {
     //   key: 'faq'
     //  },
      {
-      image : "../../../assets/M FIGMA/brochIcon.png",
+      image : "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
-      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_Brochure_12fb3ede-e2cd-4756-92ec-0fca129a9109.pdf',
+      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
       isModal: false,
       icon_down: '',
       section: 'download_file',
       key: 'brochure'
      },
   ]
+
   ngOnInit(): void {
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
-      function canobjective(res) {
-        if (res.section == "Objective") {
-          return res;
-        }
-      }
-      this.objresult = data.data.filter(canobjective);
-      function canassement(res) {
-        if (res.section == "Assessment Parameters") {
-          return res;
-        }
-      }
-      this.assresult = data.data.filter(canassement);
+        console.log("this myu data======>", data.data)
+        this.setDisplayItem();
+        this.filterFromObj(data?.data);
+    },
+    (error)=>{
+      alert('Network issues');
+    });
 
-      // "Salient Features"
-      function cansalient(res) {
-        if (res.section == "Salient Features") {
-          return res;
-        }
-      }
-      this.salientresult = data.data.filter(cansalient);
+  }
+  @ViewChild('carousel') _carousel: ElementRef<HTMLInputElement>;
+  ngAfterViewInit(): void {
+    const myCarousel = this._carousel.nativeElement;
+    const carousel = $(myCarousel).carousel();
+  }
 
-      // "Ranking Categories"
-      function canranking(res) {
-        if (res.section == "Ranking Categories") {
-          return res;
-        }
+  filterFromObj(data){
+    console.log('data,,,,', data);
+    data?.forEach((el)=>{
+     if(el?.section == "Objective"){
+       this.objresult.push(el);
       }
-      this.rankresult = data.data.filter(canranking);
-
-      //"icon 3"
-      function canicon(res) {
-        if (res.section == "Banner Icon") {
-          return res;
-        }
+     if(el?.section == "Assessment Parameters"){
+      this.assresult.push(el);
       }
-      this.iconresult = data.data.filter(canicon);
-      console.log("this myu data======>", data.data)
-      this.setDisplayItem()
-    })
+     if(el?.section == "Salient Features"){
+      this.salientresult.push(el);
+     }
+     if(el?.section == "Ranking Categories"){
+      this.rankresult.push(el);
+     }
+     if(el?.section == "Banner Icon"){
+      this.iconresult.push(el);
+     }
+   });
+    this.iconresult.sort((a, b) => a.seq - b.seq);
+    console.log('array', this.objresult);
+    console.log('array', this.iconresult);
   }
   ngOnDestroy() {
     clearInterval(this.interval);
