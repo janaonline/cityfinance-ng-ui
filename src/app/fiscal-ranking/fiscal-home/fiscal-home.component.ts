@@ -1,16 +1,21 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FiscalRankingService } from '../fiscal-ranking.service';
-
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DownloadPopupComponent } from '../download-popup/download-popup.component';
+declare var $: any;
 @Component({
   selector: 'app-fiscal-home',
   templateUrl: './fiscal-home.component.html',
   styleUrls: ['./fiscal-home.component.scss']
 })
-export class FiscalHomeComponent implements OnInit {
+export class FiscalHomeComponent implements OnInit, AfterViewInit {
 
-  constructor(private fiscal: FiscalRankingService) {
+  constructor(
+    private fiscal: FiscalRankingService,
+    private _router: Router,
+    private dialog: MatDialog,
+    private renderer: Renderer2) {
     // this.fiscal.getHeroes().subscribe((data:any)=>{
     //   this.result = data
     //   console.log("this myu data======>",this.result)
@@ -21,6 +26,7 @@ export class FiscalHomeComponent implements OnInit {
   public salientresult = [];
   public rankresult = [];
   public iconresult = [];
+
 
 
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
@@ -54,142 +60,94 @@ export class FiscalHomeComponent implements OnInit {
   }
 
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-
   src = "../../../assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
 
-  // arrReward:Array<any>=[
-  //   {
-  //   image : "../../../assets/M FIGMA/medal 1.png",
-  //   title: "Rewards & Recognition",
-  //   text: "Reward & recognise ULBs that have taken positive step towards revenue generation, expenditure management & building effective fiscal govenement systems."
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/collaboration 1.png",
-  //     title: "Peer Learnings",
-  //     text: "Facilitate peer learnings by building a collaborative and learning environment that would enable scaling best oractises across ULBs."
-  //   },
-  //   {
-  //       image : "../../../assets/M FIGMA/competition 1.png",
-  //       title: "Healthy Competition",
-  //       text: "Fuel healthy competition among ULBs & states with an aim of building a robust municipal finance ecosystem and a culture of financially healthy and sustainable ULBs."
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/online-library 1.png",
-  //     title: "Platform for Support",
-  //     text: "Platform for identifying technical support needs of states/cities for implementing municipal finance reforms and informing policy decisions at union/state level."
-  //   }
-  // ]
-
-  // arrReward2:Array<any>=[
-  //   {
-  //   image : "../../../assets/M FIGMA/graph 1.png",
-  //   title: "Resource Mobilization ",
-  //   text: "signifies the size and growth trend in the total receipts and own revenues of the ULB..."
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/doughnut 1.png",
-  //     title: "Expenditure Performance ",
-  //     text: "signifies size and quality of expenditure (spending) towards building infrastructure..."
-  //   },
-  //   {
-  //       image : "../../../assets/M FIGMA/agreement 1.png",
-  //       title: "Fiscal Governance ",
-  //       text: "refers to robustness of systems in place with respect to transparency and accountability..."
-  //   },
-  // ]
-
-
-  // arrReward3:Array<any>=[
-  //   {
-  //   image : "../../../assets/M FIGMA/medal (1) 1.png",
-  //   title: "Simple Ranking Methodology",
-  //   text: "All ULBs are required to submit their key financial data and upload their financial documents on the www.cityfinance.in"
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/upload 1.png",
-  //     title: "100% Paperless Process",
-  //     text: "All ULBs are required to submit their key financial data and upload their financial documents on the www.cityfinance.in"
-  //   },
-  //   {
-  //       image : "../../../assets/M FIGMA/collection 1.png",
-  //       title: "3 Data sources",
-  //       text: "Audited Annual Accounts, Approved Annual Budget, Self-reported financial details."
-  //   },
-  // ]
-
-  // arrReward4:Array<any>=[
-  //   {
-  //   image : "../../../assets/M FIGMA/city 1.png",
-  //   title: "Above 4 Million ",
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/city 1 (1).png",
-  //     title: "1 Million - 4 Million ",
-  //   },
-  //   {
-  //       image : "../../../assets/M FIGMA/city 1 (2).png",
-  //       title: "100K - 1 Million ",
-
-  //   },
-  //   {
-  //     image : "../../../assets/M FIGMA/city 1 (3).png",
-  //     title: "Less than 100,000 ",
-
-  // },
-  // ]
-
+  fqCardData= [
+    {
+      image : "../../../assets/M FIGMA/newDraft.png",
+      title: "Draft Guidelines",
+      // text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
+      //  comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
+      //  before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
+      //  considering the feedback received.`,
+      text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
+      isModal: true,
+      icon_down: '',
+      section: 'download_file',
+      key: 'draftGuidelines'
+     },
+    //  {
+    //   image : "../../../assets/M FIGMA/faqIcon.png",
+    //   title: "FAQ",
+    //   text: "",
+    //   url: `https://democityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_FAQs_ee0abc57-8114-4fa2-9d58-b444adf6bf64.pdf`,
+    //   isModal: false,
+    //   icon_down: '',
+    //   section: 'download_file',
+    //   key: 'faq'
+    //  },
+     {
+      image : "../../../assets/M FIGMA/newBroch.png",
+      title: "Brochure",
+      text: "",
+      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
+      isModal: false,
+      icon_down: '',
+      section: 'download_file',
+      key: 'brochure'
+     },
+  ]
 
   ngOnInit(): void {
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
-      function canobjective(res) {
-        if (res.section == "Objective") {
-          return res;
-        }
-      }
-      this.objresult = data.data.filter(canobjective);
-      function canassement(res) {
-        if (res.section == "Assessment Parameters") {
-          return res;
-        }
-      }
-      this.assresult = data.data.filter(canassement);
+        console.log("this myu data======>", data.data)
+        this.setDisplayItem();
+        this.filterFromObj(data?.data);
+    },
+    (error)=>{
+      alert('Network issues');
+    });
 
-      // "Salient Features"
-      function cansalient(res) {
-        if (res.section == "Salient Features") {
-          return res;
-        }
-      }
-      this.salientresult = data.data.filter(cansalient);
+  }
+  @ViewChild('carousel') _carousel: ElementRef<HTMLInputElement>;
+  ngAfterViewInit(): void {
+    const myCarousel = this._carousel.nativeElement;
+    const carousel = $(myCarousel).carousel();
+  }
 
-      // "Ranking Categories"
-      function canranking(res) {
-        if (res.section == "Ranking Categories") {
-          return res;
-        }
+  filterFromObj(data){
+    console.log('data,,,,', data);
+    data?.forEach((el)=>{
+     if(el?.section == "Objective"){
+       this.objresult.push(el);
       }
-      this.rankresult = data.data.filter(canranking);
-
-      //"icon 3"
-      function canicon(res) {
-        if (res.section == "Banner Icon") {
-          return res;
-        }
+     if(el?.section == "Assessment Parameters"){
+      this.assresult.push(el);
       }
-      this.iconresult = data.data.filter(canicon);
-      console.log("this myu data======>", data.data)
-      this.setDisplayItem()
-    })
+     if(el?.section == "Salient Features"){
+      this.salientresult.push(el);
+     }
+     if(el?.section == "Ranking Categories"){
+      this.rankresult.push(el);
+     }
+     if(el?.section == "Banner Icon"){
+      this.iconresult.push(el);
+     }
+   });
+    this.iconresult.sort((a, b) => a.seq - b.seq);
+    console.log('array', this.objresult);
+    console.log('array', this.iconresult);
   }
   ngOnDestroy() {
     clearInterval(this.interval);
   }
   setDisplayItem() {
-    console.log("this myu data======>123", this.assresult);
+   // console.log("this myu data======>123", this.assresult);
     this.assresult.forEach((el) => {
       el.bakePage = false;
     });
-    console.log("this myu data======>235", this.assresult);
+   // console.log("this myu data======>235", this.assresult);
   }
   selItem = false;
   readMore(data, ind) {
@@ -209,5 +167,39 @@ export class FiscalHomeComponent implements OnInit {
     let without_html = text.replace(/<(?:.|\n)*?>/gm, '');
     let shortened = without_html.substring(0, charlimit) + "...";
     return shortened;
+  }
+  downloadClick(item){
+    console.log('item', item);
+    if(item?.isModal){
+     this.openPopup(item);
+    }else{
+      this.simpleDownload(item);
+    }
+  }
+  simpleDownload(item){
+    const link = this.renderer.createElement('a');
+      link.setAttribute('target', '_blank');
+      link.setAttribute('href', `${item?.url}`);
+      if(item?.key == 'brochure'){
+        link.setAttribute('download', `City Finance Rankings 2022_Brochure.pdf`);
+      }else{
+        link.setAttribute('download', `City Finance Rankings 2022_${item?.title}.pdf`);
+      }
+      link.click();
+      link.remove();
+  }
+  openPopup(item){
+    const dialogRef = this.dialog.open(DownloadPopupComponent, {
+      data: item,
+      width: "fit-content",
+      height: "fit-content",
+      maxHeight: "90vh",
+      // panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
   }
 }

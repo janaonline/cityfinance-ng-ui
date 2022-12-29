@@ -156,12 +156,13 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   ) {
     this.initializeUserType();
     this.navigationCheck();
-
-
+    this.years = JSON.parse(localStorage.getItem("Years"));
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   }
   @ViewChild("template1") template1;
   @ViewChild("template") template;
-
+  userData;
+  years;
   uploadedFiles;
   millionTiedFileUrl = '';
   nonMillionTiedFileUrl = '';
@@ -799,6 +800,11 @@ this.uploadedFiles.isDraft = false
   }
 
   fileChangeEvent(event, progessType, fileName) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(event, fileName)
     this.submitted = false;
     this.resetFileTracker();
@@ -850,7 +856,8 @@ apiData={}
   flag = 0
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.userData?.role}/2021-22/gtc/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;

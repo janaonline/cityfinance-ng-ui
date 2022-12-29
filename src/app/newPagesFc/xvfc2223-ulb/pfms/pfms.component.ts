@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-const swal: SweetAlert = require("sweetalert");
+
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -9,6 +9,7 @@ import { PfmsPreviewComponent } from '../pfms-preview/pfms-preview.component';
 import { MatDialog,MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from '@angular/router';
 const swal2 = require("sweetalert2");
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-pfms",
   templateUrl: "./pfms.component.html",
@@ -572,19 +573,23 @@ export class PfmsComponent implements OnInit, OnDestroy {
     sessionStorage.setItem("changeInPFMS", "true");
   }
 
-  uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPFMS", "true");
-    this.change = "true";
-  }
+  // uploadButtonClicked(formName) {
+  //   sessionStorage.setItem("changeInPFMS", "true");
+  //   this.change = "true";
+  // }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType);
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if (progessType == "pfmsLinkProgress") {
       if (event.target.files[0].size >= 5000000) {
         this.ipt.nativeElement.value = "";
         this.errorMessege = "File size should be less than 5Mb.";
         // this.errorMessegeOther = 'File size should be less than 5Mb.'
-
         this.registerForm.controls.cert.reset();
         const error = setTimeout(() => {
           this.showIcon = false;
@@ -624,6 +629,8 @@ export class PfmsComponent implements OnInit, OnDestroy {
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
+       sessionStorage.setItem("changeInPFMS", "true");
+    this.change = "true";
   }
   clearFile(type: string = "") {
     if (type == "cert") {
@@ -691,7 +698,8 @@ export class PfmsComponent implements OnInit, OnDestroy {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+      let folderName = `${this.ulbData?.role}/2022-23/pfms/${this.ulbData?.ulbCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
@@ -709,6 +717,15 @@ export class PfmsComponent implements OnInit, OnDestroy {
             };
           } else {
             this.fileUploadTracker[fileIndex].status = "FAILED";
+          }
+          if (progessType == "otherProgress") {
+            this.otherFileName = '';
+            this.showIconOtherDoc = false;
+          }
+
+          if (progessType == "pfmsLinkProgress") {
+            this.pfmsFileName = '';
+            this.showIcon = false;
           }
         }
       );
@@ -728,6 +745,8 @@ export class PfmsComponent implements OnInit, OnDestroy {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
+            sessionStorage.setItem("changeInPFMS", "true");
+            this.change = "true";
             if (progressType == "pfmsLinkProgress") {
               this.odfUrl = fileAlias;
               this.registerForm.get("cert").patchValue({
@@ -753,6 +772,15 @@ export class PfmsComponent implements OnInit, OnDestroy {
         },
         (err) => {
           this.fileUploadTracker[fileIndex].status = "FAILED";
+          if (progressType == "otherProgress") {
+            this.otherFileName = '';
+            this.showIconOtherDoc = false;
+          }
+
+          if (progressType == "pfmsLinkProgress") {
+            this.pfmsFileName = '';
+            this.showIcon = false;
+          }
         }
       );
   }

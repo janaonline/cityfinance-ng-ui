@@ -881,7 +881,11 @@ export class WaterRejenuvationComponent implements OnInit {
 
   async onFileChange(event, waterIndex, uaIndex) {
     if (this.formDisable) return
-
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
@@ -928,7 +932,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+      let folderName = `${this.userData?.role}/2021-22/projects_wss/${this.userData?.stateCode}`
+      this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
         async (s3Response) => {
           const res = s3Response.data[0];
           await this.uploadFileToS3(file, res["url"], res["file_url"]);

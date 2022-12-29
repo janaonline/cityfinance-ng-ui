@@ -1487,6 +1487,11 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     //  this.checkDiff();
   }
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     this.uploadErrors[fileType].standardized_data.progress = 10;
     let files;
     if (event?.target) files = event.target.files[0];
@@ -1496,7 +1501,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   uploadFile(file, name, type, fileType) {
     this.uploadErrors[fileType].standardized_data.progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+    let folderName = `${this.userData?.role}/2022-23/annual_accounts/${this.userData?.ulbCode}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.uploadErrors[fileType].standardized_data.progress = 50;
         const res = s3Response.data[0];
@@ -1545,10 +1551,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       let newObj = {
         alias: fileAlias,
         financialYear: "",
-        design_year: this.Years["2021-22"],
+        design_year: this.Years["2022-23"],
       };
       if (fileType === "audited") {
-        newObj.financialYear = "2019-20";
+        newObj.financialYear = "2020-21";
       } else {
         newObj.financialYear = "2021-22";
       }
@@ -2064,7 +2070,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         swal("Saved", "Data saved as draft successfully", "success");
         setTimeout(() => {
           this.onLoad();
-        }, 500)
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -2096,7 +2102,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         swal("Saved", "Data saved successfully", "success");
         setTimeout(() => {
           this.onLoad();
-        }, 500)
+        }, 700)
       },
       (error) => {
         this.clickedSave = false;
@@ -2496,7 +2502,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         this.newCommonService.setFormStatus2223.next(true);
         setTimeout(() => {
           this.onLoad();
-        }, 300)
+        }, 700)
 
       },
       (error) => {

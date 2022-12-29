@@ -21,6 +21,10 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-preview.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { MdePopoverModule } from '@material-extended/mde';
+import { DownloadPopupComponent } from './download-popup/download-popup.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-pre
     FiscalLoginComponent,
     UlbFiscalComponent,
     LoaderComponent,
-    UlbFisPreviewComponent
+    UlbFisPreviewComponent,
+    DownloadPopupComponent
   ],
   imports: [
     CommonModule,
@@ -46,8 +51,18 @@ import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-pre
     MatInputModule,
     MatCardModule,
     FiscalRankingRoutingModule,
-    MatRadioModule
-    
+    MatRadioModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    MatTooltipModule,
+    RecaptchaModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MdePopoverModule
+
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }

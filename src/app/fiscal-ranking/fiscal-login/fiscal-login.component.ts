@@ -94,22 +94,22 @@ export class FiscalLoginComponent implements OnInit {
     private commonService: CommonService,
     private newCommonService: NewCommonService
   ) {
-    // if (this.authService.loggedIn()) {
-    //   this.router.navigate(["/home"]);
-    //   return;
-    // }
-    // this.activatedRoute.queryParams.subscribe((param) => {
-    //   if (param.user && param.user == "USER") {
-    //     this.directLogin = true;
-    //   }
-    //   if (param.message) {
-    //     this.otpVerificationMessage = true;
-    //     setTimeout(() => {
-    //       this.otpVerificationMessage = false;
-    //     }, 3000);
-    //     this.emailVerificationMessage = param.message;
-    //   }
-    // });
+    if (this.authService.loggedIn()) {
+      this.router.navigate(["/fiscal/home"]);
+      return;
+    }
+    this.activatedRoute.queryParams.subscribe((param) => {
+      if (param.user && param.user == "USER") {
+        this.directLogin = true;
+      }
+      if (param.message) {
+        this.otpVerificationMessage = true;
+        setTimeout(() => {
+          this.otpVerificationMessage = false;
+        }, 3000);
+        this.emailVerificationMessage = param.message;
+      }
+    });
   }
 
   ngOnInit() {
@@ -121,10 +121,12 @@ export class FiscalLoginComponent implements OnInit {
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
-    this.perFillUser = this.commonService.setUser(true);
-    if (this.perFillUser !== null) {
-      this.onSelectingUserType(this.perFillUser);
-    }
+    // this.perFillUser = this.commonService.setUser(true);
+    // if (this.perFillUser !== null) {
+    //   this.onSelectingUserType(this.perFillUser);
+    // }
+   // this.onSelectingUserType(this.loginTabs[0]);
+    this.tabChanged(this.loginTabs[0])
   }
 
   get lf() {
@@ -138,12 +140,12 @@ export class FiscalLoginComponent implements OnInit {
       this.loginError = "Login Failed. You must validate that you are human.";
       return;
     }
+    console.log('login form....', this.loginForm);
 
     if (this.loginForm.valid) {
       const body = { ...this.loginForm.value };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
         (error) => {
@@ -184,7 +186,7 @@ export class FiscalLoginComponent implements OnInit {
    */
   routeToProperLocation() {
     const rawPostLoginRoute =
-      sessionStorage.getItem("postLoginNavigation") || "home";
+      sessionStorage.getItem("postLoginNavigation") || "fiscal/ulb-form";
     const formattedUrl = this.formatURL(rawPostLoginRoute);
     if (typeof formattedUrl === "string") {
       this.router.navigate([formattedUrl]);
@@ -248,12 +250,11 @@ export class FiscalLoginComponent implements OnInit {
     if (this.directLogin) {
       value = "USER";
     }
-    debugger
-    this.selectedUserType = value;
-    this.loginSet = this.loginDetails.find(
+    this.selectedUserType = value?.role;
+    this.loginSet = this.loginTabs.find(
       (item) => item.role == this.selectedUserType
     );
-    switch (value) {
+    switch (value?.role) {
       case USER_TYPE.ULB:
         return this.loginForm.controls["email"].setValidators([
           Validators.required,
@@ -272,8 +273,9 @@ export class FiscalLoginComponent implements OnInit {
 
   otpLogin() {
     this.loginError = null;
+    this.submitted = true;
     const body = { ...this.loginForm.value };
-    body["email"] = body["email"].trim();
+    body["email"] = body["email"] ? body["email"].trim() : null;
     this.ulbCode = body["email"];
     this.authService.otpSignIn(body).subscribe(
       (res) => {
@@ -311,7 +313,7 @@ export class FiscalLoginComponent implements OnInit {
       return true;
     }
 
-    if (form?.controls.email.value === "") {
+    if (form?.controls.email.value === "" || form?.controls.email.value === null) {
       this.loginError = null;
       this.noCodeError = true;
       setTimeout(() => {
@@ -382,13 +384,8 @@ export class FiscalLoginComponent implements OnInit {
       //  this.leftMenu = res;
     });
   }
-  forgot(){
-
-  }
-  getOtp() {
-
-  }
   tabChanged(item) {
+    console.log('login form', this.loginForm);
     this.loginForm.reset();
     console.log('item', item);
     this.loginTabs.forEach((el) => {
@@ -396,6 +393,7 @@ export class FiscalLoginComponent implements OnInit {
     });
     item.selected = true;
     this.onSelectingUserType(item);
+    this.loginError = null;
   }
 }
 

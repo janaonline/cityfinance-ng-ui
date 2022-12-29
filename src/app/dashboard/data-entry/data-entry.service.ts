@@ -7,6 +7,7 @@ import { HttpUtility } from 'src/app/util/httpUtil';
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
 import { filter, timeout } from 'rxjs/operators';
+
 @Injectable({
   providedIn: "root",
 })
@@ -77,12 +78,13 @@ export class DataEntryService {
     );
 
   }
-  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+  newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
     return this.http.post<S3FileURLResponse>(
       `${environment.api.url}/getS3Url`,
       JSON.stringify([
         {
+          folder: folderName,
           file_name: fileName,
           mime_type: fileType,
         },
@@ -153,5 +155,16 @@ export class DataEntryService {
       reportProgress: options.reportProgress,
       observe: "events",
     });
+  }
+  checkSpcialCharInFileName(files){
+    let file = files[0];
+    let name = ((file.name).split('.'))[0];
+    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?";
+    for (let i = 0; i < name.length; i++) {
+       if (iChars.indexOf(name.charAt(i)) != -1) {
+           return false;
+       }
+    }
+    return true;
   }
 }

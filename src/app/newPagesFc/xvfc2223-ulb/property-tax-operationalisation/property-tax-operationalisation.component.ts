@@ -52,7 +52,6 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
   stateActFileUrl;
   // isDisabled:boolean =false
   previewFormData:any;
-  userData;
   design_year;
   stateId;
   yearValue;
@@ -516,12 +515,17 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
   }
 
   uploadButtonClicked(formName) {
-    sessionStorage.setItem("changeInPto", "true")
-    this.change = "true";
+    // sessionStorage.setItem("changeInPto", "true")
+    // this.change = "true";
   }
 
   fileChangeEvent(event, progessType) {
     console.log(progessType)
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     if(progessType == 'minimumFloorProgress'){
       if (event.target.files[0].size >= 20000000) {
         this.ipt2.nativeElement.value = "";
@@ -574,6 +578,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
       const filesSelected = <Array<File>>event.target["files"];
       this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected,progessType));
       this.upload(progessType, fileName);
+      sessionStorage.setItem("changeInPto", "true")
+      this.change = "true";
 
   }
   clearFile(type: string = '') {
@@ -653,7 +659,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.dataEntryService.newGetURLForFileUpload(file.name, file.type).subscribe(
+     let folderName = `${this.ulbData?.role}/2022-23/pto/${this.ulbData?.ulbCode}`
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;

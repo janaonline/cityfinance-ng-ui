@@ -9,7 +9,8 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireDocumentsCollection } from 'src/app/pages/questionnaires/model/document-collection.interface';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IDialogConfiguration } from 'src/app/shared/components/dialog/models/dialogConfiguration';
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 /**
  * These are thew question ids that are mapped to files that user select and the question.
  * This will be used to unique identify each question and their respective file.
@@ -101,7 +102,8 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
   USER_TYPE = USER_TYPE;
 
   MaxFileSize = 50 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
-
+  Years = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   constructor(
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
@@ -178,6 +180,11 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   fileChangeEvent(event: Event, key: fileKeys) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target["files"]);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     const filteredFiles = <any>(
       this.filterInvalidFiles(event.target["files"], key)
     );
@@ -203,9 +210,10 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-
+       let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.ulbCode}`
+      //let folderName = 'Mixed'
         const subs = this.dataEntryService
-          .newGetURLForFileUpload(file.name, file.type)
+          .newGetURLForFileUpload(file.name, file.type, folderName)
           .pipe(
             switchMap((res: any) =>
               this.initiateFileUploadProcess(

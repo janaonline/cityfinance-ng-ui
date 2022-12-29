@@ -105,23 +105,23 @@
             </div>
             <!-- <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle"> -->
             <div class="row mt-3 mb-3 question" *ngIf="f?.isUlbLinkedWithPFMS?.value == 'Yes'">
-                <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="col-sm-6">
                     <span class="fontStyle">
                         (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
                         etc<sup class="text-danger">*</sup>
                     </span>
 
                 </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                <div class="col-sm-6 image-upload">
                     <label for="ipt" [ngClass]="{'customDisable': !isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled}">Upload
+                        <button class="btn btnUpload" (click)="ipt.click()"  [ngClass]="{'fadedClass': !isDisabled}">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
-                        </a>
+                        </button>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input #ipt id="ipt" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
+                    <input #ipt id="ipt" style="display: none;" onclick="this.value=null;" [ngClass]="{ 'is-invalid': submitted && f?.cert?.controls?.name?.errors }" name="cin1" type="file" (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
                     <div>
                         <div *ngIf="submitted && f?.cert?.controls?.name?.errors" class="customDate text-danger">
                             <div *ngIf="f?.cert?.controls?.name?.errors.required">File is required</div>
@@ -130,21 +130,21 @@
                 </div>
             </div>
             <div class="row" *ngIf="showIcon">
-                <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+                <div class="col-sm-6 filePadding mb-3">
                     {{pfmsFileName}}
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 progressBar" *ngIf="pfmsLinkProgress">
+                <div class="col-sm-4 progressBar" *ngIf="pfmsLinkProgress">
                     <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar" attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: pfmsLinkProgress + '%' }">
                         {{ pfmsLinkProgress }}%
                     </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-2 filePadding">
+                <div class="col-sm-2 filePadding">
                     <a href="{{ odfUrl }}" target="_blank">
-                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" />
                     </a>
-                    <span style="cursor:not-allowed;">
+                    <span>
                         <a (click)="clearFile('cert')" style="margin-left: 4px;" [ngClass]="{'disableInputs': !isDisabled }">
-                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            <img src = "../../../../assets/form-icon/close-red-icon.png" alt=""/>
                         </a>
                     </span>
                 </div>
@@ -158,14 +158,15 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
                     <label for="ipt2" [ngClass]="{'customDisable': !isDisabled }">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')" [ngClass]="{'fadedClass': !isDisabled }">Upload
+                        <!-- (click)="bs_excel1.click()" -->
+                        <button class="btn btnUpload" (click)="ipt2.click()"  [ngClass]="{'fadedClass': !isDisabled }">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
-                        </a>
+                        </button>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                    <input #ipt2 id="ipt2" name="cin2" type="file" (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
+                    <input #ipt2 id="ipt2" name="cin2" type="file" style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
                 </div>
             </div>
             <div class="row" *ngIf="showIconOtherDoc">

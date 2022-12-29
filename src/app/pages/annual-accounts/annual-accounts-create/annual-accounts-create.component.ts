@@ -18,6 +18,8 @@ import { AnnualAccountsService } from "../annual-accounts.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { defaultDailogConfiuration } from "../../questionnaires/state/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts-create",
   templateUrl: "./annual-accounts-create.component.html",
@@ -224,13 +226,15 @@ export class AnnualAccountsCreateComponent implements OnInit {
       ulb: null,
     });
   }
-
+ulbCode = '';
   updateUlbType(event) {
     this.ulb = this.ulbList.find((item) => item._id == event.target.value);
+    this.ulbCode = this.ulb?.code;
     this.validateForm.patchValue({ ulbType: this.ulb.ulbType.name });
   }
 
   resetBodyValues() {
+
     this.validateForm.patchValue({
       ulbType: null,
       ulb: null,
@@ -301,21 +305,24 @@ export class AnnualAccountsCreateComponent implements OnInit {
     return false;
   }
 
-  upload(event, type, year) {
+  upload(event, type, year, designYear?:string) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
+    let ulbId = this.validateForm?.value?.ulb;
     const fileName = event.target.files[0].name;
     const fileType = event.target.files[0].type;
     console.log(`fileType `, fileType);
 
     if (this.isFileValid(event.target.files[0])) {
       const selectedType = fileType == "application/pdf" ? "pdf" : "excel";
-
       const size = event.target.files[0].size / (1024 * 1024);
-
       if (selectedType == type && size < 50) {
-        this.loader[year][type] = true;
-        this.loader[year]["name"][type] = fileName;
-
-        this.dataEntryService.newGetURLForFileUpload(fileName, fileType).subscribe(
+      //let folderName = `ULB/${this.Years['2021-22']}/Annual-accounts/Public portal/${ulbId}`
+      let folderName = `ULB/public_annual_accounts/${this.ulbCode}`
+        this.dataEntryService.newGetURLForFileUpload(fileName, fileType, folderName).subscribe(
           (response: any) => {
             const s3Url = response["data"][0].url;
             const finalUrl = response["data"][0].file_url;
@@ -323,9 +330,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
               .uploadFileToS3(event.target.files[0], s3Url)
               .subscribe(
                 (response) => {
-
                   console.log('ressss', response);
-
                   //if (response["data"]) {
                     let params = {
                       ulb: this.validateForm.value.ulb,
@@ -335,7 +340,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
                     };
                     this.annualAccountsService.getYearHistory(params).subscribe(
                       async (res) => {
-                        debugger
                         this.loader[year][type] = false;
                         if (res["data"].haveHistory) {
                           this.historyYear = res["data"].historyData;

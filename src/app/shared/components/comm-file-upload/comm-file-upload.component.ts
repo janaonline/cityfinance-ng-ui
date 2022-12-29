@@ -82,7 +82,8 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     status: this.stateAction,
     rejectReason: this.rejectReason,
   };
-
+  Years = JSON.parse(localStorage.getItem("Years"));
+  userData = JSON.parse(localStorage.getItem("userData"));
   ngOnInit(): void {
     console.log("an res status", this.statusResponse);
     console.log("an data res status", this.dataFromParent);
@@ -148,6 +149,11 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     }
   }
   async fileChangeEvent(event, fileType) {
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     console.log(fileType)
     let files;
     if (typeof event != "boolean") files = event.target.files[0];
@@ -171,9 +177,15 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   }
 
   uploadFile(file, name, type, fileType) {
-
+    let formName = 'annual_accounts'
+    if(this.FromLinkinPfms){
+      formName = 'pfms'
+    }else {
+      formName = 'annual_accounts'
+    }
     this.data[fileType].progress = 20;
-    this.dataEntryService.newGetURLForFileUpload(name, type).subscribe(
+   let folderName = `${this.userData?.role}/2021-22/${formName}/${this.userData?.ulbCode}`
+    this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
         const res = s3Response.data[0];
