@@ -32,7 +32,7 @@
               <span class="city">city</span>
               <span class="fy">finance.in</span>
           </a> -->
-            <a class="navbar-brand" routerLinkActive="active" routerLink="/fiscal/home" [ngClass]="sticky ? 'show' : ''">
+            <a class="navbar-brand" routerLinkActive="active" routerLink="/rankings/home" [ngClass]="sticky ? 'show' : ''">
                 <img src="../../../../assets/M FIGMA/city-finance-ranking.png" alt="">
                 <!-- <span class="city">city</span>
                 <span class="fy">finance.in</span> -->
@@ -72,7 +72,7 @@
                         <a class="nav-link" routerLinkActive="active" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
                     <!-- <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/fiscal/ulb-form">Fiscal Ranking</a>
+                        <a class="nav-link" routerLinkActive="active" routerLink="/rankings/ulb-form">Fiscal Ranking</a>
                     </li> -->
                     <li class="nav-item">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
@@ -90,21 +90,17 @@
                 </ul>
             </div>
             <div class="ms-auto">
-                <!-- <a *ngIf="isLoggedIn == false"
-        routerLinkActive="active"
-        (click)="loginLogout()"
-        class="btn btn-login"
-        >{{ btnName }}</a> -->
-                <div class="dropdown" *ngIf="isLoggedIn == false">
+                <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a>
+                <!-- <div class="dropdown" *ngIf="isLoggedIn == false">
                     <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp" data-bs-toggle="dropdown" aria-expanded="false">
                       Login
                   </button>
                     <ul class="dropdown-menu" aria-labelledby="loginDrp" style="left: -7px;">
                         <li><a class="dropdown-item" (click)="loginLogout('15th_Fc')">15th FC Grant</a></li>
-                        <!-- <hr class="m-0">
-                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li> -->
+                        <hr class="m-0">
+                        <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li>
                     </ul>
-                </div>
+                </div> -->
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
                     <button id="button-disabled-menu" dropdownToggle type="button" class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
                       <span class="material-icons">
