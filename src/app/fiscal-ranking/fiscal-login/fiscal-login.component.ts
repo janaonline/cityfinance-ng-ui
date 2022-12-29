@@ -95,7 +95,7 @@ export class FiscalLoginComponent implements OnInit {
     private newCommonService: NewCommonService
   ) {
     if (this.authService.loggedIn()) {
-      this.router.navigate(["/fiscal/home"]);
+      this.router.navigate(["/rankings/home"]);
       return;
     }
     this.activatedRoute.queryParams.subscribe((param) => {
@@ -186,7 +186,7 @@ export class FiscalLoginComponent implements OnInit {
    */
   routeToProperLocation() {
     const rawPostLoginRoute =
-      sessionStorage.getItem("postLoginNavigation") || "fiscal/ulb-form";
+      sessionStorage.getItem("postLoginNavigation") || "rankings/ulb-form";
     const formattedUrl = this.formatURL(rawPostLoginRoute);
     if (typeof formattedUrl === "string") {
       this.router.navigate([formattedUrl]);

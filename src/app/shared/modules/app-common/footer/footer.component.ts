@@ -38,7 +38,7 @@ export class FooterComponent implements OnInit {
       let urlArray;
       if (event instanceof NavigationEnd) {
         urlArray = event.url.split("/");
-        if (urlArray.includes("fiscal")) {
+        if (urlArray.includes("rankings")) {
          this.address = `Nirman Bhawan, <br /> New Delhi 110001`;
          this.mailId='mailto:rankings@cityfinance.in';
           this.mailLabel = 'rankings@cityfinance.in';

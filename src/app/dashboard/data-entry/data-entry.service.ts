@@ -104,11 +104,6 @@ export class DataEntryService {
         }
       ]
     }
-  //  let objArr = {
-  //   data: [
-  //     el
-  //   ]
-  //  }
     return formattedObj;
 
   }

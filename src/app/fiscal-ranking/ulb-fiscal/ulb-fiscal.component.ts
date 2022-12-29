@@ -2120,7 +2120,7 @@ getFullDataArray(){
           this.alertError =
             "You have some unsaved changes on this page. Do you wish to save your data as draft?";
           const changeInFr = sessionStorage.getItem("changeInFR");
-          if (event.url === "/" || event.url === "fiscal/login") {
+          if (event.url === "/" || event.url === "rankings/login") {
             sessionStorage.setItem("changeInFR", "false");
             return;
           }
