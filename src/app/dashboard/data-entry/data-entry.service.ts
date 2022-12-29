@@ -81,16 +81,17 @@ export class DataEntryService {
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
     return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getSignedUrl`,
+      `${environment.api.url}/getS3Url`,
       JSON.stringify([
         {
-          // folder: folderName,
+          folder: folderName,
           file_name: fileName,
           mime_type: fileType,
         },
       ]),
       { headers }
-    ).pipe(map((response) => this.changeKeys(response['data'][0])));
+    );
+    // .pipe(map((response) => this.changeKeys(response['data'][0])));
   }
   changeKeys(el){
     let formattedObj = {
