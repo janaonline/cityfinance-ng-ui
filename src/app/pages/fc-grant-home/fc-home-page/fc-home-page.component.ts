@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-fc-home-page',
   templateUrl: './fc-home-page.component.html',
@@ -10,7 +11,8 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 })
 export class FcHomePageComponent extends BaseComponent implements OnInit {
 
-  constructor(private _router: Router,private _profileService: ProfileService) {
+  constructor(private _router: Router,private _profileService: ProfileService,
+    private location: Location) {
     super();
     if(!this.loggedInUserType){
       this._router.navigate(["/fc_grant"]);
@@ -46,11 +48,12 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
      console.log(ulbRecord)
      this._profileService.getAccessYears().subscribe((res)=> {
      this.yearList = res['data']
-     }, 
+     },
      (err)=> {
       console.log(err.message)
      })
   }
+
   fetchProfileData(params: {}) {
     this._profileService.getUserProfile(params).subscribe((res) => {
       this.profileData = res["data"];
