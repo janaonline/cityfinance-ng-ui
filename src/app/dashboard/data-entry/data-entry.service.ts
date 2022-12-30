@@ -90,8 +90,7 @@ export class DataEntryService {
         },
       ]),
       { headers }
-    )
-    //.pipe(map((response) => this.changeKeys(response['data'][0])));
+    ).pipe(map((response) => this.changeKeys(response['data'][0])));
   }
   changeKeys(el){
     let formattedObj = {

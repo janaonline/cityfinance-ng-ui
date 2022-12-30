@@ -465,7 +465,7 @@
 }
 
 .h-pos {
-    width: 50%;
+    width: 100%;
     margin: auto;
     text-align: center;
 }
@@ -567,6 +567,15 @@
     border-radius: 50%;
 }
 
+.tp-i-r-video {
+    // width: 32px;
+    top: 21%;
+    position: absolute;
+    left: 25%;
+    //  border-radius: 50%;
+    // color: blue;
+}
+
 .cd-2 {
     width: 256px;
     height: 102px;
@@ -661,6 +670,16 @@
     // width: 55px;
     // height: 55px;
     // border: 1px solid rgba(230, 126, 21, 0.2);
+}
+
+.circle-v {
+    background: rgba(230, 126, 21, 0.2);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgba(230, 126, 21, 0.2);
+    margin-left: 0.75rem;
+    position: relative;
 }
 
 .sl-cnt {

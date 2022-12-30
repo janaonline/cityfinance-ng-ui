@@ -62,17 +62,22 @@
                         <div class="card cd-2" *ngFor="let item of fqCardData" style="">
                             <div class="row g-0 al-c my-auto">
                                 <div class="col-sm-3" style="width: 30%;">
-                                    <div class="circle">
+                                    <div class="circle" *ngIf="item?.key != 'video'">
                                         <img src={{item?.image}} class="bg-light tp-i-r-b" style="">
+                                    </div>
+                                    <div class="circle-v" *ngIf="item?.key == 'video'">
+                                        <svg class="tp-i-r-video" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px" fill="#7A7AF8">
+                                        <path d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12zm-2-9H8v2h11V8zm0 4H8v2h11v-2zM7 8H5v2h2V8zm0 4H5v2h2v-2z"/>
+                                        </svg>
+                                        <!-- <img src={{item?.image}} class="bg-light tp-i-r-video" style=""> -->
                                     </div>
                                 </div>
                                 <div class="col-sm-9 text-start" style="width: 70%;">
                                     <div class="card-body fq-c">
                                         <div class="cd-2-tl">{{item?.title}}</div>
-                                        <div class="cd-2-dn">
-                                            <!-- href="{{item?.icon_down}}" -->
+                                        <div class="cd-2-dn" *ngIf="item?.key != 'video'">
                                             <a class="fq-d-t" (click)="downloadClick(item)">
-                                                <!-- <img src="../../../assets/form-icon/Icon feather-download.svg" alt="" class="d-i"> -->
                                                 <span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#E67E15">
                                                         <g><rect fill="none" height="24" width="24"/></g>
@@ -80,6 +85,17 @@
                                                      </svg>
                                                 </span>
                                                 <span class="ms-2">Download</span>
+                                            </a>
+                                        </div>
+                                        <div class="cd-2-dn" *ngIf="item?.key == 'video'">
+                                            <a class="fq-d-t" (click)="downloadClick(item)">
+                                                <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#E67E15">
+                                                  <path d="M0 0h24v24H0V0z" fill="none"/>
+                                                  <path d="M10 8.64L15.27 12 10 15.36V8.64M8 5v14l11-7L8 5z"/>
+                                                  </svg>
+                                              </span>
+                                                <span class="ms-2">Play video</span>
                                             </a>
                                         </div>
                                     </div>
