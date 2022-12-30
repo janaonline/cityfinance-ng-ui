@@ -686,7 +686,34 @@
     padding: 3rem 0;
 }
 
+.w-n {
+    width: 30%;
+}
+
+.w-t {
+    width: 70%;
+}
+
+@media screen and (max-width: 600px) {
+    .dn-btn {
+        display: none !important;
+    }
+    .w-n {
+        display: none;
+    }
+    .w-n {
+        width: 100%;
+    }
+    .fq-c {
+        padding: 2px 1px;
+    }
+}
+
 @media screen and (max-width: 800px) {
+    .iconsection {
+        width: 35rem;
+        overflow-x: scroll;
+    }
     .cd-2 {
         width: 100%;
         height: 100%;

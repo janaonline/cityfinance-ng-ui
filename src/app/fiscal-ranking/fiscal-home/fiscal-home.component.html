@@ -61,7 +61,7 @@
                     <div class="d-flex justify-content-center h-pos">
                         <div class="card cd-2" *ngFor="let item of fqCardData" style="">
                             <div class="row g-0 al-c my-auto">
-                                <div class="col-sm-3" style="width: 30%;">
+                                <div class="col-sm-3 w-n" style="">
                                     <div class="circle" *ngIf="item?.key != 'video'">
                                         <img src={{item?.image}} class="bg-light tp-i-r-b" style="">
                                     </div>
@@ -73,7 +73,7 @@
                                         <!-- <img src={{item?.image}} class="bg-light tp-i-r-video" style=""> -->
                                     </div>
                                 </div>
-                                <div class="col-sm-9 text-start" style="width: 70%;">
+                                <div class="col-sm-9 text-start w-t" style="">
                                     <div class="card-body fq-c">
                                         <div class="cd-2-tl">{{item?.title}}</div>
                                         <div class="cd-2-dn" *ngIf="item?.key != 'video'">
@@ -84,7 +84,7 @@
                                                         <g><path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M17,11l-1.41-1.41L13,12.17V4h-2v8.17L8.41,9.59L7,11l5,5 L17,11z"/></g>
                                                      </svg>
                                                 </span>
-                                                <span class="ms-2">Download</span>
+                                                <span class="ms-2 dn-btn">Download</span>
                                             </a>
                                         </div>
                                         <div class="cd-2-dn" *ngIf="item?.key == 'video'">
@@ -95,7 +95,7 @@
                                                   <path d="M10 8.64L15.27 12 10 15.36V8.64M8 5v14l11-7L8 5z"/>
                                                   </svg>
                                               </span>
-                                                <span class="ms-2">Play video</span>
+                                                <span class="ms-2 dn-btn">Play video</span>
                                             </a>
                                         </div>
                                     </div>

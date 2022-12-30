@@ -60,3 +60,21 @@
     display: inline-block;
     position: relative;
 }
+
+@media screen and (max-width: 700px) {
+    .popV {
+        width: 5rem !important;
+    }
+    // .dn-btn {
+    //     display: none !important;
+    // }
+    // .w-n {
+    //     display: none;
+    // }
+    // .w-n {
+    //     width: 100%;
+    // }
+    // .fq-c {
+    //     padding: 2px 1px;
+    // }
+}
