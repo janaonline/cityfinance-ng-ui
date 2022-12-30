@@ -84,14 +84,13 @@ export class DataEntryService {
       `${environment.api.url}/getSignedUrl`,
       JSON.stringify([
         {
-          folder: folderName,
+          // folder: folderName,
           file_name: fileName,
           mime_type: fileType,
         },
       ]),
       { headers }
-    );
-   // .pipe(map((response) => this.changeKeys(response['data'][0])));
+    ).pipe(map((response) => this.changeKeys(response['data'][0])));
   }
   changeKeys(el){
     let formattedObj = {
