@@ -94,20 +94,20 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
      },
-    //     {
-    //   image : "../../../assets/M FIGMA/faqIcon.png",
-    //   title: "Know more",
-    //   text: "",
-    //   url: ``,
-    //   isModal: true,
-    //   icon_down: '',
-    //   section: 'play_video',
-    //   key: 'video'
-    //  },
+        {
+      image : "../../../assets/M FIGMA/dvr_black_24dp.svg",
+      title: "Know more",
+      text: "",
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
+      isModal: true,
+      icon_down: '',
+      section: 'play_video',
+      key: 'video'
+     },
   ]
 
   ngOnInit(): void {
-    // this.openPopup(this.fqCardData[2]);
+    this.openPopup(this.fqCardData[2]);
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
         console.log("this myu data======>", data.data)
         this.setDisplayItem();
@@ -197,11 +197,21 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       link.remove();
   }
   openPopup(item){
+    let wid = 'fit-content';
+    let hi = 'fit-content';
+    let maxH = '90vh';
+    let maxw = '95vw'
+    if(item?.key == 'video'){
+      wid = '50rem';
+      hi = '';
+      maxH= ''
+    }
     const dialogRef = this.dialog.open(DownloadPopupComponent, {
       data: item,
-      width: "fit-content",
-      height: "fit-content",
-      maxHeight: "90vh",
+      width: wid,
+      height: hi,
+      maxHeight: maxH,
+      maxWidth: maxw
       // panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
