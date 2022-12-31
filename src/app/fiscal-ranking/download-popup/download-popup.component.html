@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="popW">
+    <div class="" [ngClass]="{'popW': (data?.key == 'draftGuidelines')}">
         <div class="row">
             <div class="col-sm-12 text-end">
                 <a (click)="closeDia()">
@@ -33,12 +33,12 @@
                 </div>
 
             </div>
-            <!-- <div class="col-sm-12" *ngIf="data?.key == 'video'">
+            <div class="col-sm-12 mt-3" *ngIf="data?.key == 'video'">
                 <video width="720" height="400" controls autoplay>
-                <source src="../../../assets/AV_City Finance Rankings V2.mp4" type="video/mp4">
+                <source src="{{data?.url}}" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
-            </div> -->
+            </div>
         </div>
     </div>
 

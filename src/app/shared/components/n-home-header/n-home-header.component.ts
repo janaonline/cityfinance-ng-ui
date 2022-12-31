@@ -141,7 +141,7 @@ export class NHomeHeaderComponent implements OnInit {
 
     // }
     if (this.btnName == "Login for 15th FC Grants") {
-      this._router.navigateByUrl("/fc-home-page");
+      this._router.navigateByUrl("/fc_grant");
     }
     if (this.btnName == "Logout") {
       this.btnName = "Login for 15th FC Grants";
