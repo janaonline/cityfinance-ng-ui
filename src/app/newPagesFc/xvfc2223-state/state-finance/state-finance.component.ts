@@ -28,7 +28,7 @@ export class StateFinanceComponent implements OnInit {
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   errorMessegeStateAct: any = '';
   stateActFileName;
-  stateActUrl = ''
+  //stateActFileUrl = ''
   showStateAct:boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
@@ -449,8 +449,8 @@ export class StateFinanceComponent implements OnInit {
             this[progressType] = 100;
 
             if (progressType == 'stateActProgress') {
-              this.stateActUrl = fileAlias;
-              console.log(this.stateActUrl)
+              this.stateActFileUrl = fileAlias;
+              console.log(this.stateActFileUrl)
               this.stateFinance.get('stateNotification').patchValue({
                 url: fileAlias,
                 name: file.name
