@@ -1,14 +1,12 @@
 <div class="container-fluid">
-    <div class="popW">
+    <div class="" [ngClass]="{'popW': (data?.key == 'draftGuidelines')}">
         <div class="row">
             <div class="col-sm-12 text-end">
                 <a (click)="closeDia()">
                     <img src="../../../assets/form-icon/close_black_24dp.svg" alt="" width="24px">
                 </a>
             </div>
-            <div class="col-sm-12">
-                <!-- <div class="card cd-2">
-                    <div class="card-body"> -->
+            <div class="col-sm-12" *ngIf="data?.key == 'draftGuidelines'">
                 <div class="row align-items-center mb-4">
                     <div class="col-sm-12">
                         <img src={{data?.image}} class="bg-light tp-i-r" style="">
@@ -22,7 +20,6 @@
                         <div class="details" [innerHtml]="data?.text"></div>
                     </div>
                     <div class="col-sm-12">
-                        <!-- (click)="simpleDownload(data?.url)" -->
                         <a class="btn btn-pr" href="{{data?.url}}" target="_blank">
                             <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
@@ -34,8 +31,13 @@
                         </a>
                     </div>
                 </div>
-                <!-- </div>
-                </div> -->
+
+            </div>
+            <div class="col-sm-12 mt-3" *ngIf="data?.key == 'video'">
+                <video width="720" height="400" controls autoplay>
+                <source src="{{data?.url}}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
             </div>
         </div>
     </div>

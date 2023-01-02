@@ -91,8 +91,23 @@ export class DataEntryService {
       ]),
       { headers }
     );
+    // .pipe(map((response) => this.changeKeys(response['data'][0])));
   }
+  changeKeys(el){
+    let formattedObj = {
+      data : [
+        {
+          file_url : el?.file_alias,
+          url : el?.url,
+          file_name : el?.file_name,
+          host : el?.host,
+          mime_type : el?.mime_type
+        }
+      ]
+    }
+    return formattedObj;
 
+  }
   uploadFileToS3(
     file: File,
     s3URL: string,

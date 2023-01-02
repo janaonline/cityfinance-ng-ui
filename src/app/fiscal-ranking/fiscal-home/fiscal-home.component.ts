@@ -66,12 +66,9 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     {
       image : "../../../assets/M FIGMA/newDraft.png",
       title: "Draft Guidelines",
-      // text: `This is a draft guidelines document only. The Ministry welcomes any feedback,
-      //  comments and suggestions on this document, to be submitted via email on <span class="mailId">rankings@cityfinance.in</span>
-      //  before <span class="clr"> 10th January, 2023</span>.The final guidelines document shall be published by the Ministry after
-      //  considering the feedback received.`,
       text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
+      // url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
@@ -97,9 +94,20 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       section: 'download_file',
       key: 'brochure'
      },
+        {
+      image : "../../../assets/M FIGMA/dvr_black_24dp.svg",
+      title: "Know more",
+      text: "",
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
+      isModal: true,
+      icon_down: '',
+      section: 'play_video',
+      key: 'video'
+     },
   ]
 
   ngOnInit(): void {
+    this.openPopup(this.fqCardData[2]);
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
         console.log("this myu data======>", data.data)
         this.setDisplayItem();
@@ -189,11 +197,21 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       link.remove();
   }
   openPopup(item){
+    let wid = 'fit-content';
+    let hi = 'fit-content';
+    let maxH = '90vh';
+    let maxw = '95vw'
+    if(item?.key == 'video'){
+      wid = '50rem';
+      hi = '';
+      maxH= ''
+    }
     const dialogRef = this.dialog.open(DownloadPopupComponent, {
       data: item,
-      width: "fit-content",
-      height: "fit-content",
-      maxHeight: "90vh",
+      width: wid,
+      height: hi,
+      maxHeight: maxH,
+      maxWidth: maxw
       // panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
