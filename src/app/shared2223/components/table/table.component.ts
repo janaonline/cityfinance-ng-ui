@@ -94,24 +94,16 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    console.log('scrolllllll', windowScroll, this.elementPosition);
+  //  console.log('scrolllllll', windowScroll, this.elementPosition);
     if (windowScroll < this.elementPosition) {
       // this.sticky = false;
-      // this.stiHieght = false;
       if (windowScroll > 120) {
         // this.sticky = true;
-        // this.stiHieght = false;
       }
     } else if (windowScroll > this.elementPosition) {
       // this.sticky = true;
-      // this.stiHieght = false;
-      if (windowScroll >= 200) {
-        // this.sticky = true;
-        // this.stiHieght = true;
-      }
     } else {
       // this.sticky = false;
-      // this.stiHieght = false;
     }
   }
   // MatPaginator Inputs
@@ -134,7 +126,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     if (this.userData?.role !== "STATE") {
-      this.params["state"] = this.state_id_i;
+      this.params["state"] = this.state_id_i ? this.state_id_i : null;
     }
     this.initializeListFetchParams();
     let skValue = sessionStorage.getItem('skipValue')
@@ -166,8 +158,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     let formData = this.dropdownData?.find(({ _id }) => {
       return _id === this.formId;
     });
+    // debugger
     this.formUrl = formData?.url;
-    this.formName = formData?.name;
+    this.formName = formData?.folderName;
     this.formRouterLink =
       "../../ulbform2223/" + this.formUrl;
     console.log("form data url", formData);
@@ -228,6 +221,21 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         this.isLoader = false;
       }
     );
+  }
+  searchState(){
+    this.listFetchOption = {
+      csv: false,
+      filter: this.filterForm ? this.filterForm.value : {},
+      sort: null,
+      skip: 0,
+      limit: this.tableDefaultOptions.itemPerPage,
+    };
+    this.tableDefaultOptions.currentPage = 1;
+    this.filterFormValue = this.filterForm?.value;
+    this.params["status"] = this.filterForm?.value?.status_s;
+    this.params["state"] = this.filterForm?.value?.state_name_s;
+    this.params["skip"] = 0;
+    this.callAPI();
   }
   search() {
     this.listFetchOption = {
@@ -418,8 +426,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     localStorage.setItem("ulb_id", data?.ulbId);
     this.getULBSideBar(data?.ulbId, "ULB", data?.isUA);
     //this.commonService.setFormStatus2223.next(true);
-    sessionStorage.setItem("stateName", data.stateName);
-    sessionStorage.setItem("ulbName", data.ulbName);
+    sessionStorage.setItem("stateName", data?.stateName);
+    sessionStorage.setItem("ulbName", data?.ulbName);
+    sessionStorage.setItem("ulbCode", data?.ulbCode);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);
     sessionStorage.setItem("path1", 'Review Grant');
     sessionStorage.setItem("form_id", this.formId);
@@ -435,7 +444,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.getStateBar(data?.state, "STATE", "");
   //  this.commonService.setStateFormStatus2223.next(true);
     sessionStorage.setItem("stateName", data?.stateName);
-    // sessionStorage.setItem("stateFormId", this.formId);
+    sessionStorage.setItem("stateCode", data?.stateCode);
+    sessionStorage.setItem("form_name", this.formName);
     sessionStorage.setItem("path2", 'Review State Form');
     sessionStorage.setItem("Stateform_id", this.formId);
     sessionStorage.setItem("canTakeAction", data?.cantakeAction);

@@ -175,22 +175,20 @@ export class TableApproveReturnDialogComponent implements OnInit {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      this.formName = this.data?.formName ? this.data?.formName : 'review_table';
+      // this.formName = this.data?.formName ? this.data?.formName : 'review_table';
+      let form_name = sessionStorage.getItem('form_name')
       let code = ''
-      if(this.userData?.role == 'STATE'){
-        code = this.userData?.stateCode;
-      }else {
-        code = 'mohua';
-      }
+      // if(this.userData?.role == 'STATE'){
+      //   code = this.userData?.stateCode;
+      // }else {
+      //   code = 'mohua';
+      // }
       //let folderName = `${this.userData?.role}/${this.Years['2022-23']}//${this.userData?.ulb}`
-      let folderName = `${this.userData?.role}/2022-23/${this.formName}/supporting_douments/${this.userData?.stateCode}`
+      let folderName = `${this.userData?.role}/2022-23/supporting_douments/review_table/${form_name}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
-          // if(progessType == 'rulesByLawsProgress'){
-          //   this[progessType] = Math.floor(Math.random() * 90) + 10;
-          // }
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
           resolve("success");
