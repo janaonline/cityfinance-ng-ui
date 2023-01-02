@@ -158,7 +158,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     let formData = this.dropdownData?.find(({ _id }) => {
       return _id === this.formId;
     });
-    // debugger
+    //debugger
     this.formUrl = formData?.url;
     this.formName = formData?.folderName;
     this.formRouterLink =
@@ -383,6 +383,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.selectedId);
   }
   openDialog(type) {
+    sessionStorage.setItem("form_name", this.formName);
     const dialogdata = {
       selectedId: this.selectedId,
       type: type,

@@ -176,7 +176,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
       // this.formName = this.data?.formName ? this.data?.formName : 'review_table';
-      let form_name = sessionStorage.getItem('form_name')
+      let form_name = sessionStorage.getItem('form_name');
       let code = ''
       // if(this.userData?.role == 'STATE'){
       //   code = this.userData?.stateCode;
