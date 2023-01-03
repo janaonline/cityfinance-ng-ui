@@ -310,13 +310,12 @@ export class CommonActionComponent implements OnInit, OnChanges {
         if (!id) {
           id = sessionStorage.getItem('ulbCode');
          }
-      }else{
+      }else {
         id = this.userData?.stateCode;
         if (!id) {
           id = sessionStorage.getItem("stateCode");
          }
       }
-
      let folderName = `${this.userData?.role}/2022-23/supporting_douments/${formName}/${id}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {

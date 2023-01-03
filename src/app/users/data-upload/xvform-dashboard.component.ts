@@ -79,7 +79,6 @@ export class DataUploadComponent extends UploadDataUtility
         this.getFinancialData();
       } else {
         this.fetchStateList();
-
         this.fetchULBList();
         this.fetchChartData();
         this.fetchCardData();
@@ -463,7 +462,9 @@ export class DataUploadComponent extends UploadDataUtility
       [this.questionForState[2].key]: null,
     };
     body = { ...body, ...values };
-    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {});
+    this.financialDataService.saveStateFCDocuments(body).subscribe((res) => {
+      this.getStateFcDocments();
+    });
   }
 
   onChangingShowULBInChart(event: MatSlideToggleChange) {

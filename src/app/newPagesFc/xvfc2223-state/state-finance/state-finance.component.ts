@@ -151,6 +151,7 @@ export class StateFinanceComponent implements OnInit {
       this.patchFunction(this.previewFormData);
       this.actionFormData = res?.data;
       this.checkActionDisable(res?.data);
+      sessionStorage.setItem("changeInStateFinance", "false");
     },
       (error) => {
         if (this.userData?.role !== "STATE") {
