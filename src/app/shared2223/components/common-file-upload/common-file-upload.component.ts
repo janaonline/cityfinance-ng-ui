@@ -181,16 +181,20 @@ export class CommonFileUploadComponent implements OnInit {
     console.log("this.data", this.data);
     let ulbId = this.userData?.ulbCode;
     let formName = 'annual_accounts';
+    let folderName = `${this.userData?.role}/2022-23/${formName}/${ulbId}`
     if(this.userData?.role != 'ULB'){
       formName = 'annual_accounts';
       ulbId = sessionStorage.getItem('ulbCode');
+      folderName = `${this.userData?.role}/2022-23/supporting_douments/${formName}/${ulbId}`
+    }else {
+      folderName = `${this.userData?.role}/2022-23/${formName}/${ulbId}`
     }
     // if (!ulbId) {
     //  // ulbId = localStorage.getItem("ulb_id");
     //   let formName = 'annual_accounts'
     //  }
     this.data[fileType].progress = 20;
-    let folderName = `${this.userData?.role}/2022-23/supporting_douments/${formName}/${ulbId}`
+
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         this.data[fileType].progress = 50;
