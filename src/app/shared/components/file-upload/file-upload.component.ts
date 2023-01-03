@@ -208,9 +208,21 @@ export class FileUploadComponent implements OnInit, OnDestroy, OnChanges {
     Object.keys(filesToUpload).forEach((fieldKey: fileKeys) => {
       const files = <File[]>filesToUpload[fieldKey];
       this.NoOfFileInProgress += files.length;
+      let code = '';
+      let fl = 'state_files'
+      if(this.userData?.role == 'STATE'){
+        code = this.userData?.stateCode;
+        fl = 'state_files';
+      }else if(this.userData?.role == 'ULB'){
+        code = this.userData?.ulbCode;
+        fl = '4slb';
+      }else {
+        code = 'mohua';
+        fl = 'action';
+      }
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-       let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.ulbCode}`
+       let folderName = `${this.userData?.role}/2020-21/${fl}/${code}`
       //let folderName = 'Mixed'
         const subs = this.dataEntryService
           .newGetURLForFileUpload(file.name, file.type, folderName)

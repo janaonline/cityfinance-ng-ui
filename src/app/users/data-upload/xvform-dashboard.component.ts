@@ -995,7 +995,19 @@ export class DataUploadComponent extends UploadDataUtility
             try {
               const { name, type } = files[fileKey];
               // state_files
-              let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.stateCode}`
+              let code = '';
+              let fl = 'state_files'
+              if(this.userData?.role == 'STATE'){
+                code = this.userData?.stateCode;
+                fl = 'state_files';
+              }else if(this.userData?.role == 'ULB'){
+                code = this.userData?.ulbCode;
+                fl = '4slb';
+              }else {
+                code = 'mohua';
+                fl = 'action';
+              }
+              let folderName = `${this.userData?.role}/2020-21/${fl}/${code}`
               const urlResponse: any = await this.dataUploadService
                 .newGetURLForFileUpload(name, type, folderName)
                 .toPromise();
@@ -1224,7 +1236,19 @@ export class DataUploadComponent extends UploadDataUtility
             if (files[fileKey]) {
               try {
                 const { name, type } = files[fileKey];
-                let folderName = `${this.userData?.role}/2020-21/state_files/${this.userData?.stateCode}`
+                let code = '';
+                let fl = 'state_files'
+                if(this.userData?.role == 'STATE'){
+                  code = this.userData?.stateCode;
+                  fl = 'state_files';
+                }else if(this.userData?.role == 'ULB'){
+                  code = this.userData?.ulbCode;
+                  fl = '4slb';
+                }else {
+                  code = 'mohua';
+                  fl = 'action';
+                }
+                let folderName = `${this.userData?.role}/2020-21/${fl}/${code}`
                 const urlResponse: any = await this.dataUploadService
                   .newGetURLForFileUpload(name, type, folderName)
                   .toPromise();
