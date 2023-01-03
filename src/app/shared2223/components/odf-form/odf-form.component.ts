@@ -137,10 +137,16 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   actFormData;
   formId = "";
   canTakeAction = false;
+  formName = ''
   ngOnInit(): void {
     this.setRouter();
     this.fetchData();
 
+    if (this.isGfc) {
+      this.formName = 'gfc';
+    }else{
+      this.formName = 'odf';
+    }
     this.clickedSave = false;
     this.profileForm = this.formBuilder.group({
       rating: ["", Validators.required],
@@ -642,13 +648,8 @@ export class OdfFormComponent implements OnInit, OnDestroy {
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      let formName = ''
-      if (this.isGfc) {
-        formName = 'gfc';
-      }else{
-        formName = 'odf';
-      }
-     let folderName = `${this.userData?.role}/2022-23/${formName}/${this.userData?.ulbCode}`
+
+     let folderName = `${this.userData?.role}/2022-23/${this.formName}/${this.userData?.ulbCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
