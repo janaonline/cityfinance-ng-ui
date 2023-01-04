@@ -176,6 +176,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
     this.stateName = sessionStorage.getItem("stateName");
     this.pathMohua = sessionStorage.getItem("path2");
     this.stateFormId = sessionStorage.getItem("Stateform_id");
+    this.state_id = sessionStorage.getItem("state_id");
   }
   subscription;
   path = null;
@@ -190,6 +191,7 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   stateName = '';
   pathMohua = null;
   stateFormId = '';
+  state_id=null;
   ngOnInit(): void {
     this.fetchProfileData({});
     console.log("left responces..1", this.leftMenu);
@@ -256,10 +258,10 @@ export class Xvfc2223UlbComponent implements OnInit, OnDestroy {
   }
   backStatePage(type) {
     if (type == 'ULB Review' && !this.pathMohua) {
-      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId } });
+      this.router.navigate(['mohua2223/review-grant-app'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
       this.path = null;
     } else if (type == 'ULB Review' && this.pathMohua) {
-      this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId } });
+      this.router.navigate(['stateform2223/review-ulb-form'], { queryParams: { formId: this.ulbFormId, state: this.state_id } });
       this.path = null;
     } else if (type == 'State Review') {
       this.router.navigate(['mohua2223/review-state-form'], { queryParams: { formId: this.stateFormId } });
