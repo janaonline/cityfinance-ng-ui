@@ -364,7 +364,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
                 url: fileAlias,
                 name: file.name,
               });
-              sessionStorage.setItem("changeInStateFinance", "true");
+           //   sessionStorage.setItem("changeInStateFinance", "true");
               console.log(file);
               console.log(s3URL);
             }
