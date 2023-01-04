@@ -630,7 +630,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
 
   changeInTotalPExp() {
     console.log("expDuringYear", this.expDuringYear);
-    if (Math.round(Number(this.expDuringYear)) != Math.round(Number(this.totalProjectExp))) {
+    if (((this.expDuringYear).toFixed(2)) != (this.totalProjectExp).toFixed(2)) {
       // swal(
       //   "Alert",
       //   `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
