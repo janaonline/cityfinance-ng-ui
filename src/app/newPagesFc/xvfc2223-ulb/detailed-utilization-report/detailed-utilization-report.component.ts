@@ -653,6 +653,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       console.log("expe error", grantsExp);
       let totalUtilised =
         Number(this.wmTotalTiedGrantUti) + Number(this.swmTotalTiedGrantUti);
+        totalUtilised  = +(totalUtilised.toFixed(2));
       console.log("to", totalUtilised, grantsExp);
       if (totalUtilised != grantsExp && grantsExp != "") {
         // swal(
