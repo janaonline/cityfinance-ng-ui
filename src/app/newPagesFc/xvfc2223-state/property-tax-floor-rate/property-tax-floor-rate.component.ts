@@ -142,6 +142,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       this.actionFormData = res?.data;
       this.patchFunction(this.previewFormData);
       this.checkActionDisable(res?.data);
+      sessionStorage.setItem("changeInPropertyTax", "false");
     },
       (error) => {
         if (this.userData?.role !== "STATE") {

@@ -14,10 +14,12 @@ export class ReviewApplicationComponent implements OnInit {
     private stateServices: State2223Service
   ) {}
 
-  formId = "62aa1b04729673217e5ca3aa";
+  //formId = "62aa1b04729673217e5ca3aa";
+  formId = "62aa1cc9c9a98b2254632a8e";
   formUrl = "";
   data;
   title = "";
+  reviewTableName = 'Review Grant Application';
   params = {
     role: "ULB",
     design_year: "606aafb14dff55e6c075d3ae",

@@ -112,11 +112,13 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
   USER_TYPE = USER_TYPE;
 
   MaxFileSize = 20 * 1024 * 1024; // 20 MB. Always keep it in MB since in other places, we are dealing in MB only.
-
+  userData;
   constructor(
     private dataEntryService: DataEntryService,
     private _dialog: MatDialog
-  ) {}
+  ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+  }
   ngOnChanges(changes: {
     documents: SimpleChange;
     canUploadFile: SimpleChange;
@@ -207,9 +209,19 @@ export class DocumentSubmitComponent implements OnInit, OnDestroy, OnChanges {
       this.NoOfFileInProgress += files.length;
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
-
+        let code = ''
+        let fl = 'common'
+        if(this.userData?.role == 'ULB'){
+            code = this.userData?.ulbCode;
+           // fl = 'common'
+        }else if(this.userData?.role == 'STATE'){
+          code = this.userData?.stateCode;
+        }else {
+          code = 'mohua';
+        }
+        let folderName = `${this.userData?.role}/2020-21/${fl}/${code}`
         const subs = this.dataEntryService
-          .newGetURLForFileUpload(file.name, file.type)
+          .newGetURLForFileUpload(file.name, file.type, folderName)
           .pipe(
             switchMap((res: any) =>
               this.initiateFileUploadProcess(
