@@ -586,11 +586,11 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.wmTotalProjectNum = 0;
         el?.forEach((item) => {
           this.wmTotalTiedGrantUti =
-            Number(this.wmTotalTiedGrantUti) + Number(item?.grantUtilised);
+            (Number(this.wmTotalTiedGrantUti) + Number(item?.grantUtilised)).toFixed(2);
           this.wmTotalProjectCost =
-            Number(this.wmTotalProjectCost) + Number(item?.numberOfProjects);
+            (Number(this.wmTotalProjectCost) + Number(item?.numberOfProjects)).toFixed(2);
           this.wmTotalProjectNum =
-            Number(this.wmTotalProjectNum) + Number(item?.totalProjectCost);
+            (Number(this.wmTotalProjectNum) + Number(item?.totalProjectCost)).toFixed(2);
         });
       }
     );
@@ -604,11 +604,11 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.swmTotalProjectNum = 0;
         el?.forEach((item) => {
           this.swmTotalTiedGrantUti =
-            Number(this.swmTotalTiedGrantUti) + Number(item?.grantUtilised);
+            (Number(this.swmTotalTiedGrantUti) + Number(item?.grantUtilised)).toFixed(2);
           this.swmTotalProjectCost =
-            Number(this.swmTotalProjectCost) + Number(item?.numberOfProjects);
+            (Number(this.swmTotalProjectCost) + Number(item?.numberOfProjects)).toFixed(2);
           this.swmTotalProjectNum =
-            Number(this.swmTotalProjectNum) + Number(item?.totalProjectCost);
+            (Number(this.swmTotalProjectNum) + Number(item?.totalProjectCost)).toFixed(2);
         });
       }
     );
@@ -620,10 +620,9 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.totalProjectCost = 0;
         this.totalProjectExp = 0;
         el?.forEach((item) => {
-          this.totalProjectCost =
-            Number(this.totalProjectCost) + Number(item?.cost);
-          this.totalProjectExp =
-            Number(this.totalProjectExp) + Number(item?.expenditure);
+          this.totalProjectCost = Number((Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2));
+         // (Number(Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2));
+          this.totalProjectExp = Number((Number(this.totalProjectExp) + Number(item?.expenditure)).toFixed(2));
         });
       }
     );
@@ -631,7 +630,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
 
   changeInTotalPExp() {
     console.log("expDuringYear", this.expDuringYear);
-    if (Math.round(Number(this.expDuringYear)) != Math.round(Number(this.totalProjectExp))) {
+    if ((((Number(this.expDuringYear)).toFixed(2))) != (Number(this.totalProjectExp)).toFixed(2)) {
       // swal(
       //   "Alert",
       //   `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
@@ -653,6 +652,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       console.log("expe error", grantsExp);
       let totalUtilised =
         Number(this.wmTotalTiedGrantUti) + Number(this.swmTotalTiedGrantUti);
+        totalUtilised  = +(totalUtilised.toFixed(2));
       console.log("to", totalUtilised, grantsExp);
       if (totalUtilised != grantsExp && grantsExp != "") {
         // swal(
