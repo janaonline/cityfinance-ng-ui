@@ -70,6 +70,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     private _ulbformService: UlbformService
   ) {
     let yearId = JSON.parse(localStorage.getItem("Years"));
+
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
