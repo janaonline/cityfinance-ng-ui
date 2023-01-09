@@ -639,7 +639,16 @@ export class GtcFormComponent implements OnInit {
    } else {
       this.gtcFormData[i].quesArray[j]["responseFile_mohua"]["progress"] = 20;
    }
-   let folderName = `${this.userData?.role}/2022-23/gtc/${this.userData?.stateCode}`
+   let code = this.userData?.stateCode;
+   let folderName = `${this.userData?.role}/2022-23/gtc/${code}`
+   if(this.userData?.role != 'STATE') {
+    code = sessionStorage.getItem('stateCode');
+    let actFolder = 'supporting_douments';
+     folderName = `${this.userData?.role}/2022-23/${actFolder}/gtc/${code}`;
+   }else {
+    folderName = `${this.userData?.role}/2022-23/gtc/${code}`
+   }
+
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         if (upType == 'normal') {

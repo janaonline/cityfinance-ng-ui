@@ -465,7 +465,7 @@
 }
 
 .h-pos {
-    width: 50%;
+    width: 100%;
     margin: auto;
     text-align: center;
 }
@@ -567,6 +567,15 @@
     border-radius: 50%;
 }
 
+.tp-i-r-video {
+    // width: 32px;
+    top: 21%;
+    position: absolute;
+    left: 25%;
+    //  border-radius: 50%;
+    // color: blue;
+}
+
 .cd-2 {
     width: 256px;
     height: 102px;
@@ -662,3 +671,119 @@
     // height: 55px;
     // border: 1px solid rgba(230, 126, 21, 0.2);
 }
+
+.circle-v {
+    background: rgba(230, 126, 21, 0.2);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgba(230, 126, 21, 0.2);
+    margin-left: 0.75rem;
+    position: relative;
+}
+
+.sl-cnt {
+    padding: 3rem 0;
+}
+
+.w-n {
+    width: 30%;
+}
+
+.w-t {
+    width: 70%;
+}
+
+@media screen and (max-width: 600px) {
+    .dn-btn {
+        display: none !important;
+    }
+    .w-n {
+        display: none;
+    }
+    .w-n {
+        width: 100%;
+    }
+    .fq-c {
+        padding: 2px 1px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .iconsection {
+        width: 35rem;
+        overflow-x: scroll;
+    }
+    .cd-2 {
+        width: 100%;
+        height: 100%;
+    }
+    .cd-2-tl {
+        font-size: 12px;
+    }
+    .fq-d-t {
+        font-size: 12px;
+    }
+    .h-pos {
+        width: 100%;
+    }
+    .header-Pos {
+        top: 6.5rem;
+    }
+    .header-Pos-ic {
+        bottom: -7rem;
+    }
+    #title-hd {
+        font-size: 22px;
+        line-height: 28px;
+    }
+    #title-p {
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .btm-h-t {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 500;
+    }
+    .header-Pos-btm {
+        bottom: 3rem;
+    }
+    .li1 {
+        width: 28%;
+    }
+    .icon-p {
+        font-size: 13px;
+    }
+    .icon-t {
+        font-size: 12px;
+    }
+    .bn-h {
+        height: 28rem;
+    }
+    .ms-3 {
+        margin-left: 4px !important;
+    }
+    .ms-4 {
+        margin-left: 0.5rem !important;
+    }
+    #CardSize {
+        margin: 1rem .25rem;
+    }
+    .cont {
+        margin-left: 0.5rem;
+        margin-right: 0.75rem;
+    }
+    .cd-sl {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .img-ulb {
+        margin-bottom: 1.5rem;
+    }
+    .sl-cnt {
+        padding: 1rem 0;
+    }
+}
+
+@media screen and (max-width: 800px) {}

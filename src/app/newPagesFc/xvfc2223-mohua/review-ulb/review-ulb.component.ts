@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { State2223Service } from '../../xvfc2223-state/state-services/state2223.service';
 
@@ -12,9 +13,14 @@ export class ReviewUlbComponent implements OnInit {
   constructor(
     private commonService: NewCommonService,
     private route: ActivatedRoute,
-    private stateServices: State2223Service) { }
+    private stateServices: State2223Service,
+    private _commonService: CommonService,) {
+    this.fetchStateList();
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+  }
 
-  formId = "62aa1b04729673217e5ca3aa";
+  //formId = "62aa1b04729673217e5ca3aa";
+  formId = "62aa1cc9c9a98b2254632a8e";
   formUrl = "";
   data;
   title = "";
@@ -22,6 +28,10 @@ export class ReviewUlbComponent implements OnInit {
     role: "ULB",
     design_year: "606aafb14dff55e6c075d3ae",
   };
+  stateId = '';
+  stateList = [];
+  userData;
+  reviewTableName = 'Review Grant Application';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
@@ -59,6 +69,22 @@ export class ReviewUlbComponent implements OnInit {
         this.formId = formId;
         console.log("sasasasasasaaaaaaaaaaa", formId);
       }
+      if (params && params.state) {
+       // let formId = params["state"];
+        this.stateId = params["state"];
+        console.log("sasasasasasaaaaaaaaaaa", );
+      }
+    });
+  }
+  filterAdded(event) {
+    console.log("drop down changes state", event);
+    this.stateId = event;
+    this.stateServices.dpReviewChanges.next(true);
+
+  }
+  private fetchStateList() {
+    this._commonService.getStateUlbCovered().subscribe((res) => {
+      this.stateList = res.data;
     });
   }
 }

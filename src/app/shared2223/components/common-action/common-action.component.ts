@@ -49,6 +49,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
   @Input() canTakeAction;
   @Input() actionFor;
   @Input() commonActionError;
+  @Input() formNamefiles;
   @Output() actionEventEmit = new EventEmitter<string>();
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -300,19 +301,23 @@ export class CommonActionComponent implements OnInit, OnChanges {
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
       let id = '';
+     let formName = this.formNamefiles;
+      // if(this.userData?.role != 'ULB'){
+      //   formName = 'annual_accounts';
+      //   ulbId = sessionStorage.getItem('ulbCode')
+      // }
       if (this.actionFor == 'ULBForm'){
-        id = this.userData?.ulb;
+        id = this.userData?.ulbCode;
         if (!id) {
-          id = localStorage.getItem("ulb_id");
+          id = sessionStorage.getItem('ulbCode');
          }
-      }else{
-        id = this.userData?.state;
+      }else {
+        id = this.userData?.stateCode;
         if (!id) {
-          id = localStorage.getItem("state_id");
+          id = sessionStorage.getItem("stateCode");
          }
       }
-
-     let folderName = `${this.userData?.role}/2022-23/Supporting Documents/${id}`
+     let folderName = `${this.userData?.role}/2022-23/supporting_douments/${formName}/${id}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
@@ -359,7 +364,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
                 url: fileAlias,
                 name: file.name,
               });
-              sessionStorage.setItem("changeInStateFinance", "true");
+           //   sessionStorage.setItem("changeInStateFinance", "true");
               console.log(file);
               console.log(s3URL);
             }

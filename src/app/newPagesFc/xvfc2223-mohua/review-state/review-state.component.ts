@@ -22,6 +22,8 @@ export class ReviewStateComponent implements OnInit {
     role: "STATE",
     design_year: "606aafb14dff55e6c075d3ae",
   };
+  reviewTableName = 'Review State Forms';
+  stateId = '';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
