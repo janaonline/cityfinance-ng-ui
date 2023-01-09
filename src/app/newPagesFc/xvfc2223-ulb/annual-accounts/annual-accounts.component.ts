@@ -2062,6 +2062,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   postAnnualFormDraft() {
     if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
     if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
+    this.data["isDraft"] = true;
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
@@ -2088,6 +2089,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     if (this.data.unAudited.status != 'APPROVED') {
       this.data.unAudited.status = "PENDING";
     }
+    this.data["isDraft"] = false;
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         this.clickedSave = false;
