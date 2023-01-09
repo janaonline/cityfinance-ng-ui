@@ -43,7 +43,9 @@ export class SlbsComponent implements OnInit, OnDestroy {
   actionResSlb;
   compDis;
   mohuaActionComp;
-  btnSave = 'NEXT'
+  btnSave = 'NEXT';
+  lastRoleInMasterForm;
+  masterFormStatus;
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -56,6 +58,8 @@ export class SlbsComponent implements OnInit, OnDestroy {
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -85,16 +89,35 @@ export class SlbsComponent implements OnInit, OnDestroy {
   protected readonly formBuilder = new FormBuilder();
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: "", url: "" };
+  allStatus;
   async ngOnInit() {
     this.isMillionPlusOrNot()
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
-    let masterData = JSON.parse(sessionStorage.getItem("masterForm"))
+    let masterData = JSON.parse(sessionStorage.getItem("masterForm"));
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatus"))
     if (masterData) {
       if (masterData['actionTakenByRole'] == 'ULB' && masterData['isSubmit'] == true) {
         this.isDisabled = true;
       }
     }
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatus"))
+
+    if (
+      this.masterFormStatus == "REJECTED" &&
+      this.loggedInUserType == USER_TYPE.ULB &&
+      this.finalSubmitStatus == "true" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
+    ) {
+      this.isDisabled = false;
+    }
+    if (this.allStatus['slbForWaterSupplyAndSanitation']['status'] == "APPROVED" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
+    ) {
+      this.isDisabled = true;
+    }
+
+
     if(this.loggedInUserDetails?.role !== USER_TYPE.ULB){
       this.isDisabled = true;
     }

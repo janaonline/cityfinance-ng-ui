@@ -66,15 +66,18 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
-    this.subscribeStatus();
-    this.ulbformService.setForms.subscribe((value) => {
-      this.ulbformService.allStatus.next(this.allStatus);
-    });
+
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    this.getStatus();
+    this.getAllForm();
+    this.subscribeStatus();
+    this.ulbformService.setForms.subscribe((value) => {
+      this.ulbformService.allStatus.next(this.allStatus);
+    });
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.ULB:
         this.backHeader = "15FC Grants for 2021-22";
@@ -149,8 +152,7 @@ export class UlbformComponent implements OnInit {
       // console.log('sesionnnnn data', sessionStorage.getItem("allFormsData"));
       // console.log("allformdata.................", data);
     });
-    this.getStatus();
-    this.getAllForm();
+
     this.submitted = false;
   }
 
@@ -451,6 +453,9 @@ export class UlbformComponent implements OnInit {
           );
           localStorage.setItem("finalSubmitStatus", "true");
           this._router.navigate(["ulbform/ulbform-overview"]);
+          setTimeout(() => {
+            location.reload();
+          }, 300);
         },
         (err) => {
           console.log(err);
