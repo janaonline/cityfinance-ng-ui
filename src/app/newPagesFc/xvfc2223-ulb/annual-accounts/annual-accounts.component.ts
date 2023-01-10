@@ -1638,7 +1638,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.data.isDraft = true;
       this.postAnnualFormDraft();
     } else {
-      this.data.isDraft = false;
+      // this.data.isDraft = false;
       this.checkValidation();
     }
   }
