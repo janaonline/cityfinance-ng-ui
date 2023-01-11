@@ -83,6 +83,12 @@ export class GtcFormComponent implements OnInit {
         this.checkAction();
       },
       (error) => {
+        swal('Error', "Something went wrong, please try after some time.")
+        for (let i = 0; i < this.gtcFormData.length; i++) {
+        this.gtcFormData[i]?.quesArray.forEach((el) => {
+           el.isDisableQues = true;
+        });
+      }
         console.log("err", error);
       }
     );
