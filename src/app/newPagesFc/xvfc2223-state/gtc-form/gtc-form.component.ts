@@ -2,7 +2,7 @@ import { HttpEventType } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
-import { post } from "jquery";
+//import { post } from "jquery";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 
 import { State2223Service } from "../state-services/state2223.service";
