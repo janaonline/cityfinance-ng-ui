@@ -785,7 +785,7 @@ export class GtcFormComponent implements OnInit {
           this.gtcFormData[i].quesArray[j].status = "PENDING";
           this.gtcFormData[i].quesArray[j].isDraft = false;
           this.gtcFormData[i].quesArray[j].rejectReason_mohua = null;
-          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
+          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues && (this.gtcFormData[i]?.quesArray[j + 1]?.status != null)) {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
           swal("Saved", "File saved successfully", "success");
@@ -922,6 +922,9 @@ export class GtcFormComponent implements OnInit {
   saveAction(cIndex, qIndex) {
     console.log('gtc form data', this.gtcFormData)
     console.log('save action', cIndex, qIndex);
+    if(!this.formId){
+      this.setRouter();
+    }
     let actionObj = this.gtcFormData[cIndex].quesArray[qIndex];
     let actionBody = {
       formId: this.formId,
