@@ -2,7 +2,7 @@ import { HttpEventType } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
-import { post } from "jquery";
+//import { post } from "jquery";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 
 import { State2223Service } from "../state-services/state2223.service";
@@ -83,6 +83,12 @@ export class GtcFormComponent implements OnInit {
         this.checkAction();
       },
       (error) => {
+        swal('Error', "Something went wrong, please try after some time.")
+        for (let i = 0; i < this.gtcFormData.length; i++) {
+        this.gtcFormData[i]?.quesArray.forEach((el) => {
+           el.isDisableQues = true;
+        });
+      }
         console.log("err", error);
       }
     );
