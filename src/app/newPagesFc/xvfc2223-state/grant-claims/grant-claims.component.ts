@@ -400,9 +400,9 @@ export class GrantClaimsComponent implements OnInit {
       (res) => {
         swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
         this.fetchData('');
-        // setTimeout(() => {
-        //   this.router.navigate(['/dashboard']);
-        // }, 500);
+        setTimeout(() => {
+          this.router.navigate(['stateform/dashboard']);
+        }, 500);
       },
       (err) => {
         swal('Error', `Claim Request could not be created successfully. Please try again later.`, 'error');

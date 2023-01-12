@@ -50,6 +50,9 @@ export class GtcFormComponent implements OnInit {
     this.getGtcData();
     this.setRouter();
     sessionStorage.setItem("changeInGtc", "false");
+    if(!this.formId && this.userData?.role == 'MoHUA'){
+      location.reload();
+    }
   }
   getGtcData() {
     this.stateService.getGtcData(this.stateId).subscribe(
@@ -785,7 +788,8 @@ export class GtcFormComponent implements OnInit {
           this.gtcFormData[i].quesArray[j].status = "PENDING";
           this.gtcFormData[i].quesArray[j].isDraft = false;
           this.gtcFormData[i].quesArray[j].rejectReason_mohua = null;
-          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues && (this.gtcFormData[i]?.quesArray[j + 1]?.status != null)) {
+
+          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues && this.gtcFormData[i]?.quesArray[j + 1]?.status != 'APPROVED') {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
           swal("Saved", "File saved successfully", "success");
@@ -1005,6 +1009,7 @@ export class GtcFormComponent implements OnInit {
           // this.nextRouter = element?.nextUrl;
           // this.backRouter = element?.prevUrl;
           this.formId = element?._id;
+
         }
       });
     }
