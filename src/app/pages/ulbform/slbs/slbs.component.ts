@@ -625,6 +625,10 @@ export class SlbsComponent implements OnInit, OnDestroy {
           status.slbForWaterSupplyAndSanitation.status =
             data["waterManagement"].status;
           this._ulbformService.allStatus.next(status);
+          this._router.navigate(["ulbform/ulbform-overview"]);
+          setTimeout(() => {
+           location.reload();
+          }, 100);
         },
         (error) => {
           swal("An error occured!");

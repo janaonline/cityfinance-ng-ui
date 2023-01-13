@@ -1109,9 +1109,13 @@ export class AnnualAccountsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.annualAccounts.status = res["newAnnualAccountData"].status;
         this._ulbformService.allStatus.next(status);
-        if (!this.clickedBack) {
-          this._router.navigate(["ulbform/slbs"]);
-        }
+        this._router.navigate(["ulbform/ulbform-overview"]);
+          setTimeout(() => {
+           location.reload();
+          }, 100);
+        // if (!this.clickedBack) {
+        //   this._router.navigate(["ulbform/slbs"]);
+        // }
 
       },
       (err) => {

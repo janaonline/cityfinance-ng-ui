@@ -2,7 +2,7 @@ import { HttpEventType } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NavigationStart, Router } from "@angular/router";
-import { post } from "jquery";
+//import { post } from "jquery";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 
 import { State2223Service } from "../state-services/state2223.service";
@@ -50,6 +50,9 @@ export class GtcFormComponent implements OnInit {
     this.getGtcData();
     this.setRouter();
     sessionStorage.setItem("changeInGtc", "false");
+    if(!this.formId && this.userData?.role == 'MoHUA'){
+      location.reload();
+    }
   }
   getGtcData() {
     this.stateService.getGtcData(this.stateId).subscribe(
@@ -83,6 +86,12 @@ export class GtcFormComponent implements OnInit {
         this.checkAction();
       },
       (error) => {
+        swal('Error', "Something went wrong, please try after some time.")
+        for (let i = 0; i < this.gtcFormData.length; i++) {
+        this.gtcFormData[i]?.quesArray.forEach((el) => {
+           el.isDisableQues = true;
+        });
+      }
         console.log("err", error);
       }
     );
@@ -779,7 +788,8 @@ export class GtcFormComponent implements OnInit {
           this.gtcFormData[i].quesArray[j].status = "PENDING";
           this.gtcFormData[i].quesArray[j].isDraft = false;
           this.gtcFormData[i].quesArray[j].rejectReason_mohua = null;
-          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues) {
+
+          if (this.gtcFormData[i]?.quesArray[j + 1]?.isDisableQues && this.gtcFormData[i]?.quesArray[j + 1]?.status != 'APPROVED') {
             this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
           }
           swal("Saved", "File saved successfully", "success");
@@ -916,6 +926,9 @@ export class GtcFormComponent implements OnInit {
   saveAction(cIndex, qIndex) {
     console.log('gtc form data', this.gtcFormData)
     console.log('save action', cIndex, qIndex);
+    if(!this.formId){
+      this.setRouter();
+    }
     let actionObj = this.gtcFormData[cIndex].quesArray[qIndex];
     let actionBody = {
       formId: this.formId,
@@ -996,6 +1009,7 @@ export class GtcFormComponent implements OnInit {
           // this.nextRouter = element?.nextUrl;
           // this.backRouter = element?.prevUrl;
           this.formId = element?._id;
+
         }
       });
     }
