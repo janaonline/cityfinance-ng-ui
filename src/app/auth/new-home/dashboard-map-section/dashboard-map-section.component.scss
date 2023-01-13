@@ -353,6 +353,10 @@ div.miniMap {
     .cuppa-dropdown {
         position: relative;
         margin-top: -2px;
+        background-color: #F2F3F8;
+        .selected-list .c-btn {
+            border: none;
+        }
     }
     .map-reset {
         font: normal normal bold 14px/15px 'Archivo';
