@@ -1088,6 +1088,10 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.utilReport.status = stateData.status;
           this._ulbformService.allStatus.next(status);
+          this._router.navigate(["ulbform/ulbform-overview"]);
+          setTimeout(() => {
+           location.reload();
+          }, 100);
           // this._router.navigate(["ulbform/annual_acc"]);;
         },
         (error) => {
