@@ -2,7 +2,7 @@
     <!-- *ngIf="isUserVerified" -->
 
     <div class="row mb-3">
-        <div class="col-sm-2 sidebar">
+        <div class="col-sm-2 " [ngClass]="{'sidebar': userData.role == 'ADMIN' || userData.role == 'MoHUA' || userData.role === 'STATE'}">
             <div class="row b-h" style="">
                 <a routerLink="/fc-home-page">
                     <div class="row">
