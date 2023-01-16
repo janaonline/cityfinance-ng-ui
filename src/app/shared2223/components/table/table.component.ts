@@ -116,6 +116,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.searchUsersBy(this.filterForm.value);
     }
   }
+  toggleInfiniteScroll() {
+    this.isInfiniteScroll = !this.isInfiniteScroll;
+    if(!this.isInfiniteScroll) {
+      this.tableDefaultOptions.currentPage = 1;
+    }
+  }
   // MatPaginator Inputs
   length = 100;
   pageSize = 10;
@@ -249,6 +255,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.callAPI();
   }
   search() {
+    this.isInfiniteScroll = false;
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
