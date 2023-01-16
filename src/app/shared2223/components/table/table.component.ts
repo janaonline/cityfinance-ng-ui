@@ -78,6 +78,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   checkedStatus;
   ulbType;
   disableEnableCheckbox: boolean;
+  isInfiniteScroll: boolean = false;
   statusList;
   newArr: any = [];
   populationType;
@@ -95,7 +96,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-  //  console.log('scrolllllll', windowScroll, this.elementPosition);
+    // console.log('scrolllllll', windowScroll, this.elementPosition);
     if (windowScroll < this.elementPosition) {
       // this.sticky = false;
       if (windowScroll > 120) {
@@ -105,6 +106,20 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       // this.sticky = true;
     } else {
       // this.sticky = false;
+    }
+  }
+  infiniteScroll() {
+    console.log('reach bottom');
+    if (this.isInfiniteScroll) {
+      this.listFetchOption.skip =
+        (this.tableDefaultOptions.currentPage - 1) * this.tableDefaultOptions.itemPerPage;
+      this.searchUsersBy(this.filterForm.value);
+    }
+  }
+  toggleInfiniteScroll() {
+    this.isInfiniteScroll = !this.isInfiniteScroll;
+    if(!this.isInfiniteScroll) {
+      this.tableDefaultOptions.currentPage = 1;
     }
   }
   // MatPaginator Inputs
@@ -144,7 +159,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           status_s: sesParams?.status ? sesParams?.status : '',
           filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
           filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
-          state_name_s : sesParams?.state ? sesParams?.state : ''
+          state_name_s: sesParams?.state ? sesParams?.state : ''
         })
       }
       this.params["skip"] = Number(skValue);
@@ -187,10 +202,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       (res) => {
         this.isLoader = false;
         this.title = res["title"];
-        this.data = res["data"];
         this.total = res["total"];
         this.columnNames = res["columnNames"];
-        this.data = this.data.map((element) => ({
+        this.data = (this.isInfiniteScroll ?  [...this.data, ...res["data"]] : res["data"]).map((element) => ({
           ...element,
           isChecked: this.isChecked(element),
         }));
@@ -225,7 +239,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       }
     );
   }
-  searchState(){
+  searchState() {
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -241,6 +255,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.callAPI();
   }
   search() {
+    this.isInfiniteScroll = false;
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -252,10 +267,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log("value changes", this.filterForm?.value);
     this.filterFormValue = this.filterForm?.value;
 
-    if(this.tableName == 'Review State Forms'){
-        this.params["state"] = this.filterForm?.value?.state_name_s;
-        this.params["status"] = this.filterForm?.value?.status_s;
-    }else{
+    if (this.tableName == 'Review State Forms') {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+    } else {
       this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
       this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
       this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
@@ -267,7 +282,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
     }
 
-       this.params["skip"] = 0;
+    this.params["skip"] = 0;
     this.callAPI();
   }
   isChecked(element: any) {
@@ -344,7 +359,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  private initializeStateFilterForm() {}
+  private initializeStateFilterForm() { }
 
   private initializeListFetchParams() {
     this.listFetchOption = {
@@ -361,7 +376,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
       res.data?.forEach((state) => {
-      //  this.statesByID[state?._id] = state;
+        //  this.statesByID[state?._id] = state;
       });
     });
   }
