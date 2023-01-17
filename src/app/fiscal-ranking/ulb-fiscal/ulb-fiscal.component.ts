@@ -899,6 +899,10 @@ export class UlbFiscalComponent implements OnInit {
         populationFr: [''],
         webLink: [''],
         nameCmsnr: ['', Validators.required],
+        waterSupply: ['No', Validators.required],
+        sanitationService: ['No', Validators.required],
+        propertyWaterTax: ['No', Validators.required],
+        propertySanitationTax: ['No', Validators.required],
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
@@ -1195,6 +1199,7 @@ export class UlbFiscalComponent implements OnInit {
 }
   }
   stepperContinue(stepper: MatStepper, item) {
+    console.log(this.fiscalForm.value);
     console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
@@ -1653,7 +1658,27 @@ getFullDataArray(){
                  // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
                   value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
                   status: ''
-                }
+                },
+                {
+                  label: 'Does the ULB handle water supply services?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does the ULB handle sanitation service delivery?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does your Property Tax include Water Tax?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does your Property Tax include Sanitation/Sewerage Tax?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.value,
+                  status: ''
+                },
               ]
              },
           },
