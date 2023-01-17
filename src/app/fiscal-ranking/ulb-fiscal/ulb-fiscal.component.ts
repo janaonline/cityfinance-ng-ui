@@ -132,21 +132,9 @@ export class UlbFiscalComponent implements OnInit {
   //     label: 'Total Receipts (Actual)',
   //     yearData: [
   //       {
-  //         label: 'FY 2016-17',
-  //         key: 'FY2016-17',
-  //         postion: '1',
-  //         value: '',
-  //         min: '',
-  //         max: '',
-  //         required: true,
-  //         type: '',
-  //         bottomText: 'to be taken from approved Annual Budget of ',
-  //         placeHolder: ''
-  //       },
-  //       {
   //         label: 'FY 2017-18',
   //         key: 'FY2017-18',
-  //         postion: '2',
+  //         postion: '1',
   //         value: '',
   //         min: '',
   //         max: '',
@@ -158,6 +146,18 @@ export class UlbFiscalComponent implements OnInit {
   //       {
   //         label: 'FY 2018-19',
   //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2019-20',
+  //         key: 'FY2019-20',
   //         postion: '3',
   //         value: '',
   //         min: '',
@@ -168,8 +168,116 @@ export class UlbFiscalComponent implements OnInit {
   //         placeHolder: ''
   //       },
   //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
+  //         postion: '4',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget `,
+  //         placeHolder: ''
+  //       }
+  //     ]
+  //   },
+  //   totalRcptWaterSupply: {
+  //     key: 'totalRcptWaterSupply',
+  //     label: 'Total Receipts (Actual) for Water Supply',
+  //     yearData: [
+  //       {
+  //         label: 'FY 2017-18',
+  //         key: 'FY2017-18',
+  //         postion: '1',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2018-19',
+  //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
   //         label: 'FY 2019-20',
   //         key: 'FY2019-20',
+  //         postion: '3',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget of `,
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
+  //         postion: '4',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget `,
+  //         placeHolder: ''
+  //       }
+  //     ]
+  //   },
+  //   totalRcptSanitation: {
+  //     key: 'totalRcptSanitation',
+  //     label: 'Total Receipts (Actual) for Sanitation/Sewerage',
+  //     yearData: [
+  //       {
+  //         label: 'FY 2017-18',
+  //         key: 'FY2017-18',
+  //         postion: '1',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2018-19',
+  //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2019-20',
+  //         key: 'FY2019-20',
+  //         postion: '3',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget of `,
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
   //         postion: '4',
   //         value: '',
   //         min: '',
@@ -2215,5 +2323,11 @@ getFullDataArray(){
   }
   alertClose() {
     this.stay();
+  }
+  canShowFormSection(formKey: string, year?: string) {
+    if(formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value == 'No') return false;
+    if(formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value == 'No') return false;
+
+    return true;
   }
 }

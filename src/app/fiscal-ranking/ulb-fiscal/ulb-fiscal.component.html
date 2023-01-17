@@ -174,7 +174,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
-                                        <div class="card-body">
+                                        <div class="card-body" *ngIf="canShowFormSection(item.key)">
                                             <div class="loop">
                                                 <div class="row">
                                                     <div class="col-sm-12 h-label mb-3 com-style">
