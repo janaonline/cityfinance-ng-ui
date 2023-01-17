@@ -298,9 +298,14 @@ div.miniMap {
 // ::ng-deep label.mat-optgroup-label {
 //   height: 38px;
 // }
-// ::ng-deep input.mat-input-element {
-//   font-size: 1.7rem;
-// }
+::ng-deep input.mat-input-element {
+    background: #F2F3F8;
+    padding: 5px;
+    border-radius: 0;
+    &:focus {
+        box-shadow: none;
+    }
+}
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
     min-width: 200.1px !important;
 }
