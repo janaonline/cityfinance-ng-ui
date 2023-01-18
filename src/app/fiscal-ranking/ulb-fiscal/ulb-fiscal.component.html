@@ -188,10 +188,10 @@
                                                             <div class="col-sm-12 mb-3">
                                                                 {{yearItem?.label}}*
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <div class="col-sm-12 ">
                                                                 <div class="input-group">
                                                                     <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic"
+                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic" [ngClass]="{'is-invalid': yearItem.error}"
                                                                         id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
                                                                 </div>
 
@@ -239,7 +239,7 @@
                                                             </div>
                                                             <div class="col-sm-12">
                                                                 <input type="input" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}"
-                                                                    [disabled]="yearItem?.readonly" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
+                                                                    [disabled]="yearItem?.readonly" [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
                                                                 {{yearItem?.bottomText}} {{yearItem?.label}}
@@ -300,7 +300,7 @@
                                                                 {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12 mb-3" *ngIf="yearItem?.readonly == false">
-                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [disabled]="isDisabled">
+                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [ngClass]="{'border': yearItem.error, 'border-danger': yearItem.error}" [disabled]="isDisabled">
                                                                <div class="row">
                                                                 <div class="col-sm-6 file-text ">
                                                                   Select File
@@ -310,7 +310,7 @@
                                                                 </div>
                                                                </div>
                                                               </button>
-                                                                <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)" type="file" accept=".pdf" #file>
+                                                                <input  #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)" type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
                                                             <div class="col-sm-12 text-center w-70">
@@ -411,7 +411,7 @@
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
                                                                 <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, stepItem)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon"
-                                                                    id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
+                                                                    id="{{yearItem?.key}}" [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
                                                             </div>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
                                                                 <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"

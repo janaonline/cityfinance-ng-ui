@@ -49,7 +49,7 @@ export class UlbFiscalComponent implements OnInit {
     if (!this.loggedInUserType) {
       this._router.navigateByUrl('fiscal/login')
       // this.showLoader = false;
-    }else if(this.loggedInUserType != 'ULB'){
+    } else if (this.loggedInUserType != 'ULB') {
       this._router.navigateByUrl('fiscal/home')
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -934,23 +934,23 @@ export class UlbFiscalComponent implements OnInit {
     "mobile": "",
     "webUrlAnnual": {
       status: "",
-      value : null
+      value: null
     },
     "digitalRegtr": {
       status: "",
-      value : null
+      value: null
     },
     "registerGis": {
       status: "",
-      value : null
+      value: null
     },
     "accountStwre": {
       status: "",
-      value : null
+      value: null
     },
-    "totalOwnRevenueArea":  {
+    "totalOwnRevenueArea": {
       status: "",
-      value : null
+      value: null
     },
     "fy_19_20_cash": {
       "type": "Cash",
@@ -979,17 +979,17 @@ export class UlbFiscalComponent implements OnInit {
       "url": '',
       status: ''
     },
-    "property_tax_register":  {
+    "property_tax_register": {
       status: "",
-      value : null
+      value: null
     },
-    "paying_property_tax":  {
+    "paying_property_tax": {
       status: "",
-      value : null
+      value: null
     },
     "paid_property_tax": {
       status: "",
-      value : null
+      value: null
     },
     "status": "PENDING",
     "isDraft": this.isDraft
@@ -1095,7 +1095,7 @@ export class UlbFiscalComponent implements OnInit {
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
-    //  this.goverPar = formObjKey?.goverPar;
+      //  this.goverPar = formObjKey?.goverPar;
       this.fillDataInForm(res?.data);
       this.changeNumToWords();
       this.skipLogicForGov('onload');
@@ -1108,12 +1108,12 @@ export class UlbFiscalComponent implements OnInit {
   }
   isPopAvl11 = false;
   isPopAvlFr = false;
-  changeDecInForm(){
-   // this.fiscalForm?.controls.contactInfo.valueChanges.subscribe((el) => {
+  changeDecInForm() {
+    // this.fiscalForm?.controls.contactInfo.valueChanges.subscribe((el) => {
     //  console.log("changes form", el);
-      console.log('form', this.fiscalForm);
-      sessionStorage.setItem("changeInFR", "true");
-   // });
+    console.log('form', this.fiscalForm);
+    sessionStorage.setItem("changeInFR", "true");
+    // });
   }
   fillDataInForm(data) {
     console.log('this form.....', this.fiscalForm);
@@ -1125,7 +1125,7 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.fy_19_20_cash = data?.fy_19_20_cash?.amount ? data?.fy_19_20_cash?.amount : null;
-    this.fy_19_20_online = data?.fy_19_20_online?.amount ? data?.fy_19_20_online?.amount: null;
+    this.fy_19_20_online = data?.fy_19_20_online?.amount ? data?.fy_19_20_online?.amount : null;
     this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
     this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
     this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
@@ -1253,19 +1253,19 @@ export class UlbFiscalComponent implements OnInit {
       this.isDisabled = false;
       this.fiscalForm.enable();
     }
-    if(this.userData?.role != 'ULB'){
+    if (this.userData?.role != 'ULB') {
       this.isDisabled = true;
       this.fiscalForm.disable();
     }
     console.log('fiscal form.....', this.fiscalForm);
-    if(this.isPopAvl11){
+    if (this.isPopAvl11) {
       this.fiscalForm.controls.basicUlbDetails.controls.population11.disable();
     }
-    if(this.isPopAvlFr){
+    if (this.isPopAvlFr) {
       this.fiscalForm.controls.basicUlbDetails.controls.populationFr.disable();
     }
     this.fiscalForm.controls.basicUlbDetails.controls.ulbName.disable();
-   // this.changeNumToWords();
+    // this.changeNumToWords();
     this.addSomeKey();
 
   }
@@ -1273,38 +1273,38 @@ export class UlbFiscalComponent implements OnInit {
     return 0;
   }
 
-  addSomeKey(){
+  addSomeKey() {
     for (const key in this.uploadFyDoc) {
-      if(key != 'guidanceNotes'){
+      if (key != 'guidanceNotes') {
         this.uploadFyDoc[key].yearData.forEach((el) => {
-         el['fileProcess'] = false;
-         el['error'] = false;
+          el['fileProcess'] = false;
+          el['error'] = false;
         })
       }
     }
     for (const key in this.expPerf) {
-        this.expPerf[key].yearData.forEach((el) => {
-       //  el['error'] = false;
-       if(Object.keys(el).length > 0){
-        el['error'] = false;
-      }
-        })
+      this.expPerf[key].yearData.forEach((el) => {
+        //  el['error'] = false;
+        if (Object.keys(el).length > 0) {
+          el['error'] = false;
+        }
+      })
     }
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
-       // console.log('Object.keys(el).length', Object.keys(el).length);
-        if(Object.keys(el).length > 0){
+        // console.log('Object.keys(el).length', Object.keys(el).length);
+        if (Object.keys(el).length > 0) {
           el['error'] = false;
         }
 
 
       })
-  }
-  for (const key in this.goverPar) {
-    this.goverPar[key].yearData.forEach((el) => {
-     el['error'] = false;
-    })
-}
+    }
+    for (const key in this.goverPar) {
+      this.goverPar[key].yearData.forEach((el) => {
+        el['error'] = false;
+      })
+    }
   }
   stepperContinue(stepper: MatStepper, item) {
     console.log(this.fiscalForm.value);
@@ -1358,8 +1358,8 @@ export class UlbFiscalComponent implements OnInit {
 
   }
   skipLogicRadio(type, val) {
-  //  console.log('vvvvv', type, val);
-    if(!this.isDisabled){
+    //  console.log('vvvvv', type, val);
+    if (!this.isDisabled) {
       sessionStorage.setItem("changeInFR", "true");
       if (type == 'digitalRegtr' && val == 'Yes') {
         //  goverPar.normalData.yearData.digitalRegtr.value
@@ -1367,7 +1367,7 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   amountKeyUp(type, yearItem) {
-    if(yearItem?.amount != ''){
+    if (yearItem?.amount != '') {
       yearItem.inWords = toWords.convert(Number(yearItem?.amount), {
         currency: false,
         doNotAddOnly: true,
@@ -1385,19 +1385,19 @@ export class UlbFiscalComponent implements OnInit {
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
         if (el?.amount || el?.amount === 0)
-        el.inWords = this.amounttoWords('onLoad', el?.amount)
+          el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.expPerf) {
       this.expPerf[key].yearData.forEach((el) => {
         if (el?.amount || el?.amount === 0)
-        el.inWords = this.amounttoWords('onLoad', el?.amount)
+          el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
         if (el?.amount || el?.amount === 0)
-        el.inWords = this.amounttoWords('onLoad', el?.amount)
+          el.inWords = this.amounttoWords('onLoad', el?.amount)
       })
     }
   }
@@ -1553,7 +1553,7 @@ export class UlbFiscalComponent implements OnInit {
         value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
         status: 'PENDING',
       },
-      "accountStwre":{
+      "accountStwre": {
         value: this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
         status: 'PENDING',
       },
@@ -1577,17 +1577,17 @@ export class UlbFiscalComponent implements OnInit {
         "url": this.signedFileUrl ? this.signedFileUrl : null,
         status: 'PENDING'
       },
-      "property_tax_register":  {
+      "property_tax_register": {
         status: "PENDING",
-        value : this.property_tax_register
+        value: this.property_tax_register
       },
-      "paying_property_tax":  {
+      "paying_property_tax": {
         status: "PENDING",
-        value : this.paying_property_tax
+        value: this.paying_property_tax
       },
       "paid_property_tax": {
         status: "PENDING",
-        value : this.paid_property_tax
+        value: this.paid_property_tax
       },
       "status": "PENDING",
       "isDraft": this.isDraft
@@ -1643,7 +1643,7 @@ export class UlbFiscalComponent implements OnInit {
     }
     for (const key in this.uploadFyDoc) {
       let dataObj = {}
-      if(key != 'guidanceNotes'){
+      if (key != 'guidanceNotes') {
         this.uploadFyDoc[key].yearData.forEach((el) => {
           if (el?.file?.url != '' && el?.file?.url != null && el?.file?.url != undefined) {
             dataObj = {
@@ -1725,232 +1725,232 @@ export class UlbFiscalComponent implements OnInit {
     this._router.navigateByUrl('../home')
   }
 
-stePreDataArray;
-getFullDataArray(){
-  this.stePreDataArray = [
-    {
-      label: `Basic ULB Details`,
-      key: 'basicDet',
-      id: 's1',
-      icon: '',
-      text: '',
-      value: {
-            basicUlbDetails: {
-              key: 'basicUlbDetails',
-              label: '',
-              yearData: [
-                {
-                  label: 'Name of ULB',
-                  value: this.ulbName,
-                  status: ''
-                },
-                {
-                  label: 'Population as per 2011 Census',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.population11?.value,
-                  status: ''
-                },
-                {
-                  label: 'Population as on 1st April 2022',
-                  value: this.fiscalForm?.controls.basicUlbDetails?.controls?.populationFr?.value,
-                  // value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
-                  status: ''
-                },
-                {
-                  label: 'ULB website URL link',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
-                  // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-                  status: ''
-                },
-                {
-                  label: 'Name of Commissioner / Executive Officer',
-                 // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
-                  status: ''
-                },
-                {
-                  label: 'Does the ULB handle water supply services?',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value,
-                  status: ''
-                },
-                {
-                  label: 'Does the ULB handle sanitation service delivery?',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value,
-                  status: ''
-                },
-                {
-                  label: 'Does your Property Tax include Water Tax?',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.value,
-                  status: ''
-                },
-                {
-                  label: 'Does your Property Tax include Sanitation/Sewerage Tax?',
-                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.value,
-                  status: ''
-                },
-              ]
-             },
+  stePreDataArray;
+  getFullDataArray() {
+    this.stePreDataArray = [
+      {
+        label: `Basic ULB Details`,
+        key: 'basicDet',
+        id: 's1',
+        icon: '',
+        text: '',
+        value: {
+          basicUlbDetails: {
+            key: 'basicUlbDetails',
+            label: '',
+            yearData: [
+              {
+                label: 'Name of ULB',
+                value: this.ulbName,
+                status: ''
+              },
+              {
+                label: 'Population as per 2011 Census',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.population11?.value,
+                status: ''
+              },
+              {
+                label: 'Population as on 1st April 2022',
+                value: this.fiscalForm?.controls.basicUlbDetails?.controls?.populationFr?.value,
+                // value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
+                status: ''
+              },
+              {
+                label: 'ULB website URL link',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
+                // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
+                status: ''
+              },
+              {
+                label: 'Name of Commissioner / Executive Officer',
+                // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
+                status: ''
+              },
+              {
+                label: 'Does the ULB handle water supply services?',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value,
+                status: ''
+              },
+              {
+                label: 'Does the ULB handle sanitation service delivery?',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value,
+                status: ''
+              },
+              {
+                label: 'Does your Property Tax include Water Tax?',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.value,
+                status: ''
+              },
+              {
+                label: 'Does your Property Tax include Sanitation/Sewerage Tax?',
+                value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.value,
+                status: ''
+              },
+            ]
           },
-    },
-    {
-      label: `Revenue Mobilization Parameters`,
-      key: 'revenueMob',
-      id: 's2',
-      icon: '',
-      text: '',
-      value: this.revenueMob
-    },
-    {
-      label: `Expenditure Performance Parameters`,
-      key: 'expPerf',
-      id: 's3',
-      icon: '',
-      text: '',
-      value: this.expPerf
-    },
-    {
-      label: `Fiscal Governance Parameters`,
-      key: 'fisGov',
-      id: 's4',
-      icon: '',
-      text: '',
-      value:  {
-      "normalData": {
-				"key": "normalData",
-				"label": "",
-				"yearData": [{
-					"label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available",
-					"key": "webUrlAnnual",
-					"value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
-				}, {
-					"label": "Do you maintain a Digital Property Tax Register?",
-					"key": "digitalRegtr",
-					"value": this.goverParaNdata.normalData.yearData.digitalRegtr.value ? this.goverParaNdata.normalData.yearData.digitalRegtr.value : 'N/A',
-				}, {
-					"label": "Is the property tax register GIS-based?",
-					"key": "registerGis",
-					"value": this.goverParaNdata.normalData.yearData.registerGis.value ? this.goverParaNdata.normalData.yearData.registerGis.value : 'N/A',
-				}, {
-					"label": "Do you use accounting software?",
-					"key": "accountStwre",
-					"value": this.goverParaNdata.normalData.yearData.accountStwre.value ? this.goverParaNdata.normalData.yearData.accountStwre.value : 'N/A',
-				}]
-			},
-      ownRevDetails: {
-        key: 'ownRevDetails',
-        label: 'Own Revenue Details',
-        yearData: [
-          {
-            label: 'Total Own Revenue Arrears as on 31st March 2020',
-            key: 'totalOwnRevenArr_20',
-            amount: this.totalOwnRevenueArea,
-          },
-          {
-            label: 'FY 2019-20 - by Cash/Cheque/DD',
-            key: 'fy_19_20_cash',
-            amount: this.fy_19_20_cash,
-          },
-          {
-            label: 'FY 2019-20 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)',
-            key: 'fy_19_20_online',
-            amount: this.fy_19_20_online,
-          },
-        ]
+        },
       },
-      propertyDetails: {
-        key: 'propertyDetails',
-        label: 'Property Details',
-        yearData: [
-          {
-            label: 'Number of Properties assessed/listed as per Property Tax Register',
-            key: 'NoOfProlisted',
-            amount: this.property_tax_register,
-          },
-          {
-            label: 'Number of Properties exemt from paying Property Tax',
-            key: 'NoOfProExemtfromPayProTax',
-            amount: this.paying_property_tax,
-          },
-          {
-            label: 'Number of Properties for which Property Tax has been paid',
-            key: 'NoOfProwhichProTaxPaid',
-            amount: this.paid_property_tax,
-          },
-        ]
+      {
+        label: `Revenue Mobilization Parameters`,
+        key: 'revenueMob',
+        id: 's2',
+        icon: '',
+        text: '',
+        value: this.revenueMob
       },
-       },
-    },
-    {
-      label: `Upload Financial Documents`,
-      key: 'upFy',
-      id: 's5',
-      icon: '',
-      text: '',
-      value: this.uploadFyDoc
-    },
-    {
-      label: `Contact Information`,
-      key: 'conInfo',
-      id: 's6',
-      icon: '',
-      text: '',
-      value: {
-            contactInfo:{
-              key: 'contactInfo',
-              label: '',
-              yearData: [
-                {
-                  label: 'Name of the Nodal Officer',
-                 // value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
-                  value: this.fiscalForm?.controls?.contactInfo?.controls?.designationOftNodalOfficer?.value,
-                  status: ''
-                },
-                {
-                  label: 'Designation of the Nodal Officer',
-                  //value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
-                  value: this.fiscalForm?.controls?.contactInfo?.controls?.nameOfNodalOfficer?.value,
-                  status: ''
-                },
-                {
-                  label: 'Email ID',
-                  value: this.fiscalForm?.controls?.contactInfo?.controls?.email?.value,
-                 // value: this.fiscalForm?.value?.contactInfo?.email,
-                  status: ''
-                },
-                {
-                  label: 'Mobile number',
-                  value: this.fiscalForm?.controls?.contactInfo?.controls?.mobile?.value,
-                 // value: this.fiscalForm?.value?.contactInfo?.mobile,
-                  status: ''
-                }
-              ]
-            },
-     },
-  },
-    // {
-    //   label: `Self Declaration`,
-    //   key: 'selDec',
-    //   id: 's7',
-    //   icon: '',
-    //   text: '',
-    //   value: {
-    //     "signedCopyOfFile": {
-    //       lebel: '',
-    //       key: 'signedCopyOfFile',
-    //       yearData: [
-    //        {
-    //         lebel: 'Signed Copy Of File',
-    //         "name": this.signedFileName,
-    //         "url": this.signedFileUrl,
-    //          status: 'PENDING'
-    //        }
-    //       ]
-    //     },
-    //   }
-    // },
+      {
+        label: `Expenditure Performance Parameters`,
+        key: 'expPerf',
+        id: 's3',
+        icon: '',
+        text: '',
+        value: this.expPerf
+      },
+      {
+        label: `Fiscal Governance Parameters`,
+        key: 'fisGov',
+        id: 's4',
+        icon: '',
+        text: '',
+        value: {
+          "normalData": {
+            "key": "normalData",
+            "label": "",
+            "yearData": [{
+              "label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available",
+              "key": "webUrlAnnual",
+              "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
+            }, {
+              "label": "Do you maintain a Digital Property Tax Register?",
+              "key": "digitalRegtr",
+              "value": this.goverParaNdata.normalData.yearData.digitalRegtr.value ? this.goverParaNdata.normalData.yearData.digitalRegtr.value : 'N/A',
+            }, {
+              "label": "Is the property tax register GIS-based?",
+              "key": "registerGis",
+              "value": this.goverParaNdata.normalData.yearData.registerGis.value ? this.goverParaNdata.normalData.yearData.registerGis.value : 'N/A',
+            }, {
+              "label": "Do you use accounting software?",
+              "key": "accountStwre",
+              "value": this.goverParaNdata.normalData.yearData.accountStwre.value ? this.goverParaNdata.normalData.yearData.accountStwre.value : 'N/A',
+            }]
+          },
+          ownRevDetails: {
+            key: 'ownRevDetails',
+            label: 'Own Revenue Details',
+            yearData: [
+              {
+                label: 'Total Own Revenue Arrears as on 31st March 2020',
+                key: 'totalOwnRevenArr_20',
+                amount: this.totalOwnRevenueArea,
+              },
+              {
+                label: 'FY 2019-20 - by Cash/Cheque/DD',
+                key: 'fy_19_20_cash',
+                amount: this.fy_19_20_cash,
+              },
+              {
+                label: 'FY 2019-20 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)',
+                key: 'fy_19_20_online',
+                amount: this.fy_19_20_online,
+              },
+            ]
+          },
+          propertyDetails: {
+            key: 'propertyDetails',
+            label: 'Property Details',
+            yearData: [
+              {
+                label: 'Number of Properties assessed/listed as per Property Tax Register',
+                key: 'NoOfProlisted',
+                amount: this.property_tax_register,
+              },
+              {
+                label: 'Number of Properties exemt from paying Property Tax',
+                key: 'NoOfProExemtfromPayProTax',
+                amount: this.paying_property_tax,
+              },
+              {
+                label: 'Number of Properties for which Property Tax has been paid',
+                key: 'NoOfProwhichProTaxPaid',
+                amount: this.paid_property_tax,
+              },
+            ]
+          },
+        },
+      },
+      {
+        label: `Upload Financial Documents`,
+        key: 'upFy',
+        id: 's5',
+        icon: '',
+        text: '',
+        value: this.uploadFyDoc
+      },
+      {
+        label: `Contact Information`,
+        key: 'conInfo',
+        id: 's6',
+        icon: '',
+        text: '',
+        value: {
+          contactInfo: {
+            key: 'contactInfo',
+            label: '',
+            yearData: [
+              {
+                label: 'Name of the Nodal Officer',
+                // value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
+                value: this.fiscalForm?.controls?.contactInfo?.controls?.designationOftNodalOfficer?.value,
+                status: ''
+              },
+              {
+                label: 'Designation of the Nodal Officer',
+                //value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
+                value: this.fiscalForm?.controls?.contactInfo?.controls?.nameOfNodalOfficer?.value,
+                status: ''
+              },
+              {
+                label: 'Email ID',
+                value: this.fiscalForm?.controls?.contactInfo?.controls?.email?.value,
+                // value: this.fiscalForm?.value?.contactInfo?.email,
+                status: ''
+              },
+              {
+                label: 'Mobile number',
+                value: this.fiscalForm?.controls?.contactInfo?.controls?.mobile?.value,
+                // value: this.fiscalForm?.value?.contactInfo?.mobile,
+                status: ''
+              }
+            ]
+          },
+        },
+      },
+      // {
+      //   label: `Self Declaration`,
+      //   key: 'selDec',
+      //   id: 's7',
+      //   icon: '',
+      //   text: '',
+      //   value: {
+      //     "signedCopyOfFile": {
+      //       lebel: '',
+      //       key: 'signedCopyOfFile',
+      //       yearData: [
+      //        {
+      //         lebel: 'Signed Copy Of File',
+      //         "name": this.signedFileName,
+      //         "url": this.signedFileUrl,
+      //          status: 'PENDING'
+      //        }
+      //       ]
+      //     },
+      //   }
+      // },
 
-  ];
+    ];
 
-}
+  }
   onPreview() {
     this.isDraft = true;
     this.updateValueInForm();
@@ -2003,8 +2003,8 @@ getFullDataArray(){
     for (const key in this.revenueMob) {
       console.log('keyyyyyyyy', key);
       this.revenueMob[key].yearData.forEach((el) => {
-        if(Object.keys(el).length > 0){
-          if (el?.amount === '' || el?.amount ===  null || el?.amount ===  undefined) {
+        if (Object.keys(el).length > 0) {
+          if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
           } else {
             el['error'] = false
@@ -2014,8 +2014,8 @@ getFullDataArray(){
     }
     for (const key in this.expPerf) {
       this.expPerf[key].yearData.forEach((el) => {
-        if(Object.keys(el).length > 0){
-          if (el?.amount === '' || el?.amount === null || el?.amount ===  undefined) {
+        if (Object.keys(el).length > 0) {
+          if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
           } else {
             el['error'] = false
@@ -2025,8 +2025,8 @@ getFullDataArray(){
     }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
-        if(Object.keys(el).length > 0){
-          if (el?.amount === '' || el?.amount === null || el?.amount ===  undefined) {
+        if (Object.keys(el).length > 0) {
+          if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
           } else {
             el['error'] = false;
@@ -2034,17 +2034,17 @@ getFullDataArray(){
         }
       })
       for (const key in this.uploadFyDoc) {
-        if(key != 'guidanceNotes'){
+        if (key != 'guidanceNotes') {
           this.uploadFyDoc[key].yearData.forEach((el) => {
-            if(el?.readonly == false){
-             // if (el?.file?.url == '' || el?.file?.url == null) {
-                if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url ===  undefined) {
-                  el['error'] = true;
-                } else {
-                  el['error'] = false;
-                }
-             // }
-            }else {
+            if (el?.readonly == false) {
+              // if (el?.file?.url == '' || el?.file?.url == null) {
+              if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
+                el['error'] = true;
+              } else {
+                el['error'] = false;
+              }
+              // }
+            } else {
               el['error'] = false;
             }
 
@@ -2054,44 +2054,44 @@ getFullDataArray(){
       }
     }
 
-    let normalGovData =  [
+    let normalGovData = [
       {
-      "key": "webUrlAnnual",
-      "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
-       error: false
-    },
-     {
-      "key": "digitalRegtr",
-      "value": this.goverParaNdata.normalData.yearData.digitalRegtr.value,
-       error: false
-    },
-     {
-      "key": "registerGis",
-      "value": this.goverParaNdata.normalData.yearData.registerGis.value,
-      error: false
-    },
-    {
-      "key": "accountStwre",
-      "value": this.goverParaNdata.normalData.yearData.accountStwre.value,
-      error: false
-    }
-  ];
-  let digiVal = this.goverParaNdata.normalData.yearData.digitalRegtr.value;
-  normalGovData.forEach((el)=>{
-    if((el?.key == 'webUrlAnnual' || el?.key == 'digitalRegtr') && (el?.value == '' || el?.value == null)){
-      el.error = true
-    }else if((el?.key == 'registerGis' || el?.key == 'accountStwre') && (el?.value == '' || el?.value == null) && digiVal == 'Yes'){
-      el.error = true
-    } else {
-      el.error = false;
-    }
-  })
-  normalGovData.forEach((el)=>{
-    if(el?.error == true){
-      this.formError = false;
-      return
-    }
-  })
+        "key": "webUrlAnnual",
+        "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
+        error: false
+      },
+      {
+        "key": "digitalRegtr",
+        "value": this.goverParaNdata.normalData.yearData.digitalRegtr.value,
+        error: false
+      },
+      {
+        "key": "registerGis",
+        "value": this.goverParaNdata.normalData.yearData.registerGis.value,
+        error: false
+      },
+      {
+        "key": "accountStwre",
+        "value": this.goverParaNdata.normalData.yearData.accountStwre.value,
+        error: false
+      }
+    ];
+    let digiVal = this.goverParaNdata.normalData.yearData.digitalRegtr.value;
+    normalGovData.forEach((el) => {
+      if ((el?.key == 'webUrlAnnual' || el?.key == 'digitalRegtr') && (el?.value == '' || el?.value == null)) {
+        el.error = true
+      } else if ((el?.key == 'registerGis' || el?.key == 'accountStwre') && (el?.value == '' || el?.value == null) && digiVal == 'Yes') {
+        el.error = true
+      } else {
+        el.error = false;
+      }
+    })
+    normalGovData.forEach((el) => {
+      if (el?.error == true) {
+        this.formError = false;
+        return
+      }
+    })
     let totalObj = { ...this.revenueMob, ...this.expPerf, ...this.goverPar, ...this.uploadFyDoc }
     console.log('total obj', totalObj);
     this.checkFinalValidation(totalObj)
@@ -2130,53 +2130,57 @@ getFullDataArray(){
     }
   }
 
-  finalSubmitAlert(){
+  finalSubmitAlert() {
     this.isDraft = false;
     this.formError = true;
     this.updateValueInForm();
     this.checkValidation();
-    if(this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == ''){
+
+    console.log(this.uploadFyDoc);
+
+    if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
       swal('Error', "Please upload a signed copy of this form", 'error');
       return
     }
-    if(this.fiscalForm.status != "INVALID" && this.formError){
-    swal(
-      "Confirmation !",
-      `Are you sure you want to submit this form? Once submitted,
+    if (this.fiscalForm.status != "INVALID" && this.formError) {
+      swal(
+        "Confirmation !",
+        `Are you sure you want to submit this form? Once submitted,
        it will become uneditable and will be sent to MoHUA for Review.
         Alternatively, you can save as draft for now and submit it later.`,
-      "warning",
-      {
-        buttons: {
-          Submit: {
-            text: "Submit",
-            value: "submit",
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
           },
-          Draft: {
-            text: "Save as Draft",
-            value: "draft",
-          },
-          Cancel: {
-            text: "Cancel",
-            value: "cancel",
-          },
-        },
-      }
-    ).then((value) => {
-      switch (value) {
-        case "submit":
-          this.finalSubmit();
-          break;
-        case "draft":
-          this.isDraft = true;
-          this.updateValueInForm();
-          this.saveFormAsDraft();
-          break;
-        case "cancel":
-          break;
-      }
-    })
-  }else {
+        }
+      ).then((value) => {
+        switch (value) {
+          case "submit":
+            this.finalSubmit();
+            break;
+          case "draft":
+            this.isDraft = true;
+            this.updateValueInForm();
+            this.saveFormAsDraft();
+            break;
+          case "cancel":
+            break;
+        }
+      })
+      
+    } else {
       swal("Missing Data !", `${this.errorMsg}`, "error");
     }
   }
@@ -2234,41 +2238,41 @@ getFullDataArray(){
       console.log("hi", data);
     });
   }
-  clearFile(type, yrItem, stpItem){
+  clearFile(type, yrItem, stpItem) {
     yrItem.file.url = '';
     yrItem.file.name = '';
     sessionStorage.setItem("changeInFR", "true");
   }
   routerNavigate = null;
   response;
-  alertError ="You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  alertError = "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
   @ViewChild("templateSaveChange") template;
 
   navigationCheck() {
-   // if (!this.clickedSave) {
-      this._router.events.subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.alertError =
-            "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-          const changeInFr = sessionStorage.getItem("changeInFR");
-          if (event.url === "/" || event.url === "rankings/login") {
-            sessionStorage.setItem("changeInFR", "false");
-            return;
-          }
-          if (changeInFr === "true" && this.routerNavigate === null) {
-            const currentRoute = this._router.routerState;
-            this._router.navigateByUrl(currentRoute.snapshot.url, {
-              skipLocationChange: true,
-            });
-            this.routerNavigate = event;
-            this.dialog.closeAll();
-            this.openDialog(this.template);
-          }
+    // if (!this.clickedSave) {
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.alertError =
+          "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+        const changeInFr = sessionStorage.getItem("changeInFR");
+        if (event.url === "/" || event.url === "rankings/login") {
+          sessionStorage.setItem("changeInFR", "false");
+          return;
         }
-      });
-   // }
+        if (changeInFr === "true" && this.routerNavigate === null) {
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.dialog.closeAll();
+          this.openDialog(this.template);
+        }
+      }
+    });
+    // }
   }
   openDialog(template) {
     if (template == undefined) return;
@@ -2299,14 +2303,14 @@ getFullDataArray(){
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-   // await this.formSave("draft");
+    // await this.formSave("draft");
     //return this._router.navigate(["ulbform2223/slbs"]);
   }
-  saveFormAsDraft(){
+  saveFormAsDraft() {
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
       console.log('post res', res);
-        swal('Saved', "Data save as draft successfully!", 'success');
-        sessionStorage.setItem("changeInFR", "false");
+      swal('Saved', "Data save as draft successfully!", 'success');
+      sessionStorage.setItem("changeInFR", "false");
     },
       (error) => {
         console.log('post error', error)
@@ -2325,8 +2329,8 @@ getFullDataArray(){
     this.stay();
   }
   canShowFormSection(formKey: string, year?: string) {
-    if(formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value == 'No') return false;
-    if(formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value == 'No') return false;
+    if (formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value == 'No') return false;
+    if (formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value == 'No') return false;
 
     return true;
   }
