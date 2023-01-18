@@ -1,8 +1,8 @@
 <div class="row mt-2 text-end">
     <div class="col-12">
         <!-- <button type="button" class="btn btn-success" (click)="getAllData(pageName)">{{pageName}}</button> -->
-        <button type="button" class="btn btn-primary ms-2" (click)="toggleInfiniteScroll()">{{
-            isInfiniteScroll ? 'Show 10' : 'Show all' }}</button>
+        <!-- <button type="button" class="btn btn-primary ms-2" (click)="toggleInfiniteScroll()">{{
+            isInfiniteScroll ? 'Show 10' : 'Show all' }}</button> -->
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
             (click)="openDialog('Approve')">Approve all</button>
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
