@@ -159,10 +159,10 @@
 
                         <div class="row mt-4 pd-b" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepper, stepItem)">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(stepItem)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" [disabled]="isDisabled" (click)="stepperContinueSave(stepper, stepItem)">Save & Continue Later</button>
+                                <button class="btn btn-f-c com-style" [disabled]="isDisabled" (click)="stepperContinueSave(stepItem)">Save & Continue Later</button>
                             </div>
                         </div>
 

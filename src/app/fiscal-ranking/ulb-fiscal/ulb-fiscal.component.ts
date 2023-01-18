@@ -26,6 +26,9 @@ const toWords = new ToWords();
 })
 export class UlbFiscalComponent implements OnInit {
 
+  @ViewChild('stepper') stepper: MatStepper;
+
+  errorPageIndex: number;
   userData;
   ulbName = '';
   stateName = '';
@@ -1306,9 +1309,9 @@ export class UlbFiscalComponent implements OnInit {
       })
     }
   }
-  stepperContinue(stepper: MatStepper, item) {
+  stepperContinue(item) {
     console.log(this.fiscalForm.value);
-    console.log("stepper", stepper, item);
+    // console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
     //   case "enumeration": {
@@ -1341,14 +1344,14 @@ export class UlbFiscalComponent implements OnInit {
     //     break;
     //   }
     // }
-    stepper.next();
+    this.stepper.next();
   }
-  stepperContinueSave(stepper: MatStepper, item) {
+  stepperContinueSave(item) {
     console.log('this form.....', this.fiscalForm?.value);
     this.isDraft = true;
     this.updateValueInForm();
     // console.log('this form.....', JSON.stringify(this.fiscalForm.value));
-    this.saveForm(stepper, item);
+    this.saveForm(item);
 
   }
   keyUpValidationNum(e, stepItem, yearItem) {
@@ -1505,13 +1508,13 @@ export class UlbFiscalComponent implements OnInit {
     );
   }
 
-  saveForm(stepper: MatStepper, item) {
+  saveForm(item) {
     console.log('post body', this.postData);
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
       console.log('post res', res);
       if (item?.id != 's7') {
         swal('Saved', "Data save as draft successfully!", 'success');
-        stepper.next();
+        this.stepper.next();
       } else {
         this.formSubmitted = true;
 
@@ -2000,12 +2003,14 @@ export class UlbFiscalComponent implements OnInit {
   formError = true;
   errorArr = [];
   checkValidation() {
+    this.errorPageIndex = null;
     for (const key in this.revenueMob) {
       console.log('keyyyyyyyy', key);
       this.revenueMob[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
+            if(!this.errorPageIndex) this.errorPageIndex = 1; 
           } else {
             el['error'] = false
           }
@@ -2017,6 +2022,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
+            if(!this.errorPageIndex) this.errorPageIndex = 2;
           } else {
             el['error'] = false
           }
@@ -2028,6 +2034,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
+            if(!this.errorPageIndex) this.errorPageIndex = 3; 
           } else {
             el['error'] = false;
           }
@@ -2040,6 +2047,7 @@ export class UlbFiscalComponent implements OnInit {
               // if (el?.file?.url == '' || el?.file?.url == null) {
               if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
                 el['error'] = true;
+                if(!this.errorPageIndex) this.errorPageIndex = 4; 
               } else {
                 el['error'] = false;
               }
@@ -2181,7 +2189,9 @@ export class UlbFiscalComponent implements OnInit {
       })
       
     } else {
-      swal("Missing Data !", `${this.errorMsg}`, "error");
+      swal("Missing Data !", `${this.errorMsg}`, "error").then(() => {
+        this.stepper.selectedIndex = this.errorPageIndex;
+      });
     }
   }
   tenDigitMax = 9999999999;
