@@ -165,7 +165,6 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
           this.slbFormData["isDraft"] = true;
           this.slbFormData["status"] = "PENDING";
         }
-
         this.newCommonService.setFormStatus2223.next(true);
         sessionStorage.setItem("changeIn28SLB", "false");
       },
@@ -237,6 +236,8 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   errorFieldIDs = [];
   requiredFieldIDs = [];
   errorFieldIDs_decrease = [];
+  errorFieldLineItems = [];
+  errorFieldLineItemsDec  = [];
   error = 0;
   counter = 0;
   validateData() {
@@ -247,6 +248,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     this.errorFieldIDs = [];
     this.errorFieldIDs_decrease = [];
     this.requiredFieldIDs = [];
+    this.errorFieldLineItems = [];
 
     let errorType = "";
     let arrOfAllData = [];
@@ -258,7 +260,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     // arrOfAllData = data;
     this.counter = 0;
     this.error = 0;
-
+    console.log('aaray data.....', arrOfAllData)
     arrOfAllData.forEach((el) => {
       if (el["actual"]["value"] === 0) {
         el["actual"]["value"] = '0';
@@ -271,33 +273,44 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
           el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
           el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b540"
         ) {
+
           if (+el["actual"]["value"] > +el["target_1"]["value"]) {
+         //   debugger
             this.errorFieldIDs?.push(el["question"]);
+            this.errorFieldLineItems?.push(el["indicatorLineItem"]);
             this.error = 1;
           } else {
+           // debugger
             var index = this.errorFieldIDs.indexOf(el["question"]);
-            if (index !== -1) {
-              this.errorFieldIDs.splice(index, 1);
-            }
+           if (index !== -1) {
+           //  this.errorFieldIDs.splice(index, 1);
+           }
+           let indexForLineItem = this.errorFieldLineItems.indexOf(el["indicatorLineItem"]);
+           if (indexForLineItem !== -1) {
+            this.errorFieldLineItems.splice(index, 1);
+          }
           }
         } else {
           if (+el["actual"]["value"] < +el["target_1"]["value"]) {
             this.errorFieldIDs_decrease.push(el["question"]);
-
+            this.errorFieldLineItemsDec.push(el["indicatorLineItem"]);
             this.error = 1;
           } else {
             var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
-            if (index !== -1) {
-              this.errorFieldIDs_decrease.splice(index, 1);
-            }
+           if (index !== -1) {
+             // this.errorFieldIDs_decrease.splice(index, 1);
+           }
+           let indexForLineItemD = this.errorFieldLineItemsDec.indexOf(el["indicatorLineItem"]);
+           if (indexForLineItemD !== -1) {
+            this.errorFieldLineItemsDec.splice(index, 1);
+           }
           }
         }
       }
 
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
-        this.requiredFieldIDs.push(el["question"]);
-
+        this.requiredFieldIDs.push(el["indicatorLineItem"]);
         this.error = 1;
       }
     });
