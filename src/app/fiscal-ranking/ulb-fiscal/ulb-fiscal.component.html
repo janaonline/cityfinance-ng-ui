@@ -62,6 +62,50 @@
                                                             <input class="com-style" formControlName="nameCmsnr" matInput placeholder="Name of Commissioner / Executive Officer*" (keydown)="changeDecInForm()">
                                                         </mat-form-field>
                                                     </div>
+                                                    <div class="col-sm-12 mt-4 row">
+                                                        <div class="col-sm-7">
+                                                            Does the ULB handle water supply services?
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('waterSupply', $event.target.value)" formControlName="waterSupply">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 mt-4 row">
+                                                        <div class="col-sm-7">
+                                                            Does the ULB handle sanitation service delivery?
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('sanitationService', $event.target.value)" formControlName="sanitationService">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 mt-4 row">
+                                                        <div class="col-sm-7">
+                                                            Does your Property Tax include Water Tax?
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertyWaterTax', $event.target.value)" formControlName="propertyWaterTax">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 mt-4 row">
+                                                        <div class="col-sm-7">
+                                                            Does your Property Tax include Sanitation/Sewerage Tax?
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertySanitationTax', $event.target.value)" formControlName="propertySanitationTax">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +174,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style" *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
-                                        <div class="card-body">
+                                        <div class="card-body" *ngIf="canShowFormSection(item.key)">
                                             <div class="loop">
                                                 <div class="row">
                                                     <div class="col-sm-12 h-label mb-3 com-style">
