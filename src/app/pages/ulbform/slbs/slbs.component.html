@@ -14,7 +14,7 @@
             <div class="row mt-3">
                 <div class="col-sm-12">
                     <button [disabled]="isDisabled" [ngClass]="{'btnClick': clickAnswer}" value="1" id="yes" class="btn btn-y" (click)="answer(true)">Yes</button>
-                    <button [disabled]="isDisabled" [ngClass]="{'btnClick': !clickAnswer}" value="1" id="no" class="btn ms-3 btn-y" (click)="answer(false)">No</button>
+                    <button [disabled]="isDisabled" [ngClass]="{'btnClick': clickAnswer === false}" value="1" id="no" class="btn ms-3 btn-y" (click)="answer(false)">No</button>
                 </div>
             </div>
             <!-- </div> -->

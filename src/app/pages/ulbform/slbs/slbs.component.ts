@@ -446,7 +446,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
       this._ulbformService.allFormsData.next(allFormData);
     }
   }
-  clickAnswer;
+  clickAnswer = null;
   answer(ans) {
     this.clickAnswer = ans;
     this.blankDataQus = ans;
