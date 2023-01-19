@@ -1380,7 +1380,7 @@ export class UlbFiscalComponent implements OnInit {
     console.log('revenueMob', this.revenueMob, yearItem);
   }
 
-  getPercentIncrement(currentYear, previewYear) { // TODO: handle not showing less then -100%
+  getPercentIncrement(currentYear, previewYear) {
     const b = +previewYear.amount;
     const a = +currentYear.amount;
     return Math.floor((a - b )/ b * 100); 
