@@ -83,7 +83,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "assets",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -113,7 +113,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "f_assets",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -143,7 +143,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: 'The sum of grants received from state for development, state specific schemes and central sponsored schemes (only state’s share).',
       amount: {
         key: "s_grant",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -173,7 +173,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: 'The sum of grants received from central sector schemes and central sponsored schemes (only center’s share).',
       amount: {
         key: "c_grant",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -253,7 +253,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "revenue",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -283,7 +283,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "expense",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -390,7 +390,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "assets",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -420,7 +420,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "f_assets",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -450,7 +450,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: 'The sum of grants received from state for development, state specific schemes and central sponsored schemes (only state’s share).',
       amount: {
         key: "s_grant",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -480,7 +480,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: 'The sum of grants received from central sector schemes and central sponsored schemes (only center’s share).',
       amount: {
         key: "c_grant",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -560,7 +560,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "revenue",
-        value: "",
+        value: null,
         error: false,
       },
       status: null,
@@ -590,7 +590,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       tooltip: '',
       amount: {
         key: "expense",
-        value: "",
+        value: null,
+        // value: null,
         error: false,
       },
       status: null,
@@ -844,10 +845,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
             name: null,
           },
           excel: { url: null, name: null },
-          // assets: { value: "", error: false },
-          // f_assets: { value: "", error: false },
-          // s_grant: { value: "", error: false },
-          // c_grant: { value: "", error: false },
+          // assets: { value: null, error: false },
+          // f_assets: { value: null, error: false },
+          // s_grant: { value: null, error: false },
+          // c_grant: { value: null, error: false },
           status: null,
           rejectReason: null,
           rejectReason_state: null,
@@ -890,8 +891,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
             name: null,
           },
           excel: { url: null, name: null },
-          // revenue: { value: "", error: false },
-          // expense: { value: "", error: false },
+          // revenue: { value: null, error: false },
+          // expense: { value: null, error: false },
           status: null,
           rejectReason: null,
           rejectReason_state: null,
@@ -1164,6 +1165,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         (err) => {
           this.action = err.error?.action;
           this.url = err.error?.url;
+          debugger
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
@@ -1392,6 +1394,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     // }
   }
   answer(question, val, isAudit = null, fromStart = false) {
+    debugger
     let status = isAudit ? "audited" : "unAudited";
     if (isAudit && this.loggedInUserType == USER_TYPE.ULB) {
       this.auditedDisable = false;
@@ -1419,6 +1422,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         break;
     }
     sessionStorage.setItem("changeInAnnualAcc", "true");
+    console.log('jjj', this.data);
+
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
@@ -2062,6 +2067,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   postAnnualFormDraft() {
     if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
     if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
+    debugger
     this.data["isDraft"] = true;
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
@@ -2122,7 +2128,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
-    let value = Number(e?.value);
+    let value:any = "";
+    if(e?.value || e?.value === '0'){
+      value = Number(e?.value);
+    }
     console.log("emit", e, fileType, qusName, qusType);
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = value;
