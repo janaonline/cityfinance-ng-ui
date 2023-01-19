@@ -591,6 +591,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       amount: {
         key: "expense",
         value: "",
+        // value: "",
         error: false,
       },
       status: null,
@@ -1164,6 +1165,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         (err) => {
           this.action = err.error?.action;
           this.url = err.error?.url;
+
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
@@ -1392,6 +1394,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     // }
   }
   answer(question, val, isAudit = null, fromStart = false) {
+
     let status = isAudit ? "audited" : "unAudited";
     if (isAudit && this.loggedInUserType == USER_TYPE.ULB) {
       this.auditedDisable = false;
@@ -1419,6 +1422,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         break;
     }
     sessionStorage.setItem("changeInAnnualAcc", "true");
+    console.log('jjj', this.data);
+
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
@@ -2062,6 +2067,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   postAnnualFormDraft() {
     if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
     if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
+
     this.data["isDraft"] = true;
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
@@ -2122,7 +2128,10 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
-    let value = Number(e?.value);
+    let value:any = "";
+    if(e?.value || e?.value === '0'){
+      value = Number(e?.value);
+    }
     console.log("emit", e, fileType, qusName, qusType);
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = value;

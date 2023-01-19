@@ -14,13 +14,14 @@
           </div> -->
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">₹</span>
-                <input type="text" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}" aria-describedby="basic-addon1" min="1" appFiftTwoDigitNumber>
+                <input type="text" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}" aria-describedby="basic-addon1" appFiftTwoDigitNumber>
             </div>
             <div class="mt-2">
                 <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->
                 <!-- <span>{{amount1Type}}</span> -->
                 <span>{{amount2Type}}</span>
                 <span *ngIf="amountObj.error" class="err-text">Only 15 digits with 2 decimal points number are allowed.</span>
+                <span *ngIf="zeroError" class="err-text">Zero not allowed.</span>
             </div>
         </div>
         <div class="" *ngIf="quesType == 'file'">
