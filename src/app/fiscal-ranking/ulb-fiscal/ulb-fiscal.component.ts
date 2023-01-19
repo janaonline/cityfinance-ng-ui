@@ -132,21 +132,9 @@ export class UlbFiscalComponent implements OnInit {
   //     label: 'Total Receipts (Actual)',
   //     yearData: [
   //       {
-  //         label: 'FY 2016-17',
-  //         key: 'FY2016-17',
-  //         postion: '1',
-  //         value: '',
-  //         min: '',
-  //         max: '',
-  //         required: true,
-  //         type: '',
-  //         bottomText: 'to be taken from approved Annual Budget of ',
-  //         placeHolder: ''
-  //       },
-  //       {
   //         label: 'FY 2017-18',
   //         key: 'FY2017-18',
-  //         postion: '2',
+  //         postion: '1',
   //         value: '',
   //         min: '',
   //         max: '',
@@ -158,6 +146,18 @@ export class UlbFiscalComponent implements OnInit {
   //       {
   //         label: 'FY 2018-19',
   //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2019-20',
+  //         key: 'FY2019-20',
   //         postion: '3',
   //         value: '',
   //         min: '',
@@ -168,8 +168,116 @@ export class UlbFiscalComponent implements OnInit {
   //         placeHolder: ''
   //       },
   //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
+  //         postion: '4',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget `,
+  //         placeHolder: ''
+  //       }
+  //     ]
+  //   },
+  //   totalRcptWaterSupply: {
+  //     key: 'totalRcptWaterSupply',
+  //     label: 'Total Receipts (Actual) for Water Supply',
+  //     yearData: [
+  //       {
+  //         label: 'FY 2017-18',
+  //         key: 'FY2017-18',
+  //         postion: '1',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2018-19',
+  //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
   //         label: 'FY 2019-20',
   //         key: 'FY2019-20',
+  //         postion: '3',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget of `,
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
+  //         postion: '4',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget `,
+  //         placeHolder: ''
+  //       }
+  //     ]
+  //   },
+  //   totalRcptSanitation: {
+  //     key: 'totalRcptSanitation',
+  //     label: 'Total Receipts (Actual) for Sanitation/Sewerage',
+  //     yearData: [
+  //       {
+  //         label: 'FY 2017-18',
+  //         key: 'FY2017-18',
+  //         postion: '1',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2018-19',
+  //         key: 'FY2018-19',
+  //         postion: '2',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: 'to be taken from approved Annual Budget of ',
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2019-20',
+  //         key: 'FY2019-20',
+  //         postion: '3',
+  //         value: '',
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: `to be taken from approved Annual Budget of `,
+  //         placeHolder: ''
+  //       },
+  //       {
+  //         label: 'FY 2020-21',
+  //         key: 'FY2020-21',
   //         postion: '4',
   //         value: '',
   //         min: '',
@@ -899,6 +1007,10 @@ export class UlbFiscalComponent implements OnInit {
         populationFr: [''],
         webLink: [''],
         nameCmsnr: ['', Validators.required],
+        waterSupply: ['No', Validators.required],
+        sanitationService: ['No', Validators.required],
+        propertyWaterTax: ['No', Validators.required],
+        propertySanitationTax: ['No', Validators.required],
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
@@ -1195,6 +1307,7 @@ export class UlbFiscalComponent implements OnInit {
 }
   }
   stepperContinue(stepper: MatStepper, item) {
+    console.log(this.fiscalForm.value);
     console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
@@ -1653,7 +1766,27 @@ getFullDataArray(){
                  // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
                   value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
                   status: ''
-                }
+                },
+                {
+                  label: 'Does the ULB handle water supply services?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does the ULB handle sanitation service delivery?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does your Property Tax include Water Tax?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.value,
+                  status: ''
+                },
+                {
+                  label: 'Does your Property Tax include Sanitation/Sewerage Tax?',
+                  value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.value,
+                  status: ''
+                },
               ]
              },
           },
@@ -2190,5 +2323,11 @@ getFullDataArray(){
   }
   alertClose() {
     this.stay();
+  }
+  canShowFormSection(formKey: string, year?: string) {
+    if(formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value == 'No') return false;
+    if(formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value == 'No') return false;
+
+    return true;
   }
 }
