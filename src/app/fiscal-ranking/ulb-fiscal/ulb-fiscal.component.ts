@@ -1310,7 +1310,7 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   stepperContinue(item) {
-    console.log(this.fiscalForm.value);
+    console.log(this.revenueMob);
     // console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
@@ -1375,8 +1375,15 @@ export class UlbFiscalComponent implements OnInit {
         currency: false,
         doNotAddOnly: true,
       });
+
     }
     console.log('revenueMob', this.revenueMob, yearItem);
+  }
+
+  getPercentIncrement(currentYear, previewYear) { // TODO: handle not showing less then -100%
+    const b = +previewYear.amount;
+    const a = +currentYear.amount;
+    return Math.floor((a - b )/ b * 100); 
   }
   amounttoWords(type, val) {
     return toWords.convert(Number(val), {
