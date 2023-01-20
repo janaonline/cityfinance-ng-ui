@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row mb-3">
-        <div class="col-sm-2">
+        <div class="col-sm-2" [ngClass]="{'sidebar': userData.role == 'ADMIN' || userData.role == 'MoHUA'}">
             <div class="row b-h" style="">
                 <a routerLink="/fc-home-page">
                     <div class="row">
@@ -19,9 +19,11 @@
             <div class="" *ngFor="let menuItem of leftMenu | keyvalue">
                 <div class="row out-f-h" *ngIf="menuItem?.key != ''">
                     <div class="col-sm-2">
-
+                        <!-- <mat-icon class="pull-right" aria-hidden="false">  
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>  -->
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-9 collapsable">
                         {{menuItem?.key}}
                     </div>
                 </div>
@@ -33,10 +35,10 @@
                                     <img src="../../../assets/stateform/surface1 (2).svg">
                                 </mat-icon>
                             </div>
-                            <div class="col-sm-9 linktext pd">
+                            <div class="col-sm-9 linktext pd collapsable" >
                                 {{sideItem?.name}}
                             </div>
-                            <div class="col-sm-1 col-lg-1 col-md-1">
+                            <div class="col-sm-1 col-lg-1 col-md-1 collapsable">
                                 <!-- <mat-icon class="pull-right" aria-hidden="false">
                                   <img src="../../../assets/form-icon/checked.svg">
                               </mat-icon> -->
@@ -66,8 +68,8 @@
             <div class="row" *ngIf="loggedInUserType !== userTypes.STATE && path">
                 <div class="col-sm-12 br-cd">
                     <a type="button" (click)="backStatePage()" class="breadLink">
-                     &laquo;
-                     State Review
+                        &laquo;
+                        State Review
                     </a>
                 </div>
             </div>
@@ -84,23 +86,23 @@
                   loggedInUserType === userTypes.MoHUA ||
                   loggedInUserType === userTypes.PARTNER
                 ">
-                {{ userLoggedInDetails.role }}
-                <div>
-                  <span style="font-size: 1.2rem; font-weight:600;">
-                     {{stateName}}
-                  </span>
+                            {{ userLoggedInDetails.role }}
+                            <div>
+                                <span style="font-size: 1.2rem; font-weight:600;">
+                                    {{stateName}}
+                                </span>
+                            </div>
+                        </span>
+                        <span *ngIf="states && (loggedInUserType === userTypes.STATE)">
+                            {{ states[userLoggedInDetails["state"]]?.name }}
+                        </span>
+                    </h3>
+
                 </div>
-                </span>
-                <span *ngIf="states && (loggedInUserType === userTypes.STATE)">
-                {{ states[userLoggedInDetails["state"]]?.name }}
-              </span>
-                </h3>
-
             </div>
-        </div>
 
-        <router-outlet></router-outlet>
+            <router-outlet></router-outlet>
+        </div>
     </div>
-</div>
 
 </div>

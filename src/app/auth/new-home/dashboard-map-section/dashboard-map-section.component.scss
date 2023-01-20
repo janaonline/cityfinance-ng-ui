@@ -298,9 +298,15 @@ div.miniMap {
 // ::ng-deep label.mat-optgroup-label {
 //   height: 38px;
 // }
-// ::ng-deep input.mat-input-element {
-//   font-size: 1.7rem;
-// }
+::ng-deep input.mat-input-element {
+    background: #F2F3F8;
+    padding: 5px;
+    border-radius: 0;
+    border: none;
+    &:focus {
+        box-shadow: none;
+    }
+}
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
     min-width: 200.1px !important;
 }
@@ -353,6 +359,10 @@ div.miniMap {
     .cuppa-dropdown {
         position: relative;
         margin-top: -2px;
+        background-color: #F2F3F8;
+        .selected-list .c-btn {
+            border: none;
+        }
     }
     .map-reset {
         font: normal normal bold 14px/15px 'Archivo';

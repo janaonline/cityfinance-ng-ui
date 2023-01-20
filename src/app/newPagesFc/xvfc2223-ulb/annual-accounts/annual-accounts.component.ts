@@ -591,6 +591,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       amount: {
         key: "expense",
         value: "",
+        // value: "",
         error: false,
       },
       status: null,
@@ -1164,6 +1165,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         (err) => {
           this.action = err.error?.action;
           this.url = err.error?.url;
+
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
@@ -1392,6 +1394,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     // }
   }
   answer(question, val, isAudit = null, fromStart = false) {
+
     let status = isAudit ? "audited" : "unAudited";
     if (isAudit && this.loggedInUserType == USER_TYPE.ULB) {
       this.auditedDisable = false;
@@ -1419,6 +1422,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         break;
     }
     sessionStorage.setItem("changeInAnnualAcc", "true");
+    console.log('jjj', this.data);
+
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
@@ -1750,8 +1755,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
         }
         if (
           objLength > 0 &&
-          (this.data?.audited?.provisional_data[key]?.pdf?.name == "" ||
-            this.data?.audited?.provisional_data[key]?.pdf?.name == null)
+          (this.data?.audited?.provisional_data[key]?.pdf?.url == "" ||
+            this.data?.audited?.provisional_data[key]?.pdf?.url == null)
         ) {
           //this.data.unAudited.provisional_data[key].
           //  console.log("elel key", key);
@@ -1855,8 +1860,8 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
         if (
           objLength > 0 &&
-          (this.data?.unAudited?.provisional_data[key]?.pdf?.name == "" ||
-            this.data?.unAudited?.provisional_data[key]?.pdf?.name == null)
+          (this.data?.unAudited?.provisional_data[key]?.pdf?.url == "" ||
+            this.data?.unAudited?.provisional_data[key]?.pdf?.url == null)
         ) {
           this.unAuditQues.forEach((el) => {
             //  console.log("un a file", el);
@@ -2062,6 +2067,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   postAnnualFormDraft() {
     if (this.data.audited.status != 'APPROVED') this.data.audited.status = "PENDING";
     if (this.data.unAudited.status != 'APPROVED') this.data.unAudited.status = "PENDING";
+
     this.data["isDraft"] = true;
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
@@ -2081,6 +2087,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       }
     );
   }
+  finalSubmitInit = false;
   postApiForSubmit() {
 
     if (this.data.audited.status != 'APPROVED') {
@@ -2090,32 +2097,41 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.data.unAudited.status = "PENDING";
     }
     this.data["isDraft"] = false;
-    this.newCommonService.postAnnualData(this.data).subscribe(
-      (res) => {
-        this.clickedSave = false;
-        sessionStorage.setItem("changeInAnnualAcc", "false");
-        this.isDisabled = true;
-        this.tab1dis = true;
-        this.tab2dis = true;
-        this.overAllFormDis = true;
-        this.data.isDraft = false;
-        this.setDisableField();
-        this.newCommonService.setFormStatus2223.next(true);
-        swal("Saved", "Data saved successfully", "success");
-        setTimeout(() => {
-          this.onLoad();
-        }, 700)
-      },
-      (error) => {
-        this.clickedSave = false;
-        sessionStorage.setItem("changeInAnnualAcc", "false");
-        swal("Error", "Somthing went wrong.", "error");
-        console.log("post error", error);
-      }
-    );
+    this.finalSubmitInit = true;
+    if(this.finalSubmitInit){
+      this.newCommonService.postAnnualData(this.data).subscribe(
+        (res) => {
+          this.clickedSave = false;
+          this.finalSubmitInit = false;
+          sessionStorage.setItem("changeInAnnualAcc", "false");
+          this.isDisabled = true;
+          this.tab1dis = true;
+          this.tab2dis = true;
+          this.overAllFormDis = true;
+          this.data.isDraft = false;
+          this.setDisableField();
+          this.newCommonService.setFormStatus2223.next(true);
+          swal("Saved", "Data saved successfully", "success");
+          setTimeout(() => {
+            this.onLoad();
+          }, 700)
+        },
+        (error) => {
+          this.clickedSave = false;
+          sessionStorage.setItem("changeInAnnualAcc", "false");
+          swal("Error", "Somthing went wrong.", "error");
+          this.finalSubmitInit = false;
+          console.log("post error", error);
+        }
+      );
+    }
+
   }
   getAmountFromCommon(e, fileType, qusName, qusType) {
-    let value = Number(e?.value);
+    let value:any = "";
+    if(e?.value || e?.value === '0'){
+      value = Number(e?.value);
+    }
     console.log("emit", e, fileType, qusName, qusType);
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = value;

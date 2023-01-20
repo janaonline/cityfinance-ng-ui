@@ -680,6 +680,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   actionFormData;
   actionError = false;
   actionData(e) {
+    this.setRouter();
     console.log("action data..", e);
     this.actionRes = e;
     if (e?.status == "APPROVED" || e?.status == "REJECTED") {
@@ -687,6 +688,9 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     }
   }
   saveAction() {
+    if(!this.formId){
+      this.setRouter();
+    }
     let actionBody = {
       formId: this.formId,
       design_year: "606aafb14dff55e6c075d3ae",

@@ -107,7 +107,11 @@ export class GrantAllocationComponent implements OnInit {
     sessionStorage.setItem("ChangeInGrantAllocation", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_name = localStorage.getItem("state_name");
-    let id = sessionStorage.getItem("state_id")
+    let id = this.userData?.state;
+    if(!id){
+      id = sessionStorage.getItem("state_id");
+    }
+
     //console.log('gaa', this.state_name);
     this._gAservices.getFiles(id).subscribe(
       (res) => {

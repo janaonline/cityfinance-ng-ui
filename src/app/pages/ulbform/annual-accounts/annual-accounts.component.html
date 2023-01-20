@@ -366,14 +366,9 @@
 
 
 <div class="row" style="margin: 0;" *ngIf="actionCheck">
-    <div class="col-sm-12 card st-d" style="background-color: #F7F7F7; margin-left: 4px;" *ngIf="(finalSubmitUtiStatus == 'true') &&
-(anFormStaus != 'N/A')">
+    <div class="col-sm-12 card st-d" style="background-color: #F7F7F7; margin-left: 4px;" *ngIf="(finalSubmitUtiStatus == 'true') && (anFormStaus != 'N/A')">
         <div class="card-body" style="padding: 1%; margin-left: 0;">
             <!-- <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p> -->
-
-
-
-
             <p><b style="padding-right: 25px;">State Review Status :</b>
                 <label class="btn btn-success" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
             'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING' || anFormStaus == 'N/A'  )}">

@@ -36,6 +36,22 @@
     color: #FFFFFF;
 }
 
+// @media (min-width:961px) {
+//     .sidebar {
+//         width: 5%;
+//         transition: width 40ms ease-out;
+//         .collapsable {
+//             display: none;
+//         }
+//         &:hover {
+//             width: 16.66% !important;
+//             .collapsable {
+//                 display: block;
+//             }
+//         }
+//     }
+// }
+
 .link-div {
     background-color: #114551;
     // height: 36px;
