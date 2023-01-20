@@ -1142,6 +1142,10 @@ export class UlbFiscalComponent implements OnInit {
         populationFr: data?.populationFr?.value,
         webLink: data?.webLink,
         nameCmsnr: data?.nameCmsnr,
+        waterSupply: data?.waterSupply,
+        sanitationService: data?.sanitationService,
+        propertyWaterTax: data?.propertyWaterTax,
+        propertySanitationTax: data?.propertySanitationTax
       },
       contactInfo: {
         nameOfNodalOfficer: data?.nameOfNodalOfficer,
@@ -1543,6 +1547,10 @@ export class UlbFiscalComponent implements OnInit {
       webLink: this.fiscalForm?.value?.basicUlbDetails?.webLink,
       nameCmsnr: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
       ulbName: this.ulbName,
+      waterSupply: this.fiscalForm?.value?.basicUlbDetails?.waterSupply,
+      sanitationService: this.fiscalForm?.value?.basicUlbDetails?.sanitationService,
+      propertyWaterTax: this.fiscalForm?.value?.basicUlbDetails?.propertyWaterTax,
+      propertySanitationTax: this.fiscalForm?.value?.basicUlbDetails?.propertySanitationTax,
       population11: {
         value: this.fiscalForm.controls.basicUlbDetails.controls.population11.value,
         readonly: this.isPopAvl11
