@@ -44,7 +44,7 @@ export class AnnualAccountsComponent implements OnInit {
   @ViewChild("template1") template1;
   fromPreview = null;
   finalSubmitUtiStatus;
-  anFormStaus = "PENDING";
+  anFormStaus = null;
   ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   actionCheck;
@@ -353,6 +353,10 @@ export class AnnualAccountsComponent implements OnInit {
         async (res) => {
           this.dataPopulate(res);
           this.actionCheck = res['status'];
+          this.anFormStaus = res['status'];
+          if(res['status'] == 'N/A'){
+            this.actionCheck = false;
+          }
           console.log("annual res---------------", res, this.actionCheck);
         },
         (err) => {
@@ -376,7 +380,6 @@ export class AnnualAccountsComponent implements OnInit {
     this.data = res;
     let index = 0;
     const toStoreResponse = this.data;
-
     if (
       !toStoreResponse.audited.submit_annual_accounts &&
       !toStoreResponse.unAudited.submit_annual_accounts &&
