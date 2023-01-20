@@ -38,18 +38,25 @@
 
 @media (min-width:961px) {
     .sidebar {
-        width: 5%;
         transition: width 40ms ease-out;
         .collapsable {
-            display: none;
+            transition: all 40ms ease-out;
         }
-        &:hover {
-            width: 16.66% !important;
+        &:not(:hover) {
+            width: 5%;
+            .upscale-icon {
+                transform: scale(1.5);
+            }
             .collapsable {
-                display: block;
+                display: none;
             }
         }
     }
+}
+
+.nav-pills .nav-link.active {
+    background-color: white;
+    color: black;
 }
 
 .link-div {
