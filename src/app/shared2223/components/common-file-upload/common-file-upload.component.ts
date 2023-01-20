@@ -113,9 +113,18 @@ export class CommonFileUploadComponent implements OnInit {
      // console.log("changes..........", this.dataFromParentN);
     }
   }
-
+  zeroError = false;
   amountKeyUp(type) {
     //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
+    if(this.amountObj.value === '0' || this.amountObj.value === '0'){
+      this.amountObj.value = '';
+      this.zeroError = true;
+      setTimeout(()=>{
+        this.zeroError = false;
+      }, 1000)
+      return
+    }
+    this.zeroError = false;
     if (this.amountObj.value && this.amountObj.value != "") {
       if (this.amountObj.value < 999999999999999.99) {
         this.amount2Type = toWords.convert(Number(this.amountObj?.value), {

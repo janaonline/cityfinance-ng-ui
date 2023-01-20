@@ -37,8 +37,8 @@
                                 <th scope="row" class="l-n">{{item?.question}}</th>
                                 <td>
                                     <div class="input-group">
-                                        <input [min]="item.min" [max]="item.max" [disabled]="item.actualDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || actual.invalid  && (actual.dirty || actual.touched)}" required id="actual"
-                                            name="actual" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.actual.value" #actual="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText1, item.min, item.max)"
+                                        <input [min]="item.min" [max]="item.max" [disabled]="item.actualDisable" [ngClass]="{'red': errorFieldLineItems.includes(item?.indicatorLineItem) || errorFieldLineItemsDec.includes(item.indicatorLineItem) || actual.invalid  && (actual.dirty || actual.touched)}"
+                                            required id="actual" name="actual" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.actual.value" #actual="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText1, item.min, item.max)"
                                             #inputText1>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit | uppercase}}</span>
                                         <div *ngIf="actual.invalid && (actual.dirty || actual.touched)">
@@ -48,19 +48,19 @@
                                     </span>
                                         </div>
                                         <div *ngIf="actual.dirty || actual.touched">
-                                            <span class="errorDis" *ngIf="errorFieldIDs.includes(item.question)">
-                                            Actual Value must be less than the Target.
-                                          </span>
-                                            <span class="errorDis" *ngIf="errorFieldIDs_decrease.includes(item.question)">
-                                            Target Value must be less than the Actual.
-                                          </span>
+                                            <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
+                                               Actual Value must be less than the Target.
+                                            </span>
+                                            <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
+                                               Target Value must be less than the Actual.
+                                            </span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group">
-                                        <input [min]="item.min" [max]="item.max" [disabled]="item.targetDisable" [ngClass]="{'red': errorFieldIDs.includes(item.question) || errorFieldIDs_decrease.includes(item.question) || target.invalid  && (target.dirty || target.touched)}" required id="target"
-                                            name="target" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.target_1.value" #target="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText2, item.min, item.max)"
+                                        <input [min]="item.min" [max]="item.max" [disabled]="item.targetDisable" [ngClass]="{'red': errorFieldLineItems.includes(item.indicatorLineItem) || errorFieldLineItemsDec.includes(item.indicatorLineItem) || target.invalid  && (target.dirty || target.touched)}"
+                                            required id="target" name="target" type="text" class="form-control" placeholder="Range-{{item.range}}" [(ngModel)]="item.target_1.value" #target="ngModel" (blur)="validateDataInput($event, item)" (keydown)="numberLimitV($event, inputText2, item.min, item.max)"
                                             #inputText2>
                                         <span class="input-group-text" id="basic-addon2">{{item?.unit | uppercase}}</span>
                                         <div *ngIf="target.invalid && (target.dirty || target.touched)">
@@ -71,10 +71,10 @@
 
                                         </div>
                                         <div *ngIf="target.dirty || target.touched">
-                                            <span class="errorDis" *ngIf="errorFieldIDs.includes(item.question)">
+                                            <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
                                             Actual Value must be less than the Target.
                                           </span>
-                                            <span class="errorDis" *ngIf="errorFieldIDs_decrease.includes(item.question)">
+                                            <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
                                             Target Value must be less than the Actual.
                                           </span>
                                         </div>
