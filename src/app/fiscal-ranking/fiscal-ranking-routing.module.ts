@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: "home", component: FiscalHomeComponent },
   { path: "login", component: FiscalLoginComponent},
   { path: "ulb-form", component: UlbFiscalComponent },
-
 ];
 
 @NgModule({
