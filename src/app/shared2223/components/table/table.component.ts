@@ -109,8 +109,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   infiniteScroll() {
-    console.log('reach bottom');
-    if (this.isInfiniteScroll && !this.isLoader) {
+    if (this.isInfiniteScroll && 
+      !this.isLoader && 
+      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
       const pageNoClick = this.tableDefaultOptions.currentPage + 1;
       this.tableDefaultOptions.currentPage = pageNoClick;
       this.listFetchOption.skip =
