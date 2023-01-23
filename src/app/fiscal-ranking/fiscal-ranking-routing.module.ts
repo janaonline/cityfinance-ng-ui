@@ -7,8 +7,8 @@ import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 const routes: Routes = [
   { path: "", component: FiscalHomeComponent },
   { path: "home", component: FiscalHomeComponent },
- // { path: "login", component: FiscalLoginComponent},
- // { path: "ulb-form", component: UlbFiscalComponent },
+  { path: "login", component: FiscalLoginComponent},
+  { path: "ulb-form", component: UlbFiscalComponent },
 
 ];
 

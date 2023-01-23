@@ -52,7 +52,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   // dataSource: MatTableDataSource<UserData>;
   title = "";
   total = 0;
-  data;
+
+  max = Math.max;
+  data = [];
   listType: USER_TYPE;
   filterForm: FormGroup;
 
@@ -109,17 +111,20 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   infiniteScroll() {
-    console.log('reach bottom');
-    if (this.isInfiniteScroll && !this.isLoader) {
+    if (this.isInfiniteScroll && 
+      !this.isLoader && 
+      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
+      const pageNoClick = this.tableDefaultOptions.currentPage + 1;
+      this.tableDefaultOptions.currentPage = pageNoClick;
       this.listFetchOption.skip =
-        (this.tableDefaultOptions.currentPage) * this.tableDefaultOptions.itemPerPage;
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
       this.searchUsersBy(this.filterForm.value);
     }
   }
   toggleInfiniteScroll() {
     this.isInfiniteScroll = !this.isInfiniteScroll;
     if(!this.isInfiniteScroll) {
-      this.tableDefaultOptions.currentPage = 1;
+      this.setPage(1);
     }
   }
   // MatPaginator Inputs
@@ -227,7 +232,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           Object.keys(res["populationType"]).length > 0
             ? Object.values(res["populationType"])
             : null;
-        console.log("jjjjjjjj", this.data);
+        console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
 
@@ -240,6 +245,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
   searchState() {
+    this.isInfiniteScroll = false;
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -296,6 +302,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   setPage(pageNoClick: number) {
+    console.log(pageNoClick);
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;

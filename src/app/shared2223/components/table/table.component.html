@@ -1,17 +1,19 @@
 <div class="row mt-2 text-end">
     <div class="col-12">
         <!-- <button type="button" class="btn btn-success" (click)="getAllData(pageName)">{{pageName}}</button> -->
-        <!-- <button type="button" class="btn btn-primary ms-2" (click)="toggleInfiniteScroll()">{{
-            isInfiniteScroll ? 'Show 10' : 'Show all' }}</button> -->
-        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
-        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
+        <button type="button" class="btn btn-primary ms-2" (click)="toggleInfiniteScroll()">{{
+            isInfiniteScroll ? 'Show 10' : 'Show all' }}</button>
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+            (click)="openDialog('Approve')">Approve all</button>
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+            (click)="openDialog('Return')">Return all</button>
         <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
     </div>
 </div>
 <!-- <form > -->
-<!-- <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar [infiniteScrollThrottle]="50"  [alwaysCallback]="true" infiniteScroll [infiniteScrollDistance]="0.2"
-    (scrolled)="infiniteScroll()"> -->
-<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu>
+<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar [infiniteScrollThrottle]="50"  [alwaysCallback]="true" infiniteScroll [infiniteScrollDistance]="0.2"
+    (scrolled)="infiniteScroll()">
+<!-- <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu> -->
 
     <!-- .....................loader.......................... -->
 
@@ -102,10 +104,10 @@
               id: 'foo',
                 itemsPerPage: tableDefaultOptions.itemPerPage,
                 currentPage: tableDefaultOptions.currentPage,
-                totalItems: tableDefaultOptions.totalCount
+                totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
               }; let tabelIndex=index">
                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                     </td>
@@ -186,7 +188,7 @@
               totalItems: tableDefaultOptions.totalCount
             }; let tabelIndex=index">
                     <td style="" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
