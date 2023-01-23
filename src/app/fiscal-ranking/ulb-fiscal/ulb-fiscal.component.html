@@ -464,23 +464,7 @@
                                                         (keydown)="changeDecInForm()" [disabled]="isDisabled">
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-7">
-                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}*
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <mat-radio-group aria-label="Select an option"
-                                                        (click)="skipLogicRadio('digitalRegtr', $event.target.value)"
-                                                        [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value"
-                                                        [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
-                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
-                                                    </mat-radio-group>
-                                                </div>
-                                            </div>
-
-                                            <div class=""
-                                                *ngIf="goverParaNdata?.normalData?.yearData?.digitalRegtr?.value == 'Yes'">
+                                            <div class="">
                                                 <div class="row mb-3">
                                                     <div class="col-sm-7">
                                                         {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}
