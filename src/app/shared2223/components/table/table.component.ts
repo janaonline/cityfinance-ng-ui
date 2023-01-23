@@ -111,8 +111,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   infiniteScroll() {
     console.log('reach bottom');
     if (this.isInfiniteScroll && !this.isLoader) {
+      const pageNoClick = this.tableDefaultOptions.currentPage + 1;
+      this.tableDefaultOptions.currentPage = pageNoClick;
       this.listFetchOption.skip =
-        (this.tableDefaultOptions.currentPage) * this.tableDefaultOptions.itemPerPage;
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
       this.searchUsersBy(this.filterForm.value);
     }
   }
@@ -240,6 +242,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
   searchState() {
+    this.isInfiniteScroll = false;
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -296,6 +299,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   setPage(pageNoClick: number) {
+    console.log(pageNoClick);
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
