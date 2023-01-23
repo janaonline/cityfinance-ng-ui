@@ -52,7 +52,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   // dataSource: MatTableDataSource<UserData>;
   title = "";
   total = 0;
-  data;
+
+  max = Math.max;
+  data = [];
   listType: USER_TYPE;
   filterForm: FormGroup;
 
@@ -122,7 +124,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   toggleInfiniteScroll() {
     this.isInfiniteScroll = !this.isInfiniteScroll;
     if(!this.isInfiniteScroll) {
-      this.tableDefaultOptions.currentPage = 1;
+      this.setPage(1);
     }
   }
   // MatPaginator Inputs
@@ -230,7 +232,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           Object.keys(res["populationType"]).length > 0
             ? Object.values(res["populationType"])
             : null;
-        console.log("jjjjjjjj", this.data);
+        console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
 

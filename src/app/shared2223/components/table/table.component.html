@@ -108,7 +108,7 @@
               id: 'foo',
                 itemsPerPage: tableDefaultOptions.itemPerPage,
                 currentPage: tableDefaultOptions.currentPage,
-                totalItems: tableDefaultOptions.totalCount
+                totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
               }; let tabelIndex=index">
                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
