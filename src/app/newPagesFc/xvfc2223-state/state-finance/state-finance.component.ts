@@ -558,6 +558,7 @@ export class StateFinanceComponent implements OnInit {
     }
   }
   saveAction() {
+    this.setRouter();
     let actionBody = {
       formId: this.formId,
       design_year: "606aafb14dff55e6c075d3ae",

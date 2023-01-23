@@ -21,6 +21,7 @@
                 <!-- <span>{{amount1Type}}</span> -->
                 <span>{{amount2Type}}</span>
                 <span *ngIf="amountObj.error" class="err-text">Only 15 digits with 2 decimal points number are allowed.</span>
+                <span *ngIf="zeroError" class="err-text">Zero not allowed.</span>
             </div>
         </div>
         <div class="" *ngIf="quesType == 'file'">
