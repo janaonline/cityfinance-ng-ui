@@ -53,7 +53,7 @@ export class UlbFiscalComponent implements OnInit {
       this._router.navigateByUrl('fiscal/login')
       // this.showLoader = false;
     } else if (this.loggedInUserType != 'ULB') {
-      this._router.navigateByUrl('fiscal/home')
+      this._router.navigateByUrl('rankings/home')
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
