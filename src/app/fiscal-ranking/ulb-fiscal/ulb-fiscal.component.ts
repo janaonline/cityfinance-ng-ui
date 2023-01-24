@@ -787,27 +787,29 @@ export class UlbFiscalComponent implements OnInit {
           label: "FY 2021-22 - by Cash/Cheque/DD",
           key: "fy_21_22_cash",
           postion: "2",
-          value: this.fy_21_22_cash,
+          amount: this.fy_21_22_cash,
           min: "",
           max: "",
           required: true,
           type: "",
           bottomText: "",
           placeHolder: "",
-          input: "number"
+          input: "number",
+          isWords: ''
         },
         {
           label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
           key: "fy_21_22_online",
           postion: "3",
-          value: this.fy_21_22_online,
+          amount: this.fy_21_22_online,
           min: "",
           max: "",
           required: true,
           type: "",
           bottomText: "",
           placeHolder: "",
-          input: "number"
+          input: "number",
+          isWords: ''
         }
       ]
     },
@@ -944,6 +946,16 @@ export class UlbFiscalComponent implements OnInit {
     "totalOwnRevenueArea": {
       status: "",
       value: null
+    },
+    "fy_20_21_cash": {
+      "type": "Cash",
+      value: null,
+      status: "",
+    },
+    "fy_20_21_online": {
+      "type": "UPI",
+      value: null,
+      status: "",
     },
     "fyData": [
       {
@@ -1163,27 +1175,29 @@ export class UlbFiscalComponent implements OnInit {
             label: "FY 2021-22 - by Cash/Cheque/DD",
             key: "fy_21_22_cash",
             postion: "2",
-            value: this.fy_21_22_cash,
+            amount: this.fy_21_22_cash,
             min: "",
             max: "",
             required: true,
             type: "",
             bottomText: "",
             placeHolder: "",
-            input: "number"
+            input: "number",
+            isWords: ''
           },
           {
             label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
             key: "fy_21_22_online",
             postion: "3",
-            value: this.fy_21_22_online,
+            amount: this.fy_21_22_online,
             min: "",
             max: "",
             required: true,
             type: "",
             bottomText: "",
             placeHolder: "",
-            input: "number"
+            input: "number",
+            isWords: ''
           }
         ]
       },
