@@ -7,7 +7,21 @@
     </div>
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
-            <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
+            <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger ms-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
+            </div>
+            <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
                     <ng-template matStepLabel>
                         <span class="st-title com-style" [title]="stepItem?.label">{{((stepItem?.label).split(' '))[0]}}

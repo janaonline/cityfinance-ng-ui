@@ -29,6 +29,7 @@ export class UlbFiscalComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
 
   errorPageIndex: number;
+  isLoader = false;
   userData;
   ulbName = '';
   stateName = '';
@@ -1083,6 +1084,7 @@ export class UlbFiscalComponent implements OnInit {
     });
   }
   onLoad() {
+    this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
@@ -1095,9 +1097,12 @@ export class UlbFiscalComponent implements OnInit {
       this.changeNumToWords();
       this.skipLogicForGov('onload');
       console.log('revenueMob', this.revenueMob);
+      this.isLoader = false;
     },
-      (error) => {
-        console.log(error);
+      (err) => {
+        console.log(err);
+        swal("Something went wrong", err?.error?.message || 'Please try again after some time', "error")
+        this.isLoader = false;
       }
     );
   }

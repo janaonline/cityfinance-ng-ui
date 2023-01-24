@@ -16,7 +16,7 @@ export class FiscalRankingService {
   constructor(private http: HttpClient,) { }
   getfiscalUlbForm(dYr, id) {
     return this.http.get(
-      `${environment.api.url}fiscal-ranking/view?design_year=${dYr}&ulb=${id}`
+      `${environment.api.url}fiscal-rankingssss/view?design_year=${dYr}&ulb=${id}`
     );
   }
   // cardApi : any="https://democityfinanceapi.dhwaniris.in/api/v1/FRHomePageContent";
