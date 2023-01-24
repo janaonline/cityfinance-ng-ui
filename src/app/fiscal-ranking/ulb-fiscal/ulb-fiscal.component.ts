@@ -791,8 +791,6 @@ export class UlbFiscalComponent implements OnInit {
           min: "",
           max: "",
           required: true,
-          readonly: false,
-          year: "606aaf854dff55e6c075d219",
           type: "",
           bottomText: "",
           placeHolder: "",
@@ -806,8 +804,6 @@ export class UlbFiscalComponent implements OnInit {
           min: "",
           max: "",
           required: true,
-          year: "606aaf854dff55e6c075d219",
-          readonly: false,
           type: "",
           bottomText: "",
           placeHolder: "",
@@ -1144,7 +1140,7 @@ export class UlbFiscalComponent implements OnInit {
         label: 'Own Revenue Details',
         yearData: [
           {
-            label: 'Total Own Revenue Arrears as on 31st March 2020',
+            label: 'Total Own Revenue Arrears as on 31st March 2022',
             key: 'totalOwnRevenArr_20',
             postion: '1',
             amount: this.totalOwnRevenueArea,
@@ -1171,8 +1167,6 @@ export class UlbFiscalComponent implements OnInit {
             min: "",
             max: "",
             required: true,
-            readonly: false,
-            year: "606aaf854dff55e6c075d219",
             type: "",
             bottomText: "",
             placeHolder: "",
@@ -1186,8 +1180,6 @@ export class UlbFiscalComponent implements OnInit {
             min: "",
             max: "",
             required: true,
-            year: "606aaf854dff55e6c075d219",
-            readonly: false,
             type: "",
             bottomText: "",
             placeHolder: "",
@@ -1200,7 +1192,7 @@ export class UlbFiscalComponent implements OnInit {
         label: 'Property Details',
         yearData: [
           {
-            label: 'Number of Properties assessed/listed as per Property Tax Register',
+            label: 'Number of Properties assessed/listed as per Property Tax Register (as on 1st April 2022)',
             key: 'NoOfProlisted',
             postion: '1',
             amount: this.property_tax_register,
@@ -1214,7 +1206,7 @@ export class UlbFiscalComponent implements OnInit {
             inWords: ''
           },
           {
-            label: 'Number of Properties exemt from paying Property Tax',
+            label: 'Number of Properties exemt from paying Property Tax (as on 1st April 2022)',
             key: 'NoOfProExemtfromPayProTax',
             postion: '2',
             amount: this.paying_property_tax,
@@ -1228,7 +1220,7 @@ export class UlbFiscalComponent implements OnInit {
             inWords: ''
           },
           {
-            label: 'Number of Properties for which Property Tax has been paid',
+            label: 'Number of Properties for which Property Tax has been paid  (for FY 2021-22)',
             key: 'NoOfProwhichProTaxPaid',
             postion: '3',
             amount: this.paid_property_tax,
@@ -1575,6 +1567,14 @@ export class UlbFiscalComponent implements OnInit {
       "property_tax_register": {
         status: "PENDING",
         value: this.property_tax_register
+      },
+      "fy_21_22_cash": {
+        status: "PENDING",
+        value: this.fy_21_22_cash
+      },
+      "fy_21_22_online": {
+        status: "PENDING",
+        value: this.fy_21_22_online
       },
       "paying_property_tax": {
         status: "PENDING",
@@ -1988,7 +1988,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if(!this.errorPageIndex) this.errorPageIndex = 1; 
+            if (!this.errorPageIndex) this.errorPageIndex = 1;
           } else {
             el['error'] = false
           }
@@ -2000,7 +2000,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if(!this.errorPageIndex) this.errorPageIndex = 2;
+            if (!this.errorPageIndex) this.errorPageIndex = 2;
           } else {
             el['error'] = false
           }
@@ -2012,7 +2012,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if(!this.errorPageIndex) this.errorPageIndex = 3; 
+            if (!this.errorPageIndex) this.errorPageIndex = 3;
           } else {
             el['error'] = false;
           }
@@ -2025,7 +2025,7 @@ export class UlbFiscalComponent implements OnInit {
               // if (el?.file?.url == '' || el?.file?.url == null) {
               if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
                 el['error'] = true;
-                if(!this.errorPageIndex) this.errorPageIndex = 4;
+                if (!this.errorPageIndex) this.errorPageIndex = 4;
               } else {
                 el['error'] = false;
               }
