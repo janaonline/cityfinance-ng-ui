@@ -126,6 +126,8 @@ export class UlbFiscalComponent implements OnInit {
   property_tax_register = null;
   paying_property_tax = null;
   paid_property_tax = null;
+  fy_21_22_cash = null;
+  fy_21_22_online = null;
   // goverPar;
   // revenueMob = {
   //   totalRecActual: {
@@ -777,6 +779,42 @@ export class UlbFiscalComponent implements OnInit {
         },
       ]
     },
+    ownRevenAmt: {
+      key: "ownRevenAmt",
+      label: "Own Revenue Collection Amount",
+      yearData: [
+        {
+          label: "FY 2021-22 - by Cash/Cheque/DD",
+          key: "fy_21_22_cash",
+          postion: "2",
+          value: this.fy_21_22_cash,
+          min: "",
+          max: "",
+          required: true,
+          readonly: false,
+          year: "606aaf854dff55e6c075d219",
+          type: "",
+          bottomText: "",
+          placeHolder: "",
+          input: "number"
+        },
+        {
+          label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
+          key: "fy_21_22_online",
+          postion: "3",
+          value: this.fy_21_22_online,
+          min: "",
+          max: "",
+          required: true,
+          year: "606aaf854dff55e6c075d219",
+          readonly: false,
+          type: "",
+          bottomText: "",
+          placeHolder: "",
+          input: "number"
+        }
+      ]
+    },
     propertyDetails: {
       key: 'propertyDetails',
       label: 'Property Details',
@@ -1073,6 +1111,8 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
+    this.fy_21_22_online = data?.fy_21_22_online?.value ? data?.fy_21_22_online?.value : null;
+    this.fy_21_22_cash = data?.fy_21_22_cash?.value ? data?.fy_21_22_cash?.value : null;
     this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
     this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
     this.isDraft = data?.isDraft;
@@ -1117,6 +1157,42 @@ export class UlbFiscalComponent implements OnInit {
             input: 'number',
             inWords: ''
           },
+        ]
+      },
+      ownRevenAmt: {
+        key: "ownRevenAmt",
+        label: "Own Revenue Collection Amount",
+        yearData: [
+          {
+            label: "FY 2021-22 - by Cash/Cheque/DD",
+            key: "fy_21_22_cash",
+            postion: "2",
+            value: this.fy_21_22_cash,
+            min: "",
+            max: "",
+            required: true,
+            readonly: false,
+            year: "606aaf854dff55e6c075d219",
+            type: "",
+            bottomText: "",
+            placeHolder: "",
+            input: "number"
+          },
+          {
+            label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
+            key: "fy_21_22_online",
+            postion: "3",
+            value: this.fy_21_22_online,
+            min: "",
+            max: "",
+            required: true,
+            year: "606aaf854dff55e6c075d219",
+            readonly: false,
+            type: "",
+            bottomText: "",
+            placeHolder: "",
+            input: "number"
+          }
         ]
       },
       propertyDetails: {
@@ -1302,7 +1378,7 @@ export class UlbFiscalComponent implements OnInit {
   getPercentIncrement(currentYear, previewYear) {
     const b = +previewYear.amount;
     const a = +currentYear.amount;
-    return Math.floor((a - b )/ b * 100); 
+    return Math.floor((a - b) / b * 100);
   }
   amounttoWords(type, val) {
     return toWords.convert(Number(val), {
@@ -1627,6 +1703,10 @@ export class UlbFiscalComponent implements OnInit {
           this.totalOwnRevenueArea = yItem?.amount;
         case "NoOfProlisted":
           this.property_tax_register = yItem?.amount;
+        case "fy_21_22_cash":
+          this.fy_21_22_cash = yItem?.amount;
+        case "fy_21_22_online":
+          this.fy_21_22_online = yItem?.amount;
         case "NoOfProExemtfromPayProTax":
           this.paying_property_tax = yItem?.amount;
         case "NoOfProwhichProTaxPaid":
@@ -1945,7 +2025,7 @@ export class UlbFiscalComponent implements OnInit {
               // if (el?.file?.url == '' || el?.file?.url == null) {
               if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
                 el['error'] = true;
-                if(!this.errorPageIndex) this.errorPageIndex = 4; 
+                if(!this.errorPageIndex) this.errorPageIndex = 4;
               } else {
                 el['error'] = false;
               }
@@ -2036,7 +2116,7 @@ export class UlbFiscalComponent implements OnInit {
     this.updateValueInForm();
     this.checkValidation();
 
-    console.log(this.uploadFyDoc);
+    console.log(this.goverPar);
 
     if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
       swal('Error', "Please upload a signed copy of this form", 'error');
@@ -2079,7 +2159,7 @@ export class UlbFiscalComponent implements OnInit {
             break;
         }
       })
-      
+
     } else {
       swal("Missing Data !", `${this.errorMsg}`, "error").then(() => {
         this.stepper.selectedIndex = this.errorPageIndex;
