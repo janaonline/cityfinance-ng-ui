@@ -864,6 +864,51 @@ export class UlbFiscalComponent implements OnInit {
     },
   }
   goverParaNdata = {
+    auditReprtDate: {
+      label: 'Date of Audit Report for audited financial statements',
+      key: 'auditReprtDate',
+      yearData: [
+        {
+          label: 'FY 2019-20',
+          key: 'auditReprtDate_19_20',
+          postion: '1',
+          value: null,
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'date'
+        },
+        {
+          label: 'FY 2020-21',
+          key: 'auditReprtDate_20_21',
+          postion: '2',
+          value: null,
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'date'
+        },
+        {
+          label: 'FY 2021-22',
+          key: 'auditReprtDate_21_22',
+          postion: '1',
+          value: null,
+          min: '',
+          max: '',
+          required: true,
+          type: '',
+          bottomText: ``,
+          placeHolder: '',
+          input: 'date'
+        },
+      ]
+    },
     normalData: {
       key: 'normalData',
       label: '',
@@ -2279,13 +2324,6 @@ export class UlbFiscalComponent implements OnInit {
     if (template == undefined) return;
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this.dialog.open(template, dialogConfig);
-    this.dialogRef.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          // this.routerNavigate = null;
-        }
-      }
-    });
   }
   async stay() {
     // await this.dialogRef.close(true);
