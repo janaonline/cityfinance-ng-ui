@@ -139,8 +139,6 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
-
-
       }
       if (
         this.finalSubmitUtiStatus == "true" &&
