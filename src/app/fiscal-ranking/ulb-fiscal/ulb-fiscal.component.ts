@@ -2180,7 +2180,7 @@ export class UlbFiscalComponent implements OnInit {
     this.updateValueInForm();
     this.checkValidation();
 
-    console.log(this.goverPar);
+    console.log({Ndata: this.goverParaNdata});
 
     if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
       swal('Error', "Please upload a signed copy of this form", 'error');

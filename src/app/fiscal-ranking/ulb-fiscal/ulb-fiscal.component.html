@@ -478,7 +478,7 @@
                                                         <div class="col-sm-12 p-2">
                                                             <div class="input-group border">
                                                                 <div class="d-flex w-100 px-2">
-                                                                    <input matInput [matDatepicker]="r_i" placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                                    <input matInput [(ngModel)]="yearItem.value"  [matDatepicker]="r_i" placeholder="Choose a date" [attr.id]="  + r_i" />
                                                                     <mat-datepicker-toggle matSuffix [for]="r_i"></mat-datepicker-toggle>
                                                                 </div>
                                                                 <mat-datepicker #r_i></mat-datepicker>
