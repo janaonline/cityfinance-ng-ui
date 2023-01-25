@@ -467,7 +467,11 @@
                                 <div class="col-sm-12">
                                     <div class="card com-style mb-3">
                                         <div class="card-body">
-
+                                            <div class="row">
+                                                <div class="col-sm-12 h-label mb-3 com-style">
+                                                    {{goverParaNdata?.auditReprtDate?.label}}
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-sm-3 com-style"
                                                     *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">

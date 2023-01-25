@@ -914,7 +914,7 @@ export class UlbFiscalComponent implements OnInit {
       label: '',
       yearData: {
         webUrlAnnual: {
-          label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available',
+          label: 'ULB website URL link where Copy of Audited Annual Accounts of FY 2019-20  to FY 2020-21 are available',
           key: 'webUrlAnnual',
           postion: '1',
           value: '',
@@ -1169,8 +1169,8 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
-    this.fy_21_22_online = data?.fy_21_22_online?.value ? data?.fy_21_22_online?.value : null;
-    this.fy_21_22_cash = data?.fy_21_22_cash?.value ? data?.fy_21_22_cash?.value : null;
+    this.fy_21_22_online = data?.fy_21_22_online?.amount ? data?.fy_21_22_online?.amount : null;
+    this.fy_21_22_cash = data?.fy_21_22_cash?.amount ? data?.fy_21_22_cash?.amount : null;
     this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
     this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
     this.isDraft = data?.isDraft;
@@ -1610,6 +1610,10 @@ export class UlbFiscalComponent implements OnInit {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
         status: 'PENDING',
       },
+      "auditReprtDate": {
+        value: this.goverParaNdata?.auditReprtDate?.yearData,
+        status: 'PENDING',
+      },
       "registerGis": {
         value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
         status: 'PENDING',
@@ -1634,11 +1638,11 @@ export class UlbFiscalComponent implements OnInit {
       },
       "fy_21_22_cash": {
         status: "PENDING",
-        value: this.fy_21_22_cash
+        amount: this.fy_21_22_cash
       },
       "fy_21_22_online": {
         status: "PENDING",
-        value: this.fy_21_22_online
+        amount: this.fy_21_22_online
       },
       "paying_property_tax": {
         status: "PENDING",
@@ -1733,7 +1737,6 @@ export class UlbFiscalComponent implements OnInit {
 
   }
   amountPushInFY(type, index, yItem, stItem) {
-    console.log(type, index, yItem, stItem);
     let dType = '';
     let dataObj = {}
     if (stItem?.key == "revenueMob") {
@@ -1765,20 +1768,27 @@ export class UlbFiscalComponent implements OnInit {
       switch (yItem.key) {
         case "totalOwnRevenArr_20":
           this.totalOwnRevenueArea = yItem?.amount;
+          break;
         case "NoOfProlisted":
           this.property_tax_register = yItem?.amount;
+          break;
         case "fy_21_22_cash":
           this.fy_21_22_cash = yItem?.amount;
+          break;
         case "fy_21_22_online":
           this.fy_21_22_online = yItem?.amount;
+          break;
         case "NoOfProExemtfromPayProTax":
           this.paying_property_tax = yItem?.amount;
+          break;
         case "NoOfProwhichProTaxPaid":
           this.paid_property_tax = yItem?.amount;
+          break;
       }
     }
 
 
+    console.log({log: 'amountPushInFY', type, index, yItem, stItem, paying_property_tax: this.paying_property_tax});
   }
   backTohome() {
     this._router.navigateByUrl('../home')
@@ -1877,7 +1887,7 @@ export class UlbFiscalComponent implements OnInit {
             "key": "normalData",
             "label": "",
             "yearData": [{
-              "label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2017-18 to FY 2019-20 are available",
+              "label": "ULB website URL link where Copy of Audited Annual Accounts of FY 2019-20  to FY 2020-21 are available",
               "key": "webUrlAnnual",
               "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
             }, {
