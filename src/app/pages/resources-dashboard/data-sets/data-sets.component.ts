@@ -18,8 +18,8 @@ export class DataSetsComponent implements OnInit {
   initialValue: number = 10;
 
   tempBalData;
-  offSet = 0;
-  limit = 10;
+  offSet:number = 0;
+  limit:number = 10;
   startingIndex = 0;
   mobileFilterConfig: any = {
     isState: true,
@@ -28,6 +28,7 @@ export class DataSetsComponent implements OnInit {
     isYear: true,
     useFor: "resourcesDashboard"
   };
+  isloadMore = false;
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -127,20 +128,25 @@ export class DataSetsComponent implements OnInit {
   }
 
   loadMore() {
-    let limitValue = this.offSet + this.limit;
-    console.log({ limitValue });
-    if(this.loopControl > limitValue) {
-      limitValue
+    console.log(this.limit);
+    if(this.loopControl > this.tempBalData?.length) {
+      this.isloadMore = false;
+      return;
     } else {
-      limitValue = this.loopControl
+      this.limit  = this.limit + 10;
+      this.offSet = this.balData.length;
+      this.isloadMore = true;
+      this.loopControl  = this.limit;
     }
-    if (limitValue < 30) {
-      for (this.offSet; limitValue > this.offSet; this.offSet++) {
+      for (this.offSet; this.offSet < this.loopControl; this.offSet ++) {
         console.log("this.offSet", this.offSet);
         this.balData.push(this.tempBalData[this.offSet]);
       }
+      if(this.loopControl == this.tempBalData?.length){
+        this.isloadMore = false;
+      }
       this.initialValue = this.initialValue + 10;
-    }
+
   }
 
   // sliceData() {
@@ -172,13 +178,18 @@ export class DataSetsComponent implements OnInit {
             if (res.data.length == 0) {
               this.noData = true;
               this.balData = []
+              this.isloadMore = false;
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
               this.tempBalData = res.data;
               console.log("tempBalData", this.tempBalData)
+              if(this.tempBalData.length < 10) {
+                this.isloadMore = false;
+              }
               let limitVal = this.offSet + this.limit;
               if(this.tempBalData.length > limitVal) {
-                this.loopControl = limitVal
+                this.loopControl = limitVal;
+                this.isloadMore = true;
               } else {
                 this.loopControl = this.tempBalData.length
               }
@@ -187,7 +198,6 @@ export class DataSetsComponent implements OnInit {
               for (let i = 0; i < this.loopControl; i++) {
                 const element = this.tempBalData[i];
                 console.log("element==>",element)
-
                 this.balData.push(element);
               }
               console.log("finalBalData", this.balData)
@@ -222,6 +232,10 @@ export class DataSetsComponent implements OnInit {
     this.type = e?.value?.contentType ?? "Raw Data PDF";
     this.state = e?.value?.state;
     this.ulb = e?.value?.ulb;
+    this.balData = [];
+    this.offSet = 0;
+    this.limit = 10;
+    this.loopControl = 0;
     // if (e) {
     this.getData();
     // }

@@ -85,6 +85,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 d-date col-3">
+                            {{i+1}}
                             <span>{{ item?.modifiedAt | date: "yyyy-MM-dd" }}</span>
                         </div>
                     </div>
@@ -92,7 +93,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 text-center mb-3">
+    <div class="col-sm-12 text-center mb-3" *ngIf="isloadMore">
         <button class="btn lmBtn" [matTooltip]="initialValue >= 30 ? 'Use filters for search' : null" (click)="loadMore()">
       <span class="material-icons" style="vertical-align: middle">
         refresh
