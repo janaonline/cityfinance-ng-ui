@@ -471,20 +471,17 @@
                                             <div class="row">
                                                 <div class="col-sm-3 com-style"
                                                     *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">
-                                                    <div class="row" *ngIf="yearItem?.key">
+                                                    <div class="row" *ngIf="yearItem?.key" >
                                                         <div class="col-sm-12 mb-3">
                                                             {{yearItem?.label}}*
                                                         </div>
-                                                        <div class="col-sm-12 ">
-                                                            <div class="input-group">
-                                                                <mat-form-field>
-                                                                    <mat-label>Choose a date</mat-label>
-                                                                    <input matInput [matDatepicker]="picker">
-                                                                    <mat-hint>MM/DD/YYYY</mat-hint>
-                                                                    <mat-datepicker-toggle matIconSuffix [for]="picker">
-                                                                    </mat-datepicker-toggle>
-                                                                    <mat-datepicker #picker></mat-datepicker>
-                                                                </mat-form-field>
+                                                        <div class="col-sm-12 p-2">
+                                                            <div class="input-group border">
+                                                                <div class="d-flex w-100 px-2">
+                                                                    <input matInput [matDatepicker]="r_i" placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                                    <mat-datepicker-toggle matSuffix [for]="r_i"></mat-datepicker-toggle>
+                                                                </div>
+                                                                <mat-datepicker #r_i></mat-datepicker>
                                                             </div>
 
                                                         </div>
