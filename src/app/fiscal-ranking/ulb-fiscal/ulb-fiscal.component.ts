@@ -867,47 +867,7 @@ export class UlbFiscalComponent implements OnInit {
     auditReprtDate: {
       label: 'Date of Audit Report for audited financial statements',
       key: 'auditReprtDate',
-      yearData: [
-        {
-          label: 'FY 2019-20',
-          key: 'auditReprtDate_19_20',
-          postion: '1',
-          value: null,
-          min: new Date(2020, 3, 1),
-          max: new Date(),
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'date'
-        },
-        {
-          label: 'FY 2020-21',
-          key: 'auditReprtDate_20_21',
-          postion: '2',
-          value: null,
-          min: new Date(2021, 3, 1),
-          max: new Date(),
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'date'
-        },
-        {
-          label: 'FY 2021-22',
-          key: 'auditReprtDate_21_22',
-          postion: '1',
-          value: null,
-          min: new Date(2022, 3, 1),
-          max: new Date(),
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'date'
-        },
-      ]
+      yearData: []
     },
     normalData: {
       key: 'normalData',
@@ -1137,7 +1097,9 @@ export class UlbFiscalComponent implements OnInit {
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
-      //  this.goverPar = formObjKey?.goverPar;
+      this.goverParaNdata.auditReprtDate.yearData = formObjKey?.goverPar?.auditReprtDate?.yearData?.map(year => ({
+        ...year, max: new Date(), min: new Date(+`20${year.key.split('-')[1]}`, 3, 1)
+      }))
       this.fillDataInForm(res?.data);
       this.changeNumToWords();
       this.skipLogicForGov('onload');
@@ -1567,7 +1529,7 @@ export class UlbFiscalComponent implements OnInit {
   }
 
   saveForm(item) {
-    console.log('post body', this.postData);
+    console.log('goverParaNdata', this.goverParaNdata);
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
       console.log('post res', res);
       if (item?.id != 's7') {
@@ -1610,10 +1572,10 @@ export class UlbFiscalComponent implements OnInit {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
         status: 'PENDING',
       },
-      "auditReprtDate": {
-        value: this.goverParaNdata?.auditReprtDate?.yearData,
-        status: 'PENDING',
-      },
+      // "auditReprtDate": {
+      //   value: this.goverParaNdata?.auditReprtDate?.yearData,
+      //   status: 'PENDING',
+      // },
       "registerGis": {
         value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
         status: 'PENDING',
@@ -1666,6 +1628,7 @@ export class UlbFiscalComponent implements OnInit {
     let revPostArr = [];
     let expPostArr = [];
     let annFyPostArr = [];
+    let goverParaNPostArray = [];
     for (const key in this.revenueMob) {
       let dataObj = {}
       this.revenueMob[key].yearData.forEach((el) => {
@@ -1726,12 +1689,33 @@ export class UlbFiscalComponent implements OnInit {
           }
         })
       }
-
     }
+    for (const key in this.goverParaNdata) {
+      let dataObj = {}
+      if (key == 'auditReprtDate') {
+        this.goverParaNdata[key].yearData.forEach((el) => {
+          if (el?.date != '' && el?.date != null && el?.date != undefined) {
+            dataObj = {
+              "ulb": this.ulbId,
+              "year": el?.year,
+              "type": el?.type,
+              date: el.date.toISOString().split('T')[0],
+              "status": el?.status ? el?.status : 'PENDING', /* PENDING,APPROVED,REJECTED    */
+              "typeofdata": 'Number',
+              key: el?.key,
+              readonly: el?.readonly
+            }
+            goverParaNPostArray.push(dataObj);
+          }
+        })
+      }
+    }
+    console.log({goverParaNPostArray});
     console.log('expPostArr', expPostArr);
     console.log('revPostArr', revPostArr);
     this.fyDataArr = revPostArr.concat(expPostArr);
-    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);
+    this.fyDataArr = this.fyDataArr.concat(goverParaNPostArray);
+    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);  
     console.log('whole', this.fyDataArr);
 
 
@@ -2165,8 +2149,9 @@ export class UlbFiscalComponent implements OnInit {
   }
   isDisabled = false;
   errorMsg =
-    "One or more required fields are empty or contains invalid data. Please check your input.";
+  "One or more required fields are empty or contains invalid data. Please check your input.";
   finalSubmit() {
+    console.log({Ndata: this.goverParaNdata});
     if (this.fiscalForm.status != "INVALID" && this.formError) {
       console.log('post body', this.postData);
       this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
@@ -2190,7 +2175,6 @@ export class UlbFiscalComponent implements OnInit {
     this.updateValueInForm();
     this.checkValidation();
 
-    console.log({Ndata: this.goverParaNdata});
 
     if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
       swal('Error', "Please upload a signed copy of this form", 'error');
