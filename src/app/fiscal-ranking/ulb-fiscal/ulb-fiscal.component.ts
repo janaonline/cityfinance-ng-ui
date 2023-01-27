@@ -1699,7 +1699,7 @@ export class UlbFiscalComponent implements OnInit {
               "ulb": this.ulbId,
               "year": el?.year,
               "type": el?.type,
-              date: el.date.toISOString().split('T')[0],
+              "date": el.date,
               "status": el?.status ? el?.status : 'PENDING', /* PENDING,APPROVED,REJECTED    */
               "typeofdata": 'Number',
               key: el?.key,
