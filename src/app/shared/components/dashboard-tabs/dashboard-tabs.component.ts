@@ -185,6 +185,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   sticky = false;
   // stateMap = json.parse(localStorage.getItem(stateIdsMap))
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
+
   changeTab(event, fromInner = false) {
     console.log('changeTab', event, fromInner)
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
@@ -223,7 +224,6 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
-
     if (changes.stateId) {
       this.stateId = changes?.stateId?.currentValue;
       this.getStateName();
