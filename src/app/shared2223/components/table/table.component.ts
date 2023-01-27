@@ -254,7 +254,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
   searchState() {
-    this.isInfiniteScroll = false;
+    this.perPage = '10';
+    this.onPerPageChange();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -270,7 +271,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.callAPI();
   }
   search() {
-    this.isInfiniteScroll = false;
+    this.perPage = '10';
+    this.onPerPageChange();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -523,6 +525,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   dropdownChanges() {
     this.stateServices.dpReviewChanges.subscribe((res) => {
+      this.perPage = '10';
+      this.onPerPageChange();
       console.log("table value changes....", res);
       this.selectedId = [];
       // this.params["skip"] = 0;
