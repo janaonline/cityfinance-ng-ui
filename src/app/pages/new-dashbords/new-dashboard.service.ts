@@ -46,4 +46,9 @@ export class NewDashboardService {
       `${environment.api.url}all-dashboard/latest-year/list?ulb=${ulb}`
     );
   }
+  getMoUData(ulb){
+    return this.http.get(
+      `${environment.api.url}UA/getUAfile?ulbId=${ulb}`
+    );
+  }
 }

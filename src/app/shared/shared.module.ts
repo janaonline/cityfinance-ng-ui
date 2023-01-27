@@ -93,6 +93,8 @@ import { ProTTaxFormComponent } from './components/pro-t-tax-form/pro-t-tax-form
 import { ErrorDisplayComponent } from "../shared2223/components/error-display/error-display.component";
 import { Shared2223Module } from "../shared2223/shared2223.module";
 import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component";
+import { PdfViewerModule } from "ng2-pdf-viewer";
+import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -125,7 +127,8 @@ import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-m
     NgxPaginationModule,
     MatRadioModule,
     MdePopoverModule,
-    Shared2223Module
+    Shared2223Module,
+    PdfViewerModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -184,7 +187,8 @@ import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-m
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
     ProTTaxFormComponent,
-    GrantTransferMohuaComponent
+    GrantTransferMohuaComponent,
+    PdfCardViewerComponent
   ],
   exports: [
     FormsModule,
