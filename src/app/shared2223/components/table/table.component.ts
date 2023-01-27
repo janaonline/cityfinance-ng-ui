@@ -57,6 +57,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   data = [];
   listType: USER_TYPE;
   filterForm: FormGroup;
+  perPage: '10' | '25' | '50' | '100' | 'all' = '10';
 
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -94,6 +95,13 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   isLoader = false;
   formName;
   elementPosition: any;
+  // MatPaginator Inputs
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions: number[] = [];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -111,8 +119,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   infiniteScroll() {
-    if (this.isInfiniteScroll && 
-      !this.isLoader && 
+    if (this.isInfiniteScroll &&
+      !this.isLoader &&
       (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
       const pageNoClick = this.tableDefaultOptions.currentPage + 1;
       this.tableDefaultOptions.currentPage = pageNoClick;
@@ -121,22 +129,22 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.searchUsersBy(this.filterForm.value);
     }
   }
-  toggleInfiniteScroll() {
-    this.isInfiniteScroll = !this.isInfiniteScroll;
-    if(!this.isInfiniteScroll) {
-      this.setPage(1);
-    }
-  }
-  // MatPaginator Inputs
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions: number[] = [];
 
-  // MatPaginator Output
-  pageEvent: PageEvent;
+  onPerPageChange() {
+    console.log(this.perPage);
+    this.isInfiniteScroll = this.perPage == 'all';
+    this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
+    this.setParams();
+    if(this.isInfiniteScroll) {
+      this.data = [];
+    }
+    this.callAPI();
+  }
+
   ngOnInit(): void {
     this.updatedTableData();
-    this.params["limit"] = 10;
+    this.tableDefaultOptions.itemPerPage = 10;
+    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
   }
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
@@ -203,13 +211,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   callAPI() {
     this.isLoader = true;
     this.params.formId = this.formId;
+    console.log(this.params);
     this.commonService.getReviewForms(this.params).subscribe(
       (res) => {
         this.isLoader = false;
         this.title = res["title"];
         this.total = res["total"];
         this.columnNames = res["columnNames"];
-        this.data = (this.isInfiniteScroll ?  [...this.data, ...res["data"]] : res["data"]).map((element) => ({
+        this.data = (this.isInfiniteScroll ? [...this.data, ...res["data"]] : res["data"]).map((element) => ({
           ...element,
           isChecked: this.isChecked(element),
         }));
@@ -473,7 +482,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log("data", data);
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
-  //  this.commonService.setStateFormStatus2223.next(true);
+    //  this.commonService.setStateFormStatus2223.next(true);
     sessionStorage.setItem("stateName", data?.stateName);
     sessionStorage.setItem("stateCode", data?.stateCode);
     sessionStorage.setItem("form_name", this.formName);
@@ -519,9 +528,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       // this.params["skip"] = 0;
       this.tableDefaultOptions.currentPage = 1;
       this.setParams();
+      this.filterForm.reset();
     });
   }
-  setParams() {
+  setParams(reset = false) {
     this.params = {
       design_year: "606aafb14dff55e6c075d3ae",
       formId: this.formId,
@@ -536,9 +546,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       limit: this.tableDefaultOptions.itemPerPage,
     };
     this.tableDefaultOptions.currentPage = 1;
-    this.params["limit"] = 10;
+    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
     this.params["skip"] = 0;
-    this.filterForm.reset();
+    
   }
   pageName = 'Get All Data'
   getAllData(type) {
@@ -546,7 +556,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.callAPI();
     if (this.pageName == 'Get All Data') {
       this.pageName = 'Set Pagination';
-      this.params['limit'] = 10;
+      this.params['limit'] = this.tableDefaultOptions.itemPerPage;
       this.params['skip'] = 0;
     } else {
       this.pageName = 'Get All Data';
