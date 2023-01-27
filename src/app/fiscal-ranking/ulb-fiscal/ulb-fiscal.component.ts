@@ -40,32 +40,6 @@ export class UlbFiscalComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
-  constructor(
-    private fb: FormBuilder,
-    private fiscalService: FiscalRankingService,
-    private dataEntryService: DataEntryService,
-    private _router: Router,
-    private dialog: MatDialog,
-    private profileService: ProfileService,) {
-    this.initializeUserType();
-    this.initializeLoggedInUserDataFetch();
-    this.loggedInUserType = this.loggedInUserDetails?.role;
-    if (!this.loggedInUserType) {
-      this._router.navigateByUrl('fiscal/login')
-      // this.showLoader = false;
-    } else if (this.loggedInUserType != 'ULB') {
-      this._router.navigateByUrl('rankings/home')
-    }
-    this.userData = JSON.parse(localStorage.getItem("userData"));
-    if (this.userData?.role == "ULB") {
-      this.ulbName = this.userData?.name;
-      this.ulbId = this.userData?.ulb;
-    }
-    this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
-    this.initializeForm();
-    this.navigationCheck();
-  }
-
   stepperArray = [
     {
       label: `Basic ULB Details`,
@@ -129,6 +103,24 @@ export class UlbFiscalComponent implements OnInit {
   paid_property_tax = null;
   fy_21_22_cash = null;
   fy_21_22_online = null;
+  isPopAvl11 = false;
+  isPopAvlFr = false;
+  fileUpLoader = false;
+  fyDataArr = [];
+  stePreDataArray;
+  formError = true;
+  errorArr = [];
+  isDisabled = false;
+  errorMsg =
+    "One or more required fields are empty or contains invalid data. Please check your input.";
+  tenDigitMax = 9999999999;
+  thrtnDigit = 9999999999999;
+  routerNavigate = null;
+  response;
+  alertError = "You have some unsaved changes on this page. Do you wish to save your data as draft?";
+  dialogRef;
+  modalRef;
+  @ViewChild("templateSaveChange") template;
   // goverPar;
   // revenueMob = {
   //   totalRecActual: {
@@ -995,6 +987,33 @@ export class UlbFiscalComponent implements OnInit {
     "status": "PENDING",
     "isDraft": this.isDraft
   };
+  constructor(
+    private fb: FormBuilder,
+    private fiscalService: FiscalRankingService,
+    private dataEntryService: DataEntryService,
+    private _router: Router,
+    private dialog: MatDialog,
+    private profileService: ProfileService,) {
+    this.initializeUserType();
+    this.initializeLoggedInUserDataFetch();
+    this.loggedInUserType = this.loggedInUserDetails?.role;
+    if (!this.loggedInUserType) {
+      this._router.navigateByUrl('fiscal/login')
+      // this.showLoader = false;
+    } else if (this.loggedInUserType != 'ULB') {
+      this._router.navigateByUrl('rankings/home')
+    }
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    if (this.userData?.role == "ULB") {
+      this.ulbName = this.userData?.name;
+      this.ulbId = this.userData?.ulb;
+    }
+    this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
+    this.initializeForm();
+    this.navigationCheck();
+  }
+
+
   ngOnInit(): void {
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
@@ -1113,8 +1132,6 @@ export class UlbFiscalComponent implements OnInit {
       }
     );
   }
-  isPopAvl11 = false;
-  isPopAvlFr = false;
   changeDecInForm() {
     // this.fiscalForm?.controls.contactInfo.valueChanges.subscribe((el) => {
     //  console.log("changes form", el);
@@ -1424,7 +1441,6 @@ export class UlbFiscalComponent implements OnInit {
       })
     }
   }
-  fileUpLoader = false;
   async fileChangeEvent(event, fileType, inputType, yrItem, stepItem) {
     console.log(fileType, event);
     console.log("aaa", event.target.files[0].size);
@@ -1623,7 +1639,6 @@ export class UlbFiscalComponent implements OnInit {
     // delete this.postData.populationFr;
   }
 
-  fyDataArr = [];
   setFYData() {
     let revPostArr = [];
     let expPostArr = [];
@@ -1710,12 +1725,12 @@ export class UlbFiscalComponent implements OnInit {
         })
       }
     }
-    console.log({goverParaNPostArray});
+    console.log({ goverParaNPostArray });
     console.log('expPostArr', expPostArr);
     console.log('revPostArr', revPostArr);
     this.fyDataArr = revPostArr.concat(expPostArr);
     this.fyDataArr = this.fyDataArr.concat(goverParaNPostArray);
-    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);  
+    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);
     console.log('whole', this.fyDataArr);
 
 
@@ -1772,13 +1787,12 @@ export class UlbFiscalComponent implements OnInit {
     }
 
 
-    console.log({log: 'amountPushInFY', type, index, yItem, stItem, paying_property_tax: this.paying_property_tax});
+    console.log({ log: 'amountPushInFY', type, index, yItem, stItem, paying_property_tax: this.paying_property_tax });
   }
   backTohome() {
     this._router.navigateByUrl('../home')
   }
 
-  stePreDataArray;
   getFullDataArray() {
     this.stePreDataArray = [
       {
@@ -1870,7 +1884,7 @@ export class UlbFiscalComponent implements OnInit {
           "auditReprtDate": {
             label: 'Date of Audit Report for audited financial statements',
             key: 'auditReprtDate',
-            yearData: this.goverParaNdata.auditReprtDate.yearData.map(year => ({...year, value: year.date ? year.date : 'N/A'}))
+            yearData: this.goverParaNdata.auditReprtDate.yearData.map(year => ({ ...year, value: year.date ? year.date : 'N/A' }))
           },
           "normalData": {
             "key": "normalData",
@@ -2041,8 +2055,6 @@ export class UlbFiscalComponent implements OnInit {
       //   this.hidden = true;
     });
   }
-  formError = true;
-  errorArr = [];
   checkValidation() {
     this.errorPageIndex = null;
     for (const key in this.revenueMob) {
@@ -2152,11 +2164,8 @@ export class UlbFiscalComponent implements OnInit {
       }
     }
   }
-  isDisabled = false;
-  errorMsg =
-  "One or more required fields are empty or contains invalid data. Please check your input.";
   finalSubmit() {
-    console.log({Ndata: this.goverParaNdata});
+    console.log({ Ndata: this.goverParaNdata });
     if (this.fiscalForm.status != "INVALID" && this.formError) {
       console.log('post body', this.postData);
       this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
@@ -2229,8 +2238,6 @@ export class UlbFiscalComponent implements OnInit {
       });
     }
   }
-  tenDigitMax = 9999999999;
-  thrtnDigit = 9999999999999;
   numberLimitV(e, input, minV, maxV) {
     console.log("sss", e, input, minV, maxV);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
@@ -2288,12 +2295,6 @@ export class UlbFiscalComponent implements OnInit {
     yrItem.file.name = '';
     sessionStorage.setItem("changeInFR", "true");
   }
-  routerNavigate = null;
-  response;
-  alertError = "You have some unsaved changes on this page. Do you wish to save your data as draft?";
-  dialogRef;
-  modalRef;
-  @ViewChild("templateSaveChange") template;
 
   navigationCheck() {
     // if (!this.clickedSave) {
