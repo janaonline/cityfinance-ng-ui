@@ -254,8 +254,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
   searchState() {
-    this.perPage = '10';
-    this.onPerPageChange();
+    this.resetInfinite();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -270,9 +269,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
     this.callAPI();
   }
+
+  resetInfinite() {
+    this.data = [];
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption.skip = 0;
+  }
+
   search() {
-    this.perPage = '10';
-    this.onPerPageChange();
+    this.resetInfinite();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -525,8 +530,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   dropdownChanges() {
     this.stateServices.dpReviewChanges.subscribe((res) => {
-      this.perPage = '10';
-      this.onPerPageChange();
+      this.resetInfinite();
       console.log("table value changes....", res);
       this.selectedId = [];
       // this.params["skip"] = 0;
