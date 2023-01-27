@@ -71,9 +71,9 @@
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
-                    <!-- <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/rankings/ulb-form">Fiscal Ranking</a>
-                    </li> -->
+                    <li class="nav-item" *ngIf="isLoggedIn">
+                        <a class="nav-link" routerLinkActive="active" routerLink="/rankings/ulb-form">Rankings</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn
                           &&
@@ -90,8 +90,8 @@
                 </ul>
             </div>
             <div class="ms-auto">
-                <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a>
-                <!-- <div class="dropdown" *ngIf="isLoggedIn == false">
+                <!-- <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a> -->
+                <div class="dropdown" *ngIf="isLoggedIn == false">
                     <button class="btn btn-login dropdown-toggle fw-bold" type="button" id="loginDrp" data-bs-toggle="dropdown" aria-expanded="false">
                       Login
                   </button>
@@ -100,7 +100,7 @@
                         <hr class="m-0">
                         <li><a class="dropdown-item" (click)="loginLogout('ranking')">Rankings 2022</a></li>
                     </ul>
-                </div> -->
+                </div>
                 <div class="btn-group ms-2" dropdown *ngIf="isLoggedIn">
                     <button id="button-disabled-menu" dropdownToggle type="button" class="btn btn-login-icon dropdown-toggle" aria-controls="dropdown-disabled-menu">
                       <span class="material-icons">

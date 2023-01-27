@@ -7,7 +7,21 @@
     </div>
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
-            <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper>
+            <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger ms-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
+            </div>
+            <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
                 <mat-step state="state" *ngFor="let stepItem of stepperArray">
                     <ng-template matStepLabel>
                         <span class="st-title com-style" [title]="stepItem?.label">{{((stepItem?.label).split(' '))[0]}}
@@ -215,9 +229,10 @@
                         <div class="" *ngIf="stepItem?.id == 's2'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
-                                    <ng-container *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
+                                    <ng-container
+                                        *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
                                         <div class="card card-form mb-4 com-style" *ngIf="canShowFormSection(item.key)">
-                                            <div class="card-body" >
+                                            <div class="card-body">
                                                 <div class="loop">
                                                     <div class="row">
                                                         <div class="col-sm-12 h-label mb-3 com-style">
@@ -227,7 +242,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-3 com-style"
                                                             *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
-    
+
                                                             <div class="row" *ngIf="yearItem?.key">
                                                                 <div class="col-sm-12 mb-3">
                                                                     {{yearItem?.label}}*
@@ -248,17 +263,17 @@
                                                                             (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)"
                                                                             #inputText3>
                                                                     </div>
-    
+
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
-                                                                    {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                                    {{yearItem?.bottomText}}
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                     <span class="f-w">
                                                                         {{yearItem?.inWords}}
-                                                                    </span> {{yearItem?.bottomText}} of {{yearItem?.label}}
+                                                                    </span> {{yearItem?.bottomText}}
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
@@ -266,18 +281,19 @@
                                                                         [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
                                                                         {{ getPercentIncrement(yearItem,
                                                                         item?.value?.yearData[r_i - 1]) }}% greater then
-                                                                        {{ item?.value?.yearData[r_i - 1].label }}</span>
+                                                                        {{ item?.value?.yearData[r_i - 1].label
+                                                                        }}</span>
                                                                 </div>
                                                             </div>
-    
-    
+
+
                                                         </div>
                                                         <!-- <div class="col-sm-3"></div>
                                             <div class="col-sm-3"></div>
                                             <div class="col-sm-3"></div> -->
                                                     </div>
                                                 </div>
-    
+
                                             </div>
                                         </div>
                                     </ng-container>
@@ -319,13 +335,13 @@
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2"
                                                                 *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
-                                                                {{yearItem?.bottomText}} {{yearItem?.label}}
+                                                                {{yearItem?.bottomText}}
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2"
                                                                 *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                 <span class="f-w">
                                                                     {{yearItem?.inWords}}
-                                                                </span>{{yearItem?.bottomText}} of {{yearItem?.label}}
+                                                                </span>{{yearItem?.bottomText}}
                                                             </div>
                                                             <div class="col-sm-12 bot-text mt-2"
                                                                 *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
@@ -450,7 +466,41 @@
                                 <div class="col-sm-12">
                                     <div class="card com-style mb-3">
                                         <div class="card-body">
-                                            <div class="row mb-3">
+                                            <div class="row">
+                                                <div class="col-sm-12 h-label mb-3 com-style">
+                                                    {{goverParaNdata?.auditReprtDate?.label}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4 com-style"
+                                                    *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">
+                                                    <div class="row" *ngIf="yearItem?.key" >
+                                                        <div class="col-sm-12">
+                                                            {{yearItem?.label}}*
+                                                        </div>
+                                                        <div class="col-sm-12 p-2">
+                                                            <div class="input-group border">
+                                                                <div class="d-flex w-100 px-2">
+                                                                    <input 
+                                                                        matInput 
+                                                                        [(ngModel)]="yearItem.date" 
+                                                                        [min]="yearItem.min" 
+                                                                        [max]="yearItem.max" 
+                                                                        [matDatepicker]="r_i" 
+                                                                        [disabled]="yearItem?.readonly"
+                                                                        placeholder="Choose a date" 
+                                                                        [attr.id]="  + r_i" 
+                                                                    />
+                                                                    <mat-datepicker-toggle  matSuffix [disabled]="yearItem?.readonly" [for]="r_i"></mat-datepicker-toggle>
+                                                                </div>
+                                                                <mat-datepicker #r_i></mat-datepicker>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
                                                 <div class="col-sm-7">
                                                     {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}*
                                                 </div>
@@ -464,23 +514,7 @@
                                                         (keydown)="changeDecInForm()" [disabled]="isDisabled">
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-7">
-                                                    {{goverParaNdata?.normalData?.yearData?.digitalRegtr?.label}}*
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <mat-radio-group aria-label="Select an option"
-                                                        (click)="skipLogicRadio('digitalRegtr', $event.target.value)"
-                                                        [(ngModel)]="goverParaNdata.normalData.yearData.digitalRegtr.value"
-                                                        [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
-                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
-                                                    </mat-radio-group>
-                                                </div>
-                                            </div>
-
-                                            <div class=""
-                                                *ngIf="goverParaNdata?.normalData?.yearData?.digitalRegtr?.value == 'Yes'">
+                                            <div class="">
                                                 <div class="row mb-3">
                                                     <div class="col-sm-7">
                                                         {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}

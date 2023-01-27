@@ -224,6 +224,7 @@
 .disable {
     input,
     .mat-radio-button,
+    .mat-datepicker-toggle,
     .mat-form-field {
         pointer-events: none;
     }
