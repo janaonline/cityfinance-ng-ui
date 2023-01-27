@@ -1867,6 +1867,11 @@ export class UlbFiscalComponent implements OnInit {
         icon: '',
         text: '',
         value: {
+          "auditReprtDate": {
+            label: 'Date of Audit Report for audited financial statements',
+            key: 'auditReprtDate',
+            yearData: this.goverParaNdata.auditReprtDate.yearData.map(year => ({...year, value: year.date ? year.date : 'N/A'}))
+          },
           "normalData": {
             "key": "normalData",
             "label": "",
