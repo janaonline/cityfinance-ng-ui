@@ -481,8 +481,17 @@
                                                         <div class="col-sm-12 p-2">
                                                             <div class="input-group border">
                                                                 <div class="d-flex w-100 px-2">
-                                                                    <input matInput [(ngModel)]="yearItem.date" [min]="yearItem.min" [max]="yearItem.max" [matDatepicker]="r_i" placeholder="Choose a date" [attr.id]="  + r_i" />
-                                                                    <mat-datepicker-toggle matSuffix [for]="r_i"></mat-datepicker-toggle>
+                                                                    <input 
+                                                                        matInput 
+                                                                        [(ngModel)]="yearItem.date" 
+                                                                        [min]="yearItem.min" 
+                                                                        [max]="yearItem.max" 
+                                                                        [matDatepicker]="r_i" 
+                                                                        [disabled]="yearItem?.readonly"
+                                                                        placeholder="Choose a date" 
+                                                                        [attr.id]="  + r_i" 
+                                                                    />
+                                                                    <mat-datepicker-toggle  matSuffix [disabled]="yearItem?.readonly" [for]="r_i"></mat-datepicker-toggle>
                                                                 </div>
                                                                 <mat-datepicker #r_i></mat-datepicker>
                                                             </div>
