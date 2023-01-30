@@ -204,7 +204,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId: "",
       contentType: "Raw Data PDF",
       sortBy: "",
-      year: "All Years"  ,
+      year: this.selectedValue,
     });
     this.filterFormData.emit(this.filterForm);
     this.loadData();
