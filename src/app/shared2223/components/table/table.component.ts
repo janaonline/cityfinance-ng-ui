@@ -81,7 +81,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   checkedStatus;
   ulbType;
   disableEnableCheckbox: boolean;
-  isInfiniteScroll: boolean = false;
   statusList;
   newArr: any = [];
   populationType;
@@ -130,14 +129,33 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  get isInfiniteScroll() {
+    return this.perPage == 'all';
+  }
+
   onPerPageChange() {
-    console.log(this.perPage);
-    this.isInfiniteScroll = this.perPage == 'all';
     this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
     this.setParams();
-    if(this.isInfiniteScroll) {
+    if (this.isInfiniteScroll) {
       this.data = [];
     }
+    this.filterFormValue = this.filterForm?.value;
+    if (this.tableName == 'Review State Forms') {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+    } else {
+      this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+      this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+      this.params["UA"] = this.filterForm?.value?.ua_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+      this.params["filled1"] = this.filterForm?.value?.filled_1;
+      this.params["populationType"] = this.filterForm?.value?.population_type_s;
+      this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    }
+
+    this.params["skip"] = 0;
     this.callAPI();
   }
 
@@ -334,6 +352,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log('page change', e)
   }
   searchUsersBy(filterForm: {}, skip?: number) {
+
+    console.log({filterForm});
     this.listFetchOption.filter = filterForm;
     this.listFetchOption.skip =
       skip || skip === 0 ? skip : this.listFetchOption.skip;
@@ -556,7 +576,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.tableDefaultOptions.currentPage = 1;
     this.params["limit"] = this.tableDefaultOptions.itemPerPage;
     this.params["skip"] = 0;
-    
+
   }
   pageName = 'Get All Data'
   getAllData(type) {
