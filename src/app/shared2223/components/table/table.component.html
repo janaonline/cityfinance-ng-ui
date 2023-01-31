@@ -17,13 +17,12 @@
     </div>
 </div>
 <!-- <form > -->
-<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar [infiniteScrollThrottle]="50"
-    [alwaysCallback]="true" infiniteScroll [infiniteScrollDistance]="0.2" (scrolled)="infiniteScroll()">
+<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
     <!-- <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu> -->
 
     <!-- .....................loader.......................... -->
 
-    <div class="table-responsive" *ngIf="isInfiniteScroll || !isLoader">
+    <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}" *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
         <!-- <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator> -->
         <!-- -----------review ulb table----- -->
@@ -35,8 +34,6 @@
                     </th>
                     <th></th>
                 </tr>
-            </thead>
-            <thead>
                 <tr class="filter">
                     <th class="filter"></th>
                     <th class="filter">
@@ -107,6 +104,7 @@
                     <th class="filter text-center">
                         <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                     </th>
+                    <th class="filter"></th>
                 </tr>
             </thead>
             <tbody>
@@ -209,7 +207,7 @@
             id: 'foo',
               itemsPerPage: tableDefaultOptions.itemPerPage,
               currentPage: tableDefaultOptions.currentPage,
-              totalItems: tableDefaultOptions.totalCount
+              totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
             }; let tabelIndex=index">
                     <td style="" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage *

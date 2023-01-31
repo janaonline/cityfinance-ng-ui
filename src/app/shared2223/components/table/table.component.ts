@@ -103,21 +103,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   pageEvent: PageEvent;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    const windowScroll = window.pageYOffset;
-    // console.log('scrolllllll', windowScroll, this.elementPosition);
-    if (windowScroll < this.elementPosition) {
-      // this.sticky = false;
-      if (windowScroll > 120) {
-        // this.sticky = true;
-      }
-    } else if (windowScroll > this.elementPosition) {
-      // this.sticky = true;
-    } else {
-      // this.sticky = false;
+  handleScroll(event) {
+    const threshold = 50;
+    if(event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold)) {
+      this.infiniteScroll();
     }
   }
   infiniteScroll() {
+    console.log('infinite scroll called');
     if (this.isInfiniteScroll &&
       !this.isLoader &&
       (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
@@ -158,6 +151,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
     this.callAPI();
   }
+  
 
   ngOnInit(): void {
     this.updatedTableData();
