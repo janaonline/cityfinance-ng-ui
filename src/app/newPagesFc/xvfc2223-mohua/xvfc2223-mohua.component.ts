@@ -23,6 +23,24 @@ export class Xvfc2223MohuaComponent implements OnInit {
     this.initializeLoggedInUserDataFetch();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.leftMenu = JSON.parse(localStorage.getItem("MohuaLeftMenu"));
+
+    this.leftMenu[""].push({ //TODO: remove it
+      "_id": "6358e3ef67978c1d387f5312",
+      "isActive": true,
+      "modifiedAt": "2022-10-26T07:37:41.915Z",
+      "createdAt": "2022-10-26T07:37:41.915Z",
+      "name": "Review ULB table",
+      "category": "",
+      "url": "review-ulb-table",
+      "role": "MoHUA",
+      "position": -1,
+      "year": "606aafb14dff55e6c075d3ae",
+      "code": "MoHUA2022-23",
+      "icon": "",
+      "__v": 0
+  })
+
+    console.log(this.leftMenu);
   }
   userData;
   leftMenu;
