@@ -206,11 +206,13 @@ export class WaterRejenuvationComponent implements OnInit {
       });
       console.log(deepEqual(change, JSON.parse(data)));
       console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
-      if (!deepEqual(change, JSON.parse(data))) {
-        this.saveBtnText = "SAVE AND NEXT";
-        sessionStorage.setItem("changeInWaterRejenuvation", "true");
-        this.checkDiff();
 
+      if (!deepEqual(change, JSON.parse(data))) {
+        if(this.userData?.role == 'STATE') {
+          this.saveBtnText = "SAVE AND NEXT";
+          sessionStorage.setItem("changeInWaterRejenuvation", "true");
+          this.checkDiff();
+        }
       } else {
         this.saveBtnText = "NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
