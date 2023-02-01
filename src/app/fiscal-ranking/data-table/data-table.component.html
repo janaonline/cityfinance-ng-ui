@@ -27,7 +27,7 @@
                     </th>
                     <th></th>
                 </tr>
-                <!-- <tr class="filter">
+                <tr class="filter">
                     <th class="filter"></th>
                     <th class="filter">
                         <div class="input-group">
@@ -48,7 +48,7 @@
                         </div>
 
                     </th>
-                    <th class="filter">
+                    <!-- <th class="filter">
                         <select class="form-select in-sel" formControlName="ulbType_s" (change)="search()">
                             <option selected value="">ULB Type</option>
                             <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
@@ -90,9 +90,9 @@
                     </th>
                     <th class="filter text-center">
                         <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
-                    </th>
+                    </th> -->
                     <th class="filter"></th>
-                </tr> -->
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of data | paginate

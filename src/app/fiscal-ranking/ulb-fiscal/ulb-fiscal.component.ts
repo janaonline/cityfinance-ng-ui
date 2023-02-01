@@ -970,7 +970,7 @@ export class UlbFiscalComponent implements OnInit {
     "signedCopyOfFile": {
       "name": '',
       "url": '',
-      status: ''
+      status: 'PENDING'
     },
     "property_tax_register": {
       status: "",
@@ -1809,50 +1809,50 @@ export class UlbFiscalComponent implements OnInit {
               {
                 label: 'Name of ULB',
                 value: this.ulbName,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Population as per 2011 Census',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.population11?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Population as on 1st April 2022',
                 value: this.fiscalForm?.controls.basicUlbDetails?.controls?.populationFr?.value,
                 // value: this.fiscalForm?.value?.basicUlbDetails?.populationFr,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'ULB website URL link',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
                 // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Name of Commissioner / Executive Officer',
                 // value: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.nameCmsnr?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Does the ULB handle water supply services?',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Does the ULB handle sanitation service delivery?',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Does your Property Tax include Water Tax?',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Does your Property Tax include Sanitation/Sewerage Tax?',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.value,
-                status: ''
+                status: 'PENDING'
               },
             ]
           },
@@ -1960,25 +1960,25 @@ export class UlbFiscalComponent implements OnInit {
                 label: 'Name of the Nodal Officer',
                 // value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.designationOftNodalOfficer?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Designation of the Nodal Officer',
                 //value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.nameOfNodalOfficer?.value,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Email ID',
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.email?.value,
                 // value: this.fiscalForm?.value?.contactInfo?.email,
-                status: ''
+                status: 'PENDING'
               },
               {
                 label: 'Mobile number',
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.mobile?.value,
                 // value: this.fiscalForm?.value?.contactInfo?.mobile,
-                status: ''
+                status: 'PENDING'
               }
             ]
           },
