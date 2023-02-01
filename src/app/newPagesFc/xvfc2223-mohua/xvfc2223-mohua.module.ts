@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MohuaGtcComponent } from './mohua-gtc/mohua-gtc.component';
 import { GrantTransferMohuaComponent } from 'src/app/pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.com
     ReviewUlbComponent,
     ReviewStateComponent,
     MohuaGtcComponent,
-    ReviewUlbTableComponent,
   ],
   imports: [
     CommonModule,
