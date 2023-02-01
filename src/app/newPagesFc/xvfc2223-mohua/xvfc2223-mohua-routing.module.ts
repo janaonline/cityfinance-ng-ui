@@ -4,6 +4,7 @@ import { Mohua2223Guard } from "src/app/shared2223/common-gaurds/mohua/mohua2223
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { MohuaGtcComponent } from "./mohua-gtc/mohua-gtc.component";
 import { ReviewStateComponent } from "./review-state/review-state.component";
+import { ReviewUlbTableComponent } from "./review-ulb-table/review-ulb-table.component";
 import { ReviewUlbComponent } from "./review-ulb/review-ulb.component";
 import { Xvfc2223MohuaComponent } from "./xvfc2223-mohua.component";
 
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: "review-grant-app",
         component: ReviewUlbComponent,
+      },
+      {
+        path: "review-ulb-table",
+        component: ReviewUlbTableComponent,
       },
       {
         path: "review-state-form",
