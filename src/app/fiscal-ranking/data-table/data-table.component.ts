@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-data-table',
@@ -11,8 +12,9 @@ export class DataTableComponent implements OnInit {
   
   @Input('data') data;
   @Input('columnNames') columnNames;
+  @Output('filterUpdate') filterUpdate = new EventEmitter();
   
-  filterForm;
+  filterForm: FormGroup;
   isLoader: boolean = false;
   max = Math.max;
   
@@ -40,7 +42,21 @@ export class DataTableComponent implements OnInit {
     limit: this.tableDefaultOptions.itemPerPage,
   };
 
-  constructor() { }
+  constructor(
+    private _fb: FormBuilder
+  ) { 
+    this.filterForm = this._fb.group({
+      ulb_name_s: [""],
+      state_name_s: [""],
+      ulb_code_s: [""],
+      ulbType_s: [""],
+      population_type_s: [""],
+      ua_name_s: [""],
+      status_s: [""],
+      filled_1: [""],
+      filled_2: [""],
+    });
+  }
 
   get isInfiniteScroll() {
     return this.perPage == 'all';
@@ -70,10 +86,11 @@ export class DataTableComponent implements OnInit {
   }
 
   search() {
-
+    this.filterUpdate.emit(this.filterForm.getRawValue());
   }
 
   resetFilter() {
-
+    this.filterForm.reset();
+    this.search();
   }
 }

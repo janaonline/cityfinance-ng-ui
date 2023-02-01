@@ -15,7 +15,11 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <app-data-table [data]="data" [columnNames]="columnNames"></app-data-table>
+            <app-data-table 
+                [data]="data" 
+                [columnNames]="columnNames"
+                (filterUpdate)="filterUpdate($event)"
+            ></app-data-table>
         </div>
     </div>
 </div>
