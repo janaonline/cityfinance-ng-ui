@@ -12,6 +12,7 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 export class ReviewUlbTableComponent implements OnInit {
   formId = "63d8eabeee320e56e357b34e";
   data;
+  columnNames
   stateId = '5dcf9d7216a06aed41c748e2';
   stateList = [];
   userData;
@@ -41,6 +42,7 @@ export class ReviewUlbTableComponent implements OnInit {
       year: this.year
     }).subscribe(res => {
       this.data = res["data"];
+      this.columnNames = res["columnNames"];
       console.log(this.data)
     }, err => {
       console.log(err.message);

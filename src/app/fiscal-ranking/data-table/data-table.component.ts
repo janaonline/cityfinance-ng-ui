@@ -9,8 +9,7 @@ export class DataTableComponent implements OnInit {
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
 
   @Input('data') data;
-
-  columnNames = [];
+  @Input('columnNames') columnNames;
 
   filterForm;
   isLoader: boolean = false;

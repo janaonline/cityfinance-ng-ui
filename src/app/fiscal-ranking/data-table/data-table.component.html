@@ -95,52 +95,43 @@
                 </tr> -->
             </thead>
             <tbody>
-                <tr *ngFor="let resData of data | paginate
+                <tr *ngFor="let item of data | paginate
                 : {
                   id: 'foo',
                     itemsPerPage: tableDefaultOptions.itemPerPage,
                     currentPage: tableDefaultOptions.currentPage,
                     totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
                   }; let tabelIndex=index">
-                    <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage *
-                        (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
-                    </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
-                    </td>
-                    <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData.censusCode || resData.sbCode }}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData.populationType}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
-                        resData.filled_audited }}</td>
-                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{
-                        resData.filled_provisional }}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
-                            [routerLink]="formRouterLink">
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../../assets/ulbform/eye.png">
-                            </mat-icon>
+                    <td style="width: 1%;" >{{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}</td>
+                    <td>{{item.ulbName}}</td>
+                    <td style="width: 11%;" >{{item.censusCode || item.sbCode }}</td>
+                    <td>{{item.ulbType}}</td>
+                    <td>{{item.populationType}}</td>
+                    <td>{{item.UA}}</td>
+                    <td>{{item.formStatus}}</td>
+                    <td>{{item.filled ? item.filled : item.filled_audited }}</td>
+                    <td *ngIf="item.filled_provisional" >{{ item.filled_provisional }}</td>
+                    <td  *ngIf="item.cantakeAction == false">
+                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(item)" [routerLink]="formRouterLink">
+                            <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png"></mat-icon>
                         </a>
                     </td>
-                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                        *ngIf="resData.cantakeAction == true">
-                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
-                            (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
-                            Take Action
+                    <td class="btn-td" 
+                        *ngIf="item.cantakeAction == true">
+                        <a 
+                            class="btn btn-a btn-primary" 
+                            [ngClass]='{"notClick" : actBtn}'
+                            [routerLink]="formRouterLink"
+                            (click)="viewUlbForm(item)">Take Action
                         </a>
                     </td>
                     <td>
                         <div class="form-check"
-                            [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
-                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
-                                [disabled]="resData?.cantakeAction == false"
-                                (change)="selected_checkbox(resData?.ulbId, resData.isChecked)"
-                                [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                            [matTooltip]="item?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : item?.cantakeAction == false}"
+                                [disabled]="item?.cantakeAction == false"
+                                (change)="selected_checkbox(item?.ulbId, item.isChecked)"
+                                [(ngModel)]="item.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
                 </tr>
