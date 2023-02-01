@@ -359,11 +359,11 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           Validators.maxLength(200),
         ]),
-        dprCompletion: this.fb.control(data?.dprCompletion, [
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control(data?.workCompletion, [
+        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
           //Validators.required,
           // Validators.min(1),
         ]),
@@ -489,11 +489,11 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control(data?.dprCompletion, [
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control(data?.workCompletion, [
+        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
          // Validators.required,
           // Validators.min(1),
         ]),
@@ -570,11 +570,11 @@ export class WaterRejenuvations2223Component implements OnInit {
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control(data?.dprCompletion, [
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
           Validators.required,
           // Validators.min(1),
         ]),
-        workCompletion: this.fb.control(data?.workCompletion, [
+        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
          // Validators.required,
           // Validators.min(1),
         ]),
