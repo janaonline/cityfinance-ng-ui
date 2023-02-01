@@ -1162,10 +1162,10 @@ export class UlbFiscalComponent implements OnInit {
         populationFr: data?.populationFr?.value,
         webLink: data?.webLink,
         nameCmsnr: data?.nameCmsnr,
-        waterSupply: data?.waterSupply,
-        sanitationService: data?.sanitationService,
-        propertyWaterTax: data?.propertyWaterTax,
-        propertySanitationTax: data?.propertySanitationTax
+        waterSupply: data?.waterSupply.value,
+        sanitationService: data?.sanitationService.value,
+        propertyWaterTax: data?.propertyWaterTax.value,
+        propertySanitationTax: data?.propertySanitationTax.value
       },
       contactInfo: {
         nameOfNodalOfficer: data?.nameOfNodalOfficer,
@@ -1826,7 +1826,7 @@ export class UlbFiscalComponent implements OnInit {
                 label: 'ULB website URL link',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
                 // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-                status: 'PENDING'
+                // status: 'PENDING'
               },
               {
                 label: 'Name of Commissioner / Executive Officer',

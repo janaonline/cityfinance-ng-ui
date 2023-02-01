@@ -15,7 +15,6 @@ export class DataTableComponent implements OnInit {
   filterForm;
   isLoader: boolean = false;
   max = Math.max;
-  hiddenColumnNames = ['stateName'];
   
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -48,7 +47,8 @@ export class DataTableComponent implements OnInit {
   }
 
   get showableColumns() {
-    return this.objectWithoutProperties(this.columnNames, ['stateName', 'filled_audited', 'filled_provisional']);
+    const hiddenStateNames = ['stateName', 'filled_audited', 'filled_provisional'];
+    return this.objectWithoutProperties(this.columnNames, hiddenStateNames);
   }
 
   ngOnInit(): void {
