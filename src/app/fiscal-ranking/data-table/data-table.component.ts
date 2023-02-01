@@ -8,18 +8,30 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DataTableComponent implements OnInit {
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
 
+  
   @Input('data') data;
   @Input('columnNames') columnNames;
-
+  
   filterForm;
   isLoader: boolean = false;
   max = Math.max;
-
+  hiddenColumnNames = ['stateName'];
+  
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
     totalCount: null,
   };
+
+  objectWithoutProperties(obj, keys) {
+    const target = {};
+    for (let i in obj) {
+      if (keys.indexOf(i) >= 0) continue;
+      if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+      target[i] = obj[i];
+    }
+    return target;
+  }
 
   listFetchOption = {
     filter: null,
@@ -33,6 +45,10 @@ export class DataTableComponent implements OnInit {
 
   get isInfiniteScroll() {
     return this.perPage == 'all';
+  }
+
+  get showableColumns() {
+    return this.objectWithoutProperties(this.columnNames, ['stateName', 'filled_audited', 'filled_provisional']);
   }
 
   ngOnInit(): void {
@@ -54,6 +70,10 @@ export class DataTableComponent implements OnInit {
   }
 
   search() {
+
+  }
+
+  resetFilter() {
 
   }
 }
