@@ -27,6 +27,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { MdePopoverModule } from '@material-extended/mde';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
+import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
+import { Shared2223Module } from '../shared2223/shared2223.module';
+import { DataTableComponent } from './data-table/data-table.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     UlbFiscalComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
-    DownloadPopupComponent
+    DownloadPopupComponent,
+    ReviewUlbTableComponent,
+    DataTableComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +71,9 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     MatIconModule,
     MdePopoverModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxPaginationModule,
+    Shared2223Module
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
