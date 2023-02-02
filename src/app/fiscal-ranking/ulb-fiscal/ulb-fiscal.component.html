@@ -279,8 +279,8 @@
                                                                     *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
                                                                     <span class="f-w"
                                                                         [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
-                                                                        {{ getPercentIncrement(yearItem,
-                                                                        item?.value?.yearData[r_i - 1]) }}% greater then
+                                                                        {{ abs(getPercentIncrement(yearItem,
+                                                                        item?.value?.yearData[r_i - 1])) }}% {{ getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'lesser' : 'greater'}} then
                                                                         {{ item?.value?.yearData[r_i - 1].label
                                                                         }}</span>
                                                                 </div>
@@ -347,8 +347,8 @@
                                                                 *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
                                                                 <span class="f-w"
                                                                     [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
-                                                                    {{ getPercentIncrement(yearItem,
-                                                                    item?.value?.yearData[r_i - 1]) }}% greater then
+                                                                    {{ abs(getPercentIncrement(yearItem,
+                                                                    item?.value?.yearData[r_i - 1])) }}% {{ getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'lesser' : 'greater'}} then
                                                                     {{ item?.value?.yearData[r_i - 1].label }}</span>
                                                             </div>
                                                         </div>
@@ -523,6 +523,7 @@
                                                         <mat-radio-group aria-label="Select an option"
                                                             (click)="skipLogicRadio('registerGis', $event)"
                                                             [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value"
+                                                            [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.registerGis.error}"
                                                             [ngModelOptions]="{standalone: true}"
                                                             [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>

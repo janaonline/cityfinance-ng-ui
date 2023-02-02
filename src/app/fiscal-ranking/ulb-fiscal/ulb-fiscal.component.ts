@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailValidator, FormBuilder, Validators } from '@angular/forms';
+import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
@@ -28,6 +28,7 @@ export class UlbFiscalComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
 
+  abs = Math.abs;
   errorPageIndex: number;
   isLoader = false;
   userData;
@@ -94,6 +95,7 @@ export class UlbFiscalComponent implements OnInit {
   ];
   fiscalFormFeild;
   fiscalForm;
+  fisc
   revenueMob;
   expPerf;
   uploadFyDoc;
@@ -1572,10 +1574,22 @@ export class UlbFiscalComponent implements OnInit {
       webLink: this.fiscalForm?.value?.basicUlbDetails?.webLink,
       nameCmsnr: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
       ulbName: this.ulbName,
-      waterSupply: this.fiscalForm?.value?.basicUlbDetails?.waterSupply,
-      sanitationService: this.fiscalForm?.value?.basicUlbDetails?.sanitationService,
-      propertyWaterTax: this.fiscalForm?.value?.basicUlbDetails?.propertyWaterTax,
-      propertySanitationTax: this.fiscalForm?.value?.basicUlbDetails?.propertySanitationTax,
+      waterSupply: {
+        value: this.fiscalForm?.value?.basicUlbDetails?.waterSupply,
+        status: "PENDING"
+      },
+      sanitationService: {
+        value: this.fiscalForm?.value?.basicUlbDetails?.sanitationService,
+        status: "PENDING",
+      },
+      propertyWaterTax: {
+        value: this.fiscalForm?.value?.basicUlbDetails?.propertyWaterTax,
+        status: "PENDING"
+      },
+      propertySanitationTax: {
+        value: this.fiscalForm?.value?.basicUlbDetails?.propertySanitationTax,
+        status: "PENDING"
+      },
       population11: {
         value: this.fiscalForm.controls.basicUlbDetails.controls.population11.value,
         readonly: this.isPopAvl11
@@ -1826,7 +1840,7 @@ export class UlbFiscalComponent implements OnInit {
                 label: 'ULB website URL link',
                 value: this.fiscalForm?.controls?.basicUlbDetails?.controls?.webLink?.value,
                 // value: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-                // status: 'PENDING'
+                status: 'PENDING'
               },
               {
                 label: 'Name of Commissioner / Executive Officer',
