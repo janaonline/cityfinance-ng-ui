@@ -17,7 +17,7 @@ export class ReviewUlbTableComponent implements OnInit {
   stateId = '5dcf9d7216a06aed41c748e2';
   stateList = [];
   userData;
-  reviewTableName = 'Review Grant Application';
+  title = '';
 
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
   filterForm: FormGroup;
@@ -29,7 +29,7 @@ export class ReviewUlbTableComponent implements OnInit {
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: 500 // TODO: remove null,
+    totalCount: null,
   };
 
 
@@ -43,18 +43,16 @@ export class ReviewUlbTableComponent implements OnInit {
 
   constructor(
     private commonService: NewCommonService,
-    private route: ActivatedRoute,
     private _fb: FormBuilder,
-    private stateServices: State2223Service,
     private _commonService: CommonService) {
   }
   ngOnInit(): void {
     this.filterForm = this._fb.group({
-      ulb_name_s: [""],
-      state_name_s: [""],
-      ulb_code_s: [""],
-      ulbType_s: [""],
-      population_type_s: [""],
+      ulbName: [""],
+      stateName: [""],
+      ulbCode: [""],
+      ulbType: [""],
+      populationType: [""],
       ua_name_s: [""],
       status_s: [""],
       filled_1: [""],
@@ -65,7 +63,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.loadData();
   }
 
-  get year() {
+  get design_year() {
     const yearItems = JSON.parse(localStorage.getItem('Years'))
     return yearItems['2022-23'];
   }
@@ -88,7 +86,7 @@ export class ReviewUlbTableComponent implements OnInit {
     const payload = {
       formId: this.formId,
       stateId: this.stateId,
-      year: this.year,
+      design_year: this.design_year,
       ...this.filterForm.getRawValue(),
       ...this.listFetchOption
     };
@@ -98,6 +96,8 @@ export class ReviewUlbTableComponent implements OnInit {
       this.isLoader = false;
       this.data = (this.isInfiniteScroll ? [...this.data, ...res["data"]] : res["data"]);
       this.columnNames = res["columnNames"];
+      this.title = res["title"];
+      this.tableDefaultOptions.totalCount = res["total"];
       console.log(this.data)
     }, err => {
       this.isLoader = false;
@@ -129,7 +129,9 @@ export class ReviewUlbTableComponent implements OnInit {
   keepOriginalOrder = (a, b) => a.key;
 
   onPerPageChange() {
-
+    this.data = [];
+    this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
+    this.loadData(1);
   }
 
   download() {
@@ -152,7 +154,8 @@ export class ReviewUlbTableComponent implements OnInit {
 
   resetFilter() {
     this.filterForm.reset();
-    this.loadData();
+    this.data = [];
+    this.loadData(1);
   }
 }
 
