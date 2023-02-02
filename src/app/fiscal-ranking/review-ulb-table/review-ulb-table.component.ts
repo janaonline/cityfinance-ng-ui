@@ -126,7 +126,9 @@ export class ReviewUlbTableComponent implements OnInit {
     return target;
   }
 
-
+  getToken() {
+    return JSON.parse(localStorage.getItem("id_token"));
+  }
 
   keepOriginalOrder = (a, b) => a.key;
 
@@ -139,7 +141,17 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   download() {
-
+    console.log('downloading');
+    const payload = {
+      formId: this.formId,
+      state: this.state,
+      design_year: this.design_year,
+      token: this.getToken(),
+      ...this.filterForm.getRawValue(),
+      ...this.listFetchOption
+    };
+    const endPoint = "review";
+    this._commonService.openWindowToDownloadCsv(payload, endPoint);
   }
 
   @HostListener('window:scroll', ['$event'])
