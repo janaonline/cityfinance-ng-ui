@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-services/state2223.service';
@@ -29,7 +29,7 @@ export class ReviewUlbTableComponent implements OnInit {
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
-    totalCount: null,
+    totalCount: 500 // TODO: remove null,
   };
 
 
@@ -80,19 +80,29 @@ export class ReviewUlbTableComponent implements OnInit {
     return this.objectWithoutProperties(this.columnNames, hiddenStateNames);
   }
 
-  loadData() {
-    this.commonService.getFrUlbs({
+  loadData(pageNumber?: number) {
+    if (pageNumber) {
+      this.tableDefaultOptions.currentPage = pageNumber;
+      this.listFetchOption.skip = (pageNumber - 1) * this.tableDefaultOptions.itemPerPage;
+    }
+    const payload = {
       formId: this.formId,
       stateId: this.stateId,
-      year: this.year
-    }).subscribe(res => {
-      this.data = res["data"];
+      year: this.year,
+      ...this.filterForm.getRawValue(),
+      ...this.listFetchOption
+    };
+    console.log(payload)
+    this.isLoader = true;
+    this.commonService.getFrUlbs(payload).subscribe(res => {
+      this.isLoader = false;
+      this.data = (this.isInfiniteScroll ? [...this.data, ...res["data"]] : res["data"]);
       this.columnNames = res["columnNames"];
       console.log(this.data)
     }, err => {
+      this.isLoader = false;
       console.log(err.message);
-    }
-    );
+    });
   }
 
 
@@ -126,18 +136,23 @@ export class ReviewUlbTableComponent implements OnInit {
 
   }
 
+  @HostListener('window:scroll', ['$event'])
   handleScroll(event) {
-
+    const threshold = 50;
+    if (
+      this.isInfiniteScroll &&
+      !this.isLoader &&
+      event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold) &&
+      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)
+    ) {
+      this.loadData(this.tableDefaultOptions.currentPage + 1);
+    }
   }
 
-  search() {
-    const payload = { ...this.filterForm.getRawValue(), ...this.listFetchOption };
-    console.log(payload);
-  }
 
   resetFilter() {
     this.filterForm.reset();
-    this.search();
+    this.loadData();
   }
 }
 

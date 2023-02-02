@@ -7,7 +7,7 @@
     <div class="row mt-2">
         <div class="col-sm-4">
             <label for="form" class="l-l">Select State:</label>
-            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="search()"
+            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="loadData()"
                 *ngIf="userData?.role != 'STATE'">
                 <option selected value="" class="s-pl">All</option>
                 <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
@@ -34,7 +34,7 @@
         <div class="col-sm-12">
             <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
 
-                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
+                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}" *ngIf="isInfiniteScroll || !isLoader"
                     (scroll)="handleScroll($event)">
                     <table class="table table-striped ulb-table">
                         <thead>
@@ -49,7 +49,7 @@
                                 <th class="filter">
                                     <div class="input-group">
                                         <input type="text" formControlName="ulb_name_s" class="form-control in-se-s"
-                                            (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Name">
+                                            (change)="loadData()" aria-label="ulb_name_s" placeholder="Ulb Name">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
                                         </span>
@@ -58,7 +58,7 @@
                                 <th class="filter">
                                     <div class="input-group">
                                         <input type="text" formControlName="ulb_code_s" class="form-control in-se-s"
-                                            style="width: 40%;" (change)="search()" aria-label="ulb_name_s"
+                                            style="width: 40%;" (change)="loadData()" aria-label="ulb_name_s"
                                             placeholder="Ulb Code">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
@@ -67,13 +67,13 @@
 
                                 </th>
                                 <!-- <th class="filter">
-                                    <select class="form-select in-sel" formControlName="ulbType_s" (change)="search()">
+                                    <select class="form-select in-sel" formControlName="ulbType_s" (change)="loadData()">
                                         <option selected value="">ULB Type</option>
                                         <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
                                     </select>
                                 </th>
                                 <th class="filter">
-                                    <select class="form-select in-sel" formControlName="population_type_s" (change)="search()">
+                                    <select class="form-select in-sel" formControlName="population_type_s" (change)="loadData()">
                                         <option selected value="">Population Type</option>
                                         <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                                     </select>
@@ -81,18 +81,18 @@
                                 <th class="filter">
                                     <div class="input-group">
                                         <input type="text" formControlName="ua_name_s" class="form-control in-se-s"
-                                            (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
+                                            (change)="loadData()" aria-label="ulb_name_s" placeholder="UA Name">
                                     </div>
                                 </th>
                                 <!-- <th class="filter">
-                                    <select class="form-select in-sel" formControlName="status_s" (change)="search()">
+                                    <select class="form-select in-sel" formControlName="status_s" (change)="loadData()">
                                         <option selected value="">Status</option>
                                         <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                                     </select>
                                 </th> -->
                                 <th class="filter">
                                     <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1"
-                                        (change)="search()">
+                                        (change)="loadData()">
                                         <option selected value="">Search</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -100,7 +100,7 @@
                                 </th>
                                 <!-- <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
                                     <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2"
-                                        (change)="search()">
+                                        (change)="loadData()">
                                         <option selected value="">Search</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -157,6 +157,20 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
                 </div>
             </div>
         </div>

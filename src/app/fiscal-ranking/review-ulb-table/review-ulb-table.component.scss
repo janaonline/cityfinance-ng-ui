@@ -23,3 +23,20 @@
 .l-l {
     font-weight: 500;
 }
+
+.paginated-table          { 
+    overflow: auto; 
+    max-height: 55vh;
+    table  { 
+        border-collapse: collapse; 
+        width: 100%; 
+        thead {
+            position: sticky; 
+            top: 0; 
+            z-index: 1; 
+        }
+        .filter {
+            background-color: white;
+        }
+    }
+}
