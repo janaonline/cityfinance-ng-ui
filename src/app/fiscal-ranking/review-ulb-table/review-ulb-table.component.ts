@@ -14,8 +14,11 @@ export class ReviewUlbTableComponent implements OnInit {
   formId = "63d8eabeee320e56e357b34e";
   data;
   columnNames
-  stateId = '5dcf9d7216a06aed41c748e2';
+  state = '5dcf9d7216a06aed41c748e2';
   stateList = [];
+  statusList = [];
+  populationTypesList = [];
+  ulbTypesList = [];
   userData;
   title = '';
 
@@ -53,10 +56,9 @@ export class ReviewUlbTableComponent implements OnInit {
       ulbCode: [""],
       ulbType: [""],
       populationType: [""],
-      ua_name_s: [""],
-      status_s: [""],
-      filled_1: [""],
-      filled_2: [""],
+      UA: [""],
+      status: [""],
+      filled1: [""],
     });
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
@@ -85,7 +87,7 @@ export class ReviewUlbTableComponent implements OnInit {
     }
     const payload = {
       formId: this.formId,
-      stateId: this.stateId,
+      state: this.state,
       design_year: this.design_year,
       ...this.filterForm.getRawValue(),
       ...this.listFetchOption
@@ -131,6 +133,8 @@ export class ReviewUlbTableComponent implements OnInit {
   onPerPageChange() {
     this.data = [];
     this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
+    this.listFetchOption.limit = this.tableDefaultOptions.itemPerPage;
+    this.listFetchOption.skip = 0;
     this.loadData(1);
   }
 

@@ -7,7 +7,7 @@
     <div class="row mt-2">
         <div class="col-sm-4">
             <label for="form" class="l-l">Select State:</label>
-            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="loadData()"
+            <select class="form-select ms-1" [(ngModel)]="state" (change)="loadData()"
                 *ngIf="userData?.role != 'STATE'">
                 <option selected value="" class="s-pl">All</option>
                 <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
@@ -66,46 +66,38 @@
                                     </div>
 
                                 </th>
-                                <!-- <th class="filter">
-                                    <select class="form-select in-sel" formControlName="ulbType" (change)="loadData()">
+                                <th class="filter">
+                                    <!-- <select class="form-select in-sel" formControlName="ulbType" (change)="loadData()">
                                         <option selected value="">ULB Type</option>
-                                        <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
-                                    </select>
+                                        <option *ngFor="let item of ulbTypesList" [value]="item">{{item}}</option>
+                                    </select> -->
                                 </th>
                                 <th class="filter">
-                                    <select class="form-select in-sel" formControlName="populationType" (change)="loadData()">
+                                    <!-- <select class="form-select in-sel" formControlName="populationType" (change)="loadData()">
                                         <option selected value="">Population Type</option>
-                                        <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
-                                    </select>
-                                </th> -->
+                                        <option *ngFor="let item of populationTypesList" [value]="item">{{item}}</option>
+                                    </select> -->
+                                </th>
                                 <th class="filter">
                                     <div class="input-group">
-                                        <input type="text" formControlName="ua_name_s" class="form-control in-se-s"
+                                        <input type="text" formControlName="UA" class="form-control in-se-s"
                                             (change)="loadData()" aria-label="UA name" placeholder="UA Name">
                                     </div>
                                 </th>
-                                <!-- <th class="filter">
-                                    <select class="form-select in-sel" formControlName="status_s" (change)="loadData()">
+                                <th class="filter">
+                                    <!-- <select class="form-select in-sel" formControlName="status" (change)="loadData()">
                                         <option selected value="">Status</option>
                                         <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
-                                    </select>
-                                </th> -->
+                                    </select> -->
+                                </th>
                                 <th class="filter">
-                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1"
+                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled1"
                                         (change)="loadData()">
                                         <option selected value="">Search</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
                                     </select>
                                 </th>
-                                <!-- <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
-                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2"
-                                        (change)="loadData()">
-                                        <option selected value="">Search</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                </th> -->
                                 <th class="filter text-center">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
@@ -133,7 +125,7 @@
                                 <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td>
                                 <td *ngIf="item.cantakeAction == false">
                                     <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(item)"
-                                        [routerLink]="formRouterLink">
+                                        routerLink="/rankings/ulb-form">
                                         <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
                                         </mat-icon>
                                     </a>
