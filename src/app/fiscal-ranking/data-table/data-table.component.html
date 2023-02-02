@@ -1,5 +1,5 @@
 <div class="row mt-2 text-end">
-    <div class="col-12">
+    <div class="col-12">dsfsdfsd
         <select class="form-select ms-2 d-inline-block" [(ngModel)]="perPage" (change)="onPerPageChange()">
             <option class="s-pl" value="10">10</option>
             <option class="s-pl" value="25">25</option>
@@ -18,11 +18,10 @@
 <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
 
     <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"  (scroll)="handleScroll($event)">
-        <!-- -----------review ulb table----- -->
         <table class="table table-striped ulb-table">
             <thead>
                 <tr style="background-color: #047474; color: #FFFFFF;">
-                    <th *ngFor="let item of columnNames | keyvalue:keepOriginalOrder">
+                    <th *ngFor="let item of showableColumns | keyvalue:keepOriginalOrder">
                         {{item.value}}
                     </th>
                     <th></th>
@@ -59,19 +58,19 @@
                             <option selected value="">Population Type</option>
                             <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
                         </select>
-                    </th>
+                    </th> -->
                     <th class="filter">
                         <div class="input-group">
                             <input type="text" formControlName="ua_name_s" class="form-control in-se-s"
                                 (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
                         </div>
                     </th>
-                    <th class="filter">
+                    <!-- <th class="filter">
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
-                    </th>
+                    </th> -->
                     <th class="filter">
                         <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1"
                             (change)="search()">
@@ -80,17 +79,17 @@
                             <option value="No">No</option>
                         </select>
                     </th>
-                    <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
+                    <!-- <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
                         <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2"
                             (change)="search()">
                             <option selected value="">Search</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
-                    </th>
+                    </th> -->
                     <th class="filter text-center">
                         <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
-                    </th> -->
+                    </th>
                     <th class="filter"></th>
                 </tr>
             </thead>

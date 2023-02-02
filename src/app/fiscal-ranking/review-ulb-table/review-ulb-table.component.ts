@@ -58,6 +58,10 @@ export class ReviewUlbTableComponent implements OnInit {
     // this.stateServices.dpReviewChanges.next(true);
   }
 
+  filterUpdate(event) {
+    console.log(event);
+  }
+
   
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
