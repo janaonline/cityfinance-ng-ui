@@ -7,19 +7,158 @@
     <div class="row mt-2">
         <div class="col-sm-4">
             <label for="form" class="l-l">Select State:</label>
-            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="filterAdded($event.target.value)" *ngIf="userData?.role != 'STATE'">
-              <option selected value="" class="s-pl">All</option>
-              <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
-           </select>
+            <select class="form-select ms-1" [(ngModel)]="stateId" (change)="search()"
+                *ngIf="userData?.role != 'STATE'">
+                <option selected value="" class="s-pl">All</option>
+                <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="col-sm-4 offset-sm-4 text-end">
+            <div class="col-12">
+                <select class="form-select ms-2 d-inline-block" [(ngModel)]="perPage" (change)="onPerPageChange()">
+                    <option class="s-pl" value="10">10</option>
+                    <option class="s-pl" value="25">25</option>
+                    <option class="s-pl" value="50">50</option>
+                    <option class="s-pl" value="all">All</option>  
+                </select>
+        
+                <!-- <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+                    (click)="openDialog('Approve')">Approve all</button>
+                <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+                    (click)="openDialog('Return')">Return all</button> -->
+                <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <app-data-table 
-                [data]="data" 
-                [columnNames]="columnNames"
-                (filterUpdate)="filterUpdate($event)"
-            ></app-data-table>
+            <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
+
+                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
+                    (scroll)="handleScroll($event)">
+                    <table class="table table-striped ulb-table">
+                        <thead>
+                            <tr style="background-color: #047474; color: #FFFFFF;">
+                                <th *ngFor="let item of showableColumns | keyvalue:keepOriginalOrder">
+                                    {{item.value}}
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr class="filter">
+                                <th class="filter"></th>
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="ulb_name_s" class="form-control in-se-s"
+                                            (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Name">
+                                        <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="ulb_code_s" class="form-control in-se-s"
+                                            style="width: 40%;" (change)="search()" aria-label="ulb_name_s"
+                                            placeholder="Ulb Code">
+                                        <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span>
+                                    </div>
+
+                                </th>
+                                <!-- <th class="filter">
+                                    <select class="form-select in-sel" formControlName="ulbType_s" (change)="search()">
+                                        <option selected value="">ULB Type</option>
+                                        <option *ngFor="let item of ulbType" [value]="item">{{item}}</option>
+                                    </select>
+                                </th>
+                                <th class="filter">
+                                    <select class="form-select in-sel" formControlName="population_type_s" (change)="search()">
+                                        <option selected value="">Population Type</option>
+                                        <option *ngFor="let item of populationType" [value]="item">{{item}}</option>
+                                    </select>
+                                </th> -->
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="ua_name_s" class="form-control in-se-s"
+                                            (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
+                                    </div>
+                                </th>
+                                <!-- <th class="filter">
+                                    <select class="form-select in-sel" formControlName="status_s" (change)="search()">
+                                        <option selected value="">Status</option>
+                                        <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                                    </select>
+                                </th> -->
+                                <th class="filter">
+                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1"
+                                        (change)="search()">
+                                        <option selected value="">Search</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </th>
+                                <!-- <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
+                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2"
+                                        (change)="search()">
+                                        <option selected value="">Search</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </th> -->
+                                <th class="filter text-center">
+                                    <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
+                                </th>
+                                <th class="filter"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | paginate
+                            : {
+                              id: 'foo',
+                                itemsPerPage: tableDefaultOptions.itemPerPage,
+                                currentPage: tableDefaultOptions.currentPage,
+                                totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
+                              }; let tabelIndex=index">
+                                <td style="width: 1%;">{{isInfiniteScroll ? tabelIndex+1 :
+                                    (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                                    tabelIndex+1)}}</td>
+                                <td>{{item.ulbName}}</td>
+                                <td style="width: 11%;">{{item.censusCode || item.sbCode }}</td>
+                                <td>{{item.ulbType}}</td>
+                                <td>{{item.populationType}}</td>
+                                <td>{{item.UA}}</td>
+                                <td>{{item.formStatus}}</td>
+                                <td>{{item.filled ? item.filled : item.filled_audited }}</td>
+                                <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td>
+                                <td *ngIf="item.cantakeAction == false">
+                                    <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(item)"
+                                        [routerLink]="formRouterLink">
+                                        <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                                <td class="btn-td" *ngIf="item.cantakeAction == true">
+                                    <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
+                                        [routerLink]="formRouterLink" (click)="viewUlbForm(item)">Take Action
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="form-check"
+                                        [matTooltip]="item?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                                        <mat-checkbox class=''
+                                            [ngClass]="{'checkboxBackground' : item?.cantakeAction == false}"
+                                            [disabled]="item?.cantakeAction == false"
+                                            (change)="selected_checkbox(item?.ulbId, item.isChecked)"
+                                            [(ngModel)]="item.isChecked" [ngModelOptions]="{standalone: true}">
+                                        </mat-checkbox>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
