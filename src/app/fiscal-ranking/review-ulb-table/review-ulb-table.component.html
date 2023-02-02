@@ -19,9 +19,9 @@
                     <option class="s-pl" value="10">10</option>
                     <option class="s-pl" value="25">25</option>
                     <option class="s-pl" value="50">50</option>
-                    <option class="s-pl" value="all">All</option>  
+                    <option class="s-pl" value="all">All</option>
                 </select>
-        
+
                 <!-- <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
                     (click)="openDialog('Approve')">Approve all</button>
                 <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
@@ -34,8 +34,8 @@
         <div class="col-sm-12">
             <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
 
-                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}" *ngIf="isInfiniteScroll || !isLoader"
-                    (scroll)="handleScroll($event)">
+                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
+                    *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
                     <table class="table table-striped ulb-table">
                         <thead>
                             <tr style="background-color: #047474; color: #FFFFFF;">
@@ -172,6 +172,11 @@
                         <span class="visually-hidden ">Loading...</span>
                     </div>
                 </div>
+
+                <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo"
+                    *ngIf="!isLoader && !(data?.length == 0) && !isInfiniteScroll" (pageChange)="loadData($event)"
+                    directionLinks="true" autoHide="false">
+                </pagination-controls>
             </div>
         </div>
     </div>
