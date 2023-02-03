@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: "", component: FiscalHomeComponent },
   { path: "home", component: FiscalHomeComponent },
   { path: "login", component: FiscalLoginComponent},
+  { path: "ulb-form/:ulbId", component: UlbFiscalComponent },
   { path: "ulb-form", component: UlbFiscalComponent },
   { path: "review-rankings-ulbform", component: ReviewUlbTableComponent },
 ];

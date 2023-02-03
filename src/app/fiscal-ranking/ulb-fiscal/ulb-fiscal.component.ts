@@ -6,7 +6,7 @@ import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
@@ -995,15 +995,21 @@ export class UlbFiscalComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _router: Router,
     private dialog: MatDialog,
-    private profileService: ProfileService,) {
+    private activatedRoute: ActivatedRoute,
+    private profileService: ProfileService
+  ) {
     this.initializeUserType();
     this.initializeLoggedInUserDataFetch();
     this.loggedInUserType = this.loggedInUserDetails?.role;
     if (!this.loggedInUserType) {
       this._router.navigateByUrl('fiscal/login')
       // this.showLoader = false;
-    } else if (this.loggedInUserType != 'ULB') {
-      this._router.navigateByUrl('rankings/home')
+    }
+    else if (this.loggedInUserType != 'ULB') {
+      this.ulbId = this.activatedRoute.snapshot.params.ulbId;
+      if(!this.ulbId) {
+        this._router.navigateByUrl('rankings/home')
+      }
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
@@ -2083,7 +2089,7 @@ export class UlbFiscalComponent implements OnInit {
     }
     for (const key in this.revenueMob) {
       console.log('keyyyyyyyy', key);
-      if(!this.canShowFormSection(key)) continue;
+      if (!this.canShowFormSection(key)) continue;
       this.revenueMob[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
@@ -2111,20 +2117,20 @@ export class UlbFiscalComponent implements OnInit {
     for (const key in this.goverParaNdata) {
       const tabErrorIndex = 4;
 
-      if(key == 'normalData') {
-        if(!this.goverParaNdata[key].yearData.webUrlAnnual.value) {
+      if (key == 'normalData') {
+        if (!this.goverParaNdata[key].yearData.webUrlAnnual.value) {
           this.goverParaNdata[key].yearData.webUrlAnnual['error'] = true;
           if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
         } else {
           this.goverParaNdata[key].yearData.webUrlAnnual['error'] = false;
         }
-        if(!this.goverParaNdata[key].yearData.accountStwre.value) {
+        if (!this.goverParaNdata[key].yearData.accountStwre.value) {
           this.goverParaNdata[key].yearData.accountStwre['error'] = true;
           if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
         } else {
           this.goverParaNdata[key].yearData.accountStwre['error'] = false;
         }
-        if(!this.goverParaNdata[key].yearData.registerGis.value) {
+        if (!this.goverParaNdata[key].yearData.registerGis.value) {
           this.goverParaNdata[key].yearData.registerGis['error'] = true;
           if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
         } else {
@@ -2133,7 +2139,7 @@ export class UlbFiscalComponent implements OnInit {
       } else {
         this.goverParaNdata[key].yearData.forEach((el) => {
           if (Object.keys(el).length > 0) {
-            if(key == 'auditReprtDate') {
+            if (key == 'auditReprtDate') {
               if ((el?.date === '' || el?.date === null || el?.date === undefined)) {
                 el['error'] = true;
                 if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
@@ -2186,7 +2192,7 @@ export class UlbFiscalComponent implements OnInit {
     }
 
 
-    console.log({goverParaNdata: this.goverParaNdata});
+
     let totalObj = { ...this.revenueMob, ...this.expPerf, ...this.goverPar, ...this.uploadFyDoc }
     console.log('total obj', totalObj);
     this.checkFinalValidation(totalObj)
