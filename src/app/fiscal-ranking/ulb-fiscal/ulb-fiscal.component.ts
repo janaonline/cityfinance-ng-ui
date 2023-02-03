@@ -2103,6 +2103,43 @@ export class UlbFiscalComponent implements OnInit {
         }
       })
     }
+
+    for (const key in this.goverParaNdata) {
+      const tabErrorIndex = 3;
+
+      if(key == 'normalData') {
+        if(!this.goverParaNdata[key].yearData.webUrlAnnual.value) {
+          this.goverParaNdata[key].yearData.webUrlAnnual['error'] = true;
+          if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
+        } else {
+          this.goverParaNdata[key].yearData.webUrlAnnual['error'] = false;
+        }
+        if(!this.goverParaNdata[key].yearData.accountStwre.value) {
+          this.goverParaNdata[key].yearData.accountStwre['error'] = true;
+          if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
+        } else {
+          this.goverParaNdata[key].yearData.accountStwre['error'] = false;
+        }
+        if(!this.goverParaNdata[key].yearData.registerGis.value) {
+          this.goverParaNdata[key].yearData.registerGis['error'] = true;
+          if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
+        } else {
+          this.goverParaNdata[key].yearData.registerGis['error'] = false;
+        }
+      } else {
+        this.goverParaNdata[key].yearData.forEach((el) => {
+          if (Object.keys(el).length > 0) {
+            if (el?.date === '' || el?.date === null || el?.date === undefined) {
+              el['error'] = true;
+              if (this.errorPageIndex == null) this.errorPageIndex = tabErrorIndex;
+            } else {
+              el['error'] = false;
+            }
+          }
+        })
+        
+      }
+    }
     for (const key in this.goverPar) {
       this.goverPar[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
@@ -2139,38 +2176,8 @@ export class UlbFiscalComponent implements OnInit {
     if (this.fiscalForm.controls.contactInfo.status == 'INVALID') {
       if (this.errorPageIndex == null) this.errorPageIndex = 5;
     }
-    let normalGovData = [
-      {
-        "key": "webUrlAnnual",
-        "value": this.goverParaNdata.normalData.yearData.webUrlAnnual.value,
-        error: false
-      },
-      {
-        "key": "registerGis",
-        "value": this.goverParaNdata.normalData.yearData.registerGis.value,
-        error: false
-      },
-      {
-        "key": "accountStwre",
-        "value": this.goverParaNdata.normalData.yearData.accountStwre.value,
-        error: false
-      }
-    ];
-    normalGovData.forEach((el) => {
-      if ((el?.key == 'webUrlAnnual' || el?.key == 'digitalRegtr') && (el?.value == '' || el?.value == null)) {
-        el.error = true
-      } else if ((el?.key == 'registerGis' || el?.key == 'accountStwre') && (el?.value == '' || el?.value == null)) {
-        el.error = true
-      } else {
-        el.error = false;
-      }
-    })
-    normalGovData.forEach((el) => {
-      if (el?.error == true) {
-        this.formError = false;
-        return
-      }
-    })
+
+    console.log({goverParaNdata: this.goverParaNdata});
     let totalObj = { ...this.revenueMob, ...this.expPerf, ...this.goverPar, ...this.uploadFyDoc }
     console.log('total obj', totalObj);
     this.checkFinalValidation(totalObj)

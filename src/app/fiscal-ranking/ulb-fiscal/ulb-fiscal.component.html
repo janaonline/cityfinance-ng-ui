@@ -479,7 +479,7 @@
                                                             {{yearItem?.label}}*
                                                         </div>
                                                         <div class="col-sm-12 p-2">
-                                                            <div class="input-group border">
+                                                            <div class="input-group border" [ngClass]="{'border-danger': yearItem.error}">
                                                                 <div class="d-flex w-100 px-2">
                                                                     <input 
                                                                         matInput 
@@ -508,6 +508,7 @@
                                                     <input type="text"
                                                         [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value"
                                                         [ngModelOptions]="{standalone: true}"
+                                                        [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.webUrlAnnual.error}"
                                                         class="form-control com-style yrformCon"
                                                         id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}"
                                                         placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}"
@@ -523,7 +524,10 @@
                                                         <mat-radio-group aria-label="Select an option"
                                                             (click)="skipLogicRadio('registerGis', $event)"
                                                             [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value"
-                                                            [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.registerGis.error}"
+                                                            [ngClass]="{
+                                                                'ng-invalid': goverParaNdata.normalData.yearData.registerGis?.error,
+                                                                'ng-touched': goverParaNdata.normalData.yearData.registerGis?.error
+                                                            }"
                                                             [ngModelOptions]="{standalone: true}"
                                                             [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
@@ -541,6 +545,10 @@
                                                         <mat-radio-group aria-label="Select an option"
                                                             (click)="skipLogicRadio('accountStwre', $event)"
                                                             [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value"
+                                                            [ngClass]="{
+                                                                'ng-invalid': goverParaNdata.normalData.yearData.accountStwre?.error,
+                                                                'ng-touched': goverParaNdata.normalData.yearData.accountStwre?.error
+                                                            }"
                                                             [ngModelOptions]="{standalone: true}"
                                                             [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
