@@ -72,7 +72,7 @@ export class CityComponent implements OnInit {
           console.log(res, "dashboardTabData");
           this.dashboardTabData = res["data"];
           if(this.isUA == "No" || this.isUA == null || this.isUA == undefined){
-            this.dashboardTabData = this.dashboardTabData.filter(o => o.name != "MoU")
+            this.dashboardTabData = this.dashboardTabData.filter(o => o.name != "Infrastructure Projects")
           }
           this.setNameInFr();
         },

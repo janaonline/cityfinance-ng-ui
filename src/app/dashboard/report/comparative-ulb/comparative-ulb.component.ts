@@ -65,7 +65,7 @@ export class ComparativeUlbComponent implements OnInit {
   currenyConversionForm: FormGroup;
 
   currencyTypeInUser: ICurrencryConversion["type"];
-
+  isApiInProgress = false;
   constructor(
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -101,6 +101,7 @@ export class ComparativeUlbComponent implements OnInit {
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       console.log("reportCriteria==>", reportCriteria);
       this.initializeCurrencyConversion(reportCriteria);
+      this.isApiInProgress = false;
       this.initializeForm(reportCriteria);
       this._loaderService.showLoader();
       this.reportReq = reportCriteria;
@@ -110,12 +111,14 @@ export class ComparativeUlbComponent implements OnInit {
           : this.currencyConversionList[0].type;
       this.reportService.reportResponse.subscribe(
         (res) => {
+
           this._loaderService.stopLoader();
           if (res) {
             this.years = [];
             this.response = res;
 
             if (this.reportReq.reportGroup == "Balance Sheet") {
+
               this.report = this.reportHelper.getBSReportLookup();
             } else {
               this.report = this.reportHelper.getIEReportLookup();
@@ -137,12 +140,22 @@ export class ComparativeUlbComponent implements OnInit {
           }
           this._loaderService.stopLoader();
           this.isProcessed = true;
-
           this.setDataNotAvailable();
           this.changeDetector.detectChanges();
+         // console.log('om pppp22', this.isApiInProgress)
+          setTimeout(()=>{
+            this._loaderService.stopLoader();
+            this.isApiInProgress = true;
+            }, 3000)
+        },
+        (error)=> {
+          console.log(error);
+          this.isApiInProgress = true;
         },
         () => {
+         console.log('om pppp', this.isApiInProgress)
           this._loaderService.stopLoader();
+          this.isApiInProgress = true;
         }
       );
     });

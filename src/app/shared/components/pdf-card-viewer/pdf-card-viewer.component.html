@@ -1,6 +1,12 @@
 <div class="container-fluid">
-    <div class="row pb-4" *ngIf="cardData?.length > 0">
+    <div class="row pb-4 ms-4 me-4" *ngIf="cardData?.length > 0">
         <!-- <div *ngIf="cardData.length > 0"> -->
+        <div class="col-sm-12">
+            <div class="des">
+                <!-- {{cardData[0]?.description}} -->
+                {{tabDescription}}
+            </div>
+        </div>
         <div class="col-sm-12 col-md-4 col-lg-3 publishCard" *ngFor="let item of cardData" style="margin: 1rem 0">
             <div (click)="openFile(item?.url)" class="card-body">
                 <div style="position: relative">
