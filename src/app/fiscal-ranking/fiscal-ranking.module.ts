@@ -29,7 +29,6 @@ import { MdePopoverModule } from '@material-extended/mde';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { Shared2223Module } from '../shared2223/shared2223.module';
-import { DataTableComponent } from './data-table/data-table.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UlbFisPreviewComponent,
     DownloadPopupComponent,
     ReviewUlbTableComponent,
-    DataTableComponent
   ],
   imports: [
     CommonModule,
