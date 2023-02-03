@@ -1119,7 +1119,9 @@ export class UlbFiscalComponent implements OnInit {
       this.revenueMob = formObjKey?.revenueMob;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
       this.goverParaNdata.auditReprtDate.yearData = formObjKey?.goverPar?.auditReprtDate?.yearData?.map(year => ({
-        ...year, max: new Date(), min: new Date(+`20${year.key.split('-')[1]}`, 3, 1)
+        ...year,
+        max: new Date(),
+        min: new Date(+`20${year.key.split('-')[1]}`, 3, 1)
       }))
       this.fillDataInForm(res?.data);
       this.changeNumToWords();
@@ -2071,13 +2073,16 @@ export class UlbFiscalComponent implements OnInit {
   }
   checkValidation() {
     this.errorPageIndex = null;
+    if (this.fiscalForm.controls.basicUlbDetails.status == 'INVALID') {
+      if (this.errorPageIndex == null) this.errorPageIndex = 0;
+    }
     for (const key in this.revenueMob) {
       console.log('keyyyyyyyy', key);
       this.revenueMob[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if (!this.errorPageIndex) this.errorPageIndex = 1;
+            if (this.errorPageIndex == null) this.errorPageIndex = 1;
           } else {
             el['error'] = false
           }
@@ -2089,7 +2094,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if (!this.errorPageIndex) this.errorPageIndex = 2;
+            if (this.errorPageIndex == null) this.errorPageIndex = 2;
           } else {
             el['error'] = false
           }
@@ -2101,7 +2106,7 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
             el['error'] = true;
-            if (!this.errorPageIndex) this.errorPageIndex = 3;
+            if (this.errorPageIndex == null) this.errorPageIndex = 3;
           } else {
             el['error'] = false;
           }
@@ -2114,7 +2119,7 @@ export class UlbFiscalComponent implements OnInit {
               // if (el?.file?.url == '' || el?.file?.url == null) {
               if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
                 el['error'] = true;
-                if (!this.errorPageIndex) this.errorPageIndex = 4;
+                if (this.errorPageIndex == null) this.errorPageIndex = 4;
               } else {
                 el['error'] = false;
               }
@@ -2129,6 +2134,9 @@ export class UlbFiscalComponent implements OnInit {
       }
     }
 
+    if (this.fiscalForm.controls.contactInfo.status == 'INVALID') {
+      if (this.errorPageIndex == null) this.errorPageIndex = 5;
+    }
     let normalGovData = [
       {
         "key": "webUrlAnnual",
@@ -2203,6 +2211,8 @@ export class UlbFiscalComponent implements OnInit {
     this.updateValueInForm();
     this.checkValidation();
 
+    console.log(this.errorPageIndex, this.fiscalForm);
+
 
     if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
       swal('Error', "Please upload a signed copy of this form", 'error');
@@ -2248,6 +2258,7 @@ export class UlbFiscalComponent implements OnInit {
 
     } else {
       swal("Missing Data !", `${this.errorMsg}`, "error").then(() => {
+        console.log({ erroIndex: this.errorPageIndex });
         this.stepper.selectedIndex = this.errorPageIndex;
       });
     }
