@@ -13,7 +13,7 @@ import { GlobalLoaderService } from "../../shared/services/loaders/global-loader
   providedIn: "root",
 })
 export class ReportService {
-  
+
   public reportResponse: BehaviorSubject<
     | IDetailedReportResponse
     | IDetailedReportResponse["data"]
@@ -123,6 +123,7 @@ this._loaderService.showLoader()
     this.http
       .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
       .subscribe((res) => {
+
         if (res["success"]) {
           this._loaderService.stopLoader()
           if (res["data2"]) {

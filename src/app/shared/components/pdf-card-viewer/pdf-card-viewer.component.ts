@@ -14,6 +14,7 @@ export class PdfCardViewerComponent implements OnInit, OnChanges {
   // @Input() data:any;
   @Input() cityId:any;
   cardData = [];
+  @Input() tabDescription;
   ngOnInit(): void {
     console.log('dataaaaaaa',  this.cityId);
     this.getMoUData();

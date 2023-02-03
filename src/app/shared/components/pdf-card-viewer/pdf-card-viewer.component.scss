@@ -54,7 +54,7 @@
     justify-content: center;
 }
 
-.ng2-pdf-viewer-container[_ngcontent-efj-c276] {
+.ng2-pdf-viewer-container {
     overflow-x: auto;
     position: relative;
     height: 100%;
@@ -63,12 +63,12 @@
     margin-right: 0;
 }
 
-.pdfViewer[_nghost-hjj-c276] {
+.pdfViewer {
     margin-left: 0;
     margin-right: 0;
 }
 
-.removePageBorders[_nghost-hjj-c276] {
+.removePageBorders {
     margin-left: 0;
     margin-right: 0;
 }
@@ -86,4 +86,13 @@
     background-color: #f7f7f7;
     overflow-wrap: unset;
     justify-content: start;
+}
+
+.des {
+    font-size: 1rem;
+    //  padding-left: 2rem;
+}
+
+.pd-lf {
+    //  padding-left: 2rem;
 }
