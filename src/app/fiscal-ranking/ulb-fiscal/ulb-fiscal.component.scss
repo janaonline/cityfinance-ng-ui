@@ -222,12 +222,14 @@
 }
 
 .disable {
+
     input,
     .mat-radio-button,
     .mat-datepicker-toggle,
     .mat-form-field {
         pointer-events: none;
     }
+
     .form-control,
     .br-a {
         background-color: #ccc;
@@ -278,4 +280,7 @@
 // }
 .pe-none {
     pointer-events: none;
+}
+::ng-deep .mat-radio-group.ng-invalid.ng-touched {
+    border: 2px solid red;
 }

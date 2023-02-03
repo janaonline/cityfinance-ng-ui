@@ -2072,12 +2072,14 @@ export class UlbFiscalComponent implements OnInit {
     });
   }
   checkValidation() {
+    this.fiscalForm.markAllAsTouched();
     this.errorPageIndex = null;
     if (this.fiscalForm.controls.basicUlbDetails.status == 'INVALID') {
       if (this.errorPageIndex == null) this.errorPageIndex = 0;
     }
     for (const key in this.revenueMob) {
       console.log('keyyyyyyyy', key);
+      if(!this.canShowFormSection(key)) continue;
       this.revenueMob[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
           if (el?.amount === '' || el?.amount === null || el?.amount === undefined) {
@@ -2211,7 +2213,7 @@ export class UlbFiscalComponent implements OnInit {
     this.updateValueInForm();
     this.checkValidation();
 
-    console.log(this.errorPageIndex, this.fiscalForm);
+    console.log(this.errorPageIndex, this.revenueMob);
 
 
     if (this.postData.signedCopyOfFile.url == null || this.postData.signedCopyOfFile.url == '') {
