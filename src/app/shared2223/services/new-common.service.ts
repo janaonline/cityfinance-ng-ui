@@ -3,6 +3,13 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from "./../../../environments/environment";
 import { BehaviorSubject, Subject } from "rxjs";
+
+interface FrFormsParamsInterface {
+  year: string,
+  formId: string,
+  stateId: string
+}
+
 @Injectable({
   providedIn: "root",
 })
@@ -83,11 +90,15 @@ export class NewCommonService {
     return this.http.post(`${environment.api.url}utilization-report`, body);
   }
 
-  getReviewForms(params) {
-    return this.http.get(`${environment.api.url}review`, { params });
+  getReviewForms(params, endpoint="review") {
+    return this.http.get(`${environment.api.url}${endpoint}`, { params });
   }
   getFormList(params) {
     return this.http.get(`${environment.api.url}menulist`, { params });
+  }
+
+  getFrUlbs(params: FrFormsParamsInterface) {
+    return this.http.get(`${environment.api.url}fiscal-ranking/get-fr-ulbs`, { params: params as any });
   }
 
   getUtiData(ulbId) {

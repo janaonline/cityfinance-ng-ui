@@ -1,0 +1,175 @@
+<div class="container-fluid pd-c">
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-12 header2">
+            {{ title }}
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-4">
+            <label for="form" class="l-l">Select State:</label>
+            <select class="form-select ms-1" [(ngModel)]="state" (change)="loadData()"
+                *ngIf="userData?.role != 'STATE'">
+                <option selected value="" class="s-pl">All</option>
+                <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="col-sm-4 offset-sm-4 text-end">
+            <div class="col-12">
+                <select class="form-select ms-2 d-inline-block" [(ngModel)]="perPage" (change)="onPerPageChange()">
+                    <option class="s-pl" value="10">10</option>
+                    <option class="s-pl" value="25">25</option>
+                    <option class="s-pl" value="50">50</option>
+                    <option class="s-pl" value="all">All</option>
+                </select>
+
+                <!-- <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+                    (click)="openDialog('Approve')">Approve all</button>
+                <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+                    (click)="openDialog('Return')">Return all</button> -->
+                <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
+
+                <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
+                    *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
+                    <table class="table table-striped ulb-table">
+                        <thead>
+                            <tr style="background-color: #047474; color: #FFFFFF;">
+                                <th *ngFor="let item of showableColumns | keyvalue:keepOriginalOrder">
+                                    {{item.value}}
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr class="filter">
+                                <th class="filter"></th>
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="ulbName" class="form-control in-se-s"
+                                            (change)="loadData()" aria-label="Ulb name" placeholder="Ulb Name">
+                                        <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="stateName" class="form-control in-se-s"
+                                            style="width: 40%;" (change)="loadData()" aria-label="State Name"
+                                            placeholder="Ulb Code">
+                                        <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span>
+                                    </div>
+
+                                </th>
+                                <th class="filter">
+                                    <!-- <select class="form-select in-sel" formControlName="ulbType" (change)="loadData()">
+                                        <option selected value="">ULB Type</option>
+                                        <option *ngFor="let item of ulbTypesList" [value]="item">{{item}}</option>
+                                    </select> -->
+                                </th>
+                                <th class="filter">
+                                    <!-- <select class="form-select in-sel" formControlName="populationType" (change)="loadData()">
+                                        <option selected value="">Population Type</option>
+                                        <option *ngFor="let item of populationTypesList" [value]="item">{{item}}</option>
+                                    </select> -->
+                                </th>
+                                <th class="filter">
+                                    <div class="input-group">
+                                        <input type="text" formControlName="UA" class="form-control in-se-s"
+                                            (change)="loadData()" aria-label="UA name" placeholder="UA Name">
+                                    </div>
+                                </th>
+                                <th class="filter">
+                                    <!-- <select class="form-select in-sel" formControlName="status" (change)="loadData()">
+                                        <option selected value="">Status</option>
+                                        <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                                    </select> -->
+                                </th>
+                                <th class="filter">
+                                    <select class="form-select in-sel" style="width: 71px;" formControlName="filled1"
+                                        (change)="loadData()">
+                                        <option selected value="">Search</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </th>
+                                <th class="filter text-center">
+                                    <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
+                                </th>
+                                <th class="filter"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | paginate
+                            : {
+                              id: 'foo',
+                                itemsPerPage: tableDefaultOptions.itemPerPage,
+                                currentPage: tableDefaultOptions.currentPage,
+                                totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
+                              }; let tabelIndex=index">
+                                <td style="width: 1%;">{{isInfiniteScroll ? tabelIndex+1 :
+                                    (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                                    tabelIndex+1)}}</td>
+                                <td>{{item.ulbName}}</td>
+                                <td style="width: 11%;">{{item.censusCode || item.sbCode }}</td>
+                                <td>{{item.ulbType}}</td>
+                                <td>{{item.populationType}}</td>
+                                <td>{{item.UA}}</td>
+                                <td>{{item.formStatus}}</td>
+                                <td>{{item.filled ? item.filled : item.filled_audited }}</td>
+                                <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td>
+                                <td *ngIf="item.cantakeAction == false">
+                                    <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(item)"
+                                        routerLink="/rankings/ulb-form">
+                                        <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
+                                        </mat-icon>
+                                    </a>
+                                </td>
+                                <td class="btn-td" *ngIf="item.cantakeAction == true">
+                                    <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
+                                        [routerLink]="formRouterLink" (click)="viewUlbForm(item)">Take Action
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="form-check"
+                                        [matTooltip]="item?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                                        <mat-checkbox class=''
+                                            [ngClass]="{'checkboxBackground' : item?.cantakeAction == false}"
+                                            [disabled]="item?.cantakeAction == false"
+                                            (change)="selected_checkbox(item?.ulbId, item.isChecked)"
+                                            [(ngModel)]="item.isChecked" [ngModelOptions]="{standalone: true}">
+                                        </mat-checkbox>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
+                </div>
+
+                <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo"
+                    *ngIf="!isLoader && !(data?.length == 0) && !isInfiniteScroll" (pageChange)="loadData($event)"
+                    directionLinks="true" autoHide="false">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,6 +24,7 @@ export class UlbFisPreviewComponent implements OnInit {
     private fiscalService: FiscalRankingService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    console.log({ html: this._html});
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
       this.ulbId = this.userData?.ulb;
