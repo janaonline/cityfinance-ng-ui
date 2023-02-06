@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
@@ -91,6 +92,15 @@ export class Xvfc2223StateComponent implements OnInit, OnDestroy {
       this.leftMenu = res?.data;
       localStorage.setItem("leftStateMenuRes", JSON.stringify(res?.data));
     });
+  }
+
+  returnPostion = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
+    let val_1 : any = a;
+    let val_2 : any = b;
+    val_1 = (val_1.key.split('_'))[1];
+    val_2 = (val_2.key.split('_'))[1];
+    // return val_1.localeCompare(val_2);
+   return val_1 > val_2 ? 1 : (val_2 > val_1 ? -1 : 0);
   }
 
 }
