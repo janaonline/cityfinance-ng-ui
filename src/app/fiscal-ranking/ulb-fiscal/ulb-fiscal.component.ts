@@ -112,6 +112,8 @@ export class UlbFiscalComponent implements OnInit {
 
   value = 'APPROVED';
 
+  cantakeAction = false;
+
   stePreDataArray;
   formError = true;
   errorArr = [];
@@ -1010,6 +1012,9 @@ export class UlbFiscalComponent implements OnInit {
     }
     else if (this.loggedInUserType != 'ULB') {
       this.ulbId = this.activatedRoute.snapshot.params.ulbId;
+      if(this.activatedRoute.snapshot.queryParams.cantakeAction) {
+        this.cantakeAction = true;
+      }
       if(!this.ulbId) {
         this._router.navigateByUrl('rankings/home')
       }
