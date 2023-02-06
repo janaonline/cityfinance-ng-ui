@@ -49,14 +49,20 @@ export class CityComponent implements OnInit {
   doSomething(event) {
     this.cords = window.pageYOffset;
   }
+  isUA;
   ngOnInit(): void {
-    this.dashboardDataCall();
+    //this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
-    setTimeout(() => {
-      this.dashboardTabData.forEach((el) => {
-        el.ulbName = this.frontPanelData?.name;
-      });
-    }, 500);
+    // setTimeout(() => {
+    //   this.dashboardTabData.forEach((el) => {
+    //     el.ulbName = this.frontPanelData?.name;
+    //   });
+    // }, 500);
+  }
+  setNameInFr(){
+    this.dashboardTabData.forEach((el) => {
+      el.ulbName = this.frontPanelData?.name;
+    });
   }
   dashboardDataCall() {
     this.newDashboardService
@@ -64,8 +70,11 @@ export class CityComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res, "dashboardTabData");
-
           this.dashboardTabData = res["data"];
+          if(this.isUA == "No" || this.isUA == null || this.isUA == undefined){
+            this.dashboardTabData = this.dashboardTabData.filter(o => o.name != "Infrastructure Projects")
+          }
+          this.setNameInFr();
         },
         (error) => {
           console.log(error);
@@ -84,8 +93,9 @@ export class CityComponent implements OnInit {
   dashboardCalls(cityId) {
     this.newDashboardService.getLatestDataYear(cityId).subscribe(
       (res) => {
+
         this.currentYear = res["data"].financialYear;
-        this, this.callMoneyApi(cityId);
+         this.callMoneyApi(cityId);
         let tempData: any = this.frontPanelData.footer.split(" ");
         tempData = tempData.map((value) => {
           if (value == "finacialYear")
@@ -113,6 +123,8 @@ export class CityComponent implements OnInit {
       .dashboardInformation(true, cityId, "ulb", this.currentYear)
       .subscribe(
         (res: any) => {
+          this.isUA = res["data"]["isUA"];
+         this.dashboardDataCall();
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
               case "population":

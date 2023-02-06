@@ -183,8 +183,10 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   activeFilter = [];
   innerActiveTab: any = "";
   sticky = false;
+  tabDesc = ''
   // stateMap = json.parse(localStorage.getItem(stateIdsMap))
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
+
   changeTab(event, fromInner = false) {
     console.log('changeTab', event, fromInner)
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
@@ -223,7 +225,6 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
-
     if (changes.stateId) {
       this.stateId = changes?.stateId?.currentValue;
       this.getStateName();
@@ -239,6 +240,10 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     if (changes.scrollCords) {
       this.getStickyValue();
     }
+  //  console.log('tab data....', this.data)
+     let mouTabObj:any = this.data.filter(o => o.name == "Infrastructure Projects");
+     this.tabDesc = mouTabObj[0]?.description
+   //   console.log('this.tabDesc', this.tabDesc);
 
     // console.log("stickyValue==>", this.sticky);
   }

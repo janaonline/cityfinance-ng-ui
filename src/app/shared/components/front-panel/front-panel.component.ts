@@ -185,11 +185,21 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
-    let obj = {
-      financialYear: this.yearVal,
-      stateId: stateId ? stateId : this.data.stateId,
-      from:"slb"
-    };
+    let obj;
+    if(this.componentName == 'stateDB'){
+      obj = {
+        financialYear: this.yearVal,
+        stateId: stateId ? stateId : this.data.stateId,
+       // from:"slb"
+      };
+    }else {
+      obj = {
+        financialYear: this.yearVal,
+        stateId: stateId ? stateId : this.data.stateId,
+        from:"slb"
+      };
+    }
+
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
         // this._loaderService.stopLoader();

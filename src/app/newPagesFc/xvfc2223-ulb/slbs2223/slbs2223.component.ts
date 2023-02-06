@@ -27,6 +27,7 @@ import {
   score
 } from "src/app/users/data-upload/components/configs/slb2223";
 import { Slbs2223PreviewComponent } from "./slbs2223-preview/slbs2223-preview.component";
+import { NewDashboardService } from "src/app/pages/new-dashbords/new-dashboard.service";
 @Component({
   selector: 'app-slbs2223',
   templateUrl: './slbs2223.component.html',
@@ -53,45 +54,6 @@ export class Slbs2223Component implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
-
-  constructor(
-    private _matDialog: MatDialog,
-    private commonService: CommonService,
-    private _router: Router,
-    private modalService: BsModalService,
-    public _ulbformService: UlbformService
-  ) {
-    console.log('printing waterWasteManagementForm------->', waterWasteManagementForm)
-
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
-    this.loggedInUserType = this.loggedInUserDetails.role;
-    this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.ulbId = this.userData?.ulb;
-    if (!this.ulbId) {
-      this.ulbId = localStorage.getItem("ulb_id");
-    }
-  }
-  protected readonly formBuilder = new FormBuilder();
-  async ngOnInit(): Promise<void> {
-    this.isMillionPlusOrNot()
-    this.setPreviousAndNextUrl();
-    await this.getSlbData();
-    this.createDataForms(this.preFilledWaterManagement)
-  }
-  dialogRef
-
-  setPreviousAndNextUrl() {
-    for (const key in this.sideMenuItem) {
-      console.log(`${key}: ${this.sideMenuItem[key]}`);
-      this.sideMenuItem[key].forEach(element => {
-        console.log('name name', element);
-        if (element?.name == 'SLBs for Water Supply and Sanitation') {
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-    }
-  }
   isCompleted;
   previewData;
   preFilledWaterManagement;
@@ -108,6 +70,49 @@ export class Slbs2223Component implements OnInit {
   isUA;
   isPreviousData = false;
   isPreviousMsg;
+  mouFileName = '';
+  mouFileUrl = '';
+  dialogRef;
+  constructor(
+    private _matDialog: MatDialog,
+    private commonService: CommonService,
+    private _router: Router,
+    private modalService: BsModalService,
+    public _ulbformService: UlbformService,
+    public newDashboardService: NewDashboardService,
+  ) {
+    console.log('printing waterWasteManagementForm------->', waterWasteManagementForm)
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
+  }
+  protected readonly formBuilder = new FormBuilder();
+  async ngOnInit(): Promise<void> {
+    this.isMillionPlusOrNot()
+    this.setPreviousAndNextUrl();
+    this.getMoUData();
+    await this.getSlbData();
+    this.createDataForms(this.preFilledWaterManagement);
+
+  }
+
+  setPreviousAndNextUrl() {
+    for (const key in this.sideMenuItem) {
+      console.log(`${key}: ${this.sideMenuItem[key]}`);
+      this.sideMenuItem[key].forEach(element => {
+        console.log('name name', element);
+        if (element?.name == 'SLBs for Water Supply and Sanitation') {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
+  }
+
   getSlbData() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     return new Promise((resolve, reject) => {
@@ -167,6 +172,7 @@ export class Slbs2223Component implements OnInit {
             this.isPreviousData;
            this.isPreviousMsg = ''
           }
+          resolve(error);
         }
       );
     });
@@ -730,5 +736,17 @@ export class Slbs2223Component implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => { });
+  }
+  getMoUData(){
+    this.newDashboardService.getMoUData(this.ulbId).subscribe(
+      (res:any) => {
+
+        this.mouFileUrl = res?.fileUrls[0]?.url;
+        this.mouFileName = res?.fileUrls[0]?.name;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }
