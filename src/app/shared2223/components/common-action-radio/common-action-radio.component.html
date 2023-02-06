@@ -1,0 +1,15 @@
+<div>
+    <input value="APPROVED" (click)="setType('APPROVED')"
+    [checked]="status === 'APPROVED'" type="radio" class="btn-check" name="radio" id="APPROVED" autocomplete="off">
+    <label class="btn btn-outline-primary mr-1" for="APPROVED">
+        <i class="fa fa-lg text-success" [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o'" aria-hidden="true"></i>
+    </label>
+
+    <input value="REJECT" (click)="setType('REJECT')"
+    [checked]="status === 'REJECT'" type="radio" class="btn-check" name="radio" id="REJECT" autocomplete="off">
+    <label class="btn btn-outline-primary" for="REJECT">
+        <i class="fa fa-lg text-warning" [ngClass]="status === 'REJECT' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
+    </label>
+
+    value: {{ status | json }}
+</div>

@@ -124,7 +124,7 @@
                                 <td>{{item.filled ? item.filled : item.filled_audited }}</td>
                                 <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td>
                                 <td *ngIf="item.cantakeAction == false">
-                                    <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(item)"
+                                    <a [ngClass]='{"notClick" : actBtn}'
                                         [routerLink]="['/rankings/ulb-form', item.ulbId]">
                                         <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
                                         </mat-icon>
@@ -132,7 +132,7 @@
                                 </td>
                                 <td class="btn-td" *ngIf="item.cantakeAction == true">
                                     <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
-                                    [routerLink]="['/rankings/ulb-form', item.ulbId]"  [queryParams]="{cantakeAction: true}" (click)="viewUlbForm(item)">Take Action
+                                    [routerLink]="['/rankings/ulb-form', item.ulbId]"  [queryParams]="{cantakeAction: true}">Take Action
                                     </a>
                                 </td>
                                 <td>

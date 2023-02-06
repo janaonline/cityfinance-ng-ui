@@ -109,6 +109,9 @@ export class UlbFiscalComponent implements OnInit {
   isPopAvlFr = false;
   fileUpLoader = false;
   fyDataArr = [];
+
+  value = 'APPROVED';
+
   stePreDataArray;
   formError = true;
   errorArr = [];
