@@ -1043,10 +1043,10 @@ export class UlbFiscalComponent implements OnInit {
         populationFr: [''],
         webLink: [''],
         nameCmsnr: ['', Validators.required],
-        waterSupply: ['No', Validators.required],
-        sanitationService: ['No', Validators.required],
-        propertyWaterTax: ['No', Validators.required],
-        propertySanitationTax: ['No', Validators.required],
+        waterSupply: ['', Validators.required],
+        sanitationService: ['', Validators.required],
+        propertyWaterTax: ['', Validators.required],
+        propertySanitationTax: ['', Validators.required],
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
@@ -2425,8 +2425,8 @@ export class UlbFiscalComponent implements OnInit {
     this.stay();
   }
   canShowFormSection(formKey: string, year?: string) {
-    if (formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value == 'No') return false;
-    if (formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value == 'No') return false;
+    if (formKey === 'totalRcptWaterSupply' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.value != 'Yes') return false;
+    if (formKey === 'totalRcptSanitation' && this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.value != 'Yes') return false;
 
     return true;
   }
