@@ -5,7 +5,7 @@
             City Finance Rankings 2022
         </div>
     </div>
-    <button *ngIf="cantakeAction" (click)="action()">Action</button> 
+    <button *ngIf="cantakeAction" (click)="action()">Action</button>
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
             <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
@@ -290,9 +290,11 @@
                                                                             item?.value?.yearData[r_i - 1].label
                                                                             }}</span>
                                                                 </div>
-                                                                <app-common-action-radio *ngIf="cantakeAction && yearItem.status"
+                                                                <app-common-action-radio
+                                                                    *ngIf="cantakeAction && yearItem.status"
                                                                     [(status)]="yearItem.status"
-                                                                    [ngModelOptions]="{standalone: true}" ></app-common-action-radio>
+                                                                    [ngModelOptions]="{standalone: true}">
+                                                                </app-common-action-radio>
                                                             </div>
 
 
@@ -366,9 +368,11 @@
                                                                         - 1].label }}</span>
                                                             </div>
                                                         </div>
-                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status"
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && yearItem.status"
                                                             [(status)]="yearItem.status"
-                                                            [ngModelOptions]="{standalone: true}" ></app-common-action-radio>
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
 
                                                     </div>
                                                     <!-- <div class="col-sm-3"></div>
@@ -469,6 +473,11 @@
                                                                 {{yearItem?.bottomText}}
                                                             </div>
                                                         </div>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && yearItem.status"
+                                                            [(status)]="yearItem.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                 </div>
                                             </div>
@@ -516,6 +525,12 @@
                                                         </div>
                                                         <small *ngIf="yearItem.error" class="text-danger">Please select
                                                             a date</small>
+
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && yearItem.status"
+                                                            [(status)]="yearItem.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                 </div>
                                             </div>
@@ -533,6 +548,10 @@
                                                         placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}"
                                                         (keydown)="changeDecInForm()" [disabled]="isDisabled">
                                                 </div>
+                                                <app-common-action-radio
+                                                    *ngIf="cantakeAction && goverParaNdata.normalData.yearData.webUrlAnnual.status"
+                                                    [(status)]="goverParaNdata.normalData.yearData.webUrlAnnual.status"
+                                                    [ngModelOptions]="{standalone: true}"></app-common-action-radio>
                                             </div>
                                             <div class="">
                                                 <div class="row mb-3">
@@ -553,6 +572,10 @@
                                                             </mat-radio-button>
                                                         </mat-radio-group>
                                                     </div>
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && goverParaNdata.normalData.yearData.registerGis.status"
+                                                        [(status)]="goverParaNdata.normalData.yearData.registerGis.status"
+                                                        [ngModelOptions]="{standalone: true}"></app-common-action-radio>
 
                                                 </div>
                                                 <div class="row">
@@ -573,6 +596,10 @@
                                                             </mat-radio-button>
                                                         </mat-radio-group>
                                                     </div>
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && goverParaNdata.normalData.yearData.accountStwre.status"
+                                                        [(status)]="goverParaNdata.normalData.yearData.accountStwre.status"
+                                                        [ngModelOptions]="{standalone: true}"></app-common-action-radio>
 
                                                 </div>
 
@@ -628,6 +655,11 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && yearItem.status"
+                                                            [(status)]="yearItem.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                 </div>
                                             </div>

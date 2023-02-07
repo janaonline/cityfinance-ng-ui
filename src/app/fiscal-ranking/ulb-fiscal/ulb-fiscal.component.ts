@@ -112,8 +112,6 @@ export class UlbFiscalComponent implements OnInit {
   fileUpLoader = false;
   fyDataArr = [];
 
-  value = 'APPROVED';
-
   cantakeAction = false;
 
   stePreDataArray;
@@ -886,7 +884,7 @@ export class UlbFiscalComponent implements OnInit {
           bottomText: ``,
           placeHolder: '',
           input: 'text',
-
+          status: 'PENDING'
         },
         registerGis: {
           label: 'Is the property tax register GIS-based?',
@@ -901,7 +899,7 @@ export class UlbFiscalComponent implements OnInit {
           placeHolder: '',
           input: 'radio',
           show: false,
-
+          status: 'PENDING'
         },
         accountStwre: {
           label: 'Do you use accounting software?',
@@ -916,6 +914,7 @@ export class UlbFiscalComponent implements OnInit {
           placeHolder: '',
           input: 'radio',
           show: false,
+          status: 'PENDING'
         },
       }
     },
