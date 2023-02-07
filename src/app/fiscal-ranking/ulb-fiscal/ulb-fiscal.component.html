@@ -5,6 +5,7 @@
             City Finance Rankings 2022
         </div>
     </div>
+    <button *ngIf="cantakeAction" (click)="action()">Action</button> 
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
             <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
@@ -265,7 +266,8 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
+                                                                <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                    enter valid value</small>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
                                                                     {{yearItem?.bottomText}}
@@ -288,10 +290,9 @@
                                                                             item?.value?.yearData[r_i - 1].label
                                                                             }}</span>
                                                                 </div>
-
-                                                                <app-common-action-radio *ngIf="cantakeAction" [(status)]="value"
-                                                                    [ngModelOptions]="{standalone: true}">
-                                                                </app-common-action-radio>
+                                                                <app-common-action-radio *ngIf="cantakeAction && yearItem.status"
+                                                                    [(status)]="yearItem.status"
+                                                                    [ngModelOptions]="{standalone: true}" ></app-common-action-radio>
                                                             </div>
 
 
@@ -341,7 +342,8 @@
                                                                     (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)"
                                                                     #inputText4>
                                                             </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                enter valid value</small>
                                                             <div class="col-sm-12 bot-text mt-2"
                                                                 *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
                                                                 {{yearItem?.bottomText}}
@@ -364,10 +366,9 @@
                                                                         - 1].label }}</span>
                                                             </div>
                                                         </div>
-
-                                                        <app-common-action-radio *ngIf="cantakeAction" [(status)]="value"
-                                                            [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
+                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status"
+                                                            [(status)]="yearItem.status"
+                                                            [ngModelOptions]="{standalone: true}" ></app-common-action-radio>
 
                                                     </div>
                                                     <!-- <div class="col-sm-3"></div>
@@ -441,7 +442,8 @@
                                                                     type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please upload a file</small>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                upload a file</small>
                                                             <div class="col-sm-12 text-center w-70">
                                                                 <app-loader [fileUpLoader]="yearItem?.fileProcess">
                                                                 </app-loader>
@@ -512,7 +514,8 @@
                                                             </div>
 
                                                         </div>
-                                                        <small *ngIf="yearItem.error" class="text-danger">Please select a date</small>
+                                                        <small *ngIf="yearItem.error" class="text-danger">Please select
+                                                            a date</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -606,7 +609,8 @@
                                                                     (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)"
                                                                     #inputText5>
                                                             </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                enter valid value</small>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
                                                                 <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
                                                                  [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">

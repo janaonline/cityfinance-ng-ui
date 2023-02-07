@@ -28,6 +28,8 @@ export class UlbFiscalComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
 
+  approvalPayload  = {}; // TODO: remove it's temorary
+
   abs = Math.abs;
   errorPageIndex: number;
   isLoader = false;
@@ -2218,7 +2220,14 @@ export class UlbFiscalComponent implements OnInit {
       }
     }
   }
+  action() {
+    console.log({
+      revenueMob: this.revenueMob,
+      expPerf: this.expPerf
+    })
+  }
   finalSubmit() {
+    console.log(this.postData);
     console.log({ Ndata: this.goverParaNdata });
     if (this.fiscalForm.status != "INVALID" && this.formError) {
       console.log('post body', this.postData);
