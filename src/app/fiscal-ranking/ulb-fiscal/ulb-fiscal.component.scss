@@ -59,6 +59,9 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
+    &:disabled {
+        pointer-events: none;
+    }
 }
 
 .form-ic {
@@ -284,3 +287,15 @@
 ::ng-deep .mat-radio-group.ng-invalid.ng-touched {
     border: 2px solid red;
 }
+
+
+::ng-deep {
+     .mat-radio-group, .mat-form-field {
+        &.ng-invalid.ng-touched {
+            &:after {
+                content: 'Please fill a valid value';
+                color: red;
+            }
+        }
+    }
+} 

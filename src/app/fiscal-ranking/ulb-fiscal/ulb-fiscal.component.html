@@ -265,6 +265,7 @@
                                                                     </div>
 
                                                                 </div>
+                                                                <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
                                                                     {{yearItem?.bottomText}}
@@ -280,10 +281,17 @@
                                                                     <span class="f-w"
                                                                         [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
                                                                         {{ abs(getPercentIncrement(yearItem,
-                                                                        item?.value?.yearData[r_i - 1])) }}% {{ getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'lesser' : 'greater'}} then
-                                                                        {{ item?.value?.yearData[r_i - 1].label
-                                                                        }}</span>
+                                                                        item?.value?.yearData[r_i - 1])) }}% {{
+                                                                        getPercentIncrement(yearItem,
+                                                                        item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
+                                                                            : 'greater' }} than {{
+                                                                            item?.value?.yearData[r_i - 1].label
+                                                                            }}</span>
                                                                 </div>
+
+                                                                <app-common-action-radio *ngIf="cantakeAction" [(status)]="value"
+                                                                    [ngModelOptions]="{standalone: true}">
+                                                                </app-common-action-radio>
                                                             </div>
 
 
@@ -333,6 +341,7 @@
                                                                     (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)"
                                                                     #inputText4>
                                                             </div>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
                                                             <div class="col-sm-12 bot-text mt-2"
                                                                 *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
                                                                 {{yearItem?.bottomText}}
@@ -348,11 +357,17 @@
                                                                 <span class="f-w"
                                                                     [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
                                                                     {{ abs(getPercentIncrement(yearItem,
-                                                                    item?.value?.yearData[r_i - 1])) }}% {{ getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'lesser' : 'greater'}} then
-                                                                    {{ item?.value?.yearData[r_i - 1].label }}</span>
+                                                                    item?.value?.yearData[r_i - 1])) }}% {{
+                                                                    getPercentIncrement(yearItem,
+                                                                    item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
+                                                                        : 'greater' }} than {{ item?.value?.yearData[r_i
+                                                                        - 1].label }}</span>
                                                             </div>
                                                         </div>
 
+                                                        <app-common-action-radio *ngIf="cantakeAction" [(status)]="value"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
 
                                                     </div>
                                                     <!-- <div class="col-sm-3"></div>
@@ -426,6 +441,7 @@
                                                                     type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please upload a file</small>
                                                             <div class="col-sm-12 text-center w-70">
                                                                 <app-loader [fileUpLoader]="yearItem?.fileProcess">
                                                                 </app-loader>
@@ -474,29 +490,29 @@
                                             <div class="row">
                                                 <div class="col-sm-4 com-style"
                                                     *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">
-                                                    <div class="row" *ngIf="yearItem?.key" >
+                                                    <div class="row" *ngIf="yearItem?.key">
                                                         <div class="col-sm-12">
                                                             {{yearItem?.label}}*
                                                         </div>
                                                         <div class="col-sm-12 p-2">
-                                                            <div class="input-group border" [ngClass]="{'border-danger': yearItem.error}">
+                                                            <div class="input-group border"
+                                                                [ngClass]="{'border-danger': yearItem.error}">
                                                                 <div class="d-flex w-100 px-2">
-                                                                    <input 
-                                                                        matInput 
-                                                                        [(ngModel)]="yearItem.date" 
-                                                                        [min]="yearItem.min" 
-                                                                        [max]="yearItem.max" 
-                                                                        [matDatepicker]="r_i" 
+                                                                    <input matInput [(ngModel)]="yearItem.date"
+                                                                        [min]="yearItem.min" [max]="yearItem.max"
+                                                                        [matDatepicker]="r_i"
                                                                         [disabled]="yearItem?.readonly"
-                                                                        placeholder="Choose a date" 
-                                                                        [attr.id]="  + r_i" 
-                                                                    />
-                                                                    <mat-datepicker-toggle  matSuffix [disabled]="yearItem?.readonly" [for]="r_i"></mat-datepicker-toggle>
+                                                                        placeholder="Choose a date"
+                                                                        [attr.id]="  + r_i" />
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [disabled]="yearItem?.readonly" [for]="r_i">
+                                                                    </mat-datepicker-toggle>
                                                                 </div>
                                                                 <mat-datepicker #r_i></mat-datepicker>
                                                             </div>
 
                                                         </div>
+                                                        <small *ngIf="yearItem.error" class="text-danger">Please select a date</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -518,7 +534,7 @@
                                             <div class="">
                                                 <div class="row mb-3">
                                                     <div class="col-sm-7">
-                                                        {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}
+                                                        {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}*
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <mat-radio-group aria-label="Select an option"
@@ -527,8 +543,7 @@
                                                             [ngClass]="{
                                                                 'ng-invalid': goverParaNdata.normalData.yearData.registerGis?.error,
                                                                 'ng-touched': goverParaNdata.normalData.yearData.registerGis?.error
-                                                            }"
-                                                            [ngModelOptions]="{standalone: true}"
+                                                            }" [ngModelOptions]="{standalone: true}"
                                                             [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                             <mat-radio-button value="No" class="ms-3">No
@@ -539,7 +554,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-7">
-                                                        {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}
+                                                        {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}*
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <mat-radio-group aria-label="Select an option"
@@ -548,8 +563,7 @@
                                                             [ngClass]="{
                                                                 'ng-invalid': goverParaNdata.normalData.yearData.accountStwre?.error,
                                                                 'ng-touched': goverParaNdata.normalData.yearData.accountStwre?.error
-                                                            }"
-                                                            [ngModelOptions]="{standalone: true}"
+                                                            }" [ngModelOptions]="{standalone: true}"
                                                             [disabled]="isDisabled">
                                                             <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                             <mat-radio-button value="No" class="ms-3">No
@@ -576,7 +590,7 @@
                                                     <div class="col-sm-3 com-style"
                                                         *ngFor="let yearItem of item?.value?.yearData; let r_i = index">
                                                         <div class="row">
-                                                            <div class="col-sm-12 l-h">
+                                                            <div class="col-sm-12">
                                                                 {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
@@ -592,6 +606,7 @@
                                                                     (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)"
                                                                     #inputText5>
                                                             </div>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please enter valid value</small>
                                                             <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
                                                                 <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
                                                                  [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">

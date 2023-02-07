@@ -27,8 +27,6 @@ export class ReviewUlbTableComponent implements OnInit {
   isLoader: boolean = false;
   max = Math.max;
 
-
-
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
