@@ -12,6 +12,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   customEmailValidator,
   mobileNoValidator,
+  validateOnlyText
 } from "src/app/util/reactiveFormValidators";
 import { UserUtility } from 'src/app/util/user/user';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
@@ -49,7 +50,9 @@ export class UlbFiscalComponent implements OnInit {
       key: 'basicDet',
       id: 's1',
       icon: '',
-      text: ''
+      text: '',
+      comments: '',
+      status: '' // APPROVE | REJECT
     },
     {
       label: `Contact Information`,
@@ -1043,7 +1046,7 @@ export class UlbFiscalComponent implements OnInit {
         population11: ['', Validators.required],
         populationFr: [''],
         webLink: [''],
-        nameCmsnr: ['', Validators.required],
+        nameCmsnr: ['', [Validators.required, validateOnlyText]],
         waterSupply: ['', Validators.required],
         sanitationService: ['', Validators.required],
         propertyWaterTax: ['', Validators.required],
@@ -1122,6 +1125,10 @@ export class UlbFiscalComponent implements OnInit {
       status: [""],
       rejectReason: '',
 
+    });
+    this.fiscalForm.controls.basicUlbDetails.controls.nameCmsnr.valueChanges.subscribe(value => {
+      const nameCmsnr = value.charAt(0).toUpperCase() + value.slice(1);
+      this.fiscalForm.controls.basicUlbDetails.patchValue({ nameCmsnr }, {emitEvent: false})
     });
   }
   onLoad() {
@@ -2439,3 +2446,26 @@ export class UlbFiscalComponent implements OnInit {
     return true;
   }
 }
+
+
+// hona chahiye
+
+const data = [
+  {
+    label: "afljds",
+    status: '', 
+    comment: '',
+    subtab: [
+      {
+        label: 'label',
+        yearData: [
+          {
+            label: '2022-23',
+            value: '',
+            min: ''
+          }
+        ]
+      }
+    ]
+  }
+]
