@@ -59,6 +59,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
+
     &:disabled {
         pointer-events: none;
     }
@@ -277,10 +278,15 @@
     display: inline-block;
 }
 
-// ::ng-deep .mat-input-element:disabled,
-// .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
-//     color: #000;
-// }
+::ng-deep .mat-input-element:disabled {
+    color: #000;
+}
+::ng-deep .mat-form-field-disabled {
+    .mat-form-field-outline {
+        background-color: #ccc;
+    }
+}
+
 .pe-none {
     pointer-events: none;
 }
