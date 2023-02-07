@@ -11,6 +11,9 @@ export class Gtc2223Component implements OnInit {
   constructor(private stateService: State2223Service, private _router: Router) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateId = this.userData?.state;
+    if(!this.stateId){
+      this.stateId = sessionStorage.getItem("state_id");
+    }
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
   }
   userData;
@@ -44,7 +47,7 @@ export class Gtc2223Component implements OnInit {
       (res: any) => {
         console.log("res", res?.data?.length);
         if(res?.data?.length == 0){
-          this.noDataFound = true
+          this.noDataFound = true;
         }
         this.cardData = res?.data;
         res?.data.forEach((el) => {
@@ -87,6 +90,7 @@ export class Gtc2223Component implements OnInit {
       },
       (error) => {
         console.log("err", error);
+        this.noDataFound = true;
       }
     );
   }
