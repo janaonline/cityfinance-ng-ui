@@ -48,11 +48,11 @@
           </div>
         </div>
         <!-- city-dropdown inp-grp -->
-        <div *ngIf="selected_state != 'India'" class="col-md-6 col-sm-12">
+        <div *ngIf="selected_state != 'India'" class="col-md-6 col-sm-12 m-m">
           <input
             type="text"
             (keyup)="callAPI($event)"
-            class="form-select"
+            class="form-select matInputCstm"
             style="background-image: none"
             placeholder="Search for ULBs"
             matInput
