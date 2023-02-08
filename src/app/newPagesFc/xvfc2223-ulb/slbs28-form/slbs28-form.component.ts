@@ -50,6 +50,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   formData = {};
   isDisabled = false;
   previewData;
+  isApiInProgress = true;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -331,6 +332,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   preSLBDataNotFilled;
   isloadingComplte = false;
   onLoad() {
+    this.isApiInProgress = true;
     sessionStorage.setItem("changeIn28SLB", "false");
     this.newCommonService.get28SlbsData(this.ulbId).subscribe(
       (res: any) => {
@@ -375,12 +377,15 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       }
       Object.assign(this.formData, this.slbData["data"]);
       this.checkActionDisable(res?.data);
+
       console.log("After processing Range -", this.formData);
      }
+     this.isApiInProgress = false;
     },
     (error) => {
       console.log('error', error);
       this.isloadingComplte = false;
+      this.isApiInProgress = false;
       // swal('Error', "Network issues, please try after some times.", "error");
       swal(
         "Error !",
