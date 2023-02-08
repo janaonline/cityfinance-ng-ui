@@ -100,3 +100,9 @@
 .up-t {
     font-size: 12px;
 }
+
+@media (min-width: 992px) {
+    .publishCard {
+        width: 28%;
+    }
+}
