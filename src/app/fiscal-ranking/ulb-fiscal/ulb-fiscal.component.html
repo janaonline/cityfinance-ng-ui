@@ -95,10 +95,10 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-8">
                                                             Does the ULB handle water supply services?*
                                                         </div>
-                                                        <div class="col-sm-5">
+                                                        <div class="col-sm-4">
                                                             <mat-radio-group aria-label="Select an option"
                                                                 (click)="skipLogicRadio('waterSupply', $event.target.value)"
                                                                 formControlName="waterSupply">
@@ -109,10 +109,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-8">
                                                             Does the ULB handle sanitation service delivery?*
                                                         </div>
-                                                        <div class="col-sm-5">
+                                                        <div class="col-sm-4">
                                                             <mat-radio-group aria-label="Select an option"
                                                                 (click)="skipLogicRadio('sanitationService', $event.target.value)"
                                                                 formControlName="sanitationService">
@@ -123,10 +123,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-8">
                                                             Does your Property Tax include Water Tax?*
                                                         </div>
-                                                        <div class="col-sm-5">
+                                                        <div class="col-sm-4">
                                                             <mat-radio-group aria-label="Select an option"
                                                                 (click)="skipLogicRadio('propertyWaterTax', $event.target.value)"
                                                                 formControlName="propertyWaterTax">
@@ -137,10 +137,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-8">
                                                             Does your Property Tax include Sanitation/Sewerage Tax?*
                                                         </div>
-                                                        <div class="col-sm-5">
+                                                        <div class="col-sm-4">
                                                             <mat-radio-group aria-label="Select an option"
                                                                 (click)="skipLogicRadio('propertySanitationTax', $event.target.value)"
                                                                 formControlName="propertySanitationTax">
@@ -544,6 +544,7 @@
                                                         [ngModelOptions]="{standalone: true}"
                                                         [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.webUrlAnnual.error}"
                                                         class="form-control com-style yrformCon"
+                                                        (keyup)="setWebUrlAnnualError()"
                                                         id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}"
                                                         placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}"
                                                         (keydown)="changeDecInForm()" [disabled]="isDisabled">
