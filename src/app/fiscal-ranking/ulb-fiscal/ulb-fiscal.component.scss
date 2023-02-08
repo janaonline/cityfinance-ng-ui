@@ -302,7 +302,6 @@
 }
 ::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style{
     color: #727272 !important;
-    // opacity: 1;
 }
 
 
@@ -315,13 +314,4 @@
             }
         }
     }
-
-    // .mat-radio-group {
-    //     &.ng-invalid.ng-touched {
-    //         &:has(div)::after {
-    //             content: 'Please fill a valid value';
-    //             color: red;
-    //         }
-    //     }
-    // }
 }
