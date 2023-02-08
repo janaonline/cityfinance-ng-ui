@@ -2448,24 +2448,22 @@ export class UlbFiscalComponent implements OnInit {
 }
 
 
-// hona chahiye
-
-const data = [
-  {
-    label: "afljds",
-    status: '', 
-    comment: '',
-    subtab: [
-      {
-        label: 'label',
-        yearData: [
-          {
-            label: '2022-23',
-            value: '',
-            min: ''
-          }
-        ]
-      }
-    ]
-  }
-]
+// const data = [
+//   {
+//     label: "afljds",
+//     status: '', 
+//     comment: '',
+//     subtab: [
+//       {
+//         label: 'label',
+//         yearData: [
+//           {
+//             label: '2022-23',
+//             value: '',
+//             min: ''
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ]
