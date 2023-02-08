@@ -1,19 +1,17 @@
 <div class="" *ngIf="isProcessed && reportKeys.length == 0"></div>
 <div class="" *ngIf="isProcessed && reportKeys.length > 0">
-  <div
-    style="
+    <div style="
       background: rgb(247, 247, 247);
       color: black;
       display: block;
       padding: 1%;
       max-width: 100%;
       position: relative;
-    "
-  >
-    <!-- <img class="align-center" src="/assets/images/cityfinance-logo.png" /> -->
-    <br />
+    ">
+        <!-- <img class="align-center" src="/assets/images/cityfinance-logo.png" /> -->
+        <br />
 
-    <!-- <form
+        <!-- <form
       [ngClass]="{ 'disable-form': reportReq.valueType === 'per_capita' }"
       [formGroup]="currenyConversionForm"
       style="
@@ -36,100 +34,73 @@
       >
       </angular2-multiselect>
     </form> -->
-    <h3 class="text-center">
-      {{ reportReq.type }} {{ reportReq.reportGroup }}
-      <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
-    </h3>
-  </div>
-  <div
-    class="col-md-12"
-    style="
+        <h3 class="text-center">
+            {{ reportReq.type }} {{ reportReq.reportGroup }}
+            <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
+        </h3>
+    </div>
+    <div class="col-md-12" style="
       max-width: 100%;
       overflow: auto;
       padding: 0px;
       border-right: 1px solid #e2e2e2;
-    "
-  >
-    <table class="table-bordered">
-      <thead>
-        <tr></tr>
+    ">
+        <table class="table-bordered">
+            <thead>
+                <tr></tr>
 
-        <!-- Years -->
-        <tr *ngIf="reportReq.years.length > 0">
-          <th
-            class="text-center yearssss"
-            colspan="2"
-            style="position: sticky; left: 0px; width: 30vw; background: white"
-          >
-            Year(s)
-          </th>
-          <th
-            style="background: white"
-            class="text-center yyy"
-            [attr.colspan]="headerGroup.yearColspan"
-            *ngFor="let yr of reportReq.years"
-          >
-            {{ yr }}
-          </th>
-        </tr>
+                <!-- Years -->
+                <tr *ngIf="reportReq.years.length > 0">
+                    <th class="text-center yearssss" colspan="2" style="position: sticky; left: 0px; width: 30vw; background: white">
+                        Year(s)
+                    </th>
+                    <th style="background: white" class="text-center yyy" [attr.colspan]="headerGroup.yearColspan" *ngFor="let yr of reportReq.years">
+                        {{ yr }}
+                    </th>
+                </tr>
 
-        <!-- Headers-->
-        <tr>
-          <th
-            class="text-center"
-            [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 0px"
-          >
-            Account Code
-          </th>
-          <th
-            class="text-center"
-            [attr.rowspan]="headerGroup.accRowspan"
-            style="
+                <!-- Headers-->
+                <tr>
+                    <th class="text-center" [attr.rowspan]="headerGroup.accRowspan" style="position: sticky; left: 0px">
+                        Account Code
+                    </th>
+                    <th class="text-center" [attr.rowspan]="headerGroup.accRowspan" style="
               position: sticky;
               left: 103px;
               border-right: inherit solid #868686;
-            "
-          >
-            Major Group/Minor Group
-          </th>
-          <th class="text-center" *ngFor="let yr of years">{{ yr.state }}</th>
-        </tr>
+            ">
+                        Major Group/Minor Group
+                    </th>
+                    <th class="text-center" *ngFor="let yr of years">{{ yr.state }}</th>
+                </tr>
 
-        <tr>
-          <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
-        </tr>
-        <tr>
-          <th
-            style="
+                <tr>
+                    <th class="text-center" *ngFor="let yr of years">{{ yr.caption }}</th>
+                </tr>
+                <tr>
+                    <th style="
               position: sticky;
               left: 0px;
               border-right: inherit solid #868686;
-            "
-          ></th>
-          <th
-            style="
+            "></th>
+                    <th style="
               position: sticky;
               left: 103px;
               border-right: inherit solid #868686;
-            "
-          ></th>
-          <th class="text-center" *ngFor="let yr of years">
-            <span *ngIf="yr.population !== undefined && yr.population !== null"
-              >Population:
+            "></th>
+                    <th class="text-center" *ngFor="let yr of years">
+                        <span *ngIf="yr.population !== undefined && yr.population !== null">Population:
               {{
                 yr.population | inrCurrency: { currencyTypeInUser: null }
               }}</span
             >
             <span *ngIf="yr.isComparative">%</span>
-          </th>
-        </tr>
-      </thead>
+                    </th>
+                </tr>
+            </thead>
 
-      <tbody>
-        <tr
-          *ngFor="let key of reportKeys"
-          [ngClass]="{
+            <tbody>
+                <tr *ngFor="let key of reportKeys" [ngClass]="{
             bold: report[key] && report[key].isBold,
             hidden: !report[key],
             backgroundHighlight:
@@ -139,18 +110,15 @@
               (report[key] && report[key].line_item.includes('Net Surplus')) ||
               (report[key] &&
                 report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
-          }"
-        >
-          <td class="text-center sticky" style="position: sticky; left: 0px">
-            {{ report[key] ? report[key].code : "" }}
-          </td>
-          <td
-            style="
+          }">
+                    <td class="text-center sticky" style="position: sticky; left: 0px">
+                        {{ report[key] ? report[key].code : "" }}
+                    </td>
+                    <td style="
               position: sticky;
               left: 103px;
               border-right: inherit solid #868686;
-            "
-            [ngClass]="{
+            " [ngClass]="{
               'text-right':
                 (report[key] && report[key].line_item.includes('Total')) ||
                 (report[key] && report[key].line_item.includes('Net')) ||
@@ -159,12 +127,11 @@
                   report[key].line_item.includes('Net Surplus')) ||
                 (report[key] &&
                   report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
-            }"
-          >
-            {{ report[key] ? report[key].line_item : "" }}
-          </td>
-          <td class="text-right" *ngFor="let yr of years">
-            <span *ngIf="report[key]">
+            }">
+                        {{ report[key] ? report[key].line_item : "" }}
+                    </td>
+                    <td class="text-right" *ngFor="let yr of years">
+                        <span *ngIf="report[key]">
               <span
                 *ngIf="
                   currencyTypeInUser &&
@@ -197,8 +164,7 @@
                 }}
               </span>
 
-              <span
-                *ngIf="
+                        <span *ngIf="
                   !currencyTypeInUser &&
                   (report[key][yr.title] || report[key][yr.title] === 0) &&
                   report[key].line_item != 'A.Income' &&
@@ -216,21 +182,18 @@
                   report[key].line_item != 'IV. Other Assets' &&
                   report[key].line_item !=
                     'IV. Current Liabilities and Provisions'
-                "
-              >
+                ">
                 {{
                   report[key][yr.title]
                     | inrCurrency: { currencyTypeInUser: null }
                 }}
               </span>
 
-              <span
-                *ngIf="
+                        <span *ngIf="
                   (report[key][yr.title] === undefined ||
                     report[key][yr.title] === null) &&
                   report[key]['code']
-                "
-              >
+                ">
                 <span
                   *ngIf="
                     ((report[key] && report[key][yr.title] === undefined) ||
@@ -239,41 +202,37 @@
                     report[key]['allNullYear'][yr.title]
                   "
                 >
-                  Data not available
-                </span>
+                <span *ngIf="isApiInProgress == false">
+                  <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+    </div>
+    </span>
+    <span *ngIf="isApiInProgress">Data not available</span>
+    </span>
 
-                <span
-                  *ngIf="
+    <span *ngIf="
                     report[key] &&
                     report[key]['allNullYear'] &&
                     !report[key]['allNullYear'][yr.title] &&
                     (report[key][yr.title] === undefined ||
                       report[key][yr.title] === null)
-                  "
-                >
+                  ">
                   0
                 </span>
-              </span>
-              <span
-                *ngIf="report[key] && report[key][yr.title] && yr.isComparative"
-                >%</span
+    </span>
+    <span *ngIf="report[key] && report[key][yr.title] && yr.isComparative">%</span
               >
             </span>
-          </td>
-        </tr>
-      </tbody>
+    </td>
+    </tr>
+    </tbody>
     </table>
-  </div>
+</div>
 </div>
 
 <br />
 <br />
-<button
-  (click)="download()"
-  *ngIf="isProcessed && reportKeys.length > 0"
-  class="btn btn-primary right mt-2"
-  style="background-color: rgb(230, 126, 21) !important; margin-bottom: 1%"
->
+<button (click)="download()" *ngIf="isProcessed && reportKeys.length > 0" class="btn btn-primary right mt-2" style="background-color: rgb(230, 126, 21) !important; margin-bottom: 1%">
   <i
     class="fa fa-file-excel-o"
     aria-hidden="true"
@@ -287,13 +246,9 @@
 >
   Download Source File
 </button> -->
-<div
-  class="col-md-12"
-  *ngIf="isProcessed && reportKeys.length > 0 && reportReq.isComparative"
->
-  <p>
-    <small
-      >Percentages represent percentage of Total Expenditure in the case of
+<div class="col-md-12" *ngIf="isProcessed && reportKeys.length > 0 && reportReq.isComparative">
+    <p>
+        <small>Percentages represent percentage of Total Expenditure in the case of
       Expenditure line items and percentage of Total Income for all other line
       items</small
     >
@@ -315,13 +270,13 @@
       includes Income from Investments (170), Interest Earned (171), Other
       Income (180) and Others (100).
     </small>
-  </p>
-  <p>
-    <small>
+    </p>
+    <p>
+        <small>
       <b>Expenses</b> : Other Expenses include Programme Expenses (250),
       Provision & Write off (270), Miscellneous Expenses (271), Depreciation of
       Fixed Assets (272), Prior Period Items (280), Transfer to Reserve Funds
       (290) and Others (200)
     </small>
-  </p> -->
+    </p> -->
 </div>

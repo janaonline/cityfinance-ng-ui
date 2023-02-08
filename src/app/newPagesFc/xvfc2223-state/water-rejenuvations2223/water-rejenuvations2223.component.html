@@ -51,10 +51,10 @@
                                         <th style="width: 7%;" scope="col">Turbidity in NTU</th>
                                         <th style="width: 12%;" scope="col">Project Details</th>
                                         <th style="width: 12%;" scope="col">Preparation of DPR and completion of tendering process</th>
-                                        <!-- <th style="width: 12%;" scope="col" [ngClass]="{'toggle' : toggle}">% of work completion</th> -->
-                                        <th style="" scope="col">
+                                        <th style="width: 8%;" scope="col">% of work completion</th>
+                                        <!-- <th style="" scope="col">
                                             <span [ngClass]="{'toggle' : toggle}"> % of work completion</span>
-                                        </th>
+                                        </th> -->
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -168,14 +168,14 @@
                                         </td>
                                         <!-- [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}" -->
                                         <td class="d-flex rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                            <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB',projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                            <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
                                             <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
                                             <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
                                             <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
 
                                         </td>
                                         <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                            <div class="" *ngIf="waterRejenuvation?.value?.uaData[0].waterBodies[waterBodiesIndex].dprCompletion == 'Yes'">
+                                            <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.waterBodies[waterBodiesIndex]?.dprCompletion == 'Yes'">
                                                 <input matTooltipPosition="above" class="workCompletion" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Required*' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion" type="number"
                                                     min="1">
                                             </div>
@@ -208,21 +208,21 @@
                                     <tr class="thHeader">
                                         <th style="width: 2%;" scope="col">S.No</th>
                                         <th style="width: 15%;" scope="col">Project Name</th>
-                                        <th style="width: 20%;" scope="col">
+                                        <th style="width: 15%;" scope="col">
                                             <span>Location of Water Treatment Plant</span><br>
                                             <span>Latitude and Longitude</span>
                                         </th>
-                                        <th style="width: 20%;" scope="col">Proposed capacity of STP(MLD)</th>
-                                        <th style="width: 20%;" scope="col">Proposed water quantity to be reused(MLD)
+                                        <th style="width: 15%;" scope="col">Proposed capacity of STP(MLD)</th>
+                                        <th style="width: 15%;" scope="col">Proposed water quantity to be reused(MLD)
                                         </th>
 
-                                        <th style="width: 20%;" scope="col">Target customers/ consumer for reuse of water
+                                        <th style="width: 15%;" scope="col">Target customers/ consumer for reuse of water
                                         </th>
                                         <th style="width: 12%;" scope="col">Preparation of DPR and completion of tendering process</th>
-                                        <!-- <th style="width: 12%;" scope="col" [ngClass]="{'toggle' : toggle1}">% of work completion</th> -->
-                                        <th style="" scope="col">
+                                        <th style="width: 10%;" scope="col">% of work completion</th>
+                                        <!-- <th style="" scope="col">
                                             <span [ngClass]="{'toggle' : toggle1}"> % of work completion</span>
-                                        </th>
+                                        </th> -->
 
                                         <th scope="col"></th>
                                     </tr>
@@ -266,9 +266,8 @@
                                             <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}">No</label>
                                         </td>
                                         <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                            <div style="margin-bottom: 5px;" *ngIf="waterRejenuvation?.value?.uaData[0].reuseWater[reuseWaterIndex].dprCompletion == 'Yes'">
-                                                <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Required' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" formControlName="workCompletion" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                                    min="1">
+                                            <div style="margin-bottom: 5px;" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.reuseWater[reuseWaterIndex]?.dprCompletion == 'Yes'">
+                                                <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Required' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion" type="number" min="1">
                                             </div>
                                         </td>
                                         <!-- *ngIf="1+reuseWaterIndex>1" -->
@@ -312,9 +311,10 @@
                                         </th>
                                         <th scope="col">Estimated Cost (Amount in INR Lakhs)</th>
                                         <th style="width: 12%;" scope="col">Preparation of DPR and completion of tendering process</th>
-                                        <th style="" scope="col">
+                                        <th style="width: 8%;" scope="col">% of work completion</th>
+                                        <!-- <th style="" scope="col">
                                             <span [ngClass]="{'toggle' : toggle2}"> % of work completion</span>
-                                        </th>
+                                        </th> -->
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -363,9 +363,8 @@
                                             <label class="custom-control-label" for="dprCompletion3{{sliIndex}}">No</label>
                                         </td>
                                         <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                            <div style="margin-bottom: 5px;" *ngIf="waterRejenuvation?.value?.uaData[0].serviceLevelIndicators[sliIndex].dprCompletion == 'Yes'">
-                                                <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" formControlName="workCompletion" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                                    min="1">
+                                            <div style="margin-bottom: 5px;" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.serviceLevelIndicators[sliIndex]?.dprCompletion == 'Yes'">
+                                                <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion" type="number" min="1">
                                             </div>
                                             <p>
                                             </p>
@@ -461,10 +460,10 @@
             </button>
             </div>
             <div class="col-sm-7 text-end">
-                <button class="btn btn-primary" (click)="onDraft()" type="button" [disabled]="isDisabled">
+                <button class="btn btn-primary" (click)="onDraft()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Save as Draft
               </button>
-                <button class="btn btn-primary ms-2" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled">
+                <button class="btn btn-primary ms-2" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
                 <button class="btn btn-c-next ms-2" [routerLink]="['../edit-ulb-profile']" type="button">
