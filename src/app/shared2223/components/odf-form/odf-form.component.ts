@@ -137,7 +137,8 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   actFormData;
   formId = "";
   canTakeAction = false;
-  formName = ''
+  formName = '';
+  isApiInProgress = true;
   ngOnInit(): void {
     this.setRouter();
     this.fetchData();
@@ -312,14 +313,20 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     return this.profileForm.controls;
   }
   fetchData() {
+    this.isApiInProgress = true;
     if (this.isGfc == true) {
       this.commonService.getGfcFormData("gfc").subscribe((res: any) => {
         console.log(res);
         this.ratings = res.data;
         this.dropdownValues = res.data.map((a) => a.name);
         console.log(this.ratings);
+        this.isApiInProgress = false;
         //  this.getMarks(this.ratingId);
-      });
+      },
+      (error)=>{
+        this.isApiInProgress = false;
+      }
+      );
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
         console.log(res.data);
@@ -328,12 +335,16 @@ export class OdfFormComponent implements OnInit, OnDestroy {
         this.dropdownValues = res.data.map((a) => a.name);
         console.log("this.dropdownValues", this.dropdownValues, this.ratings);
         console.log("this.ratingId", this.ratingId);
+        this.isApiInProgress = false;
         // this.getMarks(this.ratingId);
         // this.selectedDropdownValue = res.data.find(res => res._id == this.ratingId);
         // console.log(this.selectedDropdownValue.name)
         // this.profileForm.patchValue({
         //   rating: this.ratingId,
         // })
+      },
+      (error)=>{
+        this.isApiInProgress = false;
       });
     }
   }

@@ -40,6 +40,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   sideMenuItem: any;
   nextRouter;
   backRouter;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
   constructor(
     private formBuilder: FormBuilder,
@@ -170,6 +171,7 @@ export class PfmsComponent implements OnInit, OnDestroy {
   }
   canTakeAction = false;
   getSubmittedFormData() {
+    this.isApiInProgress = true;
     const params = { ulb: this.ulbId, design_year: this.designYearId };
     this.commonService.submittedFormData(params).subscribe(
       (res: any) => {
@@ -237,9 +239,11 @@ export class PfmsComponent implements OnInit, OnDestroy {
         } else {
           this.showIconOtherDoc = false;
         }
+        this.isApiInProgress = false;
       },
       (error) => {
         this.isDisabled = true;
+        this.isApiInProgress = false;
         if (this.ulbData?.role !== "ULB") {
           this.isDisabled = false;
         }

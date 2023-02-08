@@ -1,547 +1,554 @@
-<div class="pre-y" style="" *ngIf="showPrevious" [innerHTML]="url">
-</div>
-<div *ngIf="!showPrevious" class="container-fluid">
-    <div class="row header mt-2">
-        <div class="col-sm-8 col-lg-8 col-md-8 header2">
-            <span>Detailed Utilization Report</span>
-        </div>
-        <div class="col-sm-4 col-lg-4 col-md-4  text-end">
-            <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
-        </div>
+<div class="" *ngIf="!isApiInProgress">
+    <div class="pre-y" style="" *ngIf="showPrevious" [innerHTML]="url">
     </div>
-    <form [formGroup]="utilizationReportForm">
-        <div class="row">
-            <div class="col-sm-12">
-                <span class="i-l">
-                Detailed Utilisation report in respect of 15th finance commission tied grants for year
-               </span>
-                <span>
-                <select class="form-select d-sel" disabled name="" id="">
-                  <option value="606aaf854dff55e6c075d219">2021-22</option>
-                 </select>
-               </span>
+    <div *ngIf="!showPrevious" class="container-fluid">
+        <div class="row header mt-2">
+            <div class="col-sm-8 col-lg-8 col-md-8 header2">
+                <span>Detailed Utilization Report</span>
+            </div>
+            <div class="col-sm-4 col-lg-4 col-md-4  text-end">
+                <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="onPreview()">PREVIEW</button>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <!-- <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <label class="i-label" for="">
-                                  Year of 15th FC Module Design
-                                </label>
+        <form [formGroup]="utilizationReportForm">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="i-l">
+                  Detailed Utilisation report in respect of 15th finance commission tied grants for year
+                 </span>
+                    <span>
+                  <select class="form-select d-sel" disabled name="" id="">
+                    <option value="606aaf854dff55e6c075d219">2021-22</option>
+                   </select>
+                 </span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="row mb-2">
+                              <div class="col-sm-6">
+                                  <label class="i-label" for="">
+                                    Year of 15th FC Module Design
+                                  </label>
+                              </div>
+                              <div class="col-sm-6">
+                                  <input class="form-control" disabled type="text" value="2022-23">
+                              </div>
+                          </div> -->
+                            <div class="row mb-2">
+                                <div class="col-sm-7">
+                                    <label class="i-label" for="">
+                                    Name of MPC/UA/NMPC
+                                  </label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input class="form-control" disabled type="text" [value]="ulbName">
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" disabled type="text" value="2022-23">
-                            </div>
-                        </div> -->
-                        <div class="row mb-2">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                  Name of MPC/UA/NMPC
-                                </label>
-                            </div>
-                            <div class="col-sm-5">
-                                <input class="form-control" disabled type="text" [value]="ulbName">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                  Type of Grant
-                                </label>
-                            </div>
-                            <div class="col-sm-5">
-                                <input class="form-control" disabled type="text" [value]="grantType">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <label class="i-label" for="">
+                                    Type of Grant
+                                  </label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input class="form-control" disabled type="text" [value]="grantType">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body" formGroupName="grantPosition">
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <span class="sec-h">
-                                  15th FC Tied Grant Status for the Financial Year 2021-22<sup class="text-danger astr">*</sup>
-                              </span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-8">
-                                <label class="i-label" for="">
-                                  i. Unutilised Tied Grants from previous installment (in lakhs)
-                                </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control i-l-n" type="text" disabled="true" formControlName="unUtilizedPrevYr">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-8">
-                                <label class="i-label" for="">
-                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)
-                                </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="text" formControlName="receivedDuringYr" (change)="changeInGrant('rec')" appNTwoDigitDecimaNumber>
-
-                                </div>
-                                <div *ngIf="grantPosCon?.receivedDuringYr?.invalid && isSubmitted" class="text-danger">
-                                    <app-error-display [formControlSec]="grantPosCon?.receivedDuringYr" [fName]="'Received grants'" [errorType]="'normal'"></app-error-display>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-8">
-                                <label class="i-label" for="">
-                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)
-                                </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group" [ngClass]="{'errorCls': grantsError}">
-                                    <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="text" min="0" (change)="changeInGrant('exp')" formControlName="expDuringYr" appNTwoDigitDecimaNumber>
-
-                                </div>
-                                <span *ngIf="grantsError" class="text-danger">
-                                  <!-- The total expenditure in the component wise grants must not exceed the amounts of grant received. -->
-                                  The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body" formGroupName="grantPosition">
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <span class="sec-h">
+                                    15th FC Tied Grant Status for the Financial Year 2021-22<sup class="text-danger astr">*</sup>
                                 </span>
-                                <div *ngIf="grantPosCon?.expDuringYr?.invalid && isSubmitted" class="text-danger">
-                                    <app-error-display [formControlSec]="grantPosCon?.expDuringYr" [fName]="'Total expenditure'" [errorType]="'normal'"></app-error-display>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <label class="i-label color-in" for="">
-                                Closing balance at the end of year (in lakhs)( i + ii - iii )
-                              </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <span class="input-group-text color-in" id="basic-addon1">₹</span>
-                                    <!-- <label for="i-label color-in form-control">{{closingBal}}</label> -->
-                                    <input class="form-control color-in" type="text" [value]="closingBal" disabled formControlName="closingBal">
+                            <div class="row mb-2">
+                                <div class="col-sm-8">
+                                    <label class="i-label" for="">
+                                    i. Unutilised Tied Grants from previous installment (in lakhs)
+                                  </label>
                                 </div>
-                                <span *ngIf="closingError" class="text-danger">
-                                  Closing balance is negative because Expenditure amount is greater than total tied grants amount available. Please recheck the amounts entered.
-                                </span>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                        <input class="form-control i-l-n" type="text" disabled="true" formControlName="unUtilizedPrevYr">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-8">
+                                    <label class="i-label" for="">
+                                    ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)
+                                  </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                        <input class="form-control" type="text" formControlName="receivedDuringYr" (change)="changeInGrant('rec')" appNTwoDigitDecimaNumber>
+
+                                    </div>
+                                    <div *ngIf="grantPosCon?.receivedDuringYr?.invalid && isSubmitted" class="text-danger">
+                                        <app-error-display [formControlSec]="grantPosCon?.receivedDuringYr" [fName]="'Received grants'" [errorType]="'normal'"></app-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-8">
+                                    <label class="i-label" for="">
+                                    iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)
+                                  </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group" [ngClass]="{'errorCls': grantsError}">
+                                        <span class="input-group-text" id="basic-addon1">₹</span>
+                                        <input class="form-control" type="text" min="0" (change)="changeInGrant('exp')" formControlName="expDuringYr" appNTwoDigitDecimaNumber>
+
+                                    </div>
+                                    <span *ngIf="grantsError" class="text-danger">
+                                    <!-- The total expenditure in the component wise grants must not exceed the amounts of grant received. -->
+                                    The total expenditure in the component wise grants must not exceed the amount of expenditure incurred during the year.
+                                  </span>
+                                    <div *ngIf="grantPosCon?.expDuringYr?.invalid && isSubmitted" class="text-danger">
+                                        <app-error-display [formControlSec]="grantPosCon?.expDuringYr" [fName]="'Total expenditure'" [errorType]="'normal'"></app-error-display>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label class="i-label color-in" for="">
+                                  Closing balance at the end of year (in lakhs)( i + ii - iii )
+                                </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text color-in" id="basic-addon1">₹</span>
+                                        <!-- <label for="i-label color-in form-control">{{closingBal}}</label> -->
+                                        <input class="form-control color-in" type="text" [value]="closingBal" disabled formControlName="closingBal">
+                                    </div>
+                                    <span *ngIf="closingError" class="text-danger">
+                                    Closing balance is negative because Expenditure amount is greater than total tied grants amount available. Please recheck the amounts entered.
+                                  </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <span class="sec-h">
-                                 Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger astr">*</sup>
-                                 <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
-                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                 </span>
-                                </span>
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-12">
+                                    <span class="sec-h">
+                                   Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger astr">*</sup>
+                                   <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
+                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                   </span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-body" style="margin-bottom: 20px;">
-                                    <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
-                                    <div class="table-responsive">
-                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_wm">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-body" style="margin-bottom: 20px;">
+                                        <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
+                                        <div class="table-responsive">
+                                            <table class="table custom-position tableStriped" formArrayName="categoryWiseData_wm">
+                                                <thead>
+                                                    <tr class="thHeader">
+                                                        <th scope="col">S.No</th>
+                                                        <th scope="col" class="ct-name">Sector</th>
+                                                        <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                                matTooltipPosition="above">
+                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                   </span> </th>
+                                                        <th scope="col">Number of Projects Undertaken</th>
+                                                        <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                                matTooltipPosition="above">
+                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                   </span> </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                                    <tr *ngFor="let wmItem of wmProject.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm">
+                                                        <td class="t-i">
+                                                            <span>{{rowIndex_wm+1}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <input class="t-i ct-l w-100" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
+                                                        </td>
+                                                        <td class="pos-td">
+                                                            <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
+                                                            <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" (keydown)="numberLimitV($event, inputText)" #inputText>
+                                                            <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.numberOfProjects?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.numberOfProjects" [fName]="'Number of project'" [errorType]="'table'"></app-error-display>
+                                                            </div>
+
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
+                                                            <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" class="t-n">
+                                                            Total
+                                                        </td>
+                                                        <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{wmTotalTiedGrantUti}}</td>
+                                                        <td class="t-n">{{wmTotalProjectCost}}</td>
+                                                        <td class="t-n">{{wmTotalProjectNum}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <!-- <tfoot>
+                                                  <tr>
+                                                      <td colspan="2">
+                                                          Total
+                                                      </td>
+                                                      <td></td>
+                                                      <td></td>
+                                                  </tr>
+                                              </tfoot> -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="hr"></div>
+                                    <!-- solid waste management Table -->
+                                    <div class="card-body" style="margin-bottom: 20px;">
+                                        <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
+                                        <div class="table-responsive">
+                                            <table class="table custom-position tableStriped" formArrayName="categoryWiseData_swm">
+                                                <thead>
+                                                    <tr class="thHeader">
+                                                        <th scope="col">S.No</th>
+                                                        <th class="ct-name" scope="col">Sector</th>
+                                                        <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                                matTooltipPosition="above">
+                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                   </span> </th>
+                                                        <th scope="col">Number of Projects Undertaken</th>
+                                                        <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                                matTooltipPosition="above">
+                                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                   </span> </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                                    <tr *ngFor="let swmItem of swmProject.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm">
+                                                        <td class="t-i">
+                                                            <span>1</span>
+                                                        </td>
+                                                        <td>
+                                                            <input formControlName="category_name" class="t-i ct-l w-100" disabled="true" value="{{swmItem.controls.category_name.value}}">
+                                                        </td>
+                                                        <td class="pos-td">
+
+                                                            <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
+                                                            <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" (keydown)="numberLimitV($event, inputText)" #inputText>
+                                                            <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.numberOfProjects?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.numberOfProjects" [fName]="'Number of Project'" [errorType]="'table'"></app-error-display>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
+                                                            <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
+                                                                <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" class="t-n">
+                                                            Total
+                                                        </td>
+                                                        <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{swmTotalTiedGrantUti}}</td>
+                                                        <td class="t-n">{{swmTotalProjectCost}}</td>
+                                                        <td class="t-n">{{swmTotalProjectNum}}</td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="hr"></div>
+                                    <!-- project Details Table -->
+                                    <div class="table-responsive mt-2">
+                                        <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
+                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                   </span> </p>
+                                        <table class="table custom-position tableStriped">
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
-                                                    <th scope="col" class="ct-name">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                    <th scope="col">Name of the Project</th>
+                                                    <th width="20%" scope="col">Sector</th>
+                                                    <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                                    <th scope="col">Total Project Cost<br> (INR in lakhs)
+                                                        <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
+                                                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
                                                             matTooltipPosition="above">
-                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                                 </span> </th>
-                                                    <th scope="col">Number of Projects Undertaken</th>
-                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
-                                                            matTooltipPosition="above">
-                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                                 </span> </th>
-
+                                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                               </span>
+                                                    </th>
+                                                    <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
+                                                    <th scope="col" style="width: 3%"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr *ngFor="let wmItem of wmProject.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm">
-                                                    <td class="t-i">
-                                                        <span>{{rowIndex_wm+1}}</span>
-                                                    </td>
-                                                    <td>
-                                                        <input class="t-i ct-l w-100" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
-                                                    </td>
-                                                    <td class="pos-td">
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
-                                                        <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" (keydown)="numberLimitV($event, inputText)" #inputText>
-                                                        <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.numberOfProjects?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.numberOfProjects" [fName]="'Number of project'" [errorType]="'table'"></app-error-display>
-                                                        </div>
 
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
-                                                        <div *ngIf="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="wmProject?.controls[rowIndex_wm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
-                                                        </div>
-                                                    </td>
-
+                                            <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length == 0">
+                                                <tr>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
+                                                    <td>--</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" class="t-n">
+                                                    <td colspan="4" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{wmTotalTiedGrantUti}}</td>
-                                                    <td class="t-n">{{wmTotalProjectCost}}</td>
-                                                    <td class="t-n">{{wmTotalProjectNum}}</td>
-                                                </tr>
-                                            </tbody>
-                                            <!-- <tfoot>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        Total
-                                                    </td>
+                                                    <td class="t-n">0</td>
+                                                    <td class="t-n">0.00</td>
                                                     <td></td>
                                                     <td></td>
                                                 </tr>
-                                            </tfoot> -->
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="hr"></div>
-                                <!-- solid waste management Table -->
-                                <div class="card-body" style="margin-bottom: 20px;">
-                                    <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
-                                    <div class="table-responsive">
-                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_swm">
-                                            <thead>
-                                                <tr class="thHeader">
-                                                    <th scope="col">S.No</th>
-                                                    <th class="ct-name" scope="col">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
-                                                            matTooltipPosition="above">
-                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                                 </span> </th>
-                                                    <th scope="col">Number of Projects Undertaken</th>
-                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
-                                                            matTooltipPosition="above">
-                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                                 </span> </th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                            </tbody>
+                                            <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length > 0" formArrayName="projects">
                                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr *ngFor="let swmItem of swmProject.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm">
-                                                    <td class="t-i">
-                                                        <span>1</span>
-                                                    </td>
+                                                <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex">
+                                                    <td>{{projectIndex+1}}.</td>
                                                     <td>
-                                                        <input formControlName="category_name" class="t-i ct-l w-100" disabled="true" value="{{swmItem.controls.category_name.value}}">
-                                                    </td>
-                                                    <td class="pos-td">
 
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" (change)="changeInGrant('exp')" appNTwoDigitDecimaNumber>
-                                                        <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.grantUtilised" [fName]="'Grants utilised'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                        <input type="text" class="t-i form-control" [disabled]="isDisabled" placeholder="Max 200 Characters" formControlName="name" required maxlength="200">
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.name.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.name" [fName]="'Project name'" [errorType]="'table'"></app-error-display>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" (keydown)="numberLimitV($event, inputText)" #inputText>
-                                                        <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.numberOfProjects?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.numberOfProjects" [fName]="'Number of Project'" [errorType]="'table'"></app-error-display>
+                                                        <select class="t-i form-select" *ngIf="categories" [disabled]="isDisabled" formControlName="category">
+                                                        <!-- <option value="" [selected]="true">
+                                                          Select sector
+                                                        </option> -->
+                                                        <option *ngFor="let item of categories; let j=index;" [value]="item._id">
+                                                        {{item.name}}
+                                                      </option>
+                                                     </select>
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.category.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.category" [fName]="'Project category'" [errorType]="'table'"></app-error-display>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
-                                                        <div *ngIf="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost?.invalid && isSubmitted" class="text-danger">
-                                                            <app-error-display [formControlSec]="swmProject?.controls[rowIndex_swm]?.controls?.totalProjectCost" [fName]="'Total Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
-                                                        </div>
-                                                    </td>
+                                                    <td formGroupName="location">
+                                                        <input type="text" class="t-i lt form-control" formControlName="lat" [disabled]="isDisabled" appNSixDigitDecimaNumber>
 
+                                                        <input type="text" class="t-i lt form-control" formControlName="long" [disabled]="isDisabled" appNSixDigitDecimaNumber>
+                                                        <a (click)="openDialog(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                                            <mat-icon aria-hidden="false" style="width: 10%; margin-left: 1%">
+                                                                <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                            </mat-icon>
+                                                        </a>
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat" [fName]="'Lat'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
+                                                        </div>
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.long.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.long" [fName]="'Long'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="t-i form-control" [disabled]="isDisabled" formControlName="cost" appNTwoDigitDecimaNumber>
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.cost.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.cost" [fName]="'Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="t-i form-control" [disabled]="isDisabled" (change)="changeInTotalPExp()" formControlName="expenditure" appNTwoDigitDecimaNumber>
+                                                        <div *ngIf="tabelRows?.controls[projectIndex].controls?.expenditure.invalid && isSubmitted" class="text-danger">
+                                                            <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.expenditure" [fName]="'Project expenditure'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                                    </td>
+                                                    <td>
+                                                        <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
+                                                            <mat-icon aria-hidden="false">
+                                                                <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                            </mat-icon>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" class="t-n">
+                                                    <td colspan="4" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td class="t-n" [ngClass]="{'errorCls' : grantsError}">{{swmTotalTiedGrantUti}}</td>
-                                                    <td class="t-n">{{swmTotalProjectCost}}</td>
-                                                    <td class="t-n">{{swmTotalProjectNum}}</td>
+                                                    <td class="t-n">{{totalProjectCost| number : '1.0-2' }}</td>
+                                                    <td class="t-n" [ngClass]="{'errorCls' :totalPExpErr}">{{totalProjectExp| number : '1.0-2' }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr *ngIf="totalPExpErr">
+                                                    <td class="text-danger">
+                                                        Error-
+                                                    </td>
+                                                    <td colspan="7">
+                                                        <span *ngIf="totalPExpErr" class="text-danger">
+                                                         Sum of all project wise expenditure amount does not match total expenditure
+                                                          amount provided in the XVFC summary section. Kindly recheck the amounts.
+                                                    </span>
+                                                    </td>
                                                 </tr>
                                             </tbody>
-
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="8" class="text-end">
+                                                        <button class="btn btn-add" [disabled]="isDisabled" (click)="addRow()">
+                                                        + Add
+                                                      </button>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="hr"></div>
-                                <!-- project Details Table -->
-                                <div class="table-responsive mt-2">
-                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
-                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                 </span> </p>
-                                    <table class="table custom-position tableStriped">
-                                        <thead>
-                                            <tr class="thHeader">
-                                                <th scope="col">S.No</th>
-                                                <th scope="col">Name of the Project</th>
-                                                <th width="20%" scope="col">Sector</th>
-                                                <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
-                                                <th scope="col">Total Project Cost<br> (INR in lakhs)
-                                                    <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
-                                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                                    </div>
-                                                </th>
-                                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
-                                                        matTooltipPosition="above">
-                                              <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                             </span>
-                                                </th>
-                                                <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
-                                                <th scope="col" style="width: 3%"></th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length == 0">
-                                            <tr>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                                <td>--</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4" class="t-n">
-                                                    Total
-                                                </td>
-                                                <td class="t-n">0</td>
-                                                <td class="t-n">0.00</td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-
-                                        </tbody>
-                                        <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length > 0" formArrayName="projects">
-                                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex">
-                                                <td>{{projectIndex+1}}.</td>
-                                                <td>
-
-                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" placeholder="Max 200 Characters" formControlName="name" required maxlength="200">
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.name.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.name" [fName]="'Project name'" [errorType]="'table'"></app-error-display>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <select class="t-i form-select" *ngIf="categories" [disabled]="isDisabled" formControlName="category">
-                                                      <!-- <option value="" [selected]="true">
-                                                        Select sector
-                                                      </option> -->
-                                                      <option *ngFor="let item of categories; let j=index;" [value]="item._id">
-                                                      {{item.name}}
-                                                    </option>
-                                                   </select>
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.category.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.category" [fName]="'Project category'" [errorType]="'table'"></app-error-display>
-                                                    </div>
-                                                </td>
-                                                <td formGroupName="location">
-                                                    <input type="text" class="t-i lt form-control" formControlName="lat" [disabled]="isDisabled" appNSixDigitDecimaNumber>
-
-                                                    <input type="text" class="t-i lt form-control" formControlName="long" [disabled]="isDisabled" appNSixDigitDecimaNumber>
-                                                    <a (click)="openDialog(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
-                                                        <mat-icon aria-hidden="false" style="width: 10%; margin-left: 1%">
-                                                            <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
-                                                        </mat-icon>
-                                                    </a>
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.lat" [fName]="'Lat'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
-                                                    </div>
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.location?.controls?.long.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.location?.controls?.long" [fName]="'Long'" [errorType]="'table'" [patternError]="ptrErr"></app-error-display>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" formControlName="cost" appNTwoDigitDecimaNumber>
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.cost.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.cost" [fName]="'Project cost'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" (change)="changeInTotalPExp()" formControlName="expenditure" appNTwoDigitDecimaNumber>
-                                                    <div *ngIf="tabelRows?.controls[projectIndex].controls?.expenditure.invalid && isSubmitted" class="text-danger">
-                                                        <app-error-display [formControlSec]="tabelRows?.controls[projectIndex].controls?.expenditure" [fName]="'Project expenditure'" [errorType]="'table'" [patternError]="ptrErr2"></app-error-display>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
-                                                </td>
-                                                <td>
-                                                    <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
-                                                        <mat-icon aria-hidden="false">
-                                                            <img src="../../../../assets/form-icon/Icon material-delete.svg">
-                                                        </mat-icon>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4" class="t-n">
-                                                    Total
-                                                </td>
-                                                <td class="t-n">{{totalProjectCost| number : '1.0-2' }}</td>
-                                                <td class="t-n" [ngClass]="{'errorCls' :totalPExpErr}">{{totalProjectExp| number : '1.0-2' }}</td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr *ngIf="totalPExpErr">
-                                                <td class="text-danger">
-                                                    Error-
-                                                </td>
-                                                <td colspan="7">
-                                                    <span *ngIf="totalPExpErr" class="text-danger">
-                                                       Sum of all project wise expenditure amount does not match total expenditure
-                                                        amount provided in the XVFC summary section. Kindly recheck the amounts.
-                                                  </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="8" class="text-end">
-                                                    <button class="btn btn-add" [disabled]="isDisabled" (click)="addRow()">
-                                                      + Add
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                  Name<sup class="text-danger astr">*</sup>
-                                </label>
-                            </div>
-                            <div class="col-sm-5">
-                                <input class="form-control" type="text" formControlName="name" OnlyCharacter maxlength="50">
-                                <div *ngIf="utiControls?.name?.invalid && isSubmitted" class="text-danger">
-                                    <app-error-display [formControlSec]="utiControls?.name" [fName]="'Name'" [errorType]="'normal'"></app-error-display>
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-7">
+                                    <label class="i-label" for="">
+                                    Name<sup class="text-danger astr">*</sup>
+                                  </label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" formControlName="name" OnlyCharacter maxlength="50">
+                                    <div *ngIf="utiControls?.name?.invalid && isSubmitted" class="text-danger">
+                                        <app-error-display [formControlSec]="utiControls?.name" [fName]="'Name'" [errorType]="'normal'"></app-error-display>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                    Designation<sup class="text-danger astr">*</sup>
-                                </label>
+                            <div class="row mb-2">
+                                <div class="col-sm-7">
+                                    <label class="i-label" for="">
+                                      Designation<sup class="text-danger astr">*</sup>
+                                  </label>
 
-                            </div>
-                            <div class="col-sm-5">
-                                <input class="form-control" type="text" formControlName="designation" OnlyCharacter maxlength="50">
-                                <div *ngIf="utiControls?.designation?.invalid && isSubmitted" class="text-danger">
-                                    <app-error-display [formControlSec]="utiControls?.designation" [fName]="'Designation'" [errorType]="'normal'"></app-error-display>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" formControlName="designation" OnlyCharacter maxlength="50">
+                                    <div *ngIf="utiControls?.designation?.invalid && isSubmitted" class="text-danger">
+                                        <app-error-display [formControlSec]="utiControls?.designation" [fName]="'Designation'" [errorType]="'normal'"></app-error-display>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2 mt-3">
-                            <div class="col-sm-12 form-check">
-                                <input type="checkbox" class="form-check-input" id="agreeDec" name="agree" value='' formControlName='declaration' (change)="changeFormInput('dec')">
-                                <label class="form-check-label" for="agreeDec">
-                                  Certified that above information has been extracted from the relevent records being maintained with the ULB and is true to to best of my knowledge and belief.
-                                </label>
-                                <span *ngIf="decError" class="text-danger">Accepting the declaration is mandatory</span>
+                            <div class="row mb-2 mt-3">
+                                <div class="col-sm-12 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeDec" name="agree" value='' formControlName='declaration' (change)="changeFormInput('dec')">
+                                    <label class="form-check-label" for="agreeDec">
+                                    Certified that above information has been extracted from the relevent records being maintained with the ULB and is true to to best of my knowledge and belief.
+                                  </label>
+                                    <span *ngIf="decError" class="text-danger">Accepting the declaration is mandatory</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- action components -->
-        <div class="row">
-            <div class="col-sm-12">
-                <app-common-action [actionRes]="actionRes" [formData]="utiData" [actionFor]="'ULBForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'dur'">
-                </app-common-action>
+            <!-- action components -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <app-common-action [actionRes]="actionRes" [formData]="utiData" [actionFor]="'ULBForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'dur'">
+                    </app-common-action>
+                </div>
             </div>
-        </div>
-        <div class="row mt-4 mb-3" *ngIf="isloadingComplte">
-            <div class="col-sm-4">
-                <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
-            </div>
-            <div class="col-sm-8 text-end">
-                <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
-                <span *ngIf="canTakeAction">
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'"
-                [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
-               </span>
-                <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
-            </div>
-        </div>
-
-    </form>
-</div>
-<ng-template #changeTemplate>
-    <div class="modal-body text-center ">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-
-        <div class="row mb-3 mt-3">
-            <div class="col-sm-12">{{alertError}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
-                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
-                Save & Proceed
-              </button>
+            <div class="row mt-4 mb-3" *ngIf="isloadingComplte">
+                <div class="col-sm-4">
+                    <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+                </div>
+                <div class="col-sm-8 text-end">
+                    <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('draft')" [disabled]="isDisabled">Save As Draft</button>
+                    <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'ULB'" (click)="saveUtiReport('submit')" [disabled]="isDisabled">Submit</button>
+                    <span *ngIf="canTakeAction">
+                  <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'"
+                  [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+                 </span>
+                    <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+                </div>
             </div>
 
-        </div>
-
+        </form>
     </div>
-</ng-template>
+    <ng-template #changeTemplate>
+        <div class="modal-body text-center ">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+                <div class="text-right">
+                    <a (click)="alertClose()">
+                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                    </a>
+                </div>
+            </div>
+
+            <div class="row mb-3 mt-3">
+                <div class="col-sm-12">{{alertError}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 text-end">
+                    <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                    <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                    <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
+                  Save & Proceed
+                </button>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-template>
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader></app-pre-loader>
+</div>

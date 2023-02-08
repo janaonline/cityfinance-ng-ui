@@ -25,6 +25,7 @@ export class Gtc2223Component implements OnInit {
   sideMenuItem: any;
   backRouter;
   nextRouter;
+  isApiInProgress = true;
   ngOnInit(): void {
     this.getGtcData();
     this.setRouter();
@@ -43,6 +44,7 @@ export class Gtc2223Component implements OnInit {
   }
   noDataFound : boolean = false;
   getGtcData() {
+    this.isApiInProgress = true;
     this.stateService.getGtcData(this.stateId).subscribe(
       (res: any) => {
         console.log("res", res?.data?.length);
@@ -87,10 +89,12 @@ export class Gtc2223Component implements OnInit {
         console.log("array this.nonmillionTied", this.nonmillionTied);
         console.log("array  this.nonmillionUntied,", this.nonmillionUntied);
         console.log("array this.millionTied,", this.millionTied);
+        this.isApiInProgress = false;
       },
       (error) => {
         console.log("err", error);
         this.noDataFound = true;
+        this.isApiInProgress = false;
       }
     );
   }
