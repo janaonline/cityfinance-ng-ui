@@ -23,23 +23,23 @@
                 </div>
             </div>
             <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
-                <mat-step state="state" *ngFor="let stepItem of stepperArray">
+                <mat-step state="state" *ngFor="let tab of tabs">
                     <ng-template matStepLabel>
-                        <span class="st-title com-style" [title]="stepItem?.label">{{((stepItem?.label).split(' '))[0]}}
-                            {{((stepItem?.label).split(' '))[1]}}<br>
-                            {{((stepItem?.label).split(' '))[2]}}</span>
+                        <span class="st-title com-style" [title]="tab?.label">{{((tab?.label).split(' '))[0]}}
+                            {{((tab?.label).split(' '))[1]}}<br>
+                            {{((tab?.label).split(' '))[2]}}</span>
                     </ng-template>
                     <div class="container w-50 mt-4">
-                        <div class="form" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                        <div class="form" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
                             <form [formGroup]="fiscalForm" *ngIf="fiscalForm">
                                 <!-- ulb basic info -->
-                                <div class="" *ngIf="stepItem?.id == 's1'" [ngClass]="{'disable': isDisabled}">
+                                <div class="" *ngIf="tab?.id == 's1'" [ngClass]="{'disable': isDisabled}">
                                     <div class="row mx-auto">
                                         <div class="col-sm-12">
                                             <div class="form" formGroupName="basicUlbDetails">
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="ulbName" id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of ULB"> -->
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="ulbName" id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of ULB"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Name of ULB*</mat-label>
                                                             <input class="com-style" matInput placeholder="Name of ULB*"
@@ -47,7 +47,7 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
+                                                        <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Population as per 2011 Census*
                                                             </mat-label>
@@ -59,9 +59,9 @@
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style"
-                                                        formControlName="populationFr" id="{{stepItem?.id}}3"
+                                                        formControlName="populationFr" id="{{tab?.id}}3"
                                                         (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)"
-                                                         #inputText2 aria-describedby="{{stepItem?.id}}3" placeholder="Population as on 1st April 2022"> -->
+                                                         #inputText2 aria-describedby="{{tab?.id}}3" placeholder="Population as on 1st April 2022"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Population as on 1st April 2022
                                                             </mat-label>
@@ -73,7 +73,7 @@
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="webLink"
-                                                        id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="ULB website URL link"> -->
+                                                        id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="ULB website URL link"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">ULB website URL link
                                                             </mat-label>
@@ -84,7 +84,7 @@
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="nameCmsnr"
-                                                        id="{{stepItem?.id}}5" aria-describedby="{{stepItem?.id}}5" placeholder="Name of Commissioner / Executive Officer "> -->
+                                                        id="{{tab?.id}}5" aria-describedby="{{tab?.id}}5" placeholder="Name of Commissioner / Executive Officer "> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Name of Commissioner /
                                                                 Executive Officer*</mat-label>
@@ -172,14 +172,14 @@
                                     </div>
                                 </div>
                                 <!-- ulb contact info -->
-                                <div class="" *ngIf="stepItem?.id == 's6'" [ngClass]="{'disable': isDisabled}">
+                                <div class="" *ngIf="tab?.id == 's2'" [ngClass]="{'disable': isDisabled}">
                                     <div class="row mx-auto">
                                         <div class="col-sm-12">
                                             <div class="form" formGroupName="contactInfo">
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer"
-                                                        id="{{stepItem?.id}}1" aria-describedby="{{stepItem?.id}}1" placeholder="Name of the Nodal Officer"> -->
+                                                        id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of the Nodal Officer"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Name of the Nodal Officer*
                                                             </mat-label>
@@ -191,7 +191,7 @@
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer"
-                                                         id="{{stepItem?.id}}2" aria-describedby="{{stepItem?.id}}2" placeholder="Designation of the Nodal Officer"> -->
+                                                         id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Designation of the Nodal Officer"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Designation of the Nodal
                                                                 Officer*</mat-label>
@@ -202,8 +202,8 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{stepItem?.id}}3"
-                                                        aria-describedby="{{stepItem?.id}}3" placeholder="Email ID"> -->
+                                                        <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{tab?.id}}3"
+                                                        aria-describedby="{{tab?.id}}3" placeholder="Email ID"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Email ID*</mat-label>
                                                             <input class="com-style" formControlName="email" matInput
@@ -212,7 +212,7 @@
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="mobile"
-                                                         id="{{stepItem?.id}}4" aria-describedby="{{stepItem?.id}}4" placeholder="Mobile number"> -->
+                                                         id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="Mobile number"> -->
                                                         <mat-form-field appearance="outline">
                                                             <mat-label class="com-style">Mobile number*</mat-label>
                                                             <input class="com-style" formControlName="mobile" matInput
@@ -228,19 +228,19 @@
                             </form>
                         </div>
 
-                        <div class="row mt-4 pd-b" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                        <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
                             <div class="form-group my-2" *ngIf="canShowComment">
                                 <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="stepItem.feedback.comment" class="form-control comment"
+                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comments" class="form-control comment"
                                     [id]="'comment' + stepper?.id"></textarea>
                             </div>
                             <div class="col-sm-6 ">
                                 <button class="btn btn-f-next com-style"
-                                    (click)="stepperContinue(stepItem)">Next</button>
+                                    (click)="stepperContinue(tab)">Next</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style" [disabled]="isDisabled"
-                                    (click)="stepperContinueSave(stepItem)">Save & Continue Later</button>
+                                    (click)="stepperContinueSave(tab)">Save & Continue Later</button>
                             </div>
                         </div>
 
@@ -248,7 +248,7 @@
 
                     <div class="container w-80 mt-4">
                         <!-- revenue mobilization para -->
-                        <div class="" *ngIf="stepItem?.id == 's2'" [ngClass]="{'disable': isDisabled}">
+                        <div class="" *ngIf="tab?.id == 's3'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
@@ -275,7 +275,7 @@
                                                                             id="basic-addon1">₹</span>
                                                                         <input type="text" [(ngModel)]="yearItem.amount"
                                                                             (keyup)="amountKeyUp('click', yearItem)"
-                                                                            (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
+                                                                            (change)="amountPushInFY('click', r_i, yearItem, tab)"
                                                                             [disabled]="yearItem?.readonly"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             class="form-control com-style yrformCon form-ic"
@@ -333,7 +333,7 @@
                             </div>
                         </div>
                         <!-- exppenditure performance para -->
-                        <div class="" *ngIf="stepItem?.id == 's3'" [ngClass]="{'disable': isDisabled}">
+                        <div class="" *ngIf="tab?.id == 's4'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style"
@@ -358,7 +358,7 @@
                                                                         id="basic-addon1">₹</span>
                                                                     <input type="text" [(ngModel)]="yearItem.amount"
                                                                         (keyup)="amountKeyUp('click', yearItem)"
-                                                                        (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
+                                                                        (change)="amountPushInFY('click', r_i, yearItem, tab)"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         class="form-control com-style yrformCon"
                                                                         id="{{yearItem?.key}}"
@@ -412,7 +412,7 @@
                             </div>
                         </div>
                         <!-- upload finacial statement -->
-                        <div class="" *ngIf="stepItem?.id == 's5'">
+                        <div class="" *ngIf="tab?.id == 's6'">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style"
@@ -467,7 +467,7 @@
                                                                 </button>
                                                                 <input #bs_pdf1 style="display: none;"
                                                                     onclick="this.value=null;"
-                                                                    (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, stepItem)"
+                                                                    (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, tab)"
                                                                     type="file" accept=".pdf" #file>
                                                                 <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
                                                             </div>
@@ -486,7 +486,7 @@
                                                                 *ngIf="yearItem?.file?.url">
                                                                 <a class="w-90" href="{{yearItem?.file?.url}}"
                                                                     target="_blank">{{yearItem?.file?.name}}</a>
-                                                                <a (click)="clearFile('annualDoc', yearItem, stepItem)"
+                                                                <a (click)="clearFile('annualDoc', yearItem, tab)"
                                                                     class="w-10" target="_blank"
                                                                     [ngClass]="{'pe-none': isDisabled}">
                                                                     <img
@@ -513,7 +513,7 @@
                             </div>
                         </div>
                         <!-- fiscal governance -->
-                        <div class="" *ngIf="stepItem?.id == 's4'" [ngClass]="{'disable': isDisabled}">
+                        <div class="" *ngIf="tab?.id == 's5'" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card com-style mb-3">
@@ -659,7 +659,7 @@
                                                                         id="basic-addon1">₹</span>
                                                                     <input type="text" [(ngModel)]="yearItem.amount"
                                                                         (keyup)="amountKeyUp('click', yearItem)"
-                                                                        (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
+                                                                        (change)="amountPushInFY('click', r_i, yearItem, tab)"
                                                                         [disabled]="yearItem?.readonly"
                                                                         [ngModelOptions]="{standalone: true}"
                                                                         class="form-control com-style yrformCon"
@@ -704,7 +704,7 @@
                             </div>
                         </div>
                         <!-- self declaration -->
-                        <div class="" *ngIf="stepItem?.id == 's7'">
+                        <div class="" *ngIf="tab?.id == 's7'">
                             <div class="row mx-auto">
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style h-100">
@@ -748,7 +748,7 @@
                                                             alt="">
                                                     </button>
                                                     <input #bs_pdf_up style="display: none;"
-                                                        (change)="fileChangeEvent($event,'pdf', 'signed', '', stepItem)"
+                                                        (change)="fileChangeEvent($event,'pdf', 'signed', '', tab)"
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file
                                                         (keydown)="changeDecInForm()">
                                                 </div>
@@ -766,20 +766,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
+                        <div class="row mt-4 mx-auto" *ngIf="tab?.id !== 's1' && tab?.id !== 's2'">
                             <div class="form-group my-2" *ngIf="canShowComment">
                                 <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="canEditComment" type="email" rows="6" [(ngModel)]="stepItem.feedback.comment" class="form-control comment"
+                                <textarea required [disabled]="canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comments" class="form-control comment"
                                     [id]="'comment' + stepper?.id"></textarea>
                             </div>
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'"
-                                    (click)="stepperContinue(stepper, stepItem)">Next</button>
-                                <button class="btn btn-f-next com-style" *ngIf="stepItem?.id == 's7'"
+                                <button class="btn btn-f-next com-style" *ngIf="tab?.id !== 's7'"
+                                    (click)="stepperContinue(stepper, tab)">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="tab?.id == 's7'"
                                     [disabled]="isDisabled" (click)="finalSubmitAlert()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, stepItem)"
+                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, tab)"
                                     [disabled]="isDisabled">Save & Continue Later</button>
                             </div>
                         </div>
