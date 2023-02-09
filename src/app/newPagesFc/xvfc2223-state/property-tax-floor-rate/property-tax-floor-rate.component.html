@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="!isApiInProgress">
     <form [formGroup]="propertyForm">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -313,3 +313,7 @@
 
     </div>
 </ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader></app-pre-loader>
+</div>

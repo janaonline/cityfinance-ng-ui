@@ -1,46 +1,47 @@
-<div class="container-fluid">
-    <div class="pre-y" style="" *ngIf="!isPreYear" [innerHTML]="preMess">
+<div class="" *ngIf="!isApiInProgress">
+    <div class="container-fluid">
+        <div class="pre-y" style="" *ngIf="!isPreYear" [innerHTML]="preMess">
+        </div>
     </div>
-</div>
 
-<div class="container-fluid" style="" *ngIf="isPreYear">
-    <div class="row mb-2" style="">
-        <div class="col-sm-9 header2">
-            Action Plan for UA Service Level Indicators
-        </div>
-        <div class="col-sm-3 text-end">
-            <button type="button" class="btn btn-primary" (click)="getExcel()">Download</button>
-        </div>
-    </div>
-    <div *ngIf="showLoader" style="">
-        <mat-spinner></mat-spinner>
-    </div>
-    <div *ngFor="let item of data?.uaData;  let projectIndex=index">
-        <div class="mat-card mb-3" style="">
-            <div class="mat-card-title p-3" style="">
-                <h5 class="d-inline-block he-d">
-                    UA{{projectIndex + 1}}: Urban Agglomeration {{ item?.name?.substring(0, item?.name.lastIndexOf(" ")) }}
-                </h5>
-                <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': item.fold}" style="" (click)="foldCard(projectIndex)">Select</button>
+    <div class="container-fluid" style="" *ngIf="isPreYear">
+        <div class="row mb-2" style="">
+            <div class="col-sm-9 header2">
+                Action Plan for UA Service Level Indicators
             </div>
-            <div *ngIf="item.fold">
-                <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="isDisabled">
-                </app-ag-grid2223>
+            <div class="col-sm-3 text-end">
+                <button type="button" class="btn btn-primary" (click)="getExcel()">Download</button>
             </div>
         </div>
+        <div *ngIf="showLoader" style="">
+            <mat-spinner></mat-spinner>
+        </div>
+        <div *ngFor="let item of data?.uaData;  let projectIndex=index">
+            <div class="mat-card mb-3" style="">
+                <div class="mat-card-title p-3" style="">
+                    <h5 class="d-inline-block he-d">
+                        UA{{projectIndex + 1}}: Urban Agglomeration {{ item?.name?.substring(0, item?.name.lastIndexOf(" ")) }}
+                    </h5>
+                    <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': item.fold}" style="" (click)="foldCard(projectIndex)">Select</button>
+                </div>
+                <div *ngIf="item.fold">
+                    <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="isDisabled">
+                    </app-ag-grid2223>
+                </div>
+            </div>
 
-    </div>
-    <div class="row mt-5" *ngIf="data?.uaData">
-        <div class="col-sm-3">
-            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
-        <div class="col-sm-9 text-end">
-            <button class="btn btn-primary" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
-            <button class="btn btn-primary ms-3" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
-            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        <div class="row mt-5" *ngIf="data?.uaData">
+            <div class="col-sm-3">
+                <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+            </div>
+            <div class="col-sm-9 text-end">
+                <button class="btn btn-primary" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
+                <button class="btn btn-primary ms-3" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
+                <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+            </div>
         </div>
-    </div>
-    <!-- <div class="footer" style="margin-top: 3rem;margin-bottom:4%;">
+        <!-- <div class="footer" style="margin-top: 3rem;margin-bottom:4%;">
       <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button" style="margin-bottom: 2%;">
           {{saveBtnText}}
       </button>
@@ -48,4 +49,10 @@
           BACK
       </button>
   </div> -->
+    </div>
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader></app-pre-loader>
 </div>

@@ -25,6 +25,7 @@ export class GrantAllocationComponent implements OnInit {
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
   constructor(
     private dataEntryService: DataEntryService,
@@ -201,8 +202,10 @@ export class GrantAllocationComponent implements OnInit {
     ];
   }
   getGtcData() {
+    this.isApiInProgress = true;
     this.stateService.getGTAFiles(this.stateId).subscribe(
       (res: any) => {
+        this.isApiInProgress = false;
         console.log("res", res);
         for (let i = 0; i < this.gtcFormData.length; i++) {
           let tabArray = this.gtcFormData[i]?.quesArray;
@@ -230,6 +233,7 @@ export class GrantAllocationComponent implements OnInit {
       },
       (error) => {
         console.log("err", error);
+        this.isApiInProgress = false;
       }
     );
   }
