@@ -231,7 +231,7 @@
                         <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
                             <div class="form-group my-2" *ngIf="canShowComment">
                                 <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comments" class="form-control comment"
+                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment"
                                     [id]="'comment' + stepper?.id"></textarea>
                             </div>
                             <div class="col-sm-6 ">
@@ -769,7 +769,7 @@
                         <div class="row mt-4 mx-auto" *ngIf="tab?.id !== 's1' && tab?.id !== 's2'">
                             <div class="form-group my-2" *ngIf="canShowComment">
                                 <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comments" class="form-control comment"
+                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment"
                                     [id]="'comment' + stepper?.id"></textarea>
                             </div>
                             <div class="col-sm-6 ">

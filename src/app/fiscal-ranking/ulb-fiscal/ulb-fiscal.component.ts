@@ -45,9 +45,9 @@ export class UlbFiscalComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
-  tabs = [
-
-  ];
+  tabs = [];
+  status;
+  formId;
   fiscalFormFeild;
   fiscalForm;
   fisc
@@ -394,6 +394,8 @@ export class UlbFiscalComponent implements OnInit {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
       this.tabs = res?.tabs;
+      this.formId = res?.data?.id;
+      this.status = res?.status;
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
@@ -661,6 +663,9 @@ export class UlbFiscalComponent implements OnInit {
     this.stepper.next();
   }
   stepperContinueSave(item) {
+    if(this.loggedInUserType === this.userTypes.MoHUA) {
+      return this.saveMohuaAction(true);
+    }
     console.log('this form.....', this.fiscalForm?.value);
     this.isDraft = true;
     this.updateValueInForm();
@@ -922,7 +927,7 @@ export class UlbFiscalComponent implements OnInit {
         status: "PENDING",
         value: this.paid_property_tax
       },
-      feedbacks: this.tabs.map(tab => ({id: tab.id, comments: tab.feedback.comments})),
+      feedbacks: this.tabs.map(tab => ({id: tab.id, comments: tab.feedback.comment})),
       "status": "PENDING",
       "isDraft": this.isDraft
     };
@@ -1306,32 +1311,6 @@ export class UlbFiscalComponent implements OnInit {
     this.isDraft = true;
     this.updateValueInForm();
     this.getFullDataArray();
-    // let formdata = {
-    //   ...this.fiscalForm?.value?.basicUlbDetails,
-    //   ...this.fiscalForm?.value?.contactInfo,
-    //   revMob: this.revenueMob,
-    //   expPer: this.expPerf,
-    //   fisGov: this.goverPar,
-    //   upldDoc: this.uploadFyDoc,
-    //   nrmlData: this.goverParaNdata,
-    //   "signedCopyOfFile": {
-    //     "name": this.signedFileName,
-    //     "url": this.signedFileUrl
-    //   },
-    //   "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
-    //   "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
-    //   "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
-    //   "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
-    //   "totalOwnRevenueArea": 123546,
-    //   "fy_19_20_cash": {
-    //     "type": "Cash",
-    //     "amount": 10000
-    //   },
-    //   "fy_19_20_online": {
-    //     "type": "UPI",
-    //     "amount": 99999
-    //   },
-    // };
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
         showData: this.stePreDataArray,
@@ -1711,11 +1690,26 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   get canShowComment() {
-    if (this.loggedInUserType == this.userTypes.ULB && !this.isDisabled) return false;
+    if (this.loggedInUserType == this.userTypes.ULB && this.isDraft == false) return false;
     return true;
   }
   get canEditComment() {
     if (this.loggedInUserType == this.userTypes.MoHUA) return true;
     return false;
+  }
+
+  saveMohuaAction(draftMode: boolean) {
+    const payload = {
+      ulbId: this.ulbId,
+      formId: this.formId,
+      design_year: this.yearIdArr['2022-23'],
+      actions: this.tabs.map(tab => ({
+        id: tab.id, 
+        comment: tab.feedback.comment,
+        data: tab.data
+      }))
+    }
+
+    console.log(payload);
   }
 }
