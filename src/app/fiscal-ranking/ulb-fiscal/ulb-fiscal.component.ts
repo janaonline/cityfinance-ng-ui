@@ -45,84 +45,8 @@ export class UlbFiscalComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
-  stepperArray = [
-    {
-      label: `Basic ULB Details`,
-      key: 'basicDet',
-      id: 's1',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Contact Information`,
-      key: 'conInfo',
-      id: 's6',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Revenue Mobilization Parameters`,
-      key: 'revenueMob',
-      id: 's2',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Expenditure Performance Parameters`,
-      key: 'expPerf',
-      id: 's3',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Fiscal Governance Parameters`,
-      key: 'fisGov',
-      id: 's4',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Upload Financial Documents`,
-      key: 'upFy',
-      id: 's5',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Self Declaration`,
-      key: 'selDec',
-      id: 's7',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
+  tabs = [
+
   ];
   fiscalFormFeild;
   fiscalForm;
@@ -454,70 +378,7 @@ export class UlbFiscalComponent implements OnInit {
         mobile: [null, [Validators.required, mobileNoValidator]],
         email: [null, [Validators.required, Validators.email, customEmailValidator]],
       }),
-      // revenueMob: this.fb.array([
-      //   this.fb.group({
-      //     totalRecActual: this.fb.array([
-
-      //     ]),
-      //     totalRecBudgetEst: this.fb.array([
-
-      //     ]),
-      //     totalOwnRevenues: this.fb.array([
-
-      //     ]),
-      //     totalPropTaxRevenue: this.fb.array([
-
-      //     ]),
-
-      //   }),
-
-      // ]),
-      // expPerf: this.fb.array([
-      //   this.fb.group({
-      //     totalGrossBlock: this.fb.array([
-
-      //     ]),
-      //     totalCWIP: this.fb.array([
-
-      //     ]),
-      //     estAdmExpenses: this.fb.array([
-
-      //     ]),
-      //     totalRevExp: this.fb.array([
-
-      //     ]),
-
-      //   }),
-
-      // ]),
-      // goverPar: this.fb.group({
-      //   webUrlAnnual: ["", Validators.required],
-      //   digitalRegtr: [null, Validators.required],
-      //   registerGis: [null, Validators.required],
-      //   accountStwre: [null, Validators.required],
-      //   ownRevDetails: this.fb.group({
-      //     totalOwnRevenArr_20: ["", Validators.required],
-      //     fy_19_20_cash: [null, Validators.required],
-      //     fy_19_20_online: [null, Validators.required],
-      //   }),
-      //   propertyDetails: this.fb.group({
-      //     NoOfProlisted: ["", Validators.required],
-      //     NoOfProExemtfromPayProTax: [null, Validators.required],
-      //     NoOfProwhichProTaxPaid: [null, Validators.required],
-      //   }),
-      // }),
-      // uploadFyDoc: this.fb.group({
-      //   AppAnnualBudget: this.fb.group({
-      //     budget_2017_18: [null, Validators.required],
-      //     budget_2018_19: [null, Validators.required],
-      //     budget_2019_20: [null, Validators.required],
-      //   }),
-      //   auditedAnnualFySt: this.fb.group({
-      //     audited_2017_18: [null, Validators.required],
-      //     audited_2018_19: [null, Validators.required],
-      //     audited_2019_20: [null, Validators.required],
-      //   })
-      // }),
+      
       status: [""],
       rejectReason: '',
 
@@ -532,6 +393,7 @@ export class UlbFiscalComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
+      this.tabs = res?.tabs;
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
@@ -762,7 +624,7 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   stepperContinue(item) {
-    console.log(this.stepperArray);
+    console.log(this.tabs);
     // console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
@@ -1295,7 +1157,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Revenue Mobilization Parameters`,
         key: 'revenueMob',
-        id: 's2',
+        id: 's3',
         icon: '',
         text: '',
         value: this.revenueMob
@@ -1303,7 +1165,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Expenditure Performance Parameters`,
         key: 'expPerf',
-        id: 's3',
+        id: 's4',
         icon: '',
         text: '',
         value: this.expPerf
@@ -1311,7 +1173,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Fiscal Governance Parameters`,
         key: 'fisGov',
-        id: 's4',
+        id: 's5',
         icon: '',
         text: '',
         value: {
@@ -1374,7 +1236,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Upload Financial Documents`,
         key: 'upFy',
-        id: 's5',
+        id: 's6',
         icon: '',
         text: '',
         value: this.uploadFyDoc
@@ -1382,7 +1244,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Contact Information`,
         key: 'conInfo',
-        id: 's6',
+        id: 's2',
         icon: '',
         text: '',
         value: {
@@ -1642,7 +1504,7 @@ export class UlbFiscalComponent implements OnInit {
       },
         (error) => {
           console.log('post error', error);
-          
+
         }
       )
     }
@@ -1844,7 +1706,7 @@ export class UlbFiscalComponent implements OnInit {
   setWebUrlAnnualError() {
     const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
     const value = this.goverParaNdata.normalData.yearData.webUrlAnnual.value;
-    if(!regex.test(value)) {
+    if (!regex.test(value)) {
       this.goverParaNdata.normalData.yearData.webUrlAnnual['error'] = true;
       if (this.errorPageIndex == null) this.errorPageIndex = 4;
     } else {
@@ -1852,11 +1714,11 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   get canShowComment() {
-    if(this.loggedInUserType == this.userTypes.ULB && !this.isDisabled) return false;
+    if (this.loggedInUserType == this.userTypes.ULB && !this.isDisabled) return false;
     return true;
   }
   get canEditComment() {
-    if(this.loggedInUserType == this.userTypes.MoHUA) return true;
+    if (this.loggedInUserType == this.userTypes.MoHUA) return true;
     return false;
   }
 }
