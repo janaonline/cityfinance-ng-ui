@@ -103,6 +103,7 @@ export class WaterRejenuvations2223Component implements OnInit {
   isPreYear = false;
   preMess = '';
   isLoadingError = true;
+  isApiInProgress = true;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -671,10 +672,12 @@ export class WaterRejenuvations2223Component implements OnInit {
   loadData() {
     console.log('ggggggg', this.uasData)
     this.isLoadingError = true;
+    this.isApiInProgress = true;
     this.waterRejenuvationService.getData(this.Year["2022-23"], this.stateId).subscribe(
       (res) => {
         this.errorOnload = true;
         this.isPreYear = true;
+        this.isApiInProgress = false;
         this.data = res["data"]["uaData"];
         this.wData = res["data"];
         if (this.wData?.declaration?.url && this.wData?.declaration?.name) {
@@ -696,6 +699,7 @@ export class WaterRejenuvations2223Component implements OnInit {
       (err) => {
         this.showLoader = false;
         // this.data = [];
+        this.isApiInProgress = false;
         this.preMess = err?.error?.message;
         this.isPreYear = false;
         this.isLoadingError = true;

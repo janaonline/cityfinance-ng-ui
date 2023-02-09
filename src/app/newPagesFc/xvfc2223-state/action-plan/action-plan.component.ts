@@ -44,6 +44,7 @@ export class ActionPlanComponent implements OnInit {
   stateId;
   uasData;
   isDisabled = false;
+  isApiInProgress = true;
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -116,10 +117,12 @@ export class ActionPlanComponent implements OnInit {
 
   load() {
     console.log('state id', this.stateId);
-    let year = this.Year["2022-23"]
+    let year = this.Year["2022-23"];
+    this.isApiInProgress = true;
     this.stateService.getFormDataAction(this.stateId, year).subscribe(
       (res: any) => {
         this.showLoader = false;
+        this.isApiInProgress = false;
         console.log(res["data"], "sss");
         if (this.loggedInUserType !== "STATE") {
           this.isDisabled = true
@@ -144,6 +147,7 @@ export class ActionPlanComponent implements OnInit {
         this.showLoader = false;
         this.preMess = err?.error?.message;
         this.isPreYear = false;
+        this.isApiInProgress = false;
         //this.onFail();
       }
     );

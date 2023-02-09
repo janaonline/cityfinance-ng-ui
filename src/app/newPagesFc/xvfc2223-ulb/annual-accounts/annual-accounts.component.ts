@@ -1036,6 +1036,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   nextRouter;
   backRouter;
   overAllFormDis = true;
+  isApiInProgress = true;
   ngOnInit(): void {
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
@@ -1137,6 +1138,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   canTakeAction = false;
   formData;
   onLoad() {
+    this.isApiInProgress = true;
     this.newCommonService
       .getAnnualData({
         design_year: this.Years["2022-23"],
@@ -1159,13 +1161,14 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
           } else {
             this.overAllFormDis = true;
           }
+          this.isApiInProgress = false;
           // this.actionCheck = res['status'];
           console.log("annual res---------------", this.canTakeAction);
         },
         (err) => {
           this.action = err.error?.action;
           this.url = err.error?.url;
-
+          this.isApiInProgress = false;
           const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",

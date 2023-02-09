@@ -53,22 +53,6 @@ export class GrantClaimsComponent implements OnInit {
   status_nmpc_tied = 'Claim yet to be submitted.';
   status_nmpc_untied = 'Claim yet to be submitted.';
   noDataFoundUrl = 'https://democityfinanceapi.dhwaniris.in/objects/92f725fb-8b27-421a-8f16-ac71921efccb.pdf';
-  constructor(
-    private dialog: MatDialog,
-    public grantClaimsService: GrantClaimsService,
-    public gTCertificateService: GTCertificateService,
-    public stateDashboardService: StateDashboardService,
-    private datePipe: DatePipe,
-    private router: Router
-  ) {
-    // this.financial_year = JSON.parse(localStorage.getItem('Years'));
-    this.stateId = sessionStorage.getItem("state_id");
-      if (!this.stateId) {
-        this.stateId = localStorage.getItem("state_id");
-      }
-
-  }
-
 
   //to store objects from grant claims get api
   nmpc_untied_1st_claimsData = {}
@@ -123,6 +107,24 @@ export class GrantClaimsComponent implements OnInit {
   nmpcUntied_2_Data;
   action = '';
   claimSubmitDate = ''
+  isApiInProgress = true;
+  constructor(
+    private dialog: MatDialog,
+    public grantClaimsService: GrantClaimsService,
+    public gTCertificateService: GTCertificateService,
+    public stateDashboardService: StateDashboardService,
+    private datePipe: DatePipe,
+    private router: Router
+  ) {
+    // this.financial_year = JSON.parse(localStorage.getItem('Years'));
+    this.stateId = sessionStorage.getItem("state_id");
+      if (!this.stateId) {
+        this.stateId = localStorage.getItem("state_id");
+      }
+
+  }
+
+
   async ngOnInit() {
 
     await this.findDisplay();
@@ -187,9 +189,11 @@ export class GrantClaimsComponent implements OnInit {
   }
 
   fetchData(financialYear) {
+    this.isApiInProgress = true;
     this.grantClaimsService.getData2223(this.years['2022-23'], this.stateId).subscribe(
       (res) => {
-        console.log(res)
+        console.log(res);
+        this.isApiInProgress = false;
         let data = res['data'];
         this.mpcData = data['mpc_tied_1']
         this.currStatus_mpc = this.mpcData?.mpc_tied_1_GrantData?.status;
@@ -247,7 +251,8 @@ export class GrantClaimsComponent implements OnInit {
         this.computeButtonLabels()
       },
       (err) => {
-        console.log(err.message)
+        console.log(err.message);
+        this.isApiInProgress = false;
       }
     )
   }

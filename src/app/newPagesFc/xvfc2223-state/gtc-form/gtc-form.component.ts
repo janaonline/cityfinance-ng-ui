@@ -45,6 +45,7 @@ export class GtcFormComponent implements OnInit {
   }
   sideMenuItem;
   gtcFormData;
+  isApiInProgress = true;
   ngOnInit(): void {
     this.intializeGtc();
     this.getGtcData();
@@ -55,6 +56,7 @@ export class GtcFormComponent implements OnInit {
     }
   }
   getGtcData() {
+    this.isApiInProgress = true;
     this.stateService.getGtcData(this.stateId).subscribe(
       (res: any) => {
         console.log("res", res);
@@ -84,8 +86,10 @@ export class GtcFormComponent implements OnInit {
         }
         this.disableInputs();
         this.checkAction();
+        this.isApiInProgress = false;
       },
       (error) => {
+        this.isApiInProgress = false;
         swal('Error', "Something went wrong, please try after some time.")
         for (let i = 0; i < this.gtcFormData.length; i++) {
         this.gtcFormData[i]?.quesArray.forEach((el) => {

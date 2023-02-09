@@ -1,4 +1,4 @@
-<div class="container-fluid mb-3" style="">
+<div class="container-fluid mb-3" style="" *ngIf="!isApiInProgress">
     <!-- heading and drop down -->
     <div class="row mt-2">
         <div class="col-sm-12 form-header">
@@ -378,3 +378,7 @@
 
 
 </ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader></app-pre-loader>
+</div>
