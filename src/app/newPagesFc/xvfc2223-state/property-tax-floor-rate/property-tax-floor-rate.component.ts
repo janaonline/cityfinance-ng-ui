@@ -54,6 +54,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   extantActDocError;
   // isDisabled:boolean =false
   previewFormData:any;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -62,6 +63,13 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
+  sideMenuItem;
+  userData;
+  design_year;
+  stateId;
+  yearValue;
+  minimumUrl;
+  ruleUrl;
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -80,13 +88,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.initializeForm();
     this.setRouter();
   }
-  sideMenuItem;
-  userData;
-  design_year;
-  stateId;
-  yearValue;
-  minimumUrl;
-  ruleUrl;
+
   ngOnInit(): void {
     this.clickedSave = false;
     sessionStorage.setItem("changeInPropertyTax", "false");
@@ -135,6 +137,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     };
     console.log(params)
     //call api and subscribe and patch here
+    this.isApiInProgress = true;
     this.ptService.getPtData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
@@ -143,8 +146,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       this.patchFunction(this.previewFormData);
       this.checkActionDisable(res?.data);
       sessionStorage.setItem("changeInPropertyTax", "false");
+      this.isApiInProgress = false;
     },
       (error) => {
+        this.isApiInProgress = false;
         if (this.userData?.role !== "STATE") {
           this.isDisabled = true;
         }

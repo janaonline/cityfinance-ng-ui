@@ -55,6 +55,7 @@ export class StateFinanceComponent implements OnInit {
     };
   } = {};
   sideMenuItem;
+  isApiInProgress = true;
   constructor(
     public _router: Router,
     public dialog: MatDialog,
@@ -135,10 +136,12 @@ export class StateFinanceComponent implements OnInit {
       state: this.stateId,
       design_year: this.yearValue,
     };
+    this.isApiInProgress = true;
     console.log(params)
     //call api and subscribe and patch here
     this.ptService.getStateFinance(params).subscribe((res:any)=>{
       console.log('responswedadadad', res)
+      this.isApiInProgress = false;
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
       res?.data?.isDraft == false ? this.commonActionCondition = true : this.commonActionCondition = false;
       this.previewFormData = res;
@@ -154,6 +157,7 @@ export class StateFinanceComponent implements OnInit {
       sessionStorage.setItem("changeInStateFinance", "false");
     },
       (error) => {
+        this.isApiInProgress = false;
         if (this.userData?.role !== "STATE") {
           this.isDisabled = true;
         }

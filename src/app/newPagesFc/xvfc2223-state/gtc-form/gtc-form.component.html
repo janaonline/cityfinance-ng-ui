@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isApiInProgress">
     <div class="row header mt-2">
         <div class="col-sm-8 col-lg-8 col-md-8 header2">
             <span>Grant Transfer Certificate</span>
@@ -184,3 +184,7 @@
 
     </div>
 </ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader></app-pre-loader>
+</div>

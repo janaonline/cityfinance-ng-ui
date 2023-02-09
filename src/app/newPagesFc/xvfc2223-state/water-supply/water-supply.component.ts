@@ -71,6 +71,7 @@ export class WaterSupplyComponent implements OnInit {
 
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
+  // isApiInProgress = true;
   constructor(
     private dialog: MatDialog,
     private stateService: State2223Service,
