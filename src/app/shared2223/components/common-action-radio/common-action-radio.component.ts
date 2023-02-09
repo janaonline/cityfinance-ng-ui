@@ -7,7 +7,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class CommonActionRadioComponent implements OnInit {
 
-  @Input() type;
   @Input() status;
   @Output() statusChange = new EventEmitter();
 
