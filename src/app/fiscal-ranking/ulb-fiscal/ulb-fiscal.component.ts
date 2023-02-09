@@ -762,7 +762,7 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   stepperContinue(item) {
-    console.log(this.revenueMob);
+    console.log(this.stepperArray);
     // console.log("stepper", stepper, item);
     // let lb: string = label;
     // switch (label) {
@@ -1850,5 +1850,13 @@ export class UlbFiscalComponent implements OnInit {
     } else {
       this.goverParaNdata.normalData.yearData.webUrlAnnual['error'] = false;
     }
+  }
+  get canShowComment() {
+    if(this.loggedInUserType == this.userTypes.ULB && !this.isDisabled) return false;
+    return true;
+  }
+  get canEditComment() {
+    if(this.loggedInUserType == this.userTypes.MoHUA) return true;
+    return false;
   }
 }

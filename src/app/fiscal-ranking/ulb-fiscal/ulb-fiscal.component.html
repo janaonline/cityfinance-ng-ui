@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-sm-12 heading com-style">
-            City Finance Rankings 2022
+            City Finance Rankings 2022 {{ isDraft | json}} {{ isDisabled | json}}
         </div>
     </div>
     <button *ngIf="cantakeAction" (click)="action()">Action</button>
@@ -229,6 +229,11 @@
                         </div>
 
                         <div class="row mt-4 pd-b" *ngIf="stepItem?.id == 's6' || stepItem?.id == 's1'">
+                            <div class="form-group my-2" *ngIf="canShowComment">
+                                <label [for]="'comment' + stepper?.id">Comment</label>
+                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="stepItem.feedback.comment" class="form-control comment"
+                                    [id]="'comment' + stepper?.id"></textarea>
+                            </div>
                             <div class="col-sm-6 ">
                                 <button class="btn btn-f-next com-style"
                                     (click)="stepperContinue(stepItem)">Next</button>
@@ -762,6 +767,11 @@
                             </div>
                         </div>
                         <div class="row mt-4 mx-auto" *ngIf="stepItem?.id !== 's1' && stepItem?.id !== 's6'">
+                            <div class="form-group my-2" *ngIf="canShowComment">
+                                <label [for]="'comment' + stepper?.id">Comment</label>
+                                <textarea required [disabled]="canEditComment" type="email" rows="6" [(ngModel)]="stepItem.feedback.comment" class="form-control comment"
+                                    [id]="'comment' + stepper?.id"></textarea>
+                            </div>
                             <div class="col-sm-6 ">
                                 <button class="btn btn-f-next com-style" *ngIf="stepItem?.id !== 's7'"
                                     (click)="stepperContinue(stepper, stepItem)">Next</button>

@@ -60,6 +60,10 @@
     font-size: 16px;
     line-height: 22px;
 
+    &.comment {
+        height: unset;
+    }
+
     &:disabled {
         pointer-events: none;
     }
@@ -315,3 +319,4 @@
         }
     }
 }
+
