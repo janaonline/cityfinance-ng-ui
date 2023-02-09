@@ -299,7 +299,7 @@ div.miniMap {
 //   height: 38px;
 // }
 ::ng-deep input.mat-input-element {
-    background: #F2F3F8;
+    //  background: #F2F3F8;
     padding: 5px;
     border-radius: 0;
     border: none;
@@ -307,6 +307,7 @@ div.miniMap {
         box-shadow: none;
     }
 }
+
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
     min-width: 200.1px !important;
 }
@@ -587,4 +588,14 @@ div.miniMap {
 ::ng-deep .c-btn {
     border: 1px solid;
     border-radius: 6px;
+}
+
+::ng-deep .matInputCstm {
+    background: #F2F3F8 !important;
+}
+
+@media (max-width: 600px) {
+    .m-m {
+        margin-top: 1rem;
+    }
 }

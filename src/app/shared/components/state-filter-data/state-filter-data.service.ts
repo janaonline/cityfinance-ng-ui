@@ -362,7 +362,7 @@ export class StateFilterDataService {
             console.log("data", data);
             // data.toFixed(2) + " %",
             ctx.fillText(
-              Math.round(data) + " %",
+              Math.round(data) + "%",
               bar._model.x,
               bar._model.y - 5
             );

@@ -505,13 +505,13 @@ export class RevenuechartComponent
       console.log("this.myChart", this.myChart);
     }
 
-    if (this.chartData.type == "scatter") {
+    if (this.chartData?.type == "scatter") {
       Object.assign(this.chartData, { options: this.scatterOption });
     } else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
-    if (this.chartData.type == "doughnut") {
+    if (this.chartData?.type == "doughnut") {
       let data = [];
       this.dounghnuChartLabels.emit(this.chartData.data["labels"]);
     }

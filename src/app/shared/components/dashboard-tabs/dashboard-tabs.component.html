@@ -164,10 +164,10 @@
                     </div>
                 </div>
             </div>
-            <div *ngSwitchCase="'MoU'">
+            <div *ngSwitchCase="'Infrastructure Projects'">
                 <div [ngSwitch]="DashBoardType">
                     <div *ngSwitchCase="'city'">
-                        <app-pdf-card-viewer [cityId]="cityId"></app-pdf-card-viewer>
+                        <app-pdf-card-viewer [cityId]="cityId" [tabDescription]="tabDesc"></app-pdf-card-viewer>
                     </div>
                 </div>
             </div>
