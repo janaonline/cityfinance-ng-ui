@@ -348,17 +348,21 @@
                                                                 {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12">
-                                                                <input type="input" [(ngModel)]="yearItem.amount"
-                                                                    (keyup)="amountKeyUp('click', yearItem)"
-                                                                    (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
-                                                                    [ngModelOptions]="{standalone: true}"
-                                                                    class="form-control com-style yrformCon"
-                                                                    id="{{yearItem?.key}}"
-                                                                    [disabled]="yearItem?.readonly"
-                                                                    [ngClass]="{'is-invalid': yearItem.error}"
-                                                                    placeholder="{{yearItem?.placeholder}}"
-                                                                    (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)"
-                                                                    #inputText4>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text br-a"
+                                                                        id="basic-addon1">₹</span>
+                                                                    <input type="text" [(ngModel)]="yearItem.amount"
+                                                                        (keyup)="amountKeyUp('click', yearItem)"
+                                                                        (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        class="form-control com-style yrformCon"
+                                                                        id="{{yearItem?.key}}"
+                                                                        [disabled]="yearItem?.readonly"
+                                                                        [ngClass]="{'is-invalid': yearItem.error}"
+                                                                        placeholder="{{yearItem?.placeholder}}"
+                                                                        (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)"
+                                                                        #inputText4>
+                                                                </div>
                                                             </div>
                                                             <small *ngIf="yearItem.error" class="text-danger">Please
                                                                 enter valid value</small>
@@ -589,7 +593,8 @@
                                                             </mat-radio-button>
                                                         </mat-radio-group>
                                                     </div>
-                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
+                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error"
+                                                        class="text-danger">Please enter valid value</small>
                                                     <app-common-action-radio
                                                         *ngIf="cantakeAction && goverParaNdata.normalData.yearData.registerGis.status"
                                                         [(status)]="goverParaNdata.normalData.yearData.registerGis.status"
@@ -614,7 +619,8 @@
                                                             </mat-radio-button>
                                                         </mat-radio-group>
                                                     </div>
-                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
+                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error"
+                                                        class="text-danger">Please enter valid value</small>
                                                     <app-common-action-radio
                                                         *ngIf="cantakeAction && goverParaNdata.normalData.yearData.accountStwre.status"
                                                         [(status)]="goverParaNdata.normalData.yearData.accountStwre.status"
@@ -643,17 +649,21 @@
                                                                 {{yearItem?.label}}*
                                                             </div>
                                                             <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
-                                                                <input type="text" [(ngModel)]="yearItem.amount"
-                                                                    (keyup)="amountKeyUp('click', yearItem)"
-                                                                    (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
-                                                                    [disabled]="yearItem?.readonly"
-                                                                    [ngModelOptions]="{standalone: true}"
-                                                                    class="form-control com-style yrformCon"
-                                                                    id="{{yearItem?.key}}"
-                                                                    [ngClass]="{'is-invalid': yearItem.error}"
-                                                                    placeholder="{{yearItem?.placeholder}}"
-                                                                    (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)"
-                                                                    #inputText5>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text br-a"
+                                                                        id="basic-addon1">₹</span>
+                                                                    <input type="text" [(ngModel)]="yearItem.amount"
+                                                                        (keyup)="amountKeyUp('click', yearItem)"
+                                                                        (change)="amountPushInFY('click', r_i, yearItem, stepItem)"
+                                                                        [disabled]="yearItem?.readonly"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        class="form-control com-style yrformCon"
+                                                                        id="{{yearItem?.key}}"
+                                                                        [ngClass]="{'is-invalid': yearItem.error}"
+                                                                        placeholder="{{yearItem?.placeholder}}"
+                                                                        (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)"
+                                                                        #inputText5>
+                                                                </div>
                                                             </div>
                                                             <small *ngIf="yearItem.error" class="text-danger">Please
                                                                 enter valid value</small>
