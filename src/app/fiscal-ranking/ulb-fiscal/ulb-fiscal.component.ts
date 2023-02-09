@@ -884,10 +884,6 @@ export class UlbFiscalComponent implements OnInit {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
         status: 'PENDING',
       },
-      // "auditReprtDate": {
-      //   value: this.goverParaNdata?.auditReprtDate?.yearData,
-      //   status: 'PENDING',
-      // },
       "registerGis": {
         value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
         status: 'PENDING',
@@ -926,6 +922,7 @@ export class UlbFiscalComponent implements OnInit {
         status: "PENDING",
         value: this.paid_property_tax
       },
+      feedbacks: this.tabs.map(tab => ({id: tab.id, comments: tab.feedback.comments})),
       "status": "PENDING",
       "isDraft": this.isDraft
     };
