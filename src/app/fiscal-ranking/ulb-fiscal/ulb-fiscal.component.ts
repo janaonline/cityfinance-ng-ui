@@ -82,110 +82,111 @@ export class UlbFiscalComponent implements OnInit {
   dialogRef;
   modalRef;
   @ViewChild("templateSaveChange") template;
-  goverPar = {
-    ownRevDetails: {
-      key: 'ownRevDetails',
-      label: 'Own Revenue Details',
-      yearData: [
-        {
-          label: 'Total Own Revenue Arrears as on 31st March 2020',
-          key: 'totalOwnRevenArr_20',
-          postion: '1',
-          amount: this.totalOwnRevenueArea,
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'number',
-          inWords: ''
-        },
-      ]
-    },
-    ownRevenAmt: {
-      key: "ownRevenAmt",
-      label: "Own Revenue Collection Amount",
-      yearData: [
-        {
-          label: "FY 2021-22 - by Cash/Cheque/DD",
-          key: "fy_21_22_cash",
-          postion: "2",
-          amount: this.fy_21_22_cash,
-          min: "",
-          max: "",
-          required: true,
-          type: "",
-          bottomText: "",
-          placeHolder: "",
-          input: "number",
-          isWords: ''
-        },
-        {
-          label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
-          key: "fy_21_22_online",
-          postion: "3",
-          amount: this.fy_21_22_online,
-          min: "",
-          max: "",
-          required: true,
-          type: "",
-          bottomText: "",
-          placeHolder: "",
-          input: "number",
-          isWords: ''
-        }
-      ]
-    },
-    propertyDetails: {
-      key: 'propertyDetails',
-      label: 'Property Details',
-      yearData: [
-        {
-          label: 'Number of Properties assessed/listed as per Property Tax Register',
-          key: 'NoOfProlisted',
-          postion: '1',
-          amount: this.property_tax_register,
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'number',
-          inWords: ''
-        },
-        {
-          label: 'Number of Properties exemt from paying Property Tax',
-          key: 'NoOfProExemtfromPayProTax',
-          postion: '2',
-          amount: this.paying_property_tax,
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'number',
-          inWords: ''
-        },
-        {
-          label: 'Number of Properties for which Property Tax has been paid',
-          key: 'NoOfProwhichProTaxPaid',
-          postion: '3',
-          amount: this.paid_property_tax,
-          min: '',
-          max: '',
-          required: true,
-          type: '',
-          bottomText: ``,
-          placeHolder: '',
-          input: 'number',
-          inWords: ''
-        },
-      ]
-    },
-  }
+  // goverPar = {
+  //   ownRevDetails: {
+  //     key: 'ownRevDetails',
+  //     label: 'Own Revenue Details',
+  //     yearData: [
+  //       {
+  //         label: 'Total Own Revenue Arrears as on 31st March 2020',
+  //         key: 'totalOwnRevenArr_20',
+  //         postion: '1',
+  //         amount: this.totalOwnRevenueArea,
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: ``,
+  //         placeHolder: '',
+  //         input: 'number',
+  //         inWords: ''
+  //       },
+  //     ]
+  //   },
+  //   ownRevenAmt: {
+  //     key: "ownRevenAmt",
+  //     label: "Own Revenue Collection Amount",
+  //     yearData: [
+  //       {
+  //         label: "FY 2021-22 - by Cash/Cheque/DD",
+  //         key: "fy_21_22_cash",
+  //         postion: "2",
+  //         amount: this.fy_21_22_cash,
+  //         min: "",
+  //         max: "",
+  //         required: true,
+  //         type: "",
+  //         bottomText: "",
+  //         placeHolder: "",
+  //         input: "number",
+  //         isWords: ''
+  //       },
+  //       {
+  //         label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
+  //         key: "fy_21_22_online",
+  //         postion: "3",
+  //         amount: this.fy_21_22_online,
+  //         min: "",
+  //         max: "",
+  //         required: true,
+  //         type: "",
+  //         bottomText: "",
+  //         placeHolder: "",
+  //         input: "number",
+  //         isWords: ''
+  //       }
+  //     ]
+  //   },
+  //   propertyDetails: {
+  //     key: 'propertyDetails',
+  //     label: 'Property Details',
+  //     yearData: [
+  //       {
+  //         label: 'Number of Properties assessed/listed as per Property Tax Register',
+  //         key: 'NoOfProlisted',
+  //         postion: '1',
+  //         amount: this.property_tax_register,
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: ``,
+  //         placeHolder: '',
+  //         input: 'number',
+  //         inWords: ''
+  //       },
+  //       {
+  //         label: 'Number of Properties exemt from paying Property Tax',
+  //         key: 'NoOfProExemtfromPayProTax',
+  //         postion: '2',
+  //         amount: this.paying_property_tax,
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: ``,
+  //         placeHolder: '',
+  //         input: 'number',
+  //         inWords: ''
+  //       },
+  //       {
+  //         label: 'Number of Properties for which Property Tax has been paid',
+  //         key: 'NoOfProwhichProTaxPaid',
+  //         postion: '3',
+  //         amount: this.paid_property_tax,
+  //         min: '',
+  //         max: '',
+  //         required: true,
+  //         type: '',
+  //         bottomText: ``,
+  //         placeHolder: '',
+  //         input: 'number',
+  //         inWords: ''
+  //       },
+  //     ]
+  //   },
+  // }
+  goverPar;
   goverParaNdata = {
     auditReprtDate: {
       label: 'Date of Audit Report for audited financial statements',
@@ -379,7 +380,7 @@ export class UlbFiscalComponent implements OnInit {
         mobile: [null, [Validators.required, mobileNoValidator]],
         email: [null, [Validators.required, Validators.email, customEmailValidator]],
       }),
-      
+
       status: [""],
       rejectReason: '',
 
@@ -395,12 +396,13 @@ export class UlbFiscalComponent implements OnInit {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
       this.tabs = res?.tabs;
-      this.formId = res?.data?.id;
+      this.formId = res?.data?._id;
       this.status = res?.status;
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
       this.conInfo = res?.tabs.find(tab => tab.key == 'conInfo');
+      this.goverPar = res?.tabs.find(tab => tab.key == 'goverPar').data;
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
       this.goverParaNdata.auditReprtDate.yearData = formObjKey?.goverPar?.auditReprtDate?.yearData?.map(year => ({
         ...year,
@@ -463,110 +465,110 @@ export class UlbFiscalComponent implements OnInit {
       },
     });
 
-    this.goverPar = {
-      ownRevDetails: {
-        key: 'ownRevDetails',
-        label: 'Own Revenue Details',
-        yearData: [
-          {
-            label: 'Total Own Revenue Arrears as on 31st March 2022',
-            key: 'totalOwnRevenArr_20',
-            postion: '1',
-            amount: this.totalOwnRevenueArea,
-            min: '',
-            max: '',
-            required: true,
-            type: '',
-            bottomText: ``,
-            placeHolder: '',
-            input: 'number',
-            inWords: ''
-          },
-        ]
-      },
-      ownRevenAmt: {
-        key: "ownRevenAmt",
-        label: "Own Revenue Collection Amount",
-        yearData: [
-          {
-            label: "FY 2021-22 - by Cash/Cheque/DD",
-            key: "fy_21_22_cash",
-            postion: "2",
-            amount: this.fy_21_22_cash,
-            min: "",
-            max: "",
-            required: true,
-            type: "",
-            bottomText: "",
-            placeHolder: "",
-            input: "number",
-            isWords: ''
-          },
-          {
-            label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
-            key: "fy_21_22_online",
-            postion: "3",
-            amount: this.fy_21_22_online,
-            min: "",
-            max: "",
-            required: true,
-            type: "",
-            bottomText: "",
-            placeHolder: "",
-            input: "number",
-            isWords: ''
-          }
-        ]
-      },
-      propertyDetails: {
-        key: 'propertyDetails',
-        label: 'Property Details',
-        yearData: [
-          {
-            label: 'Number of Properties assessed/listed as per Property Tax Register (as on 1st April 2022)',
-            key: 'NoOfProlisted',
-            postion: '1',
-            amount: this.property_tax_register,
-            min: '',
-            max: '',
-            required: true,
-            type: '',
-            bottomText: ``,
-            placeHolder: '',
-            input: 'number',
-            inWords: ''
-          },
-          {
-            label: 'Number of Properties exemt from paying Property Tax (as on 1st April 2022)',
-            key: 'NoOfProExemtfromPayProTax',
-            postion: '2',
-            amount: this.paying_property_tax,
-            min: '',
-            max: '',
-            required: true,
-            type: '',
-            bottomText: ``,
-            placeHolder: '',
-            input: 'number',
-            inWords: ''
-          },
-          {
-            label: 'Number of Properties for which Property Tax has been paid  (for FY 2021-22)',
-            key: 'NoOfProwhichProTaxPaid',
-            postion: '3',
-            amount: this.paid_property_tax,
-            min: '',
-            max: '',
-            required: true,
-            type: '',
-            bottomText: ``,
-            placeHolder: '',
-            input: 'number',
-            inWords: ''
-          },
-        ]
-      },
-    };
+    // this.goverPar = {
+    //   ownRevDetails: {
+    //     key: 'ownRevDetails',
+    //     label: 'Own Revenue Details',
+    //     yearData: [
+    //       {
+    //         label: 'Total Own Revenue Arrears as on 31st March 2022',
+    //         key: 'totalOwnRevenArr_20',
+    //         postion: '1',
+    //         amount: this.totalOwnRevenueArea,
+    //         min: '',
+    //         max: '',
+    //         required: true,
+    //         type: '',
+    //         bottomText: ``,
+    //         placeHolder: '',
+    //         input: 'number',
+    //         inWords: ''
+    //       },
+    //     ]
+    //   },
+    //   ownRevenAmt: {
+    //     key: "ownRevenAmt",
+    //     label: "Own Revenue Collection Amount",
+    //     yearData: [
+    //       {
+    //         label: "FY 2021-22 - by Cash/Cheque/DD",
+    //         key: "fy_21_22_cash",
+    //         postion: "2",
+    //         amount: this.fy_21_22_cash,
+    //         min: "",
+    //         max: "",
+    //         required: true,
+    //         type: "",
+    //         bottomText: "",
+    //         placeHolder: "",
+    //         input: "number",
+    //         isWords: ''
+    //       },
+    //       {
+    //         label: "FY 2021-22 - by Online (UPI,Netbanking,Credit Card,Debit Card,others)",
+    //         key: "fy_21_22_online",
+    //         postion: "3",
+    //         amount: this.fy_21_22_online,
+    //         min: "",
+    //         max: "",
+    //         required: true,
+    //         type: "",
+    //         bottomText: "",
+    //         placeHolder: "",
+    //         input: "number",
+    //         isWords: ''
+    //       }
+    //     ]
+    //   },
+    //   propertyDetails: {
+    //     key: 'propertyDetails',
+    //     label: 'Property Details',
+    //     yearData: [
+    //       {
+    //         label: 'Number of Properties assessed/listed as per Property Tax Register (as on 1st April 2022)',
+    //         key: 'NoOfProlisted',
+    //         postion: '1',
+    //         amount: this.property_tax_register,
+    //         min: '',
+    //         max: '',
+    //         required: true,
+    //         type: '',
+    //         bottomText: ``,
+    //         placeHolder: '',
+    //         input: 'number',
+    //         inWords: ''
+    //       },
+    //       {
+    //         label: 'Number of Properties exemt from paying Property Tax (as on 1st April 2022)',
+    //         key: 'NoOfProExemtfromPayProTax',
+    //         postion: '2',
+    //         amount: this.paying_property_tax,
+    //         min: '',
+    //         max: '',
+    //         required: true,
+    //         type: '',
+    //         bottomText: ``,
+    //         placeHolder: '',
+    //         input: 'number',
+    //         inWords: ''
+    //       },
+    //       {
+    //         label: 'Number of Properties for which Property Tax has been paid  (for FY 2021-22)',
+    //         key: 'NoOfProwhichProTaxPaid',
+    //         postion: '3',
+    //         amount: this.paid_property_tax,
+    //         min: '',
+    //         max: '',
+    //         required: true,
+    //         type: '',
+    //         bottomText: ``,
+    //         placeHolder: '',
+    //         input: 'number',
+    //         inWords: ''
+    //       },
+    //     ]
+    //   },
+    // };
     if (this.isDraft == false) {
       this.isDisabled = true;
       this.fiscalForm.disable();
@@ -663,7 +665,7 @@ export class UlbFiscalComponent implements OnInit {
     this.stepper.next();
   }
   stepperContinueSave(item) {
-    if(this.loggedInUserType === this.userTypes.MoHUA) {
+    if (this.loggedInUserType === this.userTypes.MoHUA) {
       return this.saveMohuaAction(true);
     }
     console.log('this form.....', this.fiscalForm?.value);
@@ -927,7 +929,7 @@ export class UlbFiscalComponent implements OnInit {
         status: "PENDING",
         value: this.paid_property_tax
       },
-      feedbacks: this.tabs.map(tab => ({id: tab.id, comments: tab.feedback.comment})),
+      feedbacks: this.tabs.map(tab => ({ id: tab.id, comments: tab.feedback.comment })),
       "status": "PENDING",
       "isDraft": this.isDraft
     };
@@ -1700,12 +1702,12 @@ export class UlbFiscalComponent implements OnInit {
 
   getActionsData(tab) {
     const result = {};
-    if(['s3', 's4'].includes(tab.id)) {
-      return Object.values(tab.data).reduce((result, item: any) => {
-        result[item.key] = item.yearData.map(yearItem => ({year: yearItem.year, status: yearItem.status}))
-        return result;
-      }, result)
-    }
+    // if (['s3', 's4'].includes(tab.id)) {
+    //   return Object.values(tab.data).reduce((result, item: any) => {
+    //     result[item.key] = item.yearData.map(yearItem => ({ year: yearItem.year, status: yearItem.status }))
+    //     return result;
+    //   }, result)
+    // }
     return tab.data;
   }
 
@@ -1715,8 +1717,8 @@ export class UlbFiscalComponent implements OnInit {
       formId: this.formId,
       design_year: this.yearIdArr['2022-23'],
       actions: this.tabs.map(tab => ({
-        id: tab.id, 
-        comment: tab.feedback.comment,
+        id: tab.id,
+        feedback: tab.feedback,
         data: this.getActionsData(tab)
       }))
     }

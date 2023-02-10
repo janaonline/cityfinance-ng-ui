@@ -641,7 +641,8 @@
                                     </div>
                                     <div class="card card-form mb-4 com-style"
                                         *ngFor="let item of goverPar | keyvalue : returnZero">
-                                        <div class="card-body">
+                                        <!-- <p>{{ item.key | json}}</p> -->
+                                        <div class="card-body" *ngIf="!['normalData', 'auditReprtDate'].includes(item.key)">
                                             <div class="loop">
                                                 <div class="row">
                                                     <div class="col-sm-12 h-label mb-3 com-style">
