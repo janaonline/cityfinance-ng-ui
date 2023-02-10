@@ -927,7 +927,7 @@ export class UlbFiscalComponent implements OnInit {
         status: "PENDING",
         value: this.paid_property_tax
       },
-      feedbacks: this.tabs.map(tab => ({id: tab.id, comments: tab.feedback.comment})),
+      // feedback: this.tabs.map(tab => ({id: tab.id, comment: tab.feedback?.comment})),
       "status": "PENDING",
       "isDraft": this.isDraft
     };
@@ -1061,7 +1061,7 @@ export class UlbFiscalComponent implements OnInit {
         "typeofdata": dType, /* Number, PDF,Excel    */
         "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
       }
-    } else if (stItem?.key == "fisGov") {
+    } else if (stItem?.key == "goverPar") {
       switch (yItem.key) {
         case "totalOwnRevenArr_20":
           this.totalOwnRevenueArea = yItem?.amount;
@@ -1690,7 +1690,7 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   get canShowComment() {
-    if (this.loggedInUserType == this.userTypes.ULB && this.isDraft == false) return false;
+    if (this.loggedInUserType == this.userTypes.ULB) return false;
     return true;
   }
   get canEditComment() {
