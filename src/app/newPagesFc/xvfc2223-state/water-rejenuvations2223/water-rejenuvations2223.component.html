@@ -390,6 +390,15 @@
                                     </span>Add more</button>
                             </div>
                         </div>
+                        <!-- action components -->
+                        <div class="mt-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <app-common-action [actionRes]="actionRes" [formData]="wData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'projects_wss'">
+                                    </app-common-action>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -460,12 +469,14 @@
             </button>
             </div>
             <div class="col-sm-7 text-end">
-                <button class="btn btn-primary" (click)="onDraft()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
+                <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="onDraft()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Save as Draft
               </button>
-                <button class="btn btn-primary ms-2" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
+                <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
+
                 <button class="btn btn-c-next ms-2" [routerLink]="['../edit-ulb-profile']" type="button">
                 Next Form ->
               </button>

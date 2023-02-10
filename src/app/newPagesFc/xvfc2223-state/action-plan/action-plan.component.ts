@@ -13,6 +13,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { log } from 'console';
 
 
 @Component({
@@ -23,11 +24,11 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 export class ActionPlanComponent implements OnInit {
 
   userLoggedInDetails: IUserLoggedInDetails;
-  // loggedInUserType: USER_TYPE;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
-  // uasData = JSON.parse(sessionStorage.getItem("UasList"));
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
   data = null;
@@ -37,13 +38,25 @@ export class ActionPlanComponent implements OnInit {
   uaCodes = {};
   showLoader = true;
   projectCategories = [];
-  @ViewChild("template") template;
-  @ViewChild("template1") template1;
  // dialogRefForNavigation;
   actionRes = [];
   stateId;
   uasData;
   isDisabled = false;
+  body = {};
+  stopFlag = 0;
+  submitted = false;
+  reqBody;
+  finalError = false;
+  isPreYear = false;
+  preMess = '';
+  backRouter = '';
+  nextRouter = '';
+  canTakeAction:boolean = false;
+  actionError = false;
+  actionBtnDis = false;
+  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
+  UANames = [];
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -62,18 +75,8 @@ export class ActionPlanComponent implements OnInit {
     }
 
   }
- // disableAllForms = false;
- // actionFormDisable = false;
- // isStateSubmittedForms = "";
- // allStatus;
- // backButtonClicked = false;
-  body = {};
-  stopFlag = 0;
-  submitted = false;
-  reqBody;
-  finalError = false;
-  isPreYear = false;
-  preMess = '';
+
+
   ngOnInit(): void {
     this.getUAList();
   }
@@ -120,6 +123,7 @@ export class ActionPlanComponent implements OnInit {
     this.stateService.getFormDataAction(this.stateId, year).subscribe(
       (res: any) => {
         this.showLoader = false;
+
         console.log(res["data"], "sss");
         if (this.loggedInUserType !== "STATE") {
           this.isDisabled = true
@@ -134,7 +138,9 @@ export class ActionPlanComponent implements OnInit {
           uaData: res["data"]?.uaData,
           status: res["data"]?.status ?? "PENDING",
           isDraft: res["data"]?.isDraft,
+          canTakeAction : res["data"]?.canTakeAction,
         };
+        this.canTakeAction = res["data"]?.canTakeAction
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
         this.addKeys(this.data);
         this.isPreYear = true;
@@ -247,7 +253,7 @@ export class ActionPlanComponent implements OnInit {
   }
 
 
-  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
+
   submit(type) {
     let draftFlag;
     if (this.loggedInUserType === "STATE") {
@@ -376,54 +382,7 @@ export class ActionPlanComponent implements OnInit {
     );
   }
 
-  // saveStateAction() {
-  //   let flag = 0;
-  //   let draftFlag = 0;
 
-  //   console.log(this.finalActionData);
-  //   this.finalActionData['uaData'].forEach(el => {
-  //     if (el.status != 'APPROVED' && el.status != 'REJECTED') {
-  //       draftFlag = 1;
-  //     }
-  //   })
-  //   if (draftFlag) {
-  //     this.finalActionData['isDraft'] = true;
-  //   } else {
-  //     this.finalActionData['isDraft'] = false;
-  //   }
-  //   console.log(this.finalActionData['isDraft'])
-  //   this.finalActionData.uaData.forEach((el) => {
-  //     console.log(el.ua, el.status, el.rejectReason);
-
-  //     if (
-  //       el["status"] == "REJECTED" &&
-  //       (!el["rejectReason"] || el["rejectReason"] == null)
-  //     ) {
-  //       flag = 1;
-  //     }
-  //   });
-  //   if (flag) {
-  //     swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
-  //     this.stopFlag = 1;
-  //     return
-  //   }
-  //   this.actionplanserviceService
-  //     .postStateAction(this.finalActionData)
-  //     .subscribe(
-  //       (res) => {
-  //         swal("Record submitted successfully!");
-  //         const status = JSON.parse(
-  //           sessionStorage.getItem("allStatusStateForms")
-  //         );
-  //       },
-  //       (error) => {
-  //         swal("An error occured!");
-  //         console.log(error.message);
-  //       }
-  //     );
-  // }
-  backRouter = ''
-  nextRouter = ''
   saveButtonClicked(type) {
     this.submitted = true;
     this.submit(type)
@@ -561,7 +520,7 @@ export class ActionPlanComponent implements OnInit {
       (error) => { }
     );
   }
-  UANames = []
+
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res: any) => {
@@ -614,6 +573,63 @@ export class ActionPlanComponent implements OnInit {
         //  this.saveBtnText = "SAVE AND NEXT";
       }
     }
+  }
+    saveAction() {
+  //   let flag = 0;
+  //   let draftFlag = 0;
+
+  //   console.log(this.finalActionData);
+  //   this.finalActionData['uaData'].forEach(el => {
+  //     if (el.status != 'APPROVED' && el.status != 'REJECTED') {
+  //       draftFlag = 1;
+  //     }
+  //   })
+  //   if (draftFlag) {
+  //     this.finalActionData['isDraft'] = true;
+  //   } else {
+  //     this.finalActionData['isDraft'] = false;
+  //   }
+  //   console.log(this.finalActionData['isDraft'])
+  //   this.finalActionData.uaData.forEach((el) => {
+  //     console.log(el.ua, el.status, el.rejectReason);
+
+  //     if (
+  //       el["status"] == "REJECTED" &&
+  //       (!el["rejectReason"] || el["rejectReason"] == null)
+  //     ) {
+  //       flag = 1;
+  //     }
+  //   });
+  //   if (flag) {
+  //     swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+  //     this.stopFlag = 1;
+  //     return
+  //   }
+  console.log('action payload.',this.data)
+    this.actionplanserviceService
+      .postStateAction(this.data)
+      .subscribe(
+        (res) => {
+          console.log('res..', res)
+          swal("Record submitted successfully!");
+          const status = JSON.parse(
+            sessionStorage.getItem("allStatusStateForms")
+          );
+        },
+        (error) => {
+          swal("An error occured!");
+          console.log(error.message);
+        }
+      );
+   }
+  actionData(e, pIndex) {
+    console.log('state action...action plan', e, pIndex);
+    console.log('this.data', this.data);
+    // if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+    //   this.actionError = false;
+    // }
+    this.data["uaData"][pIndex]["status"] = e?.status;
+    this.data["uaData"][pIndex]["rejectReason"] = e?.reason;
   }
 
 }

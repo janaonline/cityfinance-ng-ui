@@ -59,18 +59,6 @@ export class WaterRejenuvations2223Component implements OnInit {
   formDisable = false;
   actionFormDisable = false;
   design_year = "";
-  waterIndicators = [
-    "Continuity of Water supplied",
-    "Cost Recovery",
-    "Coverage of Water Supply connections",
-    "Extent of Metering",
-    "Extent of Non-revenue WaterSanitationComponent",
-    "Efficiency in Collection of Water Charges",
-    "Efficiency in redressal of customer complaints",
-    "Per Capita Supply of Water",
-    "Quality of Water Supplied",
-  ];
-
   disableAddMore1 = false
   disableAddMore2 = false
   disableAddMore3 = false
@@ -103,6 +91,27 @@ export class WaterRejenuvations2223Component implements OnInit {
   isPreYear = false;
   preMess = '';
   isLoadingError = true;
+  waterIndicators = [
+    "Continuity of Water supplied",
+    "Cost Recovery",
+    "Coverage of Water Supply connections",
+    "Extent of Metering",
+    "Extent of Non-revenue WaterSanitationComponent",
+    "Efficiency in Collection of Water Charges",
+    "Efficiency in redressal of customer complaints",
+    "Per Capita Supply of Water",
+    "Quality of Water Supplied",
+  ];
+  wData;
+  isDisabled = false;
+  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
+  clickedSave;
+  alertError;
+  dialogRef;
+  canTakeAction:boolean = false;
+  actionError = false;
+  actionBtnDis = false;
+  actionRes;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -123,12 +132,7 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.navigationCheck();
 
   }
-  wData;
-  isDisabled = false;
-  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
-  clickedSave;
-  alertError;
-  dialogRef;
+
   ngOnInit() {
     this.design_year = this.Year["2022-23"];
     this.setUaList();
@@ -156,7 +160,6 @@ export class WaterRejenuvations2223Component implements OnInit {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     console.log('loggedInUserType', this.loggedInUserType);
   }
-
 
   public initializeReport() {
     this.waterRejenuvation = this.fb.group({
@@ -1137,9 +1140,6 @@ export class WaterRejenuvations2223Component implements OnInit {
     }
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation)
    }
-  checkValidation() {
-    console.log('form form', this.waterRejenuvation);
-  }
   submit() {
     console.log(this.loggedInUserType);
   //  this.checkValidation();
@@ -1923,7 +1923,18 @@ export class WaterRejenuvations2223Component implements OnInit {
         }
       );
   }
+  saveAction() {
 
+  }
+  actionData(e, pIndex) {
+    console.log('state action...water rej', e, pIndex)
+    console.log('this.data', this.data);
+    // if (e?.status == "APPROVED" || e?.status == "REJECTED") {
+    //   this.actionError = false;
+    // }
+    this.data["uaData"][pIndex]["status"] = e?.status;
+    this.data["uaData"][pIndex]["rejectReason"] = e?.rejectReason;
+  }
 
 }
 
