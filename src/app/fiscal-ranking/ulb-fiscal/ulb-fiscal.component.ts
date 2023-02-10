@@ -52,6 +52,7 @@ export class UlbFiscalComponent implements OnInit {
   fiscalForm;
   fisc
   revenueMob;
+  conInfo;
   expPerf;
   uploadFyDoc;
   totalOwnRevenueArea = null;
@@ -399,6 +400,7 @@ export class UlbFiscalComponent implements OnInit {
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
+      this.conInfo = res?.tabs.find(tab => tab.key == 'conInfo');
       this.uploadFyDoc = formObjKey?.uploadFyDoc;
       this.goverParaNdata.auditReprtDate.yearData = formObjKey?.goverPar?.auditReprtDate?.yearData?.map(year => ({
         ...year,
@@ -615,8 +617,6 @@ export class UlbFiscalComponent implements OnInit {
         if (Object.keys(el).length > 0) {
           el['error'] = false;
         }
-
-
       })
     }
     for (const key in this.goverPar) {
@@ -1698,6 +1698,17 @@ export class UlbFiscalComponent implements OnInit {
     return false;
   }
 
+  getActionsData(tab) {
+    const result = {};
+    if(['s3', 's4'].includes(tab.id)) {
+      return Object.values(tab.data).reduce((result, item: any) => {
+        result[item.key] = item.yearData.map(yearItem => ({year: yearItem.year, status: yearItem.status}))
+        return result;
+      }, result)
+    }
+    return tab.data;
+  }
+
   saveMohuaAction(draftMode: boolean) {
     const payload = {
       ulbId: this.ulbId,
@@ -1706,7 +1717,7 @@ export class UlbFiscalComponent implements OnInit {
       actions: this.tabs.map(tab => ({
         id: tab.id, 
         comment: tab.feedback.comment,
-        data: tab.data
+        data: this.getActionsData(tab)
       }))
     }
 
