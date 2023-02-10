@@ -43,6 +43,10 @@ export class FiscalRankingService {
     return this.http.post(`${environment.api.url}fiscal-ranking/create`, body);
   }
 
+  actionByMohua(body) {
+    return this.http.post(`${environment.api.url}fiscal-ranking/action-by-mohua`, body)
+  }
+
   getToken() {
     return localStorage.getItem("id_token");
   }

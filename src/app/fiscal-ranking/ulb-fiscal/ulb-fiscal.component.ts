@@ -1085,9 +1085,6 @@ export class UlbFiscalComponent implements OnInit {
           break;
       }
     }
-
-
-    console.log({ log: 'amountPushInFY', type, index, yItem, stItem, paying_property_tax: this.paying_property_tax });
   }
   backTohome() {
     this._router.navigateByUrl('../home')
@@ -1463,12 +1460,6 @@ export class UlbFiscalComponent implements OnInit {
       }
     }
   }
-  action() {
-    console.log({
-      revenueMob: this.revenueMob,
-      expPerf: this.expPerf
-    })
-  }
   finalSubmit() {
     console.log({ Ndata: this.goverParaNdata });
     if (this.fiscalForm.status != "INVALID" && this.formError) {
@@ -1717,12 +1708,16 @@ export class UlbFiscalComponent implements OnInit {
       formId: this.formId,
       design_year: this.yearIdArr['2022-23'],
       actions: this.tabs.map(tab => ({
-        id: tab.id,
+        _id: tab._id,
         feedback: tab.feedback,
         data: this.getActionsData(tab)
       }))
     }
 
     console.log(payload);
+
+    this.fiscalService.actionByMohua(payload).subscribe(res => {
+      console.log(res);
+    })
   }
 }
