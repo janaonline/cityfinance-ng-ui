@@ -253,7 +253,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
-                                        *ngFor="let item of tab.data | keyvalue : returnZero;let rowIndex_rev=index">
+                                        *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
                                         <div class="card card-form mb-4 com-style" *ngIf="canShowFormSection(item.key)">
                                             <div class="card-body">
                                                 <div class="loop">
@@ -312,7 +312,6 @@
                                                                             item?.value?.yearData[r_i - 1].label
                                                                             }}</span>
                                                                 </div>
-                                                                st: {{ yearItem.status }}
                                                                 <app-common-action-radio
                                                                     *ngIf="cantakeAction && yearItem.status"
                                                                     [(status)]="yearItem.status"
@@ -339,7 +338,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <div class="card card-form mb-4 com-style"
-                                        *ngFor="let item of tab.data | keyvalue : returnZero">
+                                        *ngFor="let item of expPerf  | keyvalue : returnZero">
                                         <div class="card-body">
                                             <div class="loop">
                                                 <div class="row">
