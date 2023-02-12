@@ -77,6 +77,9 @@ export class UlbFiscalComponent implements OnInit {
   fileUpLoader = false;
   fyDataArr = [];
 
+  basicUlbDetailsStatus;
+  contactInfoStatus;
+
   cantakeAction = false;
 
   stePreDataArray;
@@ -414,6 +417,8 @@ export class UlbFiscalComponent implements OnInit {
       this.tabs = res?.tabs;
       this.formId = res?.data?._id;
       this.status = res?.status;
+      this.basicUlbDetailsStatus = res?.tabs.find(tab => tab.key == 'basicUlbDetails')?.data;
+      this.contactInfoStatus = res?.tabs.find(tab => tab.key == 'conInfo')?.data;
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
@@ -1719,6 +1724,7 @@ export class UlbFiscalComponent implements OnInit {
 
   getActionsData(tab) {
     const result = {};
+    if (tab.id === 's1') return this.basicUlbDetailsStatus;
     if (tab.id === 's3') return this.revenueMob;
     if (tab.id === 's4') return this.expPerf;
     if (tab.id === 's5') return { ...this.goverPar, auditReprtDate: this.goverParaNdata.auditReprtDate} 

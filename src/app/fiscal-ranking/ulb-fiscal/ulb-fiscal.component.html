@@ -44,6 +44,11 @@
                                                             <input class="com-style" matInput placeholder="Name of ULB*"
                                                                 formControlName="ulbName">
                                                         </mat-form-field>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.ulbName?.status"
+                                                            [(status)]="basicUlbDetailsStatus.ulbName.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
@@ -55,6 +60,11 @@
                                                                 (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)"
                                                                 #inputText1>
                                                         </mat-form-field>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.population11?.status"
+                                                            [(status)]="basicUlbDetailsStatus.population11.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style"
@@ -69,6 +79,11 @@
                                                                 (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)"
                                                                 #inputText2>
                                                         </mat-form-field>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.populationFr?.status"
+                                                            [(status)]="basicUlbDetailsStatus.populationFr.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="webLink"
@@ -80,6 +95,11 @@
                                                                 placeholder="ULB website URL link"
                                                                 (keydown)="changeDecInForm()">
                                                         </mat-form-field>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.webLink?.status"
+                                                            [(status)]="basicUlbDetailsStatus.webLink.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="nameCmsnr"
@@ -92,6 +112,11 @@
                                                                 placeholder="Name of Commissioner / Executive Officer*"
                                                                 (keydown)="changeDecInForm()">
                                                         </mat-form-field>
+                                                        <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.nameCmsnr?.status"
+                                                            [(status)]="basicUlbDetailsStatus.nameCmsnr.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
                                                     </div>
                                                     <div class="col-sm-12 mt-4 row">
                                                         <div class="col-sm-8">
@@ -107,6 +132,11 @@
                                                             </mat-radio-group>
                                                         </div>
                                                     </div>
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && basicUlbDetailsStatus?.waterSupply?.status"
+                                                        [(status)]="basicUlbDetailsStatus.waterSupply.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
                                                     <small *ngIf="
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.touched &&
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.invalid
@@ -125,6 +155,11 @@
                                                             </mat-radio-group>
                                                         </div>
                                                     </div>
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && basicUlbDetailsStatus?.sanitationService?.status"
+                                                        [(status)]="basicUlbDetailsStatus.sanitationService.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
                                                     <small *ngIf="
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.touched &&
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.invalid
@@ -143,6 +178,13 @@
                                                             </mat-radio-group>
                                                         </div>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && basicUlbDetailsStatus?.propertyWaterTax?.status"
+                                                        [(status)]="basicUlbDetailsStatus.propertyWaterTax.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
+
                                                     <small *ngIf="
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.touched &&
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.invalid
@@ -161,6 +203,13 @@
                                                             </mat-radio-group>
                                                         </div>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && basicUlbDetailsStatus?.propertySanitationTax?.status"
+                                                        [(status)]="basicUlbDetailsStatus.propertySanitationTax.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
+
                                                     <small *ngIf="
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.touched &&
                                                         this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.invalid
@@ -641,7 +690,8 @@
                                     <div class="card card-form mb-4 com-style"
                                         *ngFor="let item of goverPar | keyvalue : returnZero">
                                         <!-- <p>{{ item.key | json}}</p> -->
-                                        <div class="card-body" *ngIf="!['normalData', 'auditReprtDate'].includes(item.key)">
+                                        <div class="card-body"
+                                            *ngIf="!['normalData', 'auditReprtDate'].includes(item.key)">
                                             <div class="loop">
                                                 <div class="row">
                                                     <div class="col-sm-12 h-label mb-3 com-style">
