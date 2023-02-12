@@ -1513,6 +1513,9 @@ export class UlbFiscalComponent implements OnInit {
   }
 
   finalSubmitAlert() {
+    if (this.loggedInUserType === this.userTypes.MoHUA) {
+      return this.saveMohuaAction(false);
+    }
     this.isDraft = false;
     this.formError = true;
     this.updateValueInForm();
@@ -1732,7 +1735,7 @@ export class UlbFiscalComponent implements OnInit {
     if (tab.id === 's4') return this.expPerf;
     if (tab.id === 's5') return { ...this.goverPar, auditReprtDate: this.goverParaNdata.auditReprtDate }
     if (tab.id === 's6') return this.uploadFyDoc;
-    if (tab.id === 's7') return { 
+    if (tab.id === 's7') return {
       signedCopyOfFile: {
         status: this.signedFileStatus
       }
@@ -1745,6 +1748,7 @@ export class UlbFiscalComponent implements OnInit {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.yearIdArr['2022-23'],
+      isDraft: draftMode,
       actions: this.tabs.map(tab => ({
         _id: tab._id,
         feedback: tab.feedback,
@@ -1755,7 +1759,9 @@ export class UlbFiscalComponent implements OnInit {
     console.log(payload);
 
     this.fiscalService.actionByMohua(payload).subscribe(res => {
-      console.log(res);
+      swal('Saved', draftMode ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+    }, (error) => {
+      console.log('post error', error)
     })
   }
 }
