@@ -237,6 +237,12 @@
                                                                 (keydown)="changeDecInForm()">
                                                         </mat-form-field>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && contactInfoStatus?.nameOfNodalOfficer?.status"
+                                                        [(status)]="contactInfoStatus.nameOfNodalOfficer.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer"
                                                          id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Designation of the Nodal Officer"> -->
@@ -249,6 +255,13 @@
                                                                 (keydown)="changeDecInForm()">
                                                         </mat-form-field>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && contactInfoStatus?.designationOftNodalOfficer?.status"
+                                                        [(status)]="contactInfoStatus.designationOftNodalOfficer.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
+
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{tab?.id}}3"
                                                         aria-describedby="{{tab?.id}}3" placeholder="Email ID"> -->
@@ -258,6 +271,13 @@
                                                                 placeholder="Email ID*" (keydown)="changeDecInForm()">
                                                         </mat-form-field>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && contactInfoStatus?.email?.status"
+                                                        [(status)]="contactInfoStatus.email.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
+
                                                     <div class="col-sm-12 mt-4">
                                                         <!-- <input type="text" class="form-control com-style" formControlName="mobile"
                                                          id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="Mobile number"> -->
@@ -268,6 +288,13 @@
                                                                 (keydown)="changeDecInForm()">
                                                         </mat-form-field>
                                                     </div>
+
+                                                    <app-common-action-radio
+                                                        *ngIf="cantakeAction && contactInfoStatus?.mobile?.status"
+                                                        [(status)]="contactInfoStatus.mobile.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
+
                                                 </div>
                                             </div>
                                         </div>

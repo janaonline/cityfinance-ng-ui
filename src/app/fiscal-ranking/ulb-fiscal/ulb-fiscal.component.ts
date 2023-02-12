@@ -1725,6 +1725,7 @@ export class UlbFiscalComponent implements OnInit {
   getActionsData(tab) {
     const result = {};
     if (tab.id === 's1') return this.basicUlbDetailsStatus;
+    if (tab.id === 's2') return this.contactInfoStatus;
     if (tab.id === 's3') return this.revenueMob;
     if (tab.id === 's4') return this.expPerf;
     if (tab.id === 's5') return { ...this.goverPar, auditReprtDate: this.goverParaNdata.auditReprtDate} 
