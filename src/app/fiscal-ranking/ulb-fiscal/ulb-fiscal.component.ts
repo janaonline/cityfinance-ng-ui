@@ -264,6 +264,7 @@ export class UlbFiscalComponent implements OnInit {
     },
   }
   signedFileName = '';
+  signedFileStatus;
   signedFileUrl = '';
   formSubmitted = false;
   postData = {
@@ -452,6 +453,7 @@ export class UlbFiscalComponent implements OnInit {
     console.log('this form.....', this.fiscalForm);
     this.signedFileUrl = data?.signedCopyOfFile?.url;
     this.signedFileName = data?.signedCopyOfFile?.name;
+    this.signedFileStatus = data?.signedCopyOfFile?.status;
     this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value ? data?.webUrlAnnual?.value : null;
     this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value ? data?.registerGis?.value : null;
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
@@ -1730,6 +1732,11 @@ export class UlbFiscalComponent implements OnInit {
     if (tab.id === 's4') return this.expPerf;
     if (tab.id === 's5') return { ...this.goverPar, auditReprtDate: this.goverParaNdata.auditReprtDate }
     if (tab.id === 's6') return this.uploadFyDoc;
+    if (tab.id === 's7') return { 
+      signedCopyOfFile: {
+        status: this.signedFileStatus
+      }
+    }
     return tab.data;
   }
 

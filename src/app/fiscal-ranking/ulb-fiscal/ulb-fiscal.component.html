@@ -838,6 +838,12 @@
                                                     *ngIf="signedFileUrl">
                                                     <a href="{{signedFileUrl}}" target="_blank">{{signedFileName}}</a>
                                                 </div>
+
+                                                <app-common-action-radio
+                                                *ngIf="cantakeAction && signedFileStatus"
+                                                [(status)]="signedFileStatus"
+                                                [ngModelOptions]="{standalone: true}">
+                                            </app-common-action-radio>
                                             </div>
                                         </div>
                                     </div>
