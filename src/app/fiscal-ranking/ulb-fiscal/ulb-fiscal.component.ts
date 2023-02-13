@@ -471,6 +471,10 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.totalOwnRevenueAreaStatus = data?.totalOwnRevenueArea?.status ? data?.totalOwnRevenueArea?.status : null;
+    
+    this.fy_21_22_online = data?.fy_21_22_online?.amount ? data?.fy_21_22_online?.amount : null;
+    this.fy_21_22_cash = data?.fy_21_22_cash?.amount ? data?.fy_21_22_cash?.amount : null;
+
     this.fy_21_22_onlineStatus = data?.fy_21_22_online?.status ? data?.fy_21_22_online?.status : null;
     this.fy_21_22_cashStatus = data?.fy_21_22_cash?.status ? data?.fy_21_22_cash?.status : null;
     this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
