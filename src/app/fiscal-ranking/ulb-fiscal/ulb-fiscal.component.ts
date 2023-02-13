@@ -272,10 +272,22 @@ export class UlbFiscalComponent implements OnInit {
     "design_year": "",
     "population11": null,
     "populationFr": null,
-    "webLink": null,
-    "nameCmsnr": "",
-    "nameOfNodalOfficer": "",
-    "designationOftNodalOfficer": "",
+    "webLink": {
+      status: "",
+      value: null
+    },
+    "nameCmsnr": {
+      status: "",
+      value: null
+    },
+    "nameOfNodalOfficer": {
+      status: "",
+      value: null
+    },
+    "designationOftNodalOfficer": {
+      status: "",
+      value: null
+    },
     "email": "",
     "mobile": "",
     "webUrlAnnual": {
@@ -396,9 +408,9 @@ export class UlbFiscalComponent implements OnInit {
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
-        designationOftNodalOfficer: [null, Validators.required],
-        mobile: [null, [Validators.required, mobileNoValidator]],
-        email: [null, [Validators.required, Validators.email, customEmailValidator]],
+        designationOftNodalOfficer: ['', Validators.required],
+        mobile: ['', [Validators.required, mobileNoValidator]],
+        email: ['', [Validators.required, Validators.email, customEmailValidator]],
       }),
 
       status: [""],
@@ -406,7 +418,7 @@ export class UlbFiscalComponent implements OnInit {
 
     });
     this.fiscalForm.controls.basicUlbDetails.controls.nameCmsnr.valueChanges.subscribe(value => {
-      const nameCmsnr = value.charAt(0).toUpperCase() + value.slice(1);
+      const nameCmsnr = value ? value?.charAt(0).toUpperCase() + value?.slice(1) : '';
       this.fiscalForm.controls.basicUlbDetails.patchValue({ nameCmsnr }, { emitEvent: false })
     });
   }
@@ -477,16 +489,16 @@ export class UlbFiscalComponent implements OnInit {
       basicUlbDetails: {
         population11: data?.population11?.value,
         populationFr: data?.populationFr?.value,
-        webLink: data?.webLink,
-        nameCmsnr: data?.nameCmsnr,
+        webLink: data?.webLink?.value,
+        nameCmsnr: data?.nameCmsnr?.value,
         waterSupply: data?.waterSupply.value,
         sanitationService: data?.sanitationService.value,
         propertyWaterTax: data?.propertyWaterTax.value,
         propertySanitationTax: data?.propertySanitationTax.value
       },
       contactInfo: {
-        nameOfNodalOfficer: data?.nameOfNodalOfficer,
-        designationOftNodalOfficer: data?.designationOftNodalOfficer,
+        nameOfNodalOfficer: data?.nameOfNodalOfficer.value,
+        designationOftNodalOfficer: data?.designationOftNodalOfficer.value,
         mobile: data?.mobile,
         email: data?.email,
       },
@@ -704,6 +716,9 @@ export class UlbFiscalComponent implements OnInit {
     console.log('this form.....', this.fiscalForm?.value);
     this.isDraft = true;
     this.updateValueInForm();
+    console.log(this.postData);
+    console.log("webLink", this.fiscalForm?.value?.basicUlbDetails?.webLink)
+    // return;
     // console.log('this form.....', JSON.stringify(this.fiscalForm.value));
     this.saveForm(item);
 
@@ -893,23 +908,29 @@ export class UlbFiscalComponent implements OnInit {
       "design_year": this.yearIdArr['2022-23'],
       // ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
-      webLink: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-      nameCmsnr: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
-      ulbName: this.ulbName,
       waterSupply: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.waterSupply,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.waterSupply.value,
         status: "PENDING"
       },
+      webLink: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.webLink.value,
+        status: "PENDING"
+      },
+      nameCmsnr: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.nameCmsnr.value,
+        status: "PENDING"
+      },
+      ulbName: this.ulbName,
       sanitationService: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.sanitationService,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.sanitationService.value,
         status: "PENDING",
       },
       propertyWaterTax: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.propertyWaterTax,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.propertyWaterTax.value,
         status: "PENDING"
       },
       propertySanitationTax: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.propertySanitationTax,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.propertySanitationTax.value,
         status: "PENDING"
       },
       population11: {
@@ -919,6 +940,14 @@ export class UlbFiscalComponent implements OnInit {
       populationFr: {
         value: this.fiscalForm.controls.basicUlbDetails.controls.populationFr.value,
         readonly: this.isPopAvl11
+      },
+      designationOftNodalOfficer: {
+        value: this.fiscalForm.controls.contactInfo.controls.designationOftNodalOfficer.value,
+        status: "PENDING"
+      },
+      nameOfNodalOfficer: {
+        value: this.fiscalForm.controls.contactInfo.controls.nameOfNodalOfficer.value,
+        status: "PENDING"
       },
       "webUrlAnnual": {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
