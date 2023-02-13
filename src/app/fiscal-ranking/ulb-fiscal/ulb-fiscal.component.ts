@@ -1733,7 +1733,15 @@ export class UlbFiscalComponent implements OnInit {
     if (tab.id === 's2') return this.contactInfoStatus;
     if (tab.id === 's3') return this.revenueMob;
     if (tab.id === 's4') return this.expPerf;
-    if (tab.id === 's5') return { ...this.goverPar, auditReprtDate: this.goverParaNdata.auditReprtDate }
+    if (tab.id === 's5') return { 
+      ...this.goverPar, 
+      auditReprtDate: this.goverParaNdata.auditReprtDate, 
+      normalData: {
+        key: this.goverParaNdata.normalData.key,
+        label: this.goverParaNdata.normalData.label,
+        yearData: Object.values(this.goverParaNdata.normalData.yearData)
+      }
+    }
     if (tab.id === 's6') return this.uploadFyDoc;
     if (tab.id === 's7') return {
       signedCopyOfFile: {
