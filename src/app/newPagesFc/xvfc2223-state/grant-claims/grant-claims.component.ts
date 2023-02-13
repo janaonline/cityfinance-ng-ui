@@ -108,6 +108,9 @@ export class GrantClaimsComponent implements OnInit {
   action = '';
   claimSubmitDate = ''
   isApiInProgress = true;
+  sideMenuItem;
+  backRouter = '';
+  nextRouter = '';
   constructor(
     private dialog: MatDialog,
     public grantClaimsService: GrantClaimsService,
@@ -126,7 +129,8 @@ export class GrantClaimsComponent implements OnInit {
 
 
   async ngOnInit() {
-
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     await this.findDisplay();
     this.fetchData(this.years['2022-23']);
 
@@ -678,7 +682,18 @@ export class GrantClaimsComponent implements OnInit {
     })
     console.log('mpc array', this.mpcCondArr)
 
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "grant-claims") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
 
+        }
+      });
+    }
   }
 
 }

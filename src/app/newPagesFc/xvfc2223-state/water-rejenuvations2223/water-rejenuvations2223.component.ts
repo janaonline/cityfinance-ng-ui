@@ -130,7 +130,12 @@ export class WaterRejenuvations2223Component implements OnInit {
   clickedSave;
   alertError;
   dialogRef;
+  sideMenuItem;
+backRouter = '';
+nextRouter = '';
   ngOnInit() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.design_year = this.Year["2022-23"];
     this.setUaList();
  //   this.checkValidation();
@@ -1927,7 +1932,18 @@ export class WaterRejenuvations2223Component implements OnInit {
         }
       );
   }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "water-rejenuvation") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
 
+        }
+      });
+    }
+  }
 
 }
 
