@@ -456,7 +456,7 @@
 
             <div class="row mb-3 mt-3" style="">
                 <div class="col-sm-5">
-                    <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active" class="btn btn-c-back">
+                    <button [routerLink]="backRouter" routerLinkActive="router-link-active" class="btn btn-c-back">
               <- Previous Form
             </button>
                 </div>
@@ -467,7 +467,7 @@
                     <button class="btn btn-primary ms-2" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
-                    <button class="btn btn-c-next ms-2" [routerLink]="['../edit-ulb-profile']" type="button">
+                    <button class="btn btn-c-next ms-2" [routerLink]="nextRouter" type="button">
                 Next Form ->
               </button>
                 </div>

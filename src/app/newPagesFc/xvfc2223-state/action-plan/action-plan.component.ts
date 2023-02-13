@@ -45,6 +45,8 @@ export class ActionPlanComponent implements OnInit {
   uasData;
   isDisabled = false;
   isApiInProgress = true;
+  nextRouter = '';
+  backRouter = '';
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -75,8 +77,11 @@ export class ActionPlanComponent implements OnInit {
   finalError = false;
   isPreYear = false;
   preMess = '';
+  sideMenuItem;
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.getUAList();
+    this.setRouter();
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.stateId).subscribe(
@@ -426,8 +431,6 @@ export class ActionPlanComponent implements OnInit {
   //       }
   //     );
   // }
-  backRouter = ''
-  nextRouter = ''
   saveButtonClicked(type) {
     this.submitted = true;
     this.submit(type)
@@ -565,7 +568,7 @@ export class ActionPlanComponent implements OnInit {
       (error) => { }
     );
   }
-  UANames = []
+  UANames = [];
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res: any) => {
@@ -617,6 +620,18 @@ export class ActionPlanComponent implements OnInit {
       if (sessionStorage.getItem("changeInActionPlans") == 'true') {
         //  this.saveBtnText = "SAVE AND NEXT";
       }
+    }
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "action-plan") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        //  this.formId = element?._id;
+
+        }
+      });
     }
   }
 

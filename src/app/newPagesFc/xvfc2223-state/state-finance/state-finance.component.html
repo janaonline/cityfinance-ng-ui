@@ -116,7 +116,7 @@
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back" routerLink="../property-tax">
+                <button type="button" class="btn btn-c-back" [routerLink]="backRouter">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -134,7 +134,7 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLink="../grant-allocation">Next Form
+                        <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form
                             -></button>
                     </div>
                 </div>
