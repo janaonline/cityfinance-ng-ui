@@ -78,4 +78,10 @@ export class State2223Service {
       `${environment.api.url}ActionPlans/${year}?state_id=${state_id}`
     );
   }
+  postActionDataForAWForm(data, endPoint) {
+    // endPoint : ActionPlans/action,  WaterRejenuvation/action
+    let utUrl = environment.api.url + `${endPoint}`
+    return this.http.post(utUrl, data)
+  }
+
 }
