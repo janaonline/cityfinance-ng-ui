@@ -257,7 +257,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
 
-        // this.dataSource = new MatTableDataSource(this.data);
+
+        if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
+          setTimeout(() => {
+            const table = document.querySelector('.table-responsive') as HTMLElement;
+            if(table) {
+              table.style.height = `${table.clientHeight - 20}px`;
+            }
+          }, 100)
+        }
       },
       (err) => {
         swal('Error', `${err.message}`, 'error');

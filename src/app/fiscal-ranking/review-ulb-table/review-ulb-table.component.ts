@@ -99,6 +99,14 @@ export class ReviewUlbTableComponent implements OnInit {
       this.title = res["title"];
       this.tableDefaultOptions.totalCount = res["total"];
       console.log(this.data)
+      if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
+        setTimeout(() => {
+          const table = document.querySelector('.table-responsive') as HTMLElement;
+          if(table) {
+            table.style.height = `${table.clientHeight - 20}px`;
+          }
+        }, 100)
+      }
     }, err => {
       this.isLoader = false;
       console.log(err.message);

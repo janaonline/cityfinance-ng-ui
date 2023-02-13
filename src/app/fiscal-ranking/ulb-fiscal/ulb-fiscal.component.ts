@@ -1758,6 +1758,7 @@ export class UlbFiscalComponent implements OnInit {
       design_year: this.yearIdArr['2022-23'],
       isDraft: draftMode,
       actions: this.tabs.map(tab => ({
+        id: tab.id,
         _id: tab._id,
         feedback: tab.feedback,
         data: this.getActionsData(tab)
