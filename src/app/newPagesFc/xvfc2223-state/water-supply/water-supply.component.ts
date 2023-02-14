@@ -72,7 +72,7 @@ export class WaterSupplyComponent implements OnInit {
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
   sideMenuItem;
-  // isApiInProgress = true;
+  isApiInProgress = true;
   backRouter = '';
 nextRouter = '';
   constructor(
@@ -95,6 +95,7 @@ nextRouter = '';
     this.setRouter();
   }
   setUaList(){
+    this.isApiInProgress = true
     this.stateDashboardService.getCardData(this.id).subscribe(
       (res) => {
         let newList = {};
@@ -102,12 +103,14 @@ nextRouter = '';
           this.UANames.push(element.name)
           newList[element._id] = element;
         });
+        this.isApiInProgress = false;
         sessionStorage.setItem("UasList", JSON.stringify(newList));
         this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
         this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
       },
       (err) => {
         console.log(err);
+        this.isApiInProgress = false;
       }
     );
   }

@@ -27,7 +27,7 @@ import { TableApproveReturnDialogComponent } from './components/table/table-appr
 import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-table.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { PreLoaderComponent } from './components/pre-loader/pre-loader.component';
+import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -43,7 +43,7 @@ import { PreLoaderComponent } from './components/pre-loader/pre-loader.component
     CommonActionComponent,
     TableApproveReturnDialogComponent,
     EditUlbTableComponent,
-    PreLoaderComponent,
+    PreLoaderNewComponent,
     // BreadcrumbComponent,
   ],
   imports: [
@@ -70,7 +70,7 @@ import { PreLoaderComponent } from './components/pre-loader/pre-loader.component
     TableComponent,
     CommonActionComponent,
     EditUlbTableComponent,
-    PreLoaderComponent
+    PreLoaderNewComponent
     // BreadcrumbComponent,
   ],
 })

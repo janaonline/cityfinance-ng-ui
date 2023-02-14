@@ -53,7 +53,7 @@
                             </a>
                             <p class="errorMessege">{{errorMessegeStateAct}}</p>
                         </label>
-                        <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        <input #ipt id="ipt" name="cin3" type="file" (click)="value = null;" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         <div>
                             <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
                                 <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
@@ -174,5 +174,5 @@
 </ng-template>
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
-    <app-pre-loader></app-pre-loader>
+    <app-pre-loader-new></app-pre-loader-new>
 </div>
