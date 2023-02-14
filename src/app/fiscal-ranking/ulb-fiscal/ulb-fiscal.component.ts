@@ -469,6 +469,11 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value ? data?.webUrlAnnual?.value : null;
     this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value ? data?.registerGis?.value : null;
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
+
+    this.goverParaNdata.normalData.yearData.webUrlAnnual.status = data?.webUrlAnnual?.status ? data?.webUrlAnnual?.status : null;
+    this.goverParaNdata.normalData.yearData.registerGis.status = data?.registerGis?.status ? data?.registerGis?.status : null;
+    this.goverParaNdata.normalData.yearData.accountStwre.status = data?.accountStwre?.status ? data?.accountStwre?.status : null;
+    
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.totalOwnRevenueAreaStatus = data?.totalOwnRevenueArea?.status ? data?.totalOwnRevenueArea?.status : null;
     
@@ -539,7 +544,7 @@ export class UlbFiscalComponent implements OnInit {
             key: "fy_21_22_cash",
             postion: "2",
             amount: this.fy_21_22_cash,
-            status: this.totalOwnRevenueAreaStatus,
+            status: this.fy_21_22_cashStatus,
             min: "",
             max: "",
             required: true,
@@ -554,7 +559,7 @@ export class UlbFiscalComponent implements OnInit {
             key: "fy_21_22_online",
             postion: "3",
             amount: this.fy_21_22_online,
-            status: this.totalOwnRevenueAreaStatus,
+            status: this.fy_21_22_onlineStatus,
             min: "",
             max: "",
             required: true,

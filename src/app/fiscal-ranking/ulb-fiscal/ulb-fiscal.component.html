@@ -677,6 +677,8 @@
                                                     </div>
                                                     <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error"
                                                         class="text-danger">Please enter valid value</small>
+
+                                                    <!-- {{ goverParaNdata.normalData | json }} -->
                                                     <app-common-action-radio
                                                         *ngIf="cantakeAction && goverParaNdata.normalData.yearData.registerGis.status"
                                                         [(status)]="goverParaNdata.normalData.yearData.registerGis.status"
