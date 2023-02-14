@@ -1,16 +1,25 @@
 <div class="container">
-    <div *ngFor="let row of response.rows" class="row">
-        <div class="col-3" *ngFor="let column of response.columns">
-            <p>{{ column.label }}</p>
-            <div [ngSwitch]="column.key">
-                <div *ngSwitchCase="'csv'">
-                    <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
-                </div>
-                <div *ngSwitchCase="'projectReport'">
-                    <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
-                </div>
-                <div *ngSwitchDefault>{{ row[column.key] }}</div>
+    <div *ngFor="let row of response.rows" class="row border mt-3 p-4 rounded">
+        <div class="row border-bottom">
+            <div class="col-4 fw-bold border-end">Sewerage Project Hindaun City under AMRUT-2.0</div>
+            <div class="col-4">Sector: {{ row.sector }}</div>
+            <div class="col-4 text-end">
+                <a [routerLink]="row?.moreInformation?.url">{{ row?.moreInformation?.name }}</a>
             </div>
         </div>
+        <ng-container *ngFor="let column of response.columns">
+            <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key)">
+                <div class="label">{{ column.label }}</div>
+                <div [ngSwitch]="column.key">
+                    <div *ngSwitchCase="'creditRating'">
+                        <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
+                    </div>
+                    <div *ngSwitchCase="'projectReport'">
+                        <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
+                    </div>
+                    <div *ngSwitchDefault>{{ row[column.key] }}</div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </div>

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MunicipalityBondsComponent implements OnInit {
 
+  hiddenColumns = ['projectName', 'moreInformation', 'sector'];
+
   constructor() { }
 
 
@@ -74,16 +76,12 @@ export class MunicipalityBondsComponent implements OnInit {
         key: "startDate",
       },
       {
-        label: "Project Start Date",
-        key: "startDate",
-      },
-      {
         label: "Estimated Project Completion Date",
         key: "estimatedCompletionDate",
       },
       {
         label: "More information",
-        key: "csv",
+        key: "moreInformation",
       },
       {
         label: "Detailed Project Report",
@@ -100,6 +98,7 @@ export class MunicipalityBondsComponent implements OnInit {
         implementationAgency: "Implementation Agency",
         totalProjectCost: "Total Project cost",
         stateShare: "State Share",
+        sector: "sector A",
         ulbShare: "ULB Share(Funding Potential)",
         capitalExpenditureState: "Capital Expenditure (State Share)",
         capitalExpenditureUlb: "Capital Expenditure (Ulb Share)",
@@ -107,21 +106,25 @@ export class MunicipalityBondsComponent implements OnInit {
         omExpensesUlb: "O&M Expenses (ULB Share)",
         startDate: "Project Start Date",
         estimatedCompletionDate: "Estimated Project Completion Date",
-        csv: {
-          name: 'filename',
+        moreInformation: {
+          name: 'More Information',
           url: 'fileurl'
         },
         projectReport: {
           name: 'filename',
           url: 'fileurl'
         },
-        creditRating: "Credit Rating"
+        creditRating: {
+          name: "Credit Rating",
+          url: 'fileurl'
+        }
       },
       {
         projectName: "name of the project",
         implementationAgency: "Implementation Agency",
         totalProjectCost: "Total Project cost",
         stateShare: "State Share",
+        sector: "sector B",
         ulbShare: "ULB Share(Funding Potential)",
         capitalExpenditureState: "Capital Expenditure (State Share)",
         capitalExpenditureUlb: "Capital Expenditure (Ulb Share)",
@@ -129,15 +132,18 @@ export class MunicipalityBondsComponent implements OnInit {
         omExpensesUlb: "O&M Expenses (ULB Share)",
         startDate: "Project Start Date",
         estimatedCompletionDate: "Estimated Project Completion Date",
-        csv: {
-          name: 'filename',
+        moreInformation: {
+          name: 'More Information',
           url: 'fileurl'
         },
         projectReport: {
           name: 'filename',
           url: 'fileurl'
         },
-        creditRating: "Credit Rating"
+        creditRating: {
+          name: "Credit Rating",
+          url: 'fileurl'
+        }
       },
     ],
     page: 1,
