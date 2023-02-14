@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 
 import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
 import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
-import { IULBResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
+import { IULBResponse, MouProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
@@ -133,5 +133,27 @@ export class MunicipalBondsService {
           return response;
         })
       );
+  }
+
+  getMouProjects() {
+    return this._http
+      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/5fa2465e072dab780a6f1178/606aaf854dff55e6c075d219/606aadac4dff55e6c075c507`, {
+        params: {
+          implementationAgencies: [
+            '5fa2465e072dab780a6f1178', 
+            '5fa2465e072dab780a6f1178'
+          ],
+          sectors: [
+            'sector1', 
+            'sector2'
+          ],
+          projects: [
+            '6177b9e200610849afca6c94',
+            '6177b9e200610849afca6c95'
+          ],
+          limit: '20',
+          skip: '20'
+        }
+      });
   }
 }
