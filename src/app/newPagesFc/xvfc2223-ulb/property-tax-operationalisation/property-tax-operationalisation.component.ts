@@ -66,6 +66,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
   dropdownItems;
   nextRouter;
   backRouter;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -316,8 +317,10 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
     };
     console.log(params)
     //call api and subscribe and patch here
+    this.isApiInProgress = true;
     this.ptService.getPropertyTaxUlbData(params).subscribe((res:any)=>{
-      console.log(res)
+      console.log(res);
+      this.isApiInProgress = false;
       this.dataValue = res;
       this.formDataPto = res?.data;
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
@@ -330,6 +333,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
     },
       (error) => {
         console.log(error);
+        this.isApiInProgress = false;
         if (this.ulbData?.role != "ULB") {
           this.isDisabled = true;
         }
