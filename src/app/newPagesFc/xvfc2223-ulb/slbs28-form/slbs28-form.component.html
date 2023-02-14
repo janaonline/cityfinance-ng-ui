@@ -50,10 +50,10 @@
                                             </div>
                                             <div *ngIf="actual.dirty || actual.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                               Actual Value must be less than the Target.
+                                               Actual value must be less than the Target value.
                                             </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                               Target Value must be less than the Actual.
+                                               Actual value must be greater than the Target value.
                                             </span>
                                             </div>
                                         </div>
@@ -73,10 +73,10 @@
                                             </div>
                                             <div *ngIf="target.dirty || target.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                            Actual Value must be less than the Target.
-                                          </span>
+                                                 Target value must be greater than the Actual value.
+                                               </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                            Target Value must be less than the Actual.
+                                            Target value must be less than the Actual value.
                                           </span>
                                             </div>
                                         </div>
