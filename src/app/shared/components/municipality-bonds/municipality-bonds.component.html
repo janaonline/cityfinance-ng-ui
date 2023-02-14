@@ -1,1 +1,16 @@
-<p>municipality-bonds works!</p>
+<div class="container">
+    <div *ngFor="let row of response.rows" class="row">
+        <div class="col-3" *ngFor="let column of response.columns">
+            <p>{{ column.label }}</p>
+            <div [ngSwitch]="column.key">
+                <div *ngSwitchCase="'csv'">
+                    <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
+                </div>
+                <div *ngSwitchCase="'projectReport'">
+                    <a [routerLink]="row[column.key]?.url">{{ row[column.key]?.name }}</a>
+                </div>
+                <div *ngSwitchDefault>{{ row[column.key] }}</div>
+            </div>
+        </div>
+    </div>
+</div>
