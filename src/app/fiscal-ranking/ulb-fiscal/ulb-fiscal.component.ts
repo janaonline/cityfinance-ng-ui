@@ -387,12 +387,11 @@ export class UlbFiscalComponent implements OnInit {
     this.navigationCheck();
   }
 
-
   ngOnInit(): void {
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
-
   }
+
   initializeForm() {
     this.fiscalForm = this.fb.group({
       basicUlbDetails: this.fb.group({
@@ -473,10 +472,10 @@ export class UlbFiscalComponent implements OnInit {
     this.goverParaNdata.normalData.yearData.webUrlAnnual.status = data?.webUrlAnnual?.status ? data?.webUrlAnnual?.status : null;
     this.goverParaNdata.normalData.yearData.registerGis.status = data?.registerGis?.status ? data?.registerGis?.status : null;
     this.goverParaNdata.normalData.yearData.accountStwre.status = data?.accountStwre?.status ? data?.accountStwre?.status : null;
-    
+
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
     this.totalOwnRevenueAreaStatus = data?.totalOwnRevenueArea?.status ? data?.totalOwnRevenueArea?.status : null;
-    
+
     this.fy_21_22_online = data?.fy_21_22_online?.amount ? data?.fy_21_22_online?.amount : null;
     this.fy_21_22_cash = data?.fy_21_22_cash?.amount ? data?.fy_21_22_cash?.amount : null;
 
@@ -831,7 +830,7 @@ export class UlbFiscalComponent implements OnInit {
   uploadFile(file, name, type, inputType, yrItem, stepItem) {
     //  console.log("this.data", this.data);
     // this.data[fileType].progress = 20;
-    let folderName = `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulb}`
+    let folderName = `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulbCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
         console.log('dgffffffffff', s3Response.data[0])
@@ -1771,9 +1770,9 @@ export class UlbFiscalComponent implements OnInit {
     if (tab.id === 's2') return this.contactInfoStatus;
     if (tab.id === 's3') return this.revenueMob;
     if (tab.id === 's4') return this.expPerf;
-    if (tab.id === 's5') return { 
-      ...this.goverPar, 
-      auditReprtDate: this.goverParaNdata.auditReprtDate, 
+    if (tab.id === 's5') return {
+      ...this.goverPar,
+      auditReprtDate: this.goverParaNdata.auditReprtDate,
       normalData: {
         key: this.goverParaNdata.normalData.key,
         label: this.goverParaNdata.normalData.label,
