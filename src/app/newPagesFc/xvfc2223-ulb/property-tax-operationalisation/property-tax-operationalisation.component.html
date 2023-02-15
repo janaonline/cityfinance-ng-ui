@@ -84,7 +84,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeStateAct}}</p>
                     </label>
-                        <input #ipt id="ipt" name="cin3" type="file" (click)="value = null;" [ngClass]="{ 'is-invalid': submitted && f?.proof?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        <input #ipt id="ipt" name="cin3" type="file" onclick="this.value = null;" [ngClass]="{ 'is-invalid': submitted && f?.proof?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         <div>
                             <div *ngIf="submitted && f?.proof?.controls?.name?.errors && (!errorMessegeStateAct)" class="customDate text-danger">
                                 <div *ngIf="f?.proof?.controls?.name?.errors.required">File is required.</div>
@@ -159,7 +159,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                        <input #ipt2 id="ipt2" name="cin1" type="file" (click)="value = null;" [ngClass]="{ 'is-invalid': submitted && f?.rateCard?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
+                        <input #ipt2 id="ipt2" name="cin1" type="file" onclick="this.value = null;" [ngClass]="{ 'is-invalid': submitted && f?.rateCard?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'minimumFloorProgress')" accept=".pdf" />
                         <div>
                             <div *ngIf="submitted && f?.rateCard?.controls?.name?.errors" class="customDate text-danger">
                                 <div *ngIf="f?.rateCard?.controls?.name?.errors.required">File is required</div>
@@ -272,7 +272,7 @@
                         </a>
                         <p class="errorMessege">{{errorMessegeOther}}</p>
                     </label>
-                        <input #ipt3 id="ipt3" name="cin2" type="file" (click)="value = null;" [ngClass]="{ 'is-invalid': submitted && f?.ptCollection?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
+                        <input #ipt3 id="ipt3" name="cin2" type="file" onclick="this.value = null;" [ngClass]="{ 'is-invalid': submitted && f?.ptCollection?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'rulesByLawsProgress')" accept=".pdf" />
                         <div>
                             <div *ngIf="submitted && f?.ptCollection?.controls?.name?.errors" class="customDate text-danger">
                                 <div *ngIf="f?.ptCollection?.controls?.name?.errors.required">File is required</div>

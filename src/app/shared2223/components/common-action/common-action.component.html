@@ -122,7 +122,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         </a>
                         <p class="errorMessege" *ngIf="errorMessegeCommonAction">{{errorMessegeCommonAction}}</p>
                     </label>
-                        <input id="cin4" name="cin4" type="file" [disabled]="actBtnDis" (click)="value = null;" (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" />
+                        <input id="cin4" name="cin4" type="file" [disabled]="actBtnDis" onclick="this.value = null;" (change)="fileChangeEvent($event, 'commonActProgress')" accept=".pdf" />
                         <!-- <div>
                         <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
                             <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
