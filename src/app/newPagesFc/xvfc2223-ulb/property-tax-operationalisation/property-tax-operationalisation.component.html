@@ -199,7 +199,7 @@
                     </div>
                     <div class="col-5">
                         <input (change)="inputPrompt($event.target.value,'collection2019_20')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2019_20?.controls?.errors }" formControlName='collection2019_20' type="text" class="form-control customWidth"
-                            placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                            placeholder="Max 15 digits are allowed" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2019_20.errors" class="text-danger">
                             <div *ngIf="f.collection2019_20.errors.required">Number is required.</div>
                         </div>
@@ -217,7 +217,7 @@
                     </div>
                     <div class="col-5">
                         <input (change)="inputPrompt($event.target.value,'collection2020_21')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2020_21?.controls?.errors }" formControlName='collection2020_21' type="text" class="form-control customWidth"
-                            placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                            placeholder="Max 15 digits are allowed" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2020_21.errors" class="text-danger">
                             <div *ngIf="f.collection2020_21.errors.required">Number is required.</div>
                         </div>
@@ -234,7 +234,7 @@
                     </div>
                     <div class="col-5">
                         <input (change)="inputPrompt($event.target.value,'collection2021_22')" [ngClass]="{'customDisable': isDisabled, 'is-invalid': submitted && f?.collection2021_22?.controls?.errors }" formControlName='collection2021_22' type="text" class="form-control customWidth"
-                            placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
+                            placeholder="Max 15 digits are allowed" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" (keydown)="numberLimitV($event, inputText)" #inputText>
                         <div *ngIf="submitted && f.collection2021_22.errors" class="text-danger">
                             <div *ngIf="f.collection2021_22.errors.required">Number is required.</div>
                         </div>
@@ -250,7 +250,7 @@
                         </span>
                     </div>
                     <div class="col-5">
-                        <input (change)="inputPrompt($event.target.value,'target2022_23')" [ngClass]="{'customDisable': isDisabled}" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="0-999999999" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                        <input (change)="inputPrompt($event.target.value,'target2022_23')" [ngClass]="{'customDisable': isDisabled}" formControlName="target2022_23" type="text" class="form-control customWidth" placeholder="Max 15 digits are allowed" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                             (keydown)="numberLimitV($event, inputText)" #inputText>
                     </div>
                 </div>
