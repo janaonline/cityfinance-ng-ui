@@ -1,11 +1,61 @@
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row " style="min-height: 80vh;" *ngIf="response">
+                <div class="col-4 border-end">
+                    <ul class="list-group">
+                        <li class="list-group-item p-3"
+                            *ngFor="let item of response.filters | keyvalue; let i = index;">{{i + 1}} {{
+                            item.key }}</li>
+                    </ul>
+                </div>
+                <div class="col-8 px-3 d-flex flex-column justify-content-between">
+                    <div
+                        *ngIf="response.filters[activeFilterSection] && response.filters[activeFilterSection].length > 0">
+                        <input type="search" class="form-control col-4 rounded-pill p-4" placeholder="Search">
+                        <div class="form-check mt-2" *ngFor="let filter of response.filters[activeFilterSection]">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                {{ filter['implementationAgency'] }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="model-footer d-flex justify-content-between border-top pt-3">
+                        <button type="button" class="btn btn-secondary">Apply</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container" *ngIf="response">
+    <div class="d-flex justify-content-between my-2 ">
+        <h1>Ongoing Infrastructure Projects</h1>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group me-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                    data-bs-target="#filterModal">Filter</button>
+            </div>
+            <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-outline-secondary">Increse</button>
+                <button type="button" class="btn btn-outline-secondary">Descrese</button>
+            </div>
+        </div>
+    </div>
+
     <div *ngFor="let row of response.rows" class="border mb-3 rounded">
         <div class="row m-3">
             <div class="col-4 fw-bold border-end">{{ row.projectName | titlecase }}</div>
             <div class="col-4">Sector: {{ row.sector }}</div>
             <div class="col-4 d-flex justify-content-end">
                 <a [href]="row?.moreInformation?.url">
-                    <img class="icon mr-1" src="../../../../assets/excel.png" >
+                    <img class="icon mr-1" src="../../../../assets/excel.png">
                     <span>{{ row?.moreInformation?.name }}</span>
                 </a>
             </div>
@@ -18,13 +68,13 @@
                     <div [ngSwitch]="column.key">
                         <div *ngSwitchCase="'creditRating'">
                             <a [href]="row[column.key]?.url">
-                                <img class="icon mr-1" src="../../../../assets/pdf.png" >
+                                <img class="icon mr-1" src="../../../../assets/pdf.png">
                                 <span>{{ row[column.key]?.name }}</span>
                             </a>
                         </div>
                         <div *ngSwitchCase="'projectReport'">
                             <a [href]="row[column.key]?.url">
-                                <img class="icon mr-1" src="../../../../assets/excel.png" >
+                                <img class="icon mr-1" src="../../../../assets/excel.png">
                                 <span>{{ row[column.key]?.name }}</span>
                             </a>
                         </div>

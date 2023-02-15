@@ -10,6 +10,7 @@ import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.
 export class MunicipalityBondsComponent implements OnInit {
 
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
+  activeFilterSection = 'implementationAgencies';
   response: MouProjectsResponse;
 
   constructor(
