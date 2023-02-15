@@ -135,26 +135,9 @@ export class MunicipalBondsService {
       );
   }
 
-  getMouProjects(ulbId: string) {
+  getMouProjects(ulbId: string, params: any = {}) {
     return this._http
-      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, {
-        params: {
-          implementationAgencies: [
-            '5fa2465e072dab780a6f1178',
-            '5fa2465e072dab780a6f1178'
-          ],
-          sectors: [
-            'sector1',
-            'sector2'
-          ],
-          projects: [
-            '6177b9e200610849afca6c94',
-            '6177b9e200610849afca6c95'
-          ],
-          // limit: '20',
-          // skip: 20
-        }
-      }).pipe(
+      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
           Object.keys(response.filters).forEach(key => { response.filters[key]['checked'] = false })
           return response;

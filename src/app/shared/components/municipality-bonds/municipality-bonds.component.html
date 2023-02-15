@@ -19,19 +19,14 @@
                     <div *ngIf="response.filters[activeFilterKey] && response.filters[activeFilterKey].length > 0">
                         <input type="search" class="form-control col-4 rounded-pill p-4" placeholder="Search">
                         <div class="form-check mt-2" *ngFor="let filter of response.filters[activeFilterKey]">
-                            <input 
-                                class="form-check-input" 
-                                type="checkbox" 
-                                value="" 
-                                [id]="'filter_' + filter?._id"
-                                [(ngModel)]="filter.checked"
-                            >
+                            <input class="form-check-input" type="checkbox" value="" [id]="'filter_' + filter?._id"
+                                [(ngModel)]="filter.checked">
                             <label class="form-check-label" [for]="'filter_' + filter?._id">{{ filter.name }}</label>
                         </div>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
-                        <button type="button" class="btn btn-secondary">Apply</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Reset</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="loadData();">Apply</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="resetFilters()">Reset</button>
                     </div>
                 </div>
             </div>
@@ -41,11 +36,34 @@
 
 <div class="container" *ngIf="response">
     <div class="d-flex justify-content-between my-2 ">
+        <p>{{payload | json}}</p>
+
         <h1>Ongoing Infrastructure Projects</h1>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
                 data-bs-target="#filterModal">Filter</button>
-            <button type="button" class="btn btn-outline-secondary">Sort</button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Sort
+                </button>
+                <ul class="dropdown-menu p-2">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" [(ngModel)]="order" [value]="1" class="btn-check" name="order"
+                            id="ascending" autocomplete="off"  (change)="loadData();">
+                        <label class="btn btn-outline-primary" for="ascending">Ascending</label>
+
+                        <input type="radio" [(ngModel)]="order" [value]="0" class="btn-check" name="order"
+                            id="descending" autocomplete="off" (change)="loadData();">
+                        <label class="btn btn-outline-primary" for="descending">Descending</label>
+                    </div>
+                    <ul class="list-group my-2">
+                        <li class="list-group-item active" *ngFor="let item of sortOptions"
+                            [ngClass]="{active: sortBy == item.key}" 
+                            (click)="sortBy = item.key; loadData();" >{{ item.name }}</li>
+                    </ul>
+                </ul>
+            </div>
         </div>
     </div>
 
