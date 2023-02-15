@@ -12,13 +12,13 @@
             </h3>
         </div>
         <div class="col-sm-12">
-            <div class="card mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
+            <div class="card mt-4 mb-3 p-1 box-shadow o-s" style="">
                 <form [formGroup]="waterWasteManagementForm" autocomplete="off" [ngClass]="{
       'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
       'ulb-view-table':
         (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
     }">
-                    <div class="table-responsive">
+                    <div class="table-responsive w-s">
                         <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%" class="table">
                             <!--heading Labels of the form  -->
                             <thead>
