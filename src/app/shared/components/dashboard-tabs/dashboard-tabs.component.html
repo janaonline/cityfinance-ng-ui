@@ -167,7 +167,7 @@
             <div *ngSwitchCase="'Infrastructure Projects'">
                 <div [ngSwitch]="DashBoardType">
                     <div *ngSwitchCase="'city'">
-                        <app-municipality-bonds></app-municipality-bonds>
+                        <app-municipality-bonds [cityId]="cityId"></app-municipality-bonds>
                         <!-- <app-pdf-card-viewer [cityId]="cityId" [tabDescription]="tabDesc"></app-pdf-card-viewer> -->
                     </div>
                 </div>

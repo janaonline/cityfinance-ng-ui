@@ -12,7 +12,7 @@ import { IULBResponse, MouProjectsResponse } from "../../../credit-rating/munici
   providedIn: "root",
 })
 export class MunicipalBondsService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   private AllBondIssuerItems: IBondIssureItemResponse;
 
@@ -135,25 +135,30 @@ export class MunicipalBondsService {
       );
   }
 
-  getMouProjects() {
+  getMouProjects(ulbId: string) {
     return this._http
-      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/5fa2465e072dab780a6f1178/606aaf854dff55e6c075d219/606aadac4dff55e6c075c507`, {
+      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, {
         params: {
           implementationAgencies: [
-            '5fa2465e072dab780a6f1178', 
+            '5fa2465e072dab780a6f1178',
             '5fa2465e072dab780a6f1178'
           ],
           sectors: [
-            'sector1', 
+            'sector1',
             'sector2'
           ],
           projects: [
             '6177b9e200610849afca6c94',
             '6177b9e200610849afca6c95'
           ],
-          limit: '20',
-          skip: '20'
+          // limit: '20',
+          // skip: 20
         }
-      });
+      }).pipe(
+        map((response) => {
+          Object.keys(response.filters).forEach(key => { response.filters[key]['checked'] = false })
+          return response;
+        })
+      );;
   }
 }
