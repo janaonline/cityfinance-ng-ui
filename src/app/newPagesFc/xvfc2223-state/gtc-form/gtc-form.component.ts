@@ -36,7 +36,6 @@ export class GtcFormComponent implements OnInit {
   ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -45,7 +44,12 @@ export class GtcFormComponent implements OnInit {
   }
   sideMenuItem;
   gtcFormData;
+  isApiInProgress = true;
+  nextRouter = '';
+  backRouter = '';
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.intializeGtc();
     this.getGtcData();
     this.setRouter();
@@ -55,6 +59,7 @@ export class GtcFormComponent implements OnInit {
     }
   }
   getGtcData() {
+    this.isApiInProgress = true;
     this.stateService.getGtcData(this.stateId).subscribe(
       (res: any) => {
         console.log("res", res);
@@ -84,8 +89,10 @@ export class GtcFormComponent implements OnInit {
         }
         this.disableInputs();
         this.checkAction();
+        this.isApiInProgress = false;
       },
       (error) => {
+        this.isApiInProgress = false;
         swal('Error', "Something went wrong, please try after some time.")
         for (let i = 0; i < this.gtcFormData.length; i++) {
         this.gtcFormData[i]?.quesArray.forEach((el) => {
@@ -1006,8 +1013,8 @@ export class GtcFormComponent implements OnInit {
     for (const key in this.sideMenuItem) {
       this.sideMenuItem[key].forEach((element) => {
         if (element?.name == "Grant Transfer Certificate") {
-          // this.nextRouter = element?.nextUrl;
-          // this.backRouter = element?.prevUrl;
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
           this.formId = element?._id;
 
         }

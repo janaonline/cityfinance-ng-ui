@@ -1,78 +1,516 @@
-<div class="row ms-0 me-0 header mt-2">
-    <div class="col-sm-8 col-lg-8 col-md-8 header2">
-        <span>Annual Accounts</span>
-    </div>
-    <div class="col-sm-4 col-lg-4 col-md-4  text-end">
-        <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="preview()">PREVIEW</button>
-    </div>
-    <div [innerHTML]="url">
+<div class="" *ngIf="!isApiInProgress">
+    <div class="row ms-0 me-0 header mt-2">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">
+            <span>Annual Accounts</span>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end">
+            <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="preview()">PREVIEW</button>
+        </div>
+        <div [innerHTML]="url">
 
+        </div>
     </div>
-</div>
-<div class="row ms-0 me-0" id="checkboxes">
-    <div class="col-sm-6">
-        <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')" [checked]="true" />
-        <label class="square header1 text-center" for="r1">
+    <div class="row ms-0 me-0" id="checkboxes">
+        <div class="col-sm-6">
+            <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')" [checked]="true" />
+            <label class="square header1 text-center" for="r1">
           <span style="vertical-align: sub;">
               <b>Provisional Accounts for
                   2021-22
               </b>
           </span>
       </label>
-    </div>
-    <div class="col-sm-6">
-        <input type="radio" name="rGroup" value="2" id="r2" (change)="changeAudit('Audited')" />
-        <label class="square header1 text-center" for="r2">
+        </div>
+        <div class="col-sm-6">
+            <input type="radio" name="rGroup" value="2" id="r2" (change)="changeAudit('Audited')" />
+            <label class="square header1 text-center" for="r2">
           <span style="vertical-align: sub;">
               <b>Audited Accounts for
                   2020-21</b>
           </span>
       </label>
-    </div>
+        </div>
 
-</div>
-<div class="row m-0" *ngIf="audit_status == 'Unaudited'">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <span class="quesIn">
+    </div>
+    <div class="row m-0" *ngIf="audit_status == 'Unaudited'">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <span class="quesIn">
                           <b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
-                        </span>
-                    </div>
-                    <div class="" [ngClass]="data?.unAudited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
-                        <div id="checkboxes" [ngClass]="{'disable-btn-cur' : tab2dis }">
-                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.unAudited?.submit_annual_accounts" (change)="answer('q1', true)" />
-                            <label class="btn btn-y" [ngClass]="{'disable-btn' : tab2dis }" for="btnUnaudit">
+                            </span>
+                        </div>
+                        <div class="" [ngClass]="data?.unAudited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
+                            <div id="checkboxes" [ngClass]="{'disable-btn-cur' : tab2dis }">
+                                <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.unAudited?.submit_annual_accounts" (change)="answer('q1', true)" />
+                                <label class="btn btn-y" [ngClass]="{'disable-btn' : tab2dis }" for="btnUnaudit">
                              Yes
                             </label>
-                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.unAudited?.submit_annual_accounts == false" (change)="answer('q1', false)" />
-                            <label class="btn btn-n" [ngClass]="{'disable-btn' : tab2dis }" style="margin-left: 1rem;" for="btnUnaudit2">
+                                <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.unAudited?.submit_annual_accounts == false" (change)="answer('q1', false)" />
+                                <label class="btn btn-n" [ngClass]="{'disable-btn' : tab2dis }" style="margin-left: 1rem;" for="btnUnaudit2">
                               No
                             </label>
+                            </div>
+                            <span class="text-danger y-n-err" *ngIf="answerError?.unAudited?.submit_annual_accounts">Please select Yes or No</span>
                         </div>
-                        <span class="text-danger y-n-err" *ngIf="answerError?.unAudited?.submit_annual_accounts">Please select Yes or No</span>
+                    </div>
+                    <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
+                        <div class="col-sm-12" style="padding-left: 2.5rem; margin-bottom: 1.5rem;">
+                            <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                                <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                            </mat-icon> - PDFs are mandatory and Excels are Optional.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
+                            <div *ngFor="let item of unAuditQues; let quesIndex=index">
+                                <div class="">
+                                    <ng-container>
+                                        <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
+                                            [isDisabled]="!(item?.qusDis)" [compName]="compName" [itemObj]="item">
+                                        </app-common-file-upload>
+                                    </ng-container>
+                                    <!-- .........code for view action..... -->
+                                    <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
+                                        <div class="card-body">
+                                            <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
+                                                <div class="col-sm-4">
+                                                    Form Review Status:
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{finalStatus}}
+                                                </div>
+                                            </div>
+                                            <!-- state review action -->
+                                            <div class="s-r" *ngIf="stateReview">
+                                                <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                    <div class="col-sm-4">
+                                                        State Review Status:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.state_status}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                    <div class="col-sm-4">
+                                                        State Review Status:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.state_status}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                    <div class="col-sm-4">
+                                                        State Remarks/Return reason:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                    <div class="col-sm-4">
+                                                        State Remarks/Return reason:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- state review action -->
+                                            <div class="m-r" *ngIf="mohuaReview">
+                                                <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                    <div class="col-sm-4">
+                                                        MoHUA Review Status:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.mohua_status}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                    <div class="col-sm-4">
+                                                        MoHUA Review Status:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.mohua_status}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
+                                                    <div class="col-sm-4">
+                                                        MoHUA Remarks/Return reason:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
+                                                    <div class="col-sm-4">
+                                                        MoHUA Remarks/Return reason:
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <!-- .....code for action taken..... -->
+                                    <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
+                                        <div class="card-body">
+                                            <div class="row" style="">
+                                                <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
+                                                <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'STATE'">
+                                                    <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                    <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                                </div>
+                                                <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'MoHUA'">
+                                                    <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                    <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                                </div>
+                                                <div class="col-sm-12 rej mt-3">
+                                                    <!-- Return reason: -->
+                                                    <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
+                                                    <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
+                                                        <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_state" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    </div>
+                                                    <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
+                                                        <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_mohua" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                <div class="text-danger acterr" *ngIf="item?.actError">
+                                                    Action required.(in case of return, Return reason is also mandatory.)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- --------supporting documents------ -->
+                            <div class="sp-doc mb-4">
+                                <div class="row mb-2" *ngIf="stateReview">
+                                    <div class="col-sm-4 s-h">
+                                        State Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                {{data?.unAudited?.responseFile_state?.name}}
+                              </a>
+                                        <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="mohuaReview">
+                                    <div class="col-sm-4 s-h">
+                                        MoHUA Supporting Document :
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                              {{data?.unAudited?.responseFile_mohua?.name}}
+                            </a>
+                                        <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- action in case of no no -->
+                        <div class="actNO mt-3" *ngIf="!data?.unAudited?.submit_annual_accounts">
+                            <div class="card mb-5" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.unAudited.status">
+                                <div class="card-body">
+                                    <div class="row s-h" *ngIf="data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            Form Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{finalStatus}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  State Action responce view -->
+                                <div class="card-body" *ngIf="stateReview">
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                        <div class="col-sm-4">
+                                            State Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{state_status_unAud}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            State Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{state_status_unAud}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
+                                        <div class="col-sm-4">
+                                            State Remarks/Return reason:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{data?.unAudited?.rejectReason_state ? data?.unAudited?.rejectReason_state : 'N/A'}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  Mohua Action responce view -->
+                                <div class="card-body" *ngIf="mohuaReview">
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
+                                        <div class="col-sm-4">
+                                            MoHUA Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{mohua_status_unAud}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            MoHUA Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{mohua_status_unAud}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
+                                        <div class="col-sm-4">
+                                            MoHUA Remarks/Return reason:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{data?.unAudited?.rejectReason_mohua ? data?.unAudited?.rejectReason_mohua : 'N/A'}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- --------supporting documents------ -->
+                                <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                    <div class="row mb-2" *ngIf="stateReview">
+                                        <div class="col-sm-4 s-h">
+                                            State Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
+                                        {{data?.unAudited?.responseFile_state?.name}}
+                                      </a>
+                                            <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="mohuaReview">
+                                        <div class="col-sm-4 s-h">
+                                            MoHUA Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
+                                      {{data?.unAudited?.responseFile_mohua?.name}}
+                                    </a>
+                                            <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card mb-4" *ngIf="canTakeAction == true">
+                                <div class="card-body">
+                                    <div class="row" style="">
+                                        <div class="col-sm-5 a-h" style="">Review Status:</div>
+                                        <div class="col-sm-7 act-btn" style="">
+                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.unAudited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'unAudited', $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.unAudited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'unAudited', $event?.target?.value)">Return</button>
+                                        </div>
+                                        <div class="row rej mt-3">
+                                            <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
+                                            <div class="col-sm-7 ps-4" style="" *ngIf="userData?.role == 'STATE'">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                            </div>
+                                            <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- supporting documents for action -->
+                        <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
+                        <div class="row">
+                            <div class="col-sm-4 s-h">
+                                Supporting Document :
+                            </div>
+                            <div class="col-sm-8">
+                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile_state?.url ? unAuditedActionResponse?.responseFile_state?.url : data?.unAudited?.responseFile_state?.url}}">
+                                  {{unAuditedActionResponse?.responseFile_state?.name ? unAuditedActionResponse?.responseFile_state?.name : data?.unAudited?.responseFile_state?.name}}
+                                </a>
+                            </div>
+                        </div>
+                    </div> -->
+                        <div class="card-body" *ngIf="canTakeAction == true">
+                            <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
+                                <div class="col-sm-12">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
+                                    </app-common-file-upload>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
+                        <div class="row mt-3 mb-3">
+                            <div class="col-sm-8">
+
+                                <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
+                                ?<span style="color: red;">*</span></b>
+                                </span>
+                            </div>
+                            <div [ngClass]="data?.unAudited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
+                                <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab2dis }">
+                                    <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
+                                    <label class="btn btn-y" for="btnUnauditB" [ngClass]="{'disable-btn' : tab2dis }">
+                                Yes
+                            </label>
+                                    <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)" id="btnUnauditB2" />
+                                    <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2" [ngClass]="{'disable-btn' : tab2dis }">
+                                No
+                            </label>
+                                </div>
+                                <span class="text-danger" *ngIf="answerError?.unAudited?.submit_standardized_data">Select Yes or
+                            No</span>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="data?.unAudited?.submit_standardized_data">
+                            <div class="col-sm-12 ms-3">
+                                <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
+                                  Download Template
+                              </a>
+                                <button (click)="ques21.click()" [disabled]="tab2dis" class="btn btn-primary ms-3">Upload EXCEL
+                                  <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                      data-height="16"></span>
+                              </button>
+                                <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+                                    <div class="row ms-2">
+                                        <div class="col-sm-6 col-lg-6 col-md-6">
+                                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                              {{uploadErrors.unAudited.standardized_data.error}}
+                                        </label>
+                                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
+                                          Excel file are mandatory.
+                                       </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row allupload ms-2 mt-3 mb-3">
+                                <div class="col-sm-5 col-lg-5 col-md-5">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data?.excel?.name">
+                                              {{data.unAudited.standardized_data?.excel?.name}}</label>
+                                </div>
+                                <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
+                                        {{ uploadErrors.unAudited.standardized_data.progress }}%
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-2 col-lg-2 col-md-2">
+                                    <ng-container>
+                                        <div *ngIf="data.unAudited.standardized_data?.excel?.url">
+                                            <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a [ngClass]="{cross: tab2dis && data.unAudited.submit_annual_accounts && provisionDisable,'p-none': tab2dis}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </div>
+
+                                        <div *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 ms-3">
+                                    <span class="text-primary">
+                                      <b>Self declaration by the Executive officer/Municipal
+                                          Commissioner of the ULB on the standardised financial statements uploaded
+                                          above.</b><br>
+                                      I hereby confirm that I have verified the information uploaded in
+                                      standardized template and it is true and correct.
+                                      It is confirmed that this information can be made available for public consumption on
+                                      the CityFinance portal.
+                                  </span>
+                                </div>
+                                <div class="col-sm-12 ms-3">
+                                    <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="tab2dis" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
+                                    <label style="margin-left: 1ch;" for="agree"> I Agree</label>
+                                </div>
+                                <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="(!data.unAudited.standardized_data.declaration) && isSubmit">
+                                    Checkbox can not be blank.
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
-                    <div class="col-sm-12" style="padding-left: 2.5rem; margin-bottom: 1.5rem;">
-                        <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
-                            <img src="../../../../assets/ulbform/info_black_24dp.svg">
-                        </mat-icon> - PDFs are mandatory and Excels are Optional.
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row m-0" *ngIf="audit_status == 'Audited'">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <span class="quesIn">
+                        <b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span> </b>
+                            </span>
+                        </div>
+                        <div class="" [ngClass]="data?.audited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
+                            <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab1dis }">
+                                <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
+                                <label class="btn btn-y" [disabled]="tab1dis" [ngClass]="{'disable-btn' : tab1dis }" for="btnAudit">
+                            Yes
+                        </label>
+                                <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1', false, true)" />
+                                <label class="btn btn-n" style="margin-left: 1rem;" [ngClass]="{'disable-btn' : tab1dis }" for="btnAudit2">
+                            No
+                        </label>
+                            </div>
+                            <span class="text-danger y-n-err" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
-                        <div *ngFor="let item of unAuditQues; let quesIndex=index">
-                            <div class="">
+                    <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
+                        <div class="col-sm-12" style="padding-left: 2.5rem; margin-top: .5rem; margin-bottom: 1.5rem;">
+                            <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                                <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                            </mat-icon> - PDFs are mandatory and Excels are Optional.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
+                            <div *ngFor="let item of auditQues; let quesIndex=index">
                                 <ng-container>
-                                    <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
+                                    <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
                                         [isDisabled]="!(item?.qusDis)" [compName]="compName" [itemObj]="item">
                                     </app-common-file-upload>
                                 </ng-container>
                                 <!-- .........code for view action..... -->
-                                <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
+                                <div class="card mb-5" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
                                     <div class="card-body">
                                         <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
                                             <div class="col-sm-4">
@@ -157,26 +595,25 @@
                                     </div>
                                 </div>
                                 <!-- .....code for action taken..... -->
-                                <div class="card mb-5" *ngIf="item?.action == true && canTakeAction == true">
+                                <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == true">
                                     <div class="card-body">
                                         <div class="row" style="">
                                             <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
                                             <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'STATE'">
-                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
                                             <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'MoHUA'">
-                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'unAudited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'unAudited', item, quesIndex, $event?.target?.value)">Return</button>
+                                                <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
+                                                <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
                                             </div>
                                             <div class="col-sm-12 rej mt-3">
-                                                <!-- Return reason: -->
                                                 <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
                                                 <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_state" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
                                                 <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
-                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="item.rejectReason_mohua" [ngClass]="{'disCls disGray' : actionBtnDis}" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'unAudited', item, quesIndex, $event?.target?.value)"></textarea>
+                                                    <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
                                                 </div>
 
                                             </div>
@@ -186,443 +623,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                            </div>
-                        </div>
-                        <!-- --------supporting documents------ -->
-                        <div class="sp-doc mb-4">
-                            <div class="row mb-2" *ngIf="stateReview">
-                                <div class="col-sm-4 s-h">
-                                    State Supporting Document :
-                                </div>
-                                <div class="col-sm-8">
-                                    <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
-                                {{data?.unAudited?.responseFile_state?.name}}
-                              </a>
-                                    <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
-                                </div>
-                            </div>
-                            <div class="row" *ngIf="mohuaReview">
-                                <div class="col-sm-4 s-h">
-                                    MoHUA Supporting Document :
-                                </div>
-                                <div class="col-sm-8">
-                                    <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
-                              {{data?.unAudited?.responseFile_mohua?.name}}
-                            </a>
-                                    <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- action in case of no no -->
-                    <div class="actNO mt-3" *ngIf="!data?.unAudited?.submit_annual_accounts">
-                        <div class="card mb-5" [ngClass]="{'d-none': (data?.unAudited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.unAudited.status">
-                            <div class="card-body">
-                                <div class="row s-h" *ngIf="data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        Form Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{finalStatus}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!--  State Action responce view -->
-                            <div class="card-body" *ngIf="stateReview">
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
-                                        State Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{state_status_unAud}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        State Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{state_status_unAud}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
-                                        State Remarks/Return reason:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.unAudited?.rejectReason_state ? data?.unAudited?.rejectReason_state : 'N/A'}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!--  Mohua Action responce view -->
-                            <div class="card-body" *ngIf="mohuaReview">
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
-                                        MoHUA Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{mohua_status_unAud}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        MoHUA Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{mohua_status_unAud}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.unAudited?.status == 'APPROVED' || (data?.unAudited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
-                                        MoHUA Remarks/Return reason:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.unAudited?.rejectReason_mohua ? data?.unAudited?.rejectReason_mohua : 'N/A'}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- --------supporting documents------ -->
-                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
-                                <div class="row mb-2" *ngIf="stateReview">
-                                    <div class="col-sm-4 s-h">
-                                        State Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_state?.url" href="{{data?.unAudited?.responseFile_state?.url}}">
-                                        {{data?.unAudited?.responseFile_state?.name}}
-                                      </a>
-                                        <span *ngIf="!data?.unAudited?.responseFile_state?.url">N/A</span>
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="mohuaReview">
-                                    <div class="col-sm-4 s-h">
-                                        MoHUA Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.unAudited?.responseFile_mohua?.url" href="{{data?.unAudited?.responseFile_mohua?.url}}">
-                                      {{data?.unAudited?.responseFile_mohua?.name}}
-                                    </a>
-                                        <span *ngIf="!data?.unAudited?.responseFile_mohua?.url">N/A</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="card mb-4" *ngIf="canTakeAction == true">
-                            <div class="card-body">
-                                <div class="row" style="">
-                                    <div class="col-sm-5 a-h" style="">Review Status:</div>
-                                    <div class="col-sm-7 act-btn" style="">
-                                        <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.unAudited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'unAudited', $event?.target?.value)">Approve</button>
-                                        <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.unAudited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'unAudited', $event?.target?.value)">Return</button>
-                                    </div>
-                                    <div class="row rej mt-3">
-                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" style="" *ngIf="userData?.role == 'STATE'">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
-                                        </div>
-                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.unAudited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'unAudited', $event?.target?.value)"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- supporting documents for action -->
-                    <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
-                        <div class="row">
-                            <div class="col-sm-4 s-h">
-                                Supporting Document :
-                            </div>
-                            <div class="col-sm-8">
-                                <a class="s-f" target="_blank" href="{{unAuditedActionResponse?.responseFile_state?.url ? unAuditedActionResponse?.responseFile_state?.url : data?.unAudited?.responseFile_state?.url}}">
-                                  {{unAuditedActionResponse?.responseFile_state?.name ? unAuditedActionResponse?.responseFile_state?.name : data?.unAudited?.responseFile_state?.name}}
-                                </a>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="card-body" *ngIf="canTakeAction == true">
-                        <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
-                            <div class="col-sm-12">
-                                <app-common-file-upload [dataFromParentN]="actionFileData?.unAudited" (getFileUploadResult)="getUploadActionFileData($event, 'unAudited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
-                                </app-common-file-upload>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
-                    <div class="row mt-3 mb-3">
-                        <div class="col-sm-8">
-
-                            <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                                ?<span style="color: red;">*</span></b>
-                            </span>
-                        </div>
-                        <div [ngClass]="data?.unAudited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
-                            <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab2dis }">
-                                <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
-                                <label class="btn btn-y" for="btnUnauditB" [ngClass]="{'disable-btn' : tab2dis }">
-                                Yes
-                            </label>
-                                <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)" id="btnUnauditB2" />
-                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2" [ngClass]="{'disable-btn' : tab2dis }">
-                                No
-                            </label>
-                            </div>
-                            <span class="text-danger" *ngIf="answerError?.unAudited?.submit_standardized_data">Select Yes or
-                            No</span>
-                        </div>
-                    </div>
-
-                    <div class="row" *ngIf="data?.unAudited?.submit_standardized_data">
-                        <div class="col-sm-12 ms-3">
-                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
-                                  Download Template
-                              </a>
-                            <button (click)="ques21.click()" [disabled]="tab2dis" class="btn btn-primary ms-3">Upload EXCEL
-                                  <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
-                                      data-height="16"></span>
-                              </button>
-                            <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
-                                <div class="row ms-2">
-                                    <div class="col-sm-6 col-lg-6 col-md-6">
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
-                                              {{uploadErrors.unAudited.standardized_data.error}}
-                                        </label>
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.unAudited.standardized_data.error">
-                                          Excel file are mandatory.
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row allupload ms-2 mt-3 mb-3">
-                            <div class="col-sm-5 col-lg-5 col-md-5">
-                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data?.excel?.name">
-                                              {{data.unAudited.standardized_data?.excel?.name}}</label>
-                            </div>
-                            <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
-                                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
-                                    {{ uploadErrors.unAudited.standardized_data.progress }}%
-                                </div>
-
-                            </div>
-
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <ng-container>
-                                    <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                        <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a [ngClass]="{cross: tab2dis && data.unAudited.submit_annual_accounts && provisionDisable,'p-none': tab2dis}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </div>
-
-                                    <div *ngIf="uploadErrors.unAudited.standardized_data.error">
-                                        <a>
-                                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
-                                        </a>
-                                        <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12 ms-3">
-                                <span class="text-primary">
-                                      <b>Self declaration by the Executive officer/Municipal
-                                          Commissioner of the ULB on the standardised financial statements uploaded
-                                          above.</b><br>
-                                      I hereby confirm that I have verified the information uploaded in
-                                      standardized template and it is true and correct.
-                                      It is confirmed that this information can be made available for public consumption on
-                                      the CityFinance portal.
-                                  </span>
-                            </div>
-                            <div class="col-sm-12 ms-3">
-                                <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="tab2dis" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
-                                <label style="margin-left: 1ch;" for="agree"> I Agree</label>
-                            </div>
-                            <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="(!data.unAudited.standardized_data.declaration) && isSubmit">
-                                Checkbox can not be blank.
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-<div class="row m-0" *ngIf="audit_status == 'Audited'">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-8">
-                        <span class="quesIn">
-                        <b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span> </b>
-                        </span>
-                    </div>
-                    <div class="" [ngClass]="data?.audited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
-                        <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab1dis }">
-                            <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
-                            <label class="btn btn-y" [disabled]="tab1dis" [ngClass]="{'disable-btn' : tab1dis }" for="btnAudit">
-                            Yes
-                        </label>
-                            <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1', false, true)" />
-                            <label class="btn btn-n" style="margin-left: 1rem;" [ngClass]="{'disable-btn' : tab1dis }" for="btnAudit2">
-                            No
-                        </label>
-                        </div>
-                        <span class="text-danger y-n-err" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
-                    </div>
-                </div>
-                <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
-                    <div class="col-sm-12" style="padding-left: 2.5rem; margin-top: .5rem; margin-bottom: 1.5rem;">
-                        <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
-                            <img src="../../../../assets/ulbform/info_black_24dp.svg">
-                        </mat-icon> - PDFs are mandatory and Excels are Optional.
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
-                        <div *ngFor="let item of auditQues; let quesIndex=index">
-                            <ng-container>
-                                <app-common-file-upload [dataFromParentN]="item.data" (getFileUploadResult)="getUploadFileData($event, 'audited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
-                                    [isDisabled]="!(item?.qusDis)" [compName]="compName" [itemObj]="item">
-                                </app-common-file-upload>
-                            </ng-container>
-                            <!-- .........code for view action..... -->
-                            <div class="card mb-5" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && stateReview && item?.data?.status">
-                                <div class="card-body">
-                                    <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
-                                        <div class="col-sm-4">
-                                            Form Review Status:
-                                        </div>
-                                        <div class="col-sm-8">
-                                            {{finalStatus}}
-                                        </div>
-                                    </div>
-                                    <!-- state review action -->
-                                    <div class="s-r" *ngIf="stateReview">
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                State Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.state_status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                State Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.state_status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                State Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                State Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason_state ? item?.data?.rejectReason_state : 'N/A'}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- state review action -->
-                                    <div class="m-r" *ngIf="mohuaReview">
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                MoHUA Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.mohua_status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                MoHUA Review Status:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.mohua_status}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'APPROVED'">
-                                            <div class="col-sm-4">
-                                                MoHUA Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
-                                            </div>
-                                        </div>
-                                        <div class="row" *ngIf="item?.data?.status == 'REJECTED' && data?.isDraft == false">
-                                            <div class="col-sm-4">
-                                                MoHUA Remarks/Return reason:
-                                            </div>
-                                            <div class="col-sm-8">
-                                                {{item?.data?.rejectReason_mohua ? item?.data?.rejectReason_mohua : 'N/A'}}
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <!-- .....code for action taken..... -->
-                            <div class="card mb-4" *ngIf="item?.action == true && canTakeAction == true">
-                                <div class="card-body">
-                                    <div class="row" style="">
-                                        <div class="col-sm-5 a-h" style="width: 46%">Review Status:</div>
-                                        <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'STATE'">
-                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.state_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.state_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
-                                        </div>
-                                        <div class="col-sm-7 act-btn" style="width: 50%" *ngIf="userData?.role == 'MoHUA'">
-                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (item?.mohua_status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Approve', 'audited', item, quesIndex, $event?.target?.value)">Approve</button>
-                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (item?.mohua_status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnClick('Return', 'audited', item, quesIndex, $event?.target?.value)">Return</button>
-                                        </div>
-                                        <div class="col-sm-12 rej mt-3">
-                                            <div class="d-inline-block a-h h-aa" style="width: 46%">Remarks/Return reason :</div>
-                                            <div class="d-inline-block" *ngIf="userData?.role == 'STATE'" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_state" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
-                                            </div>
-                                            <div class="d-inline-block" *ngIf="userData?.role == 'MoHUA'" style="width: 50%; padding-left: 15px;">
-                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="item.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnClick('returnRes', 'audited', item, quesIndex, $event?.target?.value)"></textarea>
-                                            </div>
-
-                                        </div>
-                                        <div class="text-danger acterr" *ngIf="item?.actError">
-                                            Action required.(in case of return, Return reason is also mandatory.)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--
+                                <!--
                             <div class="card mb-4" [ngClass]="{'d-none': (item?.data?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="item?.action == true  && canTakeAction == false && item?.data?.status">
                                 <div class="card-body">
                                     <div class="row" *ngIf="item?.data?.status == 'PENDING' && data?.isDraft == false">
@@ -667,39 +668,39 @@
                                     </div>
                                 </div>
                             </div> -->
-                        </div>
-                        <!-- --------supporting documents------ -->
-                        <div class="sp-doc mb-4">
-                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
-                                <div class="row mb-2" *ngIf="stateReview">
-                                    <div class="col-sm-4 s-h">
-                                        State Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                            </div>
+                            <!-- --------supporting documents------ -->
+                            <div class="sp-doc mb-4">
+                                <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                    <div class="row mb-2" *ngIf="stateReview">
+                                        <div class="col-sm-4 s-h">
+                                            State Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
                                   {{data?.audited?.responseFile_state?.name}}
                                 </a>
-                                        <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                            <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" *ngIf="mohuaReview">
-                                    <div class="col-sm-4 s-h">
-                                        MoHUA Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                    <div class="row" *ngIf="mohuaReview">
+                                        <div class="col-sm-4 s-h">
+                                            MoHUA Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
                                 {{data?.audited?.responseFile_mohua?.name}}
                               </a>
-                                        <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
+                                            <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- action in case of no no -->
-                    <div class="actNO mt-3" *ngIf="!data?.audited?.submit_annual_accounts">
-                        <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.audited.status">
-                            <!-- <div class="card-body">
+                        <!-- action in case of no no -->
+                        <div class="actNO mt-3" *ngIf="!data?.audited?.submit_annual_accounts">
+                            <div class="card mb-4" [ngClass]="{'d-none': (data?.audited?.status == 'PENDING' && data?.isDraft == true)}" *ngIf="data?.audited.status">
+                                <!-- <div class="card-body">
                                 <div class="row" *ngIf="data?.isDraft == false && data?.audited?.status == 'PENDING'">
                                     <div class="col-sm-2">
                                         Review Status:
@@ -748,127 +749,127 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <div class="card-body">
-                                <div class="row s-h" *ngIf="data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        Form Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{finalStatus}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!--  State Action responce view -->
-                            <div class="card-body" *ngIf="stateReview">
-                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
-                                        State Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{state_status_aud}}
+                                <div class="card-body">
+                                    <div class="row s-h" *ngIf="data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            Form Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{finalStatus}}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        State Review Status:
+                                <!--  State Action responce view -->
+                                <div class="card-body" *ngIf="stateReview">
+                                    <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
+                                        <div class="col-sm-4">
+                                            State Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{state_status_aud}}
+                                        </div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        {{state_status_aud}}
+                                    <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            State Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{state_status_aud}}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
-                                        State Remarks/Return reason:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{data?.audited?.rejectReason_state ? data?.audited?.rejectReason_state : 'N/A'}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!--  Mohua Action responce view -->
-                            <div class="card-body" *ngIf="mohuaReview">
-                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
-                                    <div class="col-sm-4">
-                                        MoHUA Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{mohua_status_aud}}
-                                    </div>
-                                </div>
-                                <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
-                                    <div class="col-sm-4">
-                                        MoHUA Review Status:
-                                    </div>
-                                    <div class="col-sm-8">
-                                        {{mohua_status_aud}}
+                                    <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
+                                        <div class="col-sm-4">
+                                            State Remarks/Return reason:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{data?.audited?.rejectReason_state ? data?.audited?.rejectReason_state : 'N/A'}}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
-                                    <div class="col-sm-4">
-                                        MoHUA Remarks/Return reason:
+                                <!--  Mohua Action responce view -->
+                                <div class="card-body" *ngIf="mohuaReview">
+                                    <div class="row" *ngIf="data?.audited?.status == 'APPROVED'">
+                                        <div class="col-sm-4">
+                                            MoHUA Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{mohua_status_aud}}
+                                        </div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        {{data?.audited?.rejectReason_mohua ? data?.audited?.rejectReason_mohua : 'N/A'}}
+                                    <div class="row" *ngIf="data?.audited?.status == 'REJECTED' && data?.isDraft == false">
+                                        <div class="col-sm-4">
+                                            MoHUA Review Status:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{mohua_status_aud}}
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data?.audited?.status == 'APPROVED' || (data?.audited?.status == 'REJECTED' && data?.isDraft == false)">
+                                        <div class="col-sm-4">
+                                            MoHUA Remarks/Return reason:
+                                        </div>
+                                        <div class="col-sm-8">
+                                            {{data?.audited?.rejectReason_mohua ? data?.audited?.rejectReason_mohua : 'N/A'}}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- --------supporting documents------ -->
-                            <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
-                                <div class="row mb-2" *ngIf="stateReview">
-                                    <div class="col-sm-4 s-h">
-                                        State Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
+                                <!-- --------supporting documents------ -->
+                                <div class="card-body" *ngIf="stateReview && data?.isDraft == false && data?.status !== 'PENDING'">
+                                    <div class="row mb-2" *ngIf="stateReview">
+                                        <div class="col-sm-4 s-h">
+                                            State Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_state?.url" href="{{data?.audited?.responseFile_state?.url}}">
                                       {{data?.audited?.responseFile_state?.name}}
                                     </a>
-                                        <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                            <span *ngIf="!data?.audited?.responseFile_state?.url">N/A</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" *ngIf="mohuaReview">
-                                    <div class="col-sm-4 s-h">
-                                        MoHUA Supporting Document :
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
+                                    <div class="row" *ngIf="mohuaReview">
+                                        <div class="col-sm-4 s-h">
+                                            MoHUA Supporting Document :
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a class="s-f" target="_blank" *ngIf="data?.audited?.responseFile_mohua?.url" href="{{data?.audited?.responseFile_mohua?.url}}">
                                     {{data?.audited?.responseFile_mohua?.name}}
                                   </a>
-                                        <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-4" *ngIf="canTakeAction == true">
-                            <div class="card-body">
-                                <div class="row" style="">
-                                    <div class="col-sm-5 a-h" style="">Review Status:</div>
-                                    <div class="col-sm-7 act-btn" style="">
-                                        <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.audited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'audited', $event?.target?.value)">Approve</button>
-                                        <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.audited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'audited', $event?.target?.value)">Return</button>
-                                    </div>
-                                    <div class="row rej mt-3">
-                                        <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
-                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'STATE'" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason_state" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
-                                        </div>
-                                        <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
-                                            <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.audited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                            <span *ngIf="!data?.audited?.responseFile_mohua?.url">N/A</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- supporting documents for action -->
-                    <div class="card-body" *ngIf="canTakeAction == true">
-                        <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
-                            <div class="col-sm-12">
-                                <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
-                                </app-common-file-upload>
+                            <div class="card mb-4" *ngIf="canTakeAction == true">
+                                <div class="card-body">
+                                    <div class="row" style="">
+                                        <div class="col-sm-5 a-h" style="">Review Status:</div>
+                                        <div class="col-sm-7 act-btn" style="">
+                                            <button type="button" class="btn btnA" [ngClass]="{'btnAAc' : (data?.audited?.status == 'APPROVED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('APPROVED', 'audited', $event?.target?.value)">Approve</button>
+                                            <button type="button" class="btn ms-3 btnR" [ngClass]="{'btnRAc' : (data?.audited?.status == 'REJECTED')}" [disabled]="actionBtnDis" (click)="actionBtnNo('REJECTED', 'audited', $event?.target?.value)">Return</button>
+                                        </div>
+                                        <div class="row rej mt-3">
+                                            <div class="col-sm-5 a-h" style="">Remarks/Return reason:</div>
+                                            <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'STATE'" style="">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [(ngModel)]="data.audited.rejectReason_state" [ngModelOptions]="{standalone: true}" [ngClass]="{'disCls disGray' : actionBtnDis}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                            </div>
+                                            <div class="col-sm-7 ps-4" *ngIf="userData?.role == 'MoHUA'" style="">
+                                                <textarea class="" name="reason" id="reason" cols="30" rows="2" [ngClass]="{'disCls disGray' : actionBtnDis}" [(ngModel)]="data.audited.rejectReason_mohua" [ngModelOptions]="{standalone: true}" (keyup)="actionBtnNo('returnRes', 'audited', $event?.target?.value)"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
+                        <!-- supporting documents for action -->
+                        <div class="card-body" *ngIf="canTakeAction == true">
+                            <div class="row" [ngClass]="{'disCls' : actionBtnDis}">
+                                <div class="col-sm-12">
+                                    <app-common-file-upload [dataFromParentN]="actionFileData?.audited" (getFileUploadResult)="getUploadActionFileData($event, 'audited')" [quesName]="'Supporting Document :'" [quesType]="'file'" [compName]="compName">
+                                    </app-common-file-upload>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card-body" *ngIf="canTakeAction == false && data?.isDraft == false && data?.status !== 'PENDING'">
                         <div class="row">
                             <div class="col-sm-4 s-h">
                                 Supporting Document :
@@ -882,96 +883,96 @@
                         </div>
 
                     </div> -->
-                </div>
-                <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
-                    <div class="row mt-3 mb-3">
-                        <div class="col-sm-8">
+                    </div>
+                    <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
+                        <div class="row mt-3 mb-3">
+                            <div class="col-sm-8">
 
-                            <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
+                                <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
                               ?<span style="color: red;">*</span></b>
-                            </span>
-                        </div>
-                        <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
-                            <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab1dis }">
-                                <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
-                                <label class="btn btn-y" for="btnAuditB" [ngClass]="{'disable-btn' : tab1dis }">
+                                </span>
+                            </div>
+                            <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
+                                <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : tab1dis }">
+                                    <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
+                                    <label class="btn btn-y" for="btnAuditB" [ngClass]="{'disable-btn' : tab1dis }">
                               Yes
                           </label>
-                                <input type="radio" name="btnYesNoAudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',false,true)" id="btnAuditB2" />
-                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnAuditB2" [ngClass]="{'disable-btn' : tab1dis }">
+                                    <input type="radio" name="btnYesNoAudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',false,true)" id="btnAuditB2" />
+                                    <label class="btn btn-n" style="margin-left: 1rem;" for="btnAuditB2" [ngClass]="{'disable-btn' : tab1dis }">
                               No
                           </label>
-                            </div>
-                            <span class="text-danger" *ngIf="answerError?.audited?.submit_standardized_data">Select Yes or
+                                </div>
+                                <span class="text-danger" *ngIf="answerError?.audited?.submit_standardized_data">Select Yes or
                           No</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mt-3" *ngIf="data?.audited?.submit_standardized_data">
-                        <div class="col-sm-12 ms-3">
-                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
+                        <div class="row mt-3" *ngIf="data?.audited?.submit_standardized_data">
+                            <div class="col-sm-12 ms-3">
+                                <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/objects/3b01a260-ef92-43a6-a68a-9f3643089bbd.xlsx" target="_blank">
                                 Download Template
                             </a>
-                            <!-- https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx -->
+                                <!-- https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx -->
 
-                            <button (click)="ques2.click()" class="btn btn-primary ms-3" [disabled]="tab1dis">Upload EXCEL
+                                <button (click)="ques2.click()" class="btn btn-primary ms-3" [disabled]="tab1dis">Upload EXCEL
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
                             </button>
-                            <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'audited')" type="file" accept=".xls, .xlsx" #file>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
-                                <div class="row ms-2">
-                                    <div class="col-sm-6 col-lg-6 col-md-6 mb-2">
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.audited.standardized_data.error">
+                                <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'audited')" type="file" accept=".xls, .xlsx" #file>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+                                    <div class="row ms-2">
+                                        <div class="col-sm-6 col-lg-6 col-md-6 mb-2">
+                                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.audited.standardized_data.error">
                                             {{uploadErrors.audited.standardized_data.error}}
                                           </label>
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.audited.standardized_data.error">
+                                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="manadUploadErrors.audited.standardized_data.error">
                                               Excel file are mandatory.
                                         </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row allupload ms-2 mt-3 mb-3">
-                            <div class="col-sm-5 col-lg-5 col-md-5">
-                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.audited.standardized_data?.excel?.name">
+                            <div class="row allupload ms-2 mt-3 mb-3">
+                                <div class="col-sm-5 col-lg-5 col-md-5">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.audited.standardized_data?.excel?.name">
                                             {{data.audited.standardized_data?.excel?.name}}</label>
-                            </div>
-                            <div *ngIf="uploadErrors.audited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
-                                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.audited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.audited.standardized_data.progress + '%' }">
-                                    {{ uploadErrors.audited.standardized_data.progress }}%
+                                </div>
+                                <div *ngIf="uploadErrors.audited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.audited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.audited.standardized_data.progress + '%' }">
+                                        {{ uploadErrors.audited.standardized_data.progress }}%
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2 col-lg-2 col-md-2">
+                                    <ng-container>
+                                        <div *ngIf="data.audited.standardized_data?.excel?.url">
+                                            <a href="{{ data.audited.standardized_data?.excel?.url }}" target="_blank">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                            </a>
+                                            <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable, 'p-none' : tab1dis}" (click)="clearFile('audited')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </div>
+
+                                        <div *ngIf="uploadErrors.audited.standardized_data.error">
+                                            <a>
+                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                            </a>
+                                            <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')" style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                            </a>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
 
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <ng-container>
-                                    <div *ngIf="data.audited.standardized_data?.excel?.url">
-                                        <a href="{{ data.audited.standardized_data?.excel?.url }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                        </a>
-                                        <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable, 'p-none' : tab1dis}" (click)="clearFile('audited')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </div>
-
-                                    <div *ngIf="uploadErrors.audited.standardized_data.error">
-                                        <a>
-                                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
-                                        </a>
-                                        <a [ngClass]="{cross: tab1dis && data.audited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')" style="margin-left: 3px;">
-                                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
-                                        </a>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12 ms-3">
-                                <span class="text-primary">
+                            <div class="row">
+                                <div class="col-sm-12 ms-3">
+                                    <span class="text-primary">
                                 <b>Self declaration by the Executive officer/Municipal
                                   Commissioner of the ULB on the standardised financial statements uploaded
                                   above.</b><br>
@@ -980,90 +981,96 @@
                               It is confirmed that this information can be made available for public consumption on
                               the CityFinance portal.
                                 </span>
-                            </div>
-                            <div class="col-sm-12 ms-3">
-                                <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="tab1dis" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
-                                <label style="margin-left: 1ch;" for="agree"> I Agree</label>
-                            </div>
-                            <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="!data.audited.standardized_data.declaration && isSubmit">
-                                Checkbox can not be blank.
+                                </div>
+                                <div class="col-sm-12 ms-3">
+                                    <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="tab1dis" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
+                                    <label style="margin-left: 1ch;" for="agree"> I Agree</label>
+                                </div>
+                                <div class="col-sm-12 ms-3 mb-3 text-danger" *ngIf="!data.audited.standardized_data.declaration && isSubmit">
+                                    Checkbox can not be blank.
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
+
         </div>
 
     </div>
-
-</div>
-<!-- <div class="row ms-0 me-0 mt-3">
+    <!-- <div class="row ms-0 me-0 mt-3">
     <div class="col-sm-12 text-end">
         <button class="btn btn-primary">Save As Draft</button>
         <button class="btn btn-primary ms-3">Submit</button>
     </div>
 </div> -->
-<div class="row ms-0 me-0 mt-4 mb-3" [ngClass]="{'p-n': finalSubmitInit}">
-    <div class="col-sm-6">
-        <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
-    </div>
-    <div class="col-sm-6 text-end">
-        <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" [disabled]="isDisabled && overAllFormDis" (click)="formSave('draft')">Save As Draft</button>
-        <button class="btn btn-primary ms-3" [disabled]="isDisabled && overAllFormDis" *ngIf="userData?.role == 'ULB'" (click)="formSave('save')">Submit</button>
-        <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
-        <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
-    </div>
-</div>
-<ng-template #templateAnnual>
-    <div class="modal-body text-center ">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
+    <div class="row ms-0 me-0 mt-4 mb-3" [ngClass]="{'p-n': finalSubmitInit}">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
-
-        <div class="row mb-3 mt-3">
-            <div class="col-sm-12">{{alertError}}
-            </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-primary" *ngIf="userData?.role == 'ULB'" [disabled]="isDisabled && overAllFormDis" (click)="formSave('draft')">Save As Draft</button>
+            <button class="btn btn-primary ms-3" [disabled]="isDisabled && overAllFormDis" *ngIf="userData?.role == 'ULB'" (click)="formSave('save')">Submit</button>
+            <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE' || userData?.role == 'MoHUA'" [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
         </div>
+    </div>
+    <ng-template #templateAnnual>
+        <div class="modal-body text-center ">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+                <div class="text-right">
+                    <a (click)="alertClose()">
+                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                    </a>
+                </div>
+            </div>
 
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
-                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
+            <div class="row mb-3 mt-3">
+                <div class="col-sm-12">{{alertError}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 text-end">
+                    <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                    <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                    <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
                   Save & Proceed
                 </button>
+                </div>
+
             </div>
 
         </div>
+    </ng-template>
 
-    </div>
-</ng-template>
-
-<ng-template #template1>
-    <div class="modal-body text-center">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
+    <ng-template #template1>
+        <div class="modal-body text-center">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+                <div class="text-right">
+                    <a (click)="alertClose()">
+                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <p style="margin-top: 8px;">
-            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
-        </p>
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
-        </div>
+            <p style="margin-top: 8px;">
+                Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+            </p>
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-light" (click)="discard()">Discard</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+            </div>
 
-    </div>
-</ng-template>
+        </div>
+    </ng-template>
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="col-sm">
+        <div class="col-sm-10">
             <!-- <div class="row mt-1" *ngIf="loggedInUserType !== userTypes.ULB && path">
                 {{path}}, {{pathMohua}}
                 <div class="col-sm-12">
@@ -97,13 +97,11 @@
                         <span *ngIf="pathMohua">
                             /
                         </span>
-                        <a type="button" *ngIf="pathMohua" class="breadLink ms-2"
-                            (click)="backStatePage('State Review')">
+                    <a type="button" *ngIf="pathMohua" class="breadLink ms-2" (click)="backStatePage('State Review')">
                             State Review
                         </a>
                     </span>
-                    <a type="button" (click)="backStatePage2()" class="breadLink"
-                        *ngIf="loggedInUserType === userTypes.STATE && path">
+                    <a type="button" (click)="backStatePage2()" class="breadLink" *ngIf="loggedInUserType === userTypes.STATE && path">
                         &laquo;
                         <!-- BACK(STATE) -->
                         ULB Review
@@ -129,23 +127,23 @@
                             <div>
                                 <span style="font-size: 18px; font-weight: 600;">
                                     {{ulbName}}<span *ngIf="ulbName != ''">,</span> {{stateName}}
-                                </span>
-                            </div>
                         </span>
-                        <span *ngIf="states &&
+                </div>
+                </span>
+                <span *ngIf="states &&
                               (loggedInUserType === userTypes.STATE ||
                                 loggedInUserType === userTypes.ULB)">
                             <span *ngIf="loggedInUserType !== userTypes.ULB">
                                 {{ulbName}}<span *ngIf="ulbName != ''">,</span>
-                            </span> {{ states[userLoggedInDetails["state"]]?.name }}
+                </span> {{ states[userLoggedInDetails["state"]]?.name }}
 
 
-                        </span>
-                    </h3>
+                </span>
+                </h3>
 
-                </div>
             </div>
-            <!-- <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
+        </div>
+        <!-- <div class="row" *ngIf="loggedInUserType !== userTypes.ULB && path">
             <div class="col-sm-12">
                 <button type="button" (click)="backStatePage()" class="btn btn-c-back br-e">
                        &laquo;
@@ -164,8 +162,8 @@
 
             </div>
         </div> -->
-            <router-outlet></router-outlet>
-        </div>
+        <router-outlet></router-outlet>
     </div>
+</div>
 
 </div>

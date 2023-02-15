@@ -57,6 +57,8 @@ export class ActionPlanComponent implements OnInit {
   actionBtnDis = false;
   errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
   UANames = [];
+  isApiInProgress = true;
+  sideMenuItem;
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -78,7 +80,9 @@ export class ActionPlanComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.getUAList();
+    this.setRouter();
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.stateId).subscribe(
@@ -119,11 +123,12 @@ export class ActionPlanComponent implements OnInit {
 
   load() {
     console.log('state id', this.stateId);
-    let year = this.Year["2022-23"]
+    let year = this.Year["2022-23"];
+    this.isApiInProgress = true;
     this.stateService.getFormDataAction(this.stateId, year).subscribe(
       (res: any) => {
         this.showLoader = false;
-
+        this.isApiInProgress = false;
         console.log(res["data"], "sss");
         if (this.loggedInUserType !== "STATE") {
           this.isDisabled = true
@@ -150,6 +155,7 @@ export class ActionPlanComponent implements OnInit {
         this.showLoader = false;
         this.preMess = err?.error?.message;
         this.isPreYear = false;
+        this.isApiInProgress = false;
         //this.onFail();
       }
     );
@@ -630,6 +636,18 @@ export class ActionPlanComponent implements OnInit {
     // }
     this.data["uaData"][pIndex]["status"] = e?.status;
     this.data["uaData"][pIndex]["rejectReason"] = e?.reason;
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "action-plan") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        //  this.formId = element?._id;
+
+        }
+      });
+    }
   }
 
 }

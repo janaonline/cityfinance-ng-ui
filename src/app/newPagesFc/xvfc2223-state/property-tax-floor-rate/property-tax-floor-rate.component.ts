@@ -54,6 +54,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   extantActDocError;
   // isDisabled:boolean =false
   previewFormData:any;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -62,6 +63,15 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
+  sideMenuItem;
+  userData;
+  design_year;
+  stateId;
+  yearValue;
+  minimumUrl;
+  ruleUrl;
+  backRouter = '';
+  nextRouter = '';
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -70,7 +80,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -80,14 +90,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     this.initializeForm();
     this.setRouter();
   }
-  sideMenuItem;
-  userData;
-  design_year;
-  stateId;
-  yearValue;
-  minimumUrl;
-  ruleUrl;
+
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.clickedSave = false;
     sessionStorage.setItem("changeInPropertyTax", "false");
     this.onload();
@@ -135,6 +141,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     };
     console.log(params)
     //call api and subscribe and patch here
+    this.isApiInProgress = true;
     this.ptService.getPtData(params).subscribe((res:any)=>{
       console.log(res)
       res?.data?.isDraft == false ? this.isDisabled = true : this.isDisabled = false
@@ -143,8 +150,10 @@ export class PropertyTaxFloorRateComponent implements OnInit {
       this.patchFunction(this.previewFormData);
       this.checkActionDisable(res?.data);
       sessionStorage.setItem("changeInPropertyTax", "false");
+      this.isApiInProgress = false;
     },
       (error) => {
+        this.isApiInProgress = false;
         if (this.userData?.role !== "STATE") {
           this.isDisabled = true;
         }
@@ -779,8 +788,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     for (const key in this.sideMenuItem) {
       this.sideMenuItem[key].forEach((element) => {
         if (element?.name == "Property tax floor rate Notification") {
-          // this.nextRouter = element?.nextUrl;
-          // this.backRouter = element?.prevUrl;
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
           this.formId = element?._id;
         }
       });

@@ -24,7 +24,12 @@ export class ReviewApplicationComponent implements OnInit {
     role: "ULB",
     design_year: "606aafb14dff55e6c075d3ae",
   };
+  sideMenuItem;
+  backRouter = '';
+  nextRouter = '';
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.onLoad();
     this.getFormId();
     if (this.data?.length > 0)
@@ -63,5 +68,18 @@ export class ReviewApplicationComponent implements OnInit {
         console.log("sasasasasasaaaaaaaaaaa", formId);
       }
     });
+  }
+
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "review-ulb-form") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
+
+        }
+      });
+    }
   }
 }

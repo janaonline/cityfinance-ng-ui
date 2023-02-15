@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!isApiInProgress">
     <div class="row" style="margin-left: 15px; margin-right: 25px;">
         <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
             <h4 class="form-header">
@@ -321,10 +321,11 @@
     </div>
     <div class="row mt-4 mb-3" style="">
         <div class="col-sm-6 " style="">
-            <button type="button " class="btn btn-c-back" [routerLink]="[ '../gtCertificate']">BACK</button>
+
+            <button type="button " class="btn btn-c-back" [routerLink]="backRouter">BACK</button>
         </div>
         <div class="col-sm-6 text-right" style="padding: 0;text-align: end;">
-            <button type="button " class="btn btn-c-next" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
+            <button type="button " class="btn btn-c-next" [routerLink]="nextRouter">NEXT</button>
         </div>
     </div>
 </div>
@@ -370,3 +371,7 @@
         </pagination-controls>
     </div>
 </ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

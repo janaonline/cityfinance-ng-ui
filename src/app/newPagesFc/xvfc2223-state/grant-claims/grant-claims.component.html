@@ -1,4 +1,4 @@
-<div class="container-fluid mb-3" style="">
+<div class="container-fluid mb-3" style="" *ngIf="!isApiInProgress">
     <!-- heading and drop down -->
     <div class="row mt-2">
         <div class="col-sm-12 form-header">
@@ -329,10 +329,10 @@
     </div>
     <div class="row mt-3 mb-3">
         <div class="col-sm-6">
-            <button class="btn btn-c-back" routerLink="../edit-ulb-profile"><- Previous Form</button>
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
         </div>
         <div class="col-sm-6 text-end">
-            <button class="btn btn-c-next ms-3" routerLink="../water-supply">Next Form -></button>
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
 
@@ -378,3 +378,7 @@
 
 
 </ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

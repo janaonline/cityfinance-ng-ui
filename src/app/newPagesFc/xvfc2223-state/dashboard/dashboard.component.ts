@@ -204,8 +204,11 @@ export class DashboardComponent implements OnInit {
     formType: '',
     installment: ''
   };
-
+  sideMenuItem;
+  backRouter = '';
+  nextRouter = '';
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.params = {
       stateId: this.stateId,
       design_year: this.yearValue,
@@ -213,6 +216,7 @@ export class DashboardComponent implements OnInit {
       installment: this.installmentType
     };
     this.getFormData();
+    this.setRouter();
   }
 
   getStateAndDesignYear(){
@@ -316,5 +320,16 @@ export class DashboardComponent implements OnInit {
   }
   claimGrant(){
     swal("Saved", "Claimed Grant !!!!.", "success");
+  }
+
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "dashboard") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
   }
 }

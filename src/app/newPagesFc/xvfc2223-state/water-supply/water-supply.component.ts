@@ -71,6 +71,10 @@ export class WaterSupplyComponent implements OnInit {
 
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
+  sideMenuItem;
+  isApiInProgress = true;
+  backRouter = '';
+nextRouter = '';
   constructor(
     private dialog: MatDialog,
     private stateService: State2223Service,
@@ -87,9 +91,11 @@ export class WaterSupplyComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
   }
   setUaList(){
+    this.isApiInProgress = true
     this.stateDashboardService.getCardData(this.id).subscribe(
       (res) => {
         let newList = {};
@@ -97,12 +103,14 @@ export class WaterSupplyComponent implements OnInit {
           this.UANames.push(element.name)
           newList[element._id] = element;
         });
+        this.isApiInProgress = false;
         sessionStorage.setItem("UasList", JSON.stringify(newList));
         this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
         this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
       },
       (err) => {
         console.log(err);
+        this.isApiInProgress = false;
       }
     );
   }
@@ -261,6 +269,19 @@ export class WaterSupplyComponent implements OnInit {
         this.secondWeightedScore = parseFloat(this.getData?.fourSLB?.data?.reduction_score).toFixed(2)
         this.thirdWeightedScore = parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredWithSewerage_score).toFixed(2)
         this.fourthWeightedScore = parseFloat(this.getData?.fourSLB?.data?.houseHoldCoveredPipedSupply_score).toFixed(2)
+  }
+
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "water-supply") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+         // this.formId = element?._id;
+
+        }
+      });
+    }
   }
 }
 
