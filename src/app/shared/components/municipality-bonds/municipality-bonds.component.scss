@@ -1,4 +1,13 @@
+* {
+    font-family: 'Manrope';
+}
 .label {
     font-size: 12px;
     color: gray;
+}
+.icon {
+    height: 30px;
+}
+a, a:hover {
+    text-decoration: inherit;
 }
