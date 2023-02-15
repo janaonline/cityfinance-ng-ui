@@ -102,8 +102,8 @@ export class UlbFiscalComponent implements OnInit {
       label: 'Own Revenue Details',
       yearData: [
         {
-          label: 'Total Own Revenue Arrears as on 31st March 2020',
-          key: 'totalOwnRevenArr_20',
+          label: 'Total Own Revenue Arrears as on 31st March 2022',
+          key: 'totalOwnRevenueArea',
           postion: '1',
           amount: this.totalOwnRevenueArea,
           status: this.totalOwnRevenueAreaStatus,
@@ -160,7 +160,7 @@ export class UlbFiscalComponent implements OnInit {
       yearData: [
         {
           label: 'Number of Properties assessed/listed as per Property Tax Register',
-          key: 'NoOfProlisted',
+          key: 'property_tax_register',
           postion: '1',
           amount: this.property_tax_register,
           status: this.property_tax_registerStatus,
@@ -175,7 +175,7 @@ export class UlbFiscalComponent implements OnInit {
         },
         {
           label: 'Number of Properties exemt from paying Property Tax',
-          key: 'NoOfProExemtfromPayProTax',
+          key: 'paying_property_tax',
           postion: '2',
           amount: this.paying_property_tax,
           status: this.paying_property_taxStatus,
@@ -190,7 +190,7 @@ export class UlbFiscalComponent implements OnInit {
         },
         {
           label: 'Number of Properties for which Property Tax has been paid',
-          key: 'NoOfProwhichProTaxPaid',
+          key: 'paid_property_tax',
           postion: '3',
           amount: this.paid_property_tax,
           status: this.paid_property_taxStatus,
@@ -519,7 +519,7 @@ export class UlbFiscalComponent implements OnInit {
         yearData: [
           {
             label: 'Total Own Revenue Arrears as on 31st March 2022',
-            key: 'totalOwnRevenArr_20',
+            key: 'totalOwnRevenueArea',
             postion: '1',
             amount: this.totalOwnRevenueArea,
             status: this.totalOwnRevenueAreaStatus,
@@ -576,7 +576,7 @@ export class UlbFiscalComponent implements OnInit {
         yearData: [
           {
             label: 'Number of Properties assessed/listed as per Property Tax Register (as on 1st April 2022)',
-            key: 'NoOfProlisted',
+            key: 'property_tax_register',
             postion: '1',
             amount: this.property_tax_register,
             status: this.property_tax_registerStatus,
@@ -591,7 +591,7 @@ export class UlbFiscalComponent implements OnInit {
           },
           {
             label: 'Number of Properties exemt from paying Property Tax (as on 1st April 2022)',
-            key: 'NoOfProExemtfromPayProTax',
+            key: 'paying_property_tax',
             postion: '2',
             amount: this.paying_property_tax,
             status: this.paying_property_taxStatus,
@@ -606,7 +606,7 @@ export class UlbFiscalComponent implements OnInit {
           },
           {
             label: 'Number of Properties for which Property Tax has been paid  (for FY 2021-22)',
-            key: 'NoOfProwhichProTaxPaid',
+            key: 'paid_property_tax',
             postion: '3',
             amount: this.paid_property_tax,
             status: this.paid_property_taxStatus,
@@ -1135,10 +1135,10 @@ export class UlbFiscalComponent implements OnInit {
       }
     } else if (stItem?.key == "goverPar") {
       switch (yItem.key) {
-        case "totalOwnRevenArr_20":
+        case "totalOwnRevenueArea":
           this.totalOwnRevenueArea = yItem?.amount;
           break;
-        case "NoOfProlisted":
+        case "property_tax_register":
           this.property_tax_register = yItem?.amount;
           break;
         case "fy_21_22_cash":
@@ -1147,10 +1147,10 @@ export class UlbFiscalComponent implements OnInit {
         case "fy_21_22_online":
           this.fy_21_22_online = yItem?.amount;
           break;
-        case "NoOfProExemtfromPayProTax":
+        case "paying_property_tax":
           this.paying_property_tax = yItem?.amount;
           break;
-        case "NoOfProwhichProTaxPaid":
+        case "paid_property_tax":
           this.paid_property_tax = yItem?.amount;
           break;
       }
@@ -1276,7 +1276,7 @@ export class UlbFiscalComponent implements OnInit {
             yearData: [
               {
                 label: 'Total Own Revenue Arrears as on 31st March 2020',
-                key: 'totalOwnRevenArr_20',
+                key: 'totalOwnRevenueArea',
                 amount: this.totalOwnRevenueArea,
               },
             ]
@@ -1287,17 +1287,17 @@ export class UlbFiscalComponent implements OnInit {
             yearData: [
               {
                 label: 'Number of Properties assessed/listed as per Property Tax Register',
-                key: 'NoOfProlisted',
+                key: 'property_tax_register',
                 amount: this.property_tax_register,
               },
               {
                 label: 'Number of Properties exemt from paying Property Tax',
-                key: 'NoOfProExemtfromPayProTax',
+                key: 'paying_property_tax',
                 amount: this.paying_property_tax,
               },
               {
                 label: 'Number of Properties for which Property Tax has been paid',
-                key: 'NoOfProwhichProTaxPaid',
+                key: 'paid_property_tax',
                 amount: this.paid_property_tax,
               },
             ]
