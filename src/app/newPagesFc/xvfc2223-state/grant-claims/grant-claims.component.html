@@ -335,49 +335,49 @@
             <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
+    <ng-template #template>
+        <div class="modal-title">
+            <div style="display: flex; justify-content: flex-end;">
+                <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-times" style="color: white;"></i>
+              </button>
+            </div>
+            <div>
+                <h3>Tracking</h3>
+            </div>
+        </div>
+        <div *ngIf="historyData.length>0" class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+            <table class="table tracking-history-table">
+                <thead>
+                    <tr>
+                        <th style="position: sticky; top: 0" class="text-center"></th>
+                        <th style="position: sticky; top: 0">Sr. No</th>
+                        <th style="position: sticky; top: 0">Action</th>
+                        <th style="position: sticky; top: 0">Date</th>
+                    </tr>
+                </thead>
 
+                <tbody>
+                    <tr *ngFor="let row of historyData; let i = index">
+                        <td></td>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ row.status }}</td>
+                        <td>
+                            {{row.time | date: 'medium': 'GMT'}}
+
+                        </td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+        <div *ngIf="historyData.length == 0" class="text-center alert" style="color: red;">No Data Found!</div>
+
+
+    </ng-template>
 </div>
-<ng-template #template>
-    <div class="modal-title">
-        <div style="display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
-                <i class="fa fa-times" style="color: white;"></i>
-            </button>
-        </div>
-        <div>
-            <h3>Tracking</h3>
-        </div>
-    </div>
-    <div *ngIf="historyData.length>0" class="table-responsive" style="max-height: 50vh; overflow-y: auto">
-        <table class="table tracking-history-table">
-            <thead>
-                <tr>
-                    <th style="position: sticky; top: 0" class="text-center"></th>
-                    <th style="position: sticky; top: 0">Sr. No</th>
-                    <th style="position: sticky; top: 0">Action</th>
-                    <th style="position: sticky; top: 0">Date</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                <tr *ngFor="let row of historyData; let i = index">
-                    <td></td>
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ row.status }}</td>
-                    <td>
-                        {{row.time | date: 'medium': 'GMT'}}
-
-                    </td>
-                </tr>
-            </tbody>
-
-
-        </table>
-    </div>
-    <div *ngIf="historyData.length == 0" class="text-center alert" style="color: red;">No Data Found!</div>
-
-
-</ng-template>
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
     <app-pre-loader-new></app-pre-loader-new>

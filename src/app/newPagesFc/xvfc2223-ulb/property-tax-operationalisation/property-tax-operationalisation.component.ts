@@ -75,6 +75,8 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
+  formId = "";
+  taxCollectiondigit=1000000000000000;
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -103,7 +105,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
     {value: 'Capital Value (CV) System', viewValue: 'Capital Value (CV) System', tooltip: "Capital Value System: Property's annual value is calculated as a percentage of its guidance value/capital value/circle rates"},
     {value: 'Other', viewValue: 'Other', tooltip: "Please mention in detail the property tax method used"},
     ];
-  formId = "";
+
   setRouter() {
     for (const key in this.sideMenuItem) {
       //  console.log(`${key}: ${this.sideMenuItem[key]}`);
@@ -855,7 +857,7 @@ export class PropertyTaxOperationalisationComponent implements OnInit, OnDestroy
       newValue = input?.value + keyValue?.toString();
     }
 
-    if (+newValue > 10000000000 || newValue.length > 10) {
+    if (+newValue > this.taxCollectiondigit || newValue.length > 15) {
       e.preventDefault();
     }
   }
