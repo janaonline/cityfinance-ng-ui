@@ -1134,26 +1134,7 @@ export class UlbFiscalComponent implements OnInit {
         "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
       }
     } else if (stItem?.key == "goverPar") {
-      switch (yItem.key) {
-        case "totalOwnRevenueArea":
-          this.totalOwnRevenueArea = yItem?.amount;
-          break;
-        case "property_tax_register":
-          this.property_tax_register = yItem?.amount;
-          break;
-        case "fy_21_22_cash":
-          this.fy_21_22_cash = yItem?.amount;
-          break;
-        case "fy_21_22_online":
-          this.fy_21_22_online = yItem?.amount;
-          break;
-        case "paying_property_tax":
-          this.paying_property_tax = yItem?.amount;
-          break;
-        case "paid_property_tax":
-          this.paid_property_tax = yItem?.amount;
-          break;
-      }
+      this[yItem.key] = yItem?.amount;
     }
   }
   backTohome() {

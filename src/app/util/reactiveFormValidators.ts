@@ -21,7 +21,7 @@ const validator = new PasswordValidator();
  */
 export const mobileNoValidator = (control: AbstractControl) => {
   const pattern = /^[6-9]\d{9}$/g;
-  if (!control.value || !control.value.trim()) {
+  if (!control.value || !control.value?.trim()) {
     return { required: true };
   }
   if (!control.value.match(pattern)) {
