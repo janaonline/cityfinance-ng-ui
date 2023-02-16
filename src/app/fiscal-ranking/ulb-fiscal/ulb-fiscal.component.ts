@@ -271,7 +271,10 @@ export class UlbFiscalComponent implements OnInit {
     "ulb": "",
     "design_year": "",
     "population11": null,
-    "populationFr": null,
+    "populationFr": {
+      status: "",
+      value: null
+    },
     "webLink": {
       status: "",
       value: null
@@ -288,8 +291,14 @@ export class UlbFiscalComponent implements OnInit {
       status: "",
       value: null
     },
-    "email": "",
-    "mobile": "",
+    "email": {
+      status: "",
+      value: null
+    },
+    "mobile": {
+      status: "",
+      value: null
+    },
     "webUrlAnnual": {
       status: "",
       value: null
@@ -501,8 +510,8 @@ export class UlbFiscalComponent implements OnInit {
       contactInfo: {
         nameOfNodalOfficer: data?.nameOfNodalOfficer.value,
         designationOftNodalOfficer: data?.designationOftNodalOfficer.value,
-        mobile: data?.mobile,
-        email: data?.email,
+        mobile: data?.mobile.value,
+        email: data?.email.value,
       },
     });
 
@@ -877,7 +886,7 @@ export class UlbFiscalComponent implements OnInit {
       },
       populationFr: {
         value: this.fiscalForm.controls.basicUlbDetails.controls.populationFr.value,
-        readonly: this.isPopAvl11
+        status: 'PENDING'
       },
       designationOftNodalOfficer: {
         value: this.fiscalForm.controls.contactInfo.controls.designationOftNodalOfficer.value,
@@ -885,6 +894,14 @@ export class UlbFiscalComponent implements OnInit {
       },
       nameOfNodalOfficer: {
         value: this.fiscalForm.controls.contactInfo.controls.nameOfNodalOfficer.value,
+        status: "PENDING"
+      },
+      email: {
+        value: this.fiscalForm.controls.contactInfo.controls.email.value,
+        status: "PENDING"
+      },
+      mobile: {
+        value: this.fiscalForm.controls.contactInfo.controls.mobile.value,
         status: "PENDING"
       },
       "webUrlAnnual": {
@@ -1021,7 +1038,7 @@ export class UlbFiscalComponent implements OnInit {
         })
       }
     }
-    this.fyDataArr = [...revPostArr, ...goverParaNPostArray, ...annFyPostArr]
+    this.fyDataArr = [...revPostArr, ...expPostArr,  ...goverParaNPostArray, ...annFyPostArr]
   }
   amountPushInFY(type, index, yItem, stItem) {
     let dType = '';
