@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import swal from 'sweetalert';
+import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class MunicipalityBondsComponent implements OnInit {
   response: MouProjectsResponse;
 
   constructor(
-    private municipalBondsSerivce: MunicipalBondsService
+    private municipalBondsSerivce: MunicipalBondsService,
+    public loaderService: GlobalLoaderService,
   ) { }
 
   ngOnInit(): void {
@@ -55,8 +58,13 @@ export class MunicipalityBondsComponent implements OnInit {
   }
 
   loadData() {
+    this.loaderService.showLoader();
     this.municipalBondsSerivce.getMouProjects(this.cityId, this.payload).subscribe(res => {
       this.response = res;
+      this.loaderService.stopLoader();
+    }, error => {
+      swal("Error", "Something went worng", "error");
+      this.loaderService.stopLoader();
     })
   }
 
