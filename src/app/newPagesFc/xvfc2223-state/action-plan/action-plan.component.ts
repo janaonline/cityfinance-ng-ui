@@ -574,53 +574,52 @@ export class ActionPlanComponent implements OnInit {
       //  this.saveBtnText = "NEXT";
     }
 
-    if (this.loggedInUserType == "MoHUA") {
-      if (sessionStorage.getItem("changeInActionPlans") == 'true') {
-        //  this.saveBtnText = "SAVE AND NEXT";
-      }
-    }
+    // if (this.loggedInUserType == "MoHUA") {
+    //   if (sessionStorage.getItem("changeInActionPlans") == 'true') {
+    //     //  this.saveBtnText = "SAVE AND NEXT";
+    //   }
+    // }
   }
+  finalActionData;
     saveAction() {
-  //   let flag = 0;
-  //   let draftFlag = 0;
+    let flag = 0;
+    let draftFlag = 0;
 
-  //   console.log(this.finalActionData);
-  //   this.finalActionData['uaData'].forEach(el => {
-  //     if (el.status != 'APPROVED' && el.status != 'REJECTED') {
-  //       draftFlag = 1;
-  //     }
-  //   })
-  //   if (draftFlag) {
-  //     this.finalActionData['isDraft'] = true;
-  //   } else {
-  //     this.finalActionData['isDraft'] = false;
-  //   }
-  //   console.log(this.finalActionData['isDraft'])
-  //   this.finalActionData.uaData.forEach((el) => {
-  //     console.log(el.ua, el.status, el.rejectReason);
+    console.log(this.finalActionData);
+    this.finalActionData['uaData'].forEach(el => {
+      if (el.status != 'APPROVED' && el.status != 'REJECTED') {
+        draftFlag = 1;
+      }
+    })
+    if (draftFlag) {
+      this.finalActionData['isDraft'] = true;
+    } else {
+      this.finalActionData['isDraft'] = false;
+    }
+    console.log(this.finalActionData['isDraft'])
+    this.finalActionData.uaData.forEach((el) => {
+      console.log(el.ua, el.status, el.rejectReason);
 
-  //     if (
-  //       el["status"] == "REJECTED" &&
-  //       (!el["rejectReason"] || el["rejectReason"] == null)
-  //     ) {
-  //       flag = 1;
-  //     }
-  //   });
-  //   if (flag) {
-  //     swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
-  //     this.stopFlag = 1;
-  //     return
-  //   }
-  console.log('action payload.',this.data)
+      if (
+        el["status"] == "REJECTED" &&
+        (!el["rejectReason"] || el["rejectReason"] == null)
+      ) {
+        flag = 1;
+      }
+    });
+    if (flag) {
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+      this.stopFlag = 1;
+      return
+    }
+  console.log('action payload.',this.finalActionData)
+  debugger
     this.actionplanserviceService
-      .postStateAction(this.data)
+      .postStateAction(this.finalActionData)
       .subscribe(
         (res) => {
           console.log('res..', res)
           swal("Record submitted successfully!");
-          const status = JSON.parse(
-            sessionStorage.getItem("allStatusStateForms")
-          );
         },
         (error) => {
           swal("An error occured!");
@@ -630,12 +629,44 @@ export class ActionPlanComponent implements OnInit {
    }
   actionData(e, pIndex) {
     console.log('state action...action plan', e, pIndex);
-    console.log('this.data', this.data);
+    console.log('this.data 1', this.finalActionData);
     // if (e?.status == "APPROVED" || e?.status == "REJECTED") {
     //   this.actionError = false;
     // }
-    this.data["uaData"][pIndex]["status"] = e?.status;
-    this.data["uaData"][pIndex]["rejectReason"] = e?.reason;
+    this.finalActionData = this.makeApiData();
+    console.log('this.data 2', this.finalActionData);
+    this.finalActionData["uaData"][pIndex]["status"] = e?.status;
+    this.finalActionData["uaData"][pIndex]["rejectReason"] = e?.reason;
+    console.log('this.data 3 ', this.finalActionData);
+    // if (!this.finalActionData) {
+    //   this.finalActionData = this.makeApiData();
+    //   this.data['uaData'].forEach(el1 => {
+    //     this.finalActionData['uaData'].forEach(el2 => {
+    //       if (el1.ua == el2.ua) {
+    //         el2.status = el1.status;
+    //         el2.rejectReason = el1.rejectReason
+    //       }
+    //     })
+    //   })
+    // }
+
+
+    // console.log(this.finalActionData);
+    // this.finalActionData.uaData.forEach((el) => {
+    //   if (el.ua == ua_id) {
+    //     el["status"] = ev.status;
+    //     el["rejectReason"] = ev.rejectReason;
+    //   }
+    // });
+
+    // this.finalActionData.uaData.forEach((element) => {
+    //   if (element["status"] === "REJECTED") {
+    //     this.finalActionData["status"] = "REJECTED";
+    //   } else {
+    //     this.finalActionData["status"] = "APPROVED";
+    //   }
+    // });
+    // console.log("after", this.finalActionData);
   }
   setRouter() {
     for (const key in this.sideMenuItem) {
