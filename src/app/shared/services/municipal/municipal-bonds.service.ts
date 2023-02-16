@@ -139,7 +139,7 @@ export class MunicipalBondsService {
     return this._http
       .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
-          Object.keys(response.filters).forEach(key => { response.filters[key]['checked'] = false })
+          // Object.keys(response.filters).forEach(key => { response.filters[key]['checked'] = false })
           return response;
         })
       );;

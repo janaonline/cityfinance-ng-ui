@@ -8,20 +8,20 @@
             <div class="modal-body row " style="min-height: 80vh;" *ngIf="response">
                 <div class="col-4 border-end">
                     <ul class="list-group">
-                        <li class="list-group-item p-3" [ngClass]="{active: activeFilterKey == item.key}"
-                            (click)="activeFilterKey = item.key"
-                            *ngFor="let item of response.filters | keyvalue; let i = index;">
-                            {{ item.key }}
+                        <li class="list-group-item p-3" [ngClass]="{active: activeFilterKey == filter.key}"
+                            (click)="activeFilterKey = filter.key"
+                            *ngFor="let filter of response.filters; let i = index;">
+                            {{ filter.name }}
                         </li>
                     </ul>
                 </div>
                 <div class="col-8 px-3 d-flex flex-column justify-content-between">
-                    <div *ngIf="response.filters[activeFilterKey] && response.filters[activeFilterKey].length > 0">
+                    <div>
                         <input type="search" class="form-control col-4 rounded-pill p-4" placeholder="Search">
-                        <div class="form-check mt-2" *ngFor="let filter of response.filters[activeFilterKey]">
-                            <input class="form-check-input" type="checkbox" value="" [id]="'filter_' + filter?._id"
-                                [(ngModel)]="filter.checked">
-                            <label class="form-check-label" [for]="'filter_' + filter?._id">{{ filter.name }}</label>
+                        <div class="form-check mt-2" *ngFor="let option of response.filters[activeFilterIndex]?.options">
+                            <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
+                                [(ngModel)]="option.checked">
+                            <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name }}</label>
                         </div>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
@@ -36,8 +36,7 @@
     </div>
 </div>
 
-<p>{{payload | json}}</p>
-<div class="container" *ngIf="response">
+<div class="container" *ngIf="response && response?.rows?.length > 0;">
     <div class="d-flex justify-content-between my-2 ">
 
         <h1>Ongoing Infrastructure Projects</h1>
@@ -53,11 +52,11 @@
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                         <input type="radio" [(ngModel)]="order" [value]="1" class="btn-check" name="order"
                             id="ascending" autocomplete="off" (change)="loadData();">
-                        <label class="btn btn-outline-primary" for="ascending">Ascending</label>
+                        <label class="btn btn-outline-secondary" for="ascending">Ascending</label>
 
-                        <input type="radio" [(ngModel)]="order" [value]="0" class="btn-check" name="order"
+                        <input type="radio" [(ngModel)]="order" [value]="-1" class="btn-check" name="order"
                             id="descending" autocomplete="off" (change)="loadData();">
-                        <label class="btn btn-outline-primary" for="descending">Descending</label>
+                        <label class="btn btn-outline-secondary" for="descending">Descending</label>
                     </div>
                     <ul class="list-group my-2">
                         <li class="list-group-item active" *ngFor="let item of sortOptions"
@@ -109,3 +108,5 @@
         </div>
     </div>
 </div>
+
+<h2 *ngIf="response && response?.rows?.length == 0" class="text-center p-5">No data found</h2>

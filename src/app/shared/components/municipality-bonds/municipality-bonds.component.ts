@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SweetAlert } from 'sweetalert/typings/core';
+const swal: SweetAlert = require("sweetalert");
 import { MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
-import swal from 'sweetalert';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 
@@ -12,12 +13,12 @@ import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.
 export class MunicipalityBondsComponent implements OnInit {
   @Input() cityId: string;
 
-  sortBy: 'ulbShare' | 'totalProjectCost' = 'ulbShare';
-  order: 1 | 0 = 1;
+  sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
+  order: 1 | -1 = 1;
   page: number = 0;
-  limit: number = 2;
+  limit: number = 5;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
-  activeFilterKey = 'implementationAgencies';
+  activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
   response: MouProjectsResponse;
 
   constructor(
@@ -28,22 +29,29 @@ export class MunicipalityBondsComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
-  
+
   get sortOptions() {
     return this.response.columns.filter(column => ['ulbShare', 'totalProjectCost'].includes(column.key))
+  }
+
+  get activeFilterIndex() {
+    return this.response.filters.findIndex(filter => filter.key === this.activeFilterKey);
   }
 
   get payload() {
     const result = {
       skip: this.page * this.limit,
       limit: this.limit,
-      // sortBy: this.sortBy,
-      // order: this.order
+      sortBy: this.sortBy,
+      order: this.order,
+      ...this.response?.filters?.reduce((result, item) => {
+        result[item.key] = item.options
+          .filter(option => option.checked)
+          .map(item => item._id);
+        return result;
+      }, {})
     };
     if (!this.response) return result;
-    Object.entries(this.response.filters).forEach(([key, value]) => {
-      result[key] = (value as any).filter(item => item.checked).map(item => item._id)
-    })
     return result;
   }
 
@@ -63,15 +71,20 @@ export class MunicipalityBondsComponent implements OnInit {
       this.response = res;
       this.loaderService.stopLoader();
     }, error => {
-      swal("Error", "Something went worng", "error");
+      swal("Error", error?.message || "Something went worng", "error");
       this.loaderService.stopLoader();
     })
   }
 
   resetFilters() {
-    Object.entries(this.response.filters).forEach(([key, value]) => {
-      this.response.filters[key] = (value as any).map(item => ({ ...item, checked: false }))
-    });
+    this.response.filters = this.response?.filters
+      ?.map(filter => ({
+        ...filter,
+        options: filter.options.map(item => ({
+          ...item,
+          checked: false
+        }))
+      }));
     this.loadData();
   }
 }

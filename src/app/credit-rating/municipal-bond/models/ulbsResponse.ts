@@ -39,11 +39,24 @@ export interface Columns {
   key: string;
   databaseKey?: string | boolean;
 }
+
+export interface Filters {
+  key: string;
+  name: string;
+  options?: FilterOption[] | null;
+}
+export interface FilterOption {
+  _id: string;
+  name: string;
+  checked?: boolean;
+  sectorId?: string | null;
+}
+
 export interface MouProjectsResponse {
   success: boolean;
   message: string;
   rows?: (Rows)[] | null;
-  filters: any;
+  filters: Filters[];
   columns?: (Columns)[] | null;
   total: number;
 }
