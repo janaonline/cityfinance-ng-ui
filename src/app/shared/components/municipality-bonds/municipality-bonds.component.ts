@@ -10,19 +10,11 @@ import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.
 export class MunicipalityBondsComponent implements OnInit {
   @Input() cityId: string;
 
-  sortBy: string = '';
+  sortBy: 'ulbShare' | 'totalProjectCost' = 'ulbShare';
   order: 1 | 0 = 1;
+  page: number = 0;
+  limit: number = 2;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
-  sortOptions = [ // TODO: need from backend
-    {
-      key: 'totalProjectCost',
-      name: 'Total project cost'
-    },
-    {
-      key: 'ulbShare',
-      name: 'ULB Share'
-    },
-  ]
   activeFilterKey = 'implementationAgencies';
   response: MouProjectsResponse;
 
@@ -33,14 +25,19 @@ export class MunicipalityBondsComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
-
+  
+  get sortOptions() {
+    return this.response.columns.filter(column => ['ulbShare', 'totalProjectCost'].includes(column.key))
+  }
 
   get payload() {
     const result = {
-      sortBy: this.sortBy,
-      order: this.order
+      skip: this.page * this.limit,
+      limit: this.limit,
+      // sortBy: this.sortBy,
+      // order: this.order
     };
-    if(!this.response) return result;
+    if (!this.response) return result;
     Object.entries(this.response.filters).forEach(([key, value]) => {
       result[key] = (value as any).filter(item => item.checked).map(item => item._id)
     })
@@ -52,6 +49,11 @@ export class MunicipalityBondsComponent implements OnInit {
     this.order = order;
   }
 
+  pageChange({ pageIndex }) {
+    this.page = pageIndex;
+    this.loadData();
+  }
+
   loadData() {
     this.municipalBondsSerivce.getMouProjects(this.cityId, this.payload).subscribe(res => {
       this.response = res;
@@ -60,7 +62,7 @@ export class MunicipalityBondsComponent implements OnInit {
 
   resetFilters() {
     Object.entries(this.response.filters).forEach(([key, value]) => {
-      this.response.filters[key] = (value as any).map(item => ({...item, checked: false}))
+      this.response.filters[key] = (value as any).map(item => ({ ...item, checked: false }))
     });
     this.loadData();
   }

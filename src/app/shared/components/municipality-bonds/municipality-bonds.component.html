@@ -25,8 +25,10 @@
                         </div>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="loadData();">Apply</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="resetFilters()">Reset</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            (click)="loadData();">Apply</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                            (click)="resetFilters()">Reset</button>
                     </div>
                 </div>
             </div>
@@ -34,9 +36,9 @@
     </div>
 </div>
 
+<p>{{payload | json}}</p>
 <div class="container" *ngIf="response">
     <div class="d-flex justify-content-between my-2 ">
-        <p>{{payload | json}}</p>
 
         <h1>Ongoing Infrastructure Projects</h1>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -50,7 +52,7 @@
                 <ul class="dropdown-menu p-2">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                         <input type="radio" [(ngModel)]="order" [value]="1" class="btn-check" name="order"
-                            id="ascending" autocomplete="off"  (change)="loadData();">
+                            id="ascending" autocomplete="off" (change)="loadData();">
                         <label class="btn btn-outline-primary" for="ascending">Ascending</label>
 
                         <input type="radio" [(ngModel)]="order" [value]="0" class="btn-check" name="order"
@@ -59,13 +61,17 @@
                     </div>
                     <ul class="list-group my-2">
                         <li class="list-group-item active" *ngFor="let item of sortOptions"
-                            [ngClass]="{active: sortBy == item.key}" 
-                            (click)="sortBy = item.key; loadData();" >{{ item.name }}</li>
+                            [ngClass]="{active: sortBy == item.key}" (click)="sortBy = item.key; loadData();">{{
+                            item.label }}</li>
                     </ul>
                 </ul>
             </div>
         </div>
     </div>
+
+    <mat-paginator [length]="response.total" [pageSize]="limit" 
+        (page)="pageChange($event)" aria-label="Select page">
+    </mat-paginator>
 
     <div *ngFor="let row of response.rows" class="border mb-3 rounded">
         <div class="row m-3">

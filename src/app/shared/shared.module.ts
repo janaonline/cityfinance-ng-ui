@@ -96,6 +96,7 @@ import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-m
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
 import { MunicipalityBondsComponent } from './components/municipality-bonds/municipality-bonds.component';
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -130,6 +131,7 @@ import { MunicipalityBondsComponent } from './components/municipality-bonds/muni
     MdePopoverModule,
     Shared2223Module,
     PdfViewerModule,
+    MatPaginatorModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -190,7 +192,7 @@ import { MunicipalityBondsComponent } from './components/municipality-bonds/muni
     ProTTaxFormComponent,
     GrantTransferMohuaComponent,
     PdfCardViewerComponent,
-    MunicipalityBondsComponent
+    MunicipalityBondsComponent,
   ],
   exports: [
     FormsModule,
@@ -215,6 +217,7 @@ import { MunicipalityBondsComponent } from './components/municipality-bonds/muni
     CompareDialogComponent,
     MatSelect,
     MatOption,
+    MatPaginator,
     IncompleteProfileComponent,
     FileUploadComponent,
     MatCheckboxModule,
@@ -237,7 +240,7 @@ import { MunicipalityBondsComponent } from './components/municipality-bonds/muni
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
     GrantTransferMohuaComponent,
-    MunicipalityBondsComponent
+    MunicipalityBondsComponent,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],

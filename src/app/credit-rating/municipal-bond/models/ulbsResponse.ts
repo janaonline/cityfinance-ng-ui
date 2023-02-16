@@ -45,4 +45,5 @@ export interface MouProjectsResponse {
   rows?: (Rows)[] | null;
   filters: any;
   columns?: (Columns)[] | null;
+  total: number;
 }
