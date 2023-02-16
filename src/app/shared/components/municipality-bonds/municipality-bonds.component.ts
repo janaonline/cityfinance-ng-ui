@@ -37,7 +37,7 @@ export class MunicipalityBondsComponent implements OnInit {
   get activeFilter() {
     return this.response.filters.find(filter => filter.key === this.activeFilterKey);
   }
-  
+
 
   get payload() {
     const result = {
@@ -58,6 +58,12 @@ export class MunicipalityBondsComponent implements OnInit {
 
 
   canShowOption(option: FilterOption): boolean {
+    const sectorsFilter = this.response.filters.find(filter => filter.key == 'sectors');
+    if ((this.activeFilter.key == 'projects' && sectorsFilter?.options.some(sectionOption => sectionOption.checked)) &&  // if some of `sectors` are checked then only show those `projects` which belonds to those perticular `sectors`
+      !sectorsFilter?.options.some(sectionOption => sectionOption.checked && sectionOption._id == option.sectorId)
+    ) {
+      return false;
+    }
     return !this.activeFilter?.query || option.name.toLowerCase().includes(this.activeFilter?.query.toLowerCase());
   }
 
