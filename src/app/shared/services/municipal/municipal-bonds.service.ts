@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 
 import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
 import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
-import { IULBResponse, MouProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
+import { Filter, IULBResponse, MouProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
@@ -135,11 +135,11 @@ export class MunicipalBondsService {
       );
   }
 
-  getMouProjects(ulbId: string, params: any = {}) {
+  getMouProjects(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
     return this._http
       .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
-          // Object.keys(response.filters).forEach(key => { response.filters[key]['checked'] = false })
+          response.filters = appliedFilters || response.filters;
           return response;
         })
       );;

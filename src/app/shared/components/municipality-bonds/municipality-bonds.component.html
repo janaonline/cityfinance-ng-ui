@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-8 px-3 d-flex flex-column justify-content-between">
                     <div>
-                        <input type="search" [(ngModel)]="activeFilter.query" class="form-control col-4 rounded-pill p-4" placeholder="Search">
+                        <input type="search" [(ngModel)]="activeFilter.query" class="form-control col-4 rounded-pill p-4 w-50" placeholder="Search">
                         
                         <ng-container *ngFor="let option of activeFilter.options">
                             <div class="form-check mt-2" *ngIf="canShowOption(option)">
