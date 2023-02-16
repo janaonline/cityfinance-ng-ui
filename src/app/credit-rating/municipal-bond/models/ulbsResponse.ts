@@ -13,7 +13,7 @@ export interface ULB {
 }
 
 
-export interface Rows {
+export interface Row {
   projectName: string;
   implementationAgency: string;
   totalProjectCost: number;
@@ -40,9 +40,10 @@ export interface Columns {
   databaseKey?: string | boolean;
 }
 
-export interface Filters {
+export interface Filter {
   key: string;
   name: string;
+  query?: string;
   options?: FilterOption[] | null;
 }
 export interface FilterOption {
@@ -55,8 +56,8 @@ export interface FilterOption {
 export interface MouProjectsResponse {
   success: boolean;
   message: string;
-  rows?: (Rows)[] | null;
-  filters: Filters[];
+  rows?: (Row)[] | null;
+  filters: Filter[];
   columns?: (Columns)[] | null;
   total: number;
 }

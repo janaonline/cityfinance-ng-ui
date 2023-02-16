@@ -17,12 +17,15 @@
                 </div>
                 <div class="col-8 px-3 d-flex flex-column justify-content-between">
                     <div>
-                        <input type="search" class="form-control col-4 rounded-pill p-4" placeholder="Search">
-                        <div class="form-check mt-2" *ngFor="let option of response.filters[activeFilterIndex]?.options">
-                            <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
-                                [(ngModel)]="option.checked">
-                            <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name }}</label>
-                        </div>
+                        <input type="search" [(ngModel)]="activeFilter.query" class="form-control col-4 rounded-pill p-4" placeholder="Search">
+                        
+                        <ng-container *ngFor="let option of activeFilter.options">
+                            <div class="form-check mt-2" *ngIf="canShowOption(option)">
+                                <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
+                                    [(ngModel)]="option.checked">
+                                <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name }}</label>
+                            </div>
+                        </ng-container>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"

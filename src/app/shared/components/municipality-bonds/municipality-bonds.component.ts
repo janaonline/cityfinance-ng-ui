@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
-import { MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import { Filter, FilterOption, MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 
@@ -34,9 +34,10 @@ export class MunicipalityBondsComponent implements OnInit {
     return this.response.columns.filter(column => ['ulbShare', 'totalProjectCost'].includes(column.key))
   }
 
-  get activeFilterIndex() {
-    return this.response.filters.findIndex(filter => filter.key === this.activeFilterKey);
+  get activeFilter() {
+    return this.response.filters.find(filter => filter.key === this.activeFilterKey);
   }
+  
 
   get payload() {
     const result = {
@@ -53,6 +54,11 @@ export class MunicipalityBondsComponent implements OnInit {
     };
     if (!this.response) return result;
     return result;
+  }
+
+
+  canShowOption(option: FilterOption): boolean {
+    return !this.activeFilter?.query || option.name.toLowerCase().includes(this.activeFilter?.query.toLowerCase());
   }
 
   updateSorting(sortBy, order) {
