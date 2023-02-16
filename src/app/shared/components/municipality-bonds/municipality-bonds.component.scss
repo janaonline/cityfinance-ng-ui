@@ -1,13 +1,26 @@
 * {
     font-family: 'Manrope';
 }
+
 .label {
     font-size: 12px;
     color: gray;
 }
+
 .icon {
     height: 30px;
 }
-a, a:hover {
+
+a,
+a:hover {
     text-decoration: inherit;
+}
+
+.list-group-item.active,
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary:hover {
+    $theme-color: #E67E15;
+    color: #fff;
+    background-color: $theme-color;
+    border-color: $theme-color;
 }
