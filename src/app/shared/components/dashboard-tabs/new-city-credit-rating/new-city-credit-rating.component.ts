@@ -16,6 +16,7 @@ export class NewCityCreditRatingComponent
   detailedList: any;
   ulbName: any;
   yearValue: any = "2021";
+  yearOptions = ['2021', '2020', '2019', '2018', '2017'];
   finalList: any = [];
   lastList: any = [];
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -90,6 +91,15 @@ export class NewCityCreditRatingComponent
   ulbList: string;
   async ngOnInit(): Promise<void> {
     this.detailedList = await this.getDetailedData();
+    let ulbCodes = JSON.parse(localStorage.getItem("ulbCodeMapping"));
+    if(this.detailedList?.length > 0) {
+      const preSelectedYear = this.detailedList
+        .filter(item => item?.link.endsWith('.pdf') && this.demoArray.includes(item.agency) && item["ulb code"] == ulbCodes[this._id])
+        .sort((a, b) => +a?.date.split("/")[2] < +b?.date.split("/")[2] ? 1 : -1)[0]?.date.split("/")[2];
+      if(preSelectedYear) {
+        this.selectCreditYear(preSelectedYear);
+      }
+    }
     console.log("this.detailedLIst", this.detailedList);
 
     console.log("ulbStateMapping", this.ulbStateMapping);
