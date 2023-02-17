@@ -477,7 +477,7 @@
                     <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
-                    <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
+                    <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
 
                     <button class="btn btn-c-next ms-2" [routerLink]="nextRouter" type="button">
                 Next Form ->
