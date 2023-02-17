@@ -59,6 +59,7 @@ export class ActionPlanComponent implements OnInit {
   UANames = [];
   isApiInProgress = true;
   sideMenuItem;
+  finalActionData;
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -314,53 +315,8 @@ export class ActionPlanComponent implements OnInit {
       }
 
     }
-    //  else if (this.loggedInUserType === "MoHUA") {
-    //   let changeHappen = sessionStorage.getItem("changeInActionPlans");
-    //   if (changeHappen == "false") {
-    //     this._router.navigate(["stateform/grant-allocation"]);
-    //     return;
-    //   } else {
-    //     if (this.routerNavigate) {
-    //       this.saveStateAction();
-    //       sessionStorage.setItem("changeInActionPlans", "false")
-    //       if (!this.stopFlag) {
-    //         this._router.navigate([this.routerNavigate.url]);
-    //       }
-    //       return;
-    //     } else if (this.submitted || this.backButtonClicked) {
-    //       this.finalActionData['uaData'].forEach(el => {
-    //         if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
-    //           draftFlag = 1;
-    //         }
-    //       })
-    //       if (draftFlag) {
-    //         this.finalActionData['isDraft'] = true;
-    //         this.openModal(this.template1)
-    //         return;
-    //       } else {
-    //         this.finalActionData['isDraft'] = false;
-    //       }
-    //       this.saveStateAction();
-    //       sessionStorage.setItem("changeInActionPlans", "false")
-    //       if (!this.stopFlag && this.submitted) {
-    //         this._router.navigate(["stateform/grant-allocation"]);
-    //         return
-    //       } else if (!this.stopFlag && this.backButtonClicked) {
-    //         this._router.navigate(["stateform/action-plan"]);
-    //         return
-    //       }
-    //       return;
-    //     }
-    //     this.saveStateAction();
-    //     sessionStorage.setItem("changeInActionPlans", "false")
-    //     if (!this.stopFlag) {
-    //       this._router.navigate(["stateform/grant-allocation"]);
-    //     }
-    //     return;
-
-    //   }
-    // }
   }
+
   postData() {
     this.actionplanserviceService.postFormData(this.reqBody).subscribe(
       (res) => {
@@ -470,42 +426,6 @@ export class ActionPlanComponent implements OnInit {
     return apiData;
   }
 
-  // finalActionData;
-  // checkStatus(ev, ua_id, a, b) {
-  //   sessionStorage.setItem("changeInActionPlans", "true");
-  //   this.saveBtnText = "SAVE AND NEXT";
-  //   console.log("action plan of UA", ev, ua_id);
-  //   console.log("before", this.data.uaData);
-  //   if (!this.finalActionData) {
-  //     this.finalActionData = this.makeApiData();
-  //     this.data['uaData'].forEach(el1 => {
-  //       this.finalActionData['uaData'].forEach(el2 => {
-  //         if (el1.ua == el2.ua) {
-  //           el2.status = el1.status;
-  //           el2.rejectReason = el1.rejectReason
-  //         }
-  //       })
-  //     })
-  //   }
-
-
-  //   console.log(this.finalActionData);
-  //   this.finalActionData.uaData.forEach((el) => {
-  //     if (el.ua == ua_id) {
-  //       el["status"] = ev.status;
-  //       el["rejectReason"] = ev.rejectReason;
-  //     }
-  //   });
-
-  //   this.finalActionData.uaData.forEach((element) => {
-  //     if (element["status"] === "REJECTED") {
-  //       this.finalActionData["status"] = "REJECTED";
-  //     } else {
-  //       this.finalActionData["status"] = "APPROVED";
-  //     }
-  //   });
-  //   console.log("after", this.finalActionData);
-  // }
 
   getExcel() {
     let data = this.makeApiData();
@@ -574,12 +494,13 @@ export class ActionPlanComponent implements OnInit {
       //  this.saveBtnText = "NEXT";
     }
 
-    if (this.loggedInUserType == "MoHUA") {
-      if (sessionStorage.getItem("changeInActionPlans") == 'true') {
-        //  this.saveBtnText = "SAVE AND NEXT";
-      }
-    }
+    // if (this.loggedInUserType == "MoHUA") {
+    //   if (sessionStorage.getItem("changeInActionPlans") == 'true') {
+    //     //  this.saveBtnText = "SAVE AND NEXT";
+    //   }
+    // }
   }
+
     saveAction() {
   //   let flag = 0;
   //   let draftFlag = 0;
@@ -611,16 +532,14 @@ export class ActionPlanComponent implements OnInit {
   //     this.stopFlag = 1;
   //     return
   //   }
-  console.log('action payload.',this.data)
+  // console.log('action payload.',this.finalActionData)
+
     this.actionplanserviceService
-      .postStateAction(this.data)
+      .postStateAction(this.finalActionData)
       .subscribe(
         (res) => {
           console.log('res..', res)
           swal("Record submitted successfully!");
-          const status = JSON.parse(
-            sessionStorage.getItem("allStatusStateForms")
-          );
         },
         (error) => {
           swal("An error occured!");
@@ -629,13 +548,14 @@ export class ActionPlanComponent implements OnInit {
       );
    }
   actionData(e, pIndex) {
-    console.log('state action...action plan', e, pIndex);
-    console.log('this.data', this.data);
-    // if (e?.status == "APPROVED" || e?.status == "REJECTED") {
-    //   this.actionError = false;
-    // }
-    this.data["uaData"][pIndex]["status"] = e?.status;
-    this.data["uaData"][pIndex]["rejectReason"] = e?.reason;
+    // console.log('state action...action plan', e, pIndex);
+    // console.log('this.data 1', this.finalActionData);
+
+    this.finalActionData = this.makeApiData();
+    this.finalActionData["uaData"][pIndex]["status"] = e?.status;
+    this.finalActionData["uaData"][pIndex]["rejectReason"] = e?.reason;
+   // console.log('this.data 3 ', this.finalActionData);
+
   }
   setRouter() {
     for (const key in this.sideMenuItem) {

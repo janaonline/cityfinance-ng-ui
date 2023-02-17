@@ -27,14 +27,14 @@
                 <div *ngIf="item.fold">
                     <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="isDisabled">
                     </app-ag-grid2223>
-                    <div class="p-3">
+                    <!-- <div class="p-3">
                         <div class="row">
                             <div class="col-sm-12">
                                 <app-common-action [actionRes]="actionRes" [formData]="data" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'action_plan'">
                                 </app-common-action>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -46,18 +46,11 @@
             <div class="col-sm-9 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
+                <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>
-        <!-- <div class="footer" style="margin-top: 3rem;margin-bottom:4%;">
-      <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button" style="margin-bottom: 2%;">
-          {{saveBtnText}}
-      </button>
-      <button [routerLink]="['../water-rejenuvation']" routerLinkActive="router-link-active" (click)="backButtonClicked=true" class="btn back pull-left">
-          BACK
-      </button>
-  </div> -->
+
     </div>
 </div>
 
