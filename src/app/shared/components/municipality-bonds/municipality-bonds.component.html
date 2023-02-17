@@ -71,7 +71,10 @@
         </div>
     </div>
 
-    <mat-paginator [length]="response.total" [pageSize]="limit" 
+    <mat-paginator 
+        [length]="response.total" 
+        [pageSize]="limit" 
+        [pageSizeOptions]="[2, 5, 10, 25, 100]"
         (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
 

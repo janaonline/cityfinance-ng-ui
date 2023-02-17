@@ -4,6 +4,7 @@ const swal: SweetAlert = require("sweetalert");
 import { Filter, FilterOption, MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-municipality-bonds',
@@ -16,7 +17,7 @@ export class MunicipalityBondsComponent implements OnInit {
   sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
   order: 1 | -1 = 1;
   page: number = 0;
-  limit: number = 5;
+  limit: number = 2;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
   response: MouProjectsResponse;
@@ -72,8 +73,9 @@ export class MunicipalityBondsComponent implements OnInit {
     this.order = order;
   }
 
-  pageChange({ pageIndex }) {
+  pageChange({ pageIndex, pageSize }) {
     this.page = pageIndex;
+    this.limit = pageSize;
     this.loadData();
   }
 
