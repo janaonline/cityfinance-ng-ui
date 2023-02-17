@@ -251,22 +251,7 @@ nextRouter = '';
   get f() {
     return this.waterRejenuvation.controls;
   }
-  afterLoadingData() {
-    // if (this.loggedInUserType == "MoHUA") {
-    //   //  this.enableFieldForMohua();
-    //   this.formDisable = true;
-    //   this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
-    //     if (el['controls']['status']['value'] == 'APPROVED') {
-    //       this.disableActionUAs.push(el.value?.ua)
-    //     }
-    //   })
-    //   console.log(this.disableActionUAs)
-    // }
-    // console.log('waterRejuvenation', this.waterRejenuvation)
-    // if (this.formDisable) {
-    //   this.waterRejenuvation.disable();
-    // }
-  }
+
   getUas() {
     console.log("rejen heading...", this.data);
     return this.data.map((data) =>
@@ -548,7 +533,6 @@ nextRouter = '';
         this.showLoader = false;
         console.log("water rej data", this.data);
         this.initializeReport();
-        this.afterLoadingData();
         this.setSkipLogic(this.data);
         this.isLoadingError = false;
         // resolve("ss");

@@ -27,14 +27,14 @@
                 <div *ngIf="item.fold">
                     <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="isDisabled">
                     </app-ag-grid2223>
-                    <div class="p-3">
+                    <!-- <div class="p-3">
                         <div class="row">
                             <div class="col-sm-12">
                                 <app-common-action [actionRes]="actionRes" [formData]="data" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'action_plan'">
                                 </app-common-action>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
