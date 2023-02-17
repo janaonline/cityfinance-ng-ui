@@ -95,11 +95,11 @@
                 <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key)">
                     <div class="label">{{ column.label }}</div>
                     <div [ngSwitch]="column.key">
-                        <div *ngSwitchCase="'creditRating'">
-                            <a [href]="row[column.key]?.url">
+                        <div style="cursor: pointer;" *ngSwitchCase="'creditRating'">
+                            <div (click)="onCreditRationClick(row[column.key])">
                                 <img class="icon mr-1" src="../../../../assets/pdf.png">
                                 <span>{{ row[column.key]?.name }}</span>
-                            </a>
+                            </div>
                         </div>
                         <div *ngSwitchCase="'projectReport'">
                             <a [href]="row[column.key]?.url">

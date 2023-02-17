@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
-import { Filter, FilterOption, MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import { Filter, FilterOption, MouProjectsResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 import { ThisReceiver } from '@angular/compiler';
@@ -12,6 +12,7 @@ import { ThisReceiver } from '@angular/compiler';
   styleUrls: ['./municipality-bonds.component.scss']
 })
 export class MunicipalityBondsComponent implements OnInit {
+  @Output() changeTab = new EventEmitter();
   @Input() cityId: string;
 
   sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
@@ -100,5 +101,13 @@ export class MunicipalityBondsComponent implements OnInit {
         }))
       }));
     this.loadData();
+  }
+
+  onCreditRationClick(row: Row) {
+    console.log({ row });
+    this.changeTab.emit({
+      activeHeaderIndex: 3,
+      innerActiveTabIndex: 1
+    })
   }
 }
