@@ -44,7 +44,7 @@
                                     </a>
                                     <p class="errorMessege" *ngIf="errorMessegeStateAct">{{errorMessegeStateAct}}</p>
                                 </label>
-                            <input id="cin3" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                            <input id="cin3" name="cin3" type="file" onclick="this.value = null;" [ngClass]="{ 'is-invalid': submitted }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         </div>
                     </div>
 
