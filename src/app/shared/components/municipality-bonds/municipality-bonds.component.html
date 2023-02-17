@@ -83,7 +83,7 @@
             <div class="col-4 fw-bold border-end">{{ row.projectName | titlecase }}</div>
             <div class="col-4">Sector: {{ row.sector }}</div>
             <div class="col-4 d-flex justify-content-end">
-                <a [href]="row?.moreInformation?.url">
+                <a [href]="'https://democityfinanceapi.dhwaniris.in/api/v1/UA/get-mou-project/' + row.projectId +'?limit=2&csv=true'">  <!-- link will be come from backend -->
                     <img class="icon mr-1" src="../../../../assets/excel.png">
                     <span>{{ row?.moreInformation?.name }}</span>
                 </a>
@@ -103,7 +103,7 @@
                         </div>
                         <div *ngSwitchCase="'projectReport'">
                             <a [href]="row[column.key]?.url">
-                                <img class="icon mr-1" src="../../../../assets/excel.png">
+                                <img class="icon mr-1" src="../../../../assets/pdf.png">
                                 <span>{{ row[column.key]?.name }}</span>
                             </a>
                         </div>
