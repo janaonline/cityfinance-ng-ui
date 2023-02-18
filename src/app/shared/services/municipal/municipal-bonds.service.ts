@@ -139,7 +139,13 @@ export class MunicipalBondsService {
     return this._http
       .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
-          response.filters = appliedFilters || response.filters;
+          response.filters = appliedFilters || response.filters
+            .map(filter => filter.key === 'implementationAgencies' ? { // TODO: remove when implemented from backend
+              ...filter, options: [{
+                ...filter.options[0],
+                checked: true
+              }]
+            } : filter );
           return response;
         })
       );;
