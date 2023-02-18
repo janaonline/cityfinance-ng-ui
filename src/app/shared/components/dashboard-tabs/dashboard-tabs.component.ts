@@ -200,10 +200,9 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     }
   }
 
-  onChangeTab({activeHeaderIndex, innerActiveTabIndex}) {
-    const tab = this?.data[activeHeaderIndex];
-    this.changeTab(tab);
-    this.innerActiveTab = tab.subHeaders[innerActiveTabIndex];
+  onChangeTab({ tabName, subTabName }) { // changing tab and subtab -- dirty fix due to no routing setup
+    document.getElementById(tabName).click();
+    setTimeout(() => { document.getElementById(subTabName).click(); }, 500);
   }
 
   getStickyValue() {

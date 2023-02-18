@@ -106,8 +106,8 @@ export class MunicipalityBondsComponent implements OnInit {
   onCreditRationClick(row: Row) {
     console.log({ row });
     this.changeTab.emit({
-      activeHeaderIndex: 3,
-      innerActiveTabIndex: 1
+      tabName: 'Borrowing & Credit Rating',
+      subTabName: 'Credit Rating'
     })
   }
 }
