@@ -24,3 +24,7 @@ a:hover {
     background-color: $theme-color;
     border-color: $theme-color;
 }
+.scrollable-filter-option-section {
+    max-height: 700px;
+    overflow-y: auto;
+}

@@ -40,6 +40,14 @@ export class MunicipalityBondsComponent implements OnInit {
     return this.response.filters.find(filter => filter.key === this.activeFilterKey);
   }
 
+  get appliedSectorFilters() {
+    const optionNames = this.response.filters
+      .find(filter => filter.key == 'sectors').options
+      .filter(option => option.checked)
+      .map(option => option.name);
+    return optionNames;
+  }
+
 
   get payload() {
     const result = {

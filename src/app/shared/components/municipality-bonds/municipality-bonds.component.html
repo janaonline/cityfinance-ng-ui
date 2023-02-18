@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="filterModalLabel">Filter</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body row "  style="min-height: 80vh;" *ngIf="response && response.filters?.length > 0">
+            <div class="modal-body row " style="min-height: 80vh;" *ngIf="response && response.filters?.length > 0">
                 <div class="col-4 border-end">
                     <ul class="list-group">
                         <li class="list-group-item p-3" [ngClass]="{active: activeFilterKey == filter.key}"
@@ -17,15 +17,21 @@
                 </div>
                 <div class="col-8 px-3 d-flex flex-column justify-content-between">
                     <div>
-                        <input type="search" [(ngModel)]="activeFilter.query" class="form-control col-4 rounded-pill p-4 w-50" placeholder="Search">
-                        
-                        <ng-container *ngFor="let option of activeFilter.options">
-                            <div class="form-check mt-2" *ngIf="canShowOption(option)">
-                                <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
-                                    [(ngModel)]="option.checked">
-                                <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name }}</label>
-                            </div>
-                        </ng-container>
+                        <input type="search" [(ngModel)]="activeFilter.query"
+                            class="form-control col-4 rounded-pill p-4 w-50" placeholder="Search">
+                        <div class="scrollable-filter-option-section">
+                            <ng-container *ngFor="let option of activeFilter.options">
+                                <div class="form-check mt-2" *ngIf="canShowOption(option)">
+                                    <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
+                                        [(ngModel)]="option.checked">
+                                    <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name
+                                        }}</label>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <p *ngIf="activeFilter.key === 'projects' && appliedSectorFilters.length > 0"
+                            class="alert alert-warning mt-2">Projects are bases
+                            on selected sectors <b>{{ appliedSectorFilters.join(', ') }}</b></p>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -71,10 +77,7 @@
         </div>
     </div>
 
-    <mat-paginator 
-        [length]="response.total" 
-        [pageSize]="limit" 
-        [pageSizeOptions]="[2, 5, 10, 25, 100]"
+    <mat-paginator [length]="response.total" [pageSize]="limit" [pageSizeOptions]="[2, 5, 10, 25, 100]"
         (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
 
