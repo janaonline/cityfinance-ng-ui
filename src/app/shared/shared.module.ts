@@ -97,6 +97,7 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
 import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
 import { MunicipalityBondsComponent } from './components/municipality-bonds/municipality-bonds.component';
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MunicipalityBondsProjectsComponent } from './components/municipality-bonds-projects/municipality-bonds-projects.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -193,6 +194,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
     GrantTransferMohuaComponent,
     PdfCardViewerComponent,
     MunicipalityBondsComponent,
+    MunicipalityBondsProjectsComponent,
   ],
   exports: [
     FormsModule,

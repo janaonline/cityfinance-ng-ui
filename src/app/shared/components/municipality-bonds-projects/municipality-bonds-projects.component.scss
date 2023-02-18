@@ -1,0 +1,11 @@
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: #ffe8e8;
+}
+
+.progress {
+    height: .6rem;
+}
+.progress-bar {
+    background-color: #e67e15;
+}
