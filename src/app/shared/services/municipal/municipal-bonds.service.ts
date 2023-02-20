@@ -6,13 +6,13 @@ import { environment } from "src/environments/environment";
 
 import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
 import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
-import { IULBResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
+import { Filter, IULBResponse, MouProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
 })
 export class MunicipalBondsService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   private AllBondIssuerItems: IBondIssureItemResponse;
 
@@ -133,5 +133,21 @@ export class MunicipalBondsService {
           return response;
         })
       );
+  }
+
+  getMouProjects(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+    return this._http
+      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
+        map((response) => {
+          response.filters = appliedFilters || response.filters
+            .map(filter => filter.key === 'implementationAgencies' ? { // TODO: remove when implemented from backend
+              ...filter, options: [{
+                ...filter.options[0],
+                checked: true
+              }]
+            } : filter );
+          return response;
+        })
+      );;
   }
 }

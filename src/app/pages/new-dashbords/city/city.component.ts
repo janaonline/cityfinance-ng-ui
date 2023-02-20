@@ -71,9 +71,9 @@ export class CityComponent implements OnInit {
         (res) => {
           console.log(res, "dashboardTabData");
           this.dashboardTabData = res["data"];
-          if(this.isUA == "No" || this.isUA == null || this.isUA == undefined){
-            this.dashboardTabData = this.dashboardTabData.filter(o => o.name != "Infrastructure Projects")
-          }
+          // if(this.isUA == "No" || this.isUA == null || this.isUA == undefined){
+          //   this.dashboardTabData = this.dashboardTabData.filter(o => o.name != "Infrastructure Projects")
+          // }
           this.setNameInFr();
         },
         (error) => {

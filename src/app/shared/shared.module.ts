@@ -95,6 +95,9 @@ import { Shared2223Module } from "../shared2223/shared2223.module";
 import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component";
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
+import { MunicipalityBondsComponent } from './components/municipality-bonds/municipality-bonds.component';
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { JoinPipe } from './pipes/join.pipe';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -129,6 +132,7 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     MdePopoverModule,
     Shared2223Module,
     PdfViewerModule,
+    MatPaginatorModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -188,9 +192,12 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     BalanceTabledialogComponent,
     ProTTaxFormComponent,
     GrantTransferMohuaComponent,
-    PdfCardViewerComponent
+    PdfCardViewerComponent,
+    MunicipalityBondsComponent,
+    JoinPipe,
   ],
   exports: [
+    JoinPipe,
     FormsModule,
     PreLoaderComponent,
     ReUseableHeatMapComponent,
@@ -213,6 +220,7 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     CompareDialogComponent,
     MatSelect,
     MatOption,
+    MatPaginator,
     IncompleteProfileComponent,
     FileUploadComponent,
     MatCheckboxModule,
@@ -234,7 +242,8 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     StateFilterDataComponent,
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
-    GrantTransferMohuaComponent
+    GrantTransferMohuaComponent,
+    MunicipalityBondsComponent,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
