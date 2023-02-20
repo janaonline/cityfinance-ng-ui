@@ -94,8 +94,8 @@ export class NewCityCreditRatingComponent
     let ulbCodes = JSON.parse(localStorage.getItem("ulbCodeMapping"));
     if(this.detailedList?.length > 0) {
       const preSelectedYear = this.detailedList
-        .filter(item => item?.link.endsWith('.pdf') && this.demoArray.includes(item.agency) && item["ulb code"] == ulbCodes[this._id])
-        .sort((a, b) => +a?.date.split("/")[2] < +b?.date.split("/")[2] ? 1 : -1)[0]?.date.split("/")[2];
+        .filter(item => item?.link?.endsWith('.pdf') && this.demoArray.includes(item.agency) && item["ulb code"] == ulbCodes[this._id])
+        .sort((a, b) => +a?.date.split("/")?.[2] < +b?.date.split("/")?.[2] ? 1 : -1)?.[0]?.date.split("/")?.[2];
       if(preSelectedYear) {
         this.selectCreditYear(preSelectedYear);
       }
