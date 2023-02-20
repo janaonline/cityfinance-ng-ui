@@ -87,6 +87,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   errorMsg =
     "One or more required fields are empty or contains invalid data. Please check your input.";
   @ViewChild("changeTemplate") template;
+  isApiInProgress = true;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
     if (this.userData?.role != "ULB") {
@@ -111,6 +112,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     }
   }
   onLoad() {
+    this.isApiInProgress = true;
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
       this.categories = this.categories.sort((a, b) =>
@@ -297,10 +299,11 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         } else {
           this.actionBtnDis = true;
         }
-
+        this.isApiInProgress = false;
       },
       (error) => {
         console.log("error", error);
+        this.isApiInProgress = false;
         swal(
           "Error !",
           `Slow internet connection, please refresh and try again`,

@@ -25,7 +25,10 @@ export class GrantAllocationComponent implements OnInit {
     "You have some unsaved changes on this page. Do you wish to save your data as draft?";
   dialogRef;
   modalRef;
+  isApiInProgress = true;
   @ViewChild("templateSave") template;
+  backRouter = '';
+  nextRouter = '';
   constructor(
     private dataEntryService: DataEntryService,
     private stateService: State2223Service,
@@ -44,8 +47,10 @@ export class GrantAllocationComponent implements OnInit {
   }
 
   gtcFormData;
-
+  sideMenuItem;
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.intializeGtc();
     this.getGtcData();
     sessionStorage.setItem("changeInGta", "false");
@@ -201,8 +206,10 @@ export class GrantAllocationComponent implements OnInit {
     ];
   }
   getGtcData() {
+    this.isApiInProgress = true;
     this.stateService.getGTAFiles(this.stateId).subscribe(
       (res: any) => {
+        this.isApiInProgress = false;
         console.log("res", res);
         for (let i = 0; i < this.gtcFormData.length; i++) {
           let tabArray = this.gtcFormData[i]?.quesArray;
@@ -230,6 +237,7 @@ export class GrantAllocationComponent implements OnInit {
       },
       (error) => {
         console.log("err", error);
+        this.isApiInProgress = false;
       }
     );
   }
@@ -558,5 +566,15 @@ export class GrantAllocationComponent implements OnInit {
     console.log("i, j data", data);
 
     this.saveFile(data?.i, data?.j);
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "grant-allocation") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        }
+      });
+    }
   }
 }

@@ -73,6 +73,7 @@ export class Slbs2223Component implements OnInit {
   mouFileName = '';
   mouFileUrl = '';
   dialogRef;
+  isApiInProgress = true;
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -115,12 +116,14 @@ export class Slbs2223Component implements OnInit {
 
   getSlbData() {
     // let ulbId = sessionStorage.getItem("ulb_id");
+    this.isApiInProgress = true;
     return new Promise((resolve, reject) => {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
       params += "&from=2223"
       params += `&ulb=${this.ulbId}`
       this.commonService.fetchSlbData(params, this.ulbId).subscribe((res) => {
+        this.isApiInProgress = false;
         res["data"][0].waterManagement.waterSuppliedPerDay.score['2122'] = parseFloat(res["data"][0].waterManagement.waterSuppliedPerDay.score['2122']).toFixed(2)
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
@@ -165,6 +168,7 @@ export class Slbs2223Component implements OnInit {
         resolve(res);
       },
         (error) => {
+          this.isApiInProgress = false;
           if(error?.error?.show){
             this.isPreviousData = false;
             this.isPreviousMsg = error?.error?.message

@@ -81,9 +81,8 @@ const routes: Routes = [
 
       },
       {
-        path: "grant-claim",
+        path: "grant-claims",
         component: GrantClaimsComponent
-
       }
 
     ],

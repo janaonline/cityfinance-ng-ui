@@ -28,7 +28,7 @@
                                         </tr>
                                     </thead>
                                     <thead>
-                                        <tr class="filter">
+                                        <tr class="filter" *ngIf="!showLoader">
                                             <th class="filter"></th>
 
                                             <th class="filter">
@@ -150,15 +150,29 @@
                                 </table>
                             </form>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                            <pagination-controls *ngIf="!showLoader" style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
                                 screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
 
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                        <!-- <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
                             <mat-spinner></mat-spinner>
+                        </div> -->
+                        <div class="d-flex justify-content-center p-3" *ngIf="showLoader">
+                            <div class="spinner-grow text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-danger ms-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-warning ms-2" role="status">
+                                <span class="visually-hidden ">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-info ms-2" role="status">
+                                <span class="visually-hidden ">Loading...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
