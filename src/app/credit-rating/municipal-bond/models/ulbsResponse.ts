@@ -53,7 +53,7 @@ export interface FilterOption {
   sectorId?: string | null;
 }
 
-export interface MouProjectsResponse {
+export interface MouProjectsByUlbResponse {
   success: boolean;
   message: string;
   rows?: (Row)[] | null;
@@ -61,3 +61,27 @@ export interface MouProjectsResponse {
   columns?: (Columns)[] | null;
   total: number;
 }
+
+
+export interface ProjectsResponse {
+  success: boolean;
+  message: string;
+  data?: (DataEntity)[] | null;
+  total: number;
+  columns?: (ColumnsEntity)[] | null;
+}
+export interface DataEntity {
+  _id: string;
+  ulbName: string;
+  stateName: string;
+  totalProjectCost: number;
+  totalProjects: number;
+  ulbShare: number;
+}
+export interface ColumnsEntity {
+  label: string;
+  key: string;
+  sort?: 0 | 1 | -1;
+  query?: string;
+}
+

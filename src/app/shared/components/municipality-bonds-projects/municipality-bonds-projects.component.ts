@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 const swal: SweetAlert = require("sweetalert");
-import { MouProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import { MouProjectsByUlbResponse, ProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
@@ -14,7 +14,11 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
 
   @Input() cityId: string;
 
-  response: any;
+  response: ProjectsResponse;
+
+  order: 1 | -1 = 1;
+  page: number = 0;
+  limit: number = 10;
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
@@ -27,10 +31,12 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
 
   get payload() {
     return {
+      skip: this.page * this.limit,
+      limit: this.limit,
       ...this.response?.columns?.filter(column => column.sort !== 0)
-        .reduce((result, item) => ({ ...result, [item.key]: item.sort }), {}),
-      ...this.response?.columns?.filter(column => column.hasOwnProperty('query'))
-        .reduce((result, item) => ({ ...result, [item.key + ['_query']]: item.query }), {})
+        .reduce((result, item) => ({ sortBy: item.key, order: item.sort }), {}),
+      ...this.response?.columns?.filter(column => column.hasOwnProperty('query') && column.query !== '')
+        .reduce((result, item) => ({ ...result, [item.key]: item.query }), {})
     };
   }
 
@@ -40,10 +46,16 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
     this.loadData();
   }
 
+  pageChange({ pageIndex, pageSize }) {
+    this.page = pageIndex;
+    this.limit = pageSize;
+    this.loadData();
+  }
+
   loadData() {
-    console.log(new URLSearchParams(this.payload).toString(), this.payload); 
+    console.log({ payload: this.payload });
     this.loaderService.showLoader();
-    this.municipalBondsSerivce.getProjects(this.cityId, this.payload, this.response?.filters).subscribe(res => {
+    this.municipalBondsSerivce.getProjects(this.payload, this.response?.columns).subscribe(res => {
       this.response = res;
       console.log({ res });
       this.loaderService.stopLoader();

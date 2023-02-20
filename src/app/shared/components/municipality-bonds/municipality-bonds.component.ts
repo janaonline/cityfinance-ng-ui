@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
-import { Filter, FilterOption, MouProjectsResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import { Filter, FilterOption, MouProjectsByUlbResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 import { ThisReceiver } from '@angular/compiler';
@@ -21,7 +21,7 @@ export class MunicipalityBondsComponent implements OnInit {
   limit: number = 2;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
-  response: MouProjectsResponse;
+  response: MouProjectsByUlbResponse;
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
