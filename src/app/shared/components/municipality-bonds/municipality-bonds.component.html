@@ -31,7 +31,7 @@
                         </div>
                         <p *ngIf="activeFilter.key === 'projects' && appliedSectorFilters.length > 0"
                             class="alert alert-warning mt-2">Projects are bases
-                            on selected sectors <b>{{ appliedSectorFilters.join(', ') }}</b></p>
+                            on selected sectors <b>{{ appliedSectorFilters | join }}</b></p>
                     </div>
                     <div class="model-footer d-flex justify-content-between border-top pt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"

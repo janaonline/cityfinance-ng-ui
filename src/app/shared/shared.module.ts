@@ -98,6 +98,7 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
 import { MunicipalityBondsComponent } from './components/municipality-bonds/municipality-bonds.component';
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MunicipalityBondsProjectsComponent } from './components/municipality-bonds-projects/municipality-bonds-projects.component';
+import { JoinPipe } from './pipes/join.pipe';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -195,8 +196,10 @@ import { MunicipalityBondsProjectsComponent } from './components/municipality-bo
     PdfCardViewerComponent,
     MunicipalityBondsComponent,
     MunicipalityBondsProjectsComponent,
+    JoinPipe,
   ],
   exports: [
+    JoinPipe,
     FormsModule,
     PreLoaderComponent,
     ReUseableHeatMapComponent,
