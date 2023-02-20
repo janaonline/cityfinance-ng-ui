@@ -1,9 +1,9 @@
-<div class="container" *ngIf="response && response?.data?.length > 0;">
-    <h1 class="my-2">Ongoing Infrastructure Projects</h1>
-    <mat-paginator [length]="response.total" [pageSize]="limit" [pageSizeOptions]="[10, 25, 100]"
+<div class="container" >
+    <h1 class="my-3">Ongoing Infrastructure Projects</h1>
+    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="[10, 25, 100]"
         (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
-    <table class="table table-striped mt-4">
+    <table class="table table-striped mt-4" *ngIf="response && response?.data?.length > 0;">
         <thead>
             <tr>
                 <th scope="col" *ngFor="let column of response.columns">
@@ -36,6 +36,5 @@
             </tr>
         </tbody>
     </table>
+    <h2 *ngIf="response && response?.data?.length == 0" class="text-center p-5">No data found</h2>
 </div>
-
-<h2 *ngIf="response && response?.data?.length == 0" class="text-center p-5">No data found</h2>

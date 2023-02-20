@@ -12,6 +12,7 @@ import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvati
 import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax-form.component"
 import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.component";
 import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
+import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
 export const appRouter: Routes = [
 
   { path: '', redirectTo: 'rankings/home', pathMatch: 'full' },
@@ -207,6 +208,10 @@ export const appRouter: Routes = [
   {
     path: "profile-update",
     component: ProfileUpdateComponent,
+  },
+  {
+    path: "municipal-bonds",
+    component: MunicipalityBondsProjectsComponent,
   },
 
   { path: "**", redirectTo: "rankings/home" },
