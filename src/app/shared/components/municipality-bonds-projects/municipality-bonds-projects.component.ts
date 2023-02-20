@@ -43,8 +43,9 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   loadData() {
     console.log(new URLSearchParams(this.payload).toString(), this.payload); 
     this.loaderService.showLoader();
-    this.municipalBondsSerivce.getMouProjects2(this.cityId, this.payload, this.response?.filters).subscribe(res => {
+    this.municipalBondsSerivce.getProjects(this.cityId, this.payload, this.response?.filters).subscribe(res => {
       this.response = res;
+      console.log({ res });
       this.loaderService.stopLoader();
     }, error => {
       swal("Error", error?.message || "Something went worng", "error");

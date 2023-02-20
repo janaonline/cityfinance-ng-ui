@@ -135,7 +135,7 @@ export class MunicipalBondsService {
       );
   }
 
-  getMouProjects(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+  getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
     return this._http
       .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
@@ -150,7 +150,9 @@ export class MunicipalBondsService {
         })
       );;
   }
-  getMouProjects2(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+  getProjects(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+
+    return this._http.get(`${environment.api.url}/UA/get-projects`);
 
     return new Observable((subscriber) => {
       setTimeout(() => {

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="response && response?.rows?.length > 0;">
+<div class="container" *ngIf="response && response?.data?.length > 0;">
     <h1 class="my-2">Ongoing Infrastructure Projects</h1>
     <table class="table table-striped mt-4">
         <thead>
@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of response.rows" class="py-1">
+            <tr *ngFor="let row of response.data" class="py-1">
                 <td *ngFor="let column of response.columns">
                     <div class="row" *ngIf="column.key == 'ulbShare'">
                         <div class="col-8 d-grid align-items-center">
@@ -33,4 +33,4 @@
     </table>
 </div>
 
-<h2 *ngIf="response && response?.rows?.length == 0" class="text-center p-5">No data found</h2>
+<h2 *ngIf="response && response?.data?.length == 0" class="text-center p-5">No data found</h2>

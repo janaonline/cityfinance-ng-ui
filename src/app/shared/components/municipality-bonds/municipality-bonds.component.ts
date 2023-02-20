@@ -90,7 +90,7 @@ export class MunicipalityBondsComponent implements OnInit {
 
   loadData() {
     this.loaderService.showLoader();
-    this.municipalBondsSerivce.getMouProjects(this.cityId, this.payload, this.response?.filters).subscribe(res => {
+    this.municipalBondsSerivce.getMouProjectsByUlb(this.cityId, this.payload, this.response?.filters).subscribe(res => {
       this.response = res;
       this.loaderService.stopLoader();
     }, error => {
