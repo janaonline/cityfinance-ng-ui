@@ -208,6 +208,13 @@ export const appRouter: Routes = [
     path: "profile-update",
     component: ProfileUpdateComponent,
   },
+  {
+    path: "ulbform2324",
+    loadChildren: () =>
+      import("./fc-grant-2324-onwards/ulb-form2324/ulb-form2324.module").then(
+        (m) => m.UlbForm2324Module
+      ),
+  },
 
   { path: "**", redirectTo: "rankings/home" },
 ];

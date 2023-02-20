@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnualAccountComponent implements OnInit {
 
+  constructor() { }
   formJson = {
     formName: 'Annaul Accounts', // string
     formId: '',					// string
@@ -35,7 +36,11 @@ export class AnnualAccountComponent implements OnInit {
         question: [
           {
             name: 'A',
-            answer: '', // boolean (true or false or null)
+            answer: {
+              value: '',
+              id: ''
+            },
+            option: [],
             type: 'radio',
             show: '', // boolean (true or false)
             key: '',
@@ -144,8 +149,6 @@ export class AnnualAccountComponent implements OnInit {
       }
     ]
   }
-  constructor() { }
-
   ngOnInit(): void {
   }
 
