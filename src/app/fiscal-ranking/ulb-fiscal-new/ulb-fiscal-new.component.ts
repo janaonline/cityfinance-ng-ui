@@ -64,7 +64,7 @@ export class UlbFiscalNewComponent implements OnInit {
   ulbId: any;
   userData: any;
   ulbName: string;
-
+  userTypes = USER_TYPE;
   fiscalForm: FormArray;
 
   formSubmitted = false;
@@ -105,6 +105,11 @@ export class UlbFiscalNewComponent implements OnInit {
   ngOnInit(): void {
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
+  }
+
+  get canShowComment() {
+    if (this.loggedInUserType == this.userTypes.ULB) return false;
+    return true;
   }
 
   onLoad() {
@@ -162,8 +167,10 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
 
+
+
   stepperContinue(item) {
-    console.log(this.fiscalForm.value);
+    console.log(this.fiscalForm.getRawValue());
     this.stepper.next();
   }
 }

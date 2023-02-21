@@ -21,22 +21,23 @@
                         <span class="visually-hidden ">Loading...</span>
                     </div>
                 </div>
-                <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
-                    <mat-step state="state" *ngFor="let tab of tabs">
+                <mat-horizontal-stepper *ngIf="!isLoader && fiscalForm" linear="true" labelPosition="bottom" id="stepper" #stepper>
+                    <mat-step state="state" *ngFor="let tab of tabs; index as i;">
                         <ng-template matStepLabel>
                             <span class="st-title com-style" [title]="tab?.label">{{((tab?.label).split(' '))[0]}}
                                 {{((tab?.label).split(' '))[1]}}<br>
                                 {{((tab?.label).split(' '))[2]}}</span>
                         </ng-template>
-                        <div class="container w-50 mt-4">
+                        <div class="container w-50 mt-4" [formGroup]="fiscalForm.controls[i]">
 
+                            tab:<p>{{ tab.label | json }}</p>
+                            index<p>{{ i | json }}</p>
     
-    
+                            <div class="form-group my-2" *ngIf="canShowComment" formGroupName="feedback">
+                                <label [for]="'comment' + stepper?.id">Comment</label>
+                                <textarea required [disabled]="!canEditComment" type="email" rows="6" formControlName="comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
+                            </div>
                             <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
-                                <div class="form-group my-2" *ngIf="canShowComment">
-                                    <label [for]="'comment' + stepper?.id">Comment</label>
-                                    <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
-                                </div>
                                 <div class="col-sm-6 ">
                                     <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
                                 </div>
