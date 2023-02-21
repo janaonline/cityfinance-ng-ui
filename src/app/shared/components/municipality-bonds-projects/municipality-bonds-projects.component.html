@@ -1,6 +1,6 @@
 <div class="container" >
     <h1 class="my-3">Ongoing Infrastructure Projects</h1>
-    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="[10, 25, 100]"
+    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
         (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
     <table class="table table-striped mt-4" *ngIf="response && response?.data?.length > 0;">

@@ -15,10 +15,11 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   @Input() cityId: string;
 
   response: ProjectsResponse;
-
+  pageSizeOptions = [10, 20, 50, 100];
   order: 1 | -1 = 1;
   page: number = 0;
   limit: number = 10;
+
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
