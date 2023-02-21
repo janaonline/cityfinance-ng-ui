@@ -1,122 +1,194 @@
 <!-- <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm"> -->
-    <div class="container-fluid">
-        <div class="row mt-3">
-            <div class="col-sm-12 heading com-style">
-                City Finance Rankings 2022
-            </div>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-sm-12 heading com-style">
+            City Finance Rankings 2022
         </div>
-        <div class="row" *ngIf="!formSubmitted">
-            <div class="col-sm-12">
-                <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
-                    <div class="spinner-grow text-success" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-danger ms-2" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-warning ms-2" role="status">
-                        <span class="visually-hidden ">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-info ms-2" role="status">
-                        <span class="visually-hidden ">Loading...</span>
-                    </div>
+    </div>
+    <div class="row" *ngIf="!formSubmitted">
+        <div class="col-sm-12">
+            <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <mat-horizontal-stepper *ngIf="!isLoader && fiscalForm" linear="true" labelPosition="bottom" id="stepper" #stepper>
-                    <mat-step state="state" *ngFor="let tab of tabs; index as i;">
-                        <ng-template matStepLabel>
-                            <span class="st-title com-style" [title]="tab?.label">{{((tab?.label).split(' '))[0]}}
-                                {{((tab?.label).split(' '))[1]}}<br>
-                                {{((tab?.label).split(' '))[2]}}</span>
-                        </ng-template>
-                        <div class="container w-50 mt-4" [formGroup]="fiscalForm.controls[i]">
-
-                            tab:<p>{{ tab.label | json }}</p>
-                            index<p>{{ i | json }}</p>
-    
-                            <div class="form-group my-2" *ngIf="canShowComment" formGroupName="feedback">
-                                <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" formControlName="comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
-                            </div>
-                            <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
-                                <div class="col-sm-6 ">
-                                    <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
-                                </div>
-                                <div class="col-sm-6 text-end">
-                                    <button class="btn btn-f-c com-style" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="stepperContinueSave(tab)">Save & Continue Later</button>
-                                </div>
-                            </div>
-    
-                        </div>
-                        
-    
-                    </mat-step>
-                    <ng-template matStepperIcon="state">
-                        <span class="material-icons n-circle">
-                            circle
-                        </span>
-                    </ng-template>
-                    <ng-template matStepperIcon="edit">
-                        <span class="material-icons n-circle">
-                            circle
-                        </span>
-                    </ng-template>
-                    <ng-template matStepperIcon="done">
-                        <span class="material-icons">
-                            check_circle
-                        </span>
-                    </ng-template>
-                </mat-horizontal-stepper>
+                <div class="spinner-grow text-danger ms-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info ms-2" role="status">
+                    <span class="visually-hidden ">Loading...</span>
+                </div>
             </div>
+            <mat-horizontal-stepper *ngIf="!isLoader && fiscalForm" linear="true" labelPosition="bottom" id="stepper"
+                #stepper>
+                <mat-step state="state" *ngFor="let tab of fiscalForm.controls; index as i;">
+                    <ng-template matStepLabel>
+                        <span class="st-title com-style" [title]="tab?.value?.label">{{((tab?.value?.label).split('
+                            '))[0]}}
+                            {{((tab?.value?.label).split(' '))[1]}}<br>
+                            {{((tab?.value?.label).split(' '))[2]}}</span>
+                    </ng-template>
+                    <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'" [formGroup]="tab">
+
+                        <!-- tab:<p>{{ tab?.value?.label | json }}</p>
+                        index<p>{{ i | json }}</p> -->
+
+                        <div class="" *ngIf="tab?.value?.id == 's7'">
+                            <div class="row mx-auto">
+                                <div class="col-sm-6">
+                                    <div class="card card-form mb-4 com-style h-100">
+                                        <div class="card-body pd-m">
+                                            <div class="row">
+                                                <div class="col-sm-12 c-head com-style">
+                                                    Download & Print
+                                                </div>
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
+                                                    Please download and reupload the signed copy.
+                                                </div>
+                                                <div class="col-sm-12 com-style text-center mt-3">
+                                                    <button class="btn btn-d-org" (click)="onPreview()">
+                                                        <img class="u-i me-3"
+                                                            src="../../../assets/circle/cloud_download_black_24dp.svg"
+                                                            alt="">
+                                                        Download File
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card card-form mb-4 com-style h-100">
+                                        <div class="card-body pd-m">
+                                            <div class="row">
+                                                <div class="col-sm-12 c-head com-style">
+                                                    Upload Signed Copy
+                                                </div>
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">
+                                                    Please upload the signed copy.
+                                                </div>
+                                                <div class="col-sm-12 com-style text-center mt-3 ">
+                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()"
+                                                        [disabled]="isDisabled">
+                                                        Upload File
+                                                        <img class="u-i ms-3"
+                                                            src="../../../assets/circle/cloud_upload_black_24dp.svg"
+                                                            alt="">
+                                                    </button>
+                                                    <input #bs_pdf_up style="display: none;"
+                                                        (change)="fileChangeEvent($event,'pdf', 'signed', '', tab)"
+                                                        onclick="this.value=null;" type="file" accept=".pdf" #file
+                                                        (keydown)="changeDecInForm()">
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
+                                                </div>
+                                                <div class="col-sm-12 com-style mt-3 text-center f-w"
+                                                    *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
+                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}" target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
+                                                </div>
+
+                                                <app-common-action-radio *ngIf="cantakeAction && signedFileStatus"
+                                                    [(status)]="signedFileStatus" [ngModelOptions]="{standalone: true}">
+                                                </app-common-action-radio>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group my-2" *ngIf="canShowComment" formGroupName="feedback">
+                            <label [for]="'comment' + stepper?.id">Comment</label>
+                            <textarea required [disabled]="!canEditComment" type="email" rows="6"
+                                formControlName="comment" class="form-control comment"
+                                [id]="'comment' + stepper?.id"></textarea>
+                        </div>
+                        <div class="row mt-4 pd-b">
+                            <div class="col-sm-6 ">
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
+                            </div>
+                            <div class="col-sm-6 text-end">
+                                <button class="btn btn-f-c com-style"
+                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
+                                    (click)="stepperContinueSave(tab)">Save & Continue Later</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </mat-step>
+                <ng-template matStepperIcon="state">
+                    <span class="material-icons n-circle">
+                        circle
+                    </span>
+                </ng-template>
+                <ng-template matStepperIcon="edit">
+                    <span class="material-icons n-circle">
+                        circle
+                    </span>
+                </ng-template>
+                <ng-template matStepperIcon="done">
+                    <span class="material-icons">
+                        check_circle
+                    </span>
+                </ng-template>
+            </mat-horizontal-stepper>
         </div>
-        <div class="row w-50 mx-auto mb-4 mt-3" *ngIf="formSubmitted">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row mx-auto mb-3">
-                            <div class="col-sm-12 text-center mt-3">
-                                <img src="../../../assets/circle/gifCheck.gif" class="w-80">
-                            </div>
-                            <div class="col-sm-12 text-center mt-3 h-label com-style">
-                                Form Submitted Successfully!
-                            </div>
-                            <div class="col-sm-12 text-center mt-3">
-                                <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
-                            </div>
+    </div>
+    <div class="row w-50 mx-auto mb-4 mt-3" *ngIf="formSubmitted">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mx-auto mb-3">
+                        <div class="col-sm-12 text-center mt-3">
+                            <img src="../../../assets/circle/gifCheck.gif" class="w-80">
+                        </div>
+                        <div class="col-sm-12 text-center mt-3 h-label com-style">
+                            Form Submitted Successfully!
+                        </div>
+                        <div class="col-sm-12 text-center mt-3">
+                            <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <ng-template #templateSaveChange>
-        <div class="modal-body text-center ">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
-                <div class="text-right">
-                    <a (click)="alertClose()">
-                        <img src="../../../../assets/form-icon/close-red-icon.png">
-                    </a>
-                </div>
+</div>
+
+<ng-template #templateSaveChange>
+    <div class="modal-body text-center ">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
             </div>
-    
-            <div class="row mb-3 mt-3">
-                <div class="col-sm-12">{{alertError}}
-                </div>
-            </div>
-    
-            <div class="row">
-                <div class="col-sm-12 text-end">
-                    <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
-                    <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                    <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
-                        Save & Proceed
-                    </button>
-                </div>
-    
-            </div>
-    
         </div>
-    </ng-template>
-    <!-- </form> -->
-    
+
+        <div class="row mb-3 mt-3">
+            <div class="col-sm-12">{{alertError}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
+                    Save & Proceed
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
+<!-- </form> -->
