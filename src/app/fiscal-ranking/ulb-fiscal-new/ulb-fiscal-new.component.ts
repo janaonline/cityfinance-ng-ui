@@ -25,7 +25,7 @@ const toWords = new ToWords();
 
 export interface Feedback {
   _id: string;
-  status: 'PENDING' | 'REJECTED' | 'APPROVED' ;
+  status: 'PENDING' | 'REJECTED' | 'APPROVED';
   comment: string;
 }
 
@@ -56,6 +56,8 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
+
+  linearTabs = ['s1', 's2'];
 
   tabs: Tab[];
   cantakeAction: boolean = false;
@@ -117,15 +119,42 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getTabFormGroup(tab: Tab): any {
-    const {data, feedback, ...rest} = tab;
+    const { data, feedback, ...rest } = tab;
     return this.fb.group({
       ...rest,
       feedback: this.fb.group({
-        comment: [feedback.comment, ],
+        comment: [feedback.comment,],
         status: feedback.status,
-        _id: feedback._id
+        _id: feedback._id,
       }),
+      data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
+        if (this.linearTabs.includes(tab.id)) {
+          obj[key] = this.getInnerFormGroup(item)
+        }
+        else if (tab.id == 's7') {
+          obj[key] = this.fb.group({
+            name: item.name,
+            status: item.status,
+            url: item.url,
+          })
+        }
+        else {
+          obj[key] = this.fb.group({
+            key: item.key,
+            label: item.label,
+            yearData: item.yearData.map(yearItem => this.getInnerFormGroup(item))
+          })
+        }
+        return obj;
+      }, {}))
     })
+  }
+
+  getInnerFormGroup(item) {
+    return this.fb.group({
+      value: [item.value,], // TODO: add validators
+      status: item.status
+    });
   }
 
   initializeForm() {
@@ -134,7 +163,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   stepperContinue(item) {
-    console.log(this.fiscalForm.getRawValue());
+    console.log(this.fiscalForm.value);
     this.stepper.next();
   }
 }
