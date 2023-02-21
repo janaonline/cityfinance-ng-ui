@@ -30,12 +30,14 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { Shared2223Module } from '../shared2223/shared2223.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
     UlbFiscalComponent,
+    UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
     DownloadPopupComponent,

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
@@ -22,6 +22,27 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 
+
+export interface Feedback {
+  _id: string;
+  status: 'PENDING' | 'REJECTED' | 'APPROVED' ;
+  comment: string;
+}
+
+export interface Tab {
+  _id: string;
+  key: string;
+  icon: string;
+  text: string;
+  label: string;
+  data: any;
+  id: string;
+  displayPriority: number;
+  __v: number;
+  feedback: Feedback;
+}
+
+
 @Component({
   selector: 'app-ulb-fiscal-new',
   templateUrl: './ulb-fiscal-new.component.html',
@@ -36,15 +57,15 @@ export class UlbFiscalNewComponent implements OnInit {
 
   loggedInUserType: any;
 
-  tabs: any[];
+  tabs: Tab[];
   cantakeAction: boolean = false;
   ulbId: any;
   userData: any;
   ulbName: string;
 
-  fiscalForm: FormGroup;
+  fiscalForm: FormArray;
 
-  formSubmitted: boolean = false;
+  formSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -89,11 +110,22 @@ export class UlbFiscalNewComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
       this.tabs = res?.tabs;
 
-      // this.fiscalForm = this.fb.array(this.tabs.map(() => {
+      this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
 
-      // }))
       this.isLoader = false;
     });
+  }
+
+  getTabFormGroup(tab: Tab): any {
+    const {data, feedback, ...rest} = tab;
+    return this.fb.group({
+      ...rest,
+      feedback: this.fb.group({
+        comment: [feedback.comment, ],
+        status: feedback.status,
+        _id: feedback._id
+      }),
+    })
   }
 
   initializeForm() {
@@ -102,7 +134,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   stepperContinue(item) {
-    console.log(this.tabs);
+    console.log(this.fiscalForm.getRawValue());
     this.stepper.next();
   }
 }
