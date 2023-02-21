@@ -18,7 +18,7 @@ export class MunicipalityBondsComponent implements OnInit {
   sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
   order: 1 | -1 = 1;
   page: number = 0;
-  limit: number = 2;
+  limit: number = 5;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
   response: MouProjectsByUlbResponse;

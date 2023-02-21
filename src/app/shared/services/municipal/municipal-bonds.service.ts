@@ -136,6 +136,7 @@ export class MunicipalBondsService {
   }
 
   getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+    delete params['implementationAgencies']; // TODO: remove when implemented from backend
     return this._http
       .get<MouProjectsByUlbResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
