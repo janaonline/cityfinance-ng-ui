@@ -150,13 +150,14 @@ export class MunicipalBondsService {
         })
       );;
   }
-  getProjects(params: any = {},  columns) {
-    return this._http.get<ProjectsResponse>(`${environment.api.url}/UA/get-projects`, { params }).pipe(
+  getProjects(queryParams: string,  columns) {
+    return this._http.get<ProjectsResponse>(`${environment.api.url}/UA/get-projects?${queryParams}`).pipe(
       map((response) => {
+        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
         response.columns = columns || response.columns.map(column => ({ 
           ...column, 
-          sort: 0,
-          ...(['stateName', 'ulbName'].includes(column.key) && {query: ''})
+          sort: searchableAndDefaultSortColumn.includes(column.key) ? 1 : 0,
+          ...(searchableAndDefaultSortColumn.includes(column.key) && {query: ''})
         }));
         return response;
       })

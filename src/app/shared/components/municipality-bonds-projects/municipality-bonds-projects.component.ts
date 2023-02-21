@@ -29,15 +29,18 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
     this.loadData();
   }
 
-  get payload() {
-    return {
-      skip: this.page * this.limit,
-      limit: this.limit,
-      ...this.response?.columns?.filter(column => column.sort !== 0)
-        .reduce((result, item) => ({ sortBy: item.key, order: item.sort }), {}),
+  get queryParams() {
+    const params = {
+      skip: '' + this.page * this.limit,
+      limit: '' + this.limit,
       ...this.response?.columns?.filter(column => column.hasOwnProperty('query') && column.query !== '')
         .reduce((result, item) => ({ ...result, [item.key]: item.query }), {})
     };
+
+    const sortQuery = this.response?.columns?.filter(column => column.sort !== 0)
+      .reduce((result, item) => result + `&sortBy=${item.key}&order=${item.sort}`, '');
+    const defaultSortQuery = '&sortBy=stateName&order=1&sortBy=ulbName&order=1'
+    return new URLSearchParams(params).toString() + (sortQuery || defaultSortQuery);
   }
 
   updateSorting(column) {
@@ -53,9 +56,8 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   }
 
   loadData() {
-    console.log({ payload: this.payload });
     this.loaderService.showLoader();
-    this.municipalBondsSerivce.getProjects(this.payload, this.response?.columns).subscribe(res => {
+    this.municipalBondsSerivce.getProjects(this.queryParams, this.response?.columns).subscribe(res => {
       this.response = res;
       console.log({ res });
       this.loaderService.stopLoader();
