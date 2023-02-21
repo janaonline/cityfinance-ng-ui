@@ -173,4 +173,25 @@ export class UlbFiscalNewComponent implements OnInit {
     console.log(this.fiscalForm.getRawValue());
     this.stepper.next();
   }
+
+
+  onPreview() {
+    // this.isDraft = true;
+    // this.updateValueInForm();
+    // this.getFullDataArray();
+    const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
+      data: {
+        // showData: this.stePreDataArray,
+        // preData: this.postData
+      },
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
+  }
 }
