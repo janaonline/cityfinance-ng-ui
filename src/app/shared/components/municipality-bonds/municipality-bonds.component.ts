@@ -4,7 +4,7 @@ const swal: SweetAlert = require("sweetalert");
 import { Filter, FilterOption, MouProjectsByUlbResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
-import { ThisReceiver } from '@angular/compiler';
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-municipality-bonds',
@@ -35,6 +35,10 @@ export class MunicipalityBondsComponent implements OnInit {
 
   get sortOptions() {
     return this.response.columns.filter(column => ['ulbShare', 'totalProjectCost'].includes(column.key))
+  }
+
+  get csvDownloadLink() {
+    return `${environment.api.url}UA/get-mou-project/${this.cityId}?csv=true`
   }
 
   get activeFilter() {
