@@ -6,6 +6,7 @@ import { ToWords } from 'to-words';
 })
 export class TowordPipe implements PipeTransform {
   transform(value: number, ...args: unknown[]): unknown {
+    if(!value) return '';
     return new ToWords().convert(Number(value), {
       currency: false,
       doNotAddOnly: true,

@@ -89,16 +89,15 @@
 
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2" >
-                                                                    {{ yearItem?.controls?.value?.value | toword }}
+                                                                    
+                                                                </div>
+                                                                <div class="col-sm-12 bot-text mt-2">
+                                                                    <span class="f-w">
+                                                                        {{ yearItem?.controls?.value?.value | toword }}
+                                                                    </span> {{ yearItem?.controls?.bottomText?.value }}
                                                                 </div>
                                                                 <!--<small *ngIf="yearItem.error" class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <div class="col-sm-12 bot-text mt-2"
-                                                                    *ngIf="yearItem?.amount || yearItem?.amount === 0">
-                                                                    <span class="f-w">
-                                                                        {{ yearItem?.inWords }}
-                                                                    </span> {{yearItem?.bottomText}}
-                                                                </div>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
                                                                     <span class="f-w"

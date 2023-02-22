@@ -163,10 +163,11 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
+      value: [item.value || item.amount,], // TODO: add validators
+      status: item.status,
+      bottomText: [{value: item.bottomText, disabled: true}],
       label: [{value: item.label, disabled: true}],
       placeholder: [{value: item.placeholder, disabled: true}],
-      value: [item.value || item.amount,], // TODO: add validators
-      status: item.status
     });
   }
 
