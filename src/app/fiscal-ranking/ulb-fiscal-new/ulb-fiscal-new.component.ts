@@ -60,7 +60,7 @@ export class UlbFiscalNewComponent implements OnInit {
   linearTabs = ['s1', 's2'];
 
   tabs: Tab[];
-  cantakeAction: boolean = false;
+  cantakeAction: boolean = true;
   ulbId: any;
   userData: any;
   ulbName: string;

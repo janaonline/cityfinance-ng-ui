@@ -45,13 +45,7 @@
                                         <input class="com-style" matInput placeholder="{{ item.key }}"
                                             formControlName="value">
                                     </mat-form-field>
-                                    <!-- <app-common-action-radio
-                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.ulbName?.status"
-                                                            [(status)]="basicUlbDetailsStatus.ulbName.status"
-                                                            [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio> -->
-
-
+                                    <app-common-action-radio *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +57,8 @@
                                 <div class="col-sm-12">
                                     <ng-container
                                         *ngFor="let item of tab?.controls?.data?.controls | keyvalue : returnZero;let rowIndex_rev=index">
-                                        <div class="card card-form mb-4 com-style" *ngIf="item?.value?.controls?.canShow?.value">
+                                        <div class="card card-form mb-4 com-style"
+                                            *ngIf="item?.value?.controls?.canShow?.value">
                                             <div class="card-body">
                                                 <div class="loop">
                                                     <div class="row">
@@ -116,12 +111,8 @@
                                                                             : 'greater' }} than {{
                                                                             item?.value?.yearData[r_i - 1].label
                                                                             }}</span>
-                                                                </div>
-                                                                <app-common-action-radio
-                                                                    *ngIf="cantakeAction && yearItem.status"
-                                                                    [(status)]="yearItem.status"
-                                                                    [ngModelOptions]="{standalone: true}">
-                                                                </app-common-action-radio> -->
+                                                                </div>-->
+                                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
                                                             </div>
 
 
@@ -194,9 +185,7 @@
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
                                                 </div>
 
-                                                <app-common-action-radio *ngIf="cantakeAction && signedFileStatus"
-                                                    [(status)]="signedFileStatus" [ngModelOptions]="{standalone: true}">
-                                                </app-common-action-radio>
+                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
                                             </div>
                                         </div>
                                     </div>
