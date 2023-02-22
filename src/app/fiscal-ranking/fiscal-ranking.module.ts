@@ -31,6 +31,7 @@ import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.com
 import { Shared2223Module } from '../shared2223/shared2223.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
+import { TowordPipe } from './pipes/toword.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component
     UlbFisPreviewComponent,
     DownloadPopupComponent,
     ReviewUlbTableComponent,
+    TowordPipe,
   ],
   imports: [
     CommonModule,

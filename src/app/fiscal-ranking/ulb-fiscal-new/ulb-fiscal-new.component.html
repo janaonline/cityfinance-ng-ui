@@ -84,16 +84,15 @@
                                                                         <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
                                                                         <input formControlName="value" type="number"
                                                                             class="form-control com-style yrformCon form-ic"
-                                                                            placeholder="{{yearItem?.value?.placeholder}}">
+                                                                            placeholder="{{yearItem?.controls?.placeholder?.value}}">
                                                                     </div>
 
                                                                 </div>
+                                                                <div class="col-sm-12 bot-text mt-2" >
+                                                                    {{ yearItem?.controls?.value?.value | toword }}
+                                                                </div>
                                                                 <!--<small *ngIf="yearItem.error" class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <div class="col-sm-12 bot-text mt-2"
-                                                                    *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
-                                                                    {{yearItem?.bottomText}}
-                                                                </div>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                     <span class="f-w">
