@@ -32,7 +32,33 @@
                     </ng-template>
                     <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'"
                         [formGroup]="tab">
-                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4'" [ngClass]="{'disable': isDisabled}">
+
+                        <!-- ulb basic info -->
+                        <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
+                            <div class="" [ngClass]="{'disable': isDisabled}"
+                                *ngFor="let item of tab?.controls?.data?.controls | keyvalue">
+                                <div class="row mt-4" [formGroup]="item.value">
+                                    <!-- {{ item.key }} -->
+                                    <!-- <input type="text" class="form-control com-style" formControlName="value" placeholder="Name of ULB"> -->
+                                    <mat-form-field appearance="outline">
+                                        <mat-label class="com-style">{{ item.key }}</mat-label>
+                                        <input class="com-style" matInput placeholder="{{ item.key }}"
+                                            formControlName="value">
+                                    </mat-form-field>
+                                    <!-- <app-common-action-radio
+                                                            *ngIf="cantakeAction && basicUlbDetailsStatus?.ulbName?.status"
+                                                            [(status)]="basicUlbDetailsStatus.ulbName.status"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio> -->
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tab 3 and 4 -->
+                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4'"
+                            [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
@@ -48,21 +74,20 @@
                                                     <div class="row">
                                                         <div class="col-sm-3 com-style"
                                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                                                            <div class="row" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+                                                            <div class="row" *ngIf="yearItem?.value?.key"
+                                                                [formGroup]="yearItem">
                                                                 <div class="col-sm-12 mb-3">
                                                                     {{yearItem?.controls?.label.value}}*
                                                                 </div>
-                                                                 <div class="col-sm-12 ">
+                                                                <div class="col-sm-12 ">
                                                                     <div class="input-group">
                                                                         <span class="input-group-text br-a"
                                                                             id="basic-addon1">₹</span>
-                                                                            <!-- [(ngModel)]="yearItem.amount" -->
-                                                                            <!-- [disabled]="yearItem?.readonly" -->
-                                                                            <!-- id="{{yearItem?.key}}" -->
-                                                                            <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
-                                                                        <input 
-                                                                            formControlName="value"
-                                                                            type="number"
+                                                                        <!-- [(ngModel)]="yearItem.amount" -->
+                                                                        <!-- [disabled]="yearItem?.readonly" -->
+                                                                        <!-- id="{{yearItem?.key}}" -->
+                                                                        <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
+                                                                        <input formControlName="value" type="number"
                                                                             class="form-control com-style yrformCon form-ic"
                                                                             placeholder="{{yearItem?.value?.placeholder}}">
                                                                     </div>
@@ -107,11 +132,11 @@
                                             </div>
                                         </div>
                                     </ng-container>
-                                
+
                                 </div>
                             </div>
                         </div>
-
+                        <!-- tab 7 -->
                         <div class="" *ngIf="tab?.value?.id == 's7'">
                             <div class="row mx-auto">
                                 <div class="col-sm-6">

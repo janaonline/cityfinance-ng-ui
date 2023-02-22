@@ -177,7 +177,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   stepperContinue(item) {
-    console.log(this.fiscalForm.getRawValue());
+    console.log(this.fiscalForm);
     this.stepper.next();
   }
 
