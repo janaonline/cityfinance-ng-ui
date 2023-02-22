@@ -150,7 +150,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            label: item.label,
+            label: [{value: item.label, disabled: true}],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
@@ -162,8 +162,9 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
-      label: item.label,
-      value: [item.value,], // TODO: add validators
+      label: [{value: item.label, disabled: true}],
+      placeholder: [{value: item.placeholder, disabled: true}],
+      value: [item.value || item.amount,], // TODO: add validators
       status: item.status
     });
   }
@@ -176,7 +177,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   stepperContinue(item) {
-    console.log(this.fiscalForm);
+    console.log(this.fiscalForm.getRawValue());
     this.stepper.next();
   }
 

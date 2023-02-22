@@ -42,35 +42,33 @@
                                                 <div class="loop">
                                                     <div class="row">
                                                         <div class="col-sm-12 h-label mb-3 com-style">
-                                                            {{item?.value?.value?.label}}
+                                                            {{item?.value?.controls?.label.value}}
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-3 com-style"
                                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                                                            <div class="row" *ngIf="yearItem?.value?.key">
+                                                            <div class="row" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                                 <div class="col-sm-12 mb-3">
-                                                                    {{yearItem?.value?.label}}*
+                                                                    {{yearItem?.controls?.label.value}}*
                                                                 </div>
-                                                                <!-- <div class="col-sm-12 ">
+                                                                 <div class="col-sm-12 ">
                                                                     <div class="input-group">
                                                                         <span class="input-group-text br-a"
                                                                             id="basic-addon1">₹</span>
-                                                                        <input type="text" [(ngModel)]="yearItem.amount"
-                                                                            (keyup)="amountKeyUp('click', yearItem)"
-                                                                            (change)="amountPushInFY('click', r_i, yearItem, tab)"
-                                                                            [disabled]="yearItem?.readonly"
-                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            <!-- [(ngModel)]="yearItem.amount" -->
+                                                                            <!-- [disabled]="yearItem?.readonly" -->
+                                                                            <!-- id="{{yearItem?.key}}" -->
+                                                                            <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
+                                                                        <input 
+                                                                            formControlName="value"
+                                                                            type="number"
                                                                             class="form-control com-style yrformCon form-ic"
-                                                                            [ngClass]="{'is-invalid': yearItem.error}"
-                                                                            id="{{yearItem?.key}}"
-                                                                            placeholder="{{yearItem?.placeholder}}"
-                                                                            (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)"
-                                                                            #inputText3>
+                                                                            placeholder="{{yearItem?.value?.placeholder}}">
                                                                     </div>
 
                                                                 </div>
-                                                                <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                <!--<small *ngIf="yearItem.error" class="text-danger">Please
                                                                     enter valid value</small>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
