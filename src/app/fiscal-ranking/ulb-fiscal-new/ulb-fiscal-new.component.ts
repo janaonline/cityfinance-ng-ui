@@ -112,6 +112,10 @@ export class UlbFiscalNewComponent implements OnInit {
     return true;
   }
 
+  get isDisabled() {
+    return false;
+  }
+
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
@@ -147,7 +151,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             key: item.key,
             label: item.label,
-            yearData: item.yearData.map(yearItem => this.getInnerFormGroup(item))
+            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
         return obj;
@@ -157,6 +161,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getInnerFormGroup(item) {
     return this.fb.group({
+      key: item.key,
+      label: item.label,
       value: [item.value,], // TODO: add validators
       status: item.status
     });
@@ -170,8 +176,12 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   stepperContinue(item) {
-    console.log(this.fiscalForm.getRawValue());
+    console.log(this.fiscalForm);
     this.stepper.next();
+  }
+
+  canShowFormSection() {
+    return true;
   }
 
 

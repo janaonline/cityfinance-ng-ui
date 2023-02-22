@@ -30,10 +30,89 @@
                             {{((tab?.value?.label).split(' '))[1]}}<br>
                             {{((tab?.value?.label).split(' '))[2]}}</span>
                     </ng-template>
-                    <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'" [formGroup]="tab">
+                    <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'"
+                        [formGroup]="tab">
+                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4'" [ngClass]="{'disable': isDisabled}">
+                            <div class="row mx-auto">
+                                <div class="col-sm-12">
+                                    <ng-container
+                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue : returnZero;let rowIndex_rev=index">
+                                        <div class="card card-form mb-4 com-style" *ngIf="canShowFormSection(item.key)">
+                                            <div class="card-body">
+                                                <div class="loop">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 h-label mb-3 com-style">
+                                                            {{item?.value?.value?.label}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3 com-style"
+                                                            *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                                            <div class="row" *ngIf="yearItem?.value?.key">
+                                                                <div class="col-sm-12 mb-3">
+                                                                    {{yearItem?.value?.label}}*
+                                                                </div>
+                                                                <!-- <div class="col-sm-12 ">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text br-a"
+                                                                            id="basic-addon1">₹</span>
+                                                                        <input type="text" [(ngModel)]="yearItem.amount"
+                                                                            (keyup)="amountKeyUp('click', yearItem)"
+                                                                            (change)="amountPushInFY('click', r_i, yearItem, tab)"
+                                                                            [disabled]="yearItem?.readonly"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            class="form-control com-style yrformCon form-ic"
+                                                                            [ngClass]="{'is-invalid': yearItem.error}"
+                                                                            id="{{yearItem?.key}}"
+                                                                            placeholder="{{yearItem?.placeholder}}"
+                                                                            (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)"
+                                                                            #inputText3>
+                                                                    </div>
 
-                        <!-- tab:<p>{{ tab?.value?.label | json }}</p>
-                        index<p>{{ i | json }}</p> -->
+                                                                </div>
+                                                                <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                    enter valid value</small>
+                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                    *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
+                                                                    {{yearItem?.bottomText}}
+                                                                </div>
+                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                    *ngIf="yearItem?.amount || yearItem?.amount === 0">
+                                                                    <span class="f-w">
+                                                                        {{ yearItem?.inWords }}
+                                                                    </span> {{yearItem?.bottomText}}
+                                                                </div>
+                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                    *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
+                                                                    <span class="f-w"
+                                                                        [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
+                                                                        {{ abs(getPercentIncrement(yearItem,
+                                                                        item?.value?.yearData[r_i - 1])) }}% {{
+                                                                        getPercentIncrement(yearItem,
+                                                                        item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
+                                                                            : 'greater' }} than {{
+                                                                            item?.value?.yearData[r_i - 1].label
+                                                                            }}</span>
+                                                                </div>
+                                                                <app-common-action-radio
+                                                                    *ngIf="cantakeAction && yearItem.status"
+                                                                    [(status)]="yearItem.status"
+                                                                    [ngModelOptions]="{standalone: true}">
+                                                                </app-common-action-radio> -->
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="" *ngIf="tab?.value?.id == 's7'">
                             <div class="row mx-auto">
@@ -88,7 +167,8 @@
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
-                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}" target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
+                                                    <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
+                                                        target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
                                                 </div>
 
                                                 <app-common-action-radio *ngIf="cantakeAction && signedFileStatus"
