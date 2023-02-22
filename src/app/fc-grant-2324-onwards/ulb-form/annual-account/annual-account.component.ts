@@ -36,11 +36,8 @@ export class AnnualAccountComponent implements OnInit {
         question: [
           {
             name: 'A',
-            answer: {
-              value: '',
-              id: ''
-            },
-            option: [],
+            answer: '',
+            answer_option: [],
             type: 'radio',
             show: '', // boolean (true or false)
             key: '',

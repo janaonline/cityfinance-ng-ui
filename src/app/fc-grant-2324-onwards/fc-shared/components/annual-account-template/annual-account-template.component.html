@@ -1,2 +1,12 @@
-<p>annual-account-template works!</p>
-<div class="hh"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            {{obj?.formName}}
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm-6" *ngFor="let elem of obj?.assessments">
+            {{elem?.language[0]?.title}}
+        </div>
+    </div>
+</div>

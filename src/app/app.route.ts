@@ -209,10 +209,10 @@ export const appRouter: Routes = [
     component: ProfileUpdateComponent,
   },
   {
-    path: "ulbform2324",
+    path: "ulb-form",
     loadChildren: () =>
-      import("./fc-grant-2324-onwards/ulb-form2324/ulb-form2324.module").then(
-        (m) => m.UlbForm2324Module
+      import("./fc-grant-2324-onwards/ulb-form/ulb-form.module").then(
+        (m) => m.UlbFormModule
       ),
   },
 
