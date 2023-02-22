@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
-import { Filter, FilterOption, MouProjectsResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
+import { Filter, FilterOption, MouProjectsByUlbResponse, Row } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
 import { ThisReceiver } from '@angular/compiler';
@@ -15,13 +15,14 @@ export class MunicipalityBondsComponent implements OnInit {
   @Output() changeTab = new EventEmitter();
   @Input() cityId: string;
 
+  pageSizeOptions = [5, 10, 25, 100];
   sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
   order: 1 | -1 = 1;
   page: number = 0;
-  limit: number = 2;
+  limit: number = 5;
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
-  response: MouProjectsResponse;
+  response: MouProjectsByUlbResponse;
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
@@ -90,7 +91,7 @@ export class MunicipalityBondsComponent implements OnInit {
 
   loadData() {
     this.loaderService.showLoader();
-    this.municipalBondsSerivce.getMouProjects(this.cityId, this.payload, this.response?.filters).subscribe(res => {
+    this.municipalBondsSerivce.getMouProjectsByUlb(this.cityId, this.payload, this.response?.filters).subscribe(res => {
       this.response = res;
       this.loaderService.stopLoader();
     }, error => {

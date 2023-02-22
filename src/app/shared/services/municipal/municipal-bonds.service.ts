@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
 import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
-import { Filter, IULBResponse, MouProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
+import { Filter, IULBResponse, MouProjectsByUlbResponse, ProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
@@ -135,9 +135,10 @@ export class MunicipalBondsService {
       );
   }
 
-  getMouProjects(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+  getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+    delete params['implementationAgencies']; // TODO: remove when implemented from backend
     return this._http
-      .get<MouProjectsResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
+      .get<MouProjectsByUlbResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
           response.filters = appliedFilters || response.filters
             .map(filter => filter.key === 'implementationAgencies' ? { // TODO: remove when implemented from backend
@@ -145,9 +146,22 @@ export class MunicipalBondsService {
                 ...filter.options[0],
                 checked: true
               }]
-            } : filter );
+            } : filter);
           return response;
         })
       );;
+  }
+  getProjects(queryParams: string,  columns) {
+    return this._http.get<ProjectsResponse>(`${environment.api.url}/UA/get-projects?${queryParams}`).pipe(
+      map((response) => {
+        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
+        response.columns = columns || response.columns.map(column => ({ 
+          ...column, 
+          sort: searchableAndDefaultSortColumn.includes(column.key) ? 1 : 0,
+          ...(searchableAndDefaultSortColumn.includes(column.key) && {query: ''})
+        }));
+        return response;
+      })
+    );
   }
 }
