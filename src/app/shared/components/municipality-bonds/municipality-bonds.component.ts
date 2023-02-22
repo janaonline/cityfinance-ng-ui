@@ -15,6 +15,7 @@ export class MunicipalityBondsComponent implements OnInit {
   @Output() changeTab = new EventEmitter();
   @Input() cityId: string;
 
+  pageSizeOptions = [5, 10, 25, 100];
   sortBy: 'ulbShare' | 'totalProjectCost' = 'totalProjectCost';
   order: 1 | -1 = 1;
   page: number = 0;
