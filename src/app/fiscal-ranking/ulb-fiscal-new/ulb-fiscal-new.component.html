@@ -51,7 +51,7 @@
                         </div>
 
                         <!-- tab 3 and 4 -->
-                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4'"
+                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4' || tab?.value?.id == 's6'"
                             [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
@@ -96,9 +96,9 @@
                                                                         {{ yearItem?.controls?.value?.value | toword }}
                                                                     </span> {{ yearItem?.controls?.bottomText?.value }}
                                                                 </div>
-                                                                <!--<small *ngIf="yearItem.error" class="text-danger">Please
+                                                                <small *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)" class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                <!--<div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
                                                                     <span class="f-w"
                                                                         [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount

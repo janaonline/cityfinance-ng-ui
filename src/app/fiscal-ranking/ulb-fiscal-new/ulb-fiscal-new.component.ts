@@ -150,8 +150,8 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            canShow: true,
-            label: [{value: item.label, disabled: true}],
+            canShow: [{ value: true, disable: true }],
+            label: [{ value: item.label, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
@@ -163,11 +163,11 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
-      value: [item.value || item.amount,], // TODO: add validators
+      value: [item.value || item.amount, Validators.required], // TODO: add validators
       status: item.status,
-      bottomText: [{value: item.bottomText, disabled: true}],
-      label: [{value: item.label, disabled: true}],
-      placeholder: [{value: item.placeholder, disabled: true}],
+      bottomText: [{ value: item.bottomText, disabled: true }],
+      label: [{ value: item.label, disabled: true }],
+      placeholder: [{ value: item.placeholder, disabled: true }],
     });
   }
 
@@ -178,12 +178,12 @@ export class UlbFiscalNewComponent implements OnInit {
   addSkipLogics() {
     const s1Control = this.fiscalForm.controls.find(control => control.value?.id == 's1') as FormGroup;
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
-    const {waterSupply, sanitationService}: {[key: string]: FormGroup} = (s1Control.controls?.data as FormGroup)?.controls as any;
+    const { waterSupply, sanitationService }: { [key: string]: FormGroup } = (s1Control.controls?.data as FormGroup)?.controls as any;
     waterSupply.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { totalRcptWaterSupply: { canShow: value == 'Yes' } }})
+      s3Control.patchValue({ data: { totalRcptWaterSupply: { canShow: value == 'Yes' } } })
     });
     sanitationService.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { totalRcptSanitation: { canShow: value == 'Yes' } }})
+      s3Control.patchValue({ data: { totalRcptSanitation: { canShow: value == 'Yes' } } })
     });
   }
 
