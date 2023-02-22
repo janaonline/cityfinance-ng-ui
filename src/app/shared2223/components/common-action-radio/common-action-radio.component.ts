@@ -12,6 +12,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   }]
 })
 export class CommonActionRadioComponent implements ControlValueAccessor {
+  @Input() readonly: boolean = false;
   private onChange: (value: any) => void;
   private onTouched: () => void;
 
@@ -36,6 +37,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   }
 
   updateValue(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
+    if(this.readonly) return;
     this.value = value;
     this.onChange(value);
     this.onTouched();
