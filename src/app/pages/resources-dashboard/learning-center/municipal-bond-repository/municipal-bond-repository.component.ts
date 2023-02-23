@@ -7,9 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MunicipalBondRepositoryComponent implements OnInit {
 
+  categories: any[] = [
+    {
+      name: 'category 1',
+      _id: 'abc'
+    },
+    {
+      name: 'category 2',
+      _id: 'def'
+    }
+  ]
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  clearAll() {
+    
+  }
+
+  filterData() {
+
+  }
 }

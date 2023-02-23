@@ -1,1 +1,108 @@
-<p>municipal-bond-repository works!</p>
+<div class="filter-d mt-3 mb-3">
+    <div class="row mt-4 responsiveFilterClass">
+        <div class="col-lg-12 col-sm-12 col-md-12 fl-form">
+            <div class="row">
+                <div class="col-sm-12 f-h">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <select class="form-select" id="stateName" aria-label="Default select"
+                                    formControlName="state" (change)="filterData()"
+                                    style="line-height: 1.5; font-size: 1rem; font-weight: 600">
+                                    <option value="" selected>Category</option>
+                                    <option [value]="category?._id" *ngFor="let category of categories">
+                                        {{ category?.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <select class="form-select" id="stateName" aria-label="Default select"
+                                    formControlName="state" (change)="filterData()"
+                                    style="line-height: 1.5; font-size: 1rem; font-weight: 600">
+                                    <option value="" selected>Sub Category</option>
+                                    <option [value]="category?._id" *ngFor="let category of categories">
+                                        {{ category?.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <button type="button" class="clearBtn" (click)="clearAll()">
+                                    <span> Clear All </span>
+                                    <span style="padding-left: 6px; width: 12px">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg" alt="" />
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 info-text mb-3">
+        <p>
+            The data in this part is intended to offer an oversimplified clarification/explanation of terms/ideas
+            connected with issue and posting of Municipal Debt Securities. Any such clarification/explanation that is
+            given thus ought not be viewed as a translation of regulation nor be treated as a limiting
+            assessment/direction from cityfinance, The data is sourced in collaboration with SEBI.
+        </p>
+    </div>
+</div>
+<!-- <div class="row" *ngIf="cardData.length > 0">
+    <div
+      class="col-sm-12 col-md-4 col-lg-3"
+      *ngFor="let item of cardData"
+      style="margin: 1rem 0"
+    >
+      <div class="card-body">
+        <div style="position: relative">
+          <pdf-viewer
+            [src]="item?.downloadUrl"
+            [render-text]="false"
+            [show-all]="false"
+            style="display: block; height: 250px"
+            [page]="1"
+            [zoom-scale]="'page-fit'"
+            [original-size]="false"
+          >
+          </pdf-viewer>
+        </div>
+        <div class="h-c">
+          {{ item?.name }}
+        </div>
+        <div class="row mt-2" style="align-items: center">
+          <div class="col-sm-2 pe-0">
+            <a href="{{ item.downloadUrl }}" target="_blank">
+              <span>
+                <img
+                  src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                  alt=""
+                  class="p-i"
+                />
+              </span>
+            </a>
+          </div>
+          <div class="col-sm-9">
+            <div class="icon-text">
+              <p class="m-0">Updated on</p>
+              <p class="m-0">
+                {{ currentDate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<!-- <div class="row" *ngIf="cardData.length == 0">
+    <div class="col-sm-12 mb-3">
+      <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+      <p class="text-center">
+        Sorry we couldn’t find any matches for ‘{{ globalName }}’. Please try
+        searching with another term.
+      </p>
+    </div>
+  </div> -->
