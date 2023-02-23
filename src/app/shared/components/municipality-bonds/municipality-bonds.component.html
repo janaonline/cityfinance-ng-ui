@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<div class="container" *ngIf="response && response?.rows?.length > 0;">
+<div class="container" *ngIf="response && response?.rows?.length > 0 && !(response.rows.length == 1 && !response.rows[0].projectName); else no_data_found"> <!-- TODO: remove extra entry if there is no row from backend -->
     <div class="d-flex justify-content-between my-2 ">
         <h1 class="fw-bold">Ongoing Infrastructure Projects</h1>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -119,4 +119,6 @@
     </div>
 </div>
 
-<h2 *ngIf="response && response?.rows?.length == 0" class="text-center p-5">No data found</h2>
+<ng-template #no_data_found>
+    <h2 class="text-center p-5" *ngIf="response">No data found</h2>
+</ng-template>
