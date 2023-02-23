@@ -1,4 +1,4 @@
-import { RESTRICTION } from "../constants";
+import { RESTRICTION, QUESTION_TYPE } from "../constants";
 import {
   checkIfQuestionOrderIsAvailableInRestriction,
   getQuestionOfGivenOrder,
@@ -63,6 +63,16 @@ const applyDidRestriction = ({
   nestedConfig,
   questions,
 }: any) => {
+  console.log('applyDidRestrictionCalled parentQuestion', parentQuestion)
+  console.log('applyDidRestrictionCalled dispatchForm', dispatchForm)
+  console.log('applyDidRestrictionCalled questionToUpdate', questionToUpdate)
+  console.log('applyDidRestrictionCalled nestedConfig', nestedConfig)
+  console.log('applyDidRestrictionCalled questions', questions)
+  console.log('checkIfQuestionOrderIsAvailableInRestriction', checkIfQuestionOrderIsAvailableInRestriction(
+    parentQuestion?.order,
+    questionToUpdate?.restrictions,
+    RESTRICTION.DID
+  ))
   if (
     !checkIfQuestionOrderIsAvailableInRestriction(
       parentQuestion?.order,
@@ -88,7 +98,37 @@ const applyDidRestriction = ({
           return new RegExp(did?.parent_option).test(didParent?.value);
         });
         option.disabled = !option?.visibility;
+        option.checked = option.visibility ? option.disabled : option.visibility;
+        // let findValueArrayIndex = questionToUpdate?.value.findIndex(valueId => (valueId == option._id) && (option.visibility == false));
+        // console.log('findValueArrayIndex', findValueArrayIndex);
+        let findSelectedValueIndex = questionToUpdate?.selectedValue.findIndex((selectedValue: any) => (selectedValue?.value == option._id) && (option.visibility == false));
+        if ((questionToUpdate.input_type == QUESTION_TYPE.SINGLE_SELECT)) {
+            console.log('if called')
+            if ((questionToUpdate?.value.includes(option._id)) && (option.visibility == false)) {
+              questionToUpdate['value'] = '';
+              questionToUpdate['modelValue'] = '';
+              questionToUpdate['selectedValue'] = [];
+            } else if (parentQuestion?.isSelectValue) {
+              /**
+               * this is using to disabled the child question value on parent question selection
+               */
+              questionToUpdate['value'] = '';
+              questionToUpdate['modelValue'] = '';
+              questionToUpdate['selectedValue'] = [];
+            }
+        } else {
+          let findValueArrayIndex = questionToUpdate?.value.findIndex((valueId: any) => (valueId == option._id) && (option.visibility == false));
+          console.log('findValueArrayIndex', findValueArrayIndex);
+          if (findValueArrayIndex > -1) {
+            questionToUpdate?.value.splice(findValueArrayIndex, 1);
+          }
+        }
+        console.log('findSelectedValueIndex', findSelectedValueIndex);
+        if (findSelectedValueIndex > -1) {
+          questionToUpdate?.selectedValue.splice(findSelectedValueIndex, 1);
+        }
       }
+      console.log('questionToUpdate', questionToUpdate)
       return option;
     }
   );

@@ -5,7 +5,9 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  OnChanges,
   SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { List, update } from 'immutable';
@@ -22,10 +24,17 @@ import {
   questionInputChange,
   validateTextInputValueByValidationAndRestrictions,
   submitForm,
+  prepareFormResponse
 } from './utilities/appForm/form.util';
-import { getTitleProps } from './utilities/appForm/question.util';
+import {	
+  checkIfQuestionHasGivenValidation,	
+  getDerivedValueFromNumericRestriction,	
+  getTitleProps,	
+  isQuestionNested,	
+  mapChildQuestionDataAsAnswerOptions	
+} from "./utilities/appForm/question.util";
 import { SnackBarComponent } from './snack-bar/snack-bar.component';
-
+import {hasChildQuestionsData} from './utilities/appForm/question.util'
 const name = ['(', ')', '%'];
 const address = ['\n', '(', ')', ',', ';'];
 
@@ -36,7 +45,7 @@ declare const $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, OnChanges {
   title = 'demo';
   language = DEFAULT_USER_LANGUAGE;
   QUESTION_TYPE = QUESTION_TYPE;
@@ -1185,6 +1194,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @Input() formDescription: any = '';
   @Output() submitQuestion: EventEmitter<any> = new EventEmitter<any>();
   @Input() isViewMode: boolean = false;
+  @Input() disclaimerMessage: any = '';
   questionData: any = [];
   selectedOptions: any = [];
   cloneAnswerOption: any = [];
@@ -1193,7 +1203,11 @@ export class AppComponent implements OnInit, OnDestroy {
   filterChildQuestOfExternalAPICall: any = [];
   isLoading = true;
   imagesExtension = ['png', 'jpg', 'jpeg'];
-
+  proposalName: any;
+  @Output() tabChange: EventEmitter<any> = new EventEmitter<any>();
+  pdfbuttonhide:boolean = false;
+  unBlockCharObject:any = ['&', ";"]
+  isAppRestrictFirstDigitAsZero: boolean = false;
   ngOnInit() {
     // console.log("question", this.questionresponse);
     // this.processQuestion(this.questionresponse)
@@ -1225,6 +1239,31 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes:SimpleChanges){
     console.log('ngOnChanges', changes);
+    let {questionResponse, title, isViewMode, buttonText, isFormSubmittedSuccessfully, enableEditMode, showSubmitButton, viewFormTemplate, disclaimerMessage} = changes;
+    if (title && title.currentValue) {
+      this.title = title.currentValue;
+    }
+    if (isViewMode && isViewMode.currentValue) {
+      this.isViewMode = isViewMode.currentValue;
+    }
+    if (buttonText && buttonText.currentValue) {
+      this.buttonText = buttonText.currentValue;
+    }
+    if (isFormSubmittedSuccessfully && isFormSubmittedSuccessfully.currentValue) {
+      this.isFormSubmittedSuccessfully = isFormSubmittedSuccessfully.currentValue;
+    }
+    if (enableEditMode && enableEditMode.currentValue) {
+      this.enableEditMode = enableEditMode.currentValue;
+    }
+    if (showSubmitButton && showSubmitButton.currentValue) {
+      this.showSubmitButton = showSubmitButton.currentValue;
+    }
+    if (viewFormTemplate && viewFormTemplate.currentValue) {
+      this.viewFormTemplate = viewFormTemplate.currentValue;
+    }
+    if (disclaimerMessage && disclaimerMessage.currentValue) {
+      this.disclaimerMessage = disclaimerMessage.currentValue;
+    }
     let temp = ["enableEditMode", "showPreviewAnswer", "showFormChange", "isViewMode","showSubmitButton", "isFormSubmittedSuccessfully" ];
     temp.forEach((el:any) => {
       let self:any = this;
@@ -1551,6 +1590,38 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
         // restriction 11 type question visibility on edit end
+
+        // for input type 20
+        let filteredInputType20Question = this.questionData.filter((item: any) => (item?.input_type ==  QUESTION_TYPE.NESTED_ONE) || (item?.input_type ==  QUESTION_TYPE.NESTED_TWO));
+        console.log('filteredInputType20Question', filteredInputType20Question);
+        if (filteredInputType20Question?.length) {
+          for (const nested of filteredInputType20Question) {
+            nested['childQuestionData'] = [];
+            // nested['childQuestionData'] = Array(nested.modelValue);
+            if (nested.hasOwnProperty('nestedAnswer') && nested?.nestedAnswer?.length) {
+              for (const nestedAnswer of nested?.nestedAnswer) {
+                let answerNestedData = [];
+                for (const answerNested of nestedAnswer?.answerNestedData) {
+                  let index = nestedAnswer?.answerNestedData.findIndex((nestedOrder: any) => nestedOrder?.order == answerNested?.order);
+                  console.log('index', index);
+                  let findChildQuestion = nested?.childQuestions.find((item: any) => item?.order == answerNested?.order);
+                  console.log('findChildQuestion', findChildQuestion);
+                  if (findChildQuestion) {
+                    findChildQuestion['selectedValue'] = answerNested?.answer;
+                    findChildQuestion = this.commonService.questionMapping(JSON.parse(JSON.stringify(findChildQuestion)));
+                    findChildQuestion['forParentValue'] = nestedAnswer?.forParentValue;
+                    findChildQuestion['selectedAnswerOption'] = nested?.answer_option.find((el: any) => el._id == nestedAnswer?.forParentValue)
+                    findChildQuestion['nestedConfig'] = {parentOrder: nested?.order, index: index, loopIndex: 0};
+                    answerNestedData.push(findChildQuestion);
+                  }
+                }
+                nested.childQuestionData.push(answerNestedData);
+              }
+            }
+          }
+        }
+        this.bodmasValidations();
+        console.log('filteredInputType20Question', filteredInputType20Question);
       } else {
         this.setVisibility(true);
       }
@@ -1655,16 +1726,25 @@ export class AppComponent implements OnInit, OnDestroy {
   cleanNonVisibleQuestionValues() {
     for (const item of this.questionData) {
       if (!item.visibility) {
-        item['selectedValue'] = [];
+
+        item['selectedValue'] = []
         item['value'] = [];
         item['selectedOptions'] = '';
         item['modelValue'] = '';
         item['answer_option'].forEach((answerOption: any) => {
           answerOption['checked'] = false;
-        });
+        })
+
+        switch(item.type){
+          case QUESTION_TYPE.NUMERIC:
+            item['value'] = "";
+            break;
+        }
+        
       }
     }
   }
+
 
   getFileType(question: any) {
     console.log('getFileType', question);
@@ -1684,53 +1764,70 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  getData(value: any, question: any) {
-    console.log('value', value, question);
-  }
-
-  async submitForm() {
-    this.isFormSubmittedSuccessfully = true;
-    const defaultAnswer = [{ label: '', textValue: '', value: '' }];
+  beforeSubmitPrepareResponse() {
+    const defaultAnswer = [{ label: "", textValue: "", value: "" }];
     let sendResponse = this.questionData.map((item: any) => ({
       // answer: [{ label: item.answer_option && item.answer_option.find(option => option._id == item.selectedValue) ? item.answer_option.find(option => option._id == item.selectedValue).name : '', textValue: item.answer_option && item.answer_option.length ? '' : item.selectedValue, value: item.answer_option && item.answer_option.length ? item.selectedValue : '' }],
-      answer:
-        item.visibility && item.selectedValue
-          ? item.selectedValue
-          : defaultAnswer,
+      answer: (item.visibility && item.selectedValue) ? item.selectedValue : defaultAnswer,
       input_type: item.input_type,
       nestedAnswer: [],
       order: item.order,
       pattern: item.pattern,
+      shortKey: item?.shortKey,
+      ...item
     }));
-    console.log('sendResponse', sendResponse);
+    let form: any = {formId: '1234'}
+    let finalQuestionResponse: any;
+    prepareFormResponse(sendResponse, form , '123123', '').then((data: any) => {
+      console.log('final-data', data)
+      finalQuestionResponse = JSON.parse(JSON.stringify(data && data[0] && data[0]?.question));
+      console.log('finalQuestionResponse', finalQuestionResponse)
+      let obj = {finalQuestionResponse,name:this.proposalName};
+      if (obj.finalQuestionResponse?.length) {
+        this.submitForm(obj.finalQuestionResponse, obj.name);
+      }
+    })
+  }
 
-    const filterInvalidEnterAnswer = this.questionData.filter(
-      (answer: any) => answer.errorMessage
-    );
-    console.log('filterInvalidEnterAnswer', filterInvalidEnterAnswer);
+  async submitForm(finalQuestionResponse: any = [], proposalName: any) {
+    console.log('this.questionData', this.questionData)
+    const defaultAnswer = [{ label: "", textValue: "", value: "" }];
+    let sendResponse = this.questionData.map((item: any) => ({
+      // answer: [{ label: item.answer_option && item.answer_option.find(option => option._id == item.selectedValue) ? item.answer_option.find(option => option._id == item.selectedValue).name : '', textValue: item.answer_option && item.answer_option.length ? '' : item.selectedValue, value: item.answer_option && item.answer_option.length ? item.selectedValue : '' }],
+      answer: (item.visibility && item.selectedValue) ? item.selectedValue : defaultAnswer,
+      input_type: item.input_type,
+      nestedAnswer: [],
+      order: item.order,
+      pattern: item.pattern,
+      shortKey: item?.shortKey,
+      ...item
+    }))
+    console.log('sendResponse', sendResponse)
+    // let form: any = {formId: '1234'}
+    // let finalQuestionResponse: any;
+    // prepareFormResponse(sendResponse, form , '123123', '').then((data: any) => {
+    //   console.log('final-data', data)
+    //   finalQuestionResponse = JSON.parse(JSON.stringify(data && data[0] && data[0]?.question));
+    // })
+
+    const filterInvalidEnterAnswer = this.questionData.filter((answer: any) => answer?.errorMessage && answer?.visibility);
+    console.log('filterInvalidEnterAnswer', filterInvalidEnterAnswer)
     let emptyError: any = [];
-    await submitForm(false, this.questionData).then((value) => {
-      emptyError = value.filter((item:any | { visibility: any; }) => item.visibility);
+    await submitForm(false, this.questionData).then((value: any) => {
+      emptyError = value.filter((item: any) => item.visibility);
     });
-    console.log('emptyError', emptyError);
+    console.log('emptyError', emptyError)
     if (emptyError.length > 0) {
       this.isFormSubmittedSuccessfully = false;
       for (const error of emptyError) {
-        let errorIndex = this.questionData.findIndex(
-          (item: { order: any }) => item.order == error.order
-        );
+        let errorIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
         if (errorIndex > -1) {
-          this.questionData[errorIndex]['errorMessage'] =
-            'This is a required field';
+          this.questionData[errorIndex]['errorMessage'] = 'This is a required field'
         }
       }
-      let errorElement: HTMLElement | null = document.getElementById(
-        emptyError[0].order
-      );
+      let errorElement: HTMLElement = document.getElementById(emptyError[0].order)!;
       // console.log('errorElement', errorElement)
-      if (errorElement) {
-        errorElement.focus();
-      }
+      errorElement.focus();
       // const dialogRef = this.dialog.open(PendingListDialogComponent, {
       //   panelClass: "modal-md",
       //   // height: "400px",
@@ -1741,23 +1838,38 @@ export class AppComponent implements OnInit, OnDestroy {
       //   console.log("response", response);
       // });
     } else if (filterInvalidEnterAnswer.length > 0) {
-      this.isFormSubmittedSuccessfully = false;
+      this.isFormSubmittedSuccessfully = true;
     }
 
     if (emptyError.length == 0 && filterInvalidEnterAnswer.length == 0) {
-      console.log({
-        question: this.questionData,
-        finalData: sendResponse,
-      });
-      this.submitQuestion.emit({
-        question: this.questionData,
-        finalData: sendResponse,
-      });
-      console.log('question', this.questionData, emptyError);
-      this.isFormSubmittedSuccessfully = false;
+      // window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      console.log("question123", this.questionData, emptyError,finalQuestionResponse);
+      this.questionData.forEach((el: any) => {
+        if(Array.isArray(el.value) && el.value.length > 0){
+          el.value = [...new Set([...el.value])]
+        }
+        if(el.selectedValue && el.selectedValue.length > 0){
+          el.selectedValue = el.selectedValue.filter((item: any, index: number)=>{
+            return el.selectedValue.findIndex((ele: any) => ele.value == item.value) == index
+          })
+        }
+      })
+      finalQuestionResponse.forEach((el: any) => {
+        if(el.answer && el.answer.length > 0  ){
+          el.answer = el.answer.filter((item: any, index: number)=> {
+
+            return el.answer.findIndex((el: any) => el.value == item.value) == index
+          })
+        }
+      })
+      // this.submitQuestion.emit({ question: this.questionData, finalData: sendResponse });
+      this.submitQuestion.emit({ question: this.questionData, finalData: finalQuestionResponse, name: proposalName });
+      console.log("question", this.questionData, emptyError);
+      this.isFormSubmittedSuccessfully = true;
     }
     // this.submitQuestion.emit({ question: this.questionData});
-    console.log('question', this.questionData, emptyError);
+    console.log("question", this.questionData, emptyError);
   }
 
   completedLenegth() {
@@ -1770,6 +1882,32 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onChange(question: any, value: any = {}, option: any = {}, skip = false) {
+    this.isFormSubmittedSuccessfully = false;
+    this.tabChange.emit(!this.isFormSubmittedSuccessfully);
+    
+    // option["checked"] = !option["checked"]
+    if(question.input_type == '21' && option["checked"]){
+      let index = question.answer_option.findIndex((el: any) => el._id == option._id) + 1
+      console.log("firstIndex",index);
+      
+      let childQuestionIndex = question.childQuestionData.findIndex((el: any) => el[0].forParentValue == index)
+      console.log("secondIndex",childQuestionIndex);
+      question.childQuestionData.splice(childQuestionIndex,1)
+    }
+    console.log("questionsssssssssssss", question, value, option, skip);
+    // if (question.validation.length) {
+    //   const uniqueCodeValidation = question.validation.find(valid => valid._id == VALIDATION.VALIDATE_UNIQUE_CODE);
+    //   console.log('uniqueCodeValidation', uniqueCodeValidation)
+    //   if (question.url) {
+    //     this.godrejService.validateUniqueCode(question).then((response) => {
+    //       if (response && response["success"]) {
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    //   }
+    // }
     console.log('this.cloneAnswerOption', this.cloneAnswerOption);
     if (this.cloneAnswerOption.length > 0) {
       question.value = [
@@ -1808,7 +1946,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let allQuestion = this.questionData;
 
     let selectedValue: any = [];
-    let questionValue;
+    let questionValue: any;
     /* if user selected the value from dropdown then set isSelectValue  to true other wise false
      * this condition is used for the did type question where based on parent selected value
      * we remove/disabled the child question value.
@@ -1885,6 +2023,7 @@ export class AppComponent implements OnInit, OnDestroy {
       questionValue = value;
     }
 
+    nestedConfig = {'forParentValue': question?.forParentValue, ...nestedConfig};
     let valueUpdate = validateTextInputValueByValidationAndRestrictions(
       questionValue,
       {
@@ -2009,10 +2148,27 @@ export class AppComponent implements OnInit, OnDestroy {
       this.checkPrefixValueValidation(JSON.parse(JSON.stringify(question)));
     }
 
+    this.sortChildAnswerOptionBasedOnDisabledProperty(question);
+    if (question && question.hasOwnProperty('childQuestionData') && question?.childQuestionData?.length) {
+      this.setParentValueOnNestedChildQuestion(question, questionIndex);
+    }
     this.evaluateEquation(question);
+    this.bodmasValidations();
+    this.bodmasRestrictions(question);
     console.log('questionData here', this.questionData);
   }
 
+  async setParentValueOnNestedChildQuestion(question: any, questionIndex: number) {
+    console.log('setParentValueOnNestedChildQuestion', question);
+    question?.childQuestionData.forEach((item: any, index: number) => {
+      for (const nestedChild of item) {
+        console.log('nestedChild', nestedChild);
+        nestedChild['forParentValue'] = index+1;
+      }
+      console.log('question', item, index)
+    })
+    this.questionData[questionIndex] = await JSON.parse(JSON.stringify(question));
+  }
   // questionChildData(question){
   //      if( question.childQuestionData){
   //       question.childQuestionData = question.childQuestionData.toJS().map((value, idx) => {
@@ -2123,7 +2279,7 @@ export class AppComponent implements OnInit, OnDestroy {
         imgObject[0].file[0].size,
         event,
         true,
-        question?.headerOptions
+        false
       );
       console.log('file upload parent response', response);
       if (response && response['success']) {
@@ -2137,13 +2293,11 @@ export class AppComponent implements OnInit, OnDestroy {
           },
         ];
         console.log('questionValue', questionValue);
-        let prepareImageObject = [
-          {
-            label: '',
-            textValue: '',
-            value: response['data'][0]['file_url'],
-          },
-        ];
+        let prepareImageObject = [{
+          "label": imgObject[0]?.label ? imgObject[0]?.label : "",
+          "textValue": imgObject[0]?.label ? imgObject[0]?.label : "",
+          "value": response['data'][0]['file_url']
+        }];
         question['selectedValue'] = prepareImageObject;
         question['imgUrl'] = response['data'][0]['file_url'];
         try {
@@ -2391,7 +2545,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // return index;
   }
 
-  optionIndentity(index: any, item: any) {
+  optionIdentity(index: any, item: any) {
     // console.log('optionIndentity', index, item)
     return item._id;
     // return index;
@@ -2660,6 +2814,35 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  bodmasValidations(selectedQues: any = {}) {
+    console.log('bodmasValidations called', selectedQues)
+    const bodmasQuestionList = this.questionData.filter((item: any) => item?.validation.some((item: any) => item._id == VALIDATION.EQUATION))
+    console.log('bodmasQuestionList', bodmasQuestionList)
+    if (bodmasQuestionList?.length) {
+      for (const item of bodmasQuestionList) {
+        let equationValidationData = JSON.parse(JSON.stringify(item.validation.find((valid: any) => valid._id == VALIDATION.EQUATION)));
+        console.log('equationValidationData', equationValidationData);
+        let orders = this.questionData.filter((question: any) => equationValidationData?.value.match(new RegExp(`\\b${question.shortKey}\\b`)));
+        console.log('orders', orders);
+        orders.forEach((order: any) => {
+          const questionValue = this.getQuestionValueForBodmas(order);
+          console.log('questionValue', questionValue, typeof (questionValue))
+          equationValidationData['value'] = equationValidationData?.value.replace(
+            order.shortKey,
+            questionValue ? `(${questionValue})` : 0
+          );
+        });
+        console.log('final equation', equationValidationData)
+        let equationValue: any;
+        equationValue = orders?.length ? eval(equationValidationData?.value) : 0;
+        console.log('equationValue', equationValue)
+        item['selectedValue']= [{"label": "", "textValue": "", "value": equationValue}];
+        item['modelValue'] = equationValue;
+        item['value'] = equationValue;
+      }
+    }
+  }
+
   getQuestionValueForBodmas = (question: any) => {
     const questionInputType = question?.input_type;
     if (
@@ -2700,15 +2883,216 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {any} selectedValue - The selected value.
    */
   getSelectionChange(question: any, selectedValue: any) {
-    const selectedTarget = { target: { value: selectedValue?.value } };
-    if (question && selectedValue) {
-      this.onChange(question, selectedTarget);
+    console.log('getSelectionChange', question, selectedValue);
+    // const selectedTarget = { target: { value: selectedValue?.value } };
+    // if (question && selectedValue) {
+    //   this.onChange(question, selectedTarget);
+    // }
+  }
+
+  /**
+ * It takes a question object and finds the child question of that question and sorts the answer
+ * options of the child question based on the disabled property of the answer option.
+ * @param {any} currentQuestion - any = {
+ */
+  sortChildAnswerOptionBasedOnDisabledProperty(currentQuestion: any) {
+    let findDidTypeQuestion: any[] = this.questionData.filter((did: any) => {
+      let findChild = did.restrictions.find((res: any) => (res.type == RESTRICTION.DID))
+      if (findChild && findChild.orders.some((item: any) => item.order == currentQuestion?.order)) {
+        return did;
+      }
+    });
+    if (findDidTypeQuestion?.length > 0) {
+      let childQuesIndex = this.getQuestionIndex(findDidTypeQuestion[0]?.shortKey);
+      this.questionData[childQuesIndex]['answer_option'] = this.sortAnswerOptions(findDidTypeQuestion[0]['answer_option'], 'disabled');
     }
   }
 
-  ngOnDestroy() {
-    this.isFormSubmittedSuccessfully = false;
+  getQuestionIndex(shortKey: string) {
+    return this.questionData.findIndex((ques: any) => ques?.shortKey == shortKey);
   }
 
+/**
+ * Sort the array of objects by the value of the property specified by the sortKey parameter.
+ * @param {any[]} data - any[] - the array of objects to be sorted
+ * @param {string} sortKey - the key of the object that you want to sort by
+ * @returns The sortAnswerOptions() method returns a sorted array of objects.
+ */
+  sortAnswerOptions(data: any[], sortKey: string) {
+    return data.sort((item1: any, item2: any) => item1[sortKey] - item2[sortKey]);
+  }
+
+  ngOnDestroy() {
+    this.isFormSubmittedSuccessfully = true;
+  }
+
+  lastComment(event: any){
+    console.log("TheEvent",event);
+  }
+
+/**
+ * It removes the uploaded file from the questionData array.
+ * @param {any} currentQuestion - the current question object
+ * @param {number} questionIndex - the index of the question in the array
+ */
+  removeUploadedFile(currentQuestion: any, questionorder: number) {
+    /* Finding the index of the question in the questionData array. */
+    let questionIndex = this.questionData.findIndex((ele:any) => ele?.order == questionorder);
+    
+    this.questionData[questionIndex]['modelValue'] = '';
+    this.questionData[questionIndex]['value'] = '';
+    this.questionData[questionIndex]['imgLabel'] = '';
+    this.questionData[questionIndex]['imgUrl'] = '';
+    this.questionData[questionIndex]['selectedValue'] = [{"label": "", "textValue": '', 'value': ''}];
+  }
+
+/**
+ * It opens a dialog box and displays the image in the dialog box.
+ * @param {any} currentQuestion - any - this is the question object that is being passed to the
+ * function.
+ */
+  viewUploadedFile(currentQuestion: any) {
+    console.log("viewUploadedFile", currentQuestion)
+    // const dialogRef = this.dialog.open(GodrejShowDetailedInfoComponent, {
+    //   width: "1200px",
+    //   data: {
+    //     isOldView: false,
+    //     url: currentQuestion?.modelValue,
+    //     fileName: currentQuestion?.imgLabel ? currentQuestion?.imgLabel : (currentQuestion?.selectedValue && currentQuestion?.selectedValue?.length) ? currentQuestion?.selectedValue[0]?.label : ''
+    //   },
+    // });
+
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   console.log('result', result)
+    // });
+  }
+
+  bodmasRestrictions(question: any = {}) {
+    const bodmasQuestionList = this.questionData.filter((item: any) => item?.restrictions.some((item: any) => item.type == RESTRICTION.SUM_FROM_LOOP))
+
+    let { answer_option: answerOptions, value } = question;
+    let dynamicKeysObject:any = { options: question.answer_option, value };
+    if(bodmasQuestionList && bodmasQuestionList.length > 0){
+      bodmasQuestionList.forEach((el: any) => {
+        const { restrictions, validation } = el;
+  
+          restrictions.forEach(({ orders: relatedQuestionsOrders, type }: any) => {
+            switch (type) {
+              case RESTRICTION.SUM_FROM_LOOP:
+                dynamicKeysObject.value =  0;
+                relatedQuestionsOrders.forEach((relatedQuestionOrder: any) => {
+                  const relatedQuestion = this.questionData.find(
+                    (question: any) =>
+                      question.order === `${parseInt(relatedQuestionOrder.order)}`
+                  );
+                  if (relatedQuestion && hasChildQuestionsData(relatedQuestion)) {
+                    dynamicKeysObject.value += relatedQuestion.childQuestionData.reduce(
+                      (sum: any, child: any) =>
+                        sum +
+                          Number(
+                            child.find(
+                              (child: any) => child.order == relatedQuestionOrder.order
+                            ).value
+                          ) || 0,
+                      0
+                    );
+                  }
+                });
+                break;
+              case RESTRICTION.SUBTRACTION:
+                dynamicKeysObject.value = getDerivedValueFromNumericRestriction(
+                  relatedQuestionsOrders,
+                  "-",
+                  this.questionData
+                );
+                dynamicKeysObject.disabled = true;
+                break;
+      
+              case RESTRICTION.ADDITION:
+                dynamicKeysObject.value = getDerivedValueFromNumericRestriction(
+                  relatedQuestionsOrders,
+                  "+",
+                  this.questionData
+                );
+                dynamicKeysObject.disabled = true;
+                break;
+      
+              case RESTRICTION.MULTIPLICATION:
+                dynamicKeysObject.value = getDerivedValueFromNumericRestriction(
+                  relatedQuestionsOrders,
+                  "*",
+                  this.questionData
+                );
+                dynamicKeysObject.disabled = true;
+                break;
+              case RESTRICTION.DIVISION:
+                dynamicKeysObject.value = getDerivedValueFromNumericRestriction(
+                  relatedQuestionsOrders,
+                  "/",
+                  this.questionData
+                );
+                dynamicKeysObject.disabled = true;
+                break;
+              case RESTRICTION.DYNAMIC_OPTION:
+              case RESTRICTION.DYNAMIC_OPTION_LOOP:
+                const filtersRestrictionObj = question.restrictions.find(
+                  (r: any) => r.type === `${type}.1`
+                );
+                const questionHasOrConditionWhenSelectingDynamicOptionValidation = checkIfQuestionHasGivenValidation(
+                  question,
+                  VALIDATION.OR_CONDITION_WHEN_SELECTING_DYNAMIC_OPTION
+                );
+                relatedQuestionsOrders.forEach((relatedQuestionOrder: any) => {
+                  if (isQuestionNested(relatedQuestionOrder.order)) {
+                    const relatedQuestion = this.questionData.find(
+                      (question: any) =>
+                        question.order === `${parseInt(relatedQuestionOrder.order)}`
+                    );
+                    const hideOptionValidation = validation.find(
+                      ({ _id }: any) => _id === VALIDATION.HIDE_PREDEFINED_ANSWER
+                    );
+                    if (relatedQuestion && hasChildQuestionsData(relatedQuestion)) {
+                      let newAnswerOptions:any = mapChildQuestionDataAsAnswerOptions(
+                        relatedQuestion,
+                        relatedQuestionOrder,
+                        filtersRestrictionObj,
+                        !questionHasOrConditionWhenSelectingDynamicOptionValidation
+                      );
+                      if (newAnswerOptions?.length) {
+                        if (hideOptionValidation) {
+                          answerOptions = [...newAnswerOptions];
+                        } else {
+                          answerOptions = [...newAnswerOptions, ...answerOptions];
+                        }
+                      } else {
+                        if (hideOptionValidation) {
+                          answerOptions = [
+                            { _id: `99`, name: "No eligible members", did: [] },
+                          ];
+                        }
+                      }
+                    } else {
+                      if (hideOptionValidation) {
+                        answerOptions = [
+                          { _id: `99`, name: "No eligible members", did: [] },
+                        ];
+                      }
+                    }
+                    dynamicKeysObject = {
+                      ...dynamicKeysObject,
+                      options: answerOptions,
+                    };
+                  }
+                });
+                break;
+              }
+          });
+          
+          el['selectedValue']= [{"label": "", "textValue": "", "value": dynamicKeysObject.value}];
+          el['modelValue'] = dynamicKeysObject.value;
+          el['value'] = dynamicKeysObject.value;
+      })
+    }
+  }
 }
 

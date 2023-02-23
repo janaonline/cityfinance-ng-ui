@@ -19,6 +19,7 @@ import  { createCustomElement } from '@angular/elements';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { environment } from 'src/environments/environment.prod';
 
+import { GetFileIcon } from './file-icon.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { environment } from 'src/environments/environment.prod';
     AppComponent,
     SnackBarComponent,
     WebFormViewComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    GetFileIcon
   ],
   imports: [
     BrowserModule,
@@ -45,8 +47,9 @@ import { environment } from 'src/environments/environment.prod';
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [],
-  exports: [MyFilterPipe],
+  exports: [MyFilterPipe, GetFileIcon],
   // entryComponents:[AppComponent],
+  entryComponents:[AppComponent],
   // bootstrap: [AppComponent]
   bootstrap: environment.production ? [] : [AppComponent]
 })

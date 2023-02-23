@@ -99,6 +99,8 @@ export const VALIDATION: any = {
   VALIDATE_UNIQUE_CODE: "120",
   CALL_EXTERNAL_API: "126.1",
   PREFIX_TAG: "190.1",
+  CURRENCY_FORMAT: "208",	
+  WORD_LIMIT: "209"
 };
 export const RESTRICTION: any = {
   LESS_THAN: "3",

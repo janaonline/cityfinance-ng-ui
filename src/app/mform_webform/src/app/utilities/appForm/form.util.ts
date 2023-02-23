@@ -556,7 +556,14 @@ function questionInputChange(
         }
         for (let i = 0; i < newMembersDifference; i++) {
           oldMembers = oldMembers.push(
-            _.cloneDeep(questions.get(index).childQuestions)
+            _.cloneDeep(questions.get(index).childQuestions.map((el: any) => {	
+              return {	
+                  ...el,	
+                  selectedAnswerOption: question.type !== QUESTION_TYPE.NESTED_TWO ? {	
+                      name: ` ${i + 1}`	
+                  } : question.answer_option.find((el: any) => el._id == value.value)	
+              }	
+          }))
           );
         }
         questions = questions.set(index, {
@@ -567,7 +574,14 @@ function questionInputChange(
         for (let i = 0; i < newMembersDifference; i++) {
           childQuestionData = childQuestionData.set(
             i,
-            _.cloneDeep(questions.get(index).childQuestions)
+            _.cloneDeep(questions.get(index).childQuestions.map((el: any) => {	
+              return {	
+                  ...el,	
+                  selectedAnswerOption: question.type !== QUESTION_TYPE.NESTED_TWO ? {	
+                      name: ` ${i + 1}`	
+                  } : question.answer_option.find((el: any) => el._id == value.value)	
+              }	
+          }))
           );
         }
         questions = questions.set(index, {
@@ -577,6 +591,30 @@ function questionInputChange(
       }
 
       updatedQuestion = { ...questions.get(index), value: currentValue };
+      if (question[type] === QUESTION_TYPE.NESTED_TWO) {	
+        //   updatedQuestion = {	
+        //     ...question,	
+        //     value: computeNewValueForMultiSelectQuestion(targetValue, question),	
+        // };	
+        console.log('updatedQuestion', updatedQuestion)	
+        updatedQuestion.answer_option.map((option: any) => {	
+            if (updatedQuestion.value.includes(option._id)) {	
+                option.checked = true;	
+            } else {	
+                option.checked = false	
+            }	
+        })	
+        updatedQuestion.selectedValue = updatedQuestion.answer_option.filter((item: any) => item.checked).map((option: any) => ({	
+            label: option.name,	
+            textValue: '',	
+            value: option._id	
+        }))	
+        // state = dispatch({	
+        //     type: UPDATE_QUESTION_BY_CHILD_CHECK,	
+        //     payload: updatedQuestion,	
+        //     nestedConfig,	
+        // });	
+    }	
       console.log(
         "updated",
         updatedQuestion,
@@ -607,18 +645,20 @@ function questionInputChange(
         ...question,
         value: computeNewValueForMultiSelectQuestion(targetValue, question),
       };
-      updatedQuestion.answer_option.map((option: any) => {
-        if (updatedQuestion.value.includes(option._id)) option.checked = true;
-        else option.checked = false;
-      });
+      console.log('updatedQuestion', updatedQuestion)	
+      updatedQuestion.answer_option.map((option: any) => {	
+          if (updatedQuestion.value.includes(option._id)) {	
+              option.checked = true;	
+          } else {	
+              option.checked = false	
+          }	
+      })
 
-      updatedQuestion.selectedValue = updatedQuestion.answer_option
-        .filter((item: any) => item.checked)
-        .map((option: any) => ({
-          label: option.name,
-          textValue: "",
-          value: option._id,
-        }));
+      updatedQuestion.selectedValue = updatedQuestion.answer_option.filter((item: any) => item.checked).map((option: any) => ({	
+        label: option.name,	
+        textValue: '',	
+        value: option._id	
+    }))
       state = dispatch({
         type: UPDATE_QUESTION_BY_CHILD_CHECK,
         payload: updatedQuestion,
@@ -1150,11 +1190,13 @@ function updatedNestedQuestionList(
   const parentQuestionIndex = questions.findIndex(
     (q: any) => q.order === nestedConfig.parentOrder
   );
+  let indexForChildDataQuestion = questions[parentQuestionIndex].input_type == QUESTION_TYPE.NESTED_ONE ? -1 : questions[parentQuestionIndex].childQuestionData.findIndex((el: any) => el[0].selectedAnswerOption._id == nestedConfig?.forParentValue)
   const keyPath = [
     parentQuestionIndex,
     "childQuestionData",
-    nestedConfig.loopIndex,
-  ];
+    indexForChildDataQuestion > -1 ? indexForChildDataQuestion : nestedConfig?.forParentValue ? nestedConfig?.forParentValue - 1 : nestedConfig.loopIndex,	
+  ];	
+  console.log("keyPath", List(questions).getIn(keyPath), [...keyPath, nestedConfig.index], indexForChildDataQuestion);
 
   questions = List(questions).setIn(
     [...keyPath, nestedConfig.index],
@@ -1292,7 +1334,8 @@ function validateTextInputValueByValidationAndRestrictions(
   config: any
 ) {
   let { questions, order, nestedConfig } = config;
-  console.log("value", value, config);
+  console.log('questions', questions)	
+  console.log("value", value, 'config', config, 'order', order, 'nestedConfig', nestedConfig)
   if (nestedConfig.hasOwnProperty("parentOrder")) {
     const parentQuestionIndex = questions.findIndex(
       (q: any) => q.order === nestedConfig.parentOrder
@@ -1543,6 +1586,7 @@ const composeResponseToFileArr = (response: any) =>
   response?.map?.((res: any) => ({
     label: res?.file_name,
     textValue: res?.file_url,
+    value: res?.file_url,
   }));
 
 const updateFileUploadQuestionsValueWithS3Url = async (questions: any) => {
@@ -1564,13 +1608,20 @@ const updateFileUploadQuestionsValueWithS3Url = async (questions: any) => {
 
         const filesNotObtainedFromPrefilledQuestion =
           getFilesNotObtainedFromPrefilledQuestion(question) || [];
-
-        const response = filesNotObtainedFromPrefilledQuestion.length
-          ? await getFilesS3UrlAndUploadToS3(
-              filesNotObtainedFromPrefilledQuestion
-            )
-          : [];
-
+        console.log('filesNotObtainedFromPrefilledQuestion', filesNotObtainedFromPrefilledQuestion)	
+        // const response = filesNotObtainedFromPrefilledQuestion.length	
+        //   ? await getFilesS3UrlAndUploadToS3(	
+        //       filesNotObtainedFromPrefilledQuestion	
+        //     )	
+        //   : [];	
+        let currentQuestion = question.toJSON();	
+        console.log('currentQuestion', currentQuestion)
+        const response = filesNotObtainedFromPrefilledQuestion.length ?	
+        [{	
+            file_name: currentQuestion?.imgLabel,	
+            file_url: currentQuestion?.imgUrl	
+        }] :	
+        [];
         const fileArrFromResponse = composeResponseToFileArr(response);
 
         question = question.set("value", [
@@ -1638,14 +1689,165 @@ function getMultiSelectAnswerValues({ value = [], answer_option }: any) {
   return answers;
 }
 
-const composeFileUploadQuestionValueForFormSubmit = (
-  fileUploadQuestionVal: any
-) =>
-  fileUploadQuestionVal?.map?.((questionVal: any) => ({
-    textValue: questionVal?.textValue,
-    label: questionVal?.label,
-    value: "",
-  }));
+const composeFileUploadQuestionValueForFormSubmit = (fileUploadQuestionVal: any, currentQuestion: any) =>	
+fileUploadQuestionVal?.map?.((questionVal: any) => ({	
+    // textValue: questionVal?.value ? questionVal?.value : questionVal?.textValue ? questionVal?.textValue : "",	
+    // label: questionVal?.label,	
+    // value: questionVal?.textValue ? questionVal?.textValue : questionVal?.textValue ? questionVal?.textValue : "",	
+    textValue: currentQuestion?.modelValue ? currentQuestion?.modelValue : "",	
+    label: currentQuestion?.imgLabel ? currentQuestion?.imgLabel : currentQuestion?.selectedValue && currentQuestion?.selectedValue[0] && currentQuestion?.selectedValue[0]?.label || '',	
+    value: currentQuestion?.modelValue ? currentQuestion?.modelValue : "",	
+}));
+
+function getNestedQuestionResponseForSubmit(question: any, questions: any) {	
+  console.log('getNestedQuestionResponseForSubmit', question);	
+  const response = [];	
+  const errors = [];	
+  const length = questions.size;	
+  const answerObject = {	
+      answer: [],	
+      input_type: question.type,	
+      nestedAnswer: [],	
+      order: question.order,	
+      pattern: question?.pattern,	
+      shortKey: question?.shortKey,	
+      ...getAdditionalInfoOfQuestionForFormSubmission(question),	
+  };	
+  let answer: any = {	
+      label: "",	
+      textValue: "",	
+      value: "",	
+  };	
+  switch (question.type) {	
+      case QUESTION_TYPE.GPS:	
+          answerObject.answer.push(...getGpsAnswer(question));	
+          break;	
+      case QUESTION_TYPE.UNIT:	
+          answer = getUnitAnswerValues(question);	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.ADDRESS:	
+      case QUESTION_TYPE.TEXT:	
+          // answer.textValue = question.value;	
+          answer.textValue = Array.isArray(question.value) ? '' : question.value;	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.AADHAR_CARD:	
+      case QUESTION_TYPE.NUMERIC:	
+          answer.value = question.value;	
+          if (	
+              question.validation.find((v: any) => v._id === VALIDATION.EQUATION) ||	
+              question.restrictions.find(	
+                  (r: any) => r.type === RESTRICTION.SUM_FROM_LOOP	
+              )	
+          ) {	
+              answer.value = getDynamicKeys(question, questions).value;	
+          }	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.MULTI_SELECT_CHECKBOX:	
+      case QUESTION_TYPE.MULTI_SELECT:	
+          answerObject.answer.push(...getMultiSelectAnswerValues(question));	
+          break;	
+      case QUESTION_TYPE.CONSENT:	
+      case QUESTION_TYPE.SINGLE_SELECT:	
+      case QUESTION_TYPE.RADIO:	
+          answer.value = question.value;	
+          const answerOption = question.answer_option.find(	
+              (option: any) => option._id == question.value	
+          );	
+          if (answerOption) {	
+              answer.label = answerOption.name;	
+          }	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.IMAGE:	
+          answer.value = question.value;	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.AUDIO:	
+      case QUESTION_TYPE.TIME:	
+          answer.value = question.value;	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.DATE:	
+          // answer.value = question?.value?.split?.("-")?.reverse?.()?.join?.("-");	
+          answer.value = question?.value;	
+          answerObject.answer.push(answer);	
+          break;	
+      case QUESTION_TYPE.NESTED_ONE:	
+          console.log('NESTED_ONE_CALLED', question)	
+          if (question.value || question?.modelValue) {	
+              console.log('IF_CALLED', question)	
+              answer.value = question.value;	
+              const answerOption = question.answer_option.find(	
+                  (option: any) => option._id == question.value	
+              );	
+              if (answerOption) {	
+                  answer.label = answerOption.name;	
+              }	
+              answerObject.answer.push(answer);	
+              const {	
+                  childQuestionData	
+              } = question;	
+              console.log('childQuestionData', childQuestionData, 'size', childQuestionData?.size)	
+              for (let j = 0; j < childQuestionData?.length; j++) {	
+                  console.log('j-index', j)	
+                  // const [	
+                  //   nestedResponse,	
+                  //   nestedResponseError,	
+                  // ] = await getQuestionResponseForSubmit(	
+                  //   childQuestionData.get(j).filter((question) => question.visibility)	
+                  //   );	
+                  let filteredNestedQues: any = childQuestionData[j].filter((question: any) => question.visibility)	
+                  const [	
+                      nestedResponse,	
+                      nestedResponseError,	
+                  ]: any = getQuestionResponseForSubmit(filteredNestedQues);	
+                  console.log('nestedResponse', nestedResponse, 'nestedResponseError', nestedResponseError)	
+                  answerObject.nestedAnswer.push({	
+                      answerNestedData: nestedResponse,	
+                      forParentValue: question?.value,	
+                  });	
+              }	
+          }	
+          break;	
+      case QUESTION_TYPE.NESTED_TWO:	
+          answerObject.answer.push(...getMultiSelectAnswerValues(question));	
+          const {	
+              childQuestionData	
+          } = question;	
+          for (let j = 0; j < childQuestionData?.size; j++) {	
+              const [	
+                  nestedResponse,	
+                  nestedResponseError,	
+              ]: any = getQuestionResponseForSubmit(	
+                  childQuestionData.get(j).filter((question: any) => question.visibility)	
+              );	
+              answerObject.nestedAnswer.push({	
+                  answerNestedData: nestedResponse,	
+                  forParentValue: question?.value,	
+              });	
+          }	
+          break;	
+      case QUESTION_TYPE.FILE_UPLOAD:	
+          answerObject.answer.push({	
+              textValue: question?.modelValue ? question?.modelValue : "",	
+              label: question?.imgLabel ? question?.imgLabel : question?.selectedValue && question?.selectedValue[0] && question?.selectedValue[0]?.label || '',	
+              value: question?.modelValue ? question?.modelValue : "",	
+          })	
+          // answerObject.answer.push(	
+          //   ...(composeFileUploadQuestionValueForFormSubmit(question.value, question) || [	
+          //     answer,	
+          //   ])	
+          // );	
+          break;	
+      default:	
+          answer.value = question.value;	
+          answerObject.answer.push(answer);	
+  }	
+  return answerObject;	
+}
 
 /**
  * Creates api response for form submission
@@ -1653,6 +1855,7 @@ const composeFileUploadQuestionValueForFormSubmit = (
  * @returns {[][]}
  */
 async function getQuestionResponseForSubmit(questions: any) {
+  console.log('getQuestionResponseForSubmit', questions);
   const response: any = [];
   const errors: any = [];
   const length = questions.size;
@@ -1663,6 +1866,8 @@ async function getQuestionResponseForSubmit(questions: any) {
       input_type: question.type,
       nestedAnswer: [],
       order: question.order,
+      pattern: question?.pattern,	
+      shortKey: question?.shortKey,
       ...getAdditionalInfoOfQuestionForFormSubmission(question),
     };
 
@@ -1671,6 +1876,7 @@ async function getQuestionResponseForSubmit(questions: any) {
       textValue: "",
       value: "",
     };
+    console.log('getQuestionResponseForSubmit', questions);
     switch (question.type) {
       case QUESTION_TYPE.GPS:
         answerObject.answer.push(...getGpsAnswer(question));
@@ -1681,7 +1887,8 @@ async function getQuestionResponseForSubmit(questions: any) {
         break;
       case QUESTION_TYPE.ADDRESS:
       case QUESTION_TYPE.TEXT:
-        answer.textValue = question.value;
+        // answer.textValue = question.value;	
+        answer.textValue = Array.isArray(question.value) ? '' : question.value;
         answerObject.answer.push(answer);
         break;
       case QUESTION_TYPE.AADHAR_CARD:
@@ -1704,10 +1911,10 @@ async function getQuestionResponseForSubmit(questions: any) {
       case QUESTION_TYPE.CONSENT:
       case QUESTION_TYPE.SINGLE_SELECT:
       case QUESTION_TYPE.RADIO:
-        answer.value = question.value;
-        const answerOption = question.answer_option.find(
-          (option: any) => option._id == question.value
-        );
+        answer.value = question?.modelValue ? question?.modelValue : question.value?.length ? question.value : '';
+        const answerOption = question.answer_option.find(	
+          (option: any) => option._id == (question?.modelValue ? question?.modelValue : question.value)	
+      );
         if (answerOption) {
           answer.label = answerOption.name;
         }
@@ -1723,57 +1930,84 @@ async function getQuestionResponseForSubmit(questions: any) {
         answerObject.answer.push(answer);
         break;
       case QUESTION_TYPE.DATE:
-        answer.value = question?.value?.split?.("-")?.reverse?.()?.join?.("-");
+        // answer.value = question?.value?.split?.("-")?.reverse?.()?.join?.("-");	
+        answer.value = question?.value;	
+        answer.textValue = question?.value;
         answerObject.answer.push(answer);
         break;
-      case QUESTION_TYPE.NESTED_ONE:
-        if (question.value) {
-          answer.value = question.value;
-          const answerOption = question.answer_option.find(
-            (option: any) => option._id == question.value
-          );
-          if (answerOption) {
-            answer.label = answerOption.name;
+        case QUESTION_TYPE.NESTED_ONE:
+          if (question.value || question?.modelValue) {
+            answer.value = question.value;
+            const answerOption = question.answer_option.find(
+              (option: any) => option._id == question.value
+            );
+            if (answerOption) {
+              answer.label = answerOption.name;
+            }
+            answerObject.answer.push(answer);
+            const { childQuestionData } = question;
+            console.log('childQuestionData', childQuestionData, 'size', childQuestionData?.size)
+            for (let j = 0; j < childQuestionData?.length; j++) {
+              console.log('j-index', j)
+              // const [
+              //   nestedResponse,
+              //   nestedResponseError,
+              // ] = await getQuestionResponseForSubmit(
+              //   childQuestionData.get(j).filter((question) => question.visibility)
+              //   );
+              let nestedResponse = childQuestionData[j].filter((question: any) => question.visibility)
+              // let nestedResponse: any;
+              for (const item of nestedResponse) {
+                item['answer'] = getNestedQuestionResponseForSubmit(item, questions)
+              }
+              // const [
+              //   nestedResponse,
+              //   nestedResponseError,
+              // ] = await getQuestionResponseForSubmit(filteredNestedQues);
+              // const [
+              //   nestedResponse,
+              //   nestedResponseError,
+              // ] = await getQuestionResponseForSubmit(
+              //   childQuestionData[j].filter((question) => question.visibility)
+              //   );
+                console.log('nestedResponse', nestedResponse, )
+              // console.log('childQuestionData-visibility', await getQuestionResponseForSubmit(
+              //   childQuestionData[j].filter((question) => question.visibility)
+              // ))
+              answerObject.nestedAnswer.push({
+                answerNestedData: nestedResponse?.length ? nestedResponse.map((item: any) => item?.answer) : [],
+                forParentValue: j > -1 ? `${j+1}` : question?.value,
+              });
+            }
           }
-          answerObject.answer.push(answer);
+          break;
+        case QUESTION_TYPE.NESTED_TWO:
+          answerObject.answer.push(...getMultiSelectAnswerValues(question));
           const { childQuestionData } = question;
-          for (let j = 0; j < childQuestionData?.size; j++) {
-            const [nestedResponse, nestedResponseError] =
-              await getQuestionResponseForSubmit(
-                childQuestionData
-                  .get(j)
-                  .filter((question: any) => question.visibility)
-              );
+          for (let j = 0; j < childQuestionData?.length; j++) {
+           let nestedResponse = childQuestionData[j].filter((question: any) => question.visibility)
+              // let nestedResponse: any;
+              for (const item of nestedResponse) {
+                item['answer'] = getNestedQuestionResponseForSubmit(item, questions)
+              }
             answerObject.nestedAnswer.push({
-              answerNestedData: nestedResponse,
-              forParentValue: question?.value,
+              answerNestedData:  nestedResponse?.length ? nestedResponse.map((item: any) => item?.answer) : [],
+              forParentValue:j > -1 ? childQuestionData[j][0].selectedAnswerOption._id: question?.value ,
             });
           }
-        }
-        break;
-      case QUESTION_TYPE.NESTED_TWO:
-        answerObject.answer.push(...getMultiSelectAnswerValues(question));
-        const { childQuestionData } = question;
-        for (let j = 0; j < childQuestionData?.size; j++) {
-          const [nestedResponse, nestedResponseError] =
-            await getQuestionResponseForSubmit(
-              childQuestionData
-                .get(j)
-                .filter((question: any) => question.visibility)
-            );
-          answerObject.nestedAnswer.push({
-            answerNestedData: nestedResponse,
-            forParentValue: question?.value,
+          break;
+        case QUESTION_TYPE.FILE_UPLOAD:
+          answerObject.answer.push({
+            textValue: question?.modelValue ? question?.modelValue : "",
+            label: question?.imgLabel ? question?.imgLabel : question?.selectedValue && question?.selectedValue[0] && question?.selectedValue[0]?.label || '',
+            value: question?.modelValue ? question?.modelValue : "",
           });
-        }
-        break;
-      case QUESTION_TYPE.FILE_UPLOAD:
-        answerObject.answer.push(
-          ...(composeFileUploadQuestionValueForFormSubmit(question.value) || [
-            answer,
-          ])
-        );
-        break;
+          // answerObject.answer.push(
+          //   ...(composeFileUploadQuestionValueForFormSubmit(question.value, question) || [
+          //     answer,
+          //   ])
+          // );
+          break;
       default:
         answer.value = question.value;
         answerObject.answer.push(answer);
@@ -1815,8 +2049,8 @@ async function prepareFormResponse(
       transactionId: transactionId ? transactionId : form.get("transactionId"),
       language: "en",
       timeTaken: Date.now() - localTime,
-      formUiniqueId: form.get("_id"),
-      formId: form.get("formId"),
+      formUiniqueId: form ? form.get("_id") : '',	
+      formId: form ? form.get("formId") : '',
       version: 1,
       mobileCreatedAt: new Date(),
       mobileUpdatedAt: new Date(),
@@ -2031,4 +2265,5 @@ export {
   matchRegexByQuestionType,
   getDateInFormat,
   submitForm,
+  prepareFormResponse
 };
