@@ -371,6 +371,7 @@ export class RevenuechartComponent
   percentLabel: string = '';
   @Input() selectedFinancialYear: any;
   @Input() embeddedRoute: string = 'revenuchart';
+  defaultMaxPopulation: number = 1200;
   ngOnInit(): void {
     console.log(
       "multiChartLabelsss===>",
@@ -1207,7 +1208,7 @@ export class RevenuechartComponent
               let obje = [
                 { x: 0, y: 0 },
                 {
-                  x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200,
+                  x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : this.defaultMaxPopulation,
                   y: 0,
                 },
                 // { x: 1200000, y: 0 },

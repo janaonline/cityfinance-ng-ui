@@ -42,7 +42,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   mainChartTitle: string = "";
   multipleChartTitle: string = "";
-
+  thousand:number = 1000;
+  defaultMaxPopulation: number = 1200;
   @Input() data;
 
   @Input() dounghnuChartLabels;
@@ -699,7 +700,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               if (el.label == "Town Panchayat") {
                 obj = { x: 0, y: 0 };
                 tp_data.forEach((el2, index) => {
-                  obj.x = +(el2.population) / 1000;
+                  obj.x = +(el2.population) / this.thousand;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -714,7 +715,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 });
               } else if (el.label == "Municipal Corporation") {
                 mCorporation.forEach((el2, index) => {
-                  obj.x = +(el2.population) / 1000;
+                  obj.x = +(el2.population) / this.thousand;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -730,7 +731,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               } else if (el.label == "Municipality") {
                 m_data.forEach((el2, index) => {
                   obj = { x: 0, y: 0 };
-                  obj.x = +(el2.population) / 1000;
+                  obj.x = +(el2.population) / this.thousand;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -750,7 +751,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   {
                     x: stateLevelMaxPopuCount
                       ? stateLevelMaxPopuCount
-                      : 1200000,
+                      : this.defaultMaxPopulation,
                     y: 0,
                   },
                 ];
