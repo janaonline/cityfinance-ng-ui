@@ -16,14 +16,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MyFilterPipe } from './myFilterPipe.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import  { createCustomElement } from '@angular/elements';
-
+import { GetFileIcon } from './file-icon.pipe';
 
 @NgModule({
   declarations: [
     MyFilterPipe,
     AppComponent,
     SnackBarComponent,
-    WebFormViewComponent
+    WebFormViewComponent,
+    GetFileIcon
   ],
   imports: [
     BrowserModule,
@@ -41,7 +42,7 @@ import  { createCustomElement } from '@angular/elements';
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [],
-  exports: [MyFilterPipe],
+  exports: [MyFilterPipe, GetFileIcon],
   entryComponents:[AppComponent],
   // bootstrap: [AppComponent]
 })

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from './snack-bar/snack-bar.component';
-
+import { QUESTION_TYPE, VALIDATION} from "./utilities/appForm/constants/index";
 var sanitize = require('sanitize-filename');
 
 const blockChar = [
@@ -122,22 +122,25 @@ export class CommonService {
     type: string,
     size: number = 0,
     event = {},
-    maxFileSize = false
+    maxFileSize = false,
+    isByPassFileNameCheck: boolean = true
   ) {
     //  5242880 B == 5 mb
     // 2097152 B == 2 mb
-    let blockChars = blockChar;
-    name = name.replace(/\s+/g, '_');
-    let forNameCheck = name.split('');
-    for (const ele of forNameCheck) {
-      if (blockChars.includes(ele)) {
-        console.log('>>>', ele);
-        // isBlackList = true
-        this.openSnackBar(
-          [`File name should not contain ${blockChars.join(' ')}`],
-          4000
-        );
-        return;
+    if (isByPassFileNameCheck) {
+      let blockChars = blockChar;
+      name = name.replace(/\s+/g, '_');
+      let forNameCheck = name.split('');
+      for (const ele of forNameCheck) {
+        if (blockChars.includes(ele)) {
+          console.log('>>>', ele);
+          // isBlackList = true
+          this.openSnackBar(
+            [`File name should not contain ${blockChars.join(' ')}`],
+            4000
+          );
+          return;
+        }
       }
     }
     let isValidFile = await this.checkValidFile(event);
@@ -179,9 +182,11 @@ export class CommonService {
     // let isAllowed2 = filename.match(/\.(jpg|jpeg|png)$/i)
     console.log('>>isAllowed', isAllowed);
     // console.log(">>isAllowed222", isAllowed2)
-    if (isAllowed) {
-      this.openSnackBar(['Please upload valid file'], 4000);
-      const element = document.getElementById('check-custom-loader'); // Get element
+    if (isByPassFileNameCheck && isAllowed) {
+      console.log(">>isAllowed", isAllowed);
+      this.openSnackBar(["Please upload valid file"], 4000);
+      const element: HTMLElement = document.getElementById("check-custom-loader")!;	// Get element
+      element.style.visibility = "hidden";			// Hide element
       return;
     }
     if (!isAllowed && isSize) {
@@ -348,5 +353,80 @@ export class CommonService {
       focusElement.setAttribute('name', randomString);
       focusElement.setAttribute('autocomplete', randomString);
     }
+  }
+
+  getModalValue(data: any) {
+    let modalValue = data && data.selectedValue && data.selectedValue[0];
+    if (modalValue) {
+      return modalValue.textValue ? modalValue.textValue : modalValue.value ? modalValue.value : (!data.hasOwnProperty('answer_option') || data.answer_option.length == 0) ? '' : modalValue._id;
+    } else {
+      return "";
+    }
+  }
+
+  questionMapping(item: any, isViewOnly: boolean = false) {
+    item["modelValue"] = this.getModalValue(item);
+    item["value"] = this.getModalValue(item);
+    if (item && item.validation && item.validation.length) {
+      let findQuestionDisabledForUser = item.validation.find((item: any) => item._id == VALIDATION.DISABLED_FOR_USER);
+      item["isQuestionDisabled"] = findQuestionDisabledForUser ? true : false;
+
+      let addPrefixTagInField = item.validation.find((prefixValidation: any) => prefixValidation._id == VALIDATION.PREFIX_TAG);
+      console.log('addPrefixTagInField', addPrefixTagInField);
+      if (addPrefixTagInField) {
+        item['addPrefixInsideField'] = true;
+        item['prefixValue'] = addPrefixTagInField?.value;
+
+        let prefixValueLength = addPrefixTagInField?.value?.length;
+        let modelValuePrefix = item?.modelValue?.substring(0, prefixValueLength);
+        if (addPrefixTagInField?.value != modelValuePrefix) {
+          const errorMsg = `${item?.title} must be starting with ${item?.addPrefixTagInField?.value}`;
+          item['errorMessage'] = item && item.hint ? item.hint : errorMsg;
+        }
+      }
+
+      let isLabelInstructionValidationExist = item.validation.find((prefixValidation: any) => prefixValidation._id == VALIDATION.LABEL_INSTRUCTION);
+      console.log('isLabelInstructionValidationExist', isLabelInstructionValidationExist);
+      if (isLabelInstructionValidationExist) {
+        item['labelInstruction'] = isLabelInstructionValidationExist?.value;
+      }
+
+      let isDecimalValidationExist = item.validation.find((prefixValidation: any) => prefixValidation._id == VALIDATION.DECIMAL_PLACE);
+      if (isDecimalValidationExist) {
+        item['skipDigitOnlyValidation'] = true;
+      } else {
+        item['skipDigitOnlyValidation'] = false;
+      }
+    }
+    item.selectedValue = item.selectedValue?item.selectedValue:[]
+    for (const answer of item.selectedValue) {
+      answer['label'] = answer.label ? answer.label : answer.name ? answer.name : '';
+      answer['textValue'] = answer.textValue ? answer.textValue : '';
+      answer['value'] = answer.value ? answer.value : (!item.hasOwnProperty('answer_option') || item.answer_option.length == 0) ? '' : answer._id;
+    }
+    if (item.input_type == "4" || item.input_type == "6") {
+      item["value"] = item.selectedValue.map((item: { value: any; }) => item.value);
+      item['selectedOptions'] = item.selectedValue.length > 1 ? `${item.selectedValue[0].label}...+ ${item.selectedValue.length - 1} more` : item.selectedValue.length == 1 ? item.selectedValue[0].label : '';
+      for (const answer of item.selectedValue) {
+        answer['label'] = answer.label ? answer.label : answer.name ? answer.name : '';
+        answer['textValue'] = answer.textValue ? answer.textValue : '';
+        answer['value'] = answer.value ? answer.value : (!item.hasOwnProperty('answer_option') || item.answer_option.length == 0) ? '' : answer._id;
+        for (const option of item.answer_option) {
+          option['value'] = option._id;
+          option['label'] = option.name;
+        }
+        let answerOptionIndex = item.answer_option.findIndex(
+          (option: { _id: any }) => option._id == answer.value
+        );
+        console.log("answerOptionIndex", answerOptionIndex);
+        if (answerOptionIndex > -1) {
+          item.answer_option[answerOptionIndex]["checked"] = true;
+        }
+      }
+    }
+    if (isViewOnly) {
+      item["isQuestionDisabled"] = true;
+    }
+    return item;
   }
 }

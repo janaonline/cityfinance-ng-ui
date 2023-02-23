@@ -444,14 +444,16 @@ function getDynamicKeys(question: any, questions: any) {
           let orders = questions.filter((question: any) =>
             equation.match(new RegExp(`\\b${question.shortKey}\\b`))
           );
+          let orderCount: number = 0;
           orders.forEach((order: any) => {
             const questionValue = getQuestionValueForBodmas(order);
             equation = equation.replace(
               order.shortKey,
               questionValue ? `(${questionValue})` : 0
             );
+            orderCount = orderCount + 1;
           });
-          dynamicKeysObject.value = orders?.length ? eval(equation) : 0;
+          dynamicKeysObject.value = orderCount > 0 ? eval(equation) : 0;
         }
       });
       break;
@@ -574,4 +576,8 @@ export {
   checkQuestionVisibilityAccordingToParentCollapsableHeader,
   getDynamicKeys,
   getEmptyRequiredQuestions,
+  hasChildQuestionsData,	
+  getDerivedValueFromNumericRestriction,	
+  isQuestionNested,	
+  mapChildQuestionDataAsAnswerOptions
 };
