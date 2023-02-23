@@ -45,7 +45,8 @@
                                         <input class="com-style" matInput placeholder="{{ item.key }}"
                                             formControlName="value">
                                     </mat-form-field>
-                                    <app-common-action-radio [readonly]="true" *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
+                                    <app-common-action-radio [readonly]="true" *ngIf="cantakeAction"
+                                        formControlName="status"></app-common-action-radio>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +75,9 @@
                                                                 <div class="col-sm-12 mb-3">
                                                                     {{yearItem?.controls?.label.value}}*
                                                                 </div>
-                                                                <div class="col-sm-12 ">
+
+                                                                <div class="col-sm-12 "
+                                                                    *ngIf="!yearItem?.controls?.file">
                                                                     <div class="input-group">
                                                                         <span class="input-group-text br-a"
                                                                             id="basic-addon1">₹</span>
@@ -88,15 +91,55 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="col-sm-12 bot-text mt-2" >
-                                                                    
-                                                                </div>
+
+                                                                <ng-container *ngIf="yearItem?.controls?.file">
+
+                                                                    <div class="col-sm-12 mb-3"
+                                                                        *ngIf="yearItem?.controls?.readonly?.value == false">
+                                                                        <button (click)="bs_pdf1.click()"
+                                                                            class="btn form-btn com-style w-100"
+                                                                            [disabled]="isDisabled">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6 file-text ">
+                                                                                    Select File
+                                                                                </div>
+                                                                                <div class="col-sm-6 text-end">
+                                                                                    <img
+                                                                                        src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                                </div>
+                                                                            </div>
+                                                                        </button>
+                                                                        <input #bs_pdf1 style="display: none;"
+                                                                            onclick="this.value=null;"
+                                                                            (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, tab)"
+                                                                            type="file" accept=".pdf" #file>
+                                                                    </div>
+                                                                    <div class="col-sm-12 text-center w-70">
+                                                                        <app-loader
+                                                                            [fileUpLoader]="yearItem?.controls?.file?.controls?.uploading?.value">
+                                                                        </app-loader>
+                                                                    </div>
+                                                                    <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.controls?.readonly?.value == true">
+                                                                        <span class="al-up">Already Uploaded on
+                                                                            Cityfinance</span>
+                                                                    </div>
+                                                                    <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
+                                                                        <a class="w-90" href="{{yearItem?.value?.file?.url}}" target="_blank">{{yearItem?.value?.file?.name}}</a>
+                                                                        <a (click)="clearFile('annualDoc', yearItem, tab)" class="w-10" target="_blank" [ngClass]="{'pe-none': isDisabled}">
+                                                                            <img src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                        </a>
+                                                                    </div>
+                                                                </ng-container>
+
+
                                                                 <div class="col-sm-12 bot-text mt-2">
                                                                     <span class="f-w">
                                                                         {{ yearItem?.controls?.value?.value | toword }}
                                                                     </span> {{ yearItem?.controls?.bottomText?.value }}
                                                                 </div>
-                                                                <small *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)" class="text-danger">Please
+                                                                <small
+                                                                    *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)"
+                                                                    class="text-danger">Please
                                                                     enter valid value</small>
                                                                 <!--<div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
@@ -110,7 +153,8 @@
                                                                             item?.value?.yearData[r_i - 1].label
                                                                             }}</span>
                                                                 </div>-->
-                                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
+                                                                <app-common-action-radio *ngIf="cantakeAction"
+                                                                    formControlName="status"></app-common-action-radio>
                                                             </div>
 
 
@@ -183,7 +227,8 @@
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
                                                 </div>
 
-                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status"></app-common-action-radio>
+                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status">
+                                                </app-common-action-radio>
                                             </div>
                                         </div>
                                     </div>

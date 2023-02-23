@@ -168,6 +168,14 @@ export class UlbFiscalNewComponent implements OnInit {
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
+      readonly: [{ value: item.readonly, disabled: true }],
+      ...(item.file && {
+        file: this.fb.group({
+          uploading: [{value: false, disabled: true}],
+          name: [item.file.name],
+          url: [item.file.url]
+        })
+      })
     });
   }
 
