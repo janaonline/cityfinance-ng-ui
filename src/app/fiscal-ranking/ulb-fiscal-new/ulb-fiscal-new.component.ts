@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailValidator, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
@@ -171,7 +171,7 @@ export class UlbFiscalNewComponent implements OnInit {
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {
         file: this.fb.group({
-          uploading: [{value: false, disabled: true}],
+          uploading: [{ value: false, disabled: true }],
           name: [item.file.name],
           url: [item.file.url]
         })
@@ -203,6 +203,26 @@ export class UlbFiscalNewComponent implements OnInit {
 
   canShowFormSection() {
     return true;
+  }
+
+  fileChangeEvent(event: {target: HTMLInputElement}, fileType: string, control: FormControl) { // TODO: need to re-write
+    const maxFileSize = 5;
+    const file: File = event.target.files[0];
+    if(!file) return;
+    const fileExtension = file.name.split('.').pop();
+    
+    if((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if(fileType === 'excel' && !['xls', 'xlsx'].includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if(fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
+    
+    console.log({
+      event, fileType, control
+    })
+
+    control.patchValue({ uploading: true});
+
+    setTimeout(() => control.patchValue({ uploading: false, name: file.name }), 1000);
+    
   }
 
 

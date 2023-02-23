@@ -91,7 +91,7 @@
                                                                     </div>
 
                                                                 </div>
-
+                                                                <!-- file sction -->
                                                                 <ng-container *ngIf="yearItem?.controls?.file">
 
                                                                     <div class="col-sm-12 mb-3"
@@ -111,7 +111,7 @@
                                                                         </button>
                                                                         <input #bs_pdf1 style="display: none;"
                                                                             onclick="this.value=null;"
-                                                                            (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, tab)"
+                                                                            (change)="fileChangeEvent($event, 'pdf', yearItem?.controls?.file)"
                                                                             type="file" accept=".pdf" #file>
                                                                     </div>
                                                                     <div class="col-sm-12 text-center w-70">
