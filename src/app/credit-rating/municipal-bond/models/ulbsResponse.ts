@@ -16,13 +16,13 @@ export interface ULB {
 export interface Row {
   projectName: string;
   implementationAgency: string;
-  totalProjectCost: number;
-  stateShare: number;
-  ulbShare: number;
-  capitalExpenditureState: number;
-  capitalExpenditureUlb: number;
-  omExpensesState: number;
-  omExpensesUlb: number;
+  totalProjectCost: number | string;
+  stateShare: number | string;
+  ulbShare: number | string;
+  capitalExpenditureState: number | string;
+  capitalExpenditureUlb: number | string;
+  omExpensesState: number | string;
+  omExpensesUlb: number | string;
   sector: string;
   startDate: string;
   estimatedCompletionDate: string;
@@ -74,9 +74,9 @@ export interface DataEntity {
   _id: string;
   ulbName: string;
   stateName: string;
-  totalProjectCost: number;
+  totalProjectCost: number | string;
   totalProjects: number;
-  ulbShare: number;
+  ulbShare: number | string;
 }
 export interface ColumnsEntity {
   label: string;

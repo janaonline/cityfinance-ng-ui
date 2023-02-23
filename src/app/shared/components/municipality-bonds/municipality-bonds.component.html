@@ -22,8 +22,8 @@
                         <div class="scrollable-filter-option-section">
                             <ng-container *ngFor="let option of activeFilter.options">
                                 <div class="form-check mt-2" *ngIf="canShowOption(option)">
-                                    <input class="form-check-input" type="checkbox" value="" [id]="'option_' + option?._id"
-                                        [(ngModel)]="option.checked">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        [id]="'option_' + option?._id" [(ngModel)]="option.checked">
                                     <label class="form-check-label" [for]="'option_' + option?._id">{{ option.name
                                         }}</label>
                                 </div>
@@ -45,16 +45,17 @@
     </div>
 </div>
 
-<div class="container" *ngIf="response && response?.rows?.length > 0;">
+<div class="container">
+    <!-- TODO: remove extra entry if there is no row from backend -->
     <div class="d-flex justify-content-between my-2 ">
         <h1 class="fw-bold">Ongoing Infrastructure Projects</h1>
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" *ngIf="response && response.filters?.length > 0">
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
                 data-bs-target="#filterModal">Filter</button>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle me-2" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    Sort
+                    <i class="fa fa-filter" aria-hidden="true"></i>Sort
                 </button>
                 <ul class="dropdown-menu p-2">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -73,49 +74,53 @@
                     </ul>
                 </ul>
             </div>
-            <a type="button" target="_blank" [href]="csvDownloadLink" class="btn btn-outline-secondary d-flex align-items-center me-2" >Download</a>
+            <a type="button" target="_blank" [href]="csvDownloadLink"
+                class="btn btn-outline-secondary d-flex align-items-center me-2">Download</a>
         </div>
     </div>
 
-    <mat-paginator [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
-        (page)="pageChange($event)" aria-label="Select page">
-    </mat-paginator>
-
-    <div *ngFor="let row of response.rows" class="border mb-3 rounded">
-        <div class="row mx-3">
-            <div class="col-4 py-3 fw-bold border-end">{{ row.projectName | titlecase }}</div>
-            <div class="col-4 py-3 ">Sector: {{ row.sector }}</div>
-            <div class="col-4 py-3 d-flex justify-content-end">
-                <a [href]="row?.moreInformation?.url">
-                    <img class="icon mr-1" src="../../../../assets/excel.png">
-                    <span>{{ row?.moreInformation?.name }}</span>
-                </a>
+    <div
+        *ngIf="response && response?.rows?.length > 0 && !(response.rows.length == 1 && !response.rows[0].projectName); else no_data_found">
+        <mat-paginator [length]="response.total" [pageSize]="limit"
+            [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+        </mat-paginator>
+        <div *ngFor="let row of response.rows" class="border mb-3 rounded">
+            <div class="row mx-3">
+                <div class="col-4 py-3 fw-bold border-end">{{ row.projectName | titlecase }}</div>
+                <div class="col-4 py-3 ">Sector: {{ row.sector }}</div>
+                <div class="col-4 py-3 d-flex justify-content-end">
+                    <a [href]="row?.moreInformation?.url">
+                        <img class="icon mr-1" src="../../../../assets/excel.png">
+                        <span>{{ row?.moreInformation?.name }}</span>
+                    </a>
+                </div>
+            </div>
+            <hr class="m-0" />
+            <div class="row m-3">
+                <ng-container *ngFor="let column of response.columns">
+                    <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key)">
+                        <div class="label">{{ column.label }}</div>
+                        <div [ngSwitch]="column.key">
+                            <div style="cursor: pointer;" *ngSwitchCase="'creditRating'">
+                                <div (click)="onCreditRationClick(row[column.key])">
+                                    <img class="icon mr-1" src="../../../../assets/pdf.png">
+                                    <span>{{ row[column.key]?.name }}</span>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'projectReport'">
+                                <a [href]="row[column.key]?.url">
+                                    <img class="icon mr-1" src="../../../../assets/pdf.png">
+                                    <span>{{ row[column.key]?.name }}</span>
+                                </a>
+                            </div>
+                            <div *ngSwitchDefault>{{ row[column.key] }}</div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
-        <hr class="m-0" />
-        <div class="row m-3">
-            <ng-container *ngFor="let column of response.columns">
-                <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key)">
-                    <div class="label">{{ column.label }}</div>
-                    <div [ngSwitch]="column.key">
-                        <div style="cursor: pointer;" *ngSwitchCase="'creditRating'">
-                            <div (click)="onCreditRationClick(row[column.key])">
-                                <img class="icon mr-1" src="../../../../assets/pdf.png">
-                                <span>{{ row[column.key]?.name }}</span>
-                            </div>
-                        </div>
-                        <div *ngSwitchCase="'projectReport'">
-                            <a [href]="row[column.key]?.url">
-                                <img class="icon mr-1" src="../../../../assets/pdf.png">
-                                <span>{{ row[column.key]?.name }}</span>
-                            </a>
-                        </div>
-                        <div *ngSwitchDefault>{{ row[column.key] }}</div>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
     </div>
+    <ng-template #no_data_found>
+        <h2 class="text-center p-5" *ngIf="response">No data found</h2>
+    </ng-template>
 </div>
-
-<h2 *ngIf="response && response?.rows?.length == 0" class="text-center p-5">No data found</h2>

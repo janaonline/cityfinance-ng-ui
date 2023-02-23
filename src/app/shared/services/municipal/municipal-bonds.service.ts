@@ -135,6 +135,13 @@ export class MunicipalBondsService {
       );
   }
 
+  private getNumberInCrore(number) {
+    return '₹ ' + (number < 10000000 ? (number / 10000000) : (number / 10000000).toFixed(2)) + ' Cr';
+  }
+  private getPercent(a, b) {
+    return a == 0 ? 0 : Math.min((100 - (a - b) / a * 100), 100).toFixed(2);
+  }
+
   getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
     delete params['implementationAgencies']; // TODO: remove when implemented from backend
     return this._http
@@ -147,19 +154,31 @@ export class MunicipalBondsService {
                 checked: true
               }]
             } : filter);
+          response.rows = response.rows.map(row => ({
+            ...row,
+            ...['totalProjectCost', 'capitalExpenditureState', 'capitalExpenditureUlb', 'omExpensesState', 'omExpensesUlb']
+              .reduce((obj, key) => { obj[key] = this.getNumberInCrore(row[key]); return obj; }, {}),
+            stateShare: this.getNumberInCrore(row.stateShare) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,
+            ulbShare: this.getNumberInCrore(row.ulbShare) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,
+          }));
           return response;
         })
       );;
   }
-  getProjects(queryParams: string,  columns) {
+  getProjects(queryParams: string, columns) {
     return this._http.get<ProjectsResponse>(`${environment.api.url}/UA/get-projects?${queryParams}`).pipe(
       map((response) => {
         const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
-        response.columns = columns || response.columns.map(column => ({ 
-          ...column, 
-          sort: searchableAndDefaultSortColumn.includes(column.key) ? 1 : 0,
-          ...(searchableAndDefaultSortColumn.includes(column.key) && {query: ''})
+        response.columns = columns || response.columns.map(column => ({
+          ...column,
+          sort: 0,
+          ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
         }));
+        response.data = response.data.map(item => ({
+          ...item,
+          ulbShare: (item.ulbShare as number / 100).toFixed(2),
+          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
+        }))
         return response;
       })
     );
