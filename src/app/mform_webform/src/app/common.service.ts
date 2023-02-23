@@ -123,6 +123,7 @@ export class CommonService {
     size: number = 0,
     event = {},
     maxFileSize = false,
+    headerOptions: any = {},
     isByPassFileNameCheck: boolean = true
   ) {
     //  5242880 B == 5 mb
@@ -190,10 +191,13 @@ export class CommonService {
       return;
     }
     if (!isAllowed && isSize) {
+      let apiEndPoint: string = 'https://stagingmgrantadminapi.dhwaniris.in/api/admin/v1/';
+      if (Object.keys(headerOptions).length) {
+        apiEndPoint = headerOptions && headerOptions.baseUrl;
+        headerOptions && headerOptions.token ? sessionStorage.setItem('token',headerOptions.token) : '';
+      }
       return this.httpClient
-        .post(
-          'https://stagingmgrantadminapi.dhwaniris.in/api/admin/v1/' +
-            'getS3Url',
+        .post(apiEndPoint,
           JSON.stringify([
             {
               file_name: name,

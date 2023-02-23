@@ -2270,7 +2270,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
 
   async setDocuments(imgObject: any, question: any, event: any) {
     console.log('setDocuments', imgObject);
-    console.log('setDocuments question', question);
+    console.log('setDocuments question', question); 
     // this.isImageUploading = true;
     try {
       let response = await this.commonService.uploadTos3(

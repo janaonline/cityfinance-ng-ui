@@ -16,14 +16,19 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MyFilterPipe } from './myFilterPipe.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import  { createCustomElement } from '@angular/elements';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { environment } from 'src/environments/environment.prod';
+
 import { GetFileIcon } from './file-icon.pipe';
 
 @NgModule({
   declarations: [
+    ...(environment.production ? [] : [AppComponent]),
     MyFilterPipe,
     AppComponent,
     SnackBarComponent,
     WebFormViewComponent,
+    FileUploadComponent,
     GetFileIcon
   ],
   imports: [
@@ -43,16 +48,19 @@ import { GetFileIcon } from './file-icon.pipe';
   schemas:[NO_ERRORS_SCHEMA],
   providers: [],
   exports: [MyFilterPipe, GetFileIcon],
+  // entryComponents:[AppComponent],
   entryComponents:[AppComponent],
   // bootstrap: [AppComponent]
+  bootstrap: environment.production ? [] : [AppComponent]
 })
 export class AppModule{
   constructor (private injector: Injector){
-    const el = createCustomElement(AppComponent,{injector});
-    customElements.define('web-form',el);
+    // const el = createCustomElement(AppComponent,{injector});
+    // customElements.define('web-form',el);
   }
 
   ngDoBootstrap(){
-
+    const el = createCustomElement(AppComponent,{injector: this.injector});
+    customElements.define('web-form',el);
   }
  }
