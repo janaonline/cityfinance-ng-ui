@@ -177,6 +177,11 @@ export class MunicipalBondsService {
           sort: 0,
           ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
         }));
+        response.data = response.data.map(item => ({
+          ...item,
+          ulbShare: (item.ulbShare as number / 100).toFixed(2),
+          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
+        }))
         return response;
       })
     );

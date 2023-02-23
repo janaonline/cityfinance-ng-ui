@@ -74,9 +74,9 @@ export interface DataEntity {
   _id: string;
   ulbName: string;
   stateName: string;
-  totalProjectCost: number;
+  totalProjectCost: number | string;
   totalProjects: number;
-  ulbShare: number;
+  ulbShare: number | string;
 }
 export interface ColumnsEntity {
   label: string;

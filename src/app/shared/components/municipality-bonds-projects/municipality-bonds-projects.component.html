@@ -1,19 +1,23 @@
-<div class="container" >
+<div class="container">
     <h1 class="my-3 fw-bold">Ongoing Infrastructure Projects</h1>
     <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
         (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
-    <table class="table table-striped mt-4" >
+    <table class="table table-striped mt-4">
         <thead *ngIf="response && response?.columns?.length > 0">
             <tr>
-                <th scope="col" *ngFor="let column of response.columns"  class="border-0 ps-0">
-                    <p (click)="updateSorting(column)"> {{ column.label }} <i class="fa fa-sort" [ngClass]="{
-                        'fa-sort': column.sort == 0,
-                        'fa-sort-desc': column.sort == -1,
-                        'fa-sort-asc': column.sort == 1
-                    }" aria-hidden="true"></i></p>
-                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search" class="form-control px-3 py-4 my-2"
-                        [(ngModel)]="column.query" (keyup.enter)="loadData()" (blur)="loadData()">
+                <th scope="col" *ngFor="let column of response.columns" class="border-0 ps-0">
+                    <div (click)="updateSorting(column)" class="d-flex" style="cursor: pointer;">
+                        <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                        <i class="mt-1 ms-2 fa fa-sort" [ngClass]="{
+                            'fa-sort': column.sort == 0,
+                            'fa-sort-desc': column.sort == -1,
+                            'fa-sort-asc': column.sort == 1
+                        }" aria-hidden="true"></i>
+                    </div>
+                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search"
+                        class="form-control px-3 py-4 my-2" [(ngModel)]="column.query" (keyup.enter)="loadData()"
+                        (blur)="loadData()">
                 </th>
             </tr>
         </thead>
