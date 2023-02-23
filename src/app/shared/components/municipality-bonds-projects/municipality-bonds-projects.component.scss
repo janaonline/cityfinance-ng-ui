@@ -1,6 +1,7 @@
 .table-striped>tbody>tr:nth-child(odd)>td,
 .table-striped>tbody>tr:nth-child(odd)>th {
-    background-color: #fdf3e8;
+    background: #FDF3E8;
+    box-shadow: none;
 }
 
 .progress {

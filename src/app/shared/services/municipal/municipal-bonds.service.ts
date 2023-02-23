@@ -174,7 +174,7 @@ export class MunicipalBondsService {
         const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
         response.columns = columns || response.columns.map(column => ({
           ...column,
-          sort: searchableAndDefaultSortColumn.includes(column.key) ? 1 : 0,
+          sort: 0,
           ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
         }));
         return response;
