@@ -139,7 +139,7 @@ export class MunicipalBondsService {
     return '₹ ' + (number < 10000000 ? (number / 10000000) : (number / 10000000).toFixed(2)) + ' Cr';
   }
   private getPercent(a, b) {
-    return a == 0 ? 0 : Math.max((100 - (a - b) / a * 100), 100).toFixed(2);
+    return a == 0 ? 0 : Math.min((100 - (a - b) / a * 100), 100).toFixed(2);
   }
 
   getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
