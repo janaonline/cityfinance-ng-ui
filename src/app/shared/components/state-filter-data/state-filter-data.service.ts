@@ -624,7 +624,7 @@ export class StateFilterDataService {
         let defaultDataSet = [
           { x: 0, y: 0 },
           {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
+            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200,
             y: 0,
           },
         ];
@@ -833,7 +833,7 @@ export class StateFilterDataService {
         // });
         obj = { x: 0, y: 0 };
         scatterChartObj?.townPanchayat.forEach((el2, index) => {
-          obj.x = el2.population;
+          obj.x = +(el2.population) / 1000;
           obj.y = el2.amount;
           el["labels"].push(el2.ulbName);
           el["rev"].push(el2.amount);
@@ -850,7 +850,7 @@ export class StateFilterDataService {
         //   el["data"].push(el2)
         // });
         scatterChartObj?.mCorporation.forEach((el2, index) => {
-          obj.x = el2.population;
+          obj.x = +(el2.population) / 1000;
           obj.y = el2.amount;
           el["labels"].push(el2.ulbName);
           el["rev"].push(el2.amount);
@@ -869,7 +869,7 @@ export class StateFilterDataService {
         // });
         scatterChartObj?.municipality.forEach((el2, index) => {
           obj = { x: 0, y: 0 };
-          obj.x = el2.population;
+          obj.x = +(el2.population) / 1000;
           obj.y = el2.amount;
           el["labels"].push(el2.ulbName);
           el["rev"].push(el2.amount);
@@ -884,7 +884,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -901,7 +901,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -918,7 +918,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -935,7 +935,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -952,7 +952,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -970,7 +970,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -987,7 +987,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -1004,7 +1004,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -1021,7 +1021,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -1038,7 +1038,7 @@ export class StateFilterDataService {
           {
             x: scatterChartObj?.stateLevelMaxPopuCount
               ? scatterChartObj?.stateLevelMaxPopuCount
-              : 1200000,
+              : 1200,
             y: 0,
           },
         ];
@@ -1082,6 +1082,6 @@ export class StateFilterDataService {
     ];
 
     let maxPopulationCount = Math.max(...populationCountList);
-    return maxPopulationCount;
+    return maxPopulationCount/1000;
   }
 }

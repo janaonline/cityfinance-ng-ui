@@ -699,7 +699,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               if (el.label == "Town Panchayat") {
                 obj = { x: 0, y: 0 };
                 tp_data.forEach((el2, index) => {
-                  obj.x = el2.population;
+                  obj.x = +(el2.population) / 1000;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -714,7 +714,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 });
               } else if (el.label == "Municipal Corporation") {
                 mCorporation.forEach((el2, index) => {
-                  obj.x = el2.population;
+                  obj.x = +(el2.population) / 1000;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -730,7 +730,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               } else if (el.label == "Municipality") {
                 m_data.forEach((el2, index) => {
                   obj = { x: 0, y: 0 };
-                  obj.x = el2.population;
+                  obj.x = +(el2.population) / 1000;
                   obj.y = this.stateServiceLabel
                     ? Math.round(el2.value)
                     : // ? el2.value.toFixed(2)
@@ -2019,3 +2019,4 @@ function convertToCr(value) {
   value /= 10000000;
   return Math.round(value);
 }
+

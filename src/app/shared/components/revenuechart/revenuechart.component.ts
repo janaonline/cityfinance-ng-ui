@@ -506,6 +506,7 @@ export class RevenuechartComponent
     }
 
     if (this.chartData?.type == "scatter") {
+
       Object.assign(this.chartData, { options: this.scatterOption });
     } else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
@@ -1206,7 +1207,7 @@ export class RevenuechartComponent
               let obje = [
                 { x: 0, y: 0 },
                 {
-                  x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
+                  x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200,
                   y: 0,
                 },
                 // { x: 1200000, y: 0 },
