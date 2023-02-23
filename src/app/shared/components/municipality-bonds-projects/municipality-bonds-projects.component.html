@@ -12,7 +12,7 @@
                         'fa-sort-desc': column.sort == -1,
                         'fa-sort-asc': column.sort == 1
                     }" aria-hidden="true"></i></p>
-                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search" class="form-control p-3"
+                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search" class="form-control px-3 py-4 my-2"
                         [(ngModel)]="column.query" (keyup.enter)="loadData()" (blur)="loadData()">
                 </th>
             </tr>
