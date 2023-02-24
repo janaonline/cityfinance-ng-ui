@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MunicipalBondRepositoryComponent implements OnInit {
 
+  categoryId = null;
+  subCategoryId = null;
+
   categories: any[] = [
     {
       name: 'category 1',
@@ -18,9 +21,21 @@ export class MunicipalBondRepositoryComponent implements OnInit {
     }
   ];
 
+  subCategories: any[] = [
+    {
+      name: 'sub 1',
+      _id: 'abc'
+    },
+    {
+      name: 'sub 2',
+      _id: 'def'
+    }
+  ];
+
+  
   cardData: any[] = [
     {
-      name: 'name',
+      name: 'Online Self-Assessment System of Property Tax for Bruhat Bengaluru Mahanagara Palike (BBMP)',
       downloadUrl: 'https://staging.cityfinance.in/objects/385ddbdc-41bf-4c7a-be6d-e54440828812.pdf'
     },
     {
@@ -32,13 +47,28 @@ export class MunicipalBondRepositoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.loadData();
   }
 
-  clearAll() {
-    
+  clearFilters() {
+    this.categoryId = null;
+    this.subCategoryId = null;
+    this.loadData();
   }
 
-  filterData() {
+  loadCategories() {
 
+  }
+
+  loadSubCategories() {
+
+  }
+
+  loadData() {
+    const payload = {
+      catetory_id: this.categoryId,
+      sub_category_id: this.subCategoryId
+    }
+    console.log(payload);
   }
 }

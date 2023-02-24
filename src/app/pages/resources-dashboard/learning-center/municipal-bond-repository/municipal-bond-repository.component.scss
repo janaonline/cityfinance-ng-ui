@@ -4,7 +4,9 @@
     color: #6e7281;
 }
 
-.card-body {
+$white: #f7f7f7;
+
+.card-body.filter {
     background: #f7f7f7 0% 0% no-repeat padding-box;
     border-radius: 10px;
     opacity: 1;
@@ -12,7 +14,7 @@
 
 .clearBtn {
     border: 1px solid var(--unnamed-color-e67e15);
-    background: #ffffff 0% 0% no-repeat padding-box;
+    background: $white 0% 0% no-repeat padding-box;
     border: 1px solid #e67e15;
     border-radius: 6px;
     font: normal normal 600 12px/19px "Poppins";
@@ -20,3 +22,28 @@
     color: #e67e15;
     padding: 5px 10px;
 }
+
+.card-body.pdf {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 17px #53525229;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.form-select {
+    line-height: 1.5;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.file-name {
+    font: normal normal 700 16px/23px "Archivo";
+    letter-spacing: 0px;
+    color: #0f1f40;
+    // height: 5rem;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
