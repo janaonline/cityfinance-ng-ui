@@ -73,6 +73,7 @@ export class MunicipalityBondsComponent implements OnInit {
 
 
   canShowOption(option: FilterOption): boolean {
+    if(!option.name || !option._id) return false;
     const sectorsFilter = this.response.filters.find(filter => filter.key == 'sectors');
     if ((this.activeFilter.key == 'projects' && sectorsFilter?.options.some(sectionOption => sectionOption.checked)) &&  // if some of `sectors` are checked then only show those `projects` which belonds to those perticular `sectors`
       !sectorsFilter?.options.some(sectionOption => sectionOption.checked && sectionOption._id == option.sectorId)
