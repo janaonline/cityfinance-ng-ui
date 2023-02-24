@@ -29,6 +29,7 @@ export interface Row {
   moreInformation: Link;
   projectReport: Link;
   creditRating: Link;
+  divideTo: number;
 }
 export interface Link {
   name: string;

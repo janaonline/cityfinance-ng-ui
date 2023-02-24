@@ -96,9 +96,9 @@
                 </div>
             </div>
             <hr class="m-0" />
-            <div class="row m-3">
+            <div class="row m-3 justify-content-end">
                 <ng-container *ngFor="let column of response.columns">
-                    <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key)">
+                    <div class="col-3 my-3" *ngIf="!hiddenColumns.includes(column.key) && row[column.key]">
                         <div class="label">{{ column.label }}</div>
                         <div [ngSwitch]="column.key">
                             <div style="cursor: pointer;" *ngSwitchCase="'creditRating'">
