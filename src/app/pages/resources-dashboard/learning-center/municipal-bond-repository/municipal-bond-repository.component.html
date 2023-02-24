@@ -6,7 +6,8 @@
           <div class="card-body filter">
             <div class="row">
               <div class="col-lg-2 col-md-2 col-sm-2">
-                <select class="form-select" aria-label="Default select" [(ngModel)]="categoryId" (change)="loadSubCategories(); loadData();">
+                <select class="form-select" aria-label="Default select" [(ngModel)]="categoryId"
+                  (change)="loadSubCategories(); loadData();">
                   <option [value]="null">Category</option>
                   <option [value]="category?._id" *ngFor="let category of categories">{{ category?.name }}</option>
                 </select>
@@ -37,10 +38,8 @@
 <div class="row">
   <div class="col-sm-12 info-text mb-3">
     <p>
-      The data in this part is intended to offer an oversimplified clarification/explanation of terms/ideas
-      connected with issue and posting of Municipal Debt Securities. Any such clarification/explanation that is
-      given thus ought not be viewed as a translation of regulation nor be treated as a limiting
-      assessment/direction from cityfinance, The data is sourced in collaboration with SEBI.
+      The data in this part is intended to offer an explanation of terms/ideas connected with issue and posting of
+      Municipal Debt Securities. The data is sourced through a collaboration with Securities and Exchange Board of India
     </p>
   </div>
 </div>
