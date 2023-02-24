@@ -16,7 +16,18 @@ export class MunicipalBondRepositoryComponent implements OnInit {
       name: 'category 2',
       _id: 'def'
     }
-  ]
+  ];
+
+  cardData: any[] = [
+    {
+      name: 'name',
+      downloadUrl: 'https://staging.cityfinance.in/objects/385ddbdc-41bf-4c7a-be6d-e54440828812.pdf'
+    },
+    {
+      name: 'second',
+      downloadUrl: 'https://staging.cityfinance.in/objects/385ddbdc-41bf-4c7a-be6d-e54440828812.pdf'
+    }
+  ];
 
   constructor() { }
 
