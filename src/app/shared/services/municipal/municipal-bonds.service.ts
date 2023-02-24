@@ -135,8 +135,13 @@ export class MunicipalBondsService {
       );
   }
 
-  private getNumberInCrore(number) {
-    return '₹ ' + (number < 10000000 ? (number / 10000000) : (number / 10000000).toFixed(2)) + ' Cr';
+  private formatNumber(num: number, maxDecimal: number) {
+    const decimalPlaces = num.toString().split('.')[1]?.length || 0;
+    return decimalPlaces > maxDecimal ? num.toFixed(maxDecimal) : num.toString();
+  }
+
+  private getNumberInCrore(number, divideTo) {
+    return '₹ ' + (number < divideTo ? this.formatNumber(number / divideTo, 4) : (number / divideTo).toFixed(2)) + ' Cr';
   }
   private getPercent(a, b) {
     return a == 0 ? 0 : Math.min((100 - (a - b) / a * 100), 100).toFixed(2);
@@ -157,9 +162,9 @@ export class MunicipalBondsService {
           response.rows = response.rows.map(row => ({
             ...row,
             ...['totalProjectCost', 'capitalExpenditureState', 'capitalExpenditureUlb', 'omExpensesState', 'omExpensesUlb']
-              .reduce((obj, key) => { obj[key] = this.getNumberInCrore(row[key]); return obj; }, {}),
-            stateShare: this.getNumberInCrore(row.stateShare) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,
-            ulbShare: this.getNumberInCrore(row.ulbShare) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,
+              .reduce((obj, key) => { obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
+            stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,
+            ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,
           }));
           return response;
         })
