@@ -111,7 +111,7 @@
                                                                         </button>
                                                                         <input #bs_pdf1 style="display: none;"
                                                                             onclick="this.value=null;"
-                                                                            (change)="fileChangeEvent($event, 'pdf', yearItem?.controls?.file)"
+                                                                            (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
                                                                             type="file" accept=".pdf" #file>
                                                                     </div>
                                                                     <div class="col-sm-12 text-center w-70">
@@ -119,14 +119,21 @@
                                                                             [fileUpLoader]="yearItem?.controls?.file?.controls?.uploading?.value">
                                                                         </app-loader>
                                                                     </div>
-                                                                    <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.controls?.readonly?.value == true">
+                                                                    <div class="col-sm-12 mt-3 mb-3"
+                                                                        *ngIf="yearItem?.controls?.readonly?.value == true">
                                                                         <span class="al-up">Already Uploaded on
                                                                             Cityfinance</span>
                                                                     </div>
-                                                                    <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                                                                        <a class="w-90" href="{{yearItem?.value?.file?.url}}" target="_blank">{{yearItem?.value?.file?.name}}</a>
-                                                                        <a (click)="clearFile('annualDoc', yearItem, tab)" class="w-10" target="_blank" [ngClass]="{'pe-none': isDisabled}">
-                                                                            <img src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                    <div class="col-sm-12 com-style f-w mt-1"
+                                                                        *ngIf="yearItem?.value?.file?.url">
+                                                                        <a class="w-90"
+                                                                            href="{{yearItem?.value?.file?.url}}"
+                                                                            target="_blank">{{yearItem?.value?.file?.name}}</a>
+                                                                        <a (click)="clearFile('annualDoc', yearItem, tab)"
+                                                                            class="w-10" target="_blank"
+                                                                            [ngClass]="{'pe-none': isDisabled}">
+                                                                            <img
+                                                                                src="../../../assets/form-icon/close_black_24dp.svg">
                                                                         </a>
                                                                     </div>
                                                                 </ng-container>
@@ -214,9 +221,8 @@
                                                             alt="">
                                                     </button>
                                                     <input #bs_pdf_up style="display: none;"
-                                                        (change)="fileChangeEvent($event,'pdf', 'signed', '', tab)"
-                                                        onclick="this.value=null;" type="file" accept=".pdf" #file
-                                                        (keydown)="changeDecInForm()">
+                                                        (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                        onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
