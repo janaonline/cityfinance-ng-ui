@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ResourcesDashboardService } from '../../resources-dashboard.service';
 
 @Component({
   selector: 'app-municipal-bond-repository',
@@ -6,47 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./municipal-bond-repository.component.scss']
 })
 export class MunicipalBondRepositoryComponent implements OnInit {
-
   categoryId = null;
   subCategoryId = null;
 
-  categories: any[] = [
-    {
-      name: 'category 1',
-      _id: 'abc'
-    },
-    {
-      name: 'category 2',
-      _id: 'def'
-    }
-  ];
+  categories: any[] = [];
+  subCategories: any[] = [];
+  cardData: any[] = [];
 
-  subCategories: any[] = [
-    {
-      name: 'sub 1',
-      _id: 'abc'
-    },
-    {
-      name: 'sub 2',
-      _id: 'def'
-    }
-  ];
-
-  
-  cardData: any[] = [
-    {
-      name: 'Online Self-Assessment System of Property Tax for Bruhat Bengaluru Mahanagara Palike (BBMP)',
-      downloadUrl: 'https://staging.cityfinance.in/objects/385ddbdc-41bf-4c7a-be6d-e54440828812.pdf'
-    },
-    {
-      name: 'second',
-      downloadUrl: 'https://staging.cityfinance.in/objects/385ddbdc-41bf-4c7a-be6d-e54440828812.pdf'
-    }
-  ];
-
-  constructor() { }
+  constructor(private resourcesDashboard: ResourcesDashboardService) { }
 
   ngOnInit(): void {
+    this.loadCategories();
     this.loadData();
   }
 
@@ -57,18 +28,24 @@ export class MunicipalBondRepositoryComponent implements OnInit {
   }
 
   loadCategories() {
-
+    this.resourcesDashboard.getMunicipalityBondsRepositoryCategories().subscribe(({ data }: any) => {
+      this.categories = data;
+    })
   }
 
   loadSubCategories() {
-
+    if (!this.categoryId) return;
+    this.resourcesDashboard.getMunicipalityBondsRepositorySubCategories(this.categoryId).subscribe(({ data }: any) => {
+      this.subCategories = data;
+    })
   }
 
   loadData() {
-    const payload = {
-      catetory_id: this.categoryId,
-      sub_category_id: this.subCategoryId
-    }
-    console.log(payload);
+    this.resourcesDashboard.getMunicipalityBondsRepositoryList({
+      ...(this.categoryId && {categoryId: this.categoryId}),
+      ...(this.subCategoryId && {subCategoryId: this.subCategoryId}),
+    }).subscribe(({ data }: any) => {
+      this.cardData = data;
+    })
   }
 }
