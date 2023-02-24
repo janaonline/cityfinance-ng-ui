@@ -162,9 +162,9 @@ export class MunicipalBondsService {
           response.rows = response.rows.map(row => ({
             ...row,
             ...['totalProjectCost', 'capitalExpenditureState', 'capitalExpenditureUlb', 'omExpensesState', 'omExpensesUlb']
-              .reduce((obj, key) => { obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
-            stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,
-            ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,
+              .reduce((obj, key) => { if((row as any).hasOwnProperty(key)) obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
+            ...(row.stateShare && { stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,}),
+            ...(row.ulbShare && { ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,})
           }));
           return response;
         })
