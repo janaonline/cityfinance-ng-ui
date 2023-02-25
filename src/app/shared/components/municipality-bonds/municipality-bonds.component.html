@@ -89,9 +89,9 @@
                 <div class="col-4 py-3 fw-bold border-end">{{ row.projectName | titlecase }}</div>
                 <div class="col-4 py-3 ">Sector: {{ row.sector }}</div>
                 <div class="col-4 py-3 d-flex justify-content-end">
-                    <a [href]="row?.moreInformation?.url">
+                    <a [href]="baseUrl + 'UA/get-mou-project/' + this.cityId + '?projects=' + row.projectId + '&csv=true'">
                         <img class="icon mr-1" src="../../../../assets/excel.png">
-                        <span>{{ row?.moreInformation?.name }}</span>
+                        <span>More Information</span>
                     </a>
                 </div>
             </div>
