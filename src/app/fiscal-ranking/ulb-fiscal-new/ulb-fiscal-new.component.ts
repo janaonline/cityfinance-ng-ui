@@ -41,6 +41,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   tabs: Tab[];
   cantakeAction: boolean = true;
+  formId: any;
   ulbId: any;
   userData: any;
   ulbName: string;
@@ -95,12 +96,17 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/${this.design_year}/fiscalRanking/${this.userData?.ulbCode}`
+  }
+
+  get design_year() {
+    return this.yearIdArr['2022-23'];
   }
 
   onLoad() {
     this.isLoader = true;
-    this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
+    this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
+      this.formId = res?.data?._id;
       this.tabs = res?.tabs;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
@@ -133,7 +139,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            canShow: [{ value: true, disable: true }],
+            canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
           })
@@ -147,6 +153,8 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.fb.group({
       key: item.key,
       value: [item.value || item.amount, Validators.required], // TODO: add validators
+      year: item.year,
+      type: item.type,
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -179,6 +187,10 @@ export class UlbFiscalNewComponent implements OnInit {
   stepperContinue(item) {
     console.log(this.fiscalForm);
     this.stepper.next();
+  }
+  stepperContinueSave(item) {
+    this.stepper.next();
+    this.submit();
   }
 
   canShowFormSection() {
@@ -221,4 +233,22 @@ export class UlbFiscalNewComponent implements OnInit {
       //   this.hidden = true;
     });
   }
+  
+  submit(isDraft = true) {
+    const payload = {
+      ulbId: this.ulbId,
+      formId: this.formId,
+      design_year: this.design_year,
+      isDraft: isDraft,
+      actions: this.fiscalForm.value
+    }
+
+    console.log(payload);
+
+    this.fiscalService.actionByMohua(payload).subscribe(res => {
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+    }, (error) => {
+      console.log('post error', error)
+    })
+  } 
 }

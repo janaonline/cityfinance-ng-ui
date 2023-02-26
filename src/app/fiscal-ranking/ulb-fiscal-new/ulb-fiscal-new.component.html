@@ -45,7 +45,7 @@
                                         <input class="com-style" matInput placeholder="{{ item.key }}"
                                             formControlName="value">
                                     </mat-form-field>
-                                    <app-common-action-radio [readonly]="true" *ngIf="cantakeAction"
+                                    <app-common-action-radio *ngIf="cantakeAction"
                                         formControlName="status"></app-common-action-radio>
                                 </div>
                             </div>
@@ -258,7 +258,8 @@
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)" *ngIf="tab?.value?.id != 's7'">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == 's7'" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="submit(false)">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style"
