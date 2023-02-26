@@ -19,29 +19,9 @@ import { UserUtility } from 'src/app/util/user/user';
 import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
+import { Tab } from '../models';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
-
-
-export interface Feedback {
-  _id: string;
-  status: 'PENDING' | 'REJECTED' | 'APPROVED';
-  comment: string;
-}
-
-export interface Tab {
-  _id: string;
-  key: string;
-  icon: string;
-  text: string;
-  label: string;
-  data: any;
-  id: string;
-  displayPriority: number;
-  __v: number;
-  feedback: Feedback;
-}
-
 
 @Component({
   selector: 'app-ulb-fiscal-new',
@@ -79,12 +59,10 @@ export class UlbFiscalNewComponent implements OnInit {
     private profileService: ProfileService
   ) {
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
-    this.initializeForm();
 
     this.loggedInUserType = this.loggedInUserDetails?.role;
     if (!this.loggedInUserType) {
       this._router.navigateByUrl('fiscal/login')
-      // this.showLoader = false;
     }
     else if (this.loggedInUserType != 'ULB') {
       this.ulbId = this.activatedRoute.snapshot.params.ulbId;
@@ -173,6 +151,8 @@ export class UlbFiscalNewComponent implements OnInit {
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
+      desc: [{ value: item.desc, disabled: true}],
+      pos: [{ value: item.pos, disabled: true}],
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {
         file: this.fb.group({
@@ -182,10 +162,6 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
-  }
-
-  initializeForm() {
-
   }
 
   addSkipLogics() {
@@ -199,7 +175,6 @@ export class UlbFiscalNewComponent implements OnInit {
       s3Control.patchValue({ data: { totalRcptSanitation: { canShow: value == 'Yes' } } })
     });
   }
-
 
   stepperContinue(item) {
     console.log(this.fiscalForm);
@@ -230,19 +205,11 @@ export class UlbFiscalNewComponent implements OnInit {
     }, err => console.log(err));
   }
 
-
-
-
   onPreview() {
-    // this.isDraft = true;
-    // this.updateValueInForm();
-    // this.getFullDataArray();
-
     console.log(this.fiscalForm.getRawValue());
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        showData: this.fiscalForm.getRawValue().filter(item => item.id !== 's7'),
-        // preData: this.postData
+        showData: this.fiscalForm.getRawValue().filter(item => item.id !== 's7')
       },
       width: "85vw",
       height: "100%",

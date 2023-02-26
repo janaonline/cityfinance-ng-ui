@@ -67,6 +67,13 @@
                                                             {{item?.value?.controls?.label.value}}
                                                         </div>
                                                     </div>
+                                                    <div class="row" *ngIf="item?.key == 'guidanceNotes'">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-l com-style" *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                                                {{yearItem?.controls.pos.value }}. {{yearItem?.controls.desc.value }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-sm-3 com-style"
                                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
