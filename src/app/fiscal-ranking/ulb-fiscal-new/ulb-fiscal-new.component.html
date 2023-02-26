@@ -51,8 +51,8 @@
                             </div>
                         </div>
 
-                        <!-- tab 3 and 4 -->
-                        <div class="" *ngIf="tab?.value?.id == 's3' || tab?.value?.id == 's4' || tab?.value?.id == 's6'"
+                        <!-- tab 3, 4, 5, 6 -->
+                        <div class="" *ngIf="['s3', 's4', 's5', 's6'].includes(tab?.value?.id)"
                             [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">

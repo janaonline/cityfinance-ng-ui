@@ -237,9 +237,11 @@ export class UlbFiscalNewComponent implements OnInit {
     // this.isDraft = true;
     // this.updateValueInForm();
     // this.getFullDataArray();
+
+    console.log(this.fiscalForm.getRawValue());
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        // showData: this.stePreDataArray,
+        showData: this.fiscalForm.getRawValue(),
         // preData: this.postData
       },
       width: "85vw",

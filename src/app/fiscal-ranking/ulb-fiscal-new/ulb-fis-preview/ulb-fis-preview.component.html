@@ -7,31 +7,27 @@
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">
-          Submissions for Fiscal Rankings for FY 2022-23
-         </span>
+                Submissions for Fiscal Rankings for FY 2022-23
+            </span>
             <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
-        <!-- <div class="col-sm-6">
-          <p class="form-status" style="">
-              <b>Form Current Status:</b>&nbsp; {{formStatusCheck}}
-          </p>
-      </div> -->
         <div class="col-sm-12 text-end pdf-hide">
-            <button id="donwloadButton" style="" class="btn btn-primary" (click)="clickedDownloadAsPDF(template)">Download as PDF</button>
+            <button id="donwloadButton" style="" class="btn btn-primary"
+                (click)="clickedDownloadAsPDF(template)">Download as PDF</button>
         </div>
     </div>
     <div class="row mt-3 mb-3">
         <div class="col-sm-12">
-            <div class="card mb-3" *ngFor="let stepItem of data?.showData; let rowIndex =index">
+            <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 m-hed text-center">
-                            {{stepItem?.label}}
+                            {{tab?.label}}
                         </div>
                     </div>
-                    <div class="" *ngFor="let yearObj of stepItem?.value| keyvalue : returnZero; let y_i=index">
+                    <!-- <div class="" *ngFor="let yearObj of tab?.value| keyvalue : returnZero; let y_i=index">
                         <div class="row">
                             <div class="col-sm-12 f-label mb-2">
                                 {{yearObj?.value?.label}}
@@ -39,11 +35,9 @@
                         </div>
                         <div class="mb-3" *ngIf="yearObj?.value?.key == 'guidanceNotes'">
                             <div class="col-sm-12">
-                                <!-- <div> -->
                                 <div class="form-l com-style" *ngFor="let elem of yearObj?.value?.yearData">
                                     {{elem?.pos}}. {{elem?.desc}}
                                 </div>
-                                <!-- </div> -->
                             </div>
                         </div>
                         <div class="div" *ngIf="yearObj?.value?.key != 'guidanceNotes'">
@@ -70,7 +64,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -94,8 +88,9 @@
         <div class="row">
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-          Save & Proceed</button>
+                <button type="button" class="btn btn-success "
+                    style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                    Save & Proceed</button>
             </div>
 
         </div>
