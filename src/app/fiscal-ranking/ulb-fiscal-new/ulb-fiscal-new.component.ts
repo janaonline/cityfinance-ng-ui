@@ -241,7 +241,7 @@ export class UlbFiscalNewComponent implements OnInit {
     console.log(this.fiscalForm.getRawValue());
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        showData: this.fiscalForm.getRawValue(),
+        showData: this.fiscalForm.getRawValue().filter(item => item.id !== 's7'),
         // preData: this.postData
       },
       width: "85vw",
