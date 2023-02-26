@@ -1,70 +1,56 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right">
-                <img src="../../../../assets/form-icon/close_black_24dp.svg">
-            </a>
+            <a (click)="closeMat()" class="pull-right"><img src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">
-                Submissions for Fiscal Rankings for FY 2022-23
-            </span>
+            <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
             <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-12 text-end pdf-hide">
-            <button id="donwloadButton" style="" class="btn btn-primary"
-                (click)="clickedDownloadAsPDF(template)">Download as PDF</button>
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(template)">Download as PDF</button>
         </div>
     </div>
+
     <div class="row mt-3 mb-3">
         <div class="col-sm-12">
             <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
                 <div class="card-body" *ngIf="tab?.id">
-                    <div class="row">
-                        <div class="col-sm-12 m-hed text-center">
-                            {{tab?.label}}
-                        </div>
-                    </div>
+                    <div class="row"><div class="col-sm-12 m-hed text-center">{{tab?.label}}</div></div>
 
                     <ng-container *ngFor="let data of tab?.data| keyvalue : returnZero; let y_i=index">
+                        <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
+                            <div class="row mb-1 bg-amt pd-r">
+                                <div class="col-sm-6 yr-l">{{data?.key}}</div>
+                                <div class="col-sm-6 yr-ans">{{data?.value?.value }}</div>
+                            </div>
+                        </div>
 
-
-
-                        <div class=""
-                            *ngIf="['s3', 's4', 's5', 's6'].includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
+                        <div *ngIf="['s3', 's4', 's5', 's6'].includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
                             <div class="row">
-                                <div class="col-sm-12 f-label mb-2">
-                                    {{data?.value?.label }}
-                                </div>
+                                <div class="col-sm-12 f-label mb-2">{{data?.value?.label }}</div>
                             </div>
                             <div class="div">
                                 <div class="row mb-1 bg-amt pd-r"
                                     *ngFor="let elem of data?.value?.yearData; let y_i=index">
-                                    <div class="col-sm-6 yr-l">
-                                        {{elem?.label}}
-                                    </div>
+                                    <div class="col-sm-6 yr-l">{{elem?.label}}</div>
                                     <div class="col-sm-6 yr-ans" *ngIf="elem?.value">
                                         {{elem?.value | currency:"INR":"symbol"}}
                                     </div>
-                                    <div class="col-sm-6 yr-ans"
-                                        *ngIf="yearObj?.value?.key == 'auditedAnnualFySt' || yearObj?.value?.key == 'appAnnualBudget'">
+                                    <div class="col-sm-6 yr-ans" *ngIf="elem?.file">
                                         <div *ngIf="elem?.file?.url && elem?.readonly == false">
                                             <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
                                             Already uploaded on Cityfinance.
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
                     </ng-container>
-
                 </div>
             </div>
         </div>
