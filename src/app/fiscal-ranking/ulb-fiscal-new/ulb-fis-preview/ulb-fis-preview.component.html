@@ -20,7 +20,7 @@
                 <div class="card-body" *ngIf="tab?.id">
                     <div class="row"><div class="col-sm-12 m-hed text-center">{{tab?.label}}</div></div>
 
-                    <ng-container *ngFor="let data of tab?.data| keyvalue : returnZero; let y_i=index">
+                    <ng-container *ngFor="let data of tab?.data| keyvalue; let y_i=index">
                         <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
                             <div class="row mb-1 bg-amt pd-r">
                                 <div class="col-sm-6 yr-l">{{data?.key}}</div>
@@ -72,7 +72,7 @@
         </p>
         <div class="row">
             <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
                 <button type="button" class="btn btn-success "
                     style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                     Save & Proceed</button>
