@@ -25,12 +25,25 @@
                             <div class="" [ngClass]="{'disable': isDisabled}"
                                 *ngFor="let item of tab?.controls?.data?.controls | keyvalue">
                                 <div class="row mt-4" [formGroup]="item.value">
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline"
+                                        *ngIf="['text', 'url', 'email'].includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.key }}</mat-label>
-                                        <input class="com-style" matInput placeholder="{{ item.key }}"
+                                        <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"  matInput placeholder="{{ item.key }}"
                                             formControlName="value">
                                     </mat-form-field>
-                                    <app-common-action-radio *ngIf="cantakeAction" formControlName="status">
+                                    <div class="col-sm-12 mt-4 row" *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
+                                        <div class="col-sm-8">
+                                            {{ item.key }}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <mat-radio-group aria-label="Select an option"
+                                                formControlName="value">
+                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                    <app-common-action-radio class="mt-2" *ngIf="cantakeAction" formControlName="status">
                                     </app-common-action-radio>
                                 </div>
                             </div>
@@ -42,7 +55,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
-                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue : returnZero;let rowIndex_rev=index">
+                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue;let rowIndex_rev=index">
                                         <div class="card card-form mb-4 com-style"
                                             *ngIf="item?.value?.controls?.canShow?.value">
                                             <div class="card-body">
@@ -200,12 +213,9 @@
                                     <div class="card card-form mb-4 com-style h-100">
                                         <div class="card-body pd-m">
                                             <div class="row">
-                                                <div class="col-sm-12 c-head com-style">
-                                                    Upload Signed Copy
-                                                </div>
-                                                <div class="col-sm-12 c-sub-h com-style mt-3">
-                                                    Please upload the signed copy.
-                                                </div>
+                                                <div class="col-sm-12 c-head com-style">Upload Signed Copy</div>
+                                                <div class="col-sm-12 c-sub-h com-style mt-3">Please upload the signed
+                                                    copy.</div>
                                                 <div class="col-sm-12 com-style text-center mt-3 ">
                                                     <button class="btn btn-up-org" (click)="bs_pdf_up.click()"
                                                         [disabled]="isDisabled">

@@ -126,7 +126,7 @@ export class UlbFiscalNewComponent implements OnInit {
       }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
         if (this.linearTabs.includes(tab.id)) {
-          obj[key] = this.getInnerFormGroup(item)
+          obj[key] = this.getInnerFormGroup({...item, key})
         }
         else if (tab.id == 's7') {
           obj[key] = this.fb.group({
@@ -153,8 +153,10 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.fb.group({
       key: item.key,
       value: [item.value || item.amount, Validators.required], // TODO: add validators
+      date: item.date,
       year: item.year,
       type: item.type,
+      formFieldType: [{ value: this.getFormFieldType(item.key) || 'text', disabled: true}],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -170,6 +172,16 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
+  }
+
+  getFormFieldType(key) {
+    return {
+      waterSupply: 'radio-toggle',
+      webLink: 'url',
+      propertyWaterTax: 'radio-toggle',
+      propertySanitationTax: 'radio-toggle',  
+      sanitationService: 'radio-toggle',  
+    }[key] || 'text';
   }
 
   addSkipLogics() {
