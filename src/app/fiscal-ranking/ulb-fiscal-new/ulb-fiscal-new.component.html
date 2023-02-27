@@ -7,20 +7,7 @@
     </div>
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
-            <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
-                <div class="spinner-grow text-success" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-danger ms-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-warning ms-2" role="status">
-                    <span class="visually-hidden ">Loading...</span>
-                </div>
-                <div class="spinner-grow text-info ms-2" role="status">
-                    <span class="visually-hidden ">Loading...</span>
-                </div>
-            </div>
+            <app-loader class="p-3" [show]="isLoader" [dots]="4"></app-loader>
             <mat-horizontal-stepper *ngIf="!isLoader && fiscalForm" linear="true" labelPosition="bottom" id="stepper"
                 #stepper>
                 <mat-step state="state" *ngFor="let tab of fiscalForm.controls; index as i;">
@@ -33,20 +20,18 @@
                     <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'"
                         [formGroup]="tab">
 
-                        <!-- ulb basic info -->
+                        <!-- tab 1, 2 -->
                         <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
                             <div class="" [ngClass]="{'disable': isDisabled}"
                                 *ngFor="let item of tab?.controls?.data?.controls | keyvalue">
                                 <div class="row mt-4" [formGroup]="item.value">
-                                    <!-- {{ item.key }} -->
-                                    <!-- <input type="text" class="form-control com-style" formControlName="value" placeholder="Name of ULB"> -->
                                     <mat-form-field appearance="outline">
                                         <mat-label class="com-style">{{ item.key }}</mat-label>
                                         <input class="com-style" matInput placeholder="{{ item.key }}"
                                             formControlName="value">
                                     </mat-form-field>
-                                    <app-common-action-radio *ngIf="cantakeAction"
-                                        formControlName="status"></app-common-action-radio>
+                                    <app-common-action-radio *ngIf="cantakeAction" formControlName="status">
+                                    </app-common-action-radio>
                                 </div>
                             </div>
                         </div>
@@ -69,8 +54,10 @@
                                                     </div>
                                                     <div class="row" *ngIf="item?.key == 'guidanceNotes'">
                                                         <div class="col-sm-12">
-                                                            <div class="form-l com-style" *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                                                                {{yearItem?.controls.pos.value }}. {{yearItem?.controls.desc.value }}
+                                                            <div class="form-l com-style"
+                                                                *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                                                {{yearItem?.controls.pos.value }}.
+                                                                {{yearItem?.controls.desc.value }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -123,7 +110,7 @@
                                                                     </div>
                                                                     <div class="col-sm-12 text-center w-70">
                                                                         <app-loader
-                                                                            [fileUpLoader]="yearItem?.controls?.file?.controls?.uploading?.value">
+                                                                            [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                                                                         </app-loader>
                                                                     </div>
                                                                     <div class="col-sm-12 mt-3 mb-3"
@@ -232,7 +219,7 @@
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <app-loader [fileUpLoader]="fileUpLoader"></app-loader>
+                                                    <app-loader [show]="fileUpLoader"></app-loader>
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
@@ -258,8 +245,11 @@
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)" *ngIf="tab?.value?.id != 's7'">Next</button>
-                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == 's7'" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="submit(false)">Submit</button>
+                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)"
+                                    *ngIf="tab?.value?.id != 's7'">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == 's7'"
+                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
+                                    (click)="submit(false)">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style"
@@ -272,21 +262,9 @@
 
 
                 </mat-step>
-                <ng-template matStepperIcon="state">
-                    <span class="material-icons n-circle">
-                        circle
-                    </span>
-                </ng-template>
-                <ng-template matStepperIcon="edit">
-                    <span class="material-icons n-circle">
-                        circle
-                    </span>
-                </ng-template>
-                <ng-template matStepperIcon="done">
-                    <span class="material-icons">
-                        check_circle
-                    </span>
-                </ng-template>
+                <ng-template matStepperIcon="state"><span class="material-icons n-circle">circle</span></ng-template>
+                <ng-template matStepperIcon="edit"><span class="material-icons n-circle">circle</span></ng-template>
+                <ng-template matStepperIcon="done"><span class="material-icons">check_circle</span></ng-template>
             </mat-horizontal-stepper>
         </div>
     </div>
@@ -298,9 +276,7 @@
                         <div class="col-sm-12 text-center mt-3">
                             <img src="../../../assets/circle/gifCheck.gif" class="w-80">
                         </div>
-                        <div class="col-sm-12 text-center mt-3 h-label com-style">
-                            Form Submitted Successfully!
-                        </div>
+                        <div class="col-sm-12 text-center mt-3 h-label com-style">Form Submitted Successfully!</div>
                         <div class="col-sm-12 text-center mt-3">
                             <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
                         </div>
@@ -321,12 +297,9 @@
                 </a>
             </div>
         </div>
-
         <div class="row mb-3 mt-3">
-            <div class="col-sm-12">{{alertError}}
-            </div>
+            <div class="col-sm-12">{{alertError}}</div>
         </div>
-
         <div class="row">
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
@@ -335,9 +308,7 @@
                     Save & Proceed
                 </button>
             </div>
-
         </div>
-
     </div>
 </ng-template>
 <!-- </form> -->
