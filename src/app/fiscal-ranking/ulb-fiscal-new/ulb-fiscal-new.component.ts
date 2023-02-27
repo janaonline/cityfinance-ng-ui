@@ -50,6 +50,12 @@ export class UlbFiscalNewComponent implements OnInit {
   fiscalForm: FormArray;
 
   formSubmitted = false;
+  sortOrder = { // TODO: get from backend
+    s3: {totalRecActual: 1, totalRcptWaterSupply: 2, totalRcptSanitation: 3, totalRecBudgetEst: 4, totalOwnRevenues: 5, totalPropTaxRevenue: 6, totalTaxRevWaterSupply: 7, totalTaxRevSanitation: 8, totalFeeChrgWaterSupply: 9, totalFeeChrgSanitation: 10},
+    s4: {totalCaptlExp: 1, totalCaptlExpWaterSupply: 2, totalCaptlExpSanitation: 3, totalOmExp: 4, totalOMCaptlExpWaterSupply: 5, totalOMCaptlExpSanitation: 6, totalRevExp: 7},
+    s5: {auditReprtDate: 1, normalData: 2, ownRevDetails: 3, ownRevenAmt: 4, propertyDetails: 5 },
+    s6: {guidanceNotes: 1, appAnnualBudget: 2, auditedAnnualFySt: 3, },
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -146,6 +152,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
+            position: [{ value: this.sortOrder[tab.id]?.[item.key] || 1 , disabled: true}], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
