@@ -20,6 +20,7 @@ import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
+import { KeyValue } from '@angular/common';
 const swal: SweetAlert = require("sweetalert");
 const toWords = new ToWords();
 
@@ -103,6 +104,12 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.yearIdArr['2022-23'];
   }
 
+  sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
+    const a = +itemA.value.controls.position?.value;
+    const b = +itemB.value.controls.position?.value;
+    return a > b ? 1 : (b > a ? -1 : 0);;
+  }
+
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
@@ -162,6 +169,7 @@ export class UlbFiscalNewComponent implements OnInit {
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true}],
+      position: [{value: item.postion, disabled: true}],
       pos: [{ value: item.pos, disabled: true}],
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {

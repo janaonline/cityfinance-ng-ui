@@ -23,7 +23,7 @@
                         <!-- tab 1, 2 -->
                         <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
                             <div class="" [ngClass]="{'disable': isDisabled}"
-                                *ngFor="let item of tab?.controls?.data?.controls | keyvalue">
+                                *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition">
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
                                         *ngIf="['text', 'url', 'email'].includes(item?.value?.controls?.formFieldType?.value)">
@@ -31,7 +31,7 @@
                                         <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"
                                             matInput placeholder="{{ item.value.controls?.label?.value }}" formControlName="value">
                                     </mat-form-field>
-                                    <div class="col-sm-12 mt-4 row"
+                                    <div class="col-sm-12 mt-1 row"
                                         *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
                                         <div class="col-sm-8">
                                             {{ item.value.controls?.label?.value }}

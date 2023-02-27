@@ -6,6 +6,6 @@
         <i class="fa fa-lg text-warning" [ngClass]="value === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
     </button>
 </div>
-<p *ngIf="canShow">
+<p *ngIf="canShow" class="m-0">
     status: {{ value }}
 </p>
