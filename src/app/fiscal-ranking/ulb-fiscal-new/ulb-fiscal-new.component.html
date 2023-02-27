@@ -27,23 +27,24 @@
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
                                         *ngIf="['text', 'url', 'email'].includes(item?.value?.controls?.formFieldType?.value)">
-                                        <mat-label class="com-style">{{ item.key }}</mat-label>
-                                        <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"  matInput placeholder="{{ item.key }}"
-                                            formControlName="value">
+                                        <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
+                                        <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"
+                                            matInput placeholder="{{ item.value.controls?.label?.value }}" formControlName="value">
                                     </mat-form-field>
-                                    <div class="col-sm-12 mt-4 row" *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
+                                    <div class="col-sm-12 mt-4 row"
+                                        *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
                                         <div class="col-sm-8">
-                                            {{ item.key }}
+                                            {{ item.value.controls?.label?.value }}
                                         </div>
                                         <div class="col-sm-4">
-                                            <mat-radio-group aria-label="Select an option"
-                                                formControlName="value">
+                                            <mat-radio-group aria-label="Select an option" formControlName="value">
                                                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                 <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <app-common-action-radio class="mt-2" *ngIf="cantakeAction" formControlName="status">
+                                    <app-common-action-radio class="mt-2" *ngIf="cantakeAction"
+                                        formControlName="status">
                                     </app-common-action-radio>
                                 </div>
                             </div>
@@ -155,8 +156,12 @@
                                                                     *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)"
                                                                     class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="r_i > 0 && ['s3', 's4'].includes(tab?.value?.id)">
-                                                                    <span class="f-w" [ngClass]="yearItem?._parent | percentprogress: r_i : 'class'" >{{ yearItem?._parent | percentprogress: r_i : 'text' }}</span>
+                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                    *ngIf="r_i > 0 && ['s3', 's4'].includes(tab?.value?.id)">
+                                                                    <span class="f-w"
+                                                                        [ngClass]="yearItem?._parent | percentprogress: r_i : 'class'">{{
+                                                                        yearItem?._parent | percentprogress: r_i :
+                                                                        'text' }}</span>
                                                                 </div>
                                                                 <app-common-action-radio *ngIf="cantakeAction"
                                                                     formControlName="status"></app-common-action-radio>

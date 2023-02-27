@@ -107,7 +107,7 @@ export class UlbFiscalNewComponent implements OnInit {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
-      this.tabs = res?.tabs;
+      this.tabs = res?.data?.tabs;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();

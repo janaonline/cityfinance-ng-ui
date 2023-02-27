@@ -309,13 +309,3 @@
 }
 
 
-::ng-deep {
-    .mat-form-field {
-        &.ng-invalid.ng-touched {
-            &::after {
-                content: 'Please fill a valid value';
-                color: red;
-            }
-        }
-    }
-}
