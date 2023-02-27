@@ -48,6 +48,7 @@ export class UlbFiscalNewComponent implements OnInit {
   ulbName: string;
   userTypes = USER_TYPE;
   fiscalForm: FormArray;
+  status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
 
   formSubmitted = false;
   sortOrder = { // TODO: get from backend
@@ -93,8 +94,12 @@ export class UlbFiscalNewComponent implements OnInit {
     sessionStorage.setItem("changeInFR", "false");
   }
 
-  get canShowComment() {
-    if (this.loggedInUserType == this.userTypes.ULB) return false;
+
+
+  get canSeeActions() {
+    if(this.status == '' || this.status === 'APPROVED') return false;
+    if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
+    if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
     return true;
   }
 

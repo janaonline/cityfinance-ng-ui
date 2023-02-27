@@ -43,7 +43,7 @@
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <app-common-action-radio class="mt-2" *ngIf="cantakeAction"
+                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                         formControlName="status">
                                     </app-common-action-radio>
                                 </div>
@@ -163,7 +163,7 @@
                                                                         yearItem?._parent | percentprogress: r_i :
                                                                         'text' }}</span>
                                                                 </div>
-                                                                <app-common-action-radio *ngIf="cantakeAction"
+                                                                <app-common-action-radio *ngIf="canSeeActions"
                                                                     formControlName="status"></app-common-action-radio>
                                                             </div>
 
@@ -233,7 +233,7 @@
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
                                                 </div>
 
-                                                <app-common-action-radio *ngIf="cantakeAction" formControlName="status">
+                                                <app-common-action-radio *ngIf="canSeeActions" formControlName="status">
                                                 </app-common-action-radio>
                                             </div>
                                         </div>
@@ -243,7 +243,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group my-2" *ngIf="canShowComment" formGroupName="feedback">
+                        <div class="form-group my-2" *ngIf="canSeeActions" formGroupName="feedback">
                             <label [for]="'comment' + stepper?.id">Comment</label>
                             <textarea required [disabled]="!canEditComment" type="email" rows="6"
                                 formControlName="comment" class="form-control comment"
