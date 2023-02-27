@@ -153,18 +153,15 @@ export class MunicipalBondsService {
       .get<MouProjectsByUlbResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
         map((response) => {
           response.filters = appliedFilters || response.filters
-            .map(filter => filter.key === 'implementationAgencies' ? { // TODO: remove when implemented from backend
-              ...filter, options: [{
-                ...filter.options[0],
-                checked: true
-              }]
+            .map(filter => filter.key === 'implementationAgencies' ? {
+              ...filter, options: filter.options.map(option => ({ ...option, checked: true }))
             } : filter);
           response.rows = response.rows.map(row => ({
             ...row,
             ...['totalProjectCost', 'capitalExpenditureState', 'capitalExpenditureUlb', 'omExpensesState', 'omExpensesUlb', 'expenditure']
-              .reduce((obj, key) => { if((row as any).hasOwnProperty(key)) obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
-            ...(row.stateShare && { stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`,}),
-            ...(row.ulbShare && { ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`,})
+              .reduce((obj, key) => { if ((row as any).hasOwnProperty(key)) obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
+            ...(row.stateShare && { stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`, }),
+            ...(row.ulbShare && { ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`, })
           }));
           return response;
         })

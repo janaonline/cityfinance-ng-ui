@@ -19,6 +19,7 @@ export interface Row {
   totalProjectCost: number | string;
   stateShare: number | string;
   ulbShare: number | string;
+  projectId: string;
   capitalExpenditureState: number | string;
   capitalExpenditureUlb: number | string;
   omExpensesState: number | string;
