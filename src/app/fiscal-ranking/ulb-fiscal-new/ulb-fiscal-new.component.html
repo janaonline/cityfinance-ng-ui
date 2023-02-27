@@ -155,18 +155,9 @@
                                                                     *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)"
                                                                     class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <!--<div class="col-sm-12 bot-text mt-2"
-                                                                    *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
-                                                                    <span class="f-w"
-                                                                        [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
-                                                                        {{ abs(getPercentIncrement(yearItem,
-                                                                        item?.value?.yearData[r_i - 1])) }}% {{
-                                                                        getPercentIncrement(yearItem,
-                                                                        item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
-                                                                            : 'greater' }} than {{
-                                                                            item?.value?.yearData[r_i - 1].label
-                                                                            }}</span>
-                                                                </div>-->
+                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="r_i > 0 && ['s3', 's4'].includes(tab?.value?.id)">
+                                                                    <span class="f-w" [ngClass]="yearItem?._parent | percentprogress: r_i : 'class'" >{{ yearItem?._parent | percentprogress: r_i : 'text' }}</span>
+                                                                </div>
                                                                 <app-common-action-radio *ngIf="cantakeAction"
                                                                     formControlName="status"></app-common-action-radio>
                                                             </div>
