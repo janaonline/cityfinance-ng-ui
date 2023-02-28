@@ -59,7 +59,7 @@ export class DashboardMapSectionComponent
   DropdownSettings = {
     singleSelection: true,
     text: "India",
-    enableSearchFilter: false,
+    enableSearchFilter: true,
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
@@ -477,6 +477,7 @@ export class DashboardMapSectionComponent
     });
   }
   onSelectingStateFromDropDown(state: any | null) {
+    console.log({ state });
     if (this.districtMap) {
       MapUtil.destroy(this.districtMap);
     }

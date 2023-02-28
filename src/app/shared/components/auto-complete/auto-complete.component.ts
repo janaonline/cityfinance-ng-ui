@@ -1,26 +1,52 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, forwardRef, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auto-complete',
   templateUrl: './auto-complete.component.html',
-  styleUrls: ['./auto-complete.component.scss']
+  styleUrls: ['./auto-complete.component.scss'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    multi: true,
+    useExisting: forwardRef(() => AutoCompleteComponent)
+  }]
 })
-export class AutoCompleteComponent implements OnInit {
+export class AutoCompleteComponent implements ControlValueAccessor {
 
   @Input() list: any[];
-  @Input() selector: string = 'id';
   @Input() displayName: string = 'name';
-
-  dropdownControl = new FormControl();
   searchControl = new FormControl();
 
+  @Output() onSelect = new EventEmitter();
+
+  private onChange: (value: any) => void;
+  private onTouched: () => void;
+
+  value: any;
+  
   constructor() {
   }
 
-  ngOnInit(): void {
-    this.searchControl.setValue('');
+
+  writeValue(value: any): void {
+    this.value = value;
+  }
+
+  registerOnChange(fn: (value: any) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  updateValue(value: any): void {
+    this.value = value;
+    this.onSelect.emit(value);
+    this.onChange(value);
+    this.onTouched();
   }
 
   filteredList = this.searchControl.valueChanges.pipe(
@@ -33,9 +59,4 @@ export class AutoCompleteComponent implements OnInit {
       return this.list.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
     })
   );
-
-  selectItem(item: any) {
-    this.dropdownControl.setValue(item);
-  }
-
 }
