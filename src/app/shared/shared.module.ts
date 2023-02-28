@@ -95,6 +95,7 @@ import { Shared2223Module } from "../shared2223/shared2223.module";
 import { GrantTransferMohuaComponent } from "../pages/mohuaform/grant-transfer-mohua/grant-transfer-mohua.component";
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-viewer.component';
+import { AutoCompleteComponent } from "./components/auto-complete/auto-complete.component";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -188,7 +189,8 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     BalanceTabledialogComponent,
     ProTTaxFormComponent,
     GrantTransferMohuaComponent,
-    PdfCardViewerComponent
+    PdfCardViewerComponent,
+    AutoCompleteComponent,
   ],
   exports: [
     FormsModule,
@@ -234,7 +236,8 @@ import { PdfCardViewerComponent } from './components/pdf-card-viewer/pdf-card-vi
     StateFilterDataComponent,
     ComparativeUlbComponent,
     BalanceTabledialogComponent,
-    GrantTransferMohuaComponent
+    GrantTransferMohuaComponent,
+    AutoCompleteComponent,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
