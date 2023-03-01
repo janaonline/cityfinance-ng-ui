@@ -36,6 +36,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
   lastBarChartValue;
   compareDialogType = 2;
   preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
+
+  DropdownSettings = {
+    singleSelection: true,
+    text: "State Name",
+    enableSearchFilter: true,
+    labelKey: "name",
+    primaryKey: "_id",
+    showCheckbox: false,
+    classes: "filter-component",
+  };
+
+  state = new FormControl();
   // propertyTaxVal: boolean = false;
   changeTab(type) {
     this._loaderService.showLoader();
@@ -400,6 +412,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
         return null;
       }
     });
+  }
+
+  get stateList() {
+    return Object.entries(this.stateIds).map(([_id, name]) => ({_id, name}))
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
     const stateId = this.filterGroup?.controls?.stateId?.value;
@@ -1186,6 +1202,12 @@ revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
     //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     // },
   ];
+
+  onStateChange(state) {
+    console.log(state);
+    this.filterGroup.patchValue({ stateId: state._id })
+    this.filterData('state', '')
+  }
 
   downloadCSV(from) {
     this._loaderService.showLoader();
