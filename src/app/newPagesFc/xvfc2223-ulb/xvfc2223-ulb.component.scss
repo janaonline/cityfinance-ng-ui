@@ -39,6 +39,9 @@
 @media (min-width:961px) {
     .sidebar {
         transition: width 40ms ease-out;
+        .nav-link.active .mat-icon:first-child {
+            filter: invert(1);
+        }
         .collapsable {
             transition: all 40ms ease-out;
         }
