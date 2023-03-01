@@ -50,7 +50,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
-    classes: "",
+    classes: "filter-component",
   };
 
   constructor(
