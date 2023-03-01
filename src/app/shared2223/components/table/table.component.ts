@@ -547,6 +547,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
   resetFilter() {
+    this.filterForm.reset();
     this.setParams();
     this.callAPI();
   }
