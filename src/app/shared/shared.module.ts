@@ -99,6 +99,7 @@ import { MunicipalityBondsComponent } from './components/municipality-bonds/muni
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MunicipalityBondsProjectsComponent } from './components/municipality-bonds-projects/municipality-bonds-projects.component';
 import { JoinPipe } from './pipes/join.pipe';
+import { AutoCompleteComponent } from "./components/auto-complete/auto-complete.component";
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -197,6 +198,7 @@ import { JoinPipe } from './pipes/join.pipe';
     MunicipalityBondsComponent,
     MunicipalityBondsProjectsComponent,
     JoinPipe,
+    AutoCompleteComponent,
   ],
   exports: [
     JoinPipe,
@@ -246,6 +248,7 @@ import { JoinPipe } from './pipes/join.pipe';
     BalanceTabledialogComponent,
     GrantTransferMohuaComponent,
     MunicipalityBondsComponent,
+    AutoCompleteComponent,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],

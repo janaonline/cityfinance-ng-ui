@@ -5,16 +5,16 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
 
-// if (environment.production) {
-//   enableProdMode();
-//   window.console.log = () => {};
-// }
+if (environment.production) {
+  enableProdMode();
+  window.console.log = () => {};
+}
 
-// if (window) {
-//   window.console.log = () => {};
-//   window.console.error = () => {};
-//   window.console.warn = () => {};
-// }
+if (window) {
+  window.console.log = () => {};
+  window.console.error = () => {};
+  window.console.warn = () => {};
+}
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

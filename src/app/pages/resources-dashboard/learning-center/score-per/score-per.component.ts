@@ -1,5 +1,5 @@
 import { Component, OnInit, SimpleChange } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
 import { CommonService } from "src/app/shared/services/common.service";
 import { ResourcesServicesService } from "../../resDashboard-services/resources-services.service";
 import { MatStepper } from "@angular/material/stepper";
@@ -40,6 +40,18 @@ export class ScorePerComponent implements OnInit {
 
   activeValue: boolean = false;
   topThree: boolean = false;
+  
+  DropdownSettings = {
+    singleSelection: true,
+    text: "State",
+    enableSearchFilter: true,
+    labelKey: "name",
+    primaryKey: "_id",
+    showCheckbox: false,
+    classes: "filter-component",
+  };
+
+  state = new FormControl();
 
   constructor(
     private resource_das_services: ResourcesServicesService,
