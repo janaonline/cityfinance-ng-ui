@@ -39,6 +39,7 @@
   .fil-btn {
     pointer-events: none;
   }
+
   .f-h {
     text-align: center !important;
   }
@@ -48,8 +49,9 @@
   .fl-form {
     display: none;
   }
-  .responsiveFilterClass{
-    margin-top:0px !important;
+
+  .responsiveFilterClass {
+    margin-top: 0px !important;
   }
 }
 
@@ -68,4 +70,21 @@
   font-size: 0.9em;
   margin-top: 1%;
   margin-right: 4%;
+}
+
+
+::ng-deep .cuppa-dropdown .selected-list {
+  .c-btn {
+    line-height: 1.5;
+    font-size: 1rem;
+    font-weight: 600;
+    span:first-child {
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  border-radius: 5px;
+  background: white;
+  border: 1px solid #ced4da;
 }

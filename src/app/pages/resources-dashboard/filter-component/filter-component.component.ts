@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   TemplateRef,
 } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
@@ -38,6 +38,21 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   init = new EventEmitter();
   @Output() download = new EventEmitter();
   @Input() mobileFilterConfig: any;
+
+
+  state = new FormControl();
+
+
+  DropdownSettings = {
+    singleSelection: true,
+    text: "State",
+    enableSearchFilter: true,
+    labelKey: "name",
+    primaryKey: "_id",
+    showCheckbox: false,
+    classes: "",
+  };
+
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
@@ -49,7 +64,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   stateList;
   ulbList;
-  filterForm;
+  filterForm: FormGroup;
   globalOptions = [];
   yearList = [
     "2015-16",
@@ -233,5 +248,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
         this.filterFormData.emit(result?.filterForm);
       }
     });
+  }
+
+  onStateChange(state) {
+    console.log(state);
+    this.filterForm.patchValue({state: state._id})
+    this.filterData('state', '')
   }
 }
