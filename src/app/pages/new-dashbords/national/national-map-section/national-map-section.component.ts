@@ -120,7 +120,7 @@ export class NationalMapSectionComponent
   DropdownSettings = {
     singleSelection: true,
     text: "India",
-    enableSearchFilter: false,
+    enableSearchFilter: true,
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
