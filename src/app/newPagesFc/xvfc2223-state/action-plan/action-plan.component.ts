@@ -13,6 +13,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { log } from 'console';
 
 
 @Component({
@@ -23,11 +24,11 @@ import { NewCommonService } from 'src/app/shared2223/services/new-common.service
 export class ActionPlanComponent implements OnInit {
 
   userLoggedInDetails: IUserLoggedInDetails;
-  // loggedInUserType: USER_TYPE;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
-  // uasData = JSON.parse(sessionStorage.getItem("UasList"));
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
   data = null;
@@ -37,14 +38,28 @@ export class ActionPlanComponent implements OnInit {
   uaCodes = {};
   showLoader = true;
   projectCategories = [];
-  @ViewChild("template") template;
-  @ViewChild("template1") template1;
  // dialogRefForNavigation;
   actionRes = [];
   stateId;
   uasData;
   isDisabled = false;
+  body = {};
+  stopFlag = 0;
+  submitted = false;
+  reqBody;
+  finalError = false;
+  isPreYear = false;
+  preMess = '';
+  backRouter = '';
+  nextRouter = '';
+  canTakeAction:boolean = false;
+  actionError = false;
+  actionBtnDis = false;
+  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
+  UANames = [];
   isApiInProgress = true;
+  sideMenuItem;
+  finalActionData;
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -63,20 +78,12 @@ export class ActionPlanComponent implements OnInit {
     }
 
   }
- // disableAllForms = false;
- // actionFormDisable = false;
- // isStateSubmittedForms = "";
- // allStatus;
- // backButtonClicked = false;
-  body = {};
-  stopFlag = 0;
-  submitted = false;
-  reqBody;
-  finalError = false;
-  isPreYear = false;
-  preMess = '';
+
+
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.getUAList();
+    this.setRouter();
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.stateId).subscribe(
@@ -137,7 +144,9 @@ export class ActionPlanComponent implements OnInit {
           uaData: res["data"]?.uaData,
           status: res["data"]?.status ?? "PENDING",
           isDraft: res["data"]?.isDraft,
+          canTakeAction : res["data"]?.canTakeAction,
         };
+        this.canTakeAction = res["data"]?.canTakeAction
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
         this.addKeys(this.data);
         this.isPreYear = true;
@@ -251,7 +260,7 @@ export class ActionPlanComponent implements OnInit {
   }
 
 
-  errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";
+
   submit(type) {
     let draftFlag;
     if (this.loggedInUserType === "STATE") {
@@ -306,53 +315,8 @@ export class ActionPlanComponent implements OnInit {
       }
 
     }
-    //  else if (this.loggedInUserType === "MoHUA") {
-    //   let changeHappen = sessionStorage.getItem("changeInActionPlans");
-    //   if (changeHappen == "false") {
-    //     this._router.navigate(["stateform/grant-allocation"]);
-    //     return;
-    //   } else {
-    //     if (this.routerNavigate) {
-    //       this.saveStateAction();
-    //       sessionStorage.setItem("changeInActionPlans", "false")
-    //       if (!this.stopFlag) {
-    //         this._router.navigate([this.routerNavigate.url]);
-    //       }
-    //       return;
-    //     } else if (this.submitted || this.backButtonClicked) {
-    //       this.finalActionData['uaData'].forEach(el => {
-    //         if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
-    //           draftFlag = 1;
-    //         }
-    //       })
-    //       if (draftFlag) {
-    //         this.finalActionData['isDraft'] = true;
-    //         this.openModal(this.template1)
-    //         return;
-    //       } else {
-    //         this.finalActionData['isDraft'] = false;
-    //       }
-    //       this.saveStateAction();
-    //       sessionStorage.setItem("changeInActionPlans", "false")
-    //       if (!this.stopFlag && this.submitted) {
-    //         this._router.navigate(["stateform/grant-allocation"]);
-    //         return
-    //       } else if (!this.stopFlag && this.backButtonClicked) {
-    //         this._router.navigate(["stateform/action-plan"]);
-    //         return
-    //       }
-    //       return;
-    //     }
-    //     this.saveStateAction();
-    //     sessionStorage.setItem("changeInActionPlans", "false")
-    //     if (!this.stopFlag) {
-    //       this._router.navigate(["stateform/grant-allocation"]);
-    //     }
-    //     return;
-
-    //   }
-    // }
   }
+
   postData() {
     this.actionplanserviceService.postFormData(this.reqBody).subscribe(
       (res) => {
@@ -380,54 +344,7 @@ export class ActionPlanComponent implements OnInit {
     );
   }
 
-  // saveStateAction() {
-  //   let flag = 0;
-  //   let draftFlag = 0;
 
-  //   console.log(this.finalActionData);
-  //   this.finalActionData['uaData'].forEach(el => {
-  //     if (el.status != 'APPROVED' && el.status != 'REJECTED') {
-  //       draftFlag = 1;
-  //     }
-  //   })
-  //   if (draftFlag) {
-  //     this.finalActionData['isDraft'] = true;
-  //   } else {
-  //     this.finalActionData['isDraft'] = false;
-  //   }
-  //   console.log(this.finalActionData['isDraft'])
-  //   this.finalActionData.uaData.forEach((el) => {
-  //     console.log(el.ua, el.status, el.rejectReason);
-
-  //     if (
-  //       el["status"] == "REJECTED" &&
-  //       (!el["rejectReason"] || el["rejectReason"] == null)
-  //     ) {
-  //       flag = 1;
-  //     }
-  //   });
-  //   if (flag) {
-  //     swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
-  //     this.stopFlag = 1;
-  //     return
-  //   }
-  //   this.actionplanserviceService
-  //     .postStateAction(this.finalActionData)
-  //     .subscribe(
-  //       (res) => {
-  //         swal("Record submitted successfully!");
-  //         const status = JSON.parse(
-  //           sessionStorage.getItem("allStatusStateForms")
-  //         );
-  //       },
-  //       (error) => {
-  //         swal("An error occured!");
-  //         console.log(error.message);
-  //       }
-  //     );
-  // }
-  backRouter = ''
-  nextRouter = ''
   saveButtonClicked(type) {
     this.submitted = true;
     this.submit(type)
@@ -509,42 +426,6 @@ export class ActionPlanComponent implements OnInit {
     return apiData;
   }
 
-  // finalActionData;
-  // checkStatus(ev, ua_id, a, b) {
-  //   sessionStorage.setItem("changeInActionPlans", "true");
-  //   this.saveBtnText = "SAVE AND NEXT";
-  //   console.log("action plan of UA", ev, ua_id);
-  //   console.log("before", this.data.uaData);
-  //   if (!this.finalActionData) {
-  //     this.finalActionData = this.makeApiData();
-  //     this.data['uaData'].forEach(el1 => {
-  //       this.finalActionData['uaData'].forEach(el2 => {
-  //         if (el1.ua == el2.ua) {
-  //           el2.status = el1.status;
-  //           el2.rejectReason = el1.rejectReason
-  //         }
-  //       })
-  //     })
-  //   }
-
-
-  //   console.log(this.finalActionData);
-  //   this.finalActionData.uaData.forEach((el) => {
-  //     if (el.ua == ua_id) {
-  //       el["status"] = ev.status;
-  //       el["rejectReason"] = ev.rejectReason;
-  //     }
-  //   });
-
-  //   this.finalActionData.uaData.forEach((element) => {
-  //     if (element["status"] === "REJECTED") {
-  //       this.finalActionData["status"] = "REJECTED";
-  //     } else {
-  //       this.finalActionData["status"] = "APPROVED";
-  //     }
-  //   });
-  //   console.log("after", this.finalActionData);
-  // }
 
   getExcel() {
     let data = this.makeApiData();
@@ -565,7 +446,7 @@ export class ActionPlanComponent implements OnInit {
       (error) => { }
     );
   }
-  UANames = []
+
   getCardData() {
     this.stateDashboardService.getCardData(this.stateId).subscribe(
       (res: any) => {
@@ -613,10 +494,79 @@ export class ActionPlanComponent implements OnInit {
       //  this.saveBtnText = "NEXT";
     }
 
-    if (this.loggedInUserType == "MoHUA") {
-      if (sessionStorage.getItem("changeInActionPlans") == 'true') {
-        //  this.saveBtnText = "SAVE AND NEXT";
-      }
+    // if (this.loggedInUserType == "MoHUA") {
+    //   if (sessionStorage.getItem("changeInActionPlans") == 'true') {
+    //     //  this.saveBtnText = "SAVE AND NEXT";
+    //   }
+    // }
+  }
+
+    saveAction() {
+  //   let flag = 0;
+  //   let draftFlag = 0;
+
+  //   console.log(this.finalActionData);
+  //   this.finalActionData['uaData'].forEach(el => {
+  //     if (el.status != 'APPROVED' && el.status != 'REJECTED') {
+  //       draftFlag = 1;
+  //     }
+  //   })
+  //   if (draftFlag) {
+  //     this.finalActionData['isDraft'] = true;
+  //   } else {
+  //     this.finalActionData['isDraft'] = false;
+  //   }
+  //   console.log(this.finalActionData['isDraft'])
+  //   this.finalActionData.uaData.forEach((el) => {
+  //     console.log(el.ua, el.status, el.rejectReason);
+
+  //     if (
+  //       el["status"] == "REJECTED" &&
+  //       (!el["rejectReason"] || el["rejectReason"] == null)
+  //     ) {
+  //       flag = 1;
+  //     }
+  //   });
+  //   if (flag) {
+  //     swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+  //     this.stopFlag = 1;
+  //     return
+  //   }
+  // console.log('action payload.',this.finalActionData)
+
+    this.actionplanserviceService
+      .postStateAction(this.finalActionData)
+      .subscribe(
+        (res) => {
+          console.log('res..', res)
+          swal("Record submitted successfully!");
+        },
+        (error) => {
+          swal("An error occured!");
+          console.log(error.message);
+        }
+      );
+   }
+  actionData(e, pIndex) {
+    // console.log('state action...action plan', e, pIndex);
+    // console.log('this.data 1', this.finalActionData);
+
+    this.finalActionData = this.makeApiData();
+    this.finalActionData["uaData"][pIndex]["status"] = e?.status;
+    this.finalActionData["uaData"][pIndex]["rejectReason"] = e?.reason;
+   // console.log('this.data 3 ', this.finalActionData);
+
+  }
+  setRouter() {
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((element) => {
+        if (element?.url == "action-plan") {
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
+        //  this.formId = element?._id;
+
+        }
+      });
     }
   }
 

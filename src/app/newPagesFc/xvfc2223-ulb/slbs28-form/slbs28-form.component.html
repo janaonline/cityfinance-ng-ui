@@ -45,15 +45,15 @@
                                             <div *ngIf="actual.invalid && (actual.dirty || actual.touched)">
 
                                                 <span class="errorDis" *ngIf="actual.errors['required']">
-                                         Actual is required.
-                                    </span>
+                                       Actual is required.
+                                  </span>
                                             </div>
                                             <div *ngIf="actual.dirty || actual.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                               Actual Value must be less than the Target.
+                                               Actual value must be less than the Target value.
                                             </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                               Target Value must be less than the Actual.
+                                               Actual value must be greater than the Target value.
                                             </span>
                                             </div>
                                         </div>
@@ -67,16 +67,16 @@
                                             <div *ngIf="target.invalid && (target.dirty || target.touched)">
 
                                                 <span class="errorDis" *ngIf="target.errors['required']">
-                                              Target is required.
-                                            </span>
+                                            Target is required.
+                                          </span>
 
                                             </div>
                                             <div *ngIf="target.dirty || target.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                            Actual Value must be less than the Target.
-                                          </span>
+                                                 Target value must be greater than the Actual value.
+                                               </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                            Target Value must be less than the Actual.
+                                            Target value must be less than the Actual value.
                                           </span>
                                             </div>
                                         </div>
@@ -118,9 +118,9 @@
                 <button (click)='save(true)' [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" class="btn btn-primary">Save As Draft</button>
                 <button (click)='save(false)' [disabled]="isDisabled" *ngIf="ulbData?.role == 'ULB'" class="btn btn-primary ms-3">Submit</button>
                 <span *ngIf="canTakeAction">
-              <button class="btn btn-primary ms-3" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
-              [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
-             </span>
+            <button class="btn btn-primary ms-3" *ngIf="ulbData?.role == 'STATE' || ulbData?.role == 'MoHUA'"
+            [disabled]="actionBtnDis" (click)="saveAction()">Submit</button>
+           </span>
                 <button class="btn btn-c-next ms-3" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>
@@ -146,8 +146,8 @@
                     <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
                     <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
                     <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
-                Save & Proceed
-              </button>
+              Save & Proceed
+            </button>
                 </div>
 
             </div>
@@ -157,5 +157,5 @@
 </div>
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
-    <app-pre-loader></app-pre-loader>
+    <app-pre-loader-new></app-pre-loader-new>
 </div>

@@ -31,25 +31,26 @@
                 <span class="quesIn" style="margin-left: 1.5rem; font-weight: normal;">{{blankAns}}</span>
             </div>
         </div>
-        <table aria-describedby="Water Waste Management Form" class="t-tb-tr tb-th-s" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
-            <thead style="color: #047474" class="tb-th-s">
-                <th style="padding: 1%" scope="col" class="tb-th-s">Service Level Indicators</th>
-                <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">Benchmark</th>
-                <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">
-                    Actual Indicator <br /> 2020-21
-                </th>
-                <th style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
-            </thead>
+        <div class="table-responsive">
+            <table aria-describedby="Water Waste Management Form" class="t-tb-tr tb-th-s" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
+                <thead style="color: #047474" class="tb-th-s">
+                    <th style="padding: 1%" scope="col" class="tb-th-s">Service Level Indicators</th>
+                    <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">Benchmark</th>
+                    <th style="padding: 1%; text-align: center" class="tb-th-s" scope="col">
+                        Actual Indicator <br /> 2020-21
+                    </th>
+                    <th style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
+                </thead>
 
-            <tbody class="t-tb-tr tb-th-s">
-                <tr *ngIf="services[0] as service" class="t-tb-tr">
-                    <td class="td-width tb-th-s">
-                        {{ service.name }}
-                    </td>
-                    <td style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <!-- <td>
+                <tbody class="t-tb-tr tb-th-s">
+                    <tr *ngIf="services[0] as service" class="t-tb-tr">
+                        <td class="td-width tb-th-s">
+                            {{ service.name }}
+                        </td>
+                        <td style="text-align: center;" class="tb-th-s">
+                            <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        </td>
+                        <!-- <td>
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -118,51 +119,51 @@
                 transform="translate(-113.725 -113.725)" />
             </svg>
                     </td> -->
-                    <td style="text-align: center" class="tb-th-s">
-                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                        <td style="text-align: center" class="tb-th-s">
+                            <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
-                        <span *ngIf="data?.waterManagement[service.key]?.target">
+                        </td>
+                        <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                            <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                </tr>
-                <tr *ngIf="
+                        </td>
+                    </tr>
+                    <tr *ngIf="
               data?.waterManagement[services[0].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
-                    <td></td>
-                    <td></td>
+                        <td></td>
+                        <td></td>
 
-                    <td colspan="5" class="tb-th-s">
-                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-                        {{ data?.waterManagement[services[0].key].rejectReason }}
-                    </td>
-                </tr>
+                        <td colspan="5" class="tb-th-s">
+                            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                            {{ data?.waterManagement[services[0].key].rejectReason }}
+                        </td>
+                    </tr>
 
-                <tr *ngIf="services[1] as service" class="t-tb-tr">
-                    <td style="padding: 1%" class="td-width tb-th-s">
-                        {{ service.name }}
-                    </td>
-                    <td style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <!-- <td>
+                    <tr *ngIf="services[1] as service" class="t-tb-tr">
+                        <td style="padding: 1%" class="td-width tb-th-s">
+                            {{ service.name }}
+                        </td>
+                        <td style="text-align: center;" class="tb-th-s">
+                            <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        </td>
+                        <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -232,50 +233,50 @@
             </svg>
           </td> -->
 
-                    <td style="text-align: center" class="tb-th-s">
-                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                        <td style="text-align: center" class="tb-th-s">
+                            <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
-                        <span *ngIf="data?.waterManagement[service.key]?.target">
+                        </td>
+                        <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                            <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-                        <i class="glyphicon" style="font-weight: 600" *ngIf="
+                            <i class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </i>
-                    </td>
-                </tr>
-                <tr *ngIf="
+                        </td>
+                    </tr>
+                    <tr *ngIf="
               data?.waterManagement[services[1].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
-                    <td></td>
-                    <td></td>
-                    <td colspan="5" style="padding-left: 1%">
-                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-                        {{ data?.waterManagement[services[1].key].rejectReason }}
-                    </td>
-                </tr>
+                        <td></td>
+                        <td></td>
+                        <td colspan="5" style="padding-left: 1%">
+                            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                            {{ data?.waterManagement[services[1].key].rejectReason }}
+                        </td>
+                    </tr>
 
-                <tr *ngIf="services[2] as service" class="t-tb-tr">
-                    <td class="td-width tb-th-s">
-                        {{ service.name }}
-                    </td>
-                    <td style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <!-- <td>
+                    <tr *ngIf="services[2] as service" class="t-tb-tr">
+                        <td class="td-width tb-th-s">
+                            {{ service.name }}
+                        </td>
+                        <td style="text-align: center;" class="tb-th-s">
+                            <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        </td>
+                        <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -345,50 +346,50 @@
             </svg>
           </td> -->
 
-                    <td style="text-align: center" class="tb-th-s">
-                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                        <td style="text-align: center" class="tb-th-s">
+                            <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
-                        <span *ngIf="data?.waterManagement[service.key]?.target">
+                        </td>
+                        <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                            <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                </tr>
-                <tr *ngIf="
+                        </td>
+                    </tr>
+                    <tr *ngIf="
               data?.waterManagement[services[2].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
-                    <td></td>
-                    <td></td>
-                    <td colspan="5" style="padding-left: 1%" class="tb-th-s">
-                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-                        {{ data?.waterManagement[services[2].key].rejectReason }}
-                    </td>
-                </tr>
+                        <td></td>
+                        <td></td>
+                        <td colspan="5" style="padding-left: 1%" class="tb-th-s">
+                            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                            {{ data?.waterManagement[services[2].key].rejectReason }}
+                        </td>
+                    </tr>
 
-                <tr *ngIf="services[3] as service" class="t-tb-tr">
-                    <td class="td-width tb-th-s">
-                        {{ service.name }}
-                    </td>
-                    <td style="text-align: center;" class="tb-th-s">
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <!-- <td>
+                    <tr *ngIf="services[3] as service" class="t-tb-tr">
+                        <td class="td-width tb-th-s">
+                            {{ service.name }}
+                        </td>
+                        <td style="text-align: center;" class="tb-th-s">
+                            <span class="benchamark-cell">{{ service.benchmark }}</span>
+                        </td>
+                        <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -458,43 +459,45 @@
             </svg>
           </td> -->
 
-                    <td style=" text-align: center" class="tb-th-s">
-                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                        <td style=" text-align: center" class="tb-th-s">
+                            <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                    <td style=" text-align: center" class="tb-th-s" *ngFor="let year of targets">
-                        <span *ngIf="data?.waterManagement[service.key]?.target">
+                        </td>
+                        <td style=" text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                            <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-                        <em class="glyphicon" style="font-weight: 600" *ngIf="
+                            <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-                    </td>
-                </tr>
-                <tr *ngIf="
+                        </td>
+                    </tr>
+                    <tr *ngIf="
               data?.waterManagement[services[3].key].status ===
               uploadSTATUS.REJECTED
             " class="t-tb-tr">
-                    <td></td>
-                    <td></td>
-                    <td colspan="5" style="padding-left: 1%" class="tb-th-s">
-                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-                        {{ data?.waterManagement[services[3].key].rejectReason }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td></td>
+                        <td></td>
+                        <td colspan="5" style="padding-left: 1%" class="tb-th-s">
+                            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                            {{ data?.waterManagement[services[3].key].rejectReason }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div style="display: none;">
             <h3 style="text-align: center">Upload Plans</h3>
             <ol>

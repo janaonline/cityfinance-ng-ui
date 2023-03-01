@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreLoaderComponent } from './pre-loader.component';
+import { MunicipalityBondsComponent } from './municipality-bonds.component';
 
-describe('PreLoaderComponent', () => {
-  let component: PreLoaderComponent;
-  let fixture: ComponentFixture<PreLoaderComponent>;
+describe('MunicipalityBondsComponent', () => {
+  let component: MunicipalityBondsComponent;
+  let fixture: ComponentFixture<MunicipalityBondsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreLoaderComponent ]
+      declarations: [ MunicipalityBondsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PreLoaderComponent);
+    fixture = TestBed.createComponent(MunicipalityBondsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

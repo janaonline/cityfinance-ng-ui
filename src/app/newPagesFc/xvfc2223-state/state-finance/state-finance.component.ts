@@ -56,6 +56,8 @@ export class StateFinanceComponent implements OnInit {
   } = {};
   sideMenuItem;
   isApiInProgress = true;
+  nextRouter= '';
+  backRouter = '';
   constructor(
     public _router: Router,
     public dialog: MatDialog,
@@ -65,7 +67,7 @@ export class StateFinanceComponent implements OnInit {
   ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -73,10 +75,12 @@ export class StateFinanceComponent implements OnInit {
     this.yearValue = this.design_year["2022-23"];
     this.navigationCheck();
     this.initializeForm();
-    this.setRouter();
+
    }
 
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.clickedSave = false;
     sessionStorage.setItem('changeInStateFinance', 'false');
     this.onload();
@@ -647,12 +651,13 @@ export class StateFinanceComponent implements OnInit {
       this.actionBtnDis = true;
     }
   }
+
   setRouter() {
     for (const key in this.sideMenuItem) {
       this.sideMenuItem[key].forEach((element) => {
         if (element?.name == "State Finance Commission Notification") {
-          // this.nextRouter = element?.nextUrl;
-          // this.backRouter = element?.prevUrl;
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
           this.formId = element?._id;
         }
       });

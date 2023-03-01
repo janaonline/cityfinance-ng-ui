@@ -1,65 +1,66 @@
 <!-- This form contains four rows. In 2020-21, there was a row level approval and fro 2021-22, there was Form Levle Approval -->
 <!-- in tbody, there are 8 tr, 2 for each Row. 1st Tr is the input TR and 2nd tr is the review status TR.  -->
-<div style="font-size: 1.5rem; padding: 8rem 8rem;" *ngIf="!isPreviousData" [innerHTML]="isPreviousMsg"></div>
-<div class="row" *ngIf="isPreviousData;">
-    <div class="col-sm-12" style="margin-bottom: 1rem;">
-        <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
-            <button [style.position]="loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="preview()">
-                Preview
-            </button>
-        </h3>
-    </div>
-    <div class="row">
-        <div class="card col-sm-12 mb-2 ms-2 mt-4 p-1 box-shadow" style="margin-bottom: 1rem;">
-            <form [formGroup]="waterWasteManagementForm" autocomplete="off" [ngClass]="{
-    'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
-    'ulb-view-table':
-      (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
-  }">
-                <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%" class="table">
-                    <!--heading Labels of the form  -->
-                    <thead>
-                        <th scope="col">Service Level Indicators</th>
-                        <th scope="col">Benchmark</th>
-                        <th scope="col">
-                            Actual Indicator<br /> 2020-21
-                        </th>
+<div class="" *ngIf="!isApiInProgress">
+    <div style="font-size: 1.5rem; padding: 8rem 8rem;" *ngIf="!isPreviousData" [innerHTML]="isPreviousMsg"></div>
+    <div class="row" *ngIf="isPreviousData;">
+        <div class="col-sm-12" style="margin-bottom: 1rem;">
+            <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
+                <button [style.position]="loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+          " style="right: 0px; float: right; outline: none" class="btn btn-primary btn-upload" (click)="preview()">
+                  Preview
+              </button>
+            </h3>
+        </div>
+        <div class="col-sm-12">
+            <div class="card mt-4 mb-3 p-1 box-shadow o-s" style="">
+                <form [formGroup]="waterWasteManagementForm" autocomplete="off" [ngClass]="{
+      'non-ulb-view-table': canSeeApproveActionTaken || canTakeApproveAction,
+      'ulb-view-table':
+        (canSeeApproveActionTaken || canTakeApproveAction) && canUploadFile
+    }">
+                    <div class="table-responsive w-s">
+                        <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%" class="table">
+                            <!--heading Labels of the form  -->
+                            <thead>
+                                <th scope="col">Service Level Indicators</th>
+                                <th scope="col">Benchmark</th>
+                                <th scope="col">
+                                    Actual Indicator<br /> 2020-21
+                                </th>
 
-                        <th *ngFor="let column of targets;  index as i" scope="col">
+                                <th *ngFor="let column of targets;  index as i" scope="col">
 
-                            <span style="padding: 0;" [innerHTML]="column.name"></span>
-                        </th>
-                        <th *ngFor="let column of achieved" scope="col">
-                            <span style="padding: 0;" [innerHTML]="column.name"></span>
-                        </th>
-                        <th scope="col"> Score</th>
-                    </thead>
+                                    <span style="padding: 0;" [innerHTML]="column.name"></span>
+                                </th>
+                                <th *ngFor="let column of achieved" scope="col">
+                                    <span style="padding: 0;" [innerHTML]="column.name"></span>
+                                </th>
+                                <th scope="col"> Score</th>
+                            </thead>
 
-                    <tbody>
-                        <!-- this is the 1st input <tr> of this Form where data will be entered -->
-                        <tr *ngIf="services[0] as service" [formGroupName]="service.key">
-                            <!-- first element of the row - Question Label -->
-                            <td>
-                                <span class="service-name">{{ service.name }}
-                <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
-                  class="mandatory">*</span></span>
-                            </td>
-                            <!-- second element of row -> Benchmark values -->
-                            <td>
-                                <span class="benchamark-cell">{{ service.benchmark }}</span>
-                            </td>
-                            <!-- third element of the row -> actual of 20-21 -->
-                            <td formGroupName="baseline">
-                                <div class="input-group data-input">
+                            <tbody>
+                                <!-- this is the 1st input <tr> of this Form where data will be entered -->
+                                <tr *ngIf="services[0] as service" [formGroupName]="service.key">
+                                    <!-- first element of the row - Question Label -->
+                                    <td style="width: 15%">
+                                        <span class="service-name">{{ service.name }}
+                               <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;" class="mandatory">*</span></span>
+                                    </td>
+                                    <!-- second element of row -> Benchmark values -->
+                                    <td style="width: 8%">
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <!-- third element of the row -> actual of 20-21 -->
+                                    <td formGroupName="baseline">
+                                        <div class="input-group data-input">
 
-                                    <input [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <input [id]="service.key + 'baseline'" type="text" class="form-control" formControlName="2021" />
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
                 waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                   '2021'
                 ]?.errors as error
@@ -69,21 +70,21 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0] }} </span>
-                                </ng-container>
-                                <!-- {{
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                        </ng-container>
+                                        <!-- {{
               waterWasteManagementForm.controls[service.key].controls["baseline"]
                 .controls["2021"].errors | json
             }} -->
-                                </span>
-                            </td>
-                            <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
+                                        </span>
+                                    </td>
+                                    <!-- fourth (21-22), fifth(22-23) , sixth (23-24) and seventh (24-25) element of the row -  -->
 
-                            <td *ngFor="let year of targets;  index as i" formGroupName="target">
+                                    <td *ngFor="let year of targets;  index as i" formGroupName="target">
 
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                       year.key
@@ -102,11 +103,11 @@
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.required
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+                                        </div>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
                 waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                   year.key
                 ]?.errors as error">
@@ -115,63 +116,63 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required">{{messages[0]}}</span>
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required">{{messages[0]}}</span>
 
-                                </ng-container>
+                                        </ng-container>
 
-                                </span>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
+                                        </span>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.status === 'INVALID' && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.errors == null">
                 {{messages[1]}}
               </span>
-                            </td>
+                                    </td>
 
-                            <!-- achieved -->
-                            <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                    <!-- achieved -->
+                                    <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                            </td>
-                            <td *ngFor="let year of score;  index as i" formGroupName="score">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                    </td>
+                                    <td *ngFor="let year of score;  index as i" formGroupName="score">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
 
-                                </div>
+                                        </div>
 
-                            </td>
-
-
-                            <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
-                            <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
-
-                        </tr>
+                                    </td>
 
 
-                        <!-- this is the 2nd input <tr> of this Form where data will be entered -->
-                        <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
+                                    <!-- Action Component (this was used in 2020-21 when row level approval system was there)  -->
+                                    <!-- From 2021-22 module, there is a form level approval,  so  below <td> is not being used -->
+
+                                </tr>
+
+
+                                <!-- this is the 2nd input <tr> of this Form where data will be entered -->
+                                <tr *ngIf="services[1] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
               rejectAction
           }">
-                            <td>
-                                <span class="service-name">{{ service.name }}
+                                    <td>
+                                        <span class="service-name">{{ service.name }}
                 <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
                   class="mandatory">*</span></span>
-                            </td>
-                            <td>
-                                <span class="benchamark-cell">{{ service.benchmark }}</span>
-                            </td>
-                            <td formGroupName="baseline">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td formGroupName="baseline">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                       '2021'
@@ -185,12 +186,12 @@
                       ( waterWasteManagementForm.controls[service.key].controls['baseline'].status == 'INVALID' ||
                       waterWasteManagementForm.controls[service.key].controls['baseline']?.invalid) )
                 }" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
               waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors as error
@@ -200,16 +201,16 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0] }} </span>
-                                </ng-container>
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                        </ng-container>
 
 
-                                </span>
-                            </td>
-                            <td *ngFor="let year of targets" formGroupName="target">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                        </span>
+                                    </td>
+                                    <td *ngFor="let year of targets" formGroupName="target">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                       year.key
@@ -228,11 +229,11 @@
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.required
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+                                        </div>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
                 waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                   year.key
                 ]?.errors as error
@@ -242,54 +243,54 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{messages[0]}} </span>
-                                </ng-container>
-                                </span>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{messages[0]}} </span>
+                                        </ng-container>
+                                        </span>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.status === 'INVALID' && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.errors == null">
                 {{messages[2]}}
               </span>
-                            </td>
+                                    </td>
 
-                            <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                    <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                            </td>
-                            <td *ngFor="let year of score;  index as i" formGroupName="score">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                    </td>
+                                    <td *ngFor="let year of score;  index as i" formGroupName="score">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
 
-                                </div>
+                                        </div>
 
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                        <!-- this is the 3rd input <tr> of this Form where data will be entered -->
-                        <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
+                                <!-- this is the 3rd input <tr> of this Form where data will be entered -->
+                                <tr *ngIf="services[2] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
               rejectAction
           }">
-                            <td>
-                                <span class="service-name">{{ service.name }}
+                                    <td>
+                                        <span class="service-name">{{ service.name }}
                 <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
                   class="mandatory">*</span></span>
-                            </td>
-                            <td>
-                                <span class="benchamark-cell">{{ service.benchmark }}</span>
-                            </td>
-                            <td formGroupName="baseline">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td formGroupName="baseline">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                       '2021'
@@ -303,12 +304,12 @@
                       ( waterWasteManagementForm.controls[service.key].controls['baseline'].status == 'INVALID' ||
                       waterWasteManagementForm.controls[service.key].controls['baseline']?.invalid) )
                 }" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
               waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                 '2021'
               ]?.errors as error
@@ -318,19 +319,19 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0] }} </span>
-                                </ng-container>
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                        </ng-container>
 
-                                <!-- {{
+                                        <!-- {{
               waterWasteManagementForm.controls[service.key].controls["baseline"]
                 .controls["2021"].errors | json
             }} -->
-                                </span>
-                            </td>
-                            <td *ngFor="let year of targets" formGroupName="target">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                        </span>
+                                    </td>
+                                    <td *ngFor="let year of targets" formGroupName="target">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                       year.key
@@ -350,11 +351,11 @@
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key]?.invalid) )
                 }" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+                                        </div>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
               waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors as error
@@ -364,53 +365,53 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0] }} </span>
-                                </ng-container>
-                                </span>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                        </ng-container>
+                                        </span>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.status === 'INVALID' && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.errors == null">
                 {{messages[1]}}
               </span>
-                            </td>
-                            <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                    </td>
+                                    <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                            </td>
-                            <td *ngFor="let year of score;  index as i" formGroupName="score">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                    </td>
+                                    <td *ngFor="let year of score;  index as i" formGroupName="score">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
 
-                                </div>
+                                        </div>
 
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                        <!-- this is the 4th input <tr> of this Form where data will be entered -->
-                        <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
+                                <!-- this is the 4th input <tr> of this Form where data will be entered -->
+                                <tr *ngIf="services[3] as service" [formGroupName]="service.key" [ngClass]="{
             'rejected-row':
               waterWasteManagementForm.controls[service.key]['controls']['status'].value ===
               rejectAction
           }">
-                            <td>
-                                <span class="service-name">{{ service.name }}
+                                    <td>
+                                        <span class="service-name">{{ service.name }}
                 <span *ngIf="form?.controls[service.key].validator({})['required']" style="color: red;"
                   class="mandatory">*</span></span>
-                            </td>
-                            <td>
-                                <span class="benchamark-cell">{{ service.benchmark }}</span>
-                            </td>
-                            <td formGroupName="baseline">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                    </td>
+                                    <td>
+                                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                                    </td>
+                                    <td formGroupName="baseline">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                       '2021'
@@ -424,12 +425,12 @@
                       ( waterWasteManagementForm.controls[service.key].controls['baseline'].status == 'INVALID' ||
                       waterWasteManagementForm.controls[service.key].controls['baseline']?.invalid) )
                 }" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+'baseline'] &&
                 waterWasteManagementForm.controls[service.key]['controls']['baseline'].controls[
                   '2021'
                 ]?.errors as error
@@ -439,19 +440,19 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0]}} </span>
-                                </ng-container>
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0]}} </span>
+                                        </ng-container>
 
-                                <!-- {{
+                                        <!-- {{
               waterWasteManagementForm.controls[service.key].controls["baseline"]
                 .controls["2021"].errors | json
             }} -->
-                                </span>
-                            </td>
-                            <td *ngFor="let year of targets" formGroupName="target">
-                                <div class="input-group data-input">
-                                    <input (blur)="
+                                        </span>
+                                    </td>
+                                    <td *ngFor="let year of targets" formGroupName="target">
+                                        <div class="input-group data-input">
+                                            <input (blur)="
                   onBlur(
                     waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                       year.key
@@ -471,11 +472,11 @@
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                     || waterWasteManagementForm.controls[service.key].controls['target'].controls[year.key]?.invalid) )
                 }" />
-                                    <span class="input-group-addon  spanCustom"><em class="glyphicon">
+                                            <span class="input-group-addon  spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
-                                <span class=" error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
+                                        </div>
+                                        <span class=" error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] &&
               waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
                 year.key
               ]?.errors as error">
@@ -484,70 +485,77 @@
                     Only numeric values with 2 decimals digit are allowed and must be
                     greater than or equal to 0.
                   </span>
-                                <!-- !error.patter !error.max error.hasOwn - msg -->
-                                <span *ngIf="error.max"> {{ error.max }} </span>
-                                <span *ngIf="error.required"> {{ messages[0] }} </span>
-                                </ng-container>
+                                        <!-- !error.patter !error.max error.hasOwn - msg -->
+                                        <span *ngIf="error.max"> {{ error.max }} </span>
+                                        <span *ngIf="error.required"> {{ messages[0] }} </span>
+                                        </ng-container>
 
-                                </span>
-                                <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
+                                        </span>
+                                        <span class="error-message" *ngIf="focusTargetKeyForErrorMessages[service.key+year.key] && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.status === 'INVALID' && waterWasteManagementForm.controls[service.key]['controls']['target'].controls[
               year.key
               ]?.errors == null"> {{messages[1]}}
               </span>
-                            </td>
-                            <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
-                                    <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                    </td>
+                                    <td *ngFor="let year of achieved;  index as i" formGroupName="achieved">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                            <span class="input-group-addon spanCustom"><em class="glyphicon">
                     {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                   </em></span>
-                                </div>
+                                        </div>
 
-                            </td>
-                            <td *ngFor="let year of score;  index as i" formGroupName="score">
-                                <div class="input-group data-input">
-                                    <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
+                                    </td>
+                                    <td *ngFor="let year of score;  index as i" formGroupName="score">
+                                        <div class="input-group data-input">
+                                            <input [id]="service.key + year.key" type="text" class="form-control" [formControlName]="year.key" />
 
-                                </div>
+                                        </div>
 
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                    </tbody>
-                </table>
-
-            </form>
-
-            <!-- loader -->
-            <ng-template #preloader>
-                <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-            </ng-template>
-        </div>
-        <!-- Action Component View  -  from 2021-22 onwards-->
+                            </tbody>
+                        </table>
+                    </div>
 
 
-        <!-- save and next -->
-    </div>
-    <div class="row mt-3 mb-4" *ngIf="mouFileUrl">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <span class=""><b>MoU</b>-</span>
-                    <span class="ms-3"><a href="{{mouFileUrl}}" target="_blank">{{mouFileName}}</a> </span>
-                </div>
+                </form>
+
+                <!-- loader -->
+                <ng-template #preloader>
+                    <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+                </ng-template>
             </div>
+            <!-- Action Component View  -  from 2021-22 onwards-->
 
+
+            <!-- save and next -->
+        </div>
+        <div class="row mt-3 mb-4" *ngIf="mouFileUrl">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <span class=""><b>MoU</b>-</span>
+                        <span class="ms-3"><a href="{{mouFileUrl}}" target="_blank">{{mouFileName}}</a> </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <button class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]="backRouter"><- Previous Form</button>
-    </div>
-    <div class="col-sm-6 text-end">
-        <button class="btn btn-c-next" routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form -></button>
-    </div>
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
 </div>

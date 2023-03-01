@@ -1,262 +1,327 @@
 <!-- <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm"> -->
-<div class="container-fluid">
-    <div class="row mt-3">
-        <div class="col-sm-12 heading com-style">
-            City Finance Rankings 2022
-        </div>
-    </div>
-    <div class="row" *ngIf="!formSubmitted">
-        <div class="col-sm-12">
-            <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
-                <div class="spinner-grow text-success" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-danger ms-2" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow text-warning ms-2" role="status">
-                    <span class="visually-hidden ">Loading...</span>
-                </div>
-                <div class="spinner-grow text-info ms-2" role="status">
-                    <span class="visually-hidden ">Loading...</span>
-                </div>
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-sm-12 heading com-style">
+                City Finance Rankings 2022
             </div>
-            <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
-                <mat-step state="state" *ngFor="let tab of tabs">
-                    <ng-template matStepLabel>
-                        <span class="st-title com-style" [title]="tab?.label">{{((tab?.label).split(' '))[0]}}
-                            {{((tab?.label).split(' '))[1]}}<br>
-                            {{((tab?.label).split(' '))[2]}}</span>
-                    </ng-template>
-                    <div class="container w-50 mt-4">
-                        <div class="form" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
-                            <form [formGroup]="fiscalForm" *ngIf="fiscalForm">
-                                <!-- ulb basic info -->
-                                <div class="" *ngIf="tab?.id == 's1'" [ngClass]="{'disable': isDisabled}">
-                                    <div class="row mx-auto">
-                                        <div class="col-sm-12">
-                                            <div class="form" formGroupName="basicUlbDetails">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="ulbName" id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of ULB"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Name of ULB*</mat-label>
-                                                            <input class="com-style" matInput placeholder="Name of ULB*" formControlName="ulbName">
-                                                        </mat-form-field>
-                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.ulbName?.status" [(status)]="basicUlbDetailsStatus.ulbName.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Population as per 2011 Census*
-                                                            </mat-label>
-                                                            <input class="com-style" formControlName="population11" matInput placeholder="Population as per 2011 Census*" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
-                                                        </mat-form-field>
-                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.population11?.status" [(status)]="basicUlbDetailsStatus.population11.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style"
-                                                        formControlName="populationFr" id="{{tab?.id}}3"
-                                                        (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)"
-                                                         #inputText2 aria-describedby="{{tab?.id}}3" placeholder="Population as on 1st April 2022"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Population as on 1st April 2022
-                                                            </mat-label>
-                                                            <input class="com-style" formControlName="populationFr" matInput placeholder="Population as on 1st April 2022" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2>
-                                                        </mat-form-field>
-                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.populationFr?.status" [(status)]="basicUlbDetailsStatus.populationFr.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="webLink"
-                                                        id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="ULB website URL link"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">ULB website URL link
-                                                            </mat-label>
-                                                            <input class="com-style" formControlName="webLink" matInput placeholder="ULB website URL link" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.webLink?.status" [(status)]="basicUlbDetailsStatus.webLink.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="nameCmsnr"
-                                                        id="{{tab?.id}}5" aria-describedby="{{tab?.id}}5" placeholder="Name of Commissioner / Executive Officer "> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Name of Commissioner / Executive Officer*</mat-label>
-                                                            <input class="com-style" formControlName="nameCmsnr" matInput placeholder="Name of Commissioner / Executive Officer*" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.nameCmsnr?.status" [(status)]="basicUlbDetailsStatus.nameCmsnr.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-8">
-                                                            Does the ULB handle water supply services?*
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('waterSupply', $event.target.value)" formControlName="waterSupply">
-                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                                <mat-radio-button value="No" class="ms-3">No
-                                                                </mat-radio-button>
-                                                            </mat-radio-group>
-                                                        </div>
-                                                    </div>
-                                                    <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.waterSupply?.status" [(status)]="basicUlbDetailsStatus.waterSupply.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-                                                    <small *ngIf="
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.touched &&
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.invalid
-                                                    " class="text-danger">Please enter valid value</small>
-                                                    <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-8">
-                                                            Does the ULB handle sanitation service delivery?*
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('sanitationService', $event.target.value)" formControlName="sanitationService">
-                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                                <mat-radio-button value="No" class="ms-3">No
-                                                                </mat-radio-button>
-                                                            </mat-radio-group>
-                                                        </div>
-                                                    </div>
-                                                    <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.sanitationService?.status" [(status)]="basicUlbDetailsStatus.sanitationService.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-                                                    <small *ngIf="
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.touched &&
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.invalid
-                                                    " class="text-danger">Please enter valid value</small>
-                                                    <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-8">
-                                                            Does your Property Tax include Water Tax?*
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertyWaterTax', $event.target.value)" formControlName="propertyWaterTax">
-                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                                <mat-radio-button value="No" class="ms-3">No
-                                                                </mat-radio-button>
-                                                            </mat-radio-group>
-                                                        </div>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.propertyWaterTax?.status" [(status)]="basicUlbDetailsStatus.propertyWaterTax.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-
-                                                    <small *ngIf="
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.touched &&
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.invalid
-                                                    " class="text-danger">Please enter valid value</small>
-                                                    <div class="col-sm-12 mt-4 row">
-                                                        <div class="col-sm-8">
-                                                            Does your Property Tax include Sanitation/Sewerage Tax?*
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertySanitationTax', $event.target.value)" formControlName="propertySanitationTax">
-                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                                <mat-radio-button value="No" class="ms-3">No
-                                                                </mat-radio-button>
-                                                            </mat-radio-group>
-                                                        </div>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.propertySanitationTax?.status" [(status)]="basicUlbDetailsStatus.propertySanitationTax.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-
-                                                    <small *ngIf="
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.touched &&
-                                                        this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.invalid
-                                                    " class="text-danger">Please enter valid value</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ulb contact info -->
-                                <div class="" *ngIf="tab?.id == 's2'" [ngClass]="{'disable': isDisabled}">
-                                    <div class="row mx-auto">
-                                        <div class="col-sm-12">
-                                            <div class="form" formGroupName="contactInfo">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer"
-                                                        id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of the Nodal Officer"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Name of the Nodal Officer*
-                                                            </mat-label>
-                                                            <input class="com-style" formControlName="nameOfNodalOfficer" matInput placeholder="Name of the Nodal Officer*" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.nameOfNodalOfficer?.status" [(status)]="contactInfoStatus.nameOfNodalOfficer.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer"
-                                                         id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Designation of the Nodal Officer"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Designation of the Nodal Officer*
-                                                            </mat-label>
-                                                            <input class="com-style" formControlName="designationOftNodalOfficer" matInput placeholder="Designation of the Nodal Officer*" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.designationOftNodalOfficer?.status" [(status)]="contactInfoStatus.designationOftNodalOfficer.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{tab?.id}}3"
-                                                        aria-describedby="{{tab?.id}}3" placeholder="Email ID"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Email ID*</mat-label>
-                                                            <input class="com-style" formControlName="email" matInput placeholder="Email ID*" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.email?.status" [(status)]="contactInfoStatus.email.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-
-                                                    <div class="col-sm-12 mt-4">
-                                                        <!-- <input type="text" class="form-control com-style" formControlName="mobile"
-                                                         id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="Mobile number"> -->
-                                                        <mat-form-field appearance="outline">
-                                                            <mat-label class="com-style">Mobile number*</mat-label>
-                                                            <input class="com-style" formControlName="mobile" matInput placeholder="Mobile number*" (keydown)="changeDecInForm()">
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.mobile?.status" [(status)]="contactInfoStatus.mobile.status" [ngModelOptions]="{standalone: true}">
-                                                    </app-common-action-radio>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-
-                        <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
-                            <div class="form-group my-2" *ngIf="canShowComment">
-                                <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
-                            </div>
-                            <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="stepperContinueSave(tab)">Save & Continue Later</button>
-                            </div>
-                        </div>
-
+        </div>
+        <div class="row" *ngIf="!formSubmitted">
+            <div class="col-sm-12">
+                <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-
-                    <div class="container w-80 mt-4">
-                        <!-- revenue mobilization para -->
-                        <div class="" *ngIf="tab?.id == 's3'" [ngClass]="{'disable': isDisabled}">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <ng-container *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
-                                        <div class="card card-form mb-4 com-style" *ngIf="canShowFormSection(item.key)">
+                    <div class="spinner-grow text-danger ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info ms-2" role="status">
+                        <span class="visually-hidden ">Loading...</span>
+                    </div>
+                </div>
+                <mat-horizontal-stepper *ngIf="!isLoader" linear="true" labelPosition="bottom" id="stepper" #stepper>
+                    <mat-step state="state" *ngFor="let tab of tabs">
+                        <ng-template matStepLabel>
+                            <span class="st-title com-style" [title]="tab?.label">{{((tab?.label).split(' '))[0]}}
+                                {{((tab?.label).split(' '))[1]}}<br>
+                                {{((tab?.label).split(' '))[2]}}</span>
+                        </ng-template>
+                        <div class="container w-50 mt-4">
+                            <div class="form" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
+                                <form [formGroup]="fiscalForm" *ngIf="fiscalForm">
+                                    <!-- ulb basic info -->
+                                    <div class="" *ngIf="tab?.id == 's1'" [ngClass]="{'disable': isDisabled}">
+                                        <div class="row mx-auto">
+                                            <div class="col-sm-12">
+                                                <div class="form" formGroupName="basicUlbDetails">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="ulbName" id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of ULB"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Name of ULB*</mat-label>
+                                                                <input class="com-style" matInput placeholder="Name of ULB*" formControlName="ulbName">
+                                                            </mat-form-field>
+                                                            <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.ulbName?.status" [(status)]="basicUlbDetailsStatus.ulbName.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="population11" id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Population as per 2011 Census" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Population as per 2011 Census*
+                                                                </mat-label>
+                                                                <input class="com-style" formControlName="population11" matInput placeholder="Population as per 2011 Census*" (keydown)="numberLimitV($event, inputText1, 1, tenDigitMax)" #inputText1>
+                                                            </mat-form-field>
+                                                            <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.population11?.status" [(status)]="basicUlbDetailsStatus.population11.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style"
+                                                            formControlName="populationFr" id="{{tab?.id}}3"
+                                                            (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)"
+                                                             #inputText2 aria-describedby="{{tab?.id}}3" placeholder="Population as on 1st April 2022"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Population as on 1st April 2022
+                                                                </mat-label>
+                                                                <input class="com-style" formControlName="populationFr" matInput placeholder="Population as on 1st April 2022" (keydown)="numberLimitV($event, inputText2, 1, tenDigitMax)" #inputText2>
+                                                            </mat-form-field>
+                                                            <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.populationFr?.status" [(status)]="basicUlbDetailsStatus.populationFr.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="webLink"
+                                                            id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="ULB website URL link"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">ULB website URL link
+                                                                </mat-label>
+                                                                <input class="com-style" formControlName="webLink" matInput placeholder="ULB website URL link" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                            <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.webLink?.status" [(status)]="basicUlbDetailsStatus.webLink.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="nameCmsnr"
+                                                            id="{{tab?.id}}5" aria-describedby="{{tab?.id}}5" placeholder="Name of Commissioner / Executive Officer "> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Name of Commissioner / Executive Officer*</mat-label>
+                                                                <input class="com-style" formControlName="nameCmsnr" matInput placeholder="Name of Commissioner / Executive Officer*" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                            <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.nameCmsnr?.status" [(status)]="basicUlbDetailsStatus.nameCmsnr.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-4 row">
+                                                            <div class="col-sm-8">
+                                                                Does the ULB handle water supply services?*
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('waterSupply', $event.target.value)" formControlName="waterSupply">
+                                                                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="No" class="ms-3">No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.waterSupply?.status" [(status)]="basicUlbDetailsStatus.waterSupply.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+                                                        <small *ngIf="
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.touched &&
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.waterSupply?.invalid
+                                                        " class="text-danger">Please enter valid value</small>
+                                                        <div class="col-sm-12 mt-4 row">
+                                                            <div class="col-sm-8">
+                                                                Does the ULB handle sanitation service delivery?*
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('sanitationService', $event.target.value)" formControlName="sanitationService">
+                                                                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="No" class="ms-3">No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.sanitationService?.status" [(status)]="basicUlbDetailsStatus.sanitationService.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+                                                        <small *ngIf="
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.touched &&
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.sanitationService?.invalid
+                                                        " class="text-danger">Please enter valid value</small>
+                                                        <div class="col-sm-12 mt-4 row">
+                                                            <div class="col-sm-8">
+                                                                Does your Property Tax include Water Tax?*
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertyWaterTax', $event.target.value)" formControlName="propertyWaterTax">
+                                                                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="No" class="ms-3">No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.propertyWaterTax?.status" [(status)]="basicUlbDetailsStatus.propertyWaterTax.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+    
+                                                        <small *ngIf="
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.touched &&
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertyWaterTax?.invalid
+                                                        " class="text-danger">Please enter valid value</small>
+                                                        <div class="col-sm-12 mt-4 row">
+                                                            <div class="col-sm-8">
+                                                                Does your Property Tax include Sanitation/Sewerage Tax?*
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('propertySanitationTax', $event.target.value)" formControlName="propertySanitationTax">
+                                                                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                    <mat-radio-button value="No" class="ms-3">No
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && basicUlbDetailsStatus?.propertySanitationTax?.status" [(status)]="basicUlbDetailsStatus.propertySanitationTax.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+    
+                                                        <small *ngIf="
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.touched &&
+                                                            this.fiscalForm?.controls?.basicUlbDetails?.controls?.propertySanitationTax?.invalid
+                                                        " class="text-danger">Please enter valid value</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ulb contact info -->
+                                    <div class="" *ngIf="tab?.id == 's2'" [ngClass]="{'disable': isDisabled}">
+                                        <div class="row mx-auto">
+                                            <div class="col-sm-12">
+                                                <div class="form" formGroupName="contactInfo">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="nameOfNodalOfficer"
+                                                            id="{{tab?.id}}1" aria-describedby="{{tab?.id}}1" placeholder="Name of the Nodal Officer"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Name of the Nodal Officer*
+                                                                </mat-label>
+                                                                <input class="com-style" formControlName="nameOfNodalOfficer" matInput placeholder="Name of the Nodal Officer*" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.nameOfNodalOfficer?.status" [(status)]="contactInfoStatus.nameOfNodalOfficer.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="designationOftNodalOfficer"
+                                                             id="{{tab?.id}}2" aria-describedby="{{tab?.id}}2" placeholder="Designation of the Nodal Officer"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Designation of the Nodal Officer*
+                                                                </mat-label>
+                                                                <input class="com-style" formControlName="designationOftNodalOfficer" matInput placeholder="Designation of the Nodal Officer*" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.designationOftNodalOfficer?.status" [(status)]="contactInfoStatus.designationOftNodalOfficer.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+    
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="email" class="form-control com-style" formControlName="email" id="{{tab?.id}}3"
+                                                            aria-describedby="{{tab?.id}}3" placeholder="Email ID"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Email ID*</mat-label>
+                                                                <input class="com-style" formControlName="email" matInput placeholder="Email ID*" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.email?.status" [(status)]="contactInfoStatus.email.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+    
+                                                        <div class="col-sm-12 mt-4">
+                                                            <!-- <input type="text" class="form-control com-style" formControlName="mobile"
+                                                             id="{{tab?.id}}4" aria-describedby="{{tab?.id}}4" placeholder="Mobile number"> -->
+                                                            <mat-form-field appearance="outline">
+                                                                <mat-label class="com-style">Mobile number*</mat-label>
+                                                                <input class="com-style" formControlName="mobile" matInput placeholder="Mobile number*" (keydown)="changeDecInForm()">
+                                                            </mat-form-field>
+                                                        </div>
+    
+                                                        <app-common-action-radio *ngIf="cantakeAction && contactInfoStatus?.mobile?.status" [(status)]="contactInfoStatus.mobile.status" [ngModelOptions]="{standalone: true}">
+                                                        </app-common-action-radio>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+    
+    
+                            <div class="row mt-4 pd-b" *ngIf="tab?.id == 's2' || tab?.id == 's1'">
+                                <div class="form-group my-2" *ngIf="canShowComment">
+                                    <label [for]="'comment' + stepper?.id">Comment</label>
+                                    <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)">Next</button>
+                                </div>
+                                <div class="col-sm-6 text-end">
+                                    <button class="btn btn-f-c com-style" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="stepperContinueSave(tab)">Save & Continue Later</button>
+                                </div>
+                            </div>
+    
+                        </div>
+    
+                        <div class="container w-80 mt-4">
+                            <!-- revenue mobilization para -->
+                            <div class="" *ngIf="tab?.id == 's3'" [ngClass]="{'disable': isDisabled}">
+                                <div class="row mx-auto">
+                                    <div class="col-sm-12">
+                                        <ng-container *ngFor="let item of revenueMob | keyvalue : returnZero;let rowIndex_rev=index">
+                                            <div class="card card-form mb-4 com-style" *ngIf="canShowFormSection(item.key)">
+                                                <div class="card-body">
+                                                    <div class="loop">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 h-label mb-3 com-style">
+                                                                {{item?.value?.label}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
+    
+                                                                <div class="row" *ngIf="yearItem?.key">
+                                                                    <div class="col-sm-12 mb-3">
+                                                                        {{yearItem?.label}}*
+                                                                    </div>
+                                                                    <div class="col-sm-12 ">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-text br-a" id="basic-addon1">₹</span>
+                                                                            <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic"
+                                                                                [ngClass]="{'is-invalid': yearItem.error}" id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
+                                                                        </div>
+    
+                                                                    </div>
+                                                                    <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                        enter valid value</small>
+                                                                    <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
+                                                                        {{yearItem?.bottomText}}
+                                                                    </div>
+                                                                    <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
+                                                                        <span class="f-w">
+                                                                            {{ yearItem?.inWords }}
+                                                                        </span> {{yearItem?.bottomText}}
+                                                                    </div>
+                                                                    <div class="col-sm-12 bot-text mt-2" *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
+                                                                        <span class="f-w" [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
+                                                                            {{ abs(getPercentIncrement(yearItem,
+                                                                            item?.value?.yearData[r_i - 1])) }}% {{
+                                                                            getPercentIncrement(yearItem,
+                                                                            item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
+                                                                                : 'greater' }} than {{
+                                                                                item?.value?.yearData[r_i - 1].label
+                                                                                }}</span>
+                                                                    </div>
+                                                                    <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
+                                                                    </app-common-action-radio>
+                                                                </div>
+    
+    
+                                                            </div>
+                                                            <!-- <div class="col-sm-3"></div>
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-3"></div> -->
+                                                        </div>
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- exppenditure performance para -->
+                            <div class="" *ngIf="tab?.id == 's4'" [ngClass]="{'disable': isDisabled}">
+                                <div class="row mx-auto">
+                                    <div class="col-sm-12">
+                                        <div class="card card-form mb-4 com-style" *ngFor="let item of expPerf  | keyvalue : returnZero">
                                             <div class="card-body">
                                                 <div class="loop">
                                                     <div class="row">
@@ -266,28 +331,26 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
-
-                                                            <div class="row" *ngIf="yearItem?.key">
-                                                                <div class="col-sm-12 mb-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 ">
                                                                     {{yearItem?.label}}*
                                                                 </div>
-                                                                <div class="col-sm-12 ">
+                                                                <div class="col-sm-12">
                                                                     <div class="input-group">
                                                                         <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                        <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon form-ic"
-                                                                            [ngClass]="{'is-invalid': yearItem.error}" id="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText3, yearItem?.min, thrtnDigit)" #inputText3>
+                                                                        <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}" [disabled]="yearItem?.readonly"
+                                                                            [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
                                                                     </div>
-
                                                                 </div>
                                                                 <small *ngIf="yearItem.error" class="text-danger">Please
                                                                     enter valid value</small>
-                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="!yearItem?.amount && yearItem?.amount !== 0">
+                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
                                                                     {{yearItem?.bottomText}}
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
                                                                     <span class="f-w">
-                                                                        {{ yearItem?.inWords }}
-                                                                    </span> {{yearItem?.bottomText}}
+                                                                        {{yearItem?.inWords}}
+                                                                    </span>{{yearItem?.bottomText}}
                                                                 </div>
                                                                 <div class="col-sm-12 bot-text mt-2" *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
                                                                     <span class="f-w" [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
@@ -295,454 +358,392 @@
                                                                         item?.value?.yearData[r_i - 1])) }}% {{
                                                                         getPercentIncrement(yearItem,
                                                                         item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
-                                                                            : 'greater' }} than {{
-                                                                            item?.value?.yearData[r_i - 1].label
-                                                                            }}</span>
+                                                                            : 'greater' }} than {{ item?.value?.yearData[r_i
+                                                                            - 1].label }}</span>
                                                                 </div>
-                                                                <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
-                                                                </app-common-action-radio>
                                                             </div>
-
-
+                                                            <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+    
                                                         </div>
                                                         <!-- <div class="col-sm-3"></div>
-                                            <div class="col-sm-3"></div>
-                                            <div class="col-sm-3"></div> -->
+                                          <div class="col-sm-3"></div>
+                                          <div class="col-sm-3"></div> -->
                                                     </div>
                                                 </div>
-
+    
                                             </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- exppenditure performance para -->
-                        <div class="" *ngIf="tab?.id == 's4'" [ngClass]="{'disable': isDisabled}">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <div class="card card-form mb-4 com-style" *ngFor="let item of expPerf  | keyvalue : returnZero">
-                                        <div class="card-body">
-                                            <div class="loop">
-                                                <div class="row">
-                                                    <div class="col-sm-12 h-label mb-3 com-style">
-                                                        {{item?.value?.label}}
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i=index">
-                                                        <div class="row">
-                                                            <div class="col-sm-12 ">
-                                                                {{yearItem?.label}}*
-                                                            </div>
-                                                            <div class="col-sm-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon" id="{{yearItem?.key}}" [disabled]="yearItem?.readonly"
-                                                                        [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText4, yearItem?.min, thrtnDigit)" #inputText4>
-                                                                </div>
-                                                            </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please
-                                                                enter valid value</small>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem.amount) && yearItem.amount !== 0">
-                                                                {{yearItem?.bottomText}}
-                                                            </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
-                                                                <span class="f-w">
-                                                                    {{yearItem?.inWords}}
-                                                                </span>{{yearItem?.bottomText}}
-                                                            </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="r_i > 0 && yearItem.amount && item?.value?.yearData[r_i - 1].amount">
-                                                                <span class="f-w" [ngClass]="getPercentIncrement(yearItem, item?.value?.yearData[r_i - 1]) < 0 ? 'text-danger' : 'text-success'">Amount
-                                                                    {{ abs(getPercentIncrement(yearItem,
-                                                                    item?.value?.yearData[r_i - 1])) }}% {{
-                                                                    getPercentIncrement(yearItem,
-                                                                    item?.value?.yearData[r_i - 1]) < 0 ? 'lesser'
-                                                                        : 'greater' }} than {{ item?.value?.yearData[r_i
-                                                                        - 1].label }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-
-                                                    </div>
-                                                    <!-- <div class="col-sm-3"></div>
-                                      <div class="col-sm-3"></div>
-                                      <div class="col-sm-3"></div> -->
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- upload finacial statement -->
-                        <div class="" *ngIf="tab?.id == 's6'">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <div class="card card-form mb-4 com-style" *ngFor="let item of uploadFyDoc | keyvalue : returnZero">
-                                        <div class="card-body" *ngIf="item?.value?.key == 'guidanceNotes'">
-                                            <div class="loop">
+                            <!-- upload finacial statement -->
+                            <div class="" *ngIf="tab?.id == 's6'">
+                                <div class="row mx-auto">
+                                    <div class="col-sm-12">
+                                        <div class="card card-form mb-4 com-style" *ngFor="let item of uploadFyDoc | keyvalue : returnZero">
+                                            <div class="card-body" *ngIf="item?.value?.key == 'guidanceNotes'">
+                                                <div class="loop">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 h-gui mb-3 com-style">
+                                                            {{item?.value?.label}}
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <!-- <div> -->
+                                                            <div class="form-l com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                                {{yearItem?.pos}}. {{yearItem?.desc}}
+                                                            </div>
+                                                            <!-- </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                            <div class="card-body" *ngIf="item?.value?.key != 'guidanceNotes'">
+                                                <div class="loop">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 h-label mb-3 com-style">
+                                                            {{item?.value?.label}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 com-style" *ngFor="let yearItem of item?.value?.yearData">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    {{yearItem?.label}}*
+                                                                </div>
+                                                                <div class="col-sm-12 mb-3" *ngIf="yearItem?.readonly == false">
+                                                                    <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [ngClass]="{'border': yearItem.error, 'border-danger': yearItem.error}" [disabled]="isDisabled">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6 file-text ">
+                                                                                Select File
+                                                                            </div>
+                                                                            <div class="col-sm-6 text-end">
+                                                                                <img
+                                                                                    src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                            </div>
+                                                                        </div>
+                                                                    </button>
+                                                                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, tab)" type="file" accept=".pdf" #file>
+                                                                    <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
+                                                                </div>
+                                                                <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                    upload a file</small>
+                                                                <div class="col-sm-12 text-center w-70">
+                                                                    <app-loader [show]="yearItem?.fileProcess">
+                                                                    </app-loader>
+                                                                </div>
+                                                                <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.readonly == true">
+                                                                    <span class="al-up">Already Uploaded on
+                                                                        Cityfinance</span>
+                                                                </div>
+                                                                <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.file?.url">
+                                                                    <a class="w-90" href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
+                                                                    <a (click)="clearFile('annualDoc', yearItem, tab)" class="w-10" target="_blank" [ngClass]="{'pe-none': isDisabled}">
+                                                                        <img src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url) && (yearItem?.readonly == false)">
+                                                                    {{yearItem?.bottomText}}
+                                                                </div>
+                                                            </div>
+                                                            <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fiscal governance -->
+                            <div class="" *ngIf="tab?.id == 's5'" [ngClass]="{'disable': isDisabled}">
+                                <div class="row mx-auto">
+                                    <div class="col-sm-12">
+                                        <div class="card com-style mb-3">
+                                            <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-sm-12 h-gui mb-3 com-style">
-                                                        {{item?.value?.label}}
+                                                    <div class="col-sm-12 h-label mb-3 com-style">
+                                                        {{goverParaNdata?.auditReprtDate?.label}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 com-style" *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">
+                                                        <div class="row" *ngIf="yearItem?.key">
+                                                            <div class="col-sm-12">
+                                                                {{yearItem?.label}}*
+                                                            </div>
+                                                            <div class="col-sm-12 p-2">
+                                                                <div class="input-group border" [ngClass]="{'border-danger': yearItem.error}">
+                                                                    <div class="d-flex w-100 px-2">
+                                                                        <input matInput [(ngModel)]="yearItem.date" [min]="yearItem.min" [max]="yearItem.max" [matDatepicker]="r_i" [disabled]="yearItem?.readonly" placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                                        <mat-datepicker-toggle matSuffix [disabled]="yearItem?.readonly" [for]="r_i">
+                                                                        </mat-datepicker-toggle>
+                                                                    </div>
+                                                                    <mat-datepicker #r_i></mat-datepicker>
+                                                                </div>
+    
+                                                            </div>
+                                                            <small *ngIf="yearItem.error" class="text-danger">Please select
+                                                                a date</small>
+    
+                                                            <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-sm-7">
+                                                        {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}*
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.webUrlAnnual.error}" class="form-control com-style yrformCon" (keyup)="setWebUrlAnnualError()"
+                                                            id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}" (keydown)="changeDecInForm()" [disabled]="isDisabled">
+                                                    </div>
+                                                    <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.webUrlAnnual.status" [(status)]="goverParaNdata.normalData.yearData.webUrlAnnual.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
+                                                </div>
+                                                <div class="">
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-7">
+                                                            {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}*
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngClass]="{
+                                                                    'ng-invalid': goverParaNdata.normalData.yearData.registerGis?.error,
+                                                                    'ng-touched': goverParaNdata.normalData.yearData.registerGis?.error
+                                                                }" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                        <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
+    
+                                                        <!-- {{ goverParaNdata.normalData | json }} -->
+                                                        <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.registerGis.status" [(status)]="goverParaNdata.normalData.yearData.registerGis.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
+    
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}*
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngClass]="{
+                                                                    'ng-invalid': goverParaNdata.normalData.yearData.accountStwre?.error,
+                                                                    'ng-touched': goverParaNdata.normalData.yearData.accountStwre?.error
+                                                                }" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
+                                                                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                                <mat-radio-button value="No" class="ms-3">No
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                        <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
+                                                        <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.accountStwre.status" [(status)]="goverParaNdata.normalData.yearData.accountStwre.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
+    
+                                                    </div>
+    
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="card card-form mb-4 com-style" *ngFor="let item of goverPar | keyvalue : returnZero">
+                                            <!-- <p>{{ item.key | json}}</p> -->
+                                            <div class="card-body" *ngIf="!['normalData', 'auditReprtDate'].includes(item.key)">
+                                                <div class="loop">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 h-label mb-3 com-style">
+                                                            {{item?.value?.label}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i = index">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 l-h">
+                                                                    {{yearItem?.label}}*
+                                                                </div>
+                                                                <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text br-a" id="basic-addon1">₹</span>
+                                                                        <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon"
+                                                                            id="{{yearItem?.key}}" [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
+                                                                    </div>
+                                                                </div>
+                                                                <small *ngIf="yearItem.error" class="text-danger">Please
+                                                                    enter valid value</small>
+                                                                <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
+                                                                    <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
+                                                                     [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">
+                                                                        <mat-radio-button value="1">Yes</mat-radio-button>
+                                                                        <mat-radio-button value="2" class="ms-3">No</mat-radio-button>
+                                                                    </mat-radio-group>
+                                                                </div> -->
+                                                                <div class="col-sm-12 bot-text">
+                                                                    {{yearItem?.bottomText}}
+                                                                </div>
+                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
+                                                                    <span class="f-w">
+                                                                        {{yearItem?.inWords}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
+                                                            </app-common-action-radio>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- self declaration -->
+                            <div class="" *ngIf="tab?.id == 's7'">
+                                <div class="row mx-auto">
+                                    <div class="col-sm-6">
+                                        <div class="card card-form mb-4 com-style h-100">
+                                            <div class="card-body pd-m">
+                                                <div class="row">
+                                                    <div class="col-sm-12 c-head com-style">
+                                                        Download & Print
+                                                    </div>
+                                                    <div class="col-sm-12 c-sub-h com-style mt-3">
+                                                        Please download and reupload the signed copy.
+                                                    </div>
+                                                    <div class="col-sm-12 com-style text-center mt-3">
+                                                        <button class="btn btn-d-org" (click)="onPreview()">
+                                                            <img class="u-i me-3"
+                                                                src="../../../assets/circle/cloud_download_black_24dp.svg"
+                                                                alt="">
+                                                            Download File
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card card-form mb-4 com-style h-100">
+                                            <div class="card-body pd-m">
+                                                <div class="row">
+                                                    <div class="col-sm-12 c-head com-style">
+                                                        Upload Signed Copy
+                                                    </div>
+                                                    <div class="col-sm-12 c-sub-h com-style mt-3">
+                                                        Please upload the signed copy.
+                                                    </div>
+                                                    <div class="col-sm-12 com-style text-center mt-3 ">
+                                                        <button class="btn btn-up-org" (click)="bs_pdf_up.click()" [disabled]="isDisabled">
+                                                            Upload File
+                                                            <img class="u-i ms-3"
+                                                                src="../../../assets/circle/cloud_upload_black_24dp.svg"
+                                                                alt="">
+                                                        </button>
+                                                        <input #bs_pdf_up style="display: none;" (change)="fileChangeEvent($event,'pdf', 'signed', '', tab)" onclick="this.value=null;" type="file" accept=".pdf" #file (keydown)="changeDecInForm()">
                                                     </div>
                                                     <div class="col-sm-12">
-                                                        <!-- <div> -->
-                                                        <div class="form-l com-style" *ngFor="let yearItem of item?.value?.yearData">
-                                                            {{yearItem?.pos}}. {{yearItem?.desc}}
-                                                        </div>
-                                                        <!-- </div> -->
+                                                        <app-loader [show]="fileUpLoader"></app-loader>
                                                     </div>
+                                                    <div class="col-sm-12 com-style mt-3 text-center f-w" *ngIf="signedFileUrl">
+                                                        <a href="{{signedFileUrl}}" target="_blank">{{signedFileName}}</a>
+                                                    </div>
+    
+                                                    <app-common-action-radio *ngIf="cantakeAction && signedFileStatus" [(status)]="signedFileStatus" [ngModelOptions]="{standalone: true}">
+                                                    </app-common-action-radio>
                                                 </div>
                                             </div>
-
                                         </div>
-                                        <div class="card-body" *ngIf="item?.value?.key != 'guidanceNotes'">
-                                            <div class="loop">
-                                                <div class="row">
-                                                    <div class="col-sm-12 h-label mb-3 com-style">
-                                                        {{item?.value?.label}}
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4 com-style" *ngFor="let yearItem of item?.value?.yearData">
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                {{yearItem?.label}}*
-                                                            </div>
-                                                            <div class="col-sm-12 mb-3" *ngIf="yearItem?.readonly == false">
-                                                                <button (click)="bs_pdf1.click()" class="btn form-btn com-style" [ngClass]="{'border': yearItem.error, 'border-danger': yearItem.error}" [disabled]="isDisabled">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-6 file-text ">
-                                                                            Select File
-                                                                        </div>
-                                                                        <div class="col-sm-6 text-end">
-                                                                            <img
-                                                                                src="../../../assets/circle/cloud_upload_black_24dp.svg">
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                                <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event, 'pdf', 'annualDoc', yearItem, tab)" type="file" accept=".pdf" #file>
-                                                                <!-- <input type="file" class="form-control com-style yrformCon" id="{{yearItem?.key}}" aria-describedby="{{yearItem?.key}}" placeholder="{{yearItem?.placeholder}}"> -->
-                                                            </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please
-                                                                upload a file</small>
-                                                            <div class="col-sm-12 text-center w-70">
-                                                                <app-loader [show]="yearItem?.fileProcess">
-                                                                </app-loader>
-                                                            </div>
-                                                            <div class="col-sm-12 mt-3 mb-3" *ngIf="yearItem?.readonly == true">
-                                                                <span class="al-up">Already Uploaded on
-                                                                    Cityfinance</span>
-                                                            </div>
-                                                            <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.file?.url">
-                                                                <a class="w-90" href="{{yearItem?.file?.url}}" target="_blank">{{yearItem?.file?.name}}</a>
-                                                                <a (click)="clearFile('annualDoc', yearItem, tab)" class="w-10" target="_blank" [ngClass]="{'pe-none': isDisabled}">
-                                                                    <img src="../../../assets/form-icon/close_black_24dp.svg">
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-sm-12 bot-text" *ngIf="!(yearItem?.file?.url) && (yearItem?.readonly == false)">
-                                                                {{yearItem?.bottomText}}
-                                                            </div>
-                                                        </div>
-                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+    
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- fiscal governance -->
-                        <div class="" *ngIf="tab?.id == 's5'" [ngClass]="{'disable': isDisabled}">
-                            <div class="row mx-auto">
-                                <div class="col-sm-12">
-                                    <div class="card com-style mb-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-12 h-label mb-3 com-style">
-                                                    {{goverParaNdata?.auditReprtDate?.label}}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4 com-style" *ngFor="let yearItem of goverParaNdata?.auditReprtDate?.yearData; let r_i=index">
-                                                    <div class="row" *ngIf="yearItem?.key">
-                                                        <div class="col-sm-12">
-                                                            {{yearItem?.label}}*
-                                                        </div>
-                                                        <div class="col-sm-12 p-2">
-                                                            <div class="input-group border" [ngClass]="{'border-danger': yearItem.error}">
-                                                                <div class="d-flex w-100 px-2">
-                                                                    <input matInput [(ngModel)]="yearItem.date" [min]="yearItem.min" [max]="yearItem.max" [matDatepicker]="r_i" [disabled]="yearItem?.readonly" placeholder="Choose a date" [attr.id]="  + r_i" />
-                                                                    <mat-datepicker-toggle matSuffix [disabled]="yearItem?.readonly" [for]="r_i">
-                                                                    </mat-datepicker-toggle>
-                                                                </div>
-                                                                <mat-datepicker #r_i></mat-datepicker>
-                                                            </div>
-
-                                                        </div>
-                                                        <small *ngIf="yearItem.error" class="text-danger">Please select
-                                                            a date</small>
-
-                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row my-2">
-                                                <div class="col-sm-7">
-                                                    {{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.label}}*
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <input type="text" [(ngModel)]="goverParaNdata.normalData.yearData.webUrlAnnual.value" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-invalid': goverParaNdata.normalData.yearData.webUrlAnnual.error}" class="form-control com-style yrformCon" (keyup)="setWebUrlAnnualError()"
-                                                        id="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.key}}" placeholder="{{goverParaNdata?.normalData?.yearData?.webUrlAnnual?.placeholder}}" (keydown)="changeDecInForm()" [disabled]="isDisabled">
-                                                </div>
-                                                <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.webUrlAnnual.status" [(status)]="goverParaNdata.normalData.yearData.webUrlAnnual.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
-                                            </div>
-                                            <div class="">
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-7">
-                                                        {{goverParaNdata?.normalData?.yearData?.registerGis?.label}}*
-                                                    </div>
-                                                    <div class="col-sm-5">
-                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('registerGis', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.registerGis.value" [ngClass]="{
-                                                                'ng-invalid': goverParaNdata.normalData.yearData.registerGis?.error,
-                                                                'ng-touched': goverParaNdata.normalData.yearData.registerGis?.error
-                                                            }" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
-                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                            <mat-radio-button value="No" class="ms-3">No
-                                                            </mat-radio-button>
-                                                        </mat-radio-group>
-                                                    </div>
-                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
-
-                                                    <!-- {{ goverParaNdata.normalData | json }} -->
-                                                    <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.registerGis.status" [(status)]="goverParaNdata.normalData.yearData.registerGis.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-7">
-                                                        {{goverParaNdata?.normalData?.yearData?.accountStwre?.label}}*
-                                                    </div>
-                                                    <div class="col-sm-5">
-                                                        <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('accountStwre', $event)" [(ngModel)]="goverParaNdata.normalData.yearData.accountStwre.value" [ngClass]="{
-                                                                'ng-invalid': goverParaNdata.normalData.yearData.accountStwre?.error,
-                                                                'ng-touched': goverParaNdata.normalData.yearData.accountStwre?.error
-                                                            }" [ngModelOptions]="{standalone: true}" [disabled]="isDisabled">
-                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                            <mat-radio-button value="No" class="ms-3">No
-                                                            </mat-radio-button>
-                                                        </mat-radio-group>
-                                                    </div>
-                                                    <small *ngIf="goverParaNdata.normalData.yearData.registerGis?.error" class="text-danger">Please enter valid value</small>
-                                                    <app-common-action-radio *ngIf="cantakeAction && goverParaNdata.normalData.yearData.accountStwre.status" [(status)]="goverParaNdata.normalData.yearData.accountStwre.status" [ngModelOptions]="{standalone: true}"></app-common-action-radio>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="card card-form mb-4 com-style" *ngFor="let item of goverPar | keyvalue : returnZero">
-                                        <!-- <p>{{ item.key | json}}</p> -->
-                                        <div class="card-body" *ngIf="!['normalData', 'auditReprtDate'].includes(item.key)">
-                                            <div class="loop">
-                                                <div class="row">
-                                                    <div class="col-sm-12 h-label mb-3 com-style">
-                                                        {{item?.value?.label}}
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3 com-style" *ngFor="let yearItem of item?.value?.yearData; let r_i = index">
-                                                        <div class="row">
-                                                            <div class="col-sm-12 l-h">
-                                                                {{yearItem?.label}}*
-                                                            </div>
-                                                            <div class="col-sm-12" *ngIf="yearItem?.input !== 'radio'">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                                    <input type="text" [(ngModel)]="yearItem.amount" (keyup)="amountKeyUp('click', yearItem)" (change)="amountPushInFY('click', r_i, yearItem, tab)" [disabled]="yearItem?.readonly" [ngModelOptions]="{standalone: true}" class="form-control com-style yrformCon"
-                                                                        id="{{yearItem?.key}}" [ngClass]="{'is-invalid': yearItem.error}" placeholder="{{yearItem?.placeholder}}" (keydown)="numberLimitV($event, inputText5, yearItem?.min, thrtnDigit)" #inputText5>
-                                                                </div>
-                                                            </div>
-                                                            <small *ngIf="yearItem.error" class="text-danger">Please
-                                                                enter valid value</small>
-                                                            <!-- <div class="col-sm-12" *ngIf="yearItem?.input == 'radio' && (yearItem?.show == true)">
-                                                                <mat-radio-group aria-label="Select an option" (click)="skipLogicRadio('click')"
-                                                                 [(ngModel)]="yearItem.value" [ngModelOptions]="{standalone: true}">
-                                                                    <mat-radio-button value="1">Yes</mat-radio-button>
-                                                                    <mat-radio-button value="2" class="ms-3">No</mat-radio-button>
-                                                                </mat-radio-group>
-                                                            </div> -->
-                                                            <div class="col-sm-12 bot-text">
-                                                                {{yearItem?.bottomText}}
-                                                            </div>
-                                                            <div class="col-sm-12 bot-text mt-2" *ngIf="yearItem?.amount || yearItem?.amount === 0">
-                                                                <span class="f-w">
-                                                                    {{yearItem?.inWords}}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <app-common-action-radio *ngIf="cantakeAction && yearItem.status" [(status)]="yearItem.status" [ngModelOptions]="{standalone: true}">
-                                                        </app-common-action-radio>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                            <div class="row mt-4 mx-auto" *ngIf="tab?.id !== 's1' && tab?.id !== 's2'">
+                                <div class="form-group my-2" *ngIf="canShowComment">
+                                    <label [for]="'comment' + stepper?.id">Comment</label>
+                                    <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
+                                </div>
+                                <div class="col-sm-6 ">
+                                    <button class="btn btn-f-next com-style" *ngIf="tab?.id !== 's7'" (click)="stepperContinue(stepper, tab)">Next</button>
+                                    <button class="btn btn-f-next com-style" *ngIf="tab?.id == 's7'" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="finalSubmitAlert()">Submit</button>
+                                </div>
+                                <div class="col-sm-6 text-end">
+                                    <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, tab)" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA">Save & Continue
+                                        Later</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- self declaration -->
-                        <div class="" *ngIf="tab?.id == 's7'">
-                            <div class="row mx-auto">
-                                <div class="col-sm-6">
-                                    <div class="card card-form mb-4 com-style h-100">
-                                        <div class="card-body pd-m">
-                                            <div class="row">
-                                                <div class="col-sm-12 c-head com-style">
-                                                    Download & Print
-                                                </div>
-                                                <div class="col-sm-12 c-sub-h com-style mt-3">
-                                                    Please download and reupload the signed copy.
-                                                </div>
-                                                <div class="col-sm-12 com-style text-center mt-3">
-                                                    <button class="btn btn-d-org" (click)="onPreview()">
-                                                        <img class="u-i me-3"
-                                                            src="../../../assets/circle/cloud_download_black_24dp.svg"
-                                                            alt="">
-                                                        Download File
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="card card-form mb-4 com-style h-100">
-                                        <div class="card-body pd-m">
-                                            <div class="row">
-                                                <div class="col-sm-12 c-head com-style">
-                                                    Upload Signed Copy
-                                                </div>
-                                                <div class="col-sm-12 c-sub-h com-style mt-3">
-                                                    Please upload the signed copy.
-                                                </div>
-                                                <div class="col-sm-12 com-style text-center mt-3 ">
-                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()" [disabled]="isDisabled">
-                                                        Upload File
-                                                        <img class="u-i ms-3"
-                                                            src="../../../assets/circle/cloud_upload_black_24dp.svg"
-                                                            alt="">
-                                                    </button>
-                                                    <input #bs_pdf_up style="display: none;" (change)="fileChangeEvent($event,'pdf', 'signed', '', tab)" onclick="this.value=null;" type="file" accept=".pdf" #file (keydown)="changeDecInForm()">
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <app-loader [show]="fileUpLoader"></app-loader>
-                                                </div>
-                                                <div class="col-sm-12 com-style mt-3 text-center f-w" *ngIf="signedFileUrl">
-                                                    <a href="{{signedFileUrl}}" target="_blank">{{signedFileName}}</a>
-                                                </div>
-
-                                                <app-common-action-radio *ngIf="cantakeAction && signedFileStatus" [(status)]="signedFileStatus" [ngModelOptions]="{standalone: true}">
-                                                </app-common-action-radio>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4 mx-auto" *ngIf="tab?.id !== 's1' && tab?.id !== 's2'">
-                            <div class="form-group my-2" *ngIf="canShowComment">
-                                <label [for]="'comment' + stepper?.id">Comment</label>
-                                <textarea required [disabled]="!canEditComment" type="email" rows="6" [(ngModel)]="tab.feedback.comment" class="form-control comment" [id]="'comment' + stepper?.id"></textarea>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" *ngIf="tab?.id !== 's7'" (click)="stepperContinue(stepper, tab)">Next</button>
-                                <button class="btn btn-f-next com-style" *ngIf="tab?.id == 's7'" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA" (click)="finalSubmitAlert()">Submit</button>
-                            </div>
-                            <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style" (click)="stepperContinueSave(stepper, tab)" [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA">Save & Continue
-                                    Later</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </mat-step>
-                <ng-template matStepperIcon="state">
-                    <span class="material-icons n-circle">
-                        circle
-                    </span>
-                </ng-template>
-                <ng-template matStepperIcon="edit">
-                    <span class="material-icons n-circle">
-                        circle
-                    </span>
-                </ng-template>
-                <ng-template matStepperIcon="done">
-                    <span class="material-icons">
-                        check_circle
-                    </span>
-                </ng-template>
-            </mat-horizontal-stepper>
+    
+                    </mat-step>
+                    <ng-template matStepperIcon="state">
+                        <span class="material-icons n-circle">
+                            circle
+                        </span>
+                    </ng-template>
+                    <ng-template matStepperIcon="edit">
+                        <span class="material-icons n-circle">
+                            circle
+                        </span>
+                    </ng-template>
+                    <ng-template matStepperIcon="done">
+                        <span class="material-icons">
+                            check_circle
+                        </span>
+                    </ng-template>
+                </mat-horizontal-stepper>
+            </div>
         </div>
-    </div>
-    <div class="row w-50 mx-auto mb-4 mt-3" *ngIf="formSubmitted">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row mx-auto mb-3">
-                        <div class="col-sm-12 text-center mt-3">
-                            <img src="../../../assets/circle/gifCheck.gif" class="w-80">
-                        </div>
-                        <div class="col-sm-12 text-center mt-3 h-label com-style">
-                            Form Submitted Successfully!
-                        </div>
-                        <div class="col-sm-12 text-center mt-3">
-                            <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
+        <div class="row w-50 mx-auto mb-4 mt-3" *ngIf="formSubmitted">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mx-auto mb-3">
+                            <div class="col-sm-12 text-center mt-3">
+                                <img src="../../../assets/circle/gifCheck.gif" class="w-80">
+                            </div>
+                            <div class="col-sm-12 text-center mt-3 h-label com-style">
+                                Form Submitted Successfully!
+                            </div>
+                            <div class="col-sm-12 text-center mt-3">
+                                <button class="btn btn-f-next com-style" (click)="backTohome()">Back to Home</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<ng-template #templateSaveChange>
-    <div class="modal-body text-center ">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
+    
+    <ng-template #templateSaveChange>
+        <div class="modal-body text-center ">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" style="color: red;"> <i>Unsaved Changes !</i> </h4>
+                <div class="text-right">
+                    <a (click)="alertClose()">
+                        <img src="../../../../assets/form-icon/close-red-icon.png">
+                    </a>
+                </div>
             </div>
-        </div>
-
-        <div class="row mb-3 mt-3">
-            <div class="col-sm-12">{{alertError}}
+    
+            <div class="row mb-3 mt-3">
+                <div class="col-sm-12">{{alertError}}
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
-                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
-                    Save & Proceed
-                </button>
+    
+            <div class="row">
+                <div class="col-sm-12 text-end">
+                    <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
+                    <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
+                    <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
+                        Save & Proceed
+                    </button>
+                </div>
+    
             </div>
-
+    
         </div>
-
-    </div>
-</ng-template>
-<!-- </form> -->
+    </ng-template>
+    <!-- </form> -->
+    

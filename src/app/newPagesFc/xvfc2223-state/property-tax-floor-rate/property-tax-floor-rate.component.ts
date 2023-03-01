@@ -70,6 +70,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   yearValue;
   minimumUrl;
   ruleUrl;
+  backRouter = '';
+  nextRouter = '';
   constructor(public _router: Router,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -78,7 +80,7 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   ) {
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
@@ -90,6 +92,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
+    this.setRouter();
     this.clickedSave = false;
     sessionStorage.setItem("changeInPropertyTax", "false");
     this.onload();
@@ -784,8 +788,8 @@ export class PropertyTaxFloorRateComponent implements OnInit {
     for (const key in this.sideMenuItem) {
       this.sideMenuItem[key].forEach((element) => {
         if (element?.name == "Property tax floor rate Notification") {
-          // this.nextRouter = element?.nextUrl;
-          // this.backRouter = element?.prevUrl;
+          this.nextRouter = element?.nextUrl;
+          this.backRouter = element?.prevUrl;
           this.formId = element?._id;
         }
       });

@@ -53,7 +53,7 @@
                             </a>
                             <p class="errorMessege">{{errorMessegeStateAct}}</p>
                         </label>
-                        <input #ipt id="ipt" name="cin3" type="file" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
+                        <input #ipt id="ipt" name="cin3" type="file" onclick="this.value = null;" [ngClass]="{ 'is-invalid': submitted && f?.stateNotification?.controls?.name?.errors }" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" />
                         <div>
                             <div *ngIf="submitted && f?.stateNotification?.controls?.name?.errors" class="customDate text-danger">
                                 <div *ngIf="f?.stateNotification?.controls?.name?.errors.required">File is required.</div>
@@ -116,7 +116,7 @@
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">
-                <button type="button" class="btn btn-c-back" routerLink="../property-tax">
+                <button type="button" class="btn btn-c-back" [routerLink]="backRouter">
                     <- Previous Form</button>
             </div>
             <div class="col-sm-5 col-md-5 col-lg-5 rightText">
@@ -134,7 +134,7 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <button type="button" class="btn btn-c-next" routerLink="../grant-allocation">Next Form
+                        <button type="button" class="btn btn-c-next" [routerLink]="nextRouter">Next Form
                             -></button>
                     </div>
                 </div>
@@ -174,5 +174,5 @@
 </ng-template>
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
-    <app-pre-loader></app-pre-loader>
+    <app-pre-loader-new></app-pre-loader-new>
 </div>
