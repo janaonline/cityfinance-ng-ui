@@ -43,8 +43,7 @@
                   </a>
                 </mat-autocomplete>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 d-flex" *ngIf="filterInputData?.comp == 'dataSets'"
-                style="line-height: 1.5; font-size: 1rem; font-weight: 600">
+              <div class="col-lg-2 col-md-2 col-sm-2 d-flex input-wrapper" *ngIf="filterInputData?.comp == 'dataSets'">
                 <!-- <label class="rowLabel">File Type</label> -->
                 <select name="selectedType" [(ngModel)]="selectedType" (change)="onChangeType($event)"
                   formControlName="contentType" class="rowPdf">
@@ -61,11 +60,11 @@
                                </select>
                             </div> -->
 
-              <div class="col-lg-2 col-md-2 col-sm-2" *ngIf="
+              <div class="col-lg-2 col-md-2 col-sm-2 input-wrapper" *ngIf="
                   filterInputData?.comp == 'bestPractices' ||
                   filterInputData?.comp == 'dataSets' ||
                   filterInputData?.comp == 'report-publications'
-                " style="line-height: 1.5; font-size: 1rem; font-weight: 600">
+                ">
                 <select name="selectedValue" [(ngModel)]="selectedValue" (change)="onChange($event)"
                   class="rowPdf form-control" formControlName="year" style="
                     line-height: 1.5;
@@ -81,8 +80,7 @@
                   <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
                 </select>
               </div>
-              <div class="col-lg-2 col-md-2 col-sm-2 text-end d-flex"
-                style="line-height: 1.5; font-size: 1rem; font-weight: 600" [ngClass]="{
+              <div class="col-lg-2 col-md-2 col-sm-2 text-end d-flex input-wrapper" [ngClass]="{
                   'col-lg-5 col-md-5 col-sm-5':
                     filterInputData?.comp == 'bestPractices'
                 }">

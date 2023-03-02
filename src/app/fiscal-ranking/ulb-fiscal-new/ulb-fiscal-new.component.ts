@@ -232,12 +232,13 @@ export class UlbFiscalNewComponent implements OnInit {
 
   uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl) {
     const maxFileSize = 5;
+    const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
     const fileExtension = file.name.split('.').pop();
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
-    if (fileType === 'excel' && !['xls', 'xlsx'].includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     
     control.patchValue({ uploading: true });

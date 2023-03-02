@@ -36,6 +36,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   lastBarChartValue;
   compareDialogType = 2;
   preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
+  deSelectStateObject = {_id: 'State Name'};
 
   DropdownSettings = {
     singleSelection: true,
