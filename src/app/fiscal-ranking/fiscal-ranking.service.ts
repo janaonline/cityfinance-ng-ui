@@ -55,6 +55,18 @@ export class FiscalRankingService {
     return !this.helper.isTokenExpired(this.getToken());
   }
 
+  downloadFile(blob: any, type: string, filename: string): string {
+    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
 
+    // create hidden dom element (so it works in all browsers)
+    const a = document.createElement("a");
+    a.setAttribute("style", "display:none;");
+    document.body.appendChild(a);
 
+    // create file, attach to hidden element and open hidden element
+    a.href = url;
+    a.download = filename;
+    a.click();
+    return url;
+  }
 }
