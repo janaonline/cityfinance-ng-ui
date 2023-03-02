@@ -1,0 +1,133 @@
+.mat-icon {
+    width: 14px;
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+.out-f-h {
+    background: darkgray;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.link-div:hover,
+.link-div.active {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+    .svg-gl {
+        filter: invert(0);
+    }
+}
+
+.linktext {
+    margin-top: 8px;
+    color: #FFFFFF;
+}
+
+.link-div {
+    background-color: #114551;
+    // height: 36px;
+    padding-top: .5rem;
+    padding-left: 8%;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: .5rem;
+}
+
+.link-div-u {
+    background-color: #DCDCDC;
+    padding-left: 2rem;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.linktext-u {
+    margin-top: 10px;
+    color: #212121;
+    margin-bottom: 6px;
+    padding-left: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.b-h {
+    background-color: #ffc500;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    color: #fff;
+    vertical-align: middle;
+}
+
+.bk-text {
+    color: #fff;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 24px;
+    margin-top: 30px;
+}
+
+.breadcrumb {
+    margin-bottom: 0;
+    padding-left: 15px;
+}
+
+.act-l {
+    color: blue;
+}
+
+.btn-bkS {
+    border-color: #E67E15;
+    box-shadow: 0px 2px 6px #f7c199;
+    font-size: 13px;
+    padding: 6px;
+}
+
+.br-e {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 2px solid;
+}
+
+.br-f {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.breadLink {
+    color: blue;
+    padding: 0 2px 6px 0px;
+    font-size: 14px;
+    // text-decoration: underline;
+}
+
+.breadLink:hover {
+    color: #ffc500;
+}
+
+.br-cd {
+    border: 1px solid transparent;
+    background-color: #efeaea;
+}
+
+.scrol {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
