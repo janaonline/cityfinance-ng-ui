@@ -26,7 +26,7 @@
                                 *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition">
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
-                                        *ngIf="['text', 'url', 'email'].includes(item?.value?.controls?.formFieldType?.value)">
+                                        *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
                                         <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"
                                             matInput placeholder="{{ item.value.controls?.label?.value }}" formControlName="value">
@@ -51,7 +51,7 @@
                         </div>
 
                         <!-- tab 3, 4, 5, 6 -->
-                        <div class="" *ngIf="['s3', 's4', 's5', 's6'].includes(tab?.value?.id)"
+                        <div class="" *ngIf="twoDTabs.includes(tab?.value?.id)"
                             [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">

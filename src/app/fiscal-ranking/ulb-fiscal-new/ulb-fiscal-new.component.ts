@@ -39,11 +39,12 @@ export class UlbFiscalNewComponent implements OnInit {
   loggedInUserType: any;
 
   linearTabs = ['s1', 's2'];
-
+  twoDTabs = ['s3', 's4', 's5', 's6'];
+  textualFormFiledTypes = ['text', 'url', 'email'];
   tabs: Tab[];
   cantakeAction: boolean = true;
-  formId: any;
-  ulbId: any;
+  formId: string;
+  ulbId: string;
   userData: any;
   ulbName: string;
   userTypes = USER_TYPE;
