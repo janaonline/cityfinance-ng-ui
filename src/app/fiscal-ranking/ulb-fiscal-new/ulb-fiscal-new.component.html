@@ -66,7 +66,7 @@
                                                             {{item?.value?.controls?.label.value}}
                                                         </div>
                                                     </div>
-                                                    <div class="row" *ngIf="item?.key == 'guidanceNotes'">
+                                                    <div class="row" *ngIf="item?.key == guidanceNotesKey">
                                                         <div class="col-sm-12">
                                                             <div class="form-l com-style"
                                                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <!-- tab 7 -->
-                        <div class="" *ngIf="tab?.value?.id == 's7'">
+                        <div class="" *ngIf="tab?.value?.id == tab7key">
                             <div class="row mx-auto">
                                 <div class="col-sm-6">
                                     <div class="card card-form mb-4 com-style h-100">

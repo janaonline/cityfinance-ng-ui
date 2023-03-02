@@ -37,6 +37,8 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
+  tab7key = 's7';
+  guidanceNotesKey = 'guidanceNotes';
 
   linearTabs = ['s1', 's2'];
   twoDTabs = ['s3', 's4', 's5', 's6'];
