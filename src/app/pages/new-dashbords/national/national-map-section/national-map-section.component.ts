@@ -117,7 +117,7 @@ export class NationalMapSectionComponent
   popBtn = true;
   tableData;
   myForm: FormGroup;
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "India",
     enableSearchFilter: true,

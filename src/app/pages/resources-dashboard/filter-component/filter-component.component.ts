@@ -43,7 +43,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   state = new FormControl();
 
 
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "State",
     enableSearchFilter: true,

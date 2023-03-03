@@ -56,7 +56,7 @@ export class DashboardMapSectionComponent
   statesLayer: L.GeoJSON<any>;
   cityData = [];
   cityName = "";
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "India",
     enableSearchFilter: true,

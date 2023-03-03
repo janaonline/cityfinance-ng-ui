@@ -106,7 +106,7 @@
             <div class="col-md-2 me-1">
               <angular2-multiselect class="form-select" (onSelect)="onStateChange($event)"
                 (onDeSelectAll)="onStateChange(deSelectStateObject)" class="expo-drp-in ind-selct" [data]="stateList"
-                [formControl]="state" [settings]="DropdownSettings">
+                [formControl]="state" [settings]="dropdownSettings">
               </angular2-multiselect>
             </div>
 
@@ -358,13 +358,7 @@
     <div class="container barChartContainer">
       <ng-container *ngIf="tempDataHolder?.list?.length > 0">
         <p class="barCharttitle text-center">
-          Compare
-          {{
-          tempDataHolder?.typeTitle
-          ? tempDataHolder?.typeTitle
-          : ("ULBs" | uppercase)
-          }}
-          on {{ tempDataHolder?.param }}
+          Compare {{ tempDataHolder?.typeTitle || "ULBS" }} on {{ tempDataHolder?.param }}
         </p>
       </ng-container>
       <ng-container *ngIf="
@@ -372,21 +366,10 @@
           tempDataHolder?.list?.length == 0
         ">
         <h2 class="barCharttitle text-center">
-          Top 10 Performing
-          {{
-          tempDataHolder?.typeTitle
-          ? tempDataHolder?.typeTitle
-          : ("ULBs" | uppercase)
-          }}
+          Top 10 Performing {{ tempDataHolder?.typeTitle || "ULBS" }}
         </h2>
         <p class="barChartSubTitle text-center">
-          Top 10 performing
-          {{
-          tempDataHolder?.typeTitle
-          ? tempDataHolder?.typeTitle
-          : ("ULBs" | uppercase)
-          }}
-          in the country in {{ tempDataHolder?.param }} can be viewed below.
+          Top 10 performing {{ tempDataHolder?.typeTitle || "ULBS" }} in the country in {{ tempDataHolder?.param }} can be viewed below.
         </p>
       </ng-container>
 
@@ -398,7 +381,9 @@
         [sourceDashboardName]="sourceDashboardName" [selectedFinancialYear]="filterGroup.controls.financialYear.value">
       </app-revenuechart>
 
-      <p class="text-center my-2">Supported by the <a style="color: #3F48CC;" class="fw-bold" target="_blank" href="https://www.worldbank.org/en/programs/the-global-tax-program">Global Tax Program</a> of the World Bank</p>
+      <p class="text-center my-2">Supported by the <a style="color: #3F48CC;" class="fw-bold" target="_blank"
+          href="https://www.worldbank.org/en/programs/the-global-tax-program">Global Tax Program</a> of the World Bank
+      </p>
       <div class="container-fluid">
         <div class="chartExcelDataCont d-flex justify-content-center align-items-center">
           <p class="DataDownloadText">

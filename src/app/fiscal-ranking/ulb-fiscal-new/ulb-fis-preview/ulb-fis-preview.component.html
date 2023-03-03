@@ -28,7 +28,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="['s3', 's4', 's5', 's6'].includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
+                        <div *ngIf="yearWiseTabs.includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
                             <div class="row">
                                 <div class="col-sm-12 f-label mb-2">{{data?.value?.label }}</div>
                             </div>

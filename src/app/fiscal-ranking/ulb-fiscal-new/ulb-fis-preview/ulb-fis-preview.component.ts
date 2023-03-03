@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
@@ -16,11 +16,11 @@ export class UlbFisPreviewComponent implements OnInit {
   @ViewChild("preData") _html: ElementRef;
   @ViewChild("templateSave") template;
   userData;
-  ulbName = '';
-  stateName = '';
-  yearIdArr;
-  ulbId = "";
+  ulbName: string = '';
+  stateName: string = '';
+  ulbId: string = "";
   dialogRef;
+  yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -125,8 +125,7 @@ export class UlbFisPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async proceed(uploadedFiles) {
-    this.dialogRef.close();
+  async proceed() {
     this.dialog.closeAll();
     // this.preData.body["isDraft"] = true;
     await this.submit();

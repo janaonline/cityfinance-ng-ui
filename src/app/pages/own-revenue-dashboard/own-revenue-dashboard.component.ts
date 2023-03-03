@@ -38,7 +38,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
   deSelectStateObject = {_id: 'State Name'};
 
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "State Name",
     enableSearchFilter: true,

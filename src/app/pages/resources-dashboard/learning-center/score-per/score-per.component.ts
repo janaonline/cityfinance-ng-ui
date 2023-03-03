@@ -41,7 +41,7 @@ export class ScorePerComponent implements OnInit {
   activeValue: boolean = false;
   topThree: boolean = false;
   
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "State",
     enableSearchFilter: true,

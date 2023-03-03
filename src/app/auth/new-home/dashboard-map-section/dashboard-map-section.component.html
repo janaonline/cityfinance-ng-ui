@@ -35,7 +35,7 @@
             <form [formGroup]="myForm" class="w-100">
               <!-- <app-auto-complete class="expo-drp-in ind-selct" (onSelect)="onSelectingStateFromDropDown($event)" [list]="stateList" formControlName="stateId" ></app-auto-complete> -->
               <angular2-multiselect class="expo-drp-in ind-selct" [data]="stateList" formControlName="stateId"
-                [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)"
+                [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)"
                 (onDeSelect)="onSelectingStateFromDropDown(null)">
               </angular2-multiselect>
             </form>

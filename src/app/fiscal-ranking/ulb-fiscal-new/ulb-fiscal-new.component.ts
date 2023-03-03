@@ -37,12 +37,12 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
-  tab7key = 's7';
+  selfDeclarationTabId = 's7';
   guidanceNotesKey = 'guidanceNotes';
 
-  linearTabs = ['s1', 's2'];
-  twoDTabs = ['s3', 's4', 's5', 's6'];
-  textualFormFiledTypes = ['text', 'url', 'email'];
+  linearTabs: string[] = ['s1', 's2'];
+  twoDTabs: string[] = ['s3', 's4', 's5', 's6'];
+  textualFormFiledTypes: string[] = ['text', 'url', 'email'];
   tabs: Tab[];
   cantakeAction: boolean = true;
   formId: string;
