@@ -41,6 +41,7 @@ import { EnumerationComponent } from "./learning-center/enumeration/enumeration.
 
 import { PdfViewerModule } from "ng2-pdf-viewer";
 import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bond-repository/municipal-bond-repository.component';
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -73,6 +74,7 @@ import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bo
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularMultiSelectModule,
     MatIconModule,
     MatButtonModule,
     TabsModule.forRoot(),

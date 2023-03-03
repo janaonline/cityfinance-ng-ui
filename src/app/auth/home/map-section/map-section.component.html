@@ -6,7 +6,7 @@
 <div class="wrapper">
     <div class="selectPart">
         <form [formGroup]="myForm">
-            <angular2-multiselect [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+            <angular2-multiselect [data]="stateList" formControlName="stateId" [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)" (onDeSelect)="onSelectingStateFromDropDown(null)">
             </angular2-multiselect>
         </form>
         Click on a state to see available data on City governments
