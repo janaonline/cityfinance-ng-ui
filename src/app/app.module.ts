@@ -63,7 +63,7 @@ import { WebFormModule } from "./mform_webform/web-form/web-form.module";
     SharedModule,
     // CfChartsModule,
     AngularMaterialModule,
-    WebFormModule,
+   // WebFormModule,
     CommonModule,
     AngularMultiSelectModule,
     MatAutocompleteModule,
@@ -108,7 +108,7 @@ import { WebFormModule } from "./mform_webform/web-form/web-form.module";
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
-    
+
     // InrCurrencyPipe,
   ],
   exports: [

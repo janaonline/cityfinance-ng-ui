@@ -7,10 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormLoaderComponent } from './components/form-loader/form-loader.component';
 
 
 @NgModule({
-  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent],
+  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent],
   imports: [
     CommonModule,
     MatIconModule,
