@@ -185,7 +185,7 @@
                                                     <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                                                     <tr *ngFor="let wmItem of wmProject.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm">
                                                         <td class="t-i">
-                                                            <span>{{rowIndex_wm+1}}</span>
+                                                            <span>{{rowIndex_wm + 1}}</span>
                                                         </td>
                                                         <td>
                                                             <input class="t-i ct-l w-100" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
@@ -258,7 +258,8 @@
                                                     <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                                                     <tr *ngFor="let swmItem of swmProject.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm">
                                                         <td class="t-i">
-                                                            <span>1</span>
+                                                            <!-- <span>1</span> -->
+                                                            <span>{{rowIndex_swm + 1}}</span>
                                                         </td>
                                                         <td>
                                                             <input formControlName="category_name" class="t-i ct-l w-100" disabled="true" value="{{swmItem.controls.category_name.value}}">
@@ -550,5 +551,5 @@
 
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
-    <app-pre-loader></app-pre-loader>
+    <app-pre-loader-new></app-pre-loader-new>
 </div>

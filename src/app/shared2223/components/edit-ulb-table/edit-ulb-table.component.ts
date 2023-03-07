@@ -80,6 +80,7 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
   }
 
   loadData(type) {
+    this.showLoader = true;
     this._stateformsService.getulbDetails()
       .subscribe((res) => {
         console.log('getulbDetails', res);
