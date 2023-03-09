@@ -1467,7 +1467,7 @@ gfcJson = {
     if(queryParams.endPoints == 'ptax'){
       this.questionResponse.data[0] = {
         language: [
-          this.gfcJson
+          this.ptoJson
         ]
       }
       this.isApiComplete = true;
