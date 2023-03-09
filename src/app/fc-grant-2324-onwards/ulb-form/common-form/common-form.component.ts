@@ -42,8 +42,7 @@ export class CommonFormComponent implements OnInit {
           this.getScroing('odf');
           this.callGetApi(this.getQuery);
         } else if (urlArray.includes("gfc")) {
-         // this.getQuery.endPoints = 'gfc-odf-form-collection';
-         this.getQuery.endPoints = 'gfc';
+          this.getQuery.endPoints = 'gfc-odf-form-collection';
           this.getQuery.isGfc = true;
           this.formName = 'gfc';
           this.getScroing('gfc');
@@ -567,230 +566,452 @@ odfJson =  {
     "buttons": []
   };
 gfcJson = {
-    "_id": "63fde84c89406806192704de",
-    "lng": "en",
-    "question": [
-      {
-        "information": "",
-        "_id": "63fde71b894068061927048d",
-        "order": "1",
-        "answer_option": [
+      "_id": "64096fa1235a2809db049260",
+      "lng": "en",
+      "question": [
           {
-            "name": "No Star",
-            "did": [],
-            "viewSequence": "1",
-            "_id": "1"
+              "information": "",
+              "_id": "63fde71b894068061927048d",
+              "order": "1",
+              "answer_option": [
+                  {
+                      "name": "No Star",
+                      "did": [],
+                      "viewSequence": "1",
+                      "_id": "1"
+                  },
+                  {
+                      "name": "1 Star",
+                      "did": [],
+                      "viewSequence": "2",
+                      "_id": "2"
+                  },
+                  {
+                      "name": "3 Star",
+                      "did": [],
+                      "viewSequence": "3",
+                      "_id": "3"
+                  },
+                  {
+                      "name": "5 Star",
+                      "did": [],
+                      "viewSequence": "4",
+                      "_id": "4"
+                  },
+                  {
+                      "name": "7 Star",
+                      "did": [],
+                      "viewSequence": "5",
+                      "_id": "5"
+                  },
+                  {
+                      "name": "No Rating",
+                      "did": [],
+                      "viewSequence": "6",
+                      "_id": "6"
+                  }
+              ],
+              "title": "Garbage Free City (GFC) Rating",
+              "hint": "Single Select",
+              "resource_urls": [],
+              "label": "1",
+              "shortKey": "gfcRating",
+              "viewSequence": "1",
+              "child": [
+                  {
+                      "type": "11",
+                      "value": "^([1]|[2]|[3]|[4]|[5])$",
+                      "order": "2"
+                  },
+                  {
+                      "type": "11",
+                      "value": "^([6])$",
+                      "order": "4"
+                  },
+                  {
+                      "type": "14",
+                      "value": "^([1]|[2]|[3]|[4]|[5])$",
+                      "order": "3"
+                  }
+              ],
+              "parent": [],
+              "validation": [
+                  {
+                      "_id": "1",
+                      "error_msg": ""
+                  }
+              ],
+              "restrictions": [],
+              "input_type": "3",
+              "weightage": [],
+              "editable": false
           },
           {
-            "name": "1Star",
-            "did": [],
-            "viewSequence": "2",
-            "_id": "2"
+              "information": "",
+              "_id": "63fde765894068061927049a",
+              "order": "2",
+              "answer_option": [],
+              "title": "Upload GFC Certificate",
+              "hint": "Upload PDF",
+              "resource_urls": [],
+              "label": "3",
+              "shortKey": "cert",
+              "viewSequence": "2",
+              "child": [],
+              "parent": [
+                  {
+                      "value": "^([1]|[2]|[3]|[4]|[5])$",
+                      "type": "3",
+                      "order": "1"
+                  }
+              ],
+              "min": null,
+              "max": null,
+              "minRange": null,
+              "maxRange": null,
+              "pattern": "",
+              "validation": [
+                  {
+                      "error_msg": "",
+                      "_id": "1"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "83",
+                      "value": "application/pdf"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "81",
+                      "value": "5120"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "82",
+                      "value": "1"
+                  }
+              ],
+              "restrictions": [],
+              "input_type": "11",
+              "editable": false,
+              "weightage": []
           },
           {
-            "name": "3 Star",
-            "did": [],
-            "viewSequence": "3",
-            "_id": "3"
+              "information": "",
+              "_id": "63fde7ca89406806192704ad",
+              "order": "3",
+              "answer_option": [],
+              "title": "Certification Issue Date",
+              "hint": "Date ",
+              "resource_urls": [],
+              "label": "5",
+              "shortKey": "certDate",
+              "viewSequence": "4",
+              "child": [],
+              "parent": [
+                  {
+                      "value": "^([1]|[2]|[3]|[4]|[5])$",
+                      "type": "3",
+                      "order": "1"
+                  }
+              ],
+              "validation": [
+                  {
+                      "error_msg": "",
+                      "_id": "1"
+                  },
+                  {
+                      "_id": "26.4",
+                      "error_msg": "",
+                      "value": "1"
+                  }
+              ],
+              "restrictions": [],
+              "input_type": "14",
+              "editable": false,
+              "weightage": []
           },
           {
-            "name": "5 Star",
-            "did": [],
-            "viewSequence": "4",
-            "_id": "4"
-          },
-          {
-            "name": "7 Star",
-            "did": [],
-            "viewSequence": "5",
-            "_id": "5"
-          },
-          {
-            "name": "No Rating",
-            "did": [],
-            "viewSequence": "6",
-            "_id": "6"
+              "information": "",
+              "_id": "63fde84c89406806192704dc",
+              "order": "4",
+              "answer_option": [],
+              "title": "Upload Declaration",
+              "hint": "Upload PDF",
+              "resource_urls": [],
+              "label": "4",
+              "shortKey": "cert_declaration",
+              "viewSequence": "3",
+              "child": [],
+              "parent": [
+                  {
+                      "value": "^([6])$",
+                      "type": "3",
+                      "order": "1"
+                  }
+              ],
+              "min": null,
+              "max": null,
+              "minRange": null,
+              "maxRange": null,
+              "pattern": "",
+              "validation": [
+                  {
+                      "error_msg": "",
+                      "_id": "1"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "83",
+                      "value": "application/pdf"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "81",
+                      "value": "5120"
+                  },
+                  {
+                      "error_msg": "",
+                      "_id": "82",
+                      "value": "1"
+                  }
+              ],
+              "restrictions": [],
+              "input_type": "11",
+              "editable": false,
+              "weightage": []
           }
-        ],
-        "title": "Garbage Free City (GFC) Rating",
-        "hint": "Single Select",
-        "resource_urls": [],
-        "label": "",
-        "shortKey": "rating",
-        "viewSequence": "1",
-        "child": [
-          {
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "order": "3",
-            "type": 14
-          },
-          {
-            "type": "11",
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "order": "2"
-          },
-          {
-            "value": "^([6])$",
-            "order": "4",
-            "type": 11
-          }
-        ],
-        "parent": [],
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          }
-        ],
-        "restrictions": [],
-        "input_type": "3",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "information": "",
-        "_id": "63fde765894068061927049a",
-        "order": "2",
-        "answer_option": [],
-        "title": "Upload GFC Certificate",
-        "hint": "Upload PDF",
-        "resource_urls": [],
-        "label": "",
-        "shortKey": "cert",
-        "viewSequence": "2",
-        "child": [],
-        "parent": [
-          {
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "type": "3",
-            "order": "1"
-          }
-        ],
-        "min": null,
-        "max": null,
-        "minRange": null,
-        "maxRange": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "20480"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "information": "",
-        "_id": "63fde7ca89406806192704ad",
-        "order": "3",
-        "answer_option": [],
-        "title": "Certification Issue Date",
-        "hint": "Date ",
-        "resource_urls": [],
-        "label": "",
-        "shortKey": "order3",
-        "viewSequence": "3",
-        "child": [],
-        "parent": [
-          {
-            "type": "3",
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "order": "1"
-          }
-        ],
-        "validation": [
-          {
-            "_id": "25",
-            "error_msg": "",
-            "value": ""
-          },
-          {
-            "_id": "24",
-            "error_msg": "",
-            "value": ""
-          },
-          {
-            "error_msg": "",
-            "_id": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "14",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "information": "",
-        "_id": "63fde84c89406806192704dc",
-        "answer_option": [],
-        "title": "Upload Declaration",
-        "hint": "Upload PDF",
-        "order": "4",
-        "resource_urls": [],
-        "label": "",
-        "shortKey": "Dec",
-        "viewSequence": "4",
-        "child": [],
-        "parent": [
-          {
-            "type": "3",
-            "value": "^([6])$",
-            "order": "1"
-          }
-        ],
-        "min": null,
-        "max": null,
-        "minRange": null,
-        "maxRange": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "20480"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      }
-    ],
-    "title": "Garbage Free City (GFC)",
-    "buttons": []
-  };
+      ],
+      "title": "Garbage Free City (GFC)",
+      "buttons": []
+  }
+
+
+// {
+//     "_id": "63fde84c89406806192704de",
+//     "lng": "en",
+//     "question": [
+//       {
+//         "information": "",
+//         "_id": "63fde71b894068061927048d",
+//         "order": "1",
+//         "answer_option": [
+//           {
+//             "name": "No Star",
+//             "did": [],
+//             "viewSequence": "1",
+//             "_id": "1"
+//           },
+//           {
+//             "name": "1Star",
+//             "did": [],
+//             "viewSequence": "2",
+//             "_id": "2"
+//           },
+//           {
+//             "name": "3 Star",
+//             "did": [],
+//             "viewSequence": "3",
+//             "_id": "3"
+//           },
+//           {
+//             "name": "5 Star",
+//             "did": [],
+//             "viewSequence": "4",
+//             "_id": "4"
+//           },
+//           {
+//             "name": "7 Star",
+//             "did": [],
+//             "viewSequence": "5",
+//             "_id": "5"
+//           },
+//           {
+//             "name": "No Rating",
+//             "did": [],
+//             "viewSequence": "6",
+//             "_id": "6"
+//           }
+//         ],
+//         "title": "Garbage Free City (GFC) Rating",
+//         "hint": "Single Select",
+//         "resource_urls": [],
+//         "label": "",
+//         "shortKey": "rating",
+//         "viewSequence": "1",
+//         "child": [
+//           {
+//             "value": "^([1]|[2]|[3]|[4]|[5])$",
+//             "order": "3",
+//             "type": 14
+//           },
+//           {
+//             "type": "11",
+//             "value": "^([1]|[2]|[3]|[4]|[5])$",
+//             "order": "2"
+//           },
+//           {
+//             "value": "^([6])$",
+//             "order": "4",
+//             "type": 11
+//           }
+//         ],
+//         "parent": [],
+//         "validation": [
+//           {
+//             "_id": "1",
+//             "error_msg": ""
+//           }
+//         ],
+//         "restrictions": [],
+//         "input_type": "3",
+//         "weightage": [],
+//         "editable": false
+//       },
+//       {
+//         "information": "",
+//         "_id": "63fde765894068061927049a",
+//         "order": "2",
+//         "answer_option": [],
+//         "title": "Upload GFC Certificate",
+//         "hint": "Upload PDF",
+//         "resource_urls": [],
+//         "label": "",
+//         "shortKey": "cert",
+//         "viewSequence": "2",
+//         "child": [],
+//         "parent": [
+//           {
+//             "value": "^([1]|[2]|[3]|[4]|[5])$",
+//             "type": "3",
+//             "order": "1"
+//           }
+//         ],
+//         "min": null,
+//         "max": null,
+//         "minRange": null,
+//         "maxRange": null,
+//         "pattern": "",
+//         "validation": [
+//           {
+//             "error_msg": "",
+//             "_id": "1"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "83",
+//             "value": "application/pdf"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "81",
+//             "value": "20480"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "82",
+//             "value": "1"
+//           }
+//         ],
+//         "restrictions": [],
+//         "input_type": "11",
+//         "editable": false,
+//         "weightage": []
+//       },
+//       {
+//         "information": "",
+//         "_id": "63fde7ca89406806192704ad",
+//         "order": "3",
+//         "answer_option": [],
+//         "title": "Certification Issue Date",
+//         "hint": "Date ",
+//         "resource_urls": [],
+//         "label": "",
+//         "shortKey": "order3",
+//         "viewSequence": "3",
+//         "child": [],
+//         "parent": [
+//           {
+//             "type": "3",
+//             "value": "^([1]|[2]|[3]|[4]|[5])$",
+//             "order": "1"
+//           }
+//         ],
+//         "validation": [
+//           {
+//             "_id": "25",
+//             "error_msg": "",
+//             "value": ""
+//           },
+//           {
+//             "_id": "24",
+//             "error_msg": "",
+//             "value": ""
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "1"
+//           }
+//         ],
+//         "restrictions": [],
+//         "input_type": "14",
+//         "editable": false,
+//         "weightage": []
+//       },
+//       {
+//         "information": "",
+//         "_id": "63fde84c89406806192704dc",
+//         "answer_option": [],
+//         "title": "Upload Declaration",
+//         "hint": "Upload PDF",
+//         "order": "4",
+//         "resource_urls": [],
+//         "label": "",
+//         "shortKey": "Dec",
+//         "viewSequence": "4",
+//         "child": [],
+//         "parent": [
+//           {
+//             "type": "3",
+//             "value": "^([6])$",
+//             "order": "1"
+//           }
+//         ],
+//         "min": null,
+//         "max": null,
+//         "minRange": null,
+//         "maxRange": null,
+//         "pattern": "",
+//         "validation": [
+//           {
+//             "error_msg": "",
+//             "_id": "1"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "83",
+//             "value": "application/pdf"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "81",
+//             "value": "20480"
+//           },
+//           {
+//             "error_msg": "",
+//             "_id": "82",
+//             "value": "1"
+//           }
+//         ],
+//         "restrictions": [],
+//         "input_type": "11",
+//         "editable": false,
+//         "weightage": []
+//       }
+//     ],
+//     "title": "Garbage Free City (GFC)",
+//     "buttons": []
+//   };
 
  ptoJson =  {
   "_id": "63ff042889406806192731be",
@@ -1243,18 +1464,10 @@ gfcJson = {
   }
 
   callGetApi(queryParams){
-    // this.questionResponse.data[0].language = [];
-    // if(queryParams.endPoints == 'odf'){
-    //   this.questionResponse.data[0].language.push(this.odfJson);
-    //  }else if(queryParams.endPoints == 'gfc'){
-    //   this.questionResponse.data[0].language.push(this.gfcJson);
-    //  }else{
-    //   this.questionResponse.data[0].language.push(this.ptoJson);
-    //  }
     if(queryParams.endPoints == 'ptax'){
       this.questionResponse.data[0] = {
         language: [
-          this.ptoJson
+          this.gfcJson
         ]
       }
       this.isApiComplete = true;
@@ -1293,7 +1506,6 @@ gfcJson = {
     this.commonServices.formPostMethod(this.postData).subscribe((res)=>{
       alert('data saved successfully.....');
       console.log(res);
-
     },
     (error)=>{
       console.log('post error', error);
