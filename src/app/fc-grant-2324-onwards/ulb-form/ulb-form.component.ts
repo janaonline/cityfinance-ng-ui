@@ -13,8 +13,9 @@ export class UlbFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.getQueryParams();
+    this.userData = JSON.parse(localStorage.getItem("userData"));
   }
-
+  userData : any;
   ngOnInit(): void {
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
   }
