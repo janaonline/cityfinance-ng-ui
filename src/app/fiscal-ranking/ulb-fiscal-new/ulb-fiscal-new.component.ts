@@ -41,7 +41,7 @@ export class UlbFiscalNewComponent implements OnInit {
   guidanceNotesKey = 'guidanceNotes';
 
   linearTabs: string[] = ['s1', 's2'];
-  twoDTabs: string[] = ['s3', 's4', 's5', 's6'];
+  twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email'];
   tabs: Tab[];
   cantakeAction: boolean = true;

@@ -29,7 +29,8 @@
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
                                         <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"
-                                            matInput placeholder="{{ item.value.controls?.label?.value }}" formControlName="value">
+                                            matInput placeholder="{{ item.value.controls?.label?.value }}"
+                                            formControlName="value">
                                     </mat-form-field>
                                     <div class="col-sm-12 mt-1 row"
                                         *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
@@ -50,9 +51,40 @@
                             </div>
                         </div>
 
+                        <table class="table table-striped" *ngIf="tab?.value?.id === 's3'">
+                            <thead style="background-color: #058E91; color: white;">
+                                <tr>
+                                    <th scope="col">Section</th>
+                                    <th scope="col text-center" *ngFor="let year of ['2021-22', '2020-21', '2019-20', '2018-19']">{{ year  }}</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-top: none;">
+                                <ng-container
+                                    *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                                    <tr *ngIf="item?.value?.controls?.canShow?.value">
+                                        <th scope="row">{{item?.value?.controls?.label.value}}</th>
+                                        <td
+                                            *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                            <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+                                                <div class="input-group">
+                                                    <!-- [(ngModel)]="yearItem.amount" -->
+                                                    <!-- [disabled]="yearItem?.readonly" -->
+                                                    <!-- id="{{yearItem?.key}}" -->
+                                                    <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
+                                                    <input formControlName="value" type="number"
+                                                        class="form-control"
+                                                        placeholder="{{yearItem?.controls?.placeholder?.value}}">
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+
                         <!-- tab 3, 4, 5, 6 -->
-                        <div class="" *ngIf="twoDTabs.includes(tab?.value?.id)"
-                            [ngClass]="{'disable': isDisabled}">
+                        <div class="" *ngIf="twoDTabs.includes(tab?.value?.id)" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
