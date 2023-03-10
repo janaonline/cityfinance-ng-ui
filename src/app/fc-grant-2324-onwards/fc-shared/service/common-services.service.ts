@@ -22,11 +22,11 @@ export class CommonServicesService {
   formGetMethod(params) {
     // gfc-odf-form-collection
     return this.http.get(
-      `${environment.api.url}${params?.endPoints}?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}&formId=1`
+      `${environment.api.url}${params?.endPoints}?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}&formId=${params.formId}`
     );
   }
-  getScroing(formName) {
+  getScroing(formName, dYr) {
     // gfc-odf-form-collection
-    return this.http.get(`${environment.api.url}ratings?formName=${formName}`);
+    return this.http.get(`${environment.api.url}ratings?formName=${formName}&financialYear=${dYr}`);
   }
 }

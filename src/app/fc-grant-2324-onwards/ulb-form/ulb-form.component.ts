@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserUtility } from 'src/app/util/user/user';
 
 @Component({
   selector: 'app-ulb-form',
@@ -9,11 +10,20 @@ import { ActivatedRoute } from '@angular/router';
 export class UlbFormComponent implements OnInit {
 
   leftMenu = {};
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  loggedInUserType:boolean;
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.getQueryParams();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    if (!this.loggedInUserType) {
+      this.router.navigate(["/login"]);
+      // this.showLoader = false;
+    }
+
   }
   userData : any;
   ngOnInit(): void {
