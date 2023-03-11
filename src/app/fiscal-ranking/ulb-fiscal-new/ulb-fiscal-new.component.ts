@@ -181,7 +181,7 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
-      formFieldType: [{ value: this.getFormFieldType(item.key) || 'text', disabled: true}],
+      formFieldType: [{ value: this.getFormFieldType(item.key), disabled: true}],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -280,7 +280,7 @@ export class UlbFiscalNewComponent implements OnInit {
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      actions: this.fiscalForm.value
+      actions: this.fiscalForm.getRawValue()
     }
 
     this.fiscalForm.markAllAsTouched();

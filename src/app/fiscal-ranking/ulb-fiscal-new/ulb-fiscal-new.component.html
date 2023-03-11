@@ -175,7 +175,7 @@
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}</a>
-                                                                        <a (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                                        <a *ngIf="!yearItem?.controls?.readonly?.value" (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                             class="w-10"
                                                                             [ngClass]="{'pe-none': isDisabled}">
                                                                             <img
