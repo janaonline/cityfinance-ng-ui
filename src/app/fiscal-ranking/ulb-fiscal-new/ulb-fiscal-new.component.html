@@ -168,8 +168,8 @@
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}</a>
-                                                                        <a (click)="clearFile('annualDoc', yearItem, tab)"
-                                                                            class="w-10" target="_blank"
+                                                                        <a (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                                            class="w-10"
                                                                             [ngClass]="{'pe-none': isDisabled}">
                                                                             <img
                                                                                 src="../../../assets/form-icon/close_black_24dp.svg">

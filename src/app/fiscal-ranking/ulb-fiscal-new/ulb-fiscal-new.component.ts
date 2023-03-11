@@ -232,7 +232,13 @@ export class UlbFiscalNewComponent implements OnInit {
     return true;
   }
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl) {
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
+    console.log({
+      fileType,
+      control,
+      reset
+    })
+    if(reset) return control.patchValue({ uploading: false, name: '', url: ''});
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
