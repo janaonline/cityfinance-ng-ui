@@ -304,8 +304,34 @@
 .mat-input-element:disabled {
     color: #d3d3d3 !important;
 }
-::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style{
+
+::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style {
     color: #727272 !important;
 }
 
+table {
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .error-icon {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.375rem;
+        color: #dc3545;
+        cursor: pointer;
+    }
+
+    .tooltip.show {
+        opacity: 1;
+    }
+
+}

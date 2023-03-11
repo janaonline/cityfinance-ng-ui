@@ -55,7 +55,9 @@
                             <thead style="background-color: #058E91; color: white;">
                                 <tr>
                                     <th scope="col">Section</th>
-                                    <th scope="col text-center" *ngFor="let year of ['2021-22', '2020-21', '2019-20', '2018-19']">{{ year  }}</th>
+                                    <th scope="col text-center"
+                                        *ngFor="let year of ['2021-22', '2020-21', '2019-20', '2018-19']">{{ year }}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody style="border-top: none;">
@@ -66,16 +68,13 @@
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
-                                                <div class="input-group">
-                                                    <!-- [(ngModel)]="yearItem.amount" -->
-                                                    <!-- [disabled]="yearItem?.readonly" -->
-                                                    <!-- id="{{yearItem?.key}}" -->
-                                                    <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
+                                                <div class="form-group">
                                                     <input formControlName="value" type="number"
                                                         class="form-control"
-                                                        placeholder="{{yearItem?.controls?.placeholder?.value}}">
+                                                        [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
+                                                        placeholder="{{yearItem?.controls?.placeholder?.value}}" />
+                                                    <div class="invalid-feedback">Please provide a valid input.</div>
                                                 </div>
-
                                             </div>
                                         </td>
                                     </tr>
@@ -284,8 +283,8 @@
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
                                 <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)"
-                                    *ngIf="tab?.value?.id != 's7'">Next</button>
-                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == 's7'"
+                                    *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
+                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
                                     (click)="submit(false)">Submit</button>
                             </div>

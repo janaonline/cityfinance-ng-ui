@@ -37,7 +37,7 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
-  selfDeclarationTabId = 's7';
+  selfDeclarationTabId = 's5';
   guidanceNotesKey = 'guidanceNotes';
 
   linearTabs: string[] = ['s1', 's2'];
@@ -149,7 +149,7 @@ export class UlbFiscalNewComponent implements OnInit {
         if (this.linearTabs.includes(tab.id)) {
           obj[key] = this.getInnerFormGroup({...item, key})
         }
-        else if (tab.id == 's7') {
+        else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: item.name,
@@ -278,6 +278,8 @@ export class UlbFiscalNewComponent implements OnInit {
       isDraft: isDraft,
       actions: this.fiscalForm.value
     }
+
+    this.fiscalForm.markAllAsTouched();
 
     console.log(payload);
 
