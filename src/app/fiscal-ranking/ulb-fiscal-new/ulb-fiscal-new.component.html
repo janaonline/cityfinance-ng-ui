@@ -52,17 +52,20 @@
                         </div>
 
                         <table class="table table-striped" *ngIf="tab?.value?.id === 's3'">
-                            <thead style="background-color: #058E91; color: white;">
+                            <thead>
                                 <tr>
-                                    <th scope="col">Section</th>
-                                    <th scope="col text-center"
-                                        *ngFor="let year of ['2021-22', '2020-21', '2019-20', '2018-19']">{{ year }}
-                                    </th>
+                                    <th scope="col" style="text-align: center;" *ngFor="let year of financialYearTableHeader">{{ year }}</th>
                                 </tr>
                             </thead>
                             <tbody style="border-top: none;">
                                 <ng-container
                                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                                    <tr *ngIf="rowIndex_rev == 0" class="table-info">
+                                        <th colspan="5" >INCOME</th>
+                                    </tr>
+                                    <tr *ngIf="rowIndex_rev == 4" class="table-danger">
+                                        <th colspan="5" >EXPENDITURE</th>
+                                    </tr>
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
                                         <th scope="row">{{item?.value?.controls?.label.value}}</th>
                                         <td

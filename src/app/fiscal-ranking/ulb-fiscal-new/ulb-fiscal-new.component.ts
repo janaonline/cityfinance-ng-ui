@@ -53,6 +53,8 @@ export class UlbFiscalNewComponent implements OnInit {
   fiscalForm: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
 
+  financialYearTableHeader: string[] = ['Section', '2021-22', '2020-21', '2019-20', '2018-19'];
+
   formSubmitted = false;
   sortOrder = { // TODO: get from backend
     s3: {totalRecActual: 1, totalRcptWaterSupply: 2, totalRcptSanitation: 3, totalRecBudgetEst: 4, totalOwnRevenues: 5, totalPropTaxRevenue: 6, totalTaxRevWaterSupply: 7, totalTaxRevSanitation: 8, totalFeeChrgWaterSupply: 9, totalFeeChrgSanitation: 10},
@@ -233,11 +235,6 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
-    console.log({
-      fileType,
-      control,
-      reset
-    })
     if(reset) return control.patchValue({ uploading: false, name: '', url: ''});
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
