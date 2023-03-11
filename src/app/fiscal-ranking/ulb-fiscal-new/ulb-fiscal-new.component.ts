@@ -42,7 +42,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   linearTabs: string[] = ['s1', 's2'];
   twoDTabs: string[] = ['s4', 's5', 's6'];
-  textualFormFiledTypes: string[] = ['text', 'url', 'email'];
+  textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
   cantakeAction: boolean = true;
   formId: string;
@@ -181,7 +181,7 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
-      formFieldType: [{ value: this.getFormFieldType(item.key), disabled: true}],
+      formFieldType: [{ value: item.formFieldType || 'text', disabled: true}],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -199,17 +199,7 @@ export class UlbFiscalNewComponent implements OnInit {
       })
     });
   }
-
-  getFormFieldType(key) {
-    return {
-      waterSupply: 'radio-toggle',
-      webLink: 'url',
-      propertyWaterTax: 'radio-toggle',
-      propertySanitationTax: 'radio-toggle',  
-      sanitationService: 'radio-toggle',  
-    }[key] || 'text';
-  }
-
+  
   addSkipLogics() {
     const s1Control = this.fiscalForm.controls.find(control => control.value?.id == 's1') as FormGroup;
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
