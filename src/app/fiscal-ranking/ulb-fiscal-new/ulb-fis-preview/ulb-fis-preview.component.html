@@ -23,7 +23,7 @@
                     <ng-container *ngFor="let data of tab?.data| keyvalue; let y_i=index">
                         <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
                             <div class="row mb-1 bg-amt pd-r">
-                                <div class="col-sm-6 yr-l">{{data?.key}}</div>
+                                <div class="col-sm-6 yr-l">{{data?.value?.label}}</div>
                                 <div class="col-sm-6 yr-ans">{{data?.value?.value }}</div>
                             </div>
                         </div>

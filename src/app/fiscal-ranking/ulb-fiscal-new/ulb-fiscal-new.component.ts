@@ -180,6 +180,7 @@ export class UlbFiscalNewComponent implements OnInit {
       date: item.date,
       year: item.year,
       type: item.type,
+      _id: item._id,
       formFieldType: [{ value: this.getFormFieldType(item.key) || 'text', disabled: true}],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
@@ -260,7 +261,7 @@ export class UlbFiscalNewComponent implements OnInit {
     console.log(this.fiscalForm.getRawValue());
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        showData: this.fiscalForm.getRawValue().filter(item => item.id !== 's7')
+        showData: this.fiscalForm.getRawValue().filter(item => item.id !== this.selfDeclarationTabId)
       },
       width: "85vw",
       height: "100%",
@@ -286,7 +287,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
     console.log(payload);
 
-    this.fiscalService.actionByMohua(payload).subscribe(res => {
+    this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
       console.log('post error', error)

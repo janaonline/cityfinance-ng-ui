@@ -40,7 +40,7 @@ export class FiscalRankingService {
     });
   }
   postFiscalRankingData(body) {
-    return this.http.post(`${environment.api.url}fiscal-ranking/create`, body);
+    return this.http.post(`${environment.api.url}fiscal-ranking/create-form`, body);
   }
 
   actionByMohua(body) {
