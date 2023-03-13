@@ -33,6 +33,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
 import { TowordPipe } from './pipes/toword.pipe';
 import { PercentprogressPipe } from './pipes/percentprogress.pipe';
+import { YearInfoPipe } from './pipes/year-info.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { PercentprogressPipe } from './pipes/percentprogress.pipe';
     ReviewUlbTableComponent,
     TowordPipe,
     PercentprogressPipe,
+    YearInfoPipe,
   ],
   imports: [
     CommonModule,

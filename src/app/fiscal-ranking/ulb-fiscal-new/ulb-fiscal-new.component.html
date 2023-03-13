@@ -79,7 +79,7 @@
                                         <td>{{ item?.value?.controls?.position?.value }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">
-                                            {{item?.value?.controls?.label.value}} <span>Info</span> </th>
+                                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.yearData.controls | yearInfo" [matTooltip]="item?.value?.controls?.yearData.controls | yearInfo">info</mat-icon></th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">

@@ -41,7 +41,7 @@ export class UlbFiscalNewComponent implements OnInit {
   incomeSectionBelowKey: number = 1;
   expenditureSectionBelowKey: number = 8;
 
-  financialYearTableHeader: {[key: number]: string[]} = {
+  financialYearTableHeader: { [key: number]: string[] } = {
     1: ['', 'SECTION A:  Details from Income & Expenditure Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
     20: ['', 'SECTION B:  Other Details from Audited Annual Accounts', '2021-22', '2020-21', '2019-20', '2018-19'],
     25: ['', 'SECTION C:  Details from Receipts & Payments Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
@@ -101,7 +101,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if(this.status == '' || this.status === 'APPROVED') return false;
+    if (this.status == '' || this.status === 'APPROVED') return false;
     if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
     if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
     return true;
@@ -142,7 +142,7 @@ export class UlbFiscalNewComponent implements OnInit {
       }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
         if (this.linearTabs.includes(tab.id)) {
-          obj[key] = this.getInnerFormGroup({...item, key})
+          obj[key] = this.getInnerFormGroup({ ...item, key })
         }
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
@@ -155,8 +155,8 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: +item.displayPriority || 1 , disabled: true}], // TODO: need from backend
-            isHeading: [{ value: Number.isInteger(item.displayPriority) , disabled: true}], // TODO: need from backend
+            position: [{ value: +item.displayPriority || 1, disabled: true }], // TODO: need from backend
+            isHeading: [{ value: Number.isInteger(item.displayPriority), disabled: true }], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem)))
@@ -175,14 +175,14 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
-      formFieldType: [{ value: item.formFieldType || 'text', disabled: true}],
+      formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
-      desc: [{ value: item.desc, disabled: true}],
-      position: [{value: item.postion, disabled: true}],
-      pos: [{ value: item.pos, disabled: true}],
+      desc: [{ value: item.desc, disabled: true }],
+      position: [{ value: item.postion, disabled: true }],
+      pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {
         file: this.fb.group({
@@ -230,7 +230,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
-    if(reset) return control.patchValue({ uploading: false, name: '', url: ''});
+    if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
@@ -240,7 +240,7 @@ export class UlbFiscalNewComponent implements OnInit {
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
-    
+
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
       const { url, file_url } = s3Response.data[0];
@@ -258,7 +258,7 @@ export class UlbFiscalNewComponent implements OnInit {
       data: {
         showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
         additionalData: {
-          date: new Date().toJSON().slice(0,10),
+          date: new Date().toJSON().slice(0, 10),
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
           caMembershipNo: rowValues.find(row => row.id == 's1')?.data?.caMembershipNo?.value,
@@ -274,7 +274,7 @@ export class UlbFiscalNewComponent implements OnInit {
       //   this.hidden = true;
     });
   }
-  
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
@@ -292,5 +292,5 @@ export class UlbFiscalNewComponent implements OnInit {
     }, (error) => {
       swal('Error', 'Something went wrong', 'error');
     })
-  } 
+  }
 }

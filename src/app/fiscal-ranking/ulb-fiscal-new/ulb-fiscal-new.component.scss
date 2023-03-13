@@ -309,6 +309,10 @@
     color: #727272 !important;
 }
 
+::ng-deep .mat-tooltip {
+    white-space: pre-line !important;
+}
+
 table {
 
     input::-webkit-outer-spin-button,
@@ -333,7 +337,7 @@ table {
     .tooltip.show {
         opacity: 1;
     }
-    
+
     .table-gray {
         background-color: #c3c3c3;
         color: black;
