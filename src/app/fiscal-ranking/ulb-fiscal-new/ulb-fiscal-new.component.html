@@ -101,10 +101,10 @@
                                                     </mat-radio-group>
 
 
-                                                    <div class="input-group border" *ngIf="yearItem?.controls?.formFieldType?.value == 'date'">
+                                                    <div class="input-group border"
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'">
                                                         <div class="d-flex w-100 px-2">
-                                                            <input matInput formControlName="date"
-                                                                [matDatepicker]="r_i"
+                                                            <input matInput formControlName="date" [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 placeholder="Choose a date" [attr.id]="  + r_i" />
                                                             <mat-datepicker-toggle matSuffix
@@ -114,6 +114,46 @@
                                                         </div>
                                                         <mat-datepicker #r_i></mat-datepicker>
                                                     </div>
+
+                                                    <ng-container
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
+                                                        <div class="col-sm-12 mb-3"
+                                                            *ngIf="yearItem?.controls?.readonly?.value == false">
+                                                            <button (click)="bs_pdf1.click()"
+                                                                class="btn form-btn com-style w-100"
+                                                                [disabled]="isDisabled">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 file-text ">
+                                                                        Select File
+                                                                    </div>
+                                                                    <div class="col-sm-6 text-end">
+                                                                        <img
+                                                                            src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <input #bs_pdf1 style="display: none;"
+                                                                onclick="this.value=null;"
+                                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                                type="file" accept=".pdf" #file>
+                                                        </div>
+                                                        <div class="col-sm-12 com-style f-w mt-1"
+                                                            *ngIf="yearItem?.value?.file?.url">
+                                                            <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                                                                target="_blank">{{yearItem?.value?.file?.name}}</a>
+                                                            <a *ngIf="!yearItem?.controls?.readonly?.value"
+                                                                (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                                class="w-10" [ngClass]="{'pe-none': isDisabled}">
+                                                                <img
+                                                                    src="../../../assets/form-icon/close_black_24dp.svg">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-12 text-center w-70">
+                                                            <app-loader
+                                                                [show]="yearItem?.controls?.file?.controls?.uploading?.value">
+                                                            </app-loader>
+                                                        </div>
+                                                    </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                 </div>
                                             </div>
