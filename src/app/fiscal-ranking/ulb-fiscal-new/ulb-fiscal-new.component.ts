@@ -71,7 +71,7 @@ export class UlbFiscalNewComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _router: Router,
     private dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
@@ -199,15 +199,15 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.required ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [urlValidator] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
-      ...(item.min != '' ? [Validators.minLength(+item.min)] : []),
-      ...(item.max != '' ? [Validators.maxLength(+item.max)] : []),
+      ...(item.min != '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
+      ...(item.max != '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
     ];
   }
 
   addSkipLogics() {
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
     const { registerGis, accountStwre }: { [key: string]: FormGroup } = (s3Control.controls?.data as FormGroup)?.controls as any;
-    
+
     (registerGis?.controls?.yearData as FormArray)?.controls?.[0]?.valueChanges.subscribe(({ value }) => {
       s3Control.patchValue({ data: { registerGisProof: { canShow: value == 'Yes' } } })
     });
@@ -287,11 +287,10 @@ export class UlbFiscalNewComponent implements OnInit {
     this.fiscalForm.markAllAsTouched();
 
     console.log(payload);
-
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
-      console.log('post error', error)
+      swal('Error', 'Something went wrong', 'error');
     })
   } 
 }
