@@ -37,8 +37,19 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
-  selfDeclarationTabId = 's5';
-  guidanceNotesKey = 'guidanceNotes';
+  selfDeclarationTabId: string = 's5';
+  guidanceNotesKey: string = 'guidanceNotes';
+  incomeSectionBelowKey: number = 1;
+  expenditureSectionBelowKey: number = 8;
+
+  financialYearTableHeader: {[key: number]: string[]} = {
+    1: ['', 'SECTION A:  Details from Income & Expenditure Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
+    20: ['', 'SECTION B:  Other Details from Audited Annual Accounts', '2021-22', '2020-21', '2019-20', '2018-19'],
+    25: ['', 'SECTION C:  Details from Receipts & Payments Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
+    26: ['', 'SECTION D:  Details from Approved Annual Budgets', '2021-22', '2020-21', '2019-20', '2018-19'],
+    30: ['', 'SECTION E:  Self-reported Details for Fiscal Governance Parameters', '2021-22', '2020-21', '2019-20', '2018-19'],
+  }
+
 
   linearTabs: string[] = ['s1', 's2'];
   twoDTabs: string[] = ['s4', 's5', 's6'];
@@ -53,15 +64,7 @@ export class UlbFiscalNewComponent implements OnInit {
   fiscalForm: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
 
-  financialYearTableHeader: string[] = ['Section', '2021-22', '2020-21', '2019-20', '2018-19'];
-
   formSubmitted = false;
-  sortOrder = { // TODO: get from backend
-    s3: {totalRecActual: 1, totalRcptWaterSupply: 2, totalRcptSanitation: 3, totalRecBudgetEst: 4, totalOwnRevenues: 5, totalPropTaxRevenue: 6, totalTaxRevWaterSupply: 7, totalTaxRevSanitation: 8, totalFeeChrgWaterSupply: 9, totalFeeChrgSanitation: 10},
-    s4: {totalCaptlExp: 1, totalCaptlExpWaterSupply: 2, totalCaptlExpSanitation: 3, totalOmExp: 4, totalOMCaptlExpWaterSupply: 5, totalOMCaptlExpSanitation: 6, totalRevExp: 7},
-    s5: {auditReprtDate: 1, normalData: 2, ownRevDetails: 3, ownRevenAmt: 4, propertyDetails: 5 },
-    s6: {guidanceNotes: 1, appAnnualBudget: 2, auditedAnnualFySt: 3, },
-  }
 
   constructor(
     private fb: FormBuilder,
@@ -162,7 +165,8 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: this.sortOrder[tab.id]?.[item.key] || 1 , disabled: true}], // TODO: need from backend
+            position: [{ value: +item.displayPriority || 1 , disabled: true}], // TODO: need from backend
+            isHeading: [{ value: Number.isInteger(item.displayPriority) , disabled: true}], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
@@ -199,7 +203,7 @@ export class UlbFiscalNewComponent implements OnInit {
       })
     });
   }
-  
+
   addSkipLogics() {
     const s1Control = this.fiscalForm.controls.find(control => control.value?.id == 's1') as FormGroup;
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;

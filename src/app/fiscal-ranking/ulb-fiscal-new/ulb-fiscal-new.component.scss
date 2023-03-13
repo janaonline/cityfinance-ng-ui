@@ -333,5 +333,14 @@ table {
     .tooltip.show {
         opacity: 1;
     }
+    
+    .table-gray {
+        background-color: #c3c3c3;
+        color: black;
+        text-align: center;
+    }
 
+    .text-primary {
+        color: #006893 !important;
+    }
 }
