@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormLoaderComponent } from './components/form-loader/form-loader.component';
+import { UlbFormRoutingModule } from '../ulb-form/ulb-form-routing.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -17,6 +19,10 @@ import { FormLoaderComponent } from './components/form-loader/form-loader.compon
     MatIconModule,
     MatTooltipModule,
     TooltipModule.forRoot(),
+    UlbFormRoutingModule,
+    // ReactiveFormsModule,
+    // FormsModule,
+
   ],
   exports: [
     AnnualAccountTemplateComponent,
