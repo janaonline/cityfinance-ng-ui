@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailValidator, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   customEmailValidator,
   mobileNoValidator,
@@ -22,7 +22,6 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
 import { KeyValue } from '@angular/common';
 const swal: SweetAlert = require("sweetalert");
-const toWords = new ToWords();
 
 @Component({
   selector: 'app-ulb-fiscal-new',
@@ -72,8 +71,7 @@ export class UlbFiscalNewComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _router: Router,
     private dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService
+    private activatedRoute: ActivatedRoute
   ) {
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
@@ -180,7 +178,7 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
-      value: [item.value || item.amount, Validators.required], // TODO: add validators
+      value: [item.value, this.getValidators(item)], // TODO: add validators
       date: item.date,
       year: item.year,
       type: item.type,
@@ -202,6 +200,16 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
+  }
+
+  getValidators(item) {
+    return [
+      ...(item.required ? [Validators.required] : []),
+      ...(item.formFieldType == 'url' ? [urlValidator] : []),
+      ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
+      ...(item.min != '' ? [Validators.minLength(+item.min)] : []),
+      ...(item.max != '' ? [Validators.maxLength(+item.max)] : []),
+    ];
   }
 
   addSkipLogics() {
