@@ -253,9 +253,16 @@ export class UlbFiscalNewComponent implements OnInit {
 
   onPreview() {
     console.log(this.fiscalForm.getRawValue());
+    const rowValues = this.fiscalForm.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        showData: this.fiscalForm.getRawValue().filter(item => item.id !== this.selfDeclarationTabId)
+        showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        additionalData: {
+          date: new Date().toJSON().slice(0,10),
+          nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
+          auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
+          caMembershipNo: rowValues.find(row => row.id == 's1')?.data?.caMembershipNo?.value,
+        }
       },
       width: "85vw",
       height: "100%",
