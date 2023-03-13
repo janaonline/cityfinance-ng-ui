@@ -28,8 +28,9 @@
                                     <mat-form-field appearance="outline"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
-                                        <input class="com-style" [readonly]="item?.value?.controls?.readonly?.value" [type]="item?.value?.controls?.formFieldType?.value"
-                                            matInput placeholder="{{ item.value.controls?.label?.value }}"
+                                        <input class="com-style" [readonly]="item?.value?.controls?.readonly?.value"
+                                            [type]="item?.value?.controls?.formFieldType?.value" matInput
+                                            placeholder="{{ item.value.controls?.label?.value }}"
                                             formControlName="value">
                                     </mat-form-field>
                                     <div class="col-sm-12 mt-1 row"
@@ -38,7 +39,8 @@
                                             {{ item.value.controls?.label?.value }}
                                         </div>
                                         <div class="col-sm-4">
-                                            <mat-radio-group aria-label="Select an option" formControlName="value" [disabled]="item?.value?.controls?.readonly?.value">
+                                            <mat-radio-group aria-label="Select an option" formControlName="value"
+                                                [disabled]="item?.value?.controls?.readonly?.value">
                                                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                 <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                             </mat-radio-group>
@@ -59,26 +61,59 @@
                             <tbody style="border-top: none;">
                                 <ng-container
                                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition;let rowIndex_rev=index">
-                                    <tr class="table-gray" *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
-                                        <th *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]">{{ heading }}</th>
+                                    <tr class="table-gray"
+                                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                                        <th
+                                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]">
+                                            {{ heading }}</th>
                                     </tr>
-                                    <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey" class="table-info">
+                                    <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey"
+                                        class="table-info">
                                         <th colspan="6">INCOME</th>
                                     </tr>
-                                    <tr *ngIf="item?.value?.controls?.position?.value == expenditureSectionBelowKey" class="table-danger">
+                                    <tr *ngIf="item?.value?.controls?.position?.value == expenditureSectionBelowKey"
+                                        class="table-danger">
                                         <th colspan="6">EXPENDITURE</th>
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
                                         <td>{{ item?.value?.controls?.position?.value }}</td>
-                                        <th scope="row" [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">{{item?.value?.controls?.label.value}} <span>Info</span> </th>
+                                        <th scope="row"
+                                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">
+                                            {{item?.value?.controls?.label.value}} <span>Info</span> </th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <input formControlName="value" type="number" class="form-control"
+                                                    <input
+                                                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                                        formControlName="value" type="number" class="form-control"
                                                         [readonly]="yearItem?.controls?.readonly?.value"
+                                                        [disabled]="yearItem?.controls?.readonly?.value"
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                         placeholder="{{yearItem?.controls?.placeholder?.value}}" />
+
+                                                    <mat-radio-group aria-label="Select an option"
+                                                        formControlName="value"
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
+                                                        [disabled]="yearItem?.controls?.readonly?.value">
+                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                                    </mat-radio-group>
+
+
+                                                    <div class="input-group border" *ngIf="yearItem?.controls?.formFieldType?.value == 'date'">
+                                                        <div class="d-flex w-100 px-2">
+                                                            <input matInput formControlName="date"
+                                                                [matDatepicker]="r_i"
+                                                                [disabled]="yearItem?.controls?.readonly?.value"
+                                                                placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [disabled]="yearItem?.controls?.readonly?.value"
+                                                                [for]="r_i">
+                                                            </mat-datepicker-toggle>
+                                                        </div>
+                                                        <mat-datepicker #r_i></mat-datepicker>
+                                                    </div>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                 </div>
                                             </div>
@@ -174,7 +209,8 @@
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}</a>
-                                                                        <a *ngIf="!yearItem?.controls?.readonly?.value" (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                                        <a *ngIf="!yearItem?.controls?.readonly?.value"
+                                                                            (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                             class="w-10"
                                                                             [ngClass]="{'pe-none': isDisabled}">
                                                                             <img

@@ -159,7 +159,7 @@ export class UlbFiscalNewComponent implements OnInit {
             isHeading: [{ value: Number.isInteger(item.displayPriority) , disabled: true}], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
-            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
+            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
         return obj;
