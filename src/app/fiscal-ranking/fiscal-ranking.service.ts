@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { BehaviorSubject, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { KeyValue } from "@angular/common";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,12 @@ export class FiscalRankingService {
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
       `${environment.api.url}FRHomePageContent`
     );
+  }
+
+  sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
+    const a = +itemA.value.controls.position?.value;
+    const b = +itemB.value.controls.position?.value;
+    return a > b ? 1 : (b > a ? -1 : 0);;
   }
 
   signin(user) {

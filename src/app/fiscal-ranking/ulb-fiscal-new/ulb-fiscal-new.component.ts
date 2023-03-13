@@ -67,7 +67,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private fiscalService: FiscalRankingService,
+    public fiscalService: FiscalRankingService,
     private dataEntryService: DataEntryService,
     private _router: Router,
     private dialog: MatDialog,
@@ -100,8 +100,6 @@ export class UlbFiscalNewComponent implements OnInit {
     sessionStorage.setItem("changeInFR", "false");
   }
 
-
-
   get canSeeActions() {
     if(this.status == '' || this.status === 'APPROVED') return false;
     if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
@@ -119,12 +117,6 @@ export class UlbFiscalNewComponent implements OnInit {
 
   get design_year() {
     return this.yearIdArr['2022-23'];
-  }
-
-  sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
-    const a = +itemA.value.controls.position?.value;
-    const b = +itemB.value.controls.position?.value;
-    return a > b ? 1 : (b > a ? -1 : 0);;
   }
 
   onLoad() {

@@ -23,7 +23,7 @@
                         <!-- tab 1, 2 -->
                         <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
                             <div class="" [ngClass]="{'disable': isDisabled}"
-                                *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition">
+                                *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition">
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
@@ -58,7 +58,7 @@
                             </caption>
                             <tbody style="border-top: none;">
                                 <ng-container
-                                    *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                                    *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition;let rowIndex_rev=index">
                                     <tr class="table-gray" *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
                                         <th *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]">{{ heading }}</th>
                                     </tr>
@@ -93,7 +93,7 @@
                             <div class="row mx-auto">
                                 <div class="col-sm-12">
                                     <ng-container
-                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition;let rowIndex_rev=index">
                                         <div class="card card-form mb-4 com-style"
                                             *ngIf="item?.value?.controls?.canShow?.value">
                                             <div class="card-body">

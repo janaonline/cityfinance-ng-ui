@@ -23,14 +23,11 @@
                         <div class="col-sm-12 m-hed text-center">{{tab?.label}}</div>
                     </div>
 
-                    <table class="table" *ngIf="tab?.id == 's3'">
-                        <thead>
-                            <tr>
-                                <th *ngFor="let year of yearList">{{ year }}</th>
-                            </tr>
-                        </thead>
+                    <table class="table mt-3" *ngIf="tab?.id == 's3'">
+                        <thead><tr><th *ngFor="let year of yearList">{{ year }}</th></tr></thead>
+
                         <tbody>
-                            <tr *ngFor="let data of tab?.data| keyvalue; let y_i=index">
+                            <tr *ngFor="let data of tab?.data | keyvalue: sortPosition; let y_i=index">
                                 <th scope="row">{{ data?.value?.label }}</th>
                                 <td *ngFor="let elem of data?.value?.yearData; let y_i=index">{{elem?.value}}</td>
                             </tr>
