@@ -64,12 +64,19 @@
              </div>
          </div>
      </div>
-     <div class="d-flex justify-content-end" *ngIf="showSubmitButton">
-         <button class="btn btn-sm btn-primary text-uppercase" [disabled]="isImageUploading || isFormSubmittedSuccessfully" (click)="beforeSubmitPrepareResponse()" *ngIf="!pdfbuttonhide">
-       {{buttonText}}
-       <!-- Save -->
-     </button>
-     </div>
+     <div class="d-flex justify-content-end">
+        <ng-container *ngIf="showDraftButton">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [disabled]="isImageUploading || isFormSubmittedSuccessfully" (click)="beforeSubmitPrepareResponse(true)" *ngIf="!pdfbuttonhide">
+                Save as Draft
+            </button>
+        </ng-container>
+        <ng-container *ngIf="showSubmitButton">
+            <button class="btn btn-sm btn-primary text-uppercase" [disabled]="isImageUploading || isFormSubmittedSuccessfully" (click)="beforeSubmitPrepareResponse()" *ngIf="!pdfbuttonhide">
+                {{buttonText}}
+            </button>
+        </ng-container>
+    </div>
+
  </mat-card> 
      <div class="row container" *ngIf="disclaimerMessage">
              <span class="text-primary">{{disclaimerMessage}}</span>

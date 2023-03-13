@@ -63,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
   expanded = false;
   @Input() isFormSubmittedSuccessfully = false;
   @Input() showSubmitButton:boolean | string  = true;
+  @Input() showDraftButton:boolean | string = false;
   @Input() viewFormTemplate: 'template1' | 'template2' | 'template3' =
     'template2';
   districtsList: any = [];
@@ -1239,7 +1240,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes:SimpleChanges){
     console.log('ngOnChanges', changes);
-    let {questionResponse, title, isViewMode, buttonText, isFormSubmittedSuccessfully, enableEditMode, showSubmitButton, viewFormTemplate, disclaimerMessage} = changes;
+    let {questionResponse, title, isViewMode, buttonText, isFormSubmittedSuccessfully, enableEditMode, showSubmitButton, viewFormTemplate, disclaimerMessage, showDraftButton} = changes;
     if (title && title.currentValue) {
       this.title = title.currentValue;
     }
@@ -1258,13 +1259,16 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     if (showSubmitButton && showSubmitButton.currentValue) {
       this.showSubmitButton = showSubmitButton.currentValue;
     }
+    if (showDraftButton && showDraftButton.currentValue) {
+      this.showDraftButton = showDraftButton.currentValue;
+    }
     if (viewFormTemplate && viewFormTemplate.currentValue) {
       this.viewFormTemplate = viewFormTemplate.currentValue;
     }
     if (disclaimerMessage && disclaimerMessage.currentValue) {
       this.disclaimerMessage = disclaimerMessage.currentValue;
     }
-    let temp = ["enableEditMode", "showPreviewAnswer", "showFormChange", "isViewMode","showSubmitButton", "isFormSubmittedSuccessfully" ];
+    let temp = ["enableEditMode", "showPreviewAnswer", "showFormChange", "isViewMode","showSubmitButton", "isFormSubmittedSuccessfully", "showDraftButton" ];
     temp.forEach((el:any) => {
       let self:any = this;
       if(changes && changes[el] && changes[el].currentValue){
@@ -1764,7 +1768,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  beforeSubmitPrepareResponse() {
+  beforeSubmitPrepareResponse(isSaveAsDraft: boolean = false) {
     const defaultAnswer = [{ label: "", textValue: "", value: "" }];
     let sendResponse = this.questionData.map((item: any) => ({
       // answer: [{ label: item.answer_option && item.answer_option.find(option => option._id == item.selectedValue) ? item.answer_option.find(option => option._id == item.selectedValue).name : '', textValue: item.answer_option && item.answer_option.length ? '' : item.selectedValue, value: item.answer_option && item.answer_option.length ? item.selectedValue : '' }],
@@ -1784,12 +1788,12 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       console.log('finalQuestionResponse', finalQuestionResponse)
       let obj = {finalQuestionResponse,name:this.proposalName};
       if (obj.finalQuestionResponse?.length) {
-        this.submitForm(obj.finalQuestionResponse, obj.name);
+        this.submitForm(obj.finalQuestionResponse, obj.name, isSaveAsDraft);
       }
     })
   }
 
-  async submitForm(finalQuestionResponse: any = [], proposalName: any) {
+  async submitForm(finalQuestionResponse: any = [], proposalName: string = '', isSaveAsDraft: boolean = false) {
     console.log('this.questionData', this.questionData)
     const defaultAnswer = [{ label: "", textValue: "", value: "" }];
     let sendResponse = this.questionData.map((item: any) => ({
@@ -1817,59 +1821,121 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       emptyError = value.filter((item: any) => item.visibility);
     });
     console.log('emptyError', emptyError)
-    if (emptyError.length > 0) {
-      this.isFormSubmittedSuccessfully = false;
-      for (const error of emptyError) {
-        let errorIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
-        if (errorIndex > -1) {
-          this.questionData[errorIndex]['errorMessage'] = 'This is a required field'
+    if (isSaveAsDraft) {
+      this.prepareFinalResponse(finalQuestionResponse, proposalName, isSaveAsDraft);
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
+      // console.log("question123", this.questionData, emptyError,finalQuestionResponse);
+      // this.questionData.forEach(el => {
+      //   if(Array.isArray(el.value) && el.value.length > 0){
+      //     el.value = [...new Set([...el.value])]
+      //   }
+      //   if(el.selectedValue && el.selectedValue.length > 0){
+      //     el.selectedValue = el.selectedValue.filter((item , index)=>{
+      //       return el.selectedValue.findIndex(ele => ele.value == item.value) == index
+      //     })
+      //   }
+      // })
+      // finalQuestionResponse.forEach(el => {
+      //   if(el.answer && el.answer.length > 0  ){
+      //     el.answer = el.answer.filter((item , index)=> {
+
+      //       return el.answer.findIndex(el => el.value == item.value) == index
+      //     })
+      //   }
+      // })
+      // this.submitQuestion.emit({ question: this.questionData, finalData: finalQuestionResponse, name: proposalName, isSaveAsDraft: isSaveAsDraft });
+      // console.log("question", this.questionData, emptyError);
+      // // this.isFormSubmittedSuccessfully = true;
+    } else {
+      if (emptyError.length > 0) {
+        this.isFormSubmittedSuccessfully = false;
+        for (const error of emptyError) {
+          let errorIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
+          if (errorIndex > -1) {
+            this.questionData[errorIndex]['errorMessage'] = 'This is a required field'
+          }
         }
+        
+        // let texteditorQuestionError = this.questionData.find(el => el.order == emptyError[0].order)
+        // if(texteditorQuestionError.input_type == QUESTION_TYPE.ADDRESS && texteditorQuestionError.formatType && texteditorQuestionError.formatType == 'htmlEditor'){
+        //   let shortKeyId = texteditorQuestionError.hasOwnProperty('forParentValue') ? texteditorQuestionError.shortKey + texteditorQuestionError.forParentValue : texteditorQuestionError.shortKey
+        //   let textEditorErrorElement = document.getElementById(shortKeyId);
+        //   textEditorErrorElement.scrollIntoView();
+        // }else{
+        //   let errorElement: HTMLElement =  document.getElementById(emptyError[0].order) 
+        //   errorElement.focus();
+        // }
+        // const dialogRef = this.dialog.open(PendingListDialogComponent, {
+        //   panelClass: "modal-md",
+        //   // height: "400px",
+        //   width: "50%",
+        //   data: { title: "Pending List", pendingList: emptyError },
+        // });
+        // dialogRef.afterClosed().subscribe((response) => {
+        //   console.log("response", response);
+        // });
+      } else if (filterInvalidEnterAnswer.length > 0) {
+        this.isFormSubmittedSuccessfully = true;
       }
-      let errorElement: HTMLElement = document.getElementById(emptyError[0].order)!;
-      // console.log('errorElement', errorElement)
-      errorElement.focus();
-      // const dialogRef = this.dialog.open(PendingListDialogComponent, {
-      //   panelClass: "modal-md",
-      //   // height: "400px",
-      //   width: "50%",
-      //   data: { title: "Pending List", pendingList: emptyError },
-      // });
-      // dialogRef.afterClosed().subscribe((response) => {
-      //   console.log("response", response);
-      // });
-    } else if (filterInvalidEnterAnswer.length > 0) {
-      this.isFormSubmittedSuccessfully = true;
-    }
-
-    if (emptyError.length == 0 && filterInvalidEnterAnswer.length == 0) {
-      // window.scrollTo(0, 0);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      console.log("question123", this.questionData, emptyError,finalQuestionResponse);
-      this.questionData.forEach((el: any) => {
-        if(Array.isArray(el.value) && el.value.length > 0){
-          el.value = [...new Set([...el.value])]
-        }
-        if(el.selectedValue && el.selectedValue.length > 0){
-          el.selectedValue = el.selectedValue.filter((item: any, index: number)=>{
-            return el.selectedValue.findIndex((ele: any) => ele.value == item.value) == index
-          })
-        }
-      })
-      finalQuestionResponse.forEach((el: any) => {
-        if(el.answer && el.answer.length > 0  ){
-          el.answer = el.answer.filter((item: any, index: number)=> {
-
-            return el.answer.findIndex((el: any) => el.value == item.value) == index
-          })
-        }
-      })
-      // this.submitQuestion.emit({ question: this.questionData, finalData: sendResponse });
-      this.submitQuestion.emit({ question: this.questionData, finalData: finalQuestionResponse, name: proposalName });
-      console.log("question", this.questionData, emptyError);
-      this.isFormSubmittedSuccessfully = true;
+  
+      if (emptyError.length == 0 && filterInvalidEnterAnswer.length == 0) {
+        // window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.prepareFinalResponse(finalQuestionResponse, proposalName, isSaveAsDraft);
+        // console.log("question123", this.questionData, emptyError,finalQuestionResponse);
+        // this.questionData.forEach(el => {
+        //   if(Array.isArray(el.value) && el.value.length > 0){
+        //     el.value = [...new Set([...el.value])]
+        //   }
+        //   if(el.selectedValue && el.selectedValue.length > 0){
+        //     el.selectedValue = el.selectedValue.filter((item , index)=>{
+        //       return el.selectedValue.findIndex(ele => ele.value == item.value) == index
+        //     })
+        //   }
+        // })
+        // finalQuestionResponse.forEach(el => {
+        //   if(el.answer && el.answer.length > 0  ){
+        //     el.answer = el.answer.filter((item , index)=> {
+  
+        //       return el.answer.findIndex(el => el.value == item.value) == index
+        //     })
+        //   }
+        // })
+        // // this.submitQuestion.emit({ question: this.questionData, finalData: sendResponse });
+        // this.submitQuestion.emit({ question: this.questionData, finalData: finalQuestionResponse, name: proposalName, isSaveAsDraft: isSaveAsDraft });
+        // console.log("question", this.questionData, emptyError);
+        // this.isFormSubmittedSuccessfully = true;
+      }
     }
     // this.submitQuestion.emit({ question: this.questionData});
     console.log("question", this.questionData, emptyError);
+  }
+
+  prepareFinalResponse(finalQuestionResponse: any, proposalName: string = '', isSaveAsDraft: boolean = false) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log("question123", this.questionData,finalQuestionResponse);
+    this.questionData.forEach((el: any) => {
+      if(Array.isArray(el.value) && el.value.length > 0){
+        el.value = [...new Set([...el.value])]
+      }
+      if(el.selectedValue && el.selectedValue.length > 0){
+        el.selectedValue = el.selectedValue.filter((item: any , index: number)=>{
+          return el.selectedValue.findIndex((ele: any) => ele.value == item.value) == index
+        })
+      }
+    })
+    finalQuestionResponse.forEach((el: any) => {
+      if(el.answer && el.answer.length > 0  ){
+        el.answer = el.answer.filter((item: any , index: number)=> {
+
+          return el.answer.findIndex((el: any) => el.value == item.value) == index
+        })
+      }
+    })
+    // this.submitQuestion.emit({ question: this.questionData, finalData: sendResponse });
+    this.submitQuestion.emit({ question: this.questionData, finalData: finalQuestionResponse, name: proposalName, isSaveAsDraft: isSaveAsDraft });
+    console.log("question", this.questionData );
+    this.isFormSubmittedSuccessfully = true;
   }
 
   completedLenegth() {
