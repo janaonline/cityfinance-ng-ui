@@ -207,10 +207,11 @@ export class UlbFiscalNewComponent implements OnInit {
   addSkipLogics() {
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
     const { registerGis, accountStwre }: { [key: string]: FormGroup } = (s3Control.controls?.data as FormGroup)?.controls as any;
-    registerGis.valueChanges.subscribe(({ value }) => {
+    
+    (registerGis?.controls?.yearData as FormArray)?.controls?.[0]?.valueChanges.subscribe(({ value }) => {
       s3Control.patchValue({ data: { registerGisProof: { canShow: value == 'Yes' } } })
     });
-    accountStwre.valueChanges.subscribe(({ value }) => {
+    (accountStwre?.controls?.yearData as FormArray)?.controls?.[3]?.valueChanges.subscribe(({ value }) => {
       s3Control.patchValue({ data: { accountStwreProof: { canShow: value == 'Yes' } } })
     });
   }
