@@ -28,7 +28,7 @@
                                     <mat-form-field appearance="outline"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
-                                        <input class="com-style" [type]="item?.value?.controls?.formFieldType?.value"
+                                        <input class="com-style" [readonly]="item?.value?.controls?.readonly?.value" [type]="item?.value?.controls?.formFieldType?.value"
                                             matInput placeholder="{{ item.value.controls?.label?.value }}"
                                             formControlName="value">
                                     </mat-form-field>
@@ -38,7 +38,7 @@
                                             {{ item.value.controls?.label?.value }}
                                         </div>
                                         <div class="col-sm-4">
-                                            <mat-radio-group aria-label="Select an option" formControlName="value">
+                                            <mat-radio-group aria-label="Select an option" formControlName="value" [disabled]="item?.value?.controls?.readonly?.value">
                                                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                                                 <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                             </mat-radio-group>
@@ -70,12 +70,13 @@
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
                                         <td>{{ item?.value?.controls?.position?.value }}</td>
-                                        <th scope="row" [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">{{item?.value?.controls?.label.value}}</th>
+                                        <th scope="row" [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">{{item?.value?.controls?.label.value}} <span>Info</span> </th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
                                                     <input formControlName="value" type="number" class="form-control"
+                                                        [readonly]="yearItem?.controls?.readonly?.value"
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                         placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
