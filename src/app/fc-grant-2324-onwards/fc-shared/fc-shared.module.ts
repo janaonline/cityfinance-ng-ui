@@ -27,7 +27,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     AnnualAccountTemplateComponent,
     DurTemplateComponent,
-    LeftMenuTemplateComponent
+    LeftMenuTemplateComponent,
+    FormLoaderComponent
   ]
 })
 export class FcSharedModule { }
