@@ -20,6 +20,7 @@ export class UlbFisPreviewComponent implements OnInit {
   stateName: string = '';
   ulbId: string = "";
   dialogRef;
+  yearList: string[] = ['#', '2021-22', '2020-21', '2019-20', '2018-19'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(

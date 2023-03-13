@@ -23,6 +23,21 @@
                         <div class="col-sm-12 m-hed text-center">{{tab?.label}}</div>
                     </div>
 
+                    <table class="table" *ngIf="tab?.id == 's3'">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let year of yearList">{{ year }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of tab?.data| keyvalue; let y_i=index">
+                                <th scope="row">{{ data?.value?.label }}</th>
+                                <td *ngFor="let elem of data?.value?.yearData; let y_i=index">{{elem?.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
                     <ng-container *ngFor="let data of tab?.data| keyvalue; let y_i=index">
                         <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
                             <div class="row mb-1 bg-amt pd-r">
@@ -30,8 +45,8 @@
                                 <div class="col-sm-6 yr-ans">{{data?.value?.value }}</div>
                             </div>
                         </div>
-
-                        <div *ngIf="yearWiseTabs.includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
+                        
+                        <div *ngIf="tab?.id == 's4' && data?.value?.key != 'guidanceNotes'">
                             <div class="row">
                                 <div class="col-sm-12 f-label mb-2">{{data?.value?.label }}</div>
                             </div>
