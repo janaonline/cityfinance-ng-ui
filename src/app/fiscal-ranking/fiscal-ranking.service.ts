@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { BehaviorSubject, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { KeyValue } from "@angular/common";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,12 @@ export class FiscalRankingService {
     );
   }
 
+  sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
+    const a = +itemA.value.controls.position?.value;
+    const b = +itemB.value.controls.position?.value;
+    return a > b ? 1 : (b > a ? -1 : 0);;
+  }
+
   signin(user) {
     return this.http.post(environment.api.url + "login", user);
   }
@@ -40,7 +48,7 @@ export class FiscalRankingService {
     });
   }
   postFiscalRankingData(body) {
-    return this.http.post(`${environment.api.url}fiscal-ranking/create`, body);
+    return this.http.post(`${environment.api.url}fiscal-ranking/create-form`, body);
   }
 
   actionByMohua(body) {

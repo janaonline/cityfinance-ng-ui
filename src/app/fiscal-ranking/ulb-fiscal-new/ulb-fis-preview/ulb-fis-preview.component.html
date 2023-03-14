@@ -10,7 +10,8 @@
     </div>
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-12 text-end pdf-hide">
-            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(template)">Download as PDF</button>
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF(template)">Download as
+                PDF</button>
         </div>
     </div>
 
@@ -18,17 +19,31 @@
         <div class="col-sm-12">
             <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
                 <div class="card-body" *ngIf="tab?.id">
-                    <div class="row"><div class="col-sm-12 m-hed text-center">{{tab?.label}}</div></div>
+                    <div class="row">
+                        <div class="col-sm-12 m-hed text-center">{{tab?.label}}</div>
+                    </div>
+
+                    <table class="table mt-3" *ngIf="tab?.id == 's3'">
+                        <thead><tr><th *ngFor="let year of yearList">{{ year }}</th></tr></thead>
+
+                        <tbody>
+                            <tr *ngFor="let data of tab?.data | keyvalue: sortPosition; let y_i=index">
+                                <th scope="row">{{ data?.value?.label }}</th>
+                                <td *ngFor="let elem of data?.value?.yearData; let y_i=index">{{elem?.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
 
                     <ng-container *ngFor="let data of tab?.data| keyvalue; let y_i=index">
                         <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
                             <div class="row mb-1 bg-amt pd-r">
-                                <div class="col-sm-6 yr-l">{{data?.key}}</div>
+                                <div class="col-sm-6 yr-l">{{data?.value?.label}}</div>
                                 <div class="col-sm-6 yr-ans">{{data?.value?.value }}</div>
                             </div>
                         </div>
-
-                        <div *ngIf="yearWiseTabs.includes(tab?.id) && data?.value?.key != 'guidanceNotes'">
+                        
+                        <div *ngIf="tab?.id == 's4' && data?.value?.key != 'guidanceNotes'">
                             <div class="row">
                                 <div class="col-sm-12 f-label mb-2">{{data?.value?.label }}</div>
                             </div>
@@ -51,6 +66,47 @@
                             </div>
                         </div>
                     </ng-container>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 m-hed text-center">Declaration</div>
+                    </div>
+
+                    <div class="div">
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-12 yr-l fw-bold">We hereby certify that the financial details enclosed
+                                herewith are true and accurate.</div>
+                        </div>
+                    </div>
+
+                    <div class="div">
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-6 yr-l">For</div>
+                            <div class="col-sm-6 yr-ans">{{ ulbName }}</div>
+                        </div>
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-6 yr-l">DATED</div>
+                            <div class="col-sm-6 yr-ans">{{ data?.additionalData?.date }}</div>
+                        </div>
+                        <div class="row mb-1 bg-amt pd-r" style="margin-top: 80px; color: gray;">
+                            <div class="col-sm-6 yr-l">&lt;Sign & Stamp of Commissioner/EO&gt;</div>
+                            <div class="col-sm-6 yr-ans">&lt;Sign & Stamp of Auditor&gt;</div>
+                        </div>
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-6 yr-l">Name of Commissioner/Executive Officer</div>
+                            <div class="col-sm-6 yr-ans">{{ data?.additionalData?.nameCmsnr }}</div>
+                        </div>
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-6 yr-l">Name of Auditor</div>
+                            <div class="col-sm-6 yr-ans">{{ data?.additionalData?.auditorName }}</div>
+                        </div>
+                        <div class="row mb-1 bg-amt pd-r">
+                            <div class="col-sm-6 yr-l">CA Membership No.</div>
+                            <div class="col-sm-6 yr-ans">{{ data?.additionalData?.caMembershipNo }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmailValidator, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   customEmailValidator,
   mobileNoValidator,
@@ -22,7 +22,6 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
 import { KeyValue } from '@angular/common';
 const swal: SweetAlert = require("sweetalert");
-const toWords = new ToWords();
 
 @Component({
   selector: 'app-ulb-fiscal-new',
@@ -37,16 +36,28 @@ export class UlbFiscalNewComponent implements OnInit {
   isLoader: boolean = false;
 
   loggedInUserType: any;
-  selfDeclarationTabId = 's7';
-  guidanceNotesKey = 'guidanceNotes';
+  selfDeclarationTabId: string = 's5';
+  guidanceNotesKey: string = 'guidanceNotes';
+  incomeSectionBelowKey: number = 1;
+  expenditureSectionBelowKey: number = 8;
+
+  financialYearTableHeader: { [key: number]: string[] } = {
+    1: ['', 'SECTION A:  Details from Income & Expenditure Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
+    20: ['', 'SECTION B:  Other Details from Audited Annual Accounts', '2021-22', '2020-21', '2019-20', '2018-19'],
+    25: ['', 'SECTION C:  Details from Receipts & Payments Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
+    26: ['', 'SECTION D:  Details from Approved Annual Budgets', '2021-22', '2020-21', '2019-20', '2018-19'],
+    30: ['', 'SECTION E:  Self-reported Details for Fiscal Governance Parameters', '2021-22', '2020-21', '2019-20', '2018-19'],
+  }
+
 
   linearTabs: string[] = ['s1', 's2'];
-  twoDTabs: string[] = ['s3', 's4', 's5', 's6'];
-  textualFormFiledTypes: string[] = ['text', 'url', 'email'];
+  twoDTabs: string[] = ['s4', 's5', 's6'];
+  textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
   cantakeAction: boolean = true;
   formId: string;
   ulbId: string;
+  isDraft: boolean;
   userData: any;
   ulbName: string;
   userTypes = USER_TYPE;
@@ -54,21 +65,14 @@ export class UlbFiscalNewComponent implements OnInit {
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
 
   formSubmitted = false;
-  sortOrder = { // TODO: get from backend
-    s3: {totalRecActual: 1, totalRcptWaterSupply: 2, totalRcptSanitation: 3, totalRecBudgetEst: 4, totalOwnRevenues: 5, totalPropTaxRevenue: 6, totalTaxRevWaterSupply: 7, totalTaxRevSanitation: 8, totalFeeChrgWaterSupply: 9, totalFeeChrgSanitation: 10},
-    s4: {totalCaptlExp: 1, totalCaptlExpWaterSupply: 2, totalCaptlExpSanitation: 3, totalOmExp: 4, totalOMCaptlExpWaterSupply: 5, totalOMCaptlExpSanitation: 6, totalRevExp: 7},
-    s5: {auditReprtDate: 1, normalData: 2, ownRevDetails: 3, ownRevenAmt: 4, propertyDetails: 5 },
-    s6: {guidanceNotes: 1, appAnnualBudget: 2, auditedAnnualFySt: 3, },
-  }
 
   constructor(
     private fb: FormBuilder,
-    private fiscalService: FiscalRankingService,
+    public fiscalService: FiscalRankingService,
     private dataEntryService: DataEntryService,
     private _router: Router,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService
   ) {
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
@@ -97,17 +101,15 @@ export class UlbFiscalNewComponent implements OnInit {
     sessionStorage.setItem("changeInFR", "false");
   }
 
-
-
   get canSeeActions() {
-    if(this.status == '' || this.status === 'APPROVED') return false;
+    if (this.status == '' || this.status === 'APPROVED') return false;
     if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
     if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
     return true;
   }
 
   get isDisabled() {
-    return false;
+    return !this.isDraft;
   }
 
   get uploadFolderName() {
@@ -118,16 +120,11 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.yearIdArr['2022-23'];
   }
 
-  sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
-    const a = +itemA.value.controls.position?.value;
-    const b = +itemB.value.controls.position?.value;
-    return a > b ? 1 : (b > a ? -1 : 0);;
-  }
-
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
+      this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
@@ -147,23 +144,25 @@ export class UlbFiscalNewComponent implements OnInit {
       }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
         if (this.linearTabs.includes(tab.id)) {
-          obj[key] = this.getInnerFormGroup({...item, key})
+          obj[key] = this.getInnerFormGroup({ ...item, key })
         }
-        else if (tab.id == 's7') {
+        else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: item.name,
+            name: [item.name, Validators.required],
             status: item.status,
-            url: item.url,
+            url: [item.url, Validators.required],
           })
         }
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: this.sortOrder[tab.id]?.[item.key] || 1 , disabled: true}], // TODO: need from backend
+            position: [{ value: +item.displayPriority || 1, disabled: true }], // TODO: need from backend
+            isHeading: [{ value: Number.isInteger(item.displayPriority), disabled: true }], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
-            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem)))
+            info: [{ value: item.info, disabled: true }],
+            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
         return obj;
@@ -174,48 +173,49 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
-      value: [item.value || item.amount, Validators.required], // TODO: add validators
-      date: item.date,
+      value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType))],
       year: item.year,
       type: item.type,
-      formFieldType: [{ value: this.getFormFieldType(item.key) || 'text', disabled: true}],
+      _id: item._id,
+      formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
-      desc: [{ value: item.desc, disabled: true}],
-      position: [{value: item.postion, disabled: true}],
-      pos: [{ value: item.pos, disabled: true}],
+      desc: [{ value: item.desc, disabled: true }],
+      position: [{ value: item.postion, disabled: true }],
+      pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
+      ...(item.date && { date: [item.date, item.required ? [Validators.required] : []] }),
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
-          name: [item.file.name],
-          url: [item.file.url]
+          name: [item.file.name, item.required ? [Validators.required] : []],
+          url: [item.file.url, item.required ? [Validators.required] : []]
         })
       })
     });
   }
 
-  getFormFieldType(key) {
-    return {
-      waterSupply: 'radio-toggle',
-      webLink: 'url',
-      propertyWaterTax: 'radio-toggle',
-      propertySanitationTax: 'radio-toggle',  
-      sanitationService: 'radio-toggle',  
-    }[key] || 'text';
+  getValidators(item, canApplyRequired = false) {
+    return [
+      ...(item.required && canApplyRequired ? [Validators.required] : []),
+      ...(item.formFieldType == 'url' ? [urlValidator] : []),
+      ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
+      ...(item.min != '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
+      ...(item.max != '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
+    ];
   }
 
   addSkipLogics() {
-    const s1Control = this.fiscalForm.controls.find(control => control.value?.id == 's1') as FormGroup;
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
-    const { waterSupply, sanitationService }: { [key: string]: FormGroup } = (s1Control.controls?.data as FormGroup)?.controls as any;
-    waterSupply.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { totalRcptWaterSupply: { canShow: value == 'Yes' } } })
+    const { registerGis, accountStwre }: { [key: string]: FormGroup } = (s3Control.controls?.data as FormGroup)?.controls as any;
+
+    (registerGis?.controls?.yearData as FormArray)?.controls?.[0]?.valueChanges.subscribe(({ value }) => {
+      s3Control.patchValue({ data: { registerGisProof: { canShow: value == 'Yes' } } })
     });
-    sanitationService.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { totalRcptSanitation: { canShow: value == 'Yes' } } })
+    (accountStwre?.controls?.yearData as FormArray)?.controls?.[3]?.valueChanges.subscribe(({ value }) => {
+      s3Control.patchValue({ data: { accountStwreProof: { canShow: value == 'Yes' } } })
     });
   }
 
@@ -232,7 +232,9 @@ export class UlbFiscalNewComponent implements OnInit {
     return true;
   }
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl) {
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
+    console.log({ event, fileType, control })
+    if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
@@ -242,7 +244,7 @@ export class UlbFiscalNewComponent implements OnInit {
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
-    
+
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
       const { url, file_url } = s3Response.data[0];
@@ -255,9 +257,16 @@ export class UlbFiscalNewComponent implements OnInit {
 
   onPreview() {
     console.log(this.fiscalForm.getRawValue());
+    const rowValues = this.fiscalForm.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
-        showData: this.fiscalForm.getRawValue().filter(item => item.id !== 's7')
+        showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        additionalData: {
+          date: new Date().toJSON().slice(0, 10),
+          nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
+          auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
+          caMembershipNo: rowValues.find(row => row.id == 's1')?.data?.caMembershipNo?.value,
+        }
       },
       width: "85vw",
       height: "100%",
@@ -269,22 +278,66 @@ export class UlbFiscalNewComponent implements OnInit {
       //   this.hidden = true;
     });
   }
-  
+
+  validateErrors() {
+    this.fiscalForm.markAllAsTouched();
+    if (this.fiscalForm.status === 'INVALID') {
+      console.log(this.fiscalForm);
+      const invalidIndex = this.fiscalForm.controls.findIndex(control => control.status === 'INVALID');
+      console.log(invalidIndex);
+      if (invalidIndex >= 0) {
+        this.stepper.selectedIndex = invalidIndex;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  finalSubmitConfirmation() {
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this form? Once submitted,
+     it will become uneditable and will be sent to MoHUA for Review.
+      Alternatively, you can save as draft for now and submit it later.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      if (value == 'submit') {
+        if (!this.validateErrors()) return swal('Error', 'Please fill form correctly', 'error');;
+        this.submit(false);
+      }
+      else if (value == 'draft') this.submit();
+    })
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      actions: this.fiscalForm.value
+      actions: this.fiscalForm.getRawValue()
     }
-
-    console.log(payload);
-
-    this.fiscalService.actionByMohua(payload).subscribe(res => {
+    this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+      this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
-      console.log('post error', error)
+      swal('Error', 'Something went wrong', 'error');
     })
-  } 
+  }
 }

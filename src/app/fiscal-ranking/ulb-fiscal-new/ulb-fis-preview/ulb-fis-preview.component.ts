@@ -5,6 +5,7 @@ import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/conf
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { FiscalRankingService } from '../../fiscal-ranking.service';
 import { SweetAlert } from "sweetalert/typings/core";
+import { KeyValue } from '@angular/common';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-ulb-fis-preview',
@@ -20,13 +21,14 @@ export class UlbFisPreviewComponent implements OnInit {
   stateName: string = '';
   ulbId: string = "";
   dialogRef;
+  yearList: string[] = ['#', '2021-22', '2020-21', '2019-20', '2018-19'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
-    private fiscalService: FiscalRankingService,
+    public fiscalService: FiscalRankingService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     console.log({ html: this._html });
@@ -150,4 +152,9 @@ export class UlbFisPreviewComponent implements OnInit {
     });
   }
 
+  sortPosition(itemA: KeyValue<number, any>, itemB: KeyValue<number, any>) {
+    const a = +itemA.value.position;
+    const b = +itemB.value.position;
+    return a > b ? 1 : (b > a ? -1 : 0);;
+  }
 }
