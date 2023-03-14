@@ -147,9 +147,9 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: item.name,
+            name: [item.name, Validators.required],
             status: item.status,
-            url: item.url,
+            url: [item.url, Validators.required],
           })
         }
         else {
@@ -231,6 +231,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
+    console.log({event, fileType, control})
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];

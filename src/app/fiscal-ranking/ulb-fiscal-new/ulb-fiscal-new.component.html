@@ -334,11 +334,13 @@
                                                             alt="">
                                                     </button>
                                                     <input #bs_pdf_up style="display: none;"
-                                                        (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                        (change)="uploadFile($event, 'pdf', tab?.controls?.data?.controls?.signedCopyOfFile)"
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
+
+                                                <div class="invalid-feedback">Please provide a valid input.</div>
                                                 <div class="col-sm-12">
-                                                    <app-loader [show]="fileUpLoader"></app-loader>
+                                                    <app-loader [show]="tab?.controls?.data?.controls?.signedCopyOfFile.controls?.uploading?.value"></app-loader>
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
