@@ -159,6 +159,7 @@ export class UlbFiscalNewComponent implements OnInit {
             isHeading: [{ value: Number.isInteger(item.displayPriority), disabled: true }], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
+            info: [{ value: item.info, disabled: true }],
             yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem)))
           })
         }
@@ -171,7 +172,6 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType))],
-      date: item.date,
       year: item.year,
       type: item.type,
       _id: item._id,
@@ -184,11 +184,12 @@ export class UlbFiscalNewComponent implements OnInit {
       position: [{ value: item.postion, disabled: true }],
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
+      ...(item.date && { date: [item.date, item.required ? [Validators.required] : []] }),
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
           name: [item.file.name, item.required ? [Validators.required] : []],
-          url: [item.file.url, item.required ? [Validators.required]: []]
+          url: [item.file.url, item.required ? [Validators.required] : []]
         })
       })
     });
@@ -277,11 +278,11 @@ export class UlbFiscalNewComponent implements OnInit {
 
   validateErrors() {
     this.fiscalForm.markAllAsTouched();
-    if(this.fiscalForm.status === 'INVALID') {
+    if (this.fiscalForm.status === 'INVALID') {
       console.log(this.fiscalForm);
       const invalidIndex = this.fiscalForm.controls.findIndex(control => control.status === 'INVALID');
       console.log(invalidIndex);
-      if(invalidIndex >= 0) {
+      if (invalidIndex >= 0) {
         this.stepper.selectedIndex = invalidIndex;
       }
       return false;
@@ -315,7 +316,7 @@ export class UlbFiscalNewComponent implements OnInit {
     ).then((value) => {
       switch (value) {
         case "submit":
-          if(!this.validateErrors()) return;
+          if (!this.validateErrors()) return;
           this.submit();
           break;
         case "draft":
