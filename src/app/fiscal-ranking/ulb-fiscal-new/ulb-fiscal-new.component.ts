@@ -33,25 +33,16 @@ const swal: SweetAlert = require("sweetalert");
 export class UlbFiscalNewComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
+
   yearIdArr: string[] = [];
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
-
   loggedInUserType: any;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
   expenditureSectionBelowKey: number = 8;
-
-  financialYearTableHeader: { [key: number]: string[] } = {
-    1: ['', 'SECTION A:  Details from Income & Expenditure Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
-    20: ['', 'SECTION B:  Other Details from Audited Annual Accounts', '2021-22', '2020-21', '2019-20', '2018-19'],
-    25: ['', 'SECTION C:  Details from Receipts & Payments Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
-    26: ['', 'SECTION D:  Details from Approved Annual Budgets', '2021-22', '2020-21', '2019-20', '2018-19'],
-    30: ['', 'SECTION E:  Self-reported Details for Fiscal Governance Parameters', '2021-22', '2020-21', '2019-20', '2018-19'],
-  }
-
-
+  financialYearTableHeader: { [key: number]: string[] } = {};
   linearTabs: string[] = ['s1', 's2'];
   twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
@@ -66,7 +57,6 @@ export class UlbFiscalNewComponent implements OnInit {
   fiscalForm: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
-
   formSubmitted = false;
 
   constructor(
@@ -132,6 +122,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
+      this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
