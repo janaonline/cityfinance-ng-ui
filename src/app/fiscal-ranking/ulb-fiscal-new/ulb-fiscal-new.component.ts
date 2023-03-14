@@ -109,7 +109,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get isDisabled() {
-    return this.isDraft == true;
+    return this.isDraft == false;
   }
 
   get uploadFolderName() {
