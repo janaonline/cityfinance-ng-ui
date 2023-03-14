@@ -21,6 +21,7 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
 import { KeyValue } from '@angular/common';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -73,6 +74,7 @@ export class UlbFiscalNewComponent implements OnInit {
     private _router: Router,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    private loaderService: GlobalLoaderService,
   ) {
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
@@ -333,10 +335,13 @@ export class UlbFiscalNewComponent implements OnInit {
       isDraft: isDraft,
       actions: this.fiscalForm.getRawValue()
     }
+    this.loaderService.showLoader();
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+      this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
+      this.loaderService.stopLoader();
       swal('Error', 'Something went wrong', 'error');
     })
   }
