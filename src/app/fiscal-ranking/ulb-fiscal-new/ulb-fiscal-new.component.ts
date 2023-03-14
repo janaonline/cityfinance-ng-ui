@@ -275,6 +275,43 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
+  finalSubmitConfirmation() {
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this form? Once submitted,
+     it will become uneditable and will be sent to MoHUA for Review.
+      Alternatively, you can save as draft for now and submit it later.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.submit();
+          break;
+        case "draft":
+          this.submit();
+          break;
+        case "cancel":
+          break;
+      }
+    })
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,

@@ -368,7 +368,7 @@
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
                                 <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
-                                    (click)="submit(false)">Submit</button>
+                                    (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn btn-f-c com-style"
