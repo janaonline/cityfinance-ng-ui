@@ -78,7 +78,7 @@
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
                                         <td>{{ item?.value?.controls?.position?.value }}</td>
                                         <th scope="row"
-                                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">
+                                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                             {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>

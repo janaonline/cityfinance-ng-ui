@@ -164,7 +164,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             key: item.key,
             position: [{ value: +item.displayPriority || 1, disabled: true }], // TODO: need from backend
-            isHeading: [{ value: Number.isInteger(item.displayPriority), disabled: true }], // TODO: need from backend
+            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }], // TODO: need from backend
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
