@@ -109,7 +109,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get isDisabled() {
-    return !this.isDraft;
+    return this.isDraft == false;
   }
 
   get uploadFolderName() {
@@ -177,6 +177,7 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
+      date: [item.date, item.date && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
@@ -186,7 +187,6 @@ export class UlbFiscalNewComponent implements OnInit {
       position: [{ value: item.postion, disabled: true }],
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
-      ...(item.date && { date: [item.date, item.required ? [Validators.required] : []] }),
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
