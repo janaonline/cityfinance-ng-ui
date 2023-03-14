@@ -231,7 +231,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
-    console.log({event, fileType, control})
+    console.log({ event, fileType, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
@@ -315,17 +315,11 @@ export class UlbFiscalNewComponent implements OnInit {
         },
       }
     ).then((value) => {
-      switch (value) {
-        case "submit":
-          if (!this.validateErrors()) return;
-          this.submit();
-          break;
-        case "draft":
-          this.submit();
-          break;
-        case "cancel":
-          break;
+      if (value == 'submit') {
+        if (!this.validateErrors()) return swal('Error', 'Please fill form correctly', 'error');;
+        this.submit(false);
       }
+      else if (value == 'draft') this.submit();
     })
   }
 
@@ -337,10 +331,8 @@ export class UlbFiscalNewComponent implements OnInit {
       isDraft: isDraft,
       actions: this.fiscalForm.getRawValue()
     }
-
-
-    console.log(payload);
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+      this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
       swal('Error', 'Something went wrong', 'error');

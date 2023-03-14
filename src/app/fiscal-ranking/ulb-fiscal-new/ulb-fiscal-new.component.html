@@ -79,14 +79,18 @@
                                         <td>{{ item?.value?.controls?.position?.value }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'text-primary' : 'text-dark'">
-                                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value" [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon></th>
+                                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
+                                                *ngIf="item?.value?.controls?.info?.value"
+                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                        </th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
                                                     <input
                                                         *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                                                        formControlName="value" type="number" class="form-control"
+                                                        formControlName="value" class="form-control"
+                                                        [type]="yearItem?.controls?.formFieldType?.value"
                                                         [readonly]="yearItem?.controls?.readonly?.value"
                                                         [disabled]="yearItem?.controls?.readonly?.value"
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
@@ -340,7 +344,9 @@
 
                                                 <div class="invalid-feedback">Please provide a valid input.</div>
                                                 <div class="col-sm-12">
-                                                    <app-loader [show]="tab?.controls?.data?.controls?.signedCopyOfFile.controls?.uploading?.value"></app-loader>
+                                                    <app-loader
+                                                        [show]="tab?.controls?.data?.controls?.signedCopyOfFile.controls?.uploading?.value">
+                                                    </app-loader>
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
