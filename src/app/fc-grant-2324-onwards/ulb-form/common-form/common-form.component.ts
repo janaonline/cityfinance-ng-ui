@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
+
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -23,54 +25,20 @@ export class CommonFormComponent implements OnInit {
     // }
     this.getQuery = {
       design_year : this.designYearArray["2023-24"],
-      isGfc : false,
       formId : null,
-      endPoints: null,
       ulb: this.ulbId
     };
-    this.router.events.subscribe((event)=> {
-      let urlArray;
-      if (event instanceof NavigationEnd) {
-        urlArray = event.url.split("/");
-        this.isApiComplete = false;
-        console.log('url.......', urlArray);
-        this.questionResponse.data[0] = [];
-        if (urlArray.includes("odf")) {
-          this.getQuery.endPoints = 'gfc-odf-form-collection';
-          this.getQuery.isGfc = false;
-          this.formName = 'odf';
-          this.getQuery.formId = 1;
-          this.getScroing('odf', this.getQuery.design_year);
-          this.callGetApi(this.getQuery);
-        } else if (urlArray.includes("gfc")) {
-          this.getQuery.endPoints = 'gfc-odf-form-collection';
-          this.getQuery.isGfc = true;
-          this.formName = 'gfc';
-          this.getQuery.formId = 2;
-          this.getScroing('gfc', this.getQuery.design_year);
-          this.callGetApi(this.getQuery);
-        }else if (urlArray.includes("ptax")) {
-          this.getQuery.endPoints = 'ptax';
-          // this.getQuery.isGfc = true;
-           this.formName = 'ptax';
-          // this.getScroing('odf');
-           this.callGetApi(this.getQuery);
-         }  else {
-
-        }
-      }
-    });
+  this.checkRouterForApi();
    }
    ulbId = '';
    userData : object | any;
    designYearArray = [];
-   getQuery = {
+   getQuery: queryParam = {
     design_year : '606aafc14dff55e6c075d3ec',
-    isGfc : false,
     formId : null,
-    endPoints: null,
     ulb: null
   };
+  endPoints:string = null
   postData ={
     // design_year : null,
     // data : [ ]
@@ -83,258 +51,9 @@ export class CommonFormComponent implements OnInit {
     success: true,
     message: 'Form Questionare!',
     data: [
-      // {
-      //   _id: '5f4656c92daa9921dc1173aa',
-      //   formId: 1,
-      //    language: [
-      //       // {
-      //       //     "_id": "64070f073b2eb509dc61c173",
-      //       //     "lng": "en",
-      //       //     "question": [
-      //       //         {
-      //       //             "information": "",
-      //       //             "_id": "63fc53dad4434c05939ac50c",
-      //       //             "order": "1",
-      //       //             "answer_option": [
-      //       //                 {
-      //       //                     "name": "ODF",
-      //       //                     "did": [],
-      //       //                     "viewSequence": "1",
-      //       //                     "_id": "1"
-      //       //                 },
-      //       //                 {
-      //       //                     "name": "ODF+",
-      //       //                     "did": [],
-      //       //                     "viewSequence": "2",
-      //       //                     "_id": "2"
-      //       //                 },
-      //       //                 {
-      //       //                     "name": "ODF++",
-      //       //                     "did": [],
-      //       //                     "viewSequence": "3",
-      //       //                     "_id": "3"
-      //       //                 },
-      //       //                 {
-      //       //                     "name": "Non ODF",
-      //       //                     "did": [],
-      //       //                     "viewSequence": "4",
-      //       //                     "_id": "4"
-      //       //                 },
-      //       //                 {
-      //       //                     "name": "No Rating",
-      //       //                     "did": [],
-      //       //                     "viewSequence": "5",
-      //       //                     "_id": "5"
-      //       //                 }
-      //       //             ],
-      //       //             "title": "Open Defecation Free (ODF) Rating",
-      //       //             "hint": "Single Select",
-      //       //             "resource_urls": [],
-      //       //             "label": "1",
-      //       //             "shortKey": "odfRating",
-      //       //             "viewSequence": "1",
-      //       //             "child": [
-      //       //                 {
-      //       //                     "type": "14",
-      //       //                     "value": "^([1]|[2]|[3]|[4])$",
-      //       //                     "order": "6"
-      //       //                 },
-      //       //                 {
-      //       //                     "type": "11",
-      //       //                     "value": "^([1]|[2]|[3]|[4])$",
-      //       //                     "order": "3"
-      //       //                 },
-      //       //                 {
-      //       //                     "type": "11",
-      //       //                     "value": "^([5])$",
-      //       //                     "order": "2"
-      //       //                 }
-      //       //             ],
-      //       //             "parent": [],
-      //       //             "validation": [
-      //       //                 {
-      //       //                     "_id": "1",
-      //       //                     "error_msg": ""
-      //       //                 }
-      //       //             ],
-      //       //             "restrictions": [],
-      //       //             "input_type": "3",
-      //       //             "weightage": [],
-      //       //             "editable": false,
-      //       //             'modelValue': "2",
-      //       //             "value": "2",
-      //       //             "selectedValue" : [
-      //       //               {
-      //       //                 "label": "ODF+",
-      //       //                 "textValue": "",
-      //       //                 "value": "2"
-      //       //               }
-      //       //             ],
-      //       //         },
-      //       //         {
-      //       //             "information": "",
-      //       //             "_id": "63fc5529d4434c05939ac521",
-      //       //             "order": "2",
-      //       //             "answer_option": [],
-      //       //             "title": "Upload Declaration?",
-      //       //             "hint": "Upload PDF",
-      //       //             "resource_urls": [],
-      //       //             "label": "2",
-      //       //             "shortKey": "cert_declaration",
-      //       //             "viewSequence": "2",
-      //       //             "child": [],
-      //       //             "parent": [
-      //       //                 {
-      //       //                     "value": "^([5])$",
-      //       //                     "type": "3",
-      //       //                     "order": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "min": null,
-      //       //             "max": null,
-      //       //             "minRange": null,
-      //       //             "maxRange": null,
-      //       //             "pattern": "",
-      //       //             "validation": [
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "1"
-      //       //                 },
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "81",
-      //       //                     "value": "5120"
-      //       //                 },
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "82",
-      //       //                     "value": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "restrictions": [],
-      //       //             "input_type": "11",
-      //       //             "editable": false,
-      //       //             "weightage": [],
-      //       //             'modelValue': "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //             "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //             "selectedValue" : [
-      //       //                       {
-      //       //                         "textValue": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //                          "label": "posh_certi.pdf",
-      //       //                          "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf"
-      //       //                       }
-      //       //                   ]
-      //       //         },
-      //       //         {
-      //       //             "information": "",
-      //       //             "_id": "63fc556dd4434c05939ac535",
-      //       //             "order": "3",
-      //       //             "answer_option": [],
-      //       //             "title": "Upload ODF Certificate?",
-      //       //             "hint": "Upload PDF",
-      //       //             "resource_urls": [],
-      //       //             "label": "3",
-      //       //             "shortKey": "cert",
-      //       //             "viewSequence": "3",
-      //       //             "child": [],
-      //       //             "parent": [
-      //       //                 {
-      //       //                     "value": "^([1]|[2]|[3]|[4])$",
-      //       //                     "type": "3",
-      //       //                     "order": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "min": null,
-      //       //             "max": null,
-      //       //             "minRange": null,
-      //       //             "maxRange": null,
-      //       //             "pattern": "",
-      //       //             "validation": [
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "1"
-      //       //                 },
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "81",
-      //       //                     "value": "5120"
-      //       //                 },
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "82",
-      //       //                     "value": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "restrictions": [],
-      //       //             "input_type": "11",
-      //       //             "editable": false,
-      //       //             "weightage": [],
-      //       //             'modelValue': "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //             "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //             "selectedValue" : [
-      //       //                       {
-      //       //                         "textValue": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-      //       //                          "label": "posh_certi.pdf",
-      //       //                          "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf"
-      //       //                       }
-      //       //                   ]
-      //       //           },
-      //       //         {
-      //       //             "information": "",
-      //       //             "_id": "6405ee6e2638a6093d1b7123",
-      //       //             "order": "6",
-      //       //             "answer_option": [],
-      //       //             "title": "Certification Issue Date",
-      //       //             "hint": "Date",
-      //       //             "resource_urls": [],
-      //       //             "label": "4",
-      //       //             "shortKey": "certDate",
-      //       //             "viewSequence": "4",
-      //       //             "child": [],
-      //       //             "parent": [
-      //       //                 {
-      //       //                     "value": "^([1]|[2]|[3]|[4])$",
-      //       //                     "type": "3",
-      //       //                     "order": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "validation": [
-      //       //                 {
-      //       //                     "error_msg": "",
-      //       //                     "_id": "1"
-      //       //                 },
-      //       //                 {
-      //       //                     "_id": "26.4",
-      //       //                     "error_msg": "",
-      //       //                     "value": "1"
-      //       //                 }
-      //       //             ],
-      //       //             "restrictions": [],
-      //       //             "input_type": "14",
-      //       //             "editable": false,
-      //       //             "weightage": [],
-      //       //             "value": "2023-03-02",
-      //       //             "modelValue": "2023-03-02",
-      //       //             "selectedValue": [
-      //       //                      {
-      //       //                       "label": "",
-      //       //                       "textValue": "2023-03-02",
-      //       //                       "value": "2023-03-02"
-      //       //                     }
-      //       //             ]
-      //       //         }
-      //       //     ],
-      //       //     "title": "Open Defecation Free (ODF)",
-      //       //     "buttons": []
-      //       // }
-      //   ],
-      //   groupOrder: 37,
-      //   createDynamicOption: [],
-      //   getDynamicOption: [],
-      // },
-    ],
+          ],
   };
-
+statusId: number = 1;
 odfJson =  {
     // "_id": "63fc56abd4434c05939ac5e9",
     // "lng": "en",
@@ -1037,9 +756,6 @@ gfcJson = {
       "title": "Garbage Free City (GFC)",
       "buttons": []
   }
-
-
-
  ptoJson =  {
   "_id": "63ff042889406806192731be",
   "lng": "en",
@@ -1491,9 +1207,41 @@ finalSubmitMsg : string=`Are you sure you want to submit this form? Once submitt
   ngOnInit(): void {
 
   }
+checkRouterForApi(){
+  this.router.events.subscribe((event)=> {
+    let urlArray;
+    if (event instanceof NavigationEnd) {
+      urlArray = event.url.split("/");
+      this.isApiComplete = false;
+      console.log('url.......', urlArray);
+      this.questionResponse.data[0] = [];
+      if (urlArray.includes("odf")) {
+        this.endPoints = 'gfc-odf-form-collection';
+        this.getQuery.isGfc = false;
+        this.formName = 'odf';
+        this.getQuery.formId = 1;
+        this.getScroing('odf', this.getQuery.design_year);
+        this.callGetApi(this.endPoints, this.getQuery);
+      } else if (urlArray.includes("gfc")) {
+        this.endPoints = 'gfc-odf-form-collection';
+        this.getQuery.isGfc = true;
+        this.formName = 'gfc';
+        this.getQuery.formId = 2;
+        this.getScroing('gfc', this.getQuery.design_year);
+        this.callGetApi(this.endPoints, this.getQuery);
+      }else if (urlArray.includes("ptax")) {
+        this.endPoints = 'ptax';
+         this.formName = 'ptax';
+        // this.getScroing('odf');
+         this.callGetApi(this.endPoints, this.getQuery);
+       }  else {
 
-  callGetApi(queryParams){
-    if(queryParams.endPoints == 'ptax'){
+      }
+    }
+  });
+}
+  callGetApi(endPoints:string, queryParams:{}){
+    if(this.endPoints == 'ptax'){
       this.questionResponse.data[0] = {
         language: [
           this.ptoJson
@@ -1501,7 +1249,7 @@ finalSubmitMsg : string=`Are you sure you want to submit this form? Once submitt
       }
       this.isApiComplete = true;
      }
-     this.commonServices.formGetMethod(queryParams).subscribe((res:any)=>{
+     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res:any)=>{
         console.log('res.........', res);
         this.questionResponse.data = res.data;
         console.log('res.........', this.questionResponse);
@@ -1524,17 +1272,20 @@ finalSubmitMsg : string=`Are you sure you want to submit this form? Once submitt
     }else {
       this.onSave(finalData, e?.isSaveAsDraft);
     }
-
-
   }
 
   onSave(finalData, draft){
+    if(draft == false){
+      this.statusId = 3;
+    }else {
+      this.statusId = 2;
+    }
    this.postData = {
     "design_year": this.designYearArray["2023-24"],
     "ulb": this.ulbId,
     "isGfc": this.getQuery.isGfc,
     "isDraft": draft,
-    "status": 2,
+    "status": this.statusId,
      data: finalData
    }
     this.commonServices.formPostMethod(this.postData).subscribe((res)=>{
@@ -1547,6 +1298,7 @@ finalSubmitMsg : string=`Are you sure you want to submit this form? Once submitt
     }
     )
   }
+
   getScroing(formName, designYear) {
    this.commonServices.getScroing(formName, designYear).subscribe((res : any)=>{
      console.log('scoring.........', res);
