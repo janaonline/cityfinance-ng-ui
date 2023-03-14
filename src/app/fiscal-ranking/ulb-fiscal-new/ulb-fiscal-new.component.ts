@@ -22,12 +22,13 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-ulb-fiscal-new',
   templateUrl: './ulb-fiscal-new.component.html',
-  styleUrls: ['./ulb-fiscal-new.component.scss']
+  styleUrls: ['./ulb-fiscal-new.component.scss'],
 })
 export class UlbFiscalNewComponent implements OnInit {
 
@@ -64,6 +65,7 @@ export class UlbFiscalNewComponent implements OnInit {
   userTypes = USER_TYPE;
   fiscalForm: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
+  currentDate = new Date();
 
   formSubmitted = false;
 
@@ -75,7 +77,9 @@ export class UlbFiscalNewComponent implements OnInit {
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
+    private dateAdapter: DateAdapter<Date>
   ) {
+    this.dateAdapter.setLocale('en-GB');
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
     this.loggedInUserType = this.loggedInUserDetails?.role;
@@ -179,7 +183,7 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
-      date: [item.date, item.date && item.required ? [Validators.required] : []],
+      date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
