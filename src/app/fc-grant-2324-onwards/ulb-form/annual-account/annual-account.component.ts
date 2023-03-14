@@ -16,7 +16,6 @@ export class AnnualAccountComponent implements OnInit {
     design_year : '606aafc14dff55e6c075d3ec',
     isGfc : false,
     formId : 1,
-    endPoints: '',
     ulb: '5f5610b3aab0f778b2d2cab0'
   };
   postData ={
@@ -314,13 +313,14 @@ export class AnnualAccountComponent implements OnInit {
       },
     ],
   };
+  endpoints:string = '';
  // resData : any;
   ngOnInit(): void {
    // console.log('ResData', this.resData)
    this.onload();
   }
   onload(){
-    this.commonServices.formGetMethod(this.getQuery).subscribe((res)=>{
+    this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res)=>{
       console.log('res.........', res);
     },
     (error)=> {
