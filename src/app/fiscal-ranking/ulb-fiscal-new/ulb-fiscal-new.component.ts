@@ -57,6 +57,7 @@ export class UlbFiscalNewComponent implements OnInit {
   cantakeAction: boolean = true;
   formId: string;
   ulbId: string;
+  isDraft: boolean;
   userData: any;
   ulbName: string;
   userTypes = USER_TYPE;
@@ -108,7 +109,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get isDisabled() {
-    return false;
+    return !this.isDraft;
   }
 
   get uploadFolderName() {
@@ -123,6 +124,7 @@ export class UlbFiscalNewComponent implements OnInit {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
+      this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
