@@ -320,7 +320,7 @@ export class UlbFiscalNewComponent implements OnInit {
       }
     ).then((value) => {
       if (value == 'submit') {
-        if (!this.validateErrors()) return swal('Error', 'Please fill form correctly', 'error');;
+        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');;
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
