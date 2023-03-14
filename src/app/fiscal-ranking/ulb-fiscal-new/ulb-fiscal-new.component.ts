@@ -135,6 +135,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
+      this.addSumLogics();
       this.isLoader = false;
     });
   }
@@ -165,7 +166,9 @@ export class UlbFiscalNewComponent implements OnInit {
             key: item.key,
             position: [{ value: +item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
-            modelName: [{ value: item.modelName, disabled: true}],
+            modelName: [{ value: item.modelName, disabled: true }],
+            calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
+            logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
@@ -223,6 +226,32 @@ export class UlbFiscalNewComponent implements OnInit {
     });
     (accountStwre?.controls?.yearData as FormArray)?.controls?.[3]?.valueChanges.subscribe(({ value }) => {
       s3Control.patchValue({ data: { accountStwreProof: { canShow: value == 'Yes' } } })
+    });
+  }
+
+  addSumLogics() {
+    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
+
+    sumAbleContrls.forEach(parentControl => {
+      const childControls = s3DataControl
+        .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
+
+      childControls.forEach((child) => {
+        child.valueChanges.subscribe(updated => {
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || ''}))})
+        })
+      })
+    });
+  }
+
+  getColumnWiseSum(arr: number[][]): number[] {
+    return arr[0]?.map((_, colIndex) => {
+      return arr.reduce((acc, curr) => {
+        return acc + curr[colIndex];
+      }, 0);
     });
   }
 
