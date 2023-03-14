@@ -218,14 +218,17 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   addSkipLogics() {
+    const dependencies = {
+      'data.registerGis.yearData.0': 'registerGisProof',
+      'data.accountStwre.yearData.3': 'accountStwreProof'
+    }
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
-    const { registerGis, accountStwre }: { [key: string]: FormGroup } = (s3Control.controls?.data as FormGroup)?.controls as any;
-
-    (registerGis?.controls?.yearData as FormArray)?.controls?.[0]?.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { registerGisProof: { canShow: value == 'Yes' } } })
-    });
-    (accountStwre?.controls?.yearData as FormArray)?.controls?.[3]?.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { accountStwreProof: { canShow: value == 'Yes' } } })
+    Object.entries(dependencies).forEach(([selector, updatedable]) => {
+      const control = s3Control.get(selector)
+      control.valueChanges.subscribe(({ value }) => {
+        s3Control.patchValue({ data: { [updatedable]: { canShow: value == 'Yes' } } })
+      });
+      control.updateValueAndValidity({ emitEvent: true});
     });
   }
 
@@ -241,7 +244,7 @@ export class UlbFiscalNewComponent implements OnInit {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || ''}))})
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
         })
       })
     });
