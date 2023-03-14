@@ -170,7 +170,7 @@ export class UlbFiscalNewComponent implements OnInit {
   getInnerFormGroup(item) {
     return this.fb.group({
       key: item.key,
-      value: [item.value, this.getValidators(item)], // TODO: add validators
+      value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType))],
       date: item.date,
       year: item.year,
       type: item.type,
@@ -187,16 +187,16 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
-          name: [item.file.name],
-          url: [item.file.url]
+          name: [item.file.name, item.required ? [Validators.required] : []],
+          url: [item.file.url, item.required ? [Validators.required]: []]
         })
       })
     });
   }
 
-  getValidators(item) {
+  getValidators(item, canApplyRequired = false) {
     return [
-      ...(item.required ? [Validators.required] : []),
+      ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [urlValidator] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
       ...(item.min != '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
@@ -275,6 +275,20 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
+  validateErrors() {
+    this.fiscalForm.markAllAsTouched();
+    if(this.fiscalForm.status === 'INVALID') {
+      console.log(this.fiscalForm);
+      const invalidIndex = this.fiscalForm.controls.findIndex(control => control.status === 'INVALID');
+      console.log(invalidIndex);
+      if(invalidIndex >= 0) {
+        this.stepper.selectedIndex = invalidIndex;
+      }
+      return false;
+    }
+    return true;
+  }
+
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
@@ -301,6 +315,7 @@ export class UlbFiscalNewComponent implements OnInit {
     ).then((value) => {
       switch (value) {
         case "submit":
+          if(!this.validateErrors()) return;
           this.submit();
           break;
         case "draft":
@@ -321,7 +336,6 @@ export class UlbFiscalNewComponent implements OnInit {
       actions: this.fiscalForm.getRawValue()
     }
 
-    this.fiscalForm.markAllAsTouched();
 
     console.log(payload);
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
