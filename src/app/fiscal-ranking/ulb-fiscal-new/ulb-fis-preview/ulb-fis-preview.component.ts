@@ -134,7 +134,7 @@ export class UlbFisPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  saveAdDraft() {
+  saveAsDraft() {
     this.alertClose();
     this.dialog.getDialogById('UlbFisPreviewComponent')?.close('draft');
   }
