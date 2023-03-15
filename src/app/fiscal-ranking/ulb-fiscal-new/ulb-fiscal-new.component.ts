@@ -6,7 +6,7 @@ import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -127,6 +127,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.addSumLogics();
+      this.navigationCheck();
       this.isLoader = false;
     });
   }
@@ -219,7 +220,7 @@ export class UlbFiscalNewComponent implements OnInit {
       control.valueChanges.subscribe(({ value }) => {
         s3Control.patchValue({ data: { [updatedable]: { canShow: value == 'Yes' } } })
       });
-      control.updateValueAndValidity({ emitEvent: true});
+      control.updateValueAndValidity({ emitEvent: true });
     });
   }
 
@@ -227,7 +228,7 @@ export class UlbFiscalNewComponent implements OnInit {
     const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
 
-    sumAbleContrls.forEach(parentControl => {
+    sumAbleContrls?.forEach(parentControl => {
       const childControls = s3DataControl
         .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
 
@@ -237,6 +238,7 @@ export class UlbFiscalNewComponent implements OnInit {
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
           parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
         })
+        child.updateValueAndValidity({ emitEvent: true });
       })
     });
   }
@@ -289,9 +291,11 @@ export class UlbFiscalNewComponent implements OnInit {
     console.log(this.fiscalForm.getRawValue());
     const rowValues = this.fiscalForm.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
+      id: 'UlbFisPreviewComponent',
       data: {
         showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
         additionalData: {
+          pristine: this.fiscalForm.pristine,
           date: new Date().toJSON().slice(0, 10),
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
@@ -303,9 +307,8 @@ export class UlbFiscalNewComponent implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log(`Dialog result: ${result}`);
-      //   this.hidden = true;
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value == 'draft') this.submit();
     });
   }
 
@@ -355,6 +358,27 @@ export class UlbFiscalNewComponent implements OnInit {
     })
   }
 
+  navigationCheck() {
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
+        swal("Unsaved Changes", {
+          buttons: {
+            Draft: {
+              text: "Save as draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }).then((value) => {
+          if (value == 'draft') this.submit();
+        });
+      }
+    });
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
@@ -365,6 +389,7 @@ export class UlbFiscalNewComponent implements OnInit {
     }
     this.loaderService.showLoader();
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+      this.fiscalForm.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');

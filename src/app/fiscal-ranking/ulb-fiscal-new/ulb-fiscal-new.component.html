@@ -64,8 +64,8 @@
                                     <tr class="table-gray"
                                         *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
                                         <th
-                                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]">
-                                            {{ heading }}</th>
+                                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
+                                            {{ heading }}{{ i > 1 ? ' (in ₹)' : ''}}</th>
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey"
                                         class="table-info">
@@ -106,12 +106,14 @@
 
 
                                                     <div class="input-group border"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'" [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+                                                        [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                         <div class="d-flex w-100 px-2">
-                                                            <input matInput formControlName="date" style="pointer-events: none;" [matDatepicker]="r_i"
+                                                            <input matInput formControlName="date"
+                                                                style="pointer-events: none;" [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
-                                                                [max]="currentDate"
-                                                                placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                                [max]="currentDate" placeholder="Choose a date"
+                                                                [attr.id]="  + r_i" />
                                                             <mat-datepicker-toggle matSuffix
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 [for]="r_i">
@@ -119,7 +121,9 @@
                                                         </div>
                                                         <mat-datepicker #r_i></mat-datepicker>
                                                     </div>
-                                                    <small style="color: red" *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please provide a valid date</small>
+                                                    <small style="color: red"
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
+                                                        provide a valid date</small>
 
                                                     <ng-container
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
@@ -355,7 +359,8 @@
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
                                                 </div>
 
-                                                <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)" class="text-danger text-center">Please upload a file</small>
+                                                <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
+                                                    class="text-danger text-center">Please upload a file</small>
 
                                                 <app-common-action-radio *ngIf="canSeeActions" formControlName="status">
                                                 </app-common-action-radio>
@@ -416,29 +421,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #templateSaveChange>
-    <div class="modal-body text-center ">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" class="text-danger"> <i>Unsaved Changes !</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-        <div class="row mb-3 mt-3">
-            <div class="col-sm-12">{{alertError}}</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-light" (click)="discard()">Discard Changes</button>
-                <button type="button" class="btn btn-primary m-btn ms-2" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success ms-2 m-btn" (click)="proceed()">
-                    Save & Proceed
-                </button>
-            </div>
-        </div>
-    </div>
-</ng-template>
-<!-- </form> -->
