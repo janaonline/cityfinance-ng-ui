@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
 export class UlbFisPreviewComponent implements OnInit {
 
   @ViewChild("preData") _html: ElementRef;
-  @ViewChild("templateSave") template;
+  @ViewChild("templateSave") saveTemplate;
   userData;
   ulbName: string = '';
   stateName: string = '';
@@ -106,8 +106,8 @@ export class UlbFisPreviewComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  clickedDownloadAsPDF(template) {
-    if (sessionStorage.getItem("changeInFR") == 'true') return this.openDialog(template);
+  clickedDownloadAsPDF() {
+    if (!this.data?.additionalData?.pristine) return this.openDialog(this.saveTemplate);
     this.downloadAsPdf();
   }
   downloadAsPdf() {
@@ -134,30 +134,11 @@ export class UlbFisPreviewComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async proceed() {
-    this.dialog.closeAll();
-    // this.preData.body["isDraft"] = true;
-    await this.submit();
-    sessionStorage.setItem("changeInFr", "false");
-    await this.downloadAsPdf();
+  saveAdDraft() {
+    this.alertClose();
+    this.dialog.getDialogById('UlbFisPreviewComponent')?.close('draft');
   }
 
-  async submit() {
-    return new Promise((resolve, rej) => {
-      this.fiscalService.postFiscalRankingData(this.data?.preData).subscribe((res) => {
-        console.log('post res', res);
-        swal('Saved', "Data save as draft successfully!", 'success');
-        sessionStorage.setItem("changeInFR", "false");
-        resolve('success');
-      },
-        (error) => {
-          console.log('post error', error);
-          resolve(error);
-        }
-      )
-
-    });
-  }
 
   sortPosition(itemA: KeyValue<number, any>, itemB: KeyValue<number, any>) {
     const a = +itemA.value.position;
