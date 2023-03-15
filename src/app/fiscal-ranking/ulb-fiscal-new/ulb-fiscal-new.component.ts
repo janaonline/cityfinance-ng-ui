@@ -212,7 +212,7 @@ export class UlbFiscalNewComponent implements OnInit {
   addSkipLogics() {
     const dependencies = {
       'data.registerGis.yearData.0': 'registerGisProof',
-      'data.accountStwre.yearData.3': 'accountStwreProof'
+      'data.accountStwre.yearData.0': 'accountStwreProof'
     }
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
@@ -235,10 +235,11 @@ export class UlbFiscalNewComponent implements OnInit {
       childControls.forEach((child) => {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
-          const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
+          const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
           parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
         })
-        child.updateValueAndValidity({ emitEvent: true });
+        // console.log({ key: parentControl.value.key, modelName: parentControl.controls?.modelName?.value , parentControl });
+        // child.updateValueAndValidity({ emitEvent: true });
       })
     });
   }
@@ -288,6 +289,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   onPreview() {
+    const date = new Date();
     console.log(this.fiscalForm.getRawValue());
     const rowValues = this.fiscalForm.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
@@ -296,7 +298,7 @@ export class UlbFiscalNewComponent implements OnInit {
         showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
         additionalData: {
           pristine: this.fiscalForm.pristine,
-          date: new Date().toJSON().slice(0, 10),
+          date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
           caMembershipNo: rowValues.find(row => row.id == 's1')?.data?.caMembershipNo?.value,
