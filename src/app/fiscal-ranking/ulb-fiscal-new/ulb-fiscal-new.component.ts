@@ -228,7 +228,7 @@ export class UlbFiscalNewComponent implements OnInit {
     const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
 
-    sumAbleContrls.forEach(parentControl => {
+    sumAbleContrls?.forEach(parentControl => {
       const childControls = s3DataControl
         .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
 
@@ -238,6 +238,7 @@ export class UlbFiscalNewComponent implements OnInit {
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
           parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
         })
+        child.updateValueAndValidity({ emitEvent: true });
       })
     });
   }
