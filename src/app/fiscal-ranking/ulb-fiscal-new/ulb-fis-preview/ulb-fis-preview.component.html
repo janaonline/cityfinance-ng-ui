@@ -24,12 +24,17 @@
                     </div>
 
                     <table class="table mt-3" *ngIf="tab?.id == 's3'">
-                        <thead><tr><th *ngFor="let year of yearList">{{ year }}</th></tr></thead>
+                        <thead><tr><th class="th" *ngFor="let year of yearList">{{ year }}</th></tr></thead>
 
                         <tbody>
                             <tr *ngFor="let data of tab?.data | keyvalue: sortPosition; let y_i=index">
-                                <th scope="row">{{ data?.value?.label }}</th>
-                                <td *ngFor="let elem of data?.value?.yearData; let y_i=index">{{elem?.value}}</td>
+                                <th class="th" scope="row" width="40%">{{ data?.value?.label }}</th>
+                                <td class="td" width="15%" *ngFor="let elem of data?.value?.yearData; let y_i=index">
+                                    <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                    <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a></span>
+                                    <span *ngIf="elem?.formFieldType == 'number'" >{{ elem?.value | currency: 'INR': 'symbol' : '1.0-0' }}</span>
+                                    <span *ngIf="elem?.formFieldType != 'number'" >{{ elem?.value }}</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

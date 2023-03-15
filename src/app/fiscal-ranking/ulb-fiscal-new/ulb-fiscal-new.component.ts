@@ -21,35 +21,28 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
 import { KeyValue } from '@angular/common';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-ulb-fiscal-new',
   templateUrl: './ulb-fiscal-new.component.html',
-  styleUrls: ['./ulb-fiscal-new.component.scss']
+  styleUrls: ['./ulb-fiscal-new.component.scss'],
 })
 export class UlbFiscalNewComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
+
   yearIdArr: string[] = [];
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
-
   loggedInUserType: any;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
   expenditureSectionBelowKey: number = 8;
-
-  financialYearTableHeader: { [key: number]: string[] } = {
-    1: ['', 'SECTION A:  Details from Income & Expenditure Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
-    20: ['', 'SECTION B:  Other Details from Audited Annual Accounts', '2021-22', '2020-21', '2019-20', '2018-19'],
-    25: ['', 'SECTION C:  Details from Receipts & Payments Statement', '2021-22', '2020-21', '2019-20', '2018-19'],
-    26: ['', 'SECTION D:  Details from Approved Annual Budgets', '2021-22', '2020-21', '2019-20', '2018-19'],
-    30: ['', 'SECTION E:  Self-reported Details for Fiscal Governance Parameters', '2021-22', '2020-21', '2019-20', '2018-19'],
-  }
-
-
+  financialYearTableHeader: { [key: number]: string[] } = {};
   linearTabs: string[] = ['s1', 's2'];
   twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
@@ -63,7 +56,7 @@ export class UlbFiscalNewComponent implements OnInit {
   userTypes = USER_TYPE;
   fiscalForm: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
-
+  currentDate = new Date();
   formSubmitted = false;
 
   constructor(
@@ -73,7 +66,10 @@ export class UlbFiscalNewComponent implements OnInit {
     private _router: Router,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    private loaderService: GlobalLoaderService,
+    private dateAdapter: DateAdapter<Date>
   ) {
+    this.dateAdapter.setLocale('en-GB');
     this.yearIdArr = JSON.parse(localStorage.getItem("Years"));
 
     this.loggedInUserType = this.loggedInUserDetails?.role;
@@ -126,9 +122,11 @@ export class UlbFiscalNewComponent implements OnInit {
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
+      this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
+      this.addSumLogics();
       this.isLoader = false;
     });
   }
@@ -157,8 +155,11 @@ export class UlbFiscalNewComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: +item.displayPriority || 1, disabled: true }], // TODO: need from backend
-            isHeading: [{ value: Number.isInteger(item.displayPriority), disabled: true }], // TODO: need from backend
+            position: [{ value: +item.displayPriority || 1, disabled: true }],
+            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
+            modelName: [{ value: item.modelName, disabled: true }],
+            calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
+            logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
@@ -177,7 +178,7 @@ export class UlbFiscalNewComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
-      date: [item.date, item.date && item.required ? [Validators.required] : []],
+      date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
@@ -208,14 +209,43 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   addSkipLogics() {
+    const dependencies = {
+      'data.registerGis.yearData.0': 'registerGisProof',
+      'data.accountStwre.yearData.3': 'accountStwreProof'
+    }
     const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
-    const { registerGis, accountStwre }: { [key: string]: FormGroup } = (s3Control.controls?.data as FormGroup)?.controls as any;
-
-    (registerGis?.controls?.yearData as FormArray)?.controls?.[0]?.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { registerGisProof: { canShow: value == 'Yes' } } })
+    Object.entries(dependencies).forEach(([selector, updatedable]) => {
+      const control = s3Control.get(selector)
+      control.valueChanges.subscribe(({ value }) => {
+        s3Control.patchValue({ data: { [updatedable]: { canShow: value == 'Yes' } } })
+      });
+      control.updateValueAndValidity({ emitEvent: true});
     });
-    (accountStwre?.controls?.yearData as FormArray)?.controls?.[3]?.valueChanges.subscribe(({ value }) => {
-      s3Control.patchValue({ data: { accountStwreProof: { canShow: value == 'Yes' } } })
+  }
+
+  addSumLogics() {
+    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
+
+    sumAbleContrls.forEach(parentControl => {
+      const childControls = s3DataControl
+        .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
+
+      childControls.forEach((child) => {
+        child.valueChanges.subscribe(updated => {
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const columnWiseSum = this.getColumnWiseSum(yearWiseAmount)
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
+        })
+      })
+    });
+  }
+
+  getColumnWiseSum(arr: number[][]): number[] {
+    return arr[0]?.map((_, colIndex) => {
+      return arr.reduce((acc, curr) => {
+        return acc + curr[colIndex];
+      }, 0);
     });
   }
 
@@ -318,7 +348,7 @@ export class UlbFiscalNewComponent implements OnInit {
       }
     ).then((value) => {
       if (value == 'submit') {
-        if (!this.validateErrors()) return swal('Error', 'Please fill form correctly', 'error');;
+        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');;
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
@@ -333,10 +363,13 @@ export class UlbFiscalNewComponent implements OnInit {
       isDraft: isDraft,
       actions: this.fiscalForm.getRawValue()
     }
+    this.loaderService.showLoader();
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+      this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, (error) => {
+      this.loaderService.stopLoader();
       swal('Error', 'Something went wrong', 'error');
     })
   }

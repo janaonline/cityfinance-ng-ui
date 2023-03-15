@@ -89,6 +89,13 @@ export class UlbFisPreviewComponent implements OnInit {
       margin-bottom: 1rem;
       margin-left: .5rem;
     }
+    .td {
+      font-size: 6px;
+    }
+    .th {
+      font-size: 6px;
+      text-align: left;
+    }
   </style>`;
   ngOnInit(): void {
     //preview data

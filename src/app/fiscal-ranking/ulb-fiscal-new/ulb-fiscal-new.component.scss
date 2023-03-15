@@ -344,7 +344,12 @@ table {
         text-align: center;
     }
 
-    .text-primary {
-        color: #006893 !important;
+    .whole-number {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .float-number {
+        font-size: 15px;
+        font-weight: 400;
     }
 }
