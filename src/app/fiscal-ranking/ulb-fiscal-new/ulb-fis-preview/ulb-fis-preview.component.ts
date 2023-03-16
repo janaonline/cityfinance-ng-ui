@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
@@ -16,6 +16,7 @@ export class UlbFisPreviewComponent implements OnInit {
 
   @ViewChild("preData") _html: ElementRef;
   @ViewChild("templateSave") saveTemplate;
+  @Output() saveForm = new EventEmitter<any>(true);
   userData;
   ulbName: string = '';
   stateName: string = '';
@@ -136,7 +137,11 @@ export class UlbFisPreviewComponent implements OnInit {
 
   saveAsDraft() {
     this.alertClose();
-    this.dialog.getDialogById('UlbFisPreviewComponent')?.close('draft');
+    this.saveForm.emit();
+    setTimeout(() => {
+      this.downloadAsPdf();
+      this.data.additionalData.pristine = true;
+    },2000)
   }
 
 

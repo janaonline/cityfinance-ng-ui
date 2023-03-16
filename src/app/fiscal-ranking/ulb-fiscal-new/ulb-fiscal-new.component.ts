@@ -127,6 +127,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.addSumLogics();
+      this.addSubtractLogics();
       this.navigationCheck();
       this.isLoader = false;
     });
@@ -164,7 +165,7 @@ export class UlbFiscalNewComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
-            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem)))
+            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
         }
         return obj;
@@ -172,13 +173,15 @@ export class UlbFiscalNewComponent implements OnInit {
     })
   }
 
-  getInnerFormGroup(item) {
+  getInnerFormGroup(item, parent?) {
     return this.fb.group({
       key: item.key,
-      value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType))],
+      value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
+      originalValue: item.value,
       year: item.year,
       type: item.type,
       _id: item._id,
+      modelName: [{ value: item.modelName, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
@@ -199,8 +202,9 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
-  getValidators(item, canApplyRequired = false) {
+  getValidators(item, canApplyRequired = false, parent?) {
     return [
+      ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [urlValidator] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
@@ -227,7 +231,6 @@ export class UlbFiscalNewComponent implements OnInit {
   addSumLogics() {
     const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
-
     sumAbleContrls?.forEach(parentControl => {
       const childControls = s3DataControl
         .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
@@ -238,7 +241,24 @@ export class UlbFiscalNewComponent implements OnInit {
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
           parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
         })
-        // console.log({ key: parentControl.value.key, modelName: parentControl.controls?.modelName?.value , parentControl });
+        // child.updateValueAndValidity({ emitEvent: true });
+      })
+    });
+  }
+
+  addSubtractLogics() {
+    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const subtractControls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value?.startsWith('subtract')) as FormGroup[];
+    subtractControls?.forEach(parentControl => {
+      const childControls = s3DataControl
+        .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
+
+      childControls.forEach((child) => {
+        child.valueChanges.subscribe(updated => {
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const columnWiseSum = this.getMinusWiseSum(yearWiseAmount);
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
+        })
         // child.updateValueAndValidity({ emitEvent: true });
       })
     });
@@ -250,6 +270,19 @@ export class UlbFiscalNewComponent implements OnInit {
         return acc + curr[colIndex];
       }, 0);
     });
+  }
+
+  getMinusWiseSum(arr: number[][]): number[] {
+    const result = [0, 0, 0, 0];
+
+    try {
+      for (let i = 0; i < result.length; i++) {
+        result[i] = arr[0][i] - arr[1][i];
+      }
+      return result;
+    } catch {
+      return [0, 0, 0, 0];
+    }
   }
 
   stepperContinue(item) {
@@ -309,8 +342,9 @@ export class UlbFiscalNewComponent implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((value) => {
-      if (value == 'draft') this.submit();
+
+    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+      this.submit();
     });
   }
 

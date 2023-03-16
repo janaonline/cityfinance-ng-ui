@@ -20,6 +20,8 @@
                     <div class="container  mt-4" [ngClass]="linearTabs.includes(tab?.value?.id) ? 'w-50' : 'w-80'"
                         [formGroup]="tab">
 
+                        <h2 style="text-align: center;" *ngIf="tab?.value?.id == 's1'">{{ ulbName }}</h2>
+
                         <!-- tab 1, 2 -->
                         <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
                             <div class="" [ngClass]="{'disable': isDisabled}"
@@ -95,7 +97,10 @@
                                                         [disabled]="yearItem?.controls?.readonly?.value"
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                         placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-
+                                                    <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+                                                    <small class="text-danger"
+                                                        *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
+                                                        be equal to {{ yearItem.value.originalValue }}</small>
                                                     <mat-radio-group aria-label="Select an option"
                                                         formControlName="value"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
@@ -249,7 +254,9 @@
                                                                             [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                                                                         </app-loader>
                                                                     </div>
-                                                                    <div class="col-sm-12 mt-3 mb-3"
+
+                                                                    <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
+                                                                    <div class="col-sm-12 mb-3"
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
                                                                         <span class="al-up">Already Uploaded on
                                                                             Cityfinance</span>
