@@ -331,6 +331,11 @@ table {
         color: #dc3545;
         cursor: pointer;
     }
+    
+    .border-danger-file {
+        border: 1px solid red;
+        border-radius: 5px;
+    }
 
     .tooltip.show {
         opacity: 1;
