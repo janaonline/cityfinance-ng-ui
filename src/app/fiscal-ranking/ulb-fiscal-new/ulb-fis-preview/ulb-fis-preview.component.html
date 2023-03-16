@@ -60,7 +60,7 @@
                                         {{elem?.value | currency:"INR":"symbol"}}
                                     </div>
                                     <div class="col-sm-6 yr-ans" *ngIf="elem?.file">
-                                        <div *ngIf="elem?.file?.url && elem?.readonly == false">
+                                        <div *ngIf="elem?.file?.url">
                                             <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
