@@ -29,6 +29,7 @@ export class CommonFormComponent implements OnInit {
       ulb: this.ulbId
     };
     this.checkRouterForApi();
+    this.getLeftMenu();
   }
   ulbId = '';
   userData: object | any;
@@ -1222,23 +1223,20 @@ export class CommonFormComponent implements OnInit {
           this.formName = 'odf';
           this.getQuery.formId = 1;
           this.getScroing('odf', this.getQuery.design_year);
-          this.callGetApi(this.endPoints, this.getQuery);
         } else if (urlArray.includes("gfc")) {
           this.endPoints = 'gfc-odf-form-collection';
           this.getQuery.isGfc = true;
           this.formName = 'gfc';
           this.getQuery.formId = 2;
           this.getScroing('gfc', this.getQuery.design_year);
-          this.callGetApi(this.endPoints, this.getQuery);
         } else if (urlArray.includes("ptax")) {
           this.endPoints = 'ptax';
           this.formName = 'ptax';
-          // this.getScroing('odf');
-          this.callGetApi(this.endPoints, this.getQuery);
         } else {
 
         }
         //folder: "ULB/2022-23/odf/UK030"
+        this.callGetApi(this.endPoints, this.getQuery);
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
@@ -1343,5 +1341,31 @@ export class CommonFormComponent implements OnInit {
       }
     });
   }
+
+  getLeftMenu() {
+    let queryParam = {
+      role: '',
+      year: this.designYearArray["2023-24"],
+      _id: ''
+    }
+
+    if (this.userData?.role === "ULB") {
+      queryParam._id = this.userData?.ulb;
+      queryParam.role = this.userData?.role;
+    }
+    // else {
+    //   ulb = localStorage.getItem("ulb_id");;
+    //   role = 'ULB';
+    // }
+    this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
+      console.log("left responces..", res);
+    // localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+    },
+    (error)=>{
+      console.log('left menu responces', error)
+    }
+    );
+  }
+
 
 }

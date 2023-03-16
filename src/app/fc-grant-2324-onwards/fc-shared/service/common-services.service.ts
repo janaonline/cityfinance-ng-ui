@@ -30,7 +30,8 @@ export class CommonServicesService {
     // gfc-odf-form-collection
     return this.http.get(`${environment.api.url}ratings?formName=${formName}&financialYear=${dYr}`);
   }
-  formGetMethod(endPoints, queryParam) {
+  formGetMethod(endPoints:string, queryParam:any) {
+
     return this.http.get(
       `${environment.api.url}${endPoints}`,
        {

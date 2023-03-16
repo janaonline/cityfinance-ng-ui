@@ -12,7 +12,7 @@ const routes: Routes = [
     canActivate: [UlbGaurdsGuard],
     children: [
       {
-        path: "annual-account",
+        path: "annual_acc",
         component: AnnualAccountComponent,
       },
       {
@@ -29,6 +29,14 @@ const routes: Routes = [
       },
       {
         path: "ptax",
+        component: CommonFormComponent,
+      },
+      {
+        path: "28SLBsForm",
+        component: CommonFormComponent,
+      },
+      {
+        path: "slbs",
         component: CommonFormComponent,
       },
 
