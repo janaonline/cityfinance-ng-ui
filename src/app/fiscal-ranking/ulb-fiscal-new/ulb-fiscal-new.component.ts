@@ -127,6 +127,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.addSumLogics();
+      this.addSubtractLogics();
       this.navigationCheck();
       this.isLoader = false;
     });
@@ -245,12 +246,43 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
+  addSubtractLogics() {
+    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const subtractControls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value?.startsWith('subtract')) as FormGroup[];
+    subtractControls?.forEach(parentControl => {
+      const childControls = s3DataControl
+        .filter((value: FormGroup) => parentControl?.controls?.calculatedFrom?.value?.includes('' + value.controls.position.value)) as FormGroup[];
+
+      childControls.forEach((child) => {
+        child.valueChanges.subscribe(updated => {
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const columnWiseSum = this.getMinusWiseSum(yearWiseAmount);
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) })
+        })
+        // child.updateValueAndValidity({ emitEvent: true });
+      })
+    });
+  }
+
   getColumnWiseSum(arr: number[][]): number[] {
     return arr[0]?.map((_, colIndex) => {
       return arr.reduce((acc, curr) => {
         return acc + curr[colIndex];
       }, 0);
     });
+  }
+
+  getMinusWiseSum(arr: number[][]): number[] {
+    const result = [0, 0, 0, 0];
+
+    try {
+      for(let i = 0; i < result.length; i++ ) {
+        result[i] = arr[0][i] - arr[1][i];
+      }
+      return result;
+    } catch {
+      return [0, 0, 0, 0];
+    }
   }
 
   stepperContinue(item) {
