@@ -95,7 +95,11 @@
                                                         [disabled]="yearItem?.controls?.readonly?.value"
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                         placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-
+                                                    <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+                                                    <small 
+                                                        class="text-danger" 
+                                                        *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)"
+                                                    >Should be equal to {{ yearItem.value.originalValue }}</small>
                                                     <mat-radio-group aria-label="Select an option"
                                                         formControlName="value"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
@@ -249,7 +253,9 @@
                                                                             [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                                                                         </app-loader>
                                                                     </div>
-                                                                    <div class="col-sm-12 mt-3 mb-3"
+
+                                                                    <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
+                                                                    <div class="col-sm-12 mb-3"
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
                                                                         <span class="al-up">Already Uploaded on
                                                                             Cityfinance</span>
