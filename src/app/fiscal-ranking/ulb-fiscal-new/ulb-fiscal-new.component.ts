@@ -276,7 +276,7 @@ export class UlbFiscalNewComponent implements OnInit {
     const result = [0, 0, 0, 0];
 
     try {
-      for(let i = 0; i < result.length; i++ ) {
+      for (let i = 0; i < result.length; i++) {
         result[i] = arr[0][i] - arr[1][i];
       }
       return result;
@@ -342,8 +342,9 @@ export class UlbFiscalNewComponent implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((value) => {
-      if (value == 'draft') this.submit();
+
+    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+      this.submit();
     });
   }
 
