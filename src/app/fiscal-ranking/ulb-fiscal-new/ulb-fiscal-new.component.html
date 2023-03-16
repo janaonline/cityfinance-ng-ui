@@ -78,7 +78,7 @@
                                         <th colspan="6">REVENUE EXPENDITURE (ACTUAL) </th>
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
-                                        <td>{{ item?.value?.controls?.position?.value }}</td>
+                                        <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                             {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
