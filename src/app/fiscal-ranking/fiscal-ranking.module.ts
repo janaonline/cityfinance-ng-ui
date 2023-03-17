@@ -34,6 +34,7 @@ import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component
 import { TowordPipe } from './pipes/toword.pipe';
 import { PercentprogressPipe } from './pipes/percentprogress.pipe';
 import { YearInfoPipe } from './pipes/year-info.pipe';
+import { DisplayPositionPipe } from './pipes/display-position.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { YearInfoPipe } from './pipes/year-info.pipe';
     TowordPipe,
     PercentprogressPipe,
     YearInfoPipe,
+    DisplayPositionPipe,
   ],
   imports: [
     CommonModule,

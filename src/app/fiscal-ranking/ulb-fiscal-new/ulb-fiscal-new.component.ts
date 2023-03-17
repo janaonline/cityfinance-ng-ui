@@ -222,7 +222,15 @@ export class UlbFiscalNewComponent implements OnInit {
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
       const control = s3Control.get(selector)
       control.valueChanges.subscribe(({ value }) => {
-        s3Control.patchValue({ data: { [updatedable]: { canShow: value == 'Yes' } } })
+        const canShow = value == 'Yes';
+        s3Control.patchValue({ data: { [updatedable]: { canShow } } });
+        const updatableControl = s3Control.get(`data.${updatedable}.yearData.0`) as FormGroup;
+        const nameControl = updatableControl.get('file.name');
+        const urlControl = updatableControl.get('file.url');
+        [nameControl, urlControl].forEach(fileControl => {
+          fileControl?.setValidators(canShow ? [Validators.required] : [])
+          fileControl?.updateValueAndValidity({ emitEvent: true });
+        }) 
       });
       control.updateValueAndValidity({ emitEvent: true });
     });

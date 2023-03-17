@@ -78,7 +78,7 @@
                                         <th colspan="6">REVENUE EXPENDITURE (ACTUAL) </th>
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.canShow?.value">
-                                        <td>{{ item?.value?.controls?.position?.value }}</td>
+                                        <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                             {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
@@ -129,11 +129,11 @@
                                                     <small style="color: red"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
                                                         provide a valid date</small>
-
                                                     <ng-container
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'" >
                                                         <div class="col-sm-12 mb-3"
-                                                            *ngIf="yearItem?.controls?.readonly?.value == false">
+                                                            *ngIf="yearItem?.controls?.readonly?.value == false" 
+                                                            [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                             <button (click)="bs_pdf1.click()"
                                                                 class="btn form-btn com-style w-100"
                                                                 [disabled]="isDisabled">
