@@ -304,6 +304,33 @@
                                             </div>
                                         </div>
                                     </ng-container>
+                                    <ng-container *ngIf="tab?.value?.id === 's4' && otherUploadControl">
+                                        <p class="px-3">Any other information that you would like to provide us?</p>
+    
+                                        <div class="col-sm-3 px-3 com-style mt-3 ">
+                                            <button class="btn w-100 btn-up-org" (click)="bs_pdf_up.click()"
+                                                [disabled]="isDisabled">
+                                                Upload File
+                                                <img class="u-i ms-3"
+                                                    src="../../../assets/circle/cloud_upload_black_24dp.svg"
+                                                    alt="">
+                                            </button>
+                                            <input #bs_pdf_up style="display: none;"
+                                                (change)="uploadFile($event, 'pdf', otherUploadControl)"
+                                                onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                        </div>
+                                        <app-loader class="col-sm-3"
+                                            [show]="otherUploadControl.controls?.uploading?.value">
+                                        </app-loader>
+                                        <div class="mt-2 px-3"
+                                            *ngIf="otherUploadControl?.controls?.url?.value">
+                                            <a href="{{otherUploadControl?.controls?.url?.value}}"
+                                                target="_blank">{{otherUploadControl?.controls?.name?.value}}</a>
+                                        </div>
+    
+                                        <small *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
+                                            class="text-danger text-center">Please upload a file</small>
+                                    </ng-container>
 
                                 </div>
                             </div>
