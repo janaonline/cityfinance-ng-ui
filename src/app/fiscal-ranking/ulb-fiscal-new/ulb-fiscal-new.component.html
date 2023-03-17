@@ -256,10 +256,10 @@
                                                                     </div>
 
                                                                     <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
-                                                                    <div class="col-sm-12 mb-3"
+                                                                    <div class="col-sm-12 mb-3 "
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
-                                                                        <span class="al-up">Already Uploaded on
-                                                                            Cityfinance</span>
+                                                                        <div class="al-up font-size-smaller">Already Uploaded on
+                                                                            Cityfinance</div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">

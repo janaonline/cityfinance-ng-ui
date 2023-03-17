@@ -425,6 +425,7 @@ export class UlbFiscalNewComponent implements OnInit {
           },
         }).then((value) => {
           if (value == 'draft') this.submit();
+          else this.fiscalForm.markAsPristine();
         });
       }
     });
