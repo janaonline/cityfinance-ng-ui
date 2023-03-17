@@ -139,7 +139,7 @@
 
 .file-text {
     font-weight: 400;
-    font-size: 16px;
+    font-size: smaller;
     line-height: 22px;
     /* identical to box height */
     color: #101010;
@@ -251,9 +251,10 @@
 .al-up {
     border: 1px solid #C6C6C6;
     border-radius: 5px;
-    width: 70%;
     height: 40px;
-    padding: 0.375rem 0.75rem;
+    padding: 0.65rem 0.75rem;
+    font-size: smaller;
+    width: 100%;
 }
 
 .w-70 {

@@ -155,7 +155,7 @@
                                                         <div class="col-sm-12 com-style f-w mt-1"
                                                             *ngIf="yearItem?.value?.file?.url">
                                                             <a class="w-90" href="{{yearItem?.value?.file?.url}}"
-                                                                target="_blank">{{yearItem?.value?.file?.name}}</a>
+                                                                target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download</mat-icon></a>
                                                             <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                 (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                 class="w-10" [ngClass]="{'pe-none': isDisabled}">
@@ -256,16 +256,16 @@
                                                                     </div>
 
                                                                     <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
-                                                                    <div class="col-sm-12 mb-3"
+                                                                    <div class="col-sm-12 mb-3 "
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
-                                                                        <span class="al-up">Already Uploaded on
-                                                                            Cityfinance</span>
+                                                                        <div class="al-up font-size-smaller">Already Uploaded on
+                                                                            Cityfinance</div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
-                                                                            target="_blank">{{yearItem?.value?.file?.name}}</a>
+                                                                            target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download</mat-icon></a>
                                                                         <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                             (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                             class="w-10"
@@ -325,7 +325,7 @@
                                         <div class="mt-2 px-3"
                                             *ngIf="otherUploadControl?.controls?.url?.value">
                                             <a href="{{otherUploadControl?.controls?.url?.value}}"
-                                                target="_blank">{{otherUploadControl?.controls?.name?.value}}</a>
+                                                target="_blank">{{otherUploadControl?.controls?.name?.value}} <mat-icon>cloud_download</mat-icon></a>
                                         </div>
     
                                         <small *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
@@ -390,7 +390,7 @@
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
                                                     <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
-                                                        target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}</a>
+                                                        target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}} <mat-icon>cloud_download</mat-icon></a>
                                                 </div>
 
                                                 <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"

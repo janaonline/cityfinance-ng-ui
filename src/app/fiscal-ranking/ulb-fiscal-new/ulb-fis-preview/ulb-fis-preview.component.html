@@ -37,9 +37,11 @@
                                     <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
                                     <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
                                             target="_blank">{{elem?.file?.name}}</a></span>
-                                    <span *ngIf="elem?.formFieldType == 'number'">{{ elem?.value | currency: 'INR':
-                                        'symbol' : '1.0-0' }}</span>
-                                    <span *ngIf="elem?.formFieldType != 'number'">{{ elem?.value }}</span>
+                                    <span>{{
+                                        elem?.formFieldType == 'number'
+                                        ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                        : elem?.value
+                                        }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -78,15 +80,16 @@
                         </div>
                     </ng-container>
                     <div *ngIf="tab?.id == 's4'">
-                        <div class="row" >
+                        <div class="row">
                             <div class="col-sm-6 f-label mb-2">Any other information that you would like to provide
                                 us?</div>
                             <div class="col-sm-6 f-label yr-ans mb-2">
                                 <div *ngIf="data?.additionalData?.otherFile?.url">
-                                    <a href="{{data?.additionalData?.otherFile?.url}}" target="_blank">{{data?.additionalData?.otherFile?.name}}</a>
+                                    <a href="{{data?.additionalData?.otherFile?.url}}"
+                                        target="_blank">{{data?.additionalData?.otherFile?.name}}</a>
                                 </div>
                             </div>
-                        </div>        
+                        </div>
                     </div>
                 </div>
             </div>
