@@ -109,7 +109,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/${this.design_year}/fiscalRanking/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/2022-23/fiscalRanking/${this.userData?.ulbCode}`
   }
 
   get design_year() {
