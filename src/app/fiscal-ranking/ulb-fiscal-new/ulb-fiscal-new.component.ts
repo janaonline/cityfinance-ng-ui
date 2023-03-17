@@ -116,6 +116,10 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.yearIdArr['2022-23'];
   }
 
+  get otherUploadControl() {
+    return this.fiscalForm.get('4.data.otherUpload');
+  }
+
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
@@ -149,9 +153,9 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name, Validators.required],
+            name: [item.name,  item.required ? Validators.required : null],
             status: item.status,
-            url: [item.url, Validators.required],
+            url: [item.url, item.required ? Validators.required : null],
           })
         }
         else {
@@ -208,8 +212,8 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [urlValidator] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
-      ...(item.min != '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
-      ...(item.max != '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
+      ...(item.min !== '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
+      ...(item.max !== '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
     ];
   }
 
@@ -343,6 +347,7 @@ export class UlbFiscalNewComponent implements OnInit {
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
           caMembershipNo: rowValues.find(row => row.id == 's1')?.data?.caMembershipNo?.value,
+          otherFile: this.otherUploadControl?.value
         }
       },
       width: "85vw",
