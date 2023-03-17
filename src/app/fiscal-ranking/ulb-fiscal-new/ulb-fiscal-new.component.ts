@@ -208,8 +208,8 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [urlValidator] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
-      ...(item.min != '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
-      ...(item.max != '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
+      ...(item.min !== '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
+      ...(item.max !== '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
     ];
   }
 
