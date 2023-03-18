@@ -18,6 +18,7 @@ export class AnnualAccountComponent implements OnInit {
     formId : 1,
     ulb: '5f5610b3aab0f778b2d2cab0'
   };
+  fileFolderName:string = '';
   postData ={
     design_year : '606aafc14dff55e6c075d3ec',
     data : [
@@ -34,33 +35,9 @@ export class AnnualAccountComponent implements OnInit {
         formId: 1,
         language:[
           {
-              "_id": "641020367c14770bbbcf7274",
+              "_id": "64144d6538d5190d4dcd0dbb",
               "lng": "en",
               "question": [
-                  {
-                      "information": "",
-                      "_id": "63f5f557f7f8a573d8730561",
-                      "order": "1",
-                      "answer_option": [],
-                      "title": "Audited Accounts for 2021-22",
-                      "hint": "",
-                      "resource_urls": [],
-                      "label": "",
-                      "shortKey": "tab",
-                      "viewSequence": "1",
-                      "child": [],
-                      "parent": [],
-                      "validation": [
-                          {
-                              "_id": "54",
-                              "error_msg": ""
-                          }
-                      ],
-                      "restrictions": [],
-                      "input_type": "10",
-                      "editable": false,
-                      "weightage": []
-                  },
                   {
                       "information": "PDFs are mandatory and Excels are Optional.",
                       "_id": "63f5f5e9f7f8a573d873057e",
@@ -85,13 +62,18 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Single Select",
                       "resource_urls": [],
                       "label": "1",
-                      "shortKey": "audit#auditUnstandAccount",
-                      "viewSequence": "2",
+                      "shortKey": "audited.submit_annual_accounts",
+                      "viewSequence": "1",
                       "child": [
                           {
                               "type": "11",
                               "value": "^([1])$",
                               "order": "4"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
+                              "order": "5"
                           },
                           {
                               "type": "2",
@@ -121,7 +103,17 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "type": "11",
                               "value": "^([1])$",
+                              "order": "11"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
                               "order": "12"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
+                              "order": "13"
                           },
                           {
                               "type": "2",
@@ -141,7 +133,17 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "type": "11",
                               "value": "^([1])$",
+                              "order": "17"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
                               "order": "18"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
+                              "order": "19"
                           },
                           {
                               "type": "11",
@@ -156,32 +158,12 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "type": "11",
                               "value": "^([1])$",
-                              "order": "5"
-                          },
-                          {
-                              "type": "11",
-                              "value": "^([1])$",
-                              "order": "11"
-                          },
-                          {
-                              "type": "11",
-                              "value": "^([1])$",
-                              "order": "13"
-                          },
-                          {
-                              "type": "11",
-                              "value": "^([1])$",
-                              "order": "17"
-                          },
-                          {
-                              "type": "11",
-                              "value": "^([1])$",
-                              "order": "19"
-                          },
-                          {
-                              "type": "11",
-                              "value": "^([1])$",
                               "order": "23"
+                          },
+                          {
+                              "type": "5",
+                              "value": "^([1])$",
+                              "order": "48"
                           }
                       ],
                       "parent": [],
@@ -205,13 +187,13 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upload PDF",
                       "resource_urls": [],
                       "label": "2",
-                      "shortKey": "audit#bal_sheet",
-                      "viewSequence": "3",
+                      "shortKey": "audited.provisional_data.bal_sheet.pdf",
+                      "viewSequence": "2",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -223,12 +205,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -255,8 +237,8 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
                       "label": "3",
-                      "shortKey": "audit#bal_sheet#excel",
-                      "viewSequence": "4",
+                      "shortKey": "audited.provisional_data.bal_sheet.excel",
+                      "viewSequence": "3",
                       "child": [],
                       "parent": [
                           {
@@ -278,17 +260,7 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "error_msg": "",
                               "_id": "83",
-                              "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "83",
                               "value": "application/vnd.ms-excel"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "83",
-                              "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                           },
                           {
                               "error_msg": "",
@@ -315,13 +287,13 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upto 15 Digits",
                       "resource_urls": [],
                       "label": "4",
-                      "shortKey": "audit#bal_sheet#assets",
-                      "viewSequence": "5",
+                      "shortKey": "audited.provisional_data.bal_sheet.assets",
+                      "viewSequence": "4",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -357,16 +329,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "7",
                       "answer_option": [],
                       "title": "Please enter total amount of Fixed Assets",
-                      "hint": "Upto 15 Digits",
+                      "hint": "Upto 15 Digits.",
                       "resource_urls": [],
                       "label": "5",
-                      "shortKey": "audit#bal_sheet#f_assets",
-                      "viewSequence": "6",
+                      "shortKey": "audited.provisional_data.bal_sheet.f_assets",
+                      "viewSequence": "5",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -405,13 +377,13 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upto 15 Digits",
                       "resource_urls": [],
                       "label": "6",
-                      "shortKey": "s_grant",
-                      "viewSequence": "7",
+                      "shortKey": "audited.provisional_data.bal_sheet.s_grant",
+                      "viewSequence": "6",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -450,13 +422,13 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upto 15 Digits",
                       "resource_urls": [],
                       "label": "7",
-                      "shortKey": "c_grant",
-                      "viewSequence": "8",
+                      "shortKey": "audited.provisional_data.bal_sheet.c_grant",
+                      "viewSequence": "7",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -491,17 +463,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63f5fc84709f2a73d90b2b7b",
                       "order": "10",
                       "answer_option": [],
-                      "title": "Balance Sheet Schedule",
-                      "hint": "Upload PDF",
+                      "title": "Please Upload Balance Sheet Schedule",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
                       "label": "8",
-                      "shortKey": "audit#bal_sheet_schedules",
-                      "viewSequence": "9",
+                      "shortKey": "audited.provisional_data.bal_sheet_schedules.pdf",
+                      "viewSequence": "8",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -545,8 +517,8 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
                       "label": "9",
-                      "shortKey": "audit#bal_sheet_schedules#excel",
-                      "viewSequence": "10",
+                      "shortKey": "audited.provisional_data.bal_sheet_schedules.excel",
+                      "viewSequence": "9",
                       "child": [],
                       "parent": [
                           {
@@ -568,17 +540,7 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "error_msg": "",
                               "_id": "83",
-                              "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "83",
                               "value": "application/vnd.ms-excel"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "83",
-                              "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                           },
                           {
                               "error_msg": "",
@@ -601,17 +563,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63f5fe35709f2a73d90b2c3a",
                       "order": "12",
                       "answer_option": [],
-                      "title": "Income Expenditure",
-                      "hint": "Upload PDF",
+                      "title": "Upload Income Expenditure",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
                       "label": "10",
-                      "shortKey": "inc_exp",
-                      "viewSequence": "11",
+                      "shortKey": "audited.provisional_data.inc_exp.pdf",
+                      "viewSequence": "10",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -652,11 +614,11 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "13",
                       "answer_option": [],
                       "title": "",
-                      "hint": "Upload Excel Sheet",
+                      "hint": "Upload Excel Sheet.",
                       "resource_urls": [],
                       "label": "11",
-                      "shortKey": "order13",
-                      "viewSequence": "12",
+                      "shortKey": "audited.provisional_data.inc_exp.excel",
+                      "viewSequence": "11",
                       "child": [],
                       "parent": [
                           {
@@ -712,16 +674,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "14",
                       "answer_option": [],
                       "title": "Please enter total amount of Revenue",
-                      "hint": "Upto 15 Digits",
+                      "hint": "Upto 15 Digits.",
                       "resource_urls": [],
                       "label": "12",
-                      "shortKey": "revenue",
-                      "viewSequence": "13",
+                      "shortKey": "audited.provisional_data.inc_exp.revenue",
+                      "viewSequence": "12",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -757,16 +719,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "15",
                       "answer_option": [],
                       "title": "Please enter total amount of Expenses",
-                      "hint": "Upto 15 Digits",
+                      "hint": "Upto 15 Digits.",
                       "resource_urls": [],
                       "label": "13",
-                      "shortKey": "expense",
-                      "viewSequence": "14",
+                      "shortKey": "audited.provisional_data.inc_exp.expense",
+                      "viewSequence": "13",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -801,17 +763,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63f605f6709f2a73d90b2e4a",
                       "order": "16",
                       "answer_option": [],
-                      "title": "Income Expenditure Schedule",
-                      "hint": "Upload PDF",
+                      "title": "Upload Income Expenditure Schedule",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
                       "label": "14",
-                      "shortKey": "inc_exp_schedules",
-                      "viewSequence": "15",
+                      "shortKey": "audited.provisional_data.inc_exp_schedules.pdf",
+                      "viewSequence": "14",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -852,11 +814,11 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "17",
                       "answer_option": [],
                       "title": "",
-                      "hint": "Upload Excel Sheet",
+                      "hint": "Upload Excel Sheet.",
                       "resource_urls": [],
                       "label": "15",
-                      "shortKey": "order17",
-                      "viewSequence": "16",
+                      "shortKey": "audited.provisional_data.inc_exp_schedules.excel",
+                      "viewSequence": "15",
                       "child": [],
                       "parent": [
                           {
@@ -911,17 +873,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63f60e20709f2a73d90b2f0a",
                       "order": "18",
                       "answer_option": [],
-                      "title": "Cash flow Statement",
-                      "hint": "Upload PDF",
+                      "title": "Upload Cash flow Statement",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
                       "label": "16",
-                      "shortKey": "cash_flow",
-                      "viewSequence": "17",
+                      "shortKey": "audited.provisional_data.cash_flow.pdf",
+                      "viewSequence": "16",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -933,12 +895,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -965,8 +927,8 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upload Excel File",
                       "resource_urls": [],
                       "label": "17",
-                      "shortKey": "order19",
-                      "viewSequence": "18",
+                      "shortKey": "audited.provisional_data.cash_flow.excel",
+                      "viewSequence": "17",
                       "child": [],
                       "parent": [
                           {
@@ -1040,19 +1002,24 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Single Select",
                       "resource_urls": [],
                       "label": "19",
-                      "shortKey": "auditStandAccount",
-                      "viewSequence": "20",
+                      "shortKey": "audited.submit_standardized_data",
+                      "viewSequence": "19",
                       "child": [
                           {
                               "type": "11",
                               "value": "^([1])$",
                               "order": "23"
+                          },
+                          {
+                              "type": "5",
+                              "value": "^([1])$",
+                              "order": "48"
                           }
                       ],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -1073,11 +1040,11 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "23",
                       "answer_option": [],
                       "title": "Please Upload EXCEL File",
-                      "hint": "Upload File",
+                      "hint": "Upload File.",
                       "resource_urls": [],
                       "label": "20",
-                      "shortKey": "standardized_data",
-                      "viewSequence": "21",
+                      "shortKey": "audited.standardized_data.excel",
+                      "viewSequence": "20",
                       "child": [],
                       "parent": [
                           {
@@ -1134,72 +1101,20 @@ export class AnnualAccountComponent implements OnInit {
                   },
                   {
                       "information": "",
-                      "_id": "63f61310f7f8a573d8731053",
-                      "order": "24",
-                      "answer_option": [
-                          {
-                              "name": "Agree",
-                              "did": [],
-                              "viewSequence": "1",
-                              "coordinates": [],
-                              "_id": "1"
-                          },
-                          {
-                              "name": "Disagree",
-                              "did": [],
-                              "viewSequence": "1",
-                              "coordinates": [],
-                              "_id": "2"
-                          }
-                      ],
-                      "title": "Self Declaration",
-                      "hint": "",
-                      "resource_urls": [
-                          {
-                              "download": true,
-                              "_id": "640033fb949838061af6ebab",
-                              "label": "",
-                              "url": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/consent_6d2be93f-bc7e-4c32-8491-765454613673.txt"
-                          }
-                      ],
-                      "label": "41",
-                      "shortKey": "undertaking",
-                      "viewSequence": "42",
-                      "child": [],
-                      "parent": [
-                          {
-                              "value": "^([1])$",
-                              "type": "5",
-                              "order": "27"
-                          },
-                          {
-                              "value": "^([1])$",
-                              "type": "5",
-                              "order": "45"
-                          }
-                      ],
-                      "validation": [],
-                      "restrictions": [],
-                      "input_type": "22",
-                      "editable": false,
-                      "weightage": []
-                  },
-                  {
-                      "information": "",
                       "_id": "63fde2ba949838061af5e590",
                       "order": "26",
                       "answer_option": [],
                       "title": "Auditors Report",
-                      "hint": "Upload PDF",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
                       "label": "18",
-                      "shortKey": "auditor_report",
-                      "viewSequence": "19",
+                      "shortKey": "audited.provisional_data.auditor_report.pdf",
+                      "viewSequence": "18",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "2"
                           }
                       ],
@@ -1211,12 +1126,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -1255,86 +1170,46 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "title": "(A) Do you wish to submit Provisional Accounts for 2022-23?",
-                      "hint": "Single Select",
+                      "hint": "Single Select.",
                       "resource_urls": [],
-                      "label": "21",
-                      "shortKey": "unauditUnstandAccount",
+                      "label": "22",
+                      "shortKey": "unAudited.submit_annual_accounts",
                       "viewSequence": "22",
                       "child": [
                           {
-                              "value": "^([1])$",
-                              "order": "28",
-                              "type": 11
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "30",
-                              "type": 2
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "31",
-                              "type": 2
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "32",
-                              "type": 2
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "33",
-                              "type": 2
-                          },
-                          {
                               "type": "11",
                               "value": "^([1])$",
-                              "order": "34"
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "36",
-                              "type": 11
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "38",
-                              "type": 2
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "39",
-                              "type": 2
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "40",
-                              "type": 11
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "42",
-                              "type": 11
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "44",
-                              "type": 11
-                          },
-                          {
-                              "value": "^([1])$",
-                              "order": "45",
-                              "type": 5
-                          },
-                          {
-                              "type": "22",
-                              "value": "^([1])$",
-                              "order": "24"
+                              "order": "28"
                           },
                           {
                               "type": "11",
                               "value": "^([1])$",
                               "order": "29"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "30"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "31"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "32"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "33"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
+                              "order": "34"
                           },
                           {
                               "type": "11",
@@ -1344,7 +1219,27 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "type": "11",
                               "value": "^([1])$",
+                              "order": "36"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
                               "order": "37"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "38"
+                          },
+                          {
+                              "type": "2",
+                              "value": "^([1])$",
+                              "order": "39"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
+                              "order": "40"
                           },
                           {
                               "type": "11",
@@ -1354,12 +1249,27 @@ export class AnnualAccountComponent implements OnInit {
                           {
                               "type": "11",
                               "value": "^([1])$",
+                              "order": "42"
+                          },
+                          {
+                              "type": "11",
+                              "value": "^([1])$",
                               "order": "43"
+                          },
+                          {
+                              "type": "5",
+                              "value": "^([1])$",
+                              "order": "45"
                           },
                           {
                               "type": "11",
                               "value": "^([1])$",
                               "order": "47"
+                          },
+                          {
+                              "type": "5",
+                              "value": "^([1])$",
+                              "order": "49"
                           }
                       ],
                       "parent": [],
@@ -1380,16 +1290,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "28",
                       "answer_option": [],
                       "title": "Balance Sheet",
-                      "hint": "Upload PDF",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
-                      "label": "22",
-                      "shortKey": "order28",
+                      "label": "23",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.pdf",
                       "viewSequence": "23",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1401,12 +1311,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -1430,10 +1340,10 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "29",
                       "answer_option": [],
                       "title": "",
-                      "hint": "Upload Excel Sheet",
+                      "hint": "Upload Excel Sheet.",
                       "resource_urls": [],
-                      "label": "23",
-                      "shortKey": "order29",
+                      "label": "24",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.excel",
                       "viewSequence": "24",
                       "child": [],
                       "parent": [
@@ -1490,16 +1400,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "30",
                       "answer_option": [],
                       "title": "Please enter total amount of Assets",
-                      "hint": "Numeric Upto 15 digits",
+                      "hint": "Numeric Upto 15 digits.",
                       "resource_urls": [],
-                      "label": "24",
-                      "shortKey": "order30",
+                      "label": "25",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.assets",
                       "viewSequence": "25",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1519,11 +1429,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1535,16 +1445,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "31",
                       "answer_option": [],
                       "title": "Please enter total amount of Fixed Assets",
-                      "hint": "Numeric Upto 15 digits",
+                      "hint": "Numeric Upto 15 digits.",
                       "resource_urls": [],
-                      "label": "25",
-                      "shortKey": "order31",
+                      "label": "26",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.f_assets",
                       "viewSequence": "26",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1564,11 +1474,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1580,16 +1490,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "32",
                       "answer_option": [],
                       "title": "Please enter total amount of State Grants received",
-                      "hint": "Numeric Upto 15 digits",
+                      "hint": "Numeric Upto 15 digits.",
                       "resource_urls": [],
-                      "label": "26",
-                      "shortKey": "order32",
+                      "label": "27",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.s_grant",
                       "viewSequence": "27",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1609,11 +1519,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1625,16 +1535,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "33",
                       "answer_option": [],
                       "title": "Please enter total amount of Central Grants received",
-                      "hint": "Numeric Upto 15 digits",
+                      "hint": "Numeric Upto 15 digits.",
                       "resource_urls": [],
-                      "label": "27",
-                      "shortKey": "order33",
+                      "label": "28",
+                      "shortKey": "unAudited.provisional_data.bal_sheet.c_grant",
                       "viewSequence": "28",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1654,11 +1564,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1670,16 +1580,16 @@ export class AnnualAccountComponent implements OnInit {
                       "order": "34",
                       "answer_option": [],
                       "title": "Balance Sheet Schedule",
-                      "hint": "Upload PDF",
+                      "hint": "Upload PDF.",
                       "resource_urls": [],
-                      "label": "28",
-                      "shortKey": "order34",
+                      "label": "29",
+                      "shortKey": "unAudited.provisional_data.bal_sheet_schedules.pdf",
                       "viewSequence": "29",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1719,11 +1629,11 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff2e50894068061927a35f",
                       "order": "35",
                       "answer_option": [],
-                      "title": "Balance Sheet Schedule",
+                      "title": "",
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
-                      "label": "29",
-                      "shortKey": "order35",
+                      "label": "30",
+                      "shortKey": "unAudited.provisional_data.bal_sheet_schedules.excel",
                       "viewSequence": "30",
                       "child": [],
                       "parent": [
@@ -1779,17 +1689,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff300d949838061af688d3",
                       "order": "36",
                       "answer_option": [],
-                      "title": "Income Expenditure ",
+                      "title": "Income Expenditure",
                       "hint": "Upload PDF",
                       "resource_urls": [],
-                      "label": "30",
-                      "shortKey": "order36",
+                      "label": "31",
+                      "shortKey": "unAudited.provisional_data.inc_exp.pdf",
                       "viewSequence": "31",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1801,12 +1711,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -1832,8 +1742,8 @@ export class AnnualAccountComponent implements OnInit {
                       "title": "",
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
-                      "label": "31",
-                      "shortKey": "order37",
+                      "label": "32",
+                      "shortKey": "unAudited.provisional_data.inc_exp.excel",
                       "viewSequence": "32",
                       "child": [],
                       "parent": [
@@ -1892,14 +1802,14 @@ export class AnnualAccountComponent implements OnInit {
                       "title": "Please enter total amount of Revenue",
                       "hint": "Numeric Upto 15digits",
                       "resource_urls": [],
-                      "label": "32",
-                      "shortKey": "order38",
+                      "label": "33",
+                      "shortKey": "unAudited.provisional_data.inc_exp.revenue",
                       "viewSequence": "33",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1919,11 +1829,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1937,14 +1847,14 @@ export class AnnualAccountComponent implements OnInit {
                       "title": "Please enter total amount of Expenses",
                       "hint": "Numeric Upto 15 digits",
                       "resource_urls": [],
-                      "label": "33",
-                      "shortKey": "order39",
+                      "label": "34",
+                      "shortKey": "unAudited.provisional_data.inc_exp.expense",
                       "viewSequence": "34",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -1964,11 +1874,11 @@ export class AnnualAccountComponent implements OnInit {
                           }
                       ],
                       "restrictions": [],
-                      "minRange": 0,
-                      "maxRange": 15,
+                      "minRange": 1,
+                      "maxRange": 999999999999999,
                       "min": 1,
-                      "max": 5,
-                      "pattern": "^((?:^((?:[0-9]|1[0-4]))(?:\\.\\d{1,3})?|15))$",
+                      "max": 18,
+                      "pattern": "^((?:^((?:[1-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
                       "input_type": "2",
                       "weightage": [],
                       "valueHolder": "",
@@ -1979,17 +1889,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff35eb949838061af6951e",
                       "order": "40",
                       "answer_option": [],
-                      "title": "Please Upload Income Expenditure Schedule",
+                      "title": "Income Expenditure Schedule",
                       "hint": "Upload PDF",
                       "resource_urls": [],
-                      "label": "34",
-                      "shortKey": "order40",
+                      "label": "35",
+                      "shortKey": "unAudited.provisional_data.inc_exp_schedules.pdf",
                       "viewSequence": "35",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -2001,12 +1911,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -2029,11 +1939,11 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff3653949838061af69578",
                       "order": "41",
                       "answer_option": [],
-                      "title": "",
+                      "title": "Income Expenditure Schedule",
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
-                      "label": "35",
-                      "shortKey": "order41",
+                      "label": "36",
+                      "shortKey": "unAudited.provisional_data.inc_exp_schedules.excel",
                       "viewSequence": "36",
                       "child": [],
                       "parent": [
@@ -2089,17 +1999,17 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff3f94949838061af6a694",
                       "order": "42",
                       "answer_option": [],
-                      "title": "Cash flow Statement",
+                      "title": "Please Upload Cash flow Statement",
                       "hint": "Upload PDF",
                       "resource_urls": [],
-                      "label": "36",
-                      "shortKey": "order42",
+                      "label": "37",
+                      "shortKey": "unAudited.provisional_data.cash_flow.pdf",
                       "viewSequence": "37",
                       "child": [],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -2111,12 +2021,12 @@ export class AnnualAccountComponent implements OnInit {
                       "validation": [
                           {
                               "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
+                              "_id": "1"
                           },
                           {
                               "error_msg": "",
-                              "_id": "1"
+                              "_id": "83",
+                              "value": "application/pdf"
                           },
                           {
                               "error_msg": "",
@@ -2139,11 +2049,11 @@ export class AnnualAccountComponent implements OnInit {
                       "_id": "63ff4018949838061af6a734",
                       "order": "43",
                       "answer_option": [],
-                      "title": "Cash flow Statement",
+                      "title": "Please Upload Cash flow Statement",
                       "hint": "Upload Excel Sheet",
                       "resource_urls": [],
-                      "label": "37",
-                      "shortKey": "order43",
+                      "label": "38",
+                      "shortKey": "unAudited.provisional_data.cash_flow.excel",
                       "viewSequence": "38",
                       "child": [],
                       "parent": [
@@ -2196,56 +2106,6 @@ export class AnnualAccountComponent implements OnInit {
                   },
                   {
                       "information": "",
-                      "_id": "63ff4126949838061af6a7d3",
-                      "order": "44",
-                      "answer_option": [],
-                      "title": "Auditors Report",
-                      "hint": "Upload PDF",
-                      "resource_urls": [],
-                      "label": "38",
-                      "shortKey": "order44",
-                      "viewSequence": "39",
-                      "child": [],
-                      "parent": [
-                          {
-                              "type": "5",
-                              "value": "^([1])$",
-                              "order": "27"
-                          }
-                      ],
-                      "min": null,
-                      "max": null,
-                      "minRange": null,
-                      "maxRange": null,
-                      "pattern": "",
-                      "validation": [
-                          {
-                              "error_msg": "",
-                              "_id": "83",
-                              "value": "application/pdf"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "1"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "81",
-                              "value": "20480"
-                          },
-                          {
-                              "error_msg": "",
-                              "_id": "82",
-                              "value": "1"
-                          }
-                      ],
-                      "restrictions": [],
-                      "input_type": "11",
-                      "editable": false,
-                      "weightage": []
-                  },
-                  {
-                      "information": "",
                       "_id": "63ff4222949838061af6a869",
                       "order": "45",
                       "answer_option": [
@@ -2268,24 +2128,24 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Single Select",
                       "resource_urls": [],
                       "label": "39",
-                      "shortKey": "order45",
-                      "viewSequence": "40",
+                      "shortKey": "unAudited.submit_standardized_data",
+                      "viewSequence": "39",
                       "child": [
-                          {
-                              "type": "22",
-                              "value": "^([1])$",
-                              "order": "24"
-                          },
                           {
                               "type": "11",
                               "value": "^([1])$",
                               "order": "47"
+                          },
+                          {
+                              "type": "5",
+                              "value": "^([1])$",
+                              "order": "49"
                           }
                       ],
                       "parent": [
                           {
-                              "type": "5",
                               "value": "^([1])$",
+                              "type": "5",
                               "order": "27"
                           }
                       ],
@@ -2309,8 +2169,8 @@ export class AnnualAccountComponent implements OnInit {
                       "hint": "Upload File",
                       "resource_urls": [],
                       "label": "40",
-                      "shortKey": "order47",
-                      "viewSequence": "41",
+                      "shortKey": "unAudited.standardized_data.excel",
+                      "viewSequence": "40",
                       "child": [],
                       "parent": [
                           {
@@ -2364,6 +2224,92 @@ export class AnnualAccountComponent implements OnInit {
                       "input_type": "11",
                       "editable": false,
                       "weightage": []
+                  },
+                  {
+                      "information": "",
+                      "_id": "6414143138d5190d4dccf21e",
+                      "order": "48",
+                      "answer_option": [
+                          {
+                              "name": "Agree",
+                              "did": [],
+                              "viewSequence": "1",
+                              "coordinates": [],
+                              "_id": "1"
+                          }
+                      ],
+                      "title": "\"Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It is confirmed that this information can be made available for public consumption on the CityFinance portal.\"",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "21",
+                      "shortKey": "audited.standardized_data.declaration",
+                      "viewSequence": "21",
+                      "child": [],
+                      "parent": [
+                          {
+                              "value": "^([1])$",
+                              "type": "5",
+                              "order": "2"
+                          },
+                          {
+                              "value": "^([1])$",
+                              "type": "5",
+                              "order": "21"
+                          }
+                      ],
+                      "validation": [
+                          {
+                              "error_msg": "",
+                              "_id": "1"
+                          }
+                      ],
+                      "restrictions": [],
+                      "input_type": "5",
+                      "weightage": [],
+                      "editable": false
+                  },
+                  {
+                      "information": "",
+                      "_id": "6414187838d5190d4dccf77d",
+                      "order": "49",
+                      "answer_option": [
+                          {
+                              "name": "Agree",
+                              "did": [],
+                              "viewSequence": "1",
+                              "coordinates": [],
+                              "_id": "1"
+                          }
+                      ],
+                      "title": "\"Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It is confirmed that this information can be made available for public consumption on the CityFinance portal.\"",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "41",
+                      "shortKey": "unAudited.standardized_data.declaration",
+                      "viewSequence": "41",
+                      "child": [],
+                      "parent": [
+                          {
+                              "value": "^([1])$",
+                              "type": "5",
+                              "order": "27"
+                          },
+                          {
+                              "value": "^([1])$",
+                              "type": "5",
+                              "order": "45"
+                          }
+                      ],
+                      "validation": [
+                          {
+                              "error_msg": "",
+                              "_id": "1"
+                          }
+                      ],
+                      "restrictions": [],
+                      "input_type": "5",
+                      "weightage": [],
+                      "editable": false
                   }
               ],
               "title": "Annual Accounts",
@@ -2386,6 +2332,7 @@ export class AnnualAccountComponent implements OnInit {
   }
   this.isApiComplete = true;
    this.onload();
+   this.fileFolderName = "Shared/fiscalRankings/landingPage"
   }
   onload(){
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res)=>{

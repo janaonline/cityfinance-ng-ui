@@ -4,7 +4,7 @@
   <!-- <app-web-form [viewTem]="formName" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
   [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"></app-web-form> -->
   <app-cf-annual-account [viewTem]="'odf'" [questionresponse]="questionResponse"
- (submitQuestion)="resData($event)" [s3FolderName]="'testingAcc'"></app-cf-annual-account>
+ (submitQuestion)="resData($event)" [s3FolderName]="fileFolderName"></app-cf-annual-account>
 </div>
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
