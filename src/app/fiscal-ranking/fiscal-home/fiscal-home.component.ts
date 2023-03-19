@@ -3,6 +3,7 @@ import { FiscalRankingService } from '../fiscal-ranking.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DownloadPopupComponent } from '../download-popup/download-popup.component';
+import { AuthService } from "src/app/auth/auth.service";
 declare var $: any;
 @Component({
   selector: 'app-fiscal-home',
@@ -15,11 +16,11 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     private fiscal: FiscalRankingService,
     private _router: Router,
     private dialog: MatDialog,
-    private renderer: Renderer2) {
-    // this.fiscal.getHeroes().subscribe((data:any)=>{
-    //   this.result = data
-    //   console.log("this myu data======>",this.result)
-    // })
+    private renderer: Renderer2,
+    private authService: AuthService) {
+      this._router.events.subscribe((event) => {
+        this.isLoggedIn = this.authService.loggedIn();
+      });
   }
   public objresult = [];
   public assresult = [];
@@ -27,13 +28,11 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   public rankresult = [];
   public iconresult = [];
 
-
-
   @ViewChild('highlightContainer', { static: false }) private highlightContainer: ElementRef<HTMLDivElement>;
   isHighlightContainerScrolledIntoView: boolean;
   highlightNo: number = 0;
   interval: any;
-
+  isLoggedIn:boolean = false;
   @HostListener('window:scroll', ['$event'])
   isScrolledIntoView() {
     if (this.highlightContainer) {
@@ -65,30 +64,24 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   fqCardData= [
     {
       image : "../../../assets/M FIGMA/newDraft.png",
-      title: "Draft Guidelines",
-      text:`“These are draft guidelines. Please share feedback, if any, before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      // url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Draft%20Guidelines.pdf`,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf`,
+      title: "Final Guidelines",
+      // text:`“These are draft guidelines. Please share feedback, if any,
+      // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
+      text: `These are final guidelines. Please <a class="mailId" href='https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf' target='_blank'> click here </a> to open the Draft guidelines.`,
+     // url:`https://democityfinance.s3.ap-south-1.amazonaws.com/Shared/fiscalRankings/landingPage/CFR_Final_guideline_02aa242b-64c3-4d17-aec3-7b1ef466c52f.pdf`,
+     url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
       key: 'draftGuidelines'
      },
-    //  {
-    //   image : "../../../assets/M FIGMA/faqIcon.png",
-    //   title: "FAQ",
-    //   text: "",
-    //   url: `https://democityfinance.s3.ap-south-1.amazonaws.com/City%20Finance%20Rankings%202022_FAQs_ee0abc57-8114-4fa2-9d58-b444adf6bf64.pdf`,
-    //   isModal: false,
-    //   icon_down: '',
-    //   section: 'download_file',
-    //   key: 'faq'
-    //  },
      {
       image : "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
-      url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
+      // url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
+      //url:`https://democityfinance.s3.ap-south-1.amazonaws.com/Shared/fiscalRankings/landingPage/CFR_brochure_f6f603bd-b57b-487d-b8ca-88f1a25edc53.pdf`,
+      url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_brochure_d49ffe27-951b-41d1-8153-e54f88655d54.pdf`,
       isModal: false,
       icon_down: '',
       section: 'download_file',
@@ -98,7 +91,8 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       image : "../../../assets/M FIGMA/dvr_black_24dp.svg",
       title: "Know more",
       text: "",
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
+      // url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
+      url: `https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go%20Live_54e39bb4-5729-4db0-b4d4-28931d21966e.mp4`,
       isModal: true,
       icon_down: '',
       section: 'play_video',

@@ -64,6 +64,13 @@ $value in $text-sizes {
         padding-right: $spacer*.5;
     }
 }
+.btn-l-fc {
+  background: #ddd5d5 !important;
+  color: #000 !important;
+  border-color: transparent !important;
+ box-shadow: none !important;
+
+}
 
 .btn-login-icon {
     background: $secondary;
@@ -178,4 +185,7 @@ a.disabled {
 
 .cityLogo {
     margin-top: 10%;
+}
+.navbar-nav {
+  align-items: baseline;
 }
