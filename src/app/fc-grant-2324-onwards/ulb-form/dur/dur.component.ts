@@ -2852,6 +2852,7 @@ export class DurComponent implements OnInit {
     // const general = data?.question?.find(question => question.shortKey == "general");
     const waterManagement = data?.question?.find(question => question.shortKey == "waterManagement_tableView");
     const solidWasteManagement = data?.question?.find(question => question.shortKey == "solidWasteManagement_tableView");
+    const projectDetails = data?.question?.find(question => question.shortKey == "projectDetails_tableView_addButton");
 
     const grantPosition = (tiedGrant.childQuestionData[0] as any[]).reduce((result, child) => {
       result[child.shortKey] = child.value;
@@ -2877,6 +2878,19 @@ export class DurComponent implements OnInit {
       }
     });
 
+    const projects = (projectDetails.childQuestionData as any[]).map(child => {
+      return {
+        name: child?.[0]?.value,
+        categoryName: child?.[1]?.value,
+        location: {
+          lat: '104',
+          long: '20.23'
+        },
+        cost: 20,
+        expenditure: 4
+      }
+    });
+
     console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
     let formdata = {
@@ -2890,18 +2904,7 @@ export class DurComponent implements OnInit {
       designation: 'designation',
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects: [
-        {
-          name: 'first',
-          categoryName: 'category',
-          location: {
-            lat: '104',
-            long: '20.23'
-          },
-          cost: 20,
-          expenditure: 4
-        }
-      ]
+      projects
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: formdata,
