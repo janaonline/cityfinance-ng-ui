@@ -2219,7 +2219,17 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       this.setParentValueOnNestedChildQuestion(question, questionIndex);
     }
     this.evaluateEquation(question);
-    this.bodmasValidations();
+    if ((question.order.includes('.') && question?.forParentValue)) {
+      let nestedQuestionParentOrder: any = question?.order.split('.');
+      if (nestedQuestionParentOrder) {
+        let parentQuestion = this.questionData.find((parentOrder: { order: any; }) => parentOrder.order == nestedQuestionParentOrder[0]);
+        if (parentQuestion) {
+          this.bodmasValidations(true, parentQuestion.childQuestionData[question?.forParentValue - 1])
+        }
+      }
+    } else {
+      this.bodmasValidations();
+    }
     this.bodmasRestrictions(question);
     console.log('questionData here', this.questionData);
   }
@@ -2880,15 +2890,18 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  bodmasValidations(selectedQues: any = {}) {
-    console.log('bodmasValidations called', selectedQues)
-    const bodmasQuestionList = this.questionData.filter((item: any) => item?.validation.some((item: any) => item._id == VALIDATION.EQUATION))
-    console.log('bodmasQuestionList', bodmasQuestionList)
+  bodmasValidations(isNestedData: boolean = false, childQuestionData: any = []) {
+    console.log('bodmasValidations called', childQuestionData)
+    let bodmasQuestionList: any = [];
+    let allQuestionData: any = [];
+    allQuestionData = isNestedData ? childQuestionData : this.questionData;
+    bodmasQuestionList = allQuestionData.filter((item: any) => item?.validation.some((item: { _id: any; }) => item._id == VALIDATION.EQUATION));
+    console.log('bodmasQuestionList', bodmasQuestionList);
     if (bodmasQuestionList?.length) {
       for (const item of bodmasQuestionList) {
         let equationValidationData = JSON.parse(JSON.stringify(item.validation.find((valid: any) => valid._id == VALIDATION.EQUATION)));
         console.log('equationValidationData', equationValidationData);
-        let orders = this.questionData.filter((question: any) => equationValidationData?.value.match(new RegExp(`\\b${question.shortKey}\\b`)));
+        let orders = allQuestionData.filter((question: any) => equationValidationData?.value.match(new RegExp(`\\b${question.shortKey}\\b`)));
         console.log('orders', orders);
         orders.forEach((order: any) => {
           const questionValue = this.getQuestionValueForBodmas(order);
