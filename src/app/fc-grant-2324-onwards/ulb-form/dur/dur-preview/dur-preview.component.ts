@@ -1,6 +1,9 @@
 import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
+import { defaultDailogConfiuration } from 'src/app/pages/questionnaires/ulb/configs/common.config';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UserUtility } from 'src/app/util/user/user';
 
 @Component({
@@ -16,6 +19,8 @@ export class DurPreviewComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private _matDialog: MatDialog,
+    private _questionnaireService: QuestionnaireService,
   ) { }
 
   styleForPDF = `<style>
@@ -173,8 +178,84 @@ tr {
   userData = JSON.parse(localStorage.getItem("userData"));
   state;
   ulb;
+  dialogRef;
 
   ngOnInit(): void {
+
+    if (this.userDetails.role == USER_TYPE.ULB) {
+      this.state = this.userData.stateName;
+      this.ulb = this.userData.name;
+    } else {
+      this.state = sessionStorage.getItem("stateName");
+      this.ulb = sessionStorage.getItem("ulbName");
+    }
+
   }
 
+  downloadForm() {
+    const elementToAddPDFInString = this._html.nativeElement.outerHTML;
+    const html = this.styleForPDF + elementToAddPDFInString;
+    this.showLoader = true;
+
+    this._questionnaireService.downloadPDF({ html }).subscribe(
+      (res) => {
+        console.log("vishu", res);
+        this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
+        this.showLoader = false;
+      },
+      (err) => {
+        this.showLoader = false;
+        this.onGettingError(
+          ' "Failed to download PDF. Please try after sometime."'
+        );
+      }
+    );
+  }
+
+
+  clickedDownloadAsPDF(template) {
+    // this.downloadForm();
+    let canNavigate = sessionStorage.getItem("changeInUti");
+    if (canNavigate == "true") {
+      this.openDialog(template);
+      return;
+    } else {
+      this.downloadForm();
+    }
+  }
+
+
+  private onGettingError(message: string) {
+    const option = { ...defaultDailogConfiuration };
+    option.buttons.cancel.text = "OK";
+    option.message = message;
+    this.showLoader = false;
+    this._matDialog.open(DialogComponent, { data: option });
+  }
+  private downloadFile(blob: any, type: string, filename: string): string {
+    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
+
+    // create hidden dom element (so it works in all browsers)
+    const a = document.createElement("a");
+    a.setAttribute("style", "display:none;");
+    document.body.appendChild(a);
+
+    // create file, attach to hidden element and open hidden element
+    a.href = url;
+    a.download = filename;
+    a.click();
+    return url;
+  }
+
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+  }
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
+  }
 }

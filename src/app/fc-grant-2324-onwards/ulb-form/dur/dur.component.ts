@@ -2831,6 +2831,54 @@ export class DurComponent implements OnInit {
       // ulb: this.userData?.ulb,
       // ...this.utilizationReportForm?.value,
       // categories: this.categories,
+      grantPosition: {
+        unUtilizedPrevYr: 10,
+        receivedDuringYr: 10,
+        expDuringYr: 10,
+        closingBal: 10
+      },
+      name: 'nisahnt',
+      designation: 'designation',
+      categoryWiseData_wm: [
+        {
+          category_name: 'First wm',
+          grantUtilised: '23',
+          numberOfProjects: 30,
+          totalProjectCost: 40
+        },
+        {
+          category_name: 'second wm',
+          grantUtilised: '40',
+          numberOfProjects: 30,
+          totalProjectCost: 40
+        },
+      ],
+      categoryWiseData_swm: [
+        {
+          category_name: 'First swm',
+          grantUtilised: '23',
+          numberOfProjects: 30,
+          totalProjectCost: 40
+        },
+        {
+          category_name: 'second solid waste',
+          grantUtilised: '40',
+          numberOfProjects: 30,
+          totalProjectCost: 40
+        },
+      ],
+      projects: [
+        {
+          name: 'first',
+          categoryName: 'category',
+          location: {
+            lat: '104',
+            long: '20.23'
+          },
+          cost: 20,
+          expenditure: 4
+        }
+      ]
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: formdata,
