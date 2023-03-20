@@ -144,7 +144,7 @@ export class FiscalLoginComponent implements OnInit {
     console.log('login form....', this.loginForm);
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value };
+      const body = { ...this.loginForm.value, type:'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
@@ -388,6 +388,7 @@ export class FiscalLoginComponent implements OnInit {
   tabChanged(item) {
     console.log('login form', this.loginForm);
     this.loginForm.reset();
+    this.loginForm
     console.log('item', item);
     this.loginTabs.forEach((el) => {
       el.selected = false;
