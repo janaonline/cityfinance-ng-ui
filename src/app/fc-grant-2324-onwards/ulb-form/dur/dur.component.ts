@@ -33,6 +33,13 @@ export class DurComponent implements OnInit {
                     "_id": "1"
                   }
                 ],
+                "modelValue": "1",
+                "selectedValue": [{
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1",
+                }],
+                "value": "1",
                 'childQuestionData': [
                   [
                     {
@@ -206,19 +213,19 @@ export class DurComponent implements OnInit {
                 "order": "2",
                 "answer_option": [
                   {
-                    "name": "1",
-                    "did": [],
-                    "viewSequence": "1",
-                    "_id": "1"
-                  },
-                  {
                     "name": "2",
                     "did": [],
                     "viewSequence": "2",
                     "_id": "2"
                   }
                 ],
-
+                "modelValue": "2",
+                "selectedValue": [{
+                  "label": "2",
+                  "textValue": "",
+                  "value": "2",
+                }],
+                "value": "2",
                 'childQuestionData': [
                   [
                     {
@@ -567,18 +574,20 @@ export class DurComponent implements OnInit {
                 "order": "4",
                 "answer_option": [
                   {
-                    "name": "1",
-                    "did": [],
-                    "viewSequence": "1",
-                    "_id": "1"
-                  },
-                  {
                     "name": "4",
                     "did": [],
                     "viewSequence": "2",
                     "_id": "4"
                   }
                 ],
+
+                "modelValue": "4",
+                "selectedValue": [{
+                  "label": "4",
+                  "textValue": "",
+                  "value": "4",
+                }],
+                "value": "4",
                 "title": "Water Management (WM)",
                 'childQuestionData': [
                   [
@@ -1386,18 +1395,19 @@ export class DurComponent implements OnInit {
                 "order": "5",
                 "answer_option": [
                   {
-                    "name": "1",
-                    "did": [],
-                    "viewSequence": "1",
-                    "_id": "1"
-                  },
-                  {
                     "name": "2",
                     "did": [],
                     "viewSequence": "2",
                     "_id": "2"
                   }
                 ],
+                "modelValue": "2",
+                "selectedValue": [{
+                  "label": "2",
+                  "textValue": "",
+                  "value": "2",
+                }],
+                "value": "2",
                 'childQuestionData': [
                   [
                     {
@@ -1895,6 +1905,13 @@ export class DurComponent implements OnInit {
                     "_id": "1"
                   }
                 ],
+                "modelValue": "1",
+                "selectedValue": [{
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1",
+                }],
+                "value": "1",
                 'childQuestionData': [
                   [
                     {
@@ -2606,6 +2623,13 @@ export class DurComponent implements OnInit {
                     "_id": "2"
                   }
                 ],
+                "modelValue": "1",
+                "selectedValue": [{
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1",
+                }],
+                "value": "1",
                 childQuestionData: [
                   [
                     {
@@ -2825,6 +2849,7 @@ export class DurComponent implements OnInit {
     console.log(data);
 
     const tiedGrant = data?.question?.find(question => question.shortKey == "tiedGrant");
+    // const general = data?.question?.find(question => question.shortKey == "general");
     const waterManagement = data?.question?.find(question => question.shortKey == "waterManagement_tableView");
     const solidWasteManagement = data?.question?.find(question => question.shortKey == "solidWasteManagement_tableView");
 
