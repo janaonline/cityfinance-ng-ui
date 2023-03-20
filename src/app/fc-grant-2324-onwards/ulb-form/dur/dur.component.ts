@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 
 @Component({
   selector: 'app-dur',
@@ -2807,12 +2809,40 @@ export class DurComponent implements OnInit {
     ],
   }
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
   }
 
   onSubmitQuestion(data) {
     console.log(data)
+  }
+
+
+  onPreview(data) {
+    let formdata = {
+      status: "",
+      isDraft: true,
+      financialYear: "606aaf854dff55e6c075d219",
+      designYear: "606aafb14dff55e6c075d3ae",
+      grantType: "Tied",
+      // ulb: this.userData?.ulb,
+      // ...this.utilizationReportForm?.value,
+      // categories: this.categories,
+    };
+    const dialogRef = this.dialog.open(DurPreviewComponent, {
+      data: formdata,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
   }
 }
