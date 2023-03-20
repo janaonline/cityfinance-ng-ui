@@ -16,7 +16,7 @@
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <ng-container *ngFor="let menuItem of leftMenu | keyvalue">
+                <ng-container *ngFor="let menuItem of leftMenu | keyvalue : returnPostion">
                     <li class="out-f-h px-3 py-2 collapsable" *ngIf="(menuItem?.key?.split('_'))[0]">
                         <mat-icon class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
