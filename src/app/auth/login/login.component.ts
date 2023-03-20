@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value };
+      const body = { ...this.loginForm.value, type:'15thFC'};
       body["email"] = body["email"].trim();
       this.loginForm.disable();
 
