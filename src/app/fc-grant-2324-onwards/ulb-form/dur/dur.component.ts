@@ -347,7 +347,7 @@ export class DurComponent implements OnInit {
                       "hint": "",
                       "resource_urls": [],
                       "label": "",
-                      "shortKey": "order2_004",
+                      "shortKey": "closingBal",
                       "viewSequence": "8",
                       "child": [],
                       "parent": [],
@@ -2822,51 +2822,49 @@ export class DurComponent implements OnInit {
 
 
   onPreview(data) {
+    console.log(data);
+
+    const tiedGrant = data?.question?.find(question => question.shortKey == "tiedGrant");
+    const waterManagement = data?.question?.find(question => question.shortKey == "waterManagement_tableView");
+    const solidWasteManagement = data?.question?.find(question => question.shortKey == "solidWasteManagement_tableView");
+
+    const grantPosition = (tiedGrant.childQuestionData[0] as any[]).reduce((result, child) => {
+      result[child.shortKey] = child.value;
+      return result;
+    }, {});
+
+
+    const categoryWiseData_wm = (waterManagement.childQuestionData as any[]).map(child => {
+      return {
+        category_name: child?.[0]?.value,
+        grantUtilised: child?.[1]?.value,
+        numberOfProjects: child?.[2]?.value,
+        totalProjectCost: child?.[3]?.value,
+      }
+    });
+
+    const categoryWiseData_swm = (solidWasteManagement.childQuestionData as any[]).map(child => {
+      return {
+        category_name: child?.[0]?.value,
+        grantUtilised: child?.[1]?.value,
+        numberOfProjects: child?.[2]?.value,
+        totalProjectCost: child?.[3]?.value,
+      }
+    });
+
+    console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
+
     let formdata = {
       status: "",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
       grantType: "Tied",
-      // ulb: this.userData?.ulb,
-      // ...this.utilizationReportForm?.value,
-      // categories: this.categories,
-      grantPosition: {
-        unUtilizedPrevYr: 10,
-        receivedDuringYr: 10,
-        expDuringYr: 10,
-        closingBal: 10
-      },
+      grantPosition,
       name: 'nisahnt',
       designation: 'designation',
-      categoryWiseData_wm: [
-        {
-          category_name: 'First wm',
-          grantUtilised: '23',
-          numberOfProjects: 30,
-          totalProjectCost: 40
-        },
-        {
-          category_name: 'second wm',
-          grantUtilised: '40',
-          numberOfProjects: 30,
-          totalProjectCost: 40
-        },
-      ],
-      categoryWiseData_swm: [
-        {
-          category_name: 'First swm',
-          grantUtilised: '23',
-          numberOfProjects: 30,
-          totalProjectCost: 40
-        },
-        {
-          category_name: 'second solid waste',
-          grantUtilised: '40',
-          numberOfProjects: 30,
-          totalProjectCost: 40
-        },
-      ],
+      categoryWiseData_wm,
+      categoryWiseData_swm,
       projects: [
         {
           name: 'first',

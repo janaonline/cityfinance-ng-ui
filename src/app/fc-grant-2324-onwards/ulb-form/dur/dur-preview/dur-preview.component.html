@@ -57,7 +57,7 @@
                     <tr>
                         <th class="f-table" scope="row">1.</th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Unutilisated tied grant from previous installment</td>
-                        <td class="f-table">{{data.grantPosition.unUtilizedPrevYr}}</td>
+                        <td class="f-table">{{data.grantPosition.unutilised}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -67,9 +67,8 @@
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">15
                             <sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [ 1
                             <sup>st</sup> & 2<sup>nd</sup> installment taken together ]
-
                         </td>
-                        <td class="f-table">{{data.grantPosition.receivedDuringYr}}</td>
+                        <td class="f-table">{{data.grantPosition.grantRecieved}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -77,7 +76,7 @@
                     <tr>
                         <th class="f-table" scope="row">3.</th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
-                        <td class="f-table">{{data.grantPosition.expDuringYr}}</td>
+                        <td class="f-table">{{data.grantPosition.expenditure}}</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -103,9 +102,9 @@
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)
                         </td>
                         <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
-                         data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+                         data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
 
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>
@@ -155,9 +154,9 @@
                     <tr>
                         <th scope="row" class="f-table"></th>
                         <!-- (((data?.analytics[0]?.amount +
-                          data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+                          data?.analytics[4]?.amount)/data.grantPosition.expenditure)*100).toFixed(2) -->
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
+                        <td class="f-table" colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expenditure)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td class="f-table">x</td>
                         <td class="f-table">x</td>

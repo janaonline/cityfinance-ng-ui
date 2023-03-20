@@ -258,4 +258,7 @@ tr {
   stay() {
     this.dialogRef.close();
   }
+  dialogClose() {
+    this._matDialog.closeAll();
+  }
 }
