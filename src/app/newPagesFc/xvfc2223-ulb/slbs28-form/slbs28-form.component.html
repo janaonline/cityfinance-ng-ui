@@ -50,11 +50,11 @@
                                             </div>
                                             <div *ngIf="actual.dirty || actual.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                             Actual value must be less than the Target value.
-                                          </span>
+                                               Actual value must be less than the Target value.
+                                            </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                             Actual value must be greater than the Target value.
-                                          </span>
+                                               Actual value must be greater than the Target value.
+                                            </span>
                                             </div>
                                         </div>
                                     </td>
@@ -73,11 +73,11 @@
                                             </div>
                                             <div *ngIf="target.dirty || target.touched">
                                                 <span class="errorDis" *ngIf="errorFieldLineItems.includes(item.indicatorLineItem)">
-                                               Target value must be greater than the Actual value.
-                                             </span>
+                                                 Target value must be greater than the Actual value.
+                                               </span>
                                                 <span class="errorDis" *ngIf="errorFieldLineItemsDec.includes(item.indicatorLineItem)">
-                                          Target value must be less than the Actual value.
-                                        </span>
+                                            Target value must be less than the Actual value.
+                                          </span>
                                             </div>
                                         </div>
                                     </td>

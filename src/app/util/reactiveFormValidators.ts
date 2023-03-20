@@ -21,7 +21,7 @@ const validator = new PasswordValidator();
  */
 export const mobileNoValidator = (control: AbstractControl) => {
   const pattern = /^[6-9]\d{9}$/g;
-  if (!control.value || !control.value.trim()) {
+  if (!control.value || !control.value?.trim()) {
     return { required: true };
   }
   if (!control.value.match(pattern)) {
@@ -74,6 +74,17 @@ export const customPasswordValidator = (control: AbstractControl) => {
   return null;
 };
 
+export const validateOnlyText = (control: AbstractControl) => {
+  const value = control.value;
+  const regex = /^[a-zA-Z_ ]+$/;
+  return regex.test(value) ? null : { onlyText: true };
+}
+
+export const urlValidator = (control: AbstractControl) => {
+  const value = control.value;
+  const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  return regex.test(value) ? null : { onlyText: true };
+}
 /**
  * @description This Validator must be used for string inputs only.
  * The in-built <code> Validators.required </code> accepts empty string as valid,

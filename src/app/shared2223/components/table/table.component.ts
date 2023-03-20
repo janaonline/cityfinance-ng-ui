@@ -52,9 +52,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   // dataSource: MatTableDataSource<UserData>;
   title = "";
   total = 0;
-  data;
+
+  max = Math.max;
+  data = [];
   listType: USER_TYPE;
   filterForm: FormGroup;
+  perPage: '10' | '25' | '50' | '100' | 'all' = '10';
 
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -78,7 +81,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   checkedStatus;
   ulbType;
   disableEnableCheckbox: boolean;
-  isInfiniteScroll: boolean = false;
   statusList;
   newArr: any = [];
   populationType;
@@ -92,36 +94,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   isLoader = false;
   formName;
   elementPosition: any;
-  @ViewChild('stickyMenu') menuElement: ElementRef;
-  @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    const windowScroll = window.pageYOffset;
-    // console.log('scrolllllll', windowScroll, this.elementPosition);
-    if (windowScroll < this.elementPosition) {
-      // this.sticky = false;
-      if (windowScroll > 120) {
-        // this.sticky = true;
-      }
-    } else if (windowScroll > this.elementPosition) {
-      // this.sticky = true;
-    } else {
-      // this.sticky = false;
-    }
-  }
-  infiniteScroll() {
-    console.log('reach bottom');
-    if (this.isInfiniteScroll && !this.isLoader) {
-      this.listFetchOption.skip =
-        (this.tableDefaultOptions.currentPage) * this.tableDefaultOptions.itemPerPage;
-      this.searchUsersBy(this.filterForm.value);
-    }
-  }
-  toggleInfiniteScroll() {
-    this.isInfiniteScroll = !this.isInfiniteScroll;
-    if(!this.isInfiniteScroll) {
-      this.tableDefaultOptions.currentPage = 1;
-    }
-  }
   // MatPaginator Inputs
   length = 100;
   pageSize = 10;
@@ -129,9 +101,62 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   // MatPaginator Output
   pageEvent: PageEvent;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+  @HostListener('window:scroll', ['$event'])
+  handleScroll(event) {
+    const threshold = 50;
+    if(event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold)) {
+      this.infiniteScroll();
+    }
+  }
+  infiniteScroll() {
+    console.log('infinite scroll called');
+    if (this.isInfiniteScroll &&
+      !this.isLoader &&
+      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
+      const pageNoClick = this.tableDefaultOptions.currentPage + 1;
+      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.listFetchOption.skip =
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+      this.searchUsersBy(this.filterForm.value);
+    }
+  }
+
+  get isInfiniteScroll() {
+    return this.perPage == 'all';
+  }
+
+  onPerPageChange() {
+    this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
+    this.setParams();
+    if (this.isInfiniteScroll) {
+      this.data = [];
+    }
+    this.filterFormValue = this.filterForm?.value;
+    if (this.tableName == 'Review State Forms') {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+    } else {
+      this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+      this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+      this.params["UA"] = this.filterForm?.value?.ua_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+      this.params["filled1"] = this.filterForm?.value?.filled_1;
+      this.params["populationType"] = this.filterForm?.value?.population_type_s;
+      this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    }
+
+    this.params["skip"] = 0;
+    this.callAPI();
+  }
+  
+
   ngOnInit(): void {
     this.updatedTableData();
-    this.params["limit"] = 10;
+    this.tableDefaultOptions.itemPerPage = 10;
+    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
   }
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
@@ -198,13 +223,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   callAPI() {
     this.isLoader = true;
     this.params.formId = this.formId;
+    console.log(this.params);
     this.commonService.getReviewForms(this.params).subscribe(
       (res) => {
         this.isLoader = false;
         this.title = res["title"];
         this.total = res["total"];
         this.columnNames = res["columnNames"];
-        this.data = (this.isInfiniteScroll ?  [...this.data, ...res["data"]] : res["data"]).map((element) => ({
+        this.data = (this.isInfiniteScroll ? [...this.data, ...res["data"]] : res["data"]).map((element) => ({
           ...element,
           isChecked: this.isChecked(element),
         }));
@@ -227,11 +253,19 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           Object.keys(res["populationType"]).length > 0
             ? Object.values(res["populationType"])
             : null;
-        console.log("jjjjjjjj", this.data);
+        console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
 
-        // this.dataSource = new MatTableDataSource(this.data);
+
+        if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
+          setTimeout(() => {
+            const table = document.querySelector('.table-responsive') as HTMLElement;
+            if(table) {
+              table.style.height = `${table.clientHeight - 20}px`;
+            }
+          }, 100)
+        }
       },
       (err) => {
         swal('Error', `${err.message}`, 'error');
@@ -240,6 +274,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
   searchState() {
+    this.resetInfinite();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -254,8 +289,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
     this.callAPI();
   }
+
+  resetInfinite() {
+    this.data = [];
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption.skip = 0;
+  }
+
   search() {
-    this.isInfiniteScroll = false;
+    this.resetInfinite();
     this.listFetchOption = {
       csv: false,
       filter: this.filterForm ? this.filterForm.value : {},
@@ -296,6 +338,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   setPage(pageNoClick: number) {
+    console.log(pageNoClick);
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
@@ -311,6 +354,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log('page change', e)
   }
   searchUsersBy(filterForm: {}, skip?: number) {
+
+    console.log({filterForm});
     this.listFetchOption.filter = filterForm;
     this.listFetchOption.skip =
       skip || skip === 0 ? skip : this.listFetchOption.skip;
@@ -466,7 +511,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     console.log("data", data);
     localStorage.setItem("state_id", data?.state);
     this.getStateBar(data?.state, "STATE", "");
-  //  this.commonService.setStateFormStatus2223.next(true);
+    //  this.commonService.setStateFormStatus2223.next(true);
     sessionStorage.setItem("stateName", data?.stateName);
     sessionStorage.setItem("stateCode", data?.stateCode);
     sessionStorage.setItem("form_name", this.formName);
@@ -502,19 +547,22 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
   resetFilter() {
+    this.filterForm.reset();
     this.setParams();
     this.callAPI();
   }
   dropdownChanges() {
     this.stateServices.dpReviewChanges.subscribe((res) => {
+      this.resetInfinite();
       console.log("table value changes....", res);
       this.selectedId = [];
       // this.params["skip"] = 0;
       this.tableDefaultOptions.currentPage = 1;
       this.setParams();
+      this.filterForm.reset();
     });
   }
-  setParams() {
+  setParams(reset = false) {
     this.params = {
       design_year: "606aafb14dff55e6c075d3ae",
       formId: this.formId,
@@ -529,9 +577,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       limit: this.tableDefaultOptions.itemPerPage,
     };
     this.tableDefaultOptions.currentPage = 1;
-    this.params["limit"] = 10;
+    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
     this.params["skip"] = 0;
-    this.filterForm.reset();
+
   }
   pageName = 'Get All Data'
   getAllData(type) {
@@ -539,7 +587,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.callAPI();
     if (this.pageName == 'Get All Data') {
       this.pageName = 'Set Pagination';
-      this.params['limit'] = 10;
+      this.params['limit'] = this.tableDefaultOptions.itemPerPage;
       this.params['skip'] = 0;
     } else {
       this.pageName = 'Get All Data';

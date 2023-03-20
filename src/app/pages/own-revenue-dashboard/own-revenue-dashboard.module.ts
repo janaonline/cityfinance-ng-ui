@@ -11,6 +11,7 @@ import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashb
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
   imports: [
@@ -22,6 +23,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ResourcesDashboardModule,
     HttpClientModule,
     ReactiveFormsModule,
+    AngularMultiSelectModule,
     FormsModule,
     MatAutocompleteModule
   ],

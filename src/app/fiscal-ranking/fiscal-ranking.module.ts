@@ -11,6 +11,8 @@ import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 
@@ -20,20 +22,34 @@ import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
 import {MatRadioModule} from '@angular/material/radio';
-import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-preview.component';
+import { UlbFisPreviewComponent } from './ulb-fiscal-new/ulb-fis-preview/ulb-fis-preview.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { MdePopoverModule } from '@material-extended/mde';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
+import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
+import { Shared2223Module } from '../shared2223/shared2223.module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
+import { TowordPipe } from './pipes/toword.pipe';
+import { PercentprogressPipe } from './pipes/percentprogress.pipe';
+import { YearInfoPipe } from './pipes/year-info.pipe';
+import { DisplayPositionPipe } from './pipes/display-position.pipe';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
     UlbFiscalComponent,
+    UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
-    DownloadPopupComponent
+    DownloadPopupComponent,
+    ReviewUlbTableComponent,
+    TowordPipe,
+    PercentprogressPipe,
+    YearInfoPipe,
+    DisplayPositionPipe,
   ],
   imports: [
     CommonModule,
@@ -61,8 +77,11 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MdePopoverModule
-
+    MdePopoverModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NgxPaginationModule,
+    Shared2223Module
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }

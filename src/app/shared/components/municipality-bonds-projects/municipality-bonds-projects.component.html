@@ -1,0 +1,44 @@
+<div class="container">
+    <h1 class="my-3 fw-bold">Ongoing Infrastructure Projects</h1>
+    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChange($event)" aria-label="Select page">
+    </mat-paginator>
+    <table class="table table-striped mt-4">
+        <thead *ngIf="response && response?.columns?.length > 0">
+            <tr>
+                <th scope="col" *ngFor="let column of response.columns" class="border-0 ps-0">
+                    <div (click)="updateSorting(column)" class="d-flex" style="cursor: pointer;">
+                        <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                        <i class="mt-1 ms-2 fa fa-sort" [ngClass]="{
+                            'fa-sort': column.sort == 0,
+                            'fa-sort-desc': column.sort == -1,
+                            'fa-sort-asc': column.sort == 1
+                        }" aria-hidden="true"></i>
+                    </div>
+                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search"
+                        class="form-control px-3 py-4 my-2" [(ngModel)]="column.query" (keyup.enter)="loadData()"
+                        (blur)="loadData()">
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf="response && response?.data?.length > 0">
+            <tr *ngFor="let row of response.data" class="py-1 border-0">
+                <td *ngFor="let column of response.columns" class="border-0 py-3">
+                    <div class="row" *ngIf="column.key == 'ulbShare'">
+                        <div class="col-8 d-grid align-items-center">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"
+                                    [ngStyle]="{'width': (+row['ulbShare'] / +row['totalProjectCost'] * 100) + '%'}"
+                                    [aria-valuenow]="(+row['ulbShare'] / +row['totalProjectCost'] * 100)"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <span class="col-4">{{ row[column.key] }}</span>
+                    </div>
+                    <span *ngIf="column.key != 'ulbShare'">{{ row[column.key] }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 *ngIf="response && response?.data?.length == 0" class="text-center p-5">No data found</h2>
+</div>

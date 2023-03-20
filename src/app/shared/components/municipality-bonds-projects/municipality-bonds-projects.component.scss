@@ -1,0 +1,21 @@
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background: #FDF3E8;
+    box-shadow: none;
+}
+
+.progress {
+    height: .6rem;
+}
+
+.progress-bar {
+    background-color: #e67e15;
+}
+
+th {
+    p {
+        font-weight: normal;
+        color: #626262;
+        font-size: 17px;
+    }
+}

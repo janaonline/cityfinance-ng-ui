@@ -86,6 +86,7 @@ export class FiscalLoginComponent implements OnInit {
   };
   public hide = true;
   directLogin = false;
+  loginInfo :string = 'Please use the same login details as used for 15th FC Grants Module.'
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

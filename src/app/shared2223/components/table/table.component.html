@@ -1,21 +1,26 @@
 <div class="row mt-2 text-end">
     <div class="col-12">
-        <!-- <button type="button" class="btn btn-success" (click)="getAllData(pageName)">{{pageName}}</button> -->
-        <!-- <button type="button" class="btn btn-primary ms-2" (click)="toggleInfiniteScroll()">{{
-            isInfiniteScroll ? 'Show 10' : 'Show all' }}</button> -->
-        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Approve')">Approve all</button>
-        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0" (click)="openDialog('Return')">Return all</button>
+        <select class="form-select ms-2 d-inline-block" [(ngModel)]="perPage" (change)="onPerPageChange()">
+            <option class="s-pl" value="10">10</option>
+            <option class="s-pl" value="25">25</option>
+            <option class="s-pl" value="50">50</option>
+            <option class="s-pl" value="all">All</option>  
+        </select>
+
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+            (click)="openDialog('Approve')">Approve all</button>
+        <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
+            (click)="openDialog('Return')">Return all</button>
         <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
     </div>
 </div>
 <!-- <form > -->
-<!-- <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar [infiniteScrollThrottle]="50"  [alwaysCallback]="true" infiniteScroll [infiniteScrollDistance]="0.2"
-    (scrolled)="infiniteScroll()"> -->
-<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu>
+<div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
+    <!-- <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #stickyMenu> -->
 
     <!-- .....................loader.......................... -->
 
-    <div class="table-responsive" *ngIf="isInfiniteScroll || !isLoader">
+    <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}" *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
         <!-- <mat-paginator [length]="total" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator> -->
         <!-- -----------review ulb table----- -->
@@ -27,13 +32,12 @@
                     </th>
                     <th></th>
                 </tr>
-            </thead>
-            <thead>
                 <tr class="filter">
                     <th class="filter"></th>
                     <th class="filter">
                         <div class="input-group">
-                            <input type="text" formControlName="ulb_name_s" class="form-control in-se-s" (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Name">
+                            <input type="text" formControlName="ulb_name_s" class="form-control in-se-s"
+                                (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Name">
                             <span class="input-group-text">
                                 <span class="fa fa-search form-control-feedback"></span>
                             </span>
@@ -47,7 +51,8 @@
                     </th> -->
                     <th class="filter">
                         <div class="input-group">
-                            <input type="text" formControlName="ulb_code_s" class="form-control in-se-s" style="width: 40%;" (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Code">
+                            <input type="text" formControlName="ulb_code_s" class="form-control in-se-s"
+                                style="width: 40%;" (change)="search()" aria-label="ulb_name_s" placeholder="Ulb Code">
                             <span class="input-group-text">
                                 <span class="fa fa-search form-control-feedback"></span>
                             </span>
@@ -68,7 +73,8 @@
                     </th>
                     <th class="filter">
                         <div class="input-group">
-                            <input type="text" formControlName="ua_name_s" class="form-control in-se-s" (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
+                            <input type="text" formControlName="ua_name_s" class="form-control in-se-s"
+                                (change)="search()" aria-label="ulb_name_s" placeholder="UA Name">
                         </div>
                     </th>
                     <th class="filter">
@@ -78,14 +84,16 @@
                         </select>
                     </th>
                     <th class="filter">
-                        <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1" (change)="search()">
+                        <select class="form-select in-sel" style="width: 71px;" formControlName="filled_1"
+                            (change)="search()">
                             <option selected value="">Search</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                     </th>
                     <th class="filter" *ngIf="formId == '62aa1b04729673217e5ca3aa'">
-                        <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2" (change)="search()">
+                        <select class="form-select in-sel" style="width: 71px;" formControlName="filled_2"
+                            (change)="search()">
                             <option selected value="">Search</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -94,6 +102,7 @@
                     <th class="filter text-center">
                         <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                     </th>
+                    <th class="filter"></th>
                 </tr>
             </thead>
             <tbody>
@@ -102,10 +111,11 @@
               id: 'foo',
                 itemsPerPage: tableDefaultOptions.itemPerPage,
                 currentPage: tableDefaultOptions.currentPage,
-                totalItems: tableDefaultOptions.totalCount
+                totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
               }; let tabelIndex=index">
                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage *
+                        (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                     </td>
@@ -117,10 +127,13 @@
                         {{resData.populationType}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled : resData.filled_audited }}</td>
-                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{ resData.filled_provisional }}</td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
+                        resData.filled_audited }}</td>
+                    <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{
+                        resData.filled_provisional }}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
+                            [routerLink]="formRouterLink">
                             <!-- [routerLink]="[
                           '/ulbform/overview', resData?._id  ]" -->
                             <mat-icon aria-hidden="false">
@@ -128,20 +141,26 @@
                             </mat-icon>
                         </a>
                     </td>
-                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
+                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''"
+                        *ngIf="resData.cantakeAction == true">
                         <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                              '/ulbform2223/overview', resData?._id  ]">
                             Take Action
                         </a> -->
-                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
+                            (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
                             Take Action
                         </a>
                     </td>
                     <td>
-                        <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                        <div class="form-check"
+                            [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
                             <!-- <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
                                 [checked]="resData?.isChecked"> -->
-                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" (change)="selected_checkbox(resData?.ulbId, resData.isChecked)" [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
+                                [disabled]="resData?.cantakeAction == false"
+                                (change)="selected_checkbox(resData?.ulbId, resData.isChecked)"
+                                [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
                 </tr>
@@ -155,18 +174,19 @@
                         {{item.value}}</th>
                     <th colspan="2"></th>
                 </tr>
-            </thead>
-            <thead>
                 <tr class="filter">
                     <th class="filter"></th>
                     <th class="filter text-center">
-                        <select class="" formControlName="state_name_s" (change)="searchState()" *ngIf="userData?.role != 'STATE'" style="width: 75%;">
+                        <select class="" formControlName="state_name_s" (change)="searchState()"
+                            *ngIf="userData?.role != 'STATE'" style="width: 75%;">
                             <option selected value="">State Name</option>
                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
                         </select>
                     </th>
                     <th class="filter text-center">
-                        <select class="" *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e'" formControlName="status_s" style="width: 75%;" (change)="searchState()">
+                        <select class=""
+                            *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e'"
+                            formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
                         </select>
@@ -183,10 +203,11 @@
             id: 'foo',
               itemsPerPage: tableDefaultOptions.itemPerPage,
               currentPage: tableDefaultOptions.currentPage,
-              totalItems: tableDefaultOptions.totalCount
+              totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
             }; let tabelIndex=index">
                     <td style="" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{isInfiniteScroll ? tabelIndex+1 : (tableDefaultOptions.itemPerPage *
+                        (tableDefaultOptions.currentPage -1) + tabelIndex+1)}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
@@ -194,7 +215,8 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
+                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
+                            [routerLink]="formStateRouterLink">
                             <!-- [routerLink]="[
                         '/ulbform/overview', resData?._id  ]" -->
                             <mat-icon aria-hidden="false">
@@ -202,22 +224,28 @@
                             </mat-icon>
                         </a>
                     </td>
-                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == true">
+                    <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''"
+                        *ngIf="resData.cantakeAction == true">
                         <!-- <a class="btn btn-primary btn-a" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                            '/ulbform2223/overview', resData?._id  ]">
                           Take Action
                       </a> -->
-                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
+                        <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
+                            (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
                             Take Action
                         </a>
                     </td>
                     <td>
-                        <div class="form-check" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                        <div class="form-check"
+                            [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
                             <!-- <input (change)="selected_checkbox(resData?.state, $event.srcElement)"
                              class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
                              [disabled]="resData?.cantakeAction == false" type="checkbox" value="true" id="flexCheckChecked"
                                 [checked]="resData?.isChecked"> -->
-                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" (change)="selected_checkbox(resData?.state, resData.isChecked)" [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
+                                [disabled]="resData?.cantakeAction == false"
+                                (change)="selected_checkbox(resData?.state, resData.isChecked)"
+                                [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
                 </tr>
@@ -238,8 +266,10 @@
             <span class="visually-hidden ">Loading...</span>
         </div>
     </div>
-    <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo" *ngIf="!(data?.length == 0) && !isInfiniteScroll" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
-        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    <pagination-controls style="float: right; position: relative; margin-top: 1rem;" id="foo"
+        *ngIf="!isLoader && !(data?.length == 0) && !isInfiniteScroll" (pageChange)="setPage($event)" directionLinks="true"
+        autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
 </div>
 <!-- </form> -->
