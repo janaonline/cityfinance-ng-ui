@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DurPreviewComponent } from './dur-preview/dur-preview.component';
+import { DurService } from './dur.service';
 
 @Component({
   selector: 'app-dur',
@@ -8,6 +10,8 @@ import { DurPreviewComponent } from './dur-preview/dur-preview.component';
   styleUrls: ['./dur.component.scss']
 })
 export class DurComponent implements OnInit {
+  isLoaded: boolean = false;
+  isProjectLoaded: boolean = false;
   questionresponse = {
     timestamp: 1621316934,
     success: true,
@@ -4072,15 +4076,44 @@ export class DurComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private durService: DurService,
+    private loaderService: GlobalLoaderService
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
   }
 
   onSubmitQuestion(data) {
     console.log(data)
   }
 
+  loadData() {
+    this.loaderService.showLoader();
+    this.durService.getForm().subscribe((res: any) => {
+      this.loaderService.stopLoader();
+      console.log(res);
+      this.isLoaded = true;
+      // this.questionresponse = res;
+    }, err => {
+      this.loaderService.stopLoader();
+    })
+  }
+
+  loadInParent(type: string) {
+    if(type === 'projects') this.getProjects();
+  }
+
+  getProjects() {
+    this.loaderService.showLoader();
+    this.durService.getProjects().subscribe(res => {
+      this.loaderService.stopLoader();
+      this.isProjectLoaded = true;
+      console.log(res);
+    }, err => {
+      this.loaderService.stopLoader();
+    })
+  }
 
   onPreview(data) {
     console.log(data);
