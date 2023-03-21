@@ -186,6 +186,8 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      code: [{ value: item.code, disabled: true }],
+      previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
@@ -257,7 +259,8 @@ export class UlbFiscalNewComponent implements OnInit {
             parentYearItemControl.markAsDirty();
           })
         })
-      })
+        // child.patchValue({});
+      });
     });
   }
 
@@ -410,7 +413,9 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   navigationCheck() {
-    this._router.events.subscribe((event) => {
+    this._router.events.subscribe((event: any) => {
+      console.log(event?.url);
+      if(event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
       if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
         swal("Unsaved Changes", {
           buttons: {
@@ -445,9 +450,9 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, (error) => {
+    }, ({error}) => {
       this.loaderService.stopLoader();
-      swal('Error', 'Something went wrong', 'error');
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 }
