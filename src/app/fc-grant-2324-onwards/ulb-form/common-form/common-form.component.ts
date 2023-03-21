@@ -1223,20 +1223,23 @@ export class CommonFormComponent implements OnInit {
           this.formName = 'odf';
           this.getQuery.formId = 1;
           this.getScroing('odf', this.getQuery.design_year);
+          this.callGetApi(this.endPoints, this.getQuery);
         } else if (urlArray.includes("gfc")) {
           this.endPoints = 'gfc-odf-form-collection';
           this.getQuery.isGfc = true;
           this.formName = 'gfc';
           this.getQuery.formId = 2;
           this.getScroing('gfc', this.getQuery.design_year);
+          this.callGetApi(this.endPoints, this.getQuery);
         } else if (urlArray.includes("ptax")) {
           this.endPoints = 'ptax';
           this.formName = 'ptax';
+          this.callGetApi(this.endPoints, this.getQuery);
         } else {
 
         }
         //folder: "ULB/2022-23/odf/UK030"
-        this.callGetApi(this.endPoints, this.getQuery);
+
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
@@ -1289,8 +1292,8 @@ export class CommonFormComponent implements OnInit {
       "status": this.statusId,
       data: finalData
     }
-    this.commonServices.formPostMethod(this.postData).subscribe((res) => {
-      swal("Saved", "Data saved successfully.", "success");
+    this.commonServices.formPostMethod(this.postData, this.endPoints).subscribe((res) => {
+      swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       console.log(res);
     },
       (error) => {
