@@ -17,6 +17,9 @@ import { DurService } from './dur.service';
 export class DurComponent implements OnInit {
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
+
+  userData = JSON.parse(localStorage.getItem("userData"));
+
   questionresponse: any = {
     timestamp: 1621316934,
     success: true,
@@ -7785,13 +7788,26 @@ export class DurComponent implements OnInit {
     this.loadData();
   }
 
+  get design_year() {
+    const years = JSON.parse(localStorage.getItem("Years"));
+    return years?.['2022-23'];
+  }
+
+  get ulbId() {
+    return this.userData?.ulb;
+  }
+
+  
+
+
+
   onSubmitQuestion(data) {
     console.log(data)
   }
 
   loadData() {
     this.loaderService.showLoader();
-    this.durService.getForm().subscribe((res: any) => {
+    this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
@@ -7808,7 +7824,7 @@ export class DurComponent implements OnInit {
 
   getProjects() {
     this.loaderService.showLoader();
-    this.durService.getProjects().subscribe((res: any) => {
+    this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       if (!res?.data) return;
       this.isProjectLoaded = true;
