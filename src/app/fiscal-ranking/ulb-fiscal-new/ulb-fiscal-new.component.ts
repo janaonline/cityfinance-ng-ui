@@ -259,7 +259,7 @@ export class UlbFiscalNewComponent implements OnInit {
             parentYearItemControl.markAsDirty();
           })
         })
-        child.patchValue({});
+        // child.patchValue({});
       });
     });
   }
@@ -413,7 +413,9 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   navigationCheck() {
-    this._router.events.subscribe((event) => {
+    this._router.events.subscribe((event: any) => {
+      console.log(event?.url);
+      if(event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
       if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
         swal("Unsaved Changes", {
           buttons: {
@@ -448,9 +450,9 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, (error) => {
+    }, ({error}) => {
       this.loaderService.stopLoader();
-      swal('Error', 'Something went wrong', 'error');
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 }
