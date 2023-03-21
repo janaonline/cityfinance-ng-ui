@@ -7848,11 +7848,14 @@ export class DurComponent implements OnInit {
   onPreview(data) {
     console.log(data);
 
-    const tiedGrant = data?.question?.find(question => question.shortKey == "tiedGrant");
-    // const general = data?.question?.find(question => question.shortKey == "general");
-    const waterManagement = data?.question?.find(question => question.shortKey == "waterManagement_tableView");
-    const solidWasteManagement = data?.question?.find(question => question.shortKey == "solidWasteManagement_tableView");
-    const projectDetails = data?.question?.find(question => question.shortKey == "projectDetails_tableView_addButton");
+    const tiedGrant = data?.find(question => question.shortKey == "tiedGrant");
+    const general = data?.find(question => question.shortKey == "general");
+    const waterManagement = data?.find(question => question.shortKey == "waterManagement_tableView");
+    const solidWasteManagement = data?.find(question => question.shortKey == "solidWasteManagement_tableView");
+    const projectDetails = data?.find(question => question.shortKey == "projectDetails_tableView_addButton");
+    const selfDeclaration = data?.find(question => question.shortKey == "order7");
+
+    console.log({ tiedGrant, waterManagement, solidWasteManagement, projectDetails });
 
     const grantPosition = (tiedGrant.childQuestionData[0] as any[]).reduce((result, child) => {
       result[child.shortKey] = child.value;
@@ -7900,8 +7903,8 @@ export class DurComponent implements OnInit {
       designYear: "606aafb14dff55e6c075d3ae",
       grantType: "Tied",
       grantPosition,
-      name: 'nisahnt',
-      designation: 'designation',
+      name: selfDeclaration?.childQuestionData?.[0]?.[0].modelValue,
+      designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
       projects
