@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
+const swal: SweetAlert = require("sweetalert");
+
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { SweetAlert } from 'sweetalert/typings/core';
+
 import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { DurService } from './dur.service';
 
@@ -4095,8 +4100,9 @@ export class DurComponent implements OnInit {
       console.log(res);
       this.isLoaded = true;
       // this.questionresponse = res;
-    }, err => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 
@@ -4106,12 +4112,21 @@ export class DurComponent implements OnInit {
 
   getProjects() {
     this.loaderService.showLoader();
-    this.durService.getProjects().subscribe(res => {
+    this.durService.getProjects().subscribe((res: any) => {
       this.loaderService.stopLoader();
+      if(!res?.data) return;
       this.isProjectLoaded = true;
+      const projectDetailsIndex = this.questionresponse.data[0].language[0].question.findIndex(question => question.shortKey == "projectDetails_tableView_addButton");
+      console.log(projectDetailsIndex);
+      if(projectDetailsIndex) {
+        this.isLoaded = false;
+        this.questionresponse.data[0].language[0].question[projectDetailsIndex].childQuestionData = res.data;
+        setImmediate(() => { this.isLoaded = true; })
+      }
       console.log(res);
-    }, err => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 
@@ -4188,5 +4203,21 @@ export class DurComponent implements OnInit {
       // console.log(`Dialog result: ${result}`);
       //   this.hidden = true;
     });
+  }
+
+  onSubmit(data, isDraft = true) {
+    this.loaderService.showLoader();
+    this.durService.postForm({
+      isDraft,
+      data: data.finalData,
+    }).subscribe(res => {
+      this.loaderService.stopLoader();
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      console.log('data send');
+    }, ({ error }) => {
+      this.loaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+      console.log('error occured');
+    })
   }
 }
