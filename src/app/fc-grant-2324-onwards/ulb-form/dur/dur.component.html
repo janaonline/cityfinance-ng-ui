@@ -1,10 +1,5 @@
 <div class="my-3" *ngIf="isLoaded">
-  <app-web-form 
-    [viewFormTemplate]="'dur'"
-    [questionresponse]="questionresponse" 
-    [isProjectLoaded]="isProjectLoaded"
-    (submitQuestion)="onSubmit($event)"
-    (onPreview)="onPreview($event)"
-    (onLoadInParent)="loadInParent($event)"
-    ></app-web-form>
+  <app-web-form [viewFormTemplate]="'dur'" [questionresponse]="questionresponse" [isProjectLoaded]="isProjectLoaded"
+    (submitQuestion)="onSubmit($event)" (onPreview)="onPreview($event)" (onLoadInParent)="loadInParent($event)">
+  </app-web-form>
 </div>

@@ -286,6 +286,279 @@ export class DurComponent implements OnInit {
                 "resource_urls": [],
                 "label": "2",
                 "shortKey": "grantPosition",
+                "value": "1",
+                "modelValue": "1",
+                "selectedValue": [
+                  {
+                    "label": "1",
+                    "textValue": "",
+                    "value": "1"
+                  }
+                ],
+                "childQuestionData": [
+                  [
+                    {
+                      "information": "",
+                      "_id": "64097a583b2eb509dc61e2a7",
+                      "order": "2.005",
+                      "answer_option": [],
+                      "title": "i. Unutilised Tied Grants from previous installment (in lakhs)",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "1",
+                      "shortKey": "grantPosition.unUtilizedPrevYr",
+                      "viewSequence": "5",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "_id": "3",
+                          "error_msg": ""
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.000"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999999999999,
+                      "min": 1,
+                      "max": 19,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "120",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "2",
+                        "index": 0,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "120",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "120"
+                        }
+                      ]
+                    },
+                    {
+                      "information": "",
+                      "_id": "6405e01b927e4f093c8acd05",
+                      "order": "2.002",
+                      "answer_option": [],
+                      "title": "ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "2",
+                      "shortKey": "grantPosition.receivedDuringYr",
+                      "viewSequence": "6",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "80",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "2",
+                        "index": 1,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "80",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "80"
+                        }
+                      ]
+                    },
+                    {
+                      "information": "",
+                      "_id": "6405e03f927e4f093c8acd20",
+                      "order": "2.003",
+                      "answer_option": [],
+                      "title": "iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "3",
+                      "shortKey": "grantPosition.expDuringYr",
+                      "viewSequence": "7",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "50",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "2",
+                        "index": 2,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "50",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "50"
+                        }
+                      ]
+                    },
+                    {
+                      "information": "",
+                      "_id": "640979f13b2eb509dc61e1bd",
+                      "order": "2.004",
+                      "answer_option": [],
+                      "title": "Closing balance at the end of year (in lakhs)( i + ii - iii )",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "4",
+                      "shortKey": "grantPosition.closingBal",
+                      "viewSequence": "8",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "_id": "3",
+                          "error_msg": ""
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "5",
+                          "error_msg": "",
+                          "value": "(grantPosition.unUtilizedPrevYr+grantPosition.receivedDuringYr-grantPosition.expDuringYr)"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999999999999,
+                      "min": 1,
+                      "max": 18,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,13}|[1-8][0-9]{14}|9[0-8][0-9]{13}|99[0-8][0-9]{12}|999[0-8][0-9]{11}|9999[0-8][0-9]{10}|99999[0-8][0-9]{9}|999999[0-8][0-9]{8}|9999999[0-8][0-9]{7}|99999999[0-8][0-9]{6}|999999999[0-8][0-9]{5}|9999999999[0-8][0-9]{4}|99999999999[0-8][0-9]{3}|999999999999[0-8][0-9]{2}|9999999999999[0-8][0-9]|99999999999999[0-8]))(?:\\.\\d{1,3})?|999999999999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": 150,
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "2",
+                        "index": 3,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": 150
+                        }
+                      ],
+                      "modelValue": 150
+                    }
+                  ]
+                ],
+                
                 "viewSequence": "4",
                 "child": [],
                 "parent": [],
@@ -4078,7 +4351,7 @@ export class DurComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
-      this.questionresponse = res;
+      // this.questionresponse = res;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
