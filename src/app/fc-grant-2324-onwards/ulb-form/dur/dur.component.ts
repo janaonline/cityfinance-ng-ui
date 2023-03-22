@@ -50,6 +50,149 @@ export class DurComponent implements OnInit {
                 "resource_urls": [],
                 "label": "1",
                 "shortKey": "general",
+                "value": "1",
+                "modelValue": "1",
+                "childQuestionData": [
+                  [
+                    {
+                      "information": "",
+                      "_id": "6405de27927e4f093c8acc63",
+                      "order": "1.001",
+                      "answer_option": [],
+                      "title": "Name of MPC/UA/NMPC",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "1",
+                      "shortKey": "ulbName",
+                      "viewSequence": "2",
+                      "child": [],
+                      "parent": [],
+                      "pattern": "",
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        }
+                      ],
+                      "restrictions": [],
+                      "min": 1,
+                      "max": null,
+                      "input_type": "1",
+                      "weightage": [],
+                      "value": "nishant",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "1",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "1",
+                        "index": 0,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "nishant",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "nishant",
+                          "value": ""
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "nishant",
+                            "value": ""
+                          }
+                        ],
+                        "input_type": "1",
+                        "nestedAnswer": [],
+                        "order": "1.001",
+                        "pattern": "",
+                        "shortKey": "ulbName"
+                      }
+                    },
+                    {
+                      "information": "",
+                      "_id": "6405deda927e4f093c8acca1",
+                      "order": "1.002",
+                      "answer_option": [
+                        {
+                          "name": "Tied",
+                          "did": [],
+                          "viewSequence": "1",
+                          "_id": "1"
+                        },
+                        {
+                          "name": "UnTied",
+                          "did": [],
+                          "viewSequence": "2",
+                          "_id": "2"
+                        }
+                      ],
+                      "title": "Type of Grant",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "2",
+                      "shortKey": "grantType",
+                      "viewSequence": "3",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "_id": "1",
+                          "error_msg": ""
+                        }
+                      ],
+                      "restrictions": [],
+                      "input_type": "3",
+                      "weightage": [],
+                      "value": "1",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "3",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "1",
+                        "index": 1,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "modelValue": "1",
+                      "isSelectValue": true,
+                      "previousValue": "1",
+                      "selectedValue": [
+                        {
+                          "label": "Tied",
+                          "textValue": "",
+                          "value": "1"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "Tied",
+                            "textValue": "",
+                            "value": "1"
+                          }
+                        ],
+                        "input_type": "3",
+                        "nestedAnswer": [],
+                        "order": "1.002",
+                        "shortKey": "grantType"
+                      }
+                    }
+                  ]
+                ],
                 "viewSequence": "1",
                 "child": [],
                 "parent": [],
