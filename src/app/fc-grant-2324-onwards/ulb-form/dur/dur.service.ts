@@ -18,6 +18,6 @@ export class DurService {
     return this.http.get(`${environment.api.url}/getProjects?ulb=${ulb}&design_year=${design_year}&formId=4`);
   }
   postForm(body) {
-    return this.http.post(`${environment.api.url}/utilReport/create`, body);
+    return this.http.post(`${environment.api.url}/utilization-report`, body);
   }
 }

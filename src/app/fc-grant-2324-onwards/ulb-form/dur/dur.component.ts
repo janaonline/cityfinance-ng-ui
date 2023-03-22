@@ -558,7 +558,7 @@ export class DurComponent implements OnInit {
                     }
                   ]
                 ],
-                
+
                 "viewSequence": "4",
                 "child": [],
                 "parent": [],
@@ -4351,7 +4351,7 @@ export class DurComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
-      // this.questionresponse = res;
+      this.questionresponse = res;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -4372,7 +4372,17 @@ export class DurComponent implements OnInit {
       console.log(projectDetailsIndex);
       if (projectDetailsIndex) {
         this.isLoaded = false;
-        this.questionresponse.data[0].language[0].question[projectDetailsIndex].childQuestionData = res.data;
+        const question = this.questionresponse.data[0].language[0].question[projectDetailsIndex];
+        if(res.data.length == 0) {
+          delete question.childQuestionData;
+          const questionLength = '' +res.data.length;
+          question.value = questionLength;
+          question.modelValue = questionLength;
+          question.selectedValue = [{value: questionLength, label: questionLength, textValue: ''}];
+        } else {
+          const childQuestionData = res.data.map(item => item.sort((a, b) => a.order > b.order ? 1 : -1))
+          question.childQuestionData = childQuestionData;
+        }
         setImmediate(() => { this.isLoaded = true; })
       }
       console.log(res);
@@ -4465,6 +4475,10 @@ export class DurComponent implements OnInit {
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft,
+      financialYear: this.design_year,
+      designYear: this.design_year,
+      ulb: this.ulbId,
+      formId: 4,
       data: data.finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
