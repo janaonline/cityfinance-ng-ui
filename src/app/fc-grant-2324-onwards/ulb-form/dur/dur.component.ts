@@ -1580,6 +1580,585 @@ export class DurComponent implements OnInit {
                 "resource_urls": [],
                 "label": "",
                 "shortKey": "solidWasteManagement_tableView",
+                "value": "2",
+                "modelValue": "2",
+                "selectedValue": [
+                  {
+                    "label": "2",
+                    "textValue": "",
+                    "value": "2"
+                  }
+                ],
+                "childQuestionData": [
+                  [
+                    {
+                      "information": "",
+                      "_id": "641999a8a3236a0d4e38db4d",
+                      "order": "5.005",
+                      "answer_option": [],
+                      "title": "Sector",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "1",
+                      "shortKey": "sw_category_name",
+                      "viewSequence": "16",
+                      "child": [],
+                      "parent": [],
+                      "pattern": "",
+                      "validation": [],
+                      "restrictions": [],
+                      "min": 1,
+                      "max": null,
+                      "input_type": "1",
+                      "weightage": [],
+                      "value": "Sanitation",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "1",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 0,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "Sanitation",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "Sanitation",
+                          "value": ""
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "Sanitation",
+                            "value": ""
+                          }
+                        ],
+                        "input_type": "1",
+                        "nestedAnswer": [],
+                        "order": "5.005",
+                        "pattern": "",
+                        "shortKey": "sw_category_name"
+                      }
+                    },
+                    {
+                      "information": "i = Total 15th FC tied grant utilized during the year as on 31st march 2023. The Outlay of the of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled.",
+                      "_id": "64097bd43b2eb509dc61e495",
+                      "order": "5.002",
+                      "answer_option": [],
+                      "title": "Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "2",
+                      "shortKey": "sw_grantUtilised",
+                      "viewSequence": "17",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "20",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 1,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "20",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "20"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "20"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.002",
+                        "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                        "shortKey": "sw_grantUtilised"
+                      }
+                    },
+                    {
+                      "information": "",
+                      "_id": "64097be53b2eb509dc61e4c6",
+                      "order": "5.003",
+                      "answer_option": [],
+                      "title": "Number of Projects Undertaken",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "3",
+                      "shortKey": "sw_numberOfProjects",
+                      "viewSequence": "18",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999,
+                      "min": 1,
+                      "max": 3,
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "985",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 2,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "985",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "985"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "985"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.003",
+                        "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
+                        "shortKey": "sw_numberOfProjects"
+                      }
+                    },
+                    {
+                      "information": "\"i = The Total Project cost for all projects combined, As per DPR, to be mentioned. For Ex: If there are two projects. one for 100 Cr and another for 50 Cr, then combined cost i.e. will be entered in the total project cost.  \"",
+                      "_id": "64097bf83b2eb509dc61e4f9",
+                      "order": "5.004",
+                      "answer_option": [],
+                      "title": "Total Project Cost Involved(INR in lakhs)",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "4",
+                      "shortKey": "sw_totalProjectCost",
+                      "viewSequence": "19",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "280",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 3,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "280",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "280"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "280"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.004",
+                        "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                        "shortKey": "sw_totalProjectCost"
+                      }
+                    }
+                  ],
+                  [
+                    {
+                      "information": "",
+                      "_id": "641999a8a3236a0d4e38db4d",
+                      "order": "5.005",
+                      "answer_option": [],
+                      "title": "Sector",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "1",
+                      "shortKey": "sw_category_name",
+                      "viewSequence": "16",
+                      "child": [],
+                      "parent": [],
+                      "pattern": "",
+                      "validation": [],
+                      "restrictions": [],
+                      "min": 1,
+                      "max": null,
+                      "input_type": "1",
+                      "weightage": [],
+                      "value": "Solid Waste Management",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "1",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 0,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 2"
+                      },
+                      "forParentValue": 2,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "Solid Waste Management",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "Solid Waste Management",
+                          "value": ""
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "Solid Waste Management",
+                            "value": ""
+                          }
+                        ],
+                        "input_type": "1",
+                        "nestedAnswer": [],
+                        "order": "5.005",
+                        "pattern": "",
+                        "shortKey": "sw_category_name"
+                      }
+                    },
+                    {
+                      "information": "i = Total 15th FC tied grant utilized during the year as on 31st march 2023. The Outlay of the of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled.",
+                      "_id": "64097bd43b2eb509dc61e495",
+                      "order": "5.002",
+                      "answer_option": [],
+                      "title": "Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "2",
+                      "shortKey": "sw_grantUtilised",
+                      "viewSequence": "17",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "36",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 1,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 2"
+                      },
+                      "forParentValue": 2,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "36",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "36"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "36"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.002",
+                        "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                        "shortKey": "sw_grantUtilised"
+                      }
+                    },
+                    {
+                      "information": "",
+                      "_id": "64097be53b2eb509dc61e4c6",
+                      "order": "5.003",
+                      "answer_option": [],
+                      "title": "Number of Projects Undertaken",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "3",
+                      "shortKey": "sw_numberOfProjects",
+                      "viewSequence": "18",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999,
+                      "min": 1,
+                      "max": 3,
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "636",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 2,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 2"
+                      },
+                      "forParentValue": 2,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "636",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "636"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "636"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.003",
+                        "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
+                        "shortKey": "sw_numberOfProjects"
+                      }
+                    },
+                    {
+                      "information": "\"i = The Total Project cost for all projects combined, As per DPR, to be mentioned. For Ex: If there are two projects. one for 100 Cr and another for 50 Cr, then combined cost i.e. will be entered in the total project cost.  \"",
+                      "_id": "64097bf83b2eb509dc61e4f9",
+                      "order": "5.004",
+                      "answer_option": [],
+                      "title": "Total Project Cost Involved(INR in lakhs)",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "4",
+                      "shortKey": "sw_totalProjectCost",
+                      "viewSequence": "19",
+                      "child": [],
+                      "parent": [],
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        },
+                        {
+                          "error_msg": "",
+                          "_id": "2"
+                        },
+                        {
+                          "_id": "14",
+                          "error_msg": "",
+                          "value": "0.00"
+                        }
+                      ],
+                      "restrictions": [],
+                      "minRange": 0,
+                      "maxRange": 999999,
+                      "min": 1,
+                      "max": 9,
+                      "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                      "input_type": "2",
+                      "weightage": [],
+                      "valueHolder": "",
+                      "value": "12",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "2",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "5",
+                        "index": 3,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 2"
+                      },
+                      "forParentValue": 2,
+                      "isSelectValue": false,
+                      "previousValue": "",
+                      "modelValue": "12",
+                      "selectedValue": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "12"
+                        }
+                      ],
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": "12"
+                          }
+                        ],
+                        "input_type": "2",
+                        "nestedAnswer": [],
+                        "order": "5.004",
+                        "pattern": "^((?:^((?:[0-9]|[1-9][0-9]{1,4}|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-8]))(?:\\.\\d{1,3})?|999999))$",
+                        "shortKey": "sw_totalProjectCost"
+                      }
+                    }
+                  ]
+                ],
                 "viewSequence": "15",
                 "child": [],
                 "parent": [],
