@@ -13,25 +13,18 @@ export class CommonServicesService {
   ) { }
 
 
-  formPostMethod(body: any) {
+  formPostMethod(body: any, endPoints:string) {
     return this.http.post(
-      `${environment.api.url}gfc-odf-form-collection`,
+      `${environment.api.url}${endPoints}`,
       body
     );
   }
-
-  // formGetMethod(params) {
-  //   // gfc-odf-form-collection
-  //   return this.http.get(
-  //     `${environment.api.url}${params?.endPoints}?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}&formId=${params.formId}`
-  //   );
-  // }
   getScroing(formName, dYr) {
     // gfc-odf-form-collection
     return this.http.get(`${environment.api.url}ratings?formName=${formName}&financialYear=${dYr}`);
   }
-  formGetMethod(endPoints:string, queryParam:any) {
 
+  formGetMethod(endPoints:string, queryParam:any) {
     return this.http.get(
       `${environment.api.url}${endPoints}`,
        {
