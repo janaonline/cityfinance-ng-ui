@@ -4057,7 +4057,7 @@ export class DurComponent implements OnInit {
 
   get design_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2022-23'];
+    return years?.['2023-24'];
   }
 
   get ulbId() {
@@ -4078,7 +4078,7 @@ export class DurComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
-      // this.questionresponse = res;
+      this.questionresponse = res;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
