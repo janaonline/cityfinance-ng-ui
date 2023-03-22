@@ -3812,6 +3812,127 @@ export class DurComponent implements OnInit {
                 "resource_urls": [],
                 "label": "5",
                 "shortKey": "selfDec",
+                "value": "1",
+                "modelValue": "1",
+                "selectedValue": [
+                  {
+                    "label": "1",
+                    "textValue": "",
+                    "value": "1"
+                  }
+                ],
+                "childQuestionData": [
+                  [
+                    {
+                      "information": "",
+                      "_id": "64097f8f3b2eb509dc61e797",
+                      "order": "7.001",
+                      "answer_option": [],
+                      "title": "Name",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "1",
+                      "shortKey": "name_",
+                      "viewSequence": "30",
+                      "child": [],
+                      "parent": [],
+                      "pattern": "",
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        }
+                      ],
+                      "restrictions": [],
+                      "min": 1,
+                      "max": 50,
+                      "input_type": "1",
+                      "weightage": [],
+                      "value": "",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "1",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "7",
+                        "index": 0,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": ""
+                          }
+                        ],
+                        "input_type": "1",
+                        "nestedAnswer": [],
+                        "order": "7.001",
+                        "pattern": "",
+                        "shortKey": "name_"
+                      }
+                    },
+                    {
+                      "information": "",
+                      "_id": "64097fdc235a2809db049a34",
+                      "order": "7.002",
+                      "answer_option": [],
+                      "title": "Designation",
+                      "hint": "",
+                      "resource_urls": [],
+                      "label": "2",
+                      "shortKey": "designation",
+                      "viewSequence": "31",
+                      "child": [],
+                      "parent": [],
+                      "pattern": "",
+                      "validation": [
+                        {
+                          "error_msg": "",
+                          "_id": "1"
+                        }
+                      ],
+                      "restrictions": [],
+                      "min": 1,
+                      "max": 50,
+                      "input_type": "1",
+                      "weightage": [],
+                      "value": "",
+                      "acceptableType": "",
+                      "acceptableFileType": "",
+                      "type": "1",
+                      "visibility": true,
+                      "nestedConfig": {
+                        "parentOrder": "7",
+                        "index": 1,
+                        "loopIndex": 0
+                      },
+                      "selectedAnswerOption": {
+                        "name": " 1"
+                      },
+                      "forParentValue": 1,
+                      "answer": {
+                        "answer": [
+                          {
+                            "label": "",
+                            "textValue": "",
+                            "value": ""
+                          }
+                        ],
+                        "input_type": "1",
+                        "nestedAnswer": [],
+                        "order": "7.002",
+                        "pattern": "",
+                        "shortKey": "designation"
+                      }
+                    }
+                  ]
+                ],
                 "viewSequence": "29",
                 "child": [],
                 "parent": [],
