@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-annual-account',
   templateUrl: './annual-account.component.html',
@@ -2304,6 +2306,12 @@ export class AnnualAccountComponent implements OnInit {
   };
   endpoints:string = 'annual-accounts/get';
   isApiComplete:boolean = false;
+  finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
+  it will become uneditable and will be sent to State for Review.
+   Alternatively, you can save as draft for now and submit it later.`
+   statusId: number = 1;
+   nextBtnUrl:string='../odf';
+   backBtnUrl:string='#'
  // resData : any;
   ngOnInit(): void {
    // console.log('ResData', this.resData)
@@ -2312,7 +2320,6 @@ export class AnnualAccountComponent implements OnInit {
   }
   this.isApiComplete = false;
    this.onload();
-   this.fileFolderName = "Shared/fiscalRankings/landingPage"
   }
   onload(){
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res: any)=>{
@@ -2333,36 +2340,33 @@ export class AnnualAccountComponent implements OnInit {
   resData(e){
     console.log('ResData..................', e);
     //this.postData.data = e?.finalData;
-    this.postData = {
-      "design_year": this.designYearArray["2023-24"],
-      "ulb": this.ulbId,
-      "isDraft": true,
-      "formId": 5,
-      "status": 2,
-      data: e?.finalData
+
+    // this.onSave(this.postData);
+    let finalData = e?.finalData;
+    if (e?.isSaveAsDraft == false) {
+      this.alertForFianlSubmit(finalData, e?.isSaveAsDraft)
+    } else {
+      this.onSave(finalData, e?.isSaveAsDraft);
     }
-    this.onSave(this.postData);
   }
 
-  onSave(postdata){
-    // let designObj = {
-    //         "answer": [
-    //           {
-    //             "label": "",
-    //             "textValue": "",
-    //             "value": "606aafc14dff55e6c075d3ec"
-    //           }
-    //         ],
-    //         "input_type": "3",
-    //         "nestedAnswer": [],
-    //         "order": "5",
-    //         "shortKey": "design_year",
-    //       };
-    //   postdata?.data.push(designObj);
-      let endPoints = 'annual-accounts/create';
+  onSave(finalData, draft) {
+    if (draft == false) {
+      this.statusId = 3;
+    } else {
+      this.statusId = 2;
+    }
+      this.postData = {
+        "design_year": this.designYearArray["2023-24"],
+        "ulb": this.ulbId,
+        "isDraft": draft,
+        "formId": 5,
+        "status": this.statusId,
+        data: finalData
+      }
 
-    this.commonServices.formPostMethod(postdata, endPoints).subscribe((res)=>{
-      alert('data saved successfully.....');
+    this.commonServices.formPostMethod(this.postData, 'annual-accounts/create').subscribe((res)=>{
+      swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       console.log(res);
 
     },
@@ -2371,6 +2375,40 @@ export class AnnualAccountComponent implements OnInit {
 
     }
     )
+  }
+  alertForFianlSubmit(finalData, draft) {
+    swal(
+      "Confirmation !",
+      `${this.finalSubmitMsg}`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.onSave(finalData, false);
+          break;
+        case "draft":
+          this.onSave(finalData, true);
+          break;
+        case "cancel":
+          break;
+      }
+    });
   }
 
 }

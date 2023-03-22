@@ -2,7 +2,7 @@
 
 <div class="" *ngIf="isApiComplete">
   <app-cf-annual-account [viewTem]="'odf'" [questionresponse]="questionResponse"
- (submitQuestion)="resData($event)" [s3FolderName]="fileFolderName"></app-cf-annual-account>
+ (submitQuestion)="resData($event)" [s3FolderName]="fileFolderName" [nextBtn]="nextBtnUrl" [preBtn]="backBtnUrl"></app-cf-annual-account>
 </div>
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>

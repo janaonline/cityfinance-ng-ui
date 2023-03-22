@@ -1206,6 +1206,8 @@ export class CommonFormComponent implements OnInit {
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
+   nextBtnUrl:string='../odf';
+   backBtnUrl:string='#'
   ngOnInit(): void {
 
   }
@@ -1239,7 +1241,8 @@ export class CommonFormComponent implements OnInit {
 
         }
         //folder: "ULB/2022-23/odf/UK030"
-
+        this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
+        this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
