@@ -1,0 +1,100 @@
+::ng-deep .mat-radio-container {
+  display: none !important;
+}
+
+::ng-deep .mat-radio-checked {
+  background-color: #ffc500 !important;
+  color: white;
+}
+
+::ng-deep .mat-radio-button {
+  // width: 72px;
+  background-color: #CFCFCF;
+  padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+  margin-right: 1rem !important;
+}
+::ng-deep .mat-radio-label-content {
+  padding: 0 0 7px 5px;
+}
+
+.btn-upload {
+  background-color: #059b9a!important;
+  color: #fff;
+  border: 0;
+}
+
+.btn:hover {
+  background-color: #ffc500 !important;
+  color: #fff;
+}
+
+.tab {
+  background-color: #CFCFCF;
+  width: 100%;
+  padding: .5rem;
+}
+
+.active {
+  background-color: #0f1f40 !important;
+  color: #fff;
+}
+
+.upload-btn-pos {
+  display: inline-block;
+  position: relative;
+  // top: -50px;
+  left: -3%;
+}
+
+.up-btn-al {
+  position: relative;
+  left: 18%;
+}
+.form-h {
+  font-weight: 700;
+    font-size: 1.25rem;
+}
+label {
+  font-size: 1rem !important;
+}
+.f-name{
+  color: blue;
+}
+.file-icon-cross {
+  margin-left: 5%;
+  vertical-align: middle;
+}
+.error-msg {
+  color: red !important;
+  margin-top: 0.25rem;
+}
+
+.f-m {
+  margin-bottom: 2rem !important;
+}
+
+.btn-save {
+  background-color: #059b9a!important;
+  color: #fff;
+}
+.btn-next {
+  background-color: #0f1f40 !important;
+  color: #fff;
+}
+.btn-pre {
+  background-color: #CFCFCF;
+}
+.display-none {
+  display: none !important;
+}
+::ng-deep .tooltip-red {
+  background: #b71c1c;
+  font-size: 12px;
+}
+.file-icon, .file-icon-cross{
+  vertical-align: middle !important;
+}
+.file-icon {
+  color: #059b9a!important;
+  font-size: 24px;
+}
