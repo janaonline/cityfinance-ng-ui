@@ -4397,16 +4397,16 @@ export class DurComponent implements OnInit {
   onPreview(data) {
     console.log(data);
 
-    const tiedGrant = data?.find(question => question.shortKey == "tiedGrant");
+    const grantPositionWrapper = data?.find(question => question.shortKey == "grantPosition");
     const general = data?.find(question => question.shortKey == "general");
     const waterManagement = data?.find(question => question.shortKey == "waterManagement_tableView");
     const solidWasteManagement = data?.find(question => question.shortKey == "solidWasteManagement_tableView");
     const projectDetails = data?.find(question => question.shortKey == "projectDetails_tableView_addButton");
-    const selfDeclaration = data?.find(question => question.shortKey == "order7");
+    const selfDeclaration = data?.find(question => question.shortKey == "selfDec");
 
-    console.log({ tiedGrant, waterManagement, solidWasteManagement, projectDetails });
+    console.log({ tiedGrant: grantPositionWrapper, waterManagement, solidWasteManagement, projectDetails });
 
-    const grantPosition = (tiedGrant.childQuestionData[0] as any[]).reduce((result, child) => {
+    const grantPosition = (grantPositionWrapper.childQuestionData[0] as any[]).reduce((result, child) => {
       result[child.shortKey] = child.value;
       return result;
     }, {});
@@ -4431,21 +4431,23 @@ export class DurComponent implements OnInit {
     });
 
     const projects = (projectDetails.childQuestionData as any[]).map(child => {
+      const lat = child[4]?.modelValue?.split(',')?.[0];
+      const long = child[4]?.modelValue?.split(',')?.[1];
       return {
         name: child?.[0]?.value,
-        categoryName: child?.[1]?.value,
+        categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: '104',
-          long: '20.23'
+          lat: parseInt(lat).toFixed(2),
+          long: parseInt(long).toFixed(2)
         },
-        cost: 20,
-        expenditure: 4
+        cost: child[5]?.value,
+        expenditure: child[6]?.value
       }
     });
 
-    console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
+    // console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
-    let formdata = {
+    let previewData = {
       status: "",
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
@@ -4460,7 +4462,7 @@ export class DurComponent implements OnInit {
       projects
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
-      data: formdata,
+      data: previewData,
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",

@@ -7,6 +7,7 @@ const nestedKeys = {
   'grantPosition.unUtilizedPrevYr': 'grantPosition___unUtilizedPrevYr',
   'grantPosition.receivedDuringYr': 'grantPosition___receivedDuringYr',
   'grantPosition.expDuringYr': 'grantPosition___expDuringYr',
+  'grantPosition.closingBal': 'grantPosition___closingBal',
 }
 
 const defaultProject = [
@@ -612,6 +613,7 @@ export class DurService {
     return this.http.get(`${environment.api.url}/utilReport?ulb=${ulb}&design_year=${design_year}&formId=4`)
       .pipe(
         map((response: any) => {
+          console.log('getForm', mFormConverter('encode', response));
           return mFormConverter('encode', response);
         })
       );
