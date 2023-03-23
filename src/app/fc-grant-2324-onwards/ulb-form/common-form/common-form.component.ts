@@ -1207,7 +1207,7 @@ export class CommonFormComponent implements OnInit {
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
    nextBtnUrl:string='../odf';
-   backBtnUrl:string='#'
+   backBtnUrl:string='#';
   ngOnInit(): void {
 
   }

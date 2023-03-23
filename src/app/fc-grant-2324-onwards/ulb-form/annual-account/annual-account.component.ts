@@ -54,11 +54,13 @@ export class AnnualAccountComponent implements OnInit {
       {
         _id: '5f4656c92daa9921dc1173aa',
         formId: 1,
+
         language:
         [
           {
               "_id": "64144d6538d5190d4dcd0dbb",
               "lng": "en",
+              isDraft: false,
               "question": [
                   {
                       "information": "PDFs are mandatory and Excels are Optional.",
