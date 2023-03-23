@@ -1,4 +1,4 @@
 [submodule "src/app/mform_webform"]
 	path = src/app/mform_webform
-	url = https://bitbucket.org/dhwanidevs/mform_webform
+	url = git@bitbucket.org:dhwanidevs/mform_webform
 	branch = submodule
