@@ -4475,12 +4475,12 @@ export class DurComponent implements OnInit {
     });
   }
 
-  onSubmit(data, isDraft = true) {
+  onSubmit(data) {
     console.log("submissingdata", data);
     // return;
     this.loaderService.showLoader();
     this.durService.postForm({
-      isDraft,
+      isDraft: data.isSaveAsDraft,
       isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
@@ -4489,10 +4489,13 @@ export class DurComponent implements OnInit {
       data: data.finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
+      if(Array.isArray(error?.message)) {
+        error.message = error.message.join('\n\n');
+      }
       swal('Error', error?.message ?? 'Something went wrong', 'error');
       console.log('error occured');
     })
