@@ -4329,8 +4329,8 @@ export class DurComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoaded = true;
-    // this.loadData();
+    // this.isLoaded = true;
+    this.loadData();
   }
 
   get design_year() {
@@ -4475,7 +4475,7 @@ export class DurComponent implements OnInit {
 
   onSubmit(data, isDraft = true) {
     console.log("submissingdata", data);
-    return;
+    // return;
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft,

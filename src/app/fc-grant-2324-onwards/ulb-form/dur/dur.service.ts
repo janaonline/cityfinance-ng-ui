@@ -589,6 +589,15 @@ const defaultProject = [
     }
   ]
 ];
+
+const mFormConverter = (type: 'encode' | 'decode', json: any) => {
+  let stringifyReponse: string = JSON.stringify(json);
+  Object.entries(nestedKeys).forEach(([key, value]) => {
+    stringifyReponse = stringifyReponse
+      .replaceAll(type === 'encode' ? key : value, type === 'encode' ? value : key);
+  })
+  return JSON.parse(stringifyReponse);
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -603,13 +612,7 @@ export class DurService {
     return this.http.get(`${environment.api.url}/utilReport?ulb=${ulb}&design_year=${design_year}&formId=4`)
       .pipe(
         map((response: any) => {
-          let stringifyReponse = JSON.stringify(response);
-          console.log('str before', stringifyReponse);
-          Object.entries(nestedKeys).forEach(([key, value]) => {
-            stringifyReponse = stringifyReponse.replace(key, value);
-          })
-          console.log('str after', stringifyReponse);
-          return JSON.parse(stringifyReponse);
+          return mFormConverter('encode', response);
         })
       );
   }
@@ -626,6 +629,6 @@ export class DurService {
       );
   }
   postForm(body) {
-    return this.http.post(`${environment.api.url}/utilization-report`, body);
+    return this.http.post(`${environment.api.url}/utilization-report`, mFormConverter('decode', body));
   }
 }
