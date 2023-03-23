@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 const swal: SweetAlert = require("sweetalert");
@@ -15,6 +15,8 @@ import { DurService } from './dur.service';
   styleUrls: ['./dur.component.scss']
 })
 export class DurComponent implements OnInit {
+  @ViewChild('webForm') webForm;
+
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
 
@@ -298,7 +300,7 @@ export class DurComponent implements OnInit {
                 "childQuestionData": [
                   [
                     {
-                      "information": "",
+                      "information": "i = Please enter the balance amount brought forward from the previous instalment.",
                       "_id": "64097a583b2eb509dc61e2a7",
                       "order": "2.005",
                       "answer_option": [],
@@ -497,6 +499,7 @@ export class DurComponent implements OnInit {
                       "resource_urls": [],
                       "label": "4",
                       "shortKey": "grantPosition.closingBal",
+                      "isQuestionDisabled": true,
                       "viewSequence": "8",
                       "child": [],
                       "parent": [],
@@ -790,6 +793,7 @@ export class DurComponent implements OnInit {
                       "resource_urls": [],
                       "label": "1",
                       "shortKey": "wm_category_name",
+                      "isQuestionDisabled": true,
                       "viewSequence": "11",
                       "child": [],
                       "parent": [],
@@ -4325,7 +4329,8 @@ export class DurComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.isLoaded = true;
+    // this.loadData();
   }
 
   get design_year() {
@@ -4348,6 +4353,7 @@ export class DurComponent implements OnInit {
   loadData() {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
+      console.log('loadData::',res);
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
@@ -4365,6 +4371,7 @@ export class DurComponent implements OnInit {
   getProjects() {
     this.loaderService.showLoader();
     this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
+      
       this.loaderService.stopLoader();
       if (!res?.data) return;
       this.isProjectLoaded = true;
@@ -4373,16 +4380,11 @@ export class DurComponent implements OnInit {
       if (projectDetailsIndex) {
         this.isLoaded = false;
         const question = this.questionresponse.data[0].language[0].question[projectDetailsIndex];
-        if(res.data.length == 0) {
-          delete question.childQuestionData;
-          const questionLength = '' +res.data.length;
-          question.value = questionLength;
-          question.modelValue = questionLength;
-          question.selectedValue = [{value: questionLength, label: questionLength, textValue: ''}];
-        } else {
-          const childQuestionData = res.data.map(item => item.sort((a, b) => a.order > b.order ? 1 : -1))
-          question.childQuestionData = childQuestionData;
-        }
+        const questionLength = '' +res.data.length;
+        question.value = questionLength;
+        question.modelValue = questionLength;
+        question.selectedValue = [{value: questionLength, label: questionLength, textValue: ''}];
+        question.childQuestionData = res.data;
         setImmediate(() => { this.isLoaded = true; })
       }
       console.log(res);
@@ -4449,6 +4451,7 @@ export class DurComponent implements OnInit {
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
       grantType: "Tied",
+      isProjectLoaded: this.isProjectLoaded,
       grantPosition,
       name: selfDeclaration?.childQuestionData?.[0]?.[0].modelValue,
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
@@ -4471,10 +4474,12 @@ export class DurComponent implements OnInit {
   }
 
   onSubmit(data, isDraft = true) {
-    console.log(data);
+    console.log("submissingdata", data);
+    return;
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft,
+      isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
       ulb: this.ulbId,
