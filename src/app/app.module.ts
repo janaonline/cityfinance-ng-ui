@@ -41,7 +41,6 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 import { NgxPaginationModule } from "ngx-pagination";
-import { WebFormModule } from "./mform_webform/web-form/web-form.module";
 
 
 
@@ -63,7 +62,6 @@ import { WebFormModule } from "./mform_webform/web-form/web-form.module";
     SharedModule,
     // CfChartsModule,
     AngularMaterialModule,
-   // WebFormModule,
     CommonModule,
     AngularMultiSelectModule,
     MatAutocompleteModule,
@@ -116,4 +114,4 @@ import { WebFormModule } from "./mform_webform/web-form/web-form.module";
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
