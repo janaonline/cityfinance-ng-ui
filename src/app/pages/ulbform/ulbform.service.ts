@@ -26,7 +26,6 @@ export class UlbformService {
   constructor(private http: HttpClient) { }
 
   getStatus(design_year, rowId) {
-    debugger
     if (rowId != null) {
       return this.http.get(
         `${environment.api.url}masterForm/get/${design_year}/${rowId}`
