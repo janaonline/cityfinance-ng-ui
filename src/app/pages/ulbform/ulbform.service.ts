@@ -26,6 +26,7 @@ export class UlbformService {
   constructor(private http: HttpClient) { }
 
   getStatus(design_year, rowId) {
+    debugger
     if (rowId != null) {
       return this.http.get(
         `${environment.api.url}masterForm/get/${design_year}/${rowId}`
@@ -39,7 +40,7 @@ export class UlbformService {
 
   getAllForms(ulb, design_year, financialYear) {
     return this.http.get(
-      `${environment.api.url}masterForm/getAllForms?ulb=${ulb}&&design_year=${design_year}&&financialYear=${financialYear}`
+      `${environment.api.url}masterForm/getAllForms?ulb=${ulb}&design_year=${design_year}&financialYear=${financialYear}`
     );
   }
   getEligibleULBForm(ulb_id) {
