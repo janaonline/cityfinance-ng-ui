@@ -60,10 +60,11 @@ export class LearningCenterComponent implements OnInit {
       name: "Glossary",
       link: "faqs",
     },
-    {
-      name: "Municipal Bond Repository",
-      link: "municipal-bond-repository",
-    },
+    // remove for prods
+    // {
+    //   name: "Municipal Bond Repository",
+    //   link: "municipal-bond-repository",
+    // },
   ];
 
   currentUrl;
