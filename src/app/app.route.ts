@@ -209,10 +209,11 @@ export const appRouter: Routes = [
     path: "profile-update",
     component: ProfileUpdateComponent,
   },
-  {
-    path: "municipal-bonds",
-    component: MunicipalityBondsProjectsComponent,
-  },
+  // for municipal-bonds only for stg now
+  // {
+  //   path: "municipal-bonds",
+  //   component: MunicipalityBondsProjectsComponent,
+  // },
 
   { path: "**", redirectTo: "rankings/home" },
 ];
