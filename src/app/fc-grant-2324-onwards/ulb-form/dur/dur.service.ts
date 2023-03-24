@@ -623,7 +623,7 @@ export class DurService {
       .pipe(
         map((response: any) => {
           console.log('projects :::', response);
-          if (response.data.length === 0) {
+          if (response.data?.length === 0) {
             response.data = defaultProject;
           }
           return response;

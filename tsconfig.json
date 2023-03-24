@@ -21,7 +21,7 @@
     ],
     "lib": [
       "es2017",
-      "ES2021",
+      "esnext.string",
       "dom"
     ],
     "paths": {
