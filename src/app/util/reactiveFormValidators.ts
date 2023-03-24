@@ -74,6 +74,17 @@ export const customPasswordValidator = (control: AbstractControl) => {
   return null;
 };
 
+export const validateOnlyText = (control: AbstractControl) => {
+  const value = control.value;
+  const regex = /^[a-zA-Z_ ]+$/;
+  return regex.test(value) ? null : { onlyText: true };
+}
+
+export const urlValidator = (control: AbstractControl) => {
+  const value = control.value;
+  const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  return regex.test(value) ? null : { onlyText: true };
+}
 /**
  * @description This Validator must be used for string inputs only.
  * The in-built <code> Validators.required </code> accepts empty string as valid,

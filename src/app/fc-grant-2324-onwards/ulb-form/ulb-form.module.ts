@@ -8,11 +8,12 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
  import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
 import { DurComponent } from './dur/dur.component';
 import { DurPreviewComponent } from './dur/dur-preview/dur-preview.component';
+import { CommonFormComponent } from './common-form/common-form.component';
 
 
 
 @NgModule({
-  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent],
+  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent],
   imports: [
     CommonModule,
     UlbFormRoutingModule,

@@ -1,0 +1,10 @@
+<div class="" *ngIf="isApiComplete">
+  <app-web-form [viewTem]="formName" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
+  [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
+  [nextBtn]="nextBtnUrl" [preBtn]="backBtnUrl"></app-web-form>
+</div>
+<div class="loader" *ngIf="!isApiComplete">
+<app-form-loader></app-form-loader>
+</div>
+
+

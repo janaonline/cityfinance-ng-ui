@@ -59,6 +59,10 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
+
+    &:disabled {
+        pointer-events: none;
+    }
 }
 
 .form-ic {
@@ -194,7 +198,7 @@
 }
 
 .l-h {
-    height: 5rem;
+    min-height: 5rem;
 }
 
 .f-w {
@@ -222,11 +226,14 @@
 }
 
 .disable {
+
     input,
     .mat-radio-button,
+    .mat-datepicker-toggle,
     .mat-form-field {
         pointer-events: none;
     }
+
     .form-control,
     .br-a {
         background-color: #ccc;
@@ -271,10 +278,40 @@
     display: inline-block;
 }
 
-// ::ng-deep .mat-input-element:disabled,
-// .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+// ::ng-deep .mat-input-element:disabled {
 //     color: #000;
 // }
+
+// ::ng-deep .mat-form-field-disabled {
+//     .mat-form-field-outline {
+//         background-color: #ccc;
+//     }
+// }
+
 .pe-none {
     pointer-events: none;
+}
+
+::ng-deep .mat-radio-group.ng-invalid.ng-touched {
+    border: 2px solid red;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline,
+.mat-input-element:disabled {
+    color: #d3d3d3 !important;
+}
+::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style{
+    color: #727272 !important;
+}
+
+
+::ng-deep {
+    .mat-form-field {
+        &.ng-invalid.ng-touched {
+            &::after {
+                content: 'Please fill a valid value';
+                color: red;
+            }
+        }
+    }
 }

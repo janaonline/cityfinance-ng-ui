@@ -1,0 +1,41 @@
+::ng-deep .mat-radio-container {
+  display: none !important;
+}
+
+::ng-deep .mat-radio-checked {
+  background-color: #ffc500 !important;
+  color: white;
+}
+
+::ng-deep .mat-radio-button {
+  // width: 72px;
+  background-color: #CFCFCF;
+  padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+  margin-right: 1rem !important;
+}
+
+.btn-upload {
+  background-color: #059b9a!important;
+  color: #fff;
+  border: 0;
+}
+.btn-save {
+  background-color: #059b9a!important;
+  color: #fff;
+}
+.btn-next {
+  background-color: #0f1f40 !important;
+  color: #fff;
+}
+.btn-pre {
+  background-color: #CFCFCF;
+}
+.mr1 {
+  margin-right: 1rem;
+}
+::ng-deep .mat-info-icon   {
+  cursor: pointer;
+  vertical-align: middle !important;
+  font-size: 18px !important;
+  color: #999999;
+}

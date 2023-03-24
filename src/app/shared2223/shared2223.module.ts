@@ -28,6 +28,7 @@ import { EditUlbTableComponent } from './components/edit-ulb-table/edit-ulb-tabl
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
+import { CommonActionRadioComponent } from './components/common-action-radio/common-action-radio.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -44,6 +45,7 @@ import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.co
     TableApproveReturnDialogComponent,
     EditUlbTableComponent,
     PreLoaderNewComponent,
+    CommonActionRadioComponent,
     // BreadcrumbComponent,
   ],
   imports: [
@@ -70,7 +72,8 @@ import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.co
     TableComponent,
     CommonActionComponent,
     EditUlbTableComponent,
-    PreLoaderNewComponent
+    PreLoaderNewComponent,
+    CommonActionRadioComponent,
     // BreadcrumbComponent,
   ],
 })

@@ -20,8 +20,8 @@
                 <div class="row out-f-h" *ngIf="menuItem?.key != ''">
                     <div class="col-sm-2">
                         <!-- <mat-icon class="pull-right" aria-hidden="false">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>  -->
+                          <img src="../../../assets/form-icon/checked.svg">
+                      </mat-icon>  -->
                     </div>
                     <div class="col-sm-9 collapsable" *ngIf="(menuItem?.key?.split('_'))[0]">
                         <!-- {{menuItem?.key}} -->
@@ -41,12 +41,12 @@
                             </div>
                             <div class="col-sm-1 col-lg-1 col-md-1 collapsable">
                                 <!-- <mat-icon class="pull-right" aria-hidden="false">
-                                  <img src="../../../assets/form-icon/checked.svg">
-                              </mat-icon> -->
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon> -->
 
                                 <!-- <mat-icon class="pull-right" aria-hidden="false">
-                                  <img src="../../../assets/form-icon/cancel.svg">
-                              </mat-icon> -->
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon> -->
                                 <mat-icon class="pull-right" aria-hidden="false" [tooltip]="sideItem?.tooltip">
                                     <img src="{{sideItem?.tick}}">
                                 </mat-icon>
@@ -69,34 +69,34 @@
             <div class="row" *ngIf="loggedInUserType !== userTypes.STATE && path">
                 <div class="col-sm-12 br-cd">
                     <a type="button" (click)="backStatePage()" class="breadLink">
-                        &laquo;
-                        State Review
-                    </a>
+                      &laquo;
+                      State Review
+                  </a>
                 </div>
             </div>
             <div class="row">
                 <div class="col header1" [ngClass]="{'mt-0': (loggedInUserType !== userTypes.STATE)}">
                     <h3 class="text-center" style="
-                text-align: center;
-                margin-bottom: 5px;
-                font-weight: 600;
-                font-size: 1.5rem;
-              " *ngIf="loggedInUserType !== userTypes.USER">
+              text-align: center;
+              margin-bottom: 5px;
+              font-weight: 600;
+              font-size: 1.5rem;
+            " *ngIf="loggedInUserType !== userTypes.USER">
                         <span *ngIf="
-                  loggedInUserType === userTypes.ADMIN ||
-                  loggedInUserType === userTypes.MoHUA ||
-                  loggedInUserType === userTypes.PARTNER
-                ">
-                            {{ userLoggedInDetails.role }}
-                            <div>
-                                <span style="font-size: 1.2rem; font-weight:600;">
-                                    {{stateName}}
-                                </span>
+                loggedInUserType === userTypes.ADMIN ||
+                loggedInUserType === userTypes.MoHUA ||
+                loggedInUserType === userTypes.PARTNER
+              ">
+                          {{ userLoggedInDetails.role }}
+                          <div>
+                              <span style="font-size: 1.2rem; font-weight:600;">
+                                  {{stateName}}
+                              </span>
                 </div>
                 </span>
                 <span *ngIf="states && (loggedInUserType === userTypes.STATE)">
-                            {{ states[userLoggedInDetails["state"]]?.name }}
-                        </span>
+                          {{ states[userLoggedInDetails["state"]]?.name }}
+                      </span>
                 </h3>
 
             </div>

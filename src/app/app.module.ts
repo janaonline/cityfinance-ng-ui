@@ -106,7 +106,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     UlbNotRegisteredComponent,
     NewHomeComponent,
     ProfileUpdateComponent,
-    
+
     // InrCurrencyPipe,
   ],
   exports: [
