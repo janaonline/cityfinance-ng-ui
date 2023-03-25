@@ -22,8 +22,8 @@ export class DurComponent implements OnInit {
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
-  questionresponse: any;
-  //  any = {
+  questionresponse;
+  // {
   //   timestamp: 1621316934,
   //   success: true,
   //   message: 'Form Questionare!',
@@ -31,6 +31,8 @@ export class DurComponent implements OnInit {
   //     {
   //       _id: '5f4656c92daa9921dc1173aa',
   //       formId: 466,
+        
+
   //       language: [
   //         {
   //           "_id": "641a9fa738d5190d4dcde1c8",
@@ -4354,7 +4356,7 @@ export class DurComponent implements OnInit {
   loadData() {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
-      console.log('loadData::',res);
+      console.log('loadData::', res);
       this.loaderService.stopLoader();
       console.log(res);
       this.isLoaded = true;
@@ -4372,21 +4374,18 @@ export class DurComponent implements OnInit {
   getProjects() {
     this.loaderService.showLoader();
     this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
-      
+
       this.loaderService.stopLoader();
       if (!res?.data) return;
       this.isProjectLoaded = true;
-      const projectDetailsIndex = this.questionresponse.data[0].language[0].question.findIndex(question => question.shortKey == "projectDetails_tableView_addButton");
-      console.log(projectDetailsIndex);
-      if (projectDetailsIndex) {
-        this.isLoaded = false;
-        const question = this.questionresponse.data[0].language[0].question[projectDetailsIndex];
-        const questionLength = '' +res.data.length;
-        question.value = questionLength;
-        question.modelValue = questionLength;
-        question.selectedValue = [{value: questionLength, label: questionLength, textValue: ''}];
-        question.childQuestionData = res.data;
-        setImmediate(() => { this.isLoaded = true; })
+      const projectDetails = this.webForm.questionData.find(question => question.shortKey == "projectDetails_tableView_addButton");
+
+      if (projectDetails) {
+        const questionLength = '' + res.data.length;
+        projectDetails.value = questionLength;
+        projectDetails.modelValue = questionLength;
+        projectDetails.selectedValue = [{ value: questionLength, label: questionLength, textValue: '' }];
+        projectDetails.childQuestionData = res.data;
       }
       console.log(res);
     }, ({ error }) => {
@@ -4494,7 +4493,7 @@ export class DurComponent implements OnInit {
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
-      if(Array.isArray(error?.message)) {
+      if (Array.isArray(error?.message)) {
         error.message = error.message.join('\n\n');
       }
       swal('Error', error?.message ?? 'Something went wrong', 'error');
