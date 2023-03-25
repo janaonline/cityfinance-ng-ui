@@ -353,13 +353,17 @@ nextRouter = '';
           Validators.required,
           Validators.maxLength(200),
         ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
           Validators.required,
+          // Validators.min(1),
+        ]),
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+          // Validators.required,
           // Validators.min(1),
         ]),
         workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
           //Validators.required,
-          // Validators.min(1),
+
         ]),
         isDisable: this.fb.control(data?.isDisable, [
          // Validators.required,
@@ -406,8 +410,12 @@ nextRouter = '';
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
           Validators.required,
+          // Validators.min(1),
+        ]),
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+        //  Validators.required,
           // Validators.min(1),
         ]),
         workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
@@ -450,8 +458,12 @@ nextRouter = '';
           Validators.required,
           Validators.min(1),
         ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
           Validators.required,
+          // Validators.min(1),
+        ]),
+        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
+         // Validators.required,
           // Validators.min(1),
         ]),
         workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
@@ -650,18 +662,32 @@ nextRouter = '';
   setSkipLogic(data){
     for(let i=0; i < data.length; i++){
       let uaItem = this.data[i];
-      let len = uaItem?.waterBodies?.length
+      let len = uaItem?.waterBodies?.length;
       for(let j = 0; j< len; j++) {
-        let dprVal = uaItem?.waterBodies[j]?.dprCompletion;
+        let dprVal = uaItem?.waterBodies[j]?.dprPreparation;
         this.onChange(dprVal, j, 'waterB', i)
+        if(dprVal == 'Yes'){
+          let comVal = uaItem?.waterBodies[j]?.dprCompletion
+          this.onChange(comVal, j, 'waterBCom', i)
+        }
       }
-      for(let j = 0; j< len; j++) {
-        let dprVal = uaItem?.reuseWater[j]?.dprCompletion;
+      let lenRej = uaItem?.reuseWater?.length;
+      for(let j = 0; j < lenRej; j++) {
+        let dprVal = uaItem?.reuseWater[j]?.dprPreparation;
         this.onChange(dprVal, j, 'rWater', i)
+        if(dprVal == 'Yes'){
+          let comVal = uaItem?.reuseWater[j]?.dprCompletion;
+          this.onChange(comVal, j, 'rWaterCom', i)
+        }
       }
-      for(let j = 0; j< len; j++) {
-        let dprVal = uaItem?.serviceLevelIndicators[j]?.dprCompletion;
+      let lenSev = uaItem?.reuseWater?.length;
+      for(let j = 0; j< lenSev; j++) {
+        let dprVal = uaItem?.serviceLevelIndicators[j]?.dprPreparation;
         this.onChange(dprVal, j, 'sWater', i)
+        if(dprVal == 'Yes'){
+          let comVal = uaItem?.serviceLevelIndicators[j]?.dprCompletion;
+          this.onChange(comVal, j, 'sWaterCom', i)
+        }
       }
     }
 
@@ -734,8 +760,12 @@ nextRouter = '';
             Validators.required,
             Validators.min(1),
           ]),
-          dprCompletion: this.fb.control('', [
+          dprPreparation: this.fb.control('', [
             Validators.required,
+            // Validators.min(1),
+          ]),
+          dprCompletion: this.fb.control('', [
+           // Validators.required,
             // Validators.min(1),
           ]),
           workCompletion: this.fb.control('', [
@@ -795,8 +825,12 @@ nextRouter = '';
               Validators.required,
               // Validators.min(1),
             ]),
-            dprCompletion: this.fb.control('', [
+            dprPreparation: this.fb.control('', [
               Validators.required,
+              // Validators.min(1),
+            ]),
+            dprCompletion: this.fb.control('', [
+            //  Validators.required,
               // Validators.min(1),
             ]),
             workCompletion: this.fb.control('', [
@@ -900,6 +934,10 @@ nextRouter = '';
               Validators.required,
               // Validators.min(1),
             ]),
+            dprPreparation: this.fb.control('', [
+              Validators.required,
+              // Validators.min(1),
+            ]),
             dprCompletion: this.fb.control('', [
               Validators.required,
               // Validators.min(1),
@@ -954,30 +992,70 @@ nextRouter = '';
    onChange(val, pIndex, type, uaIndex) {
     console.log('radio', val, pIndex, type, uaIndex)
     if (type == 'waterB') {
-      if (this.waterRejenuvation?.value?.uaData[uaIndex]?.waterBodies[pIndex]?.dprCompletion == 'Yes') {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls.workCompletion.setValidators(Validators.required);
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
-      }else {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls.workCompletion.clearValidators();;
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.dprCompletion.setValidators(Validators.required);
+        formSelector?.dprCompletion.updateValueAndValidity();
+      } else {
+        formSelector?.dprCompletion.clearValidators();;
+        formSelector?.dprCompletion.updateValueAndValidity();
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
       }
     }
+    if (type == 'waterBCom') {
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.waterBodies?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+        formSelector?.workCompletion.updateValueAndValidity();
+      } else {
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
+      }
+    }
+
     if (type == 'rWater') {
-      if (this.waterRejenuvation?.value?.uaData[uaIndex]?.reuseWater[pIndex]?.dprCompletion == 'Yes') {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls.workCompletion.setValidators(Validators.required);
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.dprCompletion.setValidators(Validators.required);
+        formSelector?.dprCompletion.updateValueAndValidity();
       }else {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls.workCompletion.clearValidators();;
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
+        formSelector?.dprCompletion.clearValidators();;
+        formSelector?.dprCompletion.updateValueAndValidity();
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
+      }
+    }
+    if (type == 'rWaterCom') {
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.reuseWater?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);;
+        formSelector?.workCompletion.updateValueAndValidity();
+      }else {
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
       }
     }
     if (type == 'sWater') {
-      if (this.waterRejenuvation?.value?.uaData[uaIndex]?.serviceLevelIndicators[pIndex]?.dprCompletion == 'Yes') {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls.workCompletion.setValidators(Validators.required);
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
-      }else {
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls.workCompletion.clearValidators();;
-        this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls?.workCompletion.updateValueAndValidity();
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.dprCompletion.setValidators(Validators.required);
+        formSelector?.dprCompletion.updateValueAndValidity();
+      } else {
+        formSelector?.dprCompletion.clearValidators();;
+        formSelector?.dprCompletion.updateValueAndValidity();
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
+      }
+    }
+    if (type == 'sWaterCom') {
+      let formSelector = this.waterRejenuvation.get("uaData").get(`${uaIndex}`)["controls"]?.serviceLevelIndicators?.controls[pIndex]?.controls;
+      if (val == 'Yes') {
+        formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);;
+        formSelector?.workCompletion.updateValueAndValidity();
+      } else {
+        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.updateValueAndValidity();
       }
     }
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation)
@@ -1765,9 +1843,9 @@ nextRouter = '';
         }
       );
   }
-  saveAction() {
+  // saveAction() {
 
-  }
+  // }
   actionData(e, pIndex) {
     console.log('state action...water rej', e, pIndex)
     console.log('this.data', this.data);
@@ -1789,7 +1867,12 @@ nextRouter = '';
       });
     }
   }
-
+warningForAmount(val){
+  if(val < 40){
+    swal('Alert !', ` As per the Operational Guidelines,
+    the condition for receiving grants for ULBs will be 40% of work completion of mandatory projects by June 2023`, 'alert');
+  }
+}
 }
 
 function deepEqual(x, y) {
