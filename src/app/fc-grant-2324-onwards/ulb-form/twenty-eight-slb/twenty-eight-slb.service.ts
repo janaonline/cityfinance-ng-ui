@@ -21,6 +21,6 @@ export class TwentyEightSlbService {
       );
   }
   postForm(body) {
-    return this.http.post(`${environment.api.url}/utilization-report`, body);
+    return this.http.post(`${environment.api.url}/28-slbs`, body);
   }
 }

@@ -4396,8 +4396,8 @@ export class TwentyEightSlbComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoaded = true;
-    // this.loadData();
+    // this.isLoaded = true;
+    this.loadData();
   }
 
   get design_year() {
@@ -4443,9 +4443,10 @@ export class TwentyEightSlbComponent implements OnInit {
     this.loaderService.showLoader();
     this.twentyEightSlbService.postForm({
       isDraft: data.isSaveAsDraft,
-      isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
-      designYear: this.design_year,
+      design_year: this.design_year,
+      actualYear:"606aafb14dff55e6c075d3ae",
+      targetYear:"606aaf854dff55e6c075d219",
       ulb: this.ulbId,
       formId: this.formId,
       data: data.finalData,
