@@ -9,11 +9,12 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { DurComponent } from './dur/dur.component';
 import { DurPreviewComponent } from './dur/dur-preview/dur-preview.component';
 import { CommonFormComponent } from './common-form/common-form.component';
+import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 
 
 
 @NgModule({
-  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent],
+  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent],
   imports: [
     CommonModule,
     UlbFormRoutingModule,

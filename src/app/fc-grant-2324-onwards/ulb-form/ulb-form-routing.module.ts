@@ -5,6 +5,7 @@ import { AnnualAccountComponent } from './annual-account/annual-account.componen
 import { DurComponent } from './dur/dur.component';
 import { CommonFormComponent } from './common-form/common-form.component';
 import { UlbFormComponent } from './ulb-form.component';
+import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: "28SLBsForm",
-        component: CommonFormComponent,
+        component: TwentyEightSlbComponent,
       },
       {
         path: "slbs",
