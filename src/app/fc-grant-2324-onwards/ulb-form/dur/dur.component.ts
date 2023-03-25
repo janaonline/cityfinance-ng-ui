@@ -4379,7 +4379,6 @@ export class DurComponent implements OnInit {
       if (!res?.data) return;
       this.isProjectLoaded = true;
       const projectDetails = this.webForm.questionData.find(question => question.shortKey == "projectDetails_tableView_addButton");
-
       if (projectDetails) {
         const questionLength = '' + res.data.length;
         projectDetails.value = questionLength;
@@ -4394,8 +4393,8 @@ export class DurComponent implements OnInit {
     })
   }
 
-  onPreview(data) {
-    console.log(data);
+  onPreview() {
+    const data = this.webForm.questionData;
 
     const grantPositionWrapper = data?.find(question => question.shortKey == "grantPosition");
     const general = data?.find(question => question.shortKey == "general");
