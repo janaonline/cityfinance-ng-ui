@@ -440,8 +440,23 @@ function getDynamicKeys(question: any, questions: any) {
         }
 
         if (v._id === VALIDATION.EQUATION) {
+          let allQuestionData: any = [];
+          /* Checking if the question has a parent question. If it does, it is finding the parent question and
+          then finding the child question data for that parent question. If it is nested child question then  
+          allQuestionData = childQuestionData of parent question else allQuestionData = initial question data*/
+          if ((question.order.includes('.') && question?.forParentValue)) {
+            let nestedQuestionParentOrder: any = question?.order.split('.');
+            if (nestedQuestionParentOrder) {
+              let parentQuestion = questions.find((parentOrder: { order: any; }) => parentOrder.order == nestedQuestionParentOrder[0]);
+              if (parentQuestion) {
+                allQuestionData = parentQuestion.childQuestionData[question?.forParentValue - 1]
+              } else {
+                allQuestionData = questions;
+              }
+            }
+          }
           let equation = v.value;
-          let orders = questions.filter((question: any) =>
+          let orders = allQuestionData.filter((question: any) =>
             equation.match(new RegExp(`\\b${question.shortKey}\\b`))
           );
           let orderCount: number = 0;
