@@ -529,11 +529,12 @@ const getEmptyRequiredQuestions = (questions: any, nestedConfig: any = "") => {
       nestedQuestions: [],
       visibility: question.visibility,
       id: getQuestionUniqueId(question, nestedConfig),
+      forParentValue: question?.forParentValue
     };
     if (
       (question?.input_type == QUESTION_TYPE.NESTED_ONE ||
         question?.input_type == QUESTION_TYPE.NESTED_TWO) &&
-      question?.childQuestionData?.size
+      question?.childQuestionData?.length
     ) {
       question.childQuestionData.forEach(
         (childQuestions: any, loopIndex: any) => {

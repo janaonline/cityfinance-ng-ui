@@ -1850,15 +1850,30 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       if (emptyError.length > 0) {
         this.isFormSubmittedSuccessfully = false;
         for (const error of emptyError) {
-          let errorIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
-          if (errorIndex > -1) {
-            this.questionData[errorIndex]['errorMessage'] = 'This is a required field'
+          if (error && error?.nestedQuestions) {
+            let parentIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
+            if (parentIndex > -1) {
+              for (const nestedError of error?.nestedQuestions) {
+                let childQuestionData: any = this.questionData[parentIndex]['childQuestionData'][nestedError?.forParentValue - 1];
+                let nestedChildErrorIndex: number = childQuestionData.findIndex((child: { order: any; }) => child.order == nestedError?.order);
+                let childErrorMsg: string = '';
+                childErrorMsg = this.getErrorMessage(this.questionData[parentIndex]['childQuestionData'][nestedError?.forParentValue - 1]);
+                this.questionData[parentIndex]['childQuestionData'][nestedError?.forParentValue - 1][nestedChildErrorIndex]['errorMessage'] = childErrorMsg;
+              }
+            }
+          } else {
+            let errorIndex = this.questionData.findIndex((item: { order: any; }) => item.order == error.order);
+            if (errorIndex > -1) {
+              let errorMsg: string = '';
+              errorMsg = this.getErrorMessage(this.questionData[errorIndex]);
+              this.questionData[errorIndex]['errorMessage'] = errorMsg;
+            }
           }
         }
-        
-        // let texteditorQuestionError = this.questionData.find(el => el.order == emptyError[0].order)
-        // if(texteditorQuestionError.input_type == QUESTION_TYPE.ADDRESS && texteditorQuestionError.formatType && texteditorQuestionError.formatType == 'htmlEditor'){
-        //   let shortKeyId = texteditorQuestionError.hasOwnProperty('forParentValue') ? texteditorQuestionError.shortKey + texteditorQuestionError.forParentValue : texteditorQuestionError.shortKey
+
+        // let textEditorQuestionError = this.questionData.find((el: { order: any; }) => el.order == emptyError[0].order)
+        // if(textEditorQuestionError.input_type == QUESTION_TYPE.ADDRESS && textEditorQuestionError.formatType && textEditorQuestionError.formatType == 'htmlEditor'){
+        //   let shortKeyId = textEditorQuestionError.hasOwnProperty('forParentValue') ? textEditorQuestionError.shortKey + textEditorQuestionError.forParentValue : textEditorQuestionError.shortKey
         //   let textEditorErrorElement = document.getElementById(shortKeyId);
         //   textEditorErrorElement.scrollIntoView();
         // }else{
@@ -1909,6 +1924,14 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     }
     // this.submitQuestion.emit({ question: this.questionData});
     console.log("question", this.questionData, emptyError);
+  }
+
+  getErrorMessage(question: any) {
+    if (question && question?.information) {
+      return question?.information;
+    } else {
+      return 'This is a required field';
+    }
   }
 
   prepareFinalResponse(finalQuestionResponse: any, proposalName: string = '', isSaveAsDraft: boolean = false) {
@@ -2219,10 +2242,11 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       this.setParentValueOnNestedChildQuestion(question, questionIndex);
     }
     this.evaluateEquation(question);
-    if ((question.order.includes('.') && question?.forParentValue)) {
-      let nestedQuestionParentOrder: any = question?.order.split('.');
+    if (this.isNestedChildCase(question)) {
+      // (question.order.includes('.') && question?.forParentValue)
+      let nestedQuestionParentOrder: any = this.getNestedQuestionParentOrder(question);
       if (nestedQuestionParentOrder) {
-        let parentQuestion = this.questionData.find((parentOrder: { order: any; }) => parentOrder.order == nestedQuestionParentOrder[0]);
+        let parentQuestion = this.questionData.find((parentOrder: { order: any; }) => parentOrder.order == nestedQuestionParentOrder);
         if (parentQuestion) {
           this.bodmasValidations(true, parentQuestion.childQuestionData[question?.forParentValue - 1])
         }
@@ -2232,6 +2256,52 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.bodmasRestrictions(question);
     console.log('questionData here', this.questionData);
+
+    if(question.hasOwnProperty('forParentValue')){
+      this.clearNestedError(question);
+      // let loopingQuestion = this.questionData.filter((el: { input_type: string; }) => el.input_type == QUESTION_TYPE.NESTED_ONE || el.input_type == QUESTION_TYPE.NESTED_TWO)
+      // if(loopingQuestion){
+      //   loopingQuestion.forEach((el: { childQuestionData: any[]; }) => {
+      //     el.childQuestionData.forEach((ele: any) => {
+      //       setTimeout(() => {
+      //         this.isChildData = true;
+      //         this.initEditor(ele);
+      //       },1000)
+      //     })
+      //   })
+      // }
+    }
+  }
+
+  isNestedChildCase(question: any) {
+    if ((question?.order?.includes('.') && question?.forParentValue)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getNestedQuestionParentOrder(question: any) {
+    let nestedQuestionParentOrder: any = question?.order.split('.');
+    if (nestedQuestionParentOrder) {
+      return nestedQuestionParentOrder[0];
+    }
+  }
+
+  clearNestedError(question: any) {
+    if (this.isNestedChildCase(question)) {
+      let nestedQuestionParentOrder: any = this.getNestedQuestionParentOrder(question);
+      let parentQuestionIndex = this.questionData.findIndex((parentOrder: { order: any; }) => parentOrder.order == nestedQuestionParentOrder);
+      console.log('parentQuestion', parentQuestionIndex, this.questionData[parentQuestionIndex])
+      for (const item of this.questionData[parentQuestionIndex]['childQuestionData'][question?.forParentValue - 1]) {
+        if (item?.modelValue) {
+          item['errorMessage'] = '';
+        }
+      }
+      // let childQuestionIndex = this.questionData[parentQuestionIndex]['childQuestionData'][question?.forParentValue - 1].findIndex((childOrder: { order: any; }) => childOrder?.order == question?.order);
+      // console.log('childQuestionIndex', childQuestionIndex);
+      // this.questionData[parentQuestionIndex]['childQuestionData'][question?.forParentValue - 1][childQuestionIndex]['errorMessage'] = '';
+    }
   }
 
   async setParentValueOnNestedChildQuestion(question: any, questionIndex: number) {
@@ -2274,7 +2344,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     document.getElementById(question.order)?.click();
   }
 
-  openSnackBar(data: string[], duration: any) {
+  openSnackBar(data: string[], duration: number) {
     this.snackBar.openFromComponent(SnackBarComponent, { data, duration });
   }
 
