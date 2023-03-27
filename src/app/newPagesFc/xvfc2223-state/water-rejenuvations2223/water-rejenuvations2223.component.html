@@ -273,16 +273,16 @@
                                       <td class=" rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <!-- [name]="'dprCompletion2' + reuseWaterIndex" [attr.name]="'dprCompletion2' + reuseWaterIndex" -->
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}">Yes</label>&nbsp;&nbsp;
+                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}">No</label>
+                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">No</label>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                         <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.reuseWater[reuseWaterIndex]?.dprPreparation == 'Yes'">
                                         <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
-                                        <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}">Yes</label>&nbsp;&nbsp;
+                                        <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
                                         <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                        <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}">No</label>
+                                        <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
                                         </div>
                                     </td>
                                       <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
@@ -384,16 +384,16 @@
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <!-- [name]="'dprCompletion3' + sliIndex" [attr.name]="'dprCompletion2' + sliIndex" -->
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation3{{sliIndex}}">Yes</label>&nbsp;&nbsp;
+                                          <label class="custom-control-label" for="dprPreparation3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation3{{sliIndex}}">No</label>
+                                          <label class="custom-control-label" for="dprPreparation3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">No</label>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                         <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.serviceLevelIndicators[sliIndex]?.dprPreparation == 'Yes'">
                                         <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
-                                        <label class="custom-control-label" for="dprCompletion3{{sliIndex}}">Yes</label>&nbsp;&nbsp;
+                                        <label class="custom-control-label" for="dprCompletion3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
                                         <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                        <label class="custom-control-label" for="dprCompletion3{{sliIndex}}">No</label>
+                                        <label class="custom-control-label" for="dprCompletion3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
                                         </div>
                                     </td>
                                       <td [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
