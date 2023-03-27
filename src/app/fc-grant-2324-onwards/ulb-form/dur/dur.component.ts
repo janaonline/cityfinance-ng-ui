@@ -4488,7 +4488,10 @@ export class DurComponent implements OnInit {
       data: data.finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
-      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
+      .then(() => {
+        if(data.isSaveAsDraft) location.reload();
+      });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
