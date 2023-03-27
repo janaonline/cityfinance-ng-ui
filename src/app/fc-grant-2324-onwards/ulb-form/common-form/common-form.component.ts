@@ -4,6 +4,7 @@ import { CommonServicesService } from '../../fc-shared/service/common-services.s
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 
 import { SweetAlert } from "sweetalert/typings/core";
+import { isThisMinute } from 'date-fns';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-common-form',
@@ -1300,6 +1301,9 @@ export class CommonFormComponent implements OnInit {
     }
     this.commonServices.formPostMethod(this.postData, this.endPoints).subscribe((res) => {
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
+      if(draft == false){
+        this.callGetApi(this.endPoints, this.getQuery);
+      }
       console.log(res);
     },
       (error) => {
@@ -1376,7 +1380,16 @@ export class CommonFormComponent implements OnInit {
     );
   }
   nextPreBtn(e){
+    // temporay basic setting url
+
     console.log('eeee next pre btn', e);
+    if(this.formName == 'odf'){
+      let url = e?.type == 'pre' ? '../annual_acc' : '../gfc'
+      this.router.navigate([url]);
+    }else if(this.formName == 'gfc'){
+      let url = e?.type == 'pre' ? '../odf' : '../annual_acc'
+      this.router.navigate([url]);
+    }
 
   }
   respon2 : any = {
