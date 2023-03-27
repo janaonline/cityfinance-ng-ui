@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DurComponent } from './dur.component';
+import { FormCommonActionComponent } from './form-common-action.component';
 
-describe('DurComponent', () => {
-  let component: DurComponent;
-  let fixture: ComponentFixture<DurComponent>;
+describe('FormCommonActionComponent', () => {
+  let component: FormCommonActionComponent;
+  let fixture: ComponentFixture<FormCommonActionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DurComponent ]
+      declarations: [ FormCommonActionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DurComponent);
+    fixture = TestBed.createComponent(FormCommonActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
