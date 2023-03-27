@@ -24,7 +24,7 @@
         filter: none;
     }
     .svg-gt {
-        filter: invert(1);
+        filter: invert(1) !important;
     }
     .svg-gl {
         filter: invert(0);
