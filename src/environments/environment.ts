@@ -25,6 +25,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
   GoogleTagID = "UA-171288029-1";
 }
 
+// url = "https://staging.cityfinance.in/api/v1/";
 // url = "https://cityfinance.in/api/v1/";
 export const environment = {
   production: false,

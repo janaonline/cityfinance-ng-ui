@@ -34,6 +34,7 @@ export class MunicipalBondRepositoryComponent implements OnInit {
   }
 
   loadSubCategories() {
+    this.subCategoryId = null;
     if (!this.categoryId) return;
     this.resourcesDashboard.getMunicipalityBondsRepositorySubCategories(this.categoryId).subscribe(({ data }: any) => {
       this.subCategories = data;
