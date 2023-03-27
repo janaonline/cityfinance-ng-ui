@@ -174,7 +174,7 @@ input::-webkit-inner-spin-button {
 }
 
 .tb-head {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -253,4 +253,19 @@ input::-webkit-inner-spin-button {
 
 .p-none {
     pointer-events: none;
+}
+.tb1 {
+  width: 100rem;
+  overflow-x: auto;
+}
+.tb2 {
+  width: 80rem;
+  overflow-x: auto;
+}
+.tb3 {
+  width: 80rem;
+  overflow-x: auto;
+}
+.w-8p {
+  width: 10%;
 }
