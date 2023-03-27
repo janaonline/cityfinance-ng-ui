@@ -997,9 +997,11 @@ nextRouter = '';
         formSelector?.dprCompletion.setValidators(Validators.required);
         formSelector?.dprCompletion.updateValueAndValidity();
       } else {
-        formSelector?.dprCompletion.clearValidators();;
+        formSelector?.dprCompletion.reset();
+        formSelector?.workCompletion.reset();
+        formSelector?.dprCompletion.clearValidators();
         formSelector?.dprCompletion.updateValueAndValidity();
-        formSelector?.workCompletion.clearValidators();;
+        formSelector?.workCompletion.clearValidators();
         formSelector?.workCompletion.updateValueAndValidity();
       }
     }
@@ -1009,8 +1011,10 @@ nextRouter = '';
         formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
         formSelector?.workCompletion.updateValueAndValidity();
       } else {
+        formSelector?.workCompletion.reset();
         formSelector?.workCompletion.clearValidators();;
         formSelector?.workCompletion.updateValueAndValidity();
+
       }
     }
 
@@ -1020,6 +1024,8 @@ nextRouter = '';
         formSelector?.dprCompletion.setValidators(Validators.required);
         formSelector?.dprCompletion.updateValueAndValidity();
       }else {
+        formSelector?.dprCompletion.reset();
+        formSelector?.workCompletion.reset();
         formSelector?.dprCompletion.clearValidators();;
         formSelector?.dprCompletion.updateValueAndValidity();
         formSelector?.workCompletion.clearValidators();;
@@ -1032,6 +1038,7 @@ nextRouter = '';
         formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);;
         formSelector?.workCompletion.updateValueAndValidity();
       }else {
+        formSelector?.workCompletion.reset();
         formSelector?.workCompletion.clearValidators();;
         formSelector?.workCompletion.updateValueAndValidity();
       }
@@ -1042,6 +1049,8 @@ nextRouter = '';
         formSelector?.dprCompletion.setValidators(Validators.required);
         formSelector?.dprCompletion.updateValueAndValidity();
       } else {
+        formSelector?.dprCompletion.reset();
+        formSelector?.workCompletion.reset();
         formSelector?.dprCompletion.clearValidators();;
         formSelector?.dprCompletion.updateValueAndValidity();
         formSelector?.workCompletion.clearValidators();;
@@ -1054,6 +1063,7 @@ nextRouter = '';
         formSelector?.workCompletion.setValidators([Validators.required, Validators.min(0), Validators.max(100)]);;
         formSelector?.workCompletion.updateValueAndValidity();
       } else {
+        formSelector?.workCompletion.reset();
         formSelector?.workCompletion.clearValidators();;
         formSelector?.workCompletion.updateValueAndValidity();
       }
@@ -1868,9 +1878,9 @@ nextRouter = '';
     }
   }
 warningForAmount(val){
-  if(val < 40){
-    swal('Alert !', ` As per the Operational Guidelines,
-    the condition for receiving grants for ULBs will be 40% of work completion of mandatory projects by June 2023`, 'alert');
+  if(val < 10){
+    swal('Alert !', `Project progress does not meet with conditions from operations guidelines para 9.2
+     but ULB can still submit.`, 'warning');
   }
 }
 }
