@@ -10,10 +10,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormLoaderComponent } from './components/form-loader/form-loader.component';
 import { UlbFormRoutingModule } from '../ulb-form/ulb-form-routing.module';
 import { RouterModule } from '@angular/router';
+import { FormCommonActionComponent } from './components/form-common-action/form-common-action.component';
 
 
 @NgModule({
-  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent],
+  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent, FormCommonActionComponent],
   imports: [
     CommonModule,
     MatIconModule,
