@@ -1207,8 +1207,8 @@ export class CommonFormComponent implements OnInit {
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
-   nextBtnUrl:string='../odf';
-   backBtnUrl:string='#';
+  //  nextBtnUrl:string='../odf';
+  //  backBtnUrl:string='#';
    routerSubs:any;
   ngOnInit(): void {
 
@@ -1244,8 +1244,8 @@ export class CommonFormComponent implements OnInit {
 
         }
         //folder: "ULB/2022-23/odf/UK030"
-        this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
-        this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
+        // this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
+        // this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
@@ -1381,14 +1381,15 @@ export class CommonFormComponent implements OnInit {
   }
   nextPreBtn(e){
     // temporay basic setting url
-
     console.log('eeee next pre btn', e);
     if(this.formName == 'odf'){
-      let url = e?.type == 'pre' ? '../annual_acc' : '../gfc'
-      this.router.navigate([url]);
+      let url = e?.type == 'pre' ? 'annual_acc' : 'gfc'
+      console.log('routes url', this.router.navigate([url]), url)
+      this.router.navigate([ `/ulb-form/${url}`]);
     }else if(this.formName == 'gfc'){
-      let url = e?.type == 'pre' ? '../odf' : '../annual_acc'
-      this.router.navigate([url]);
+      let url = e?.type == 'pre' ? 'odf' : 'annual_acc'
+      console.log('routes url', url)
+      this.router.navigate([ `/ulb-form/${url}`]);
     }
 
   }
