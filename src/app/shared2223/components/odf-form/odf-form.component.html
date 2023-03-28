@@ -99,7 +99,8 @@
             </div>
             <!-- onfocus="this.max=new Date().toISOString().split('T')[0]" -->
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" name="cerDate" (change)="dateChange()" placeholder="DD-MM-YYYY" class="inputDate form-control" [min]="minDate" formControlName="certDate" (keydown)="disableEnterDate()" [max]="maxDate">
+                <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" name="cerDate" (change)="dateChange()"
+                 placeholder="DD-MM-YYYY" class="inputDate form-control" [min]="minDate" formControlName="certDate" (keydown)="disableEnterDate()" [max]="maxDate">
                 <!-- <input class="inputDate form-control" (change)="dateChange()"
                 [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }"
                 formControlName="certDate" placeholder="DD-MM-YYYY" bsDatepicker [minDate]="minDate"
