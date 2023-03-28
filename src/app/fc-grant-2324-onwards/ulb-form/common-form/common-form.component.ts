@@ -53,490 +53,464 @@ export class CommonFormComponent implements OnInit {
     success: true,
     message: 'Form Questionare!',
     data: [
+      {
+
+          _id: '5f4656c92daa9921dc1173aa',
+          formId: 2,
+          "language": [
+            // {
+            //   "_id": "63fc56abd4434c05939ac5e9",
+            //   "lng": "en",
+            //   "question": [
+            //     {
+            //       "information": "",
+            //       "_id": "63fc53dad4434c05939ac50c",
+            //       "order": "1",
+            //       "modelName": "Rating",
+            //       "modelFilter": {
+            //         "formName": "odf",
+            //         "financialYear": ""
+            //       },
+            //       "answer_option": [
+            //         {
+            //           "name": "ODF",
+            //           "did": [],
+            //           "viewSequence": "1",
+            //           "coordinates": [],
+            //           "_id": "1"
+            //         },
+            //         {
+            //           "name": "ODF+",
+            //           "did": [],
+            //           "viewSequence": "2",
+            //           "coordinates": [],
+            //           "_id": "2"
+            //         },
+            //         {
+            //           "name": "ODF++",
+            //           "did": [],
+            //           "viewSequence": "3",
+            //           "coordinates": [],
+            //           "_id": "3"
+            //         },
+            //         {
+            //           "name": "Non ODF",
+            //           "did": [],
+            //           "viewSequence": "4",
+            //           "coordinates": [],
+            //           "_id": "4"
+            //         },
+            //         {
+            //           "name": "No Rating",
+            //           "did": [],
+            //           "viewSequence": "5",
+            //           "coordinates": [],
+            //           "_id": "5"
+            //         }
+            //       ],
+            //       "title": "Open Defecation Free (ODF) Rating",
+            //       "hint": "Single Select",
+            //       "resource_urls": [],
+            //       "label": "1",
+            //       "shortKey": "odfRating",
+            //       "viewSequence": "1",
+            //       "child": [
+            //         {
+            //           "type": "11",
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "order": "3"
+            //         },
+            //         {
+            //           "type": "14",
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "order": "6"
+            //         },
+            //         {
+            //           "type": "11",
+            //           "value": "^([5])$",
+            //           "order": "2"
+            //         }
+            //       ],
+            //       "parent": [],
+            //       "validation": [
+            //         {
+            //           "_id": "1",
+            //           "error_msg": ""
+            //         }
+            //       ],
+            //       "restrictions": [],
+            //       "input_type": "3",
+            //       "weightage": [],
+            //       "editable": false
+            //     },
+            //     {
+            //       "information": "",
+            //       "_id": "63fc5529d4434c05939ac521",
+            //       "order": "2",
+            //       "answer_option": [],
+            //       "title": "Upload Declaration?",
+            //       "hint": "Upload PDF",
+            //       "resource_urls": [],
+            //       "label": "2",
+            //       "shortKey": "cert_declaration",
+            //       "viewSequence": "2",
+            //       "child": [],
+            //       "parent": [
+            //         {
+            //           "value": "^([5])$",
+            //           "type": "3",
+            //           "order": "1"
+            //         }
+            //       ],
+            //       "min": null,
+            //       "max": null,
+            //       "minRange": null,
+            //       "maxRange": null,
+            //       "pattern": "",
+            //       "validation": [
+            //         {
+            //           "error_msg": "",
+            //           "_id": "1"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "83",
+            //           "value": "application/pdf"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "81",
+            //           "value": "5120"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "82",
+            //           "value": "1"
+            //         }
+            //       ],
+            //       "restrictions": [],
+            //       "input_type": "11",
+            //       "editable": false,
+            //       "weightage": []
+            //     },
+            //     {
+            //       "information": "",
+            //       "_id": "63fc556dd4434c05939ac535",
+            //       "order": "3",
+            //       "answer_option": [],
+            //       "title": "Upload ODF Certificate?",
+            //       "hint": "Upload PDF",
+            //       "resource_urls": [],
+            //       "label": "3",
+            //       "shortKey": "cert",
+            //       "viewSequence": "3",
+            //       "child": [],
+            //       "parent": [
+            //         {
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "type": "3",
+            //           "order": "1"
+            //         }
+            //       ],
+            //       "min": null,
+            //       "max": null,
+            //       "minRange": null,
+            //       "maxRange": null,
+            //       "pattern": "",
+            //       "validation": [
+            //         {
+            //           "error_msg": "",
+            //           "_id": "1"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "83",
+            //           "value": "application/pdf"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "81",
+            //           "value": "5120"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "82",
+            //           "value": "1"
+            //         }
+            //       ],
+            //       "restrictions": [],
+            //       "input_type": "11",
+            //       "editable": false,
+            //       "weightage": []
+            //     },
+            //     {
+            //       "information": "",
+            //       "_id": "6405ee6e2638a6093d1b7123",
+            //       "order": "6",
+            //       "answer_option": [],
+            //       "title": "Certification Issue Date",
+            //       "hint": "Date",
+            //       "resource_urls": [],
+            //       "label": "4",
+            //       "shortKey": "certDate",
+            //       "viewSequence": "4",
+            //       "child": [],
+            //       "parent": [
+            //         {
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "type": "3",
+            //           "order": "1"
+            //         }
+            //       ],
+            //       "validation": [
+            //         {
+            //           "error_msg": "",
+            //           "_id": "1"
+            //         },
+            //         {
+            //           "_id": "26.4",
+            //           "error_msg": "",
+            //           "value": "2"
+            //         }
+            //       ],
+            //       "restrictions": [],
+            //       "input_type": "14",
+            //       "editable": false,
+            //       "weightage": []
+            //     }
+            //   ],
+            //   "title": "Open Defecation Free (ODF)",
+            //   "buttons": []
+            // }
+          ],
+          groupOrder: 37,
+          createDynamicOption: [],
+          getDynamicOption: [],
+        },
+
+
     ],
   };
   statusId: number = 1;
   odfJson = {
-    // "_id": "63fc56abd4434c05939ac5e9",
-    // "lng": "en",
-    // "question": [
-    //   {
-    //     "information": "",
-    //     "_id": "63fc53dad4434c05939ac50c",
-    //     "order": "1",
-    //     "answer_option": [
-    //       {
-    //         "name": "ODF",
-    //         "did": [],
-    //         "viewSequence": "1",
-    //         "_id": "1"
-    //       },
-    //       {
-    //         "name": "ODF+",
-    //         "did": [],
-    //         "viewSequence": "2",
-    //         "_id": "2"
-    //       },
-    //       {
-    //         "name": "ODF++",
-    //         "did": [],
-    //         "viewSequence": "3",
-    //         "_id": "3"
-    //       },
-    //       {
-    //         "name": "Non ODF",
-    //         "did": [],
-    //         "viewSequence": "4",
-    //         "_id": "4"
-    //       },
-    //       {
-    //         "name": "No Rating",
-    //         "did": [],
-    //         "viewSequence": "5",
-    //         "_id": "5"
-    //       }
-    //     ],
-    //     'modelValue': "2",
-    //     "value": "2",
-    //     "selectedValue" : [
-    //       {
-    //         "label": "ODF+",
-    //         "textValue": "",
-    //         "value": "2"
-    //       }
-    //     ],
-    //     "title": "Open Defecation Free (ODF) Rating",
-    //     "hint": "Single Select",
-    //     "resource_urls": [],
-    //     "label": "",
-    //     "shortKey": "ratings",
-    //     "viewSequence": "1",
-    //     "child": [
-    //       {
-    //         "type": "11",
-    //         "value": "^([5])$",
-    //         "order": "2"
-    //       },
-    //       {
-    //         "type": "11",
-    //         "value": "^([1]|[2]|[3]|[4])$",
-    //         "order": "3"
-    //       },
-    //       {
-    //         "type": "14",
-    //         "value": "^([1]|[2]|[3]|[4])$",
-    //         "order": "4"
-    //       }
-    //     ],
-    //     "parent": [],
-    //     "validation": [
-    //       {
-    //         "_id": "1",
-    //         "error_msg": ""
-    //       }
-    //     ],
-    //     "restrictions": [],
-    //     "input_type": "3",
-    //     "weightage": [],
-    //     "editable": false
-    //   },
-    //   {
-    //     "information": "",
-    //     "_id": "63fc5529d4434c05939ac521",
-    //     "order": "2",
-    //     "answer_option": [],
-    //     "title": "Upload Declaration?",
-    //     "hint": "Upload PDF",
-    //     "resource_urls": [],
-    //     "label": "",
-    //     "shortKey": "cert_declaration",
-    //     "viewSequence": "2",
-    //     "child": [],
-    //     "parent": [
-    //       {
-    //         "value": "^([5])$",
-    //         "type": "3",
-    //         "order": "1"
-    //       }
-    //     ],
-    //     "min": null,
-    //     "max": null,
-    //     "minRange": null,
-    //     "maxRange": null,
-    //     "pattern": "",
-    //     "validation": [
-    //       {
-    //         "error_msg": "",
-    //         "_id": "1"
-    //       },
-    //       {
-    //         "error_msg": "",
-    //         "_id": "81",
-    //         "value": "20480"
-    //       },
-    //       {
-    //         "error_msg": "",
-    //         "_id": "82",
-    //         "value": "1"
-    //       }
-    //     ],
-    //     "restrictions": [],
-    //     "input_type": "11",
-    //     "editable": false,
-    //     "weightage": [],
-    //   },
-    //   {
-    //     "information": "",
-    //     "_id": "63fc556dd4434c05939ac535",
-    //     "order": "3",
-    //     "answer_option": [],
-    //     "title": "Upload ODF Certificate?",
-    //     "hint": "Upload PDF",
-    //     "resource_urls": [],
-    //     "label": "",
-    //     "shortKey": "cert",
-    //     "viewSequence": "3",
-    //     "child": [],
-    //     "parent": [
-    //       {
-    //         "value": "^([1]|[2]|[3]|[4])$",
-    //         "type": "3",
-    //         "order": "1"
-    //       }
-    //     ],
-    //     "min": null,
-    //     "max": null,
-    //     "minRange": null,
-    //     "maxRange": null,
-    //     "pattern": "",
-    //     "validation": [
-    //       {
-    //         "error_msg": "",
-    //         "_id": "1"
-    //       },
-    //       {
-    //         "error_msg": "",
-    //         "_id": "81",
-    //         "value": "20480"
-    //       },
-    //       {
-    //         "error_msg": "",
-    //         "_id": "82",
-    //         "value": "1"
-    //       }
-    //     ],
-    //     "restrictions": [],
-    //     "input_type": "11",
-    //     "editable": false,
-    //     "weightage": [],
-    //     'modelValue': "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-    //      "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-    //     "selectedValue" : [
-    //         {
-    //               "textValue": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf",
-    //                "label": "posh_certi.pdf",
-    //                "value": "https://staging-dhwani.s3.ap-south-1.amazonaws.com/posh_certi_35df4bc5-445b-4167-bea1-08bf07be7353.pdf"
-    //          }
-    //     ]
-    //   },
-    //   {
-    //     "information": "",
-    //     "_id": "63fc55a7d4434c05939ac54a",
-    //     "order": "4",
-    //     "answer_option": [],
-    //     "title": "Certificate Issue Date?",
-    //     "hint": "Date",
-    //     "resource_urls": [],
-    //     "label": "",
-    //     "shortKey": "certDate",
-    //     "viewSequence": "4",
-    //     "child": [],
-    //     "parent": [
-    //       {
-    //         "value": "^([1]|[2]|[3]|[4])$",
-    //         "type": "3",
-    //         "order": "1"
-    //       }
-    //     ],
-    //     "validation": [
-    //       {
-    //         "error_msg": "",
-    //         "_id": "1"
-    //       },
-    //       {
-    //         "_id": "24",
-    //         "error_msg": "",
-    //         "value": ""
-    //       }
-    //     ],
-    //     "restrictions": [],
-    //     "input_type": "14",
-    //     "editable": false,
-    //     "weightage": [],
-    //     "value": "2023-03-02",
-    //     'modelValue': "2023-03-02",
-    //     "selectedValue": [
-    //       {
-    //         "label": "",
-    //         "textValue": "2023-03-02",
-    //         "value": "2023-03-02"
-    //      }
-    //     ]
-    //   },
 
-    // ],
-    // "title": "Open Defecation Free (ODF)",
-    // "buttons": []
-    "_id": "640ec101effe070b37fe3048",
-    "buttons": [
-    ],
-    "lng": "en",
-    "question": [
-      {
-        "_id": "63fc53dad4434c05939ac50c",
-        "answer_option": [
-          {
-            "_id": "1",
-            "did": [
-            ],
-            "name": "ODF",
-            "viewSequence": "1"
-          },
-          {
-            "_id": "2",
-            "did": [
-            ],
-            "name": "ODF+",
-            "viewSequence": "2"
-          },
-          {
-            "_id": "3",
-            "did": [
-            ],
-            "name": "ODF++",
-            "viewSequence": "3"
-          },
-          {
-            "_id": "4",
-            "did": [
-            ],
-            "name": "Non ODF",
-            "viewSequence": "4"
-          },
-          {
-            "_id": "5",
-            "did": [
-            ],
-            "name": "No Rating",
-            "viewSequence": "5"
-          }
-        ],
-        "child": [
-          {
-            "order": "6",
-            "type": "14",
-            "value": "^([1]|[2]|[3]|[4])$"
-          },
-          {
-            "order": "2",
-            "type": "11",
-            "value": "^([5])$"
-          },
-          {
-            "order": "3",
-            "type": "11",
-            "value": "^([1]|[2]|[3]|[4])$"
-          }
-        ],
-        "editable": false,
-        "hint": "Single Select",
-        "information": "",
-        "input_type": "3",
-        "label": "1",
-        "order": "1",
-        "parent": [
-        ],
-        "resource_urls": [
-        ],
-        "restrictions": [
-        ],
-        "shortKey": "odfRating",
-        "title": "Open Defecation Free (ODF) Rating",
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          },
-          {
-            "_id": "3",
-            "error_msg": ""
-          },
-        ],
-        "viewSequence": "1",
-        "weightage": [
-        ]
-      },
-      {
-        "_id": "63fc5529d4434c05939ac521",
-        "answer_option": [
-        ],
-        "child": [
-        ],
-        "editable": false,
-        "hint": "Upload PDF",
-        "information": "",
-        "input_type": "11",
-        "label": "2",
-        "max": null,
-        "maxRange": null,
-        "min": null,
-        "minRange": null,
-        "order": "2",
-        "parent": [
-          {
-            "order": "1",
-            "type": "3",
-            "value": "^([5])$"
-          }
-        ],
-        "pattern": "",
-        "resource_urls": [
-        ],
-        "restrictions": [
-        ],
-        "shortKey": "cert_declaration",
-        "title": "Upload Declaration?",
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          },
-          {
-            "_id": "3",
-            "error_msg": ""
-          },
-          {
-            "_id": "83",
-            "error_msg": "",
-            "value": "application/pdf"
-          },
-          {
-            "_id": "81",
-            "error_msg": "",
-            "value": "5120"
-          },
-          {
-            "_id": "82",
-            "error_msg": "",
-            "value": "1"
-          }
-        ],
-        "viewSequence": "2",
-        "weightage": [
-        ]
-      },
-      {
-        "_id": "63fc556dd4434c05939ac535",
-        "answer_option": [
-        ],
-        "child": [
-        ],
-        "editable": false,
-        "hint": "Upload PDF",
-        "information": "",
-        "input_type": "11",
-        "label": "3",
-        "max": null,
-        "maxRange": null,
-        "min": null,
-        "minRange": null,
-        "order": "3",
-        "parent": [
-          {
-            "order": "1",
-            "type": "3",
-            "value": "^([1]|[2]|[3]|[4])$"
-          }
-        ],
-        "pattern": "",
-        "resource_urls": [
-        ],
-        "restrictions": [
-        ],
-        "shortKey": "cert",
-        "title": "Upload ODF Certificate?",
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          },
-          {
-            "_id": "83",
-            "error_msg": "",
-            "value": "application/pdf"
-          },
-          {
-            "_id": "81",
-            "error_msg": "",
-            "value": "5120"
-          },
-          {
-            "_id": "82",
-            "error_msg": "",
-            "value": "1"
-          }
-        ],
-        "viewSequence": "3",
-        "weightage": [
-        ]
-      },
-      {
-        "_id": "6405ee6e2638a6093d1b7123",
-        "answer_option": [
-        ],
-        "child": [
-        ],
-        "editable": false,
-        "hint": "Date",
-        "information": "",
-        "input_type": "14",
-        "label": "4",
-        "order": "6",
-        "parent": [
-          {
-            "order": "1",
-            "type": "3",
-            "value": "^([1]|[2]|[3]|[4])$"
-          }
-        ],
-        "resource_urls": [
-        ],
-        "restrictions": [
-        ],
-        "shortKey": "certDate",
-        "title": "Certification Issue Date",
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          },
-          {
-            "_id": "26.4",
-            "error_msg": "",
-            "value": "1"
-          },
-          {
-            "_id": "3",
-            "error_msg": ""
-          },
-        ],
-        "viewSequence": "4",
-        "weightage": [
-        ]
-      }
-    ],
-    "title": "Open Defecation Free (ODF)"
-
+          "_id": "64219c9dd7bd0c129dfdc260",
+          "lng": "en",
+          "question": [
+              {
+                  "information": "",
+                  "_id": "63fc53dad4434c05939ac50c",
+                  "order": "1",
+                  "answer_option": [
+                      {
+                          "name": "ODF",
+                          "did": [],
+                          "viewSequence": "1",
+                          "coordinates": [],
+                          "_id": "1"
+                      },
+                      {
+                          "name": "ODF+",
+                          "did": [],
+                          "viewSequence": "2",
+                          "coordinates": [],
+                          "_id": "2"
+                      },
+                      {
+                          "name": "ODF++",
+                          "did": [],
+                          "viewSequence": "3",
+                          "coordinates": [],
+                          "_id": "3"
+                      },
+                      {
+                          "name": "Non ODF",
+                          "did": [],
+                          "viewSequence": "4",
+                          "coordinates": [],
+                          "_id": "4"
+                      },
+                      {
+                          "name": "No Rating",
+                          "did": [],
+                          "viewSequence": "5",
+                          "coordinates": [],
+                          "_id": "5"
+                      }
+                  ],
+                  "title": "Open Defecation Free (ODF) Rating",
+                  "hint": "Single Select",
+                  "resource_urls": [],
+                  "label": "1",
+                  "shortKey": "rating",
+                  "viewSequence": "1",
+                  "child": [
+                      {
+                          "type": "11",
+                          "value": "^([1]|[2]|[3]|[4])$",
+                          "order": "3"
+                      },
+                      {
+                          "type": "14",
+                          "value": "^([1]|[2]|[3]|[4])$",
+                          "order": "6"
+                      },
+                      {
+                          "type": "11",
+                          "value": "^([5])$",
+                          "order": "2"
+                      }
+                  ],
+                  "parent": [],
+                  "validation": [
+                      {
+                          "_id": "1",
+                          "error_msg": ""
+                      }
+                  ],
+                  "restrictions": [],
+                  "input_type": "3",
+                  "weightage": [],
+                  "editable": false
+              },
+              {
+                  "information": "",
+                  "_id": "63fc5529d4434c05939ac521",
+                  "order": "2",
+                  "answer_option": [],
+                  "title": "Upload Declaration?",
+                  "hint": "Upload PDF",
+                  "resource_urls": [],
+                  "label": "2",
+                  "shortKey": "cert_declaration",
+                  "viewSequence": "2",
+                  "child": [],
+                  "parent": [
+                      {
+                          "value": "^([5])$",
+                          "type": "3",
+                          "order": "1"
+                      }
+                  ],
+                  "min": null,
+                  "max": null,
+                  "minRange": null,
+                  "maxRange": null,
+                  "pattern": "",
+                  "validation": [
+                      {
+                          "error_msg": "",
+                          "_id": "1"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "83",
+                          "value": "application/pdf"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "81",
+                          "value": "5120"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "82",
+                          "value": "1"
+                      }
+                  ],
+                  "restrictions": [],
+                  "input_type": "11",
+                  "editable": false,
+                  "weightage": []
+              },
+              {
+                  "information": "",
+                  "_id": "63fc556dd4434c05939ac535",
+                  "order": "3",
+                  "answer_option": [],
+                  "title": "Upload ODF Certificate?",
+                  "hint": "Upload PDF",
+                  "resource_urls": [],
+                  "label": "3",
+                  "shortKey": "cert",
+                  "viewSequence": "3",
+                  "child": [],
+                  "parent": [
+                      {
+                          "value": "^([1]|[2]|[3]|[4])$",
+                          "type": "3",
+                          "order": "1"
+                      }
+                  ],
+                  "min": null,
+                  "max": null,
+                  "minRange": null,
+                  "maxRange": null,
+                  "pattern": "",
+                  "validation": [
+                      {
+                          "error_msg": "",
+                          "_id": "1"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "83",
+                          "value": "application/pdf"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "81",
+                          "value": "5120"
+                      },
+                      {
+                          "error_msg": "",
+                          "_id": "82",
+                          "value": "1"
+                      }
+                  ],
+                  "restrictions": [],
+                  "input_type": "11",
+                  "editable": false,
+                  "weightage": []
+              },
+              {
+                  "information": "",
+                  "_id": "6405ee6e2638a6093d1b7123",
+                  "order": "6",
+                  "answer_option": [],
+                  "title": "Certification Issue Date",
+                  "hint": "Date",
+                  "resource_urls": [],
+                  "label": "4",
+                  "shortKey": "certDate",
+                  "viewSequence": "4",
+                  "child": [],
+                  "parent": [
+                      {
+                          "value": "^([1]|[2]|[3]|[4])$",
+                          "type": "3",
+                          "order": "1"
+                      }
+                  ],
+                  "validation": [
+                      {
+                          "error_msg": "",
+                          "_id": "1"
+                      },
+                      {
+                          "_id": "26.4",
+                          "error_msg": "",
+                          "value": "2"
+                      }
+                  ],
+                  "restrictions": [],
+                  "input_type": "14",
+                  "editable": false,
+                  "weightage": []
+              }
+          ],
+          "title": "Open Defecation Free (ODF)",
+          "buttons": []
   };
   gfcJson = {
     "_id": "64096fa1235a2809db049260",
@@ -551,36 +525,42 @@ export class CommonFormComponent implements OnInit {
             "name": "No Star",
             "did": [],
             "viewSequence": "1",
+            "coordinates": [],
             "_id": "1"
           },
           {
             "name": "1 Star",
             "did": [],
             "viewSequence": "2",
+            "coordinates": [],
             "_id": "2"
           },
           {
             "name": "3 Star",
             "did": [],
             "viewSequence": "3",
+            "coordinates": [],
             "_id": "3"
           },
           {
             "name": "5 Star",
             "did": [],
             "viewSequence": "4",
+            "coordinates": [],
             "_id": "4"
           },
           {
             "name": "7 Star",
             "did": [],
             "viewSequence": "5",
+            "coordinates": [],
             "_id": "5"
           },
           {
             "name": "No Rating",
             "did": [],
             "viewSequence": "6",
+            "coordinates": [],
             "_id": "6"
           }
         ],
@@ -588,7 +568,7 @@ export class CommonFormComponent implements OnInit {
         "hint": "Single Select",
         "resource_urls": [],
         "label": "1",
-        "shortKey": "gfcRating",
+        "shortKey": "rating",
         "viewSequence": "1",
         "child": [
           {
@@ -627,7 +607,7 @@ export class CommonFormComponent implements OnInit {
         "title": "Upload GFC Certificate",
         "hint": "Upload PDF",
         "resource_urls": [],
-        "label": "3",
+        "label": "2",
         "shortKey": "cert",
         "viewSequence": "2",
         "child": [],
@@ -677,7 +657,7 @@ export class CommonFormComponent implements OnInit {
         "title": "Certification Issue Date",
         "hint": "Date ",
         "resource_urls": [],
-        "label": "5",
+        "label": "4",
         "shortKey": "certDate",
         "viewSequence": "4",
         "child": [],
@@ -696,7 +676,7 @@ export class CommonFormComponent implements OnInit {
           {
             "_id": "26.4",
             "error_msg": "",
-            "value": "1"
+            "value": "2"
           }
         ],
         "restrictions": [],
@@ -712,7 +692,7 @@ export class CommonFormComponent implements OnInit {
         "title": "Upload Declaration",
         "hint": "Upload PDF",
         "resource_urls": [],
-        "label": "4",
+        "label": "3",
         "shortKey": "cert_declaration",
         "viewSequence": "3",
         "child": [],
@@ -1207,8 +1187,8 @@ export class CommonFormComponent implements OnInit {
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
-   nextBtnUrl:string='../odf';
-   backBtnUrl:string='#';
+  //  nextBtnUrl:string='../odf';
+  //  backBtnUrl:string='#';
    routerSubs:any;
   ngOnInit(): void {
 
@@ -1244,13 +1224,14 @@ export class CommonFormComponent implements OnInit {
 
         }
         //folder: "ULB/2022-23/odf/UK030"
-        this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
-        this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
+        // this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
+        // this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
   }
   callGetApi(endPoints: string, queryParams: {}) {
+
     if (this.endPoints == 'ptax') {
       this.questionResponse.data[0] = {
         language: [
@@ -1302,6 +1283,7 @@ export class CommonFormComponent implements OnInit {
     this.commonServices.formPostMethod(this.postData, this.endPoints).subscribe((res) => {
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       if(draft == false){
+        this.isApiComplete = false;
         this.callGetApi(this.endPoints, this.getQuery);
       }
       console.log(res);
@@ -1381,14 +1363,15 @@ export class CommonFormComponent implements OnInit {
   }
   nextPreBtn(e){
     // temporay basic setting url
-
     console.log('eeee next pre btn', e);
     if(this.formName == 'odf'){
-      let url = e?.type == 'pre' ? '../annual_acc' : '../gfc'
-      this.router.navigate([url]);
+      let url = e?.type == 'pre' ? 'annual_acc' : 'gfc'
+      console.log('routes url', this.router.navigate([url]), url)
+      this.router.navigate([ `/ulb-form/${url}`]);
     }else if(this.formName == 'gfc'){
-      let url = e?.type == 'pre' ? '../odf' : '../annual_acc'
-      this.router.navigate([url]);
+      let url = e?.type == 'pre' ? 'odf' : 'annual_acc'
+      console.log('routes url', url)
+      this.router.navigate([ `/ulb-form/${url}`]);
     }
 
   }
