@@ -4483,7 +4483,13 @@ export class DurComponent implements OnInit {
 
   onSubmit(data) {
     console.log("submissingdata", data);
-    // return;
+    const selfDeclarationChecked = data?.finalData
+      .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+    console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
+    if(data.isSaveAsDraft == false && selfDeclarationChecked == '1') {
+      return swal('Error', 'Please check self declaration', 'error');
+    }
+    
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: data.isSaveAsDraft,
