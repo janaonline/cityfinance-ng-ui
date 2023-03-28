@@ -860,6 +860,17 @@ export class TwentyEightSlbComponent implements OnInit {
                     }
                   ]
                 ],
+                "tableHeaders": [
+                  {
+                    "label": "Sections/Indicators	"
+                  },
+                  {
+                    "label": "Actual Indicator 2022-23",
+                  },
+                  {
+                    "label": "Target Indicator 2023-24"
+                  }
+                ],
                 "modelValue": "2",
                 "value": "2",
                 "selectedValue": [
@@ -4062,8 +4073,8 @@ export class TwentyEightSlbComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoaded = true;
-    // this.loadData();
+    // this.isLoaded = true;
+    this.loadData();
   }
 
   get design_year() {
@@ -4105,7 +4116,7 @@ export class TwentyEightSlbComponent implements OnInit {
     let slbPreData = {
       perData: {
         data: data.reduce((obj, item) => ({
-          ...obj, 
+          ...obj,
           [item?.title]: item?.childQuestionData?.map(questionsData => ({
             question: questionsData.find(question => question.shortKey?.endsWith("_question"))?.modelValue,
             actual: {
