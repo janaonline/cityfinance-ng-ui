@@ -30,7 +30,7 @@ export class CommonFormComponent implements OnInit {
       ulb: this.ulbId
     };
     this.checkRouterForApi();
-    this.getLeftMenu();
+  //  this.getLeftMenu();
   }
   ulbId = '';
   userData: object | any;
@@ -1282,6 +1282,7 @@ export class CommonFormComponent implements OnInit {
     }
     this.commonServices.formPostMethod(this.postData, this.endPoints).subscribe((res) => {
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
+      this.commonServices.setFormStatusUlb.next(true);
       if(draft == false){
         this.isApiComplete = false;
         this.callGetApi(this.endPoints, this.getQuery);
@@ -1337,30 +1338,7 @@ export class CommonFormComponent implements OnInit {
     });
   }
 
-  getLeftMenu() {
-    let queryParam = {
-      role: '',
-      year: this.designYearArray["2023-24"],
-      _id: ''
-    }
 
-    if (this.userData?.role === "ULB") {
-      queryParam._id = this.userData?.ulb;
-      queryParam.role = this.userData?.role;
-    }
-    // else {
-    //   ulb = localStorage.getItem("ulb_id");;
-    //   role = 'ULB';
-    // }
-    this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
-      console.log("left responces..", res);
-    // localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
-    },
-    (error)=>{
-      console.log('left menu responces', error)
-    }
-    );
-  }
   nextPreBtn(e){
     // temporay basic setting url
     console.log('eeee next pre btn', e);
