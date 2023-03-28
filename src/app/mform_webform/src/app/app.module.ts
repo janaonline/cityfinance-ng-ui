@@ -20,6 +20,15 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { environment } from 'src/environments/environment.prod';
 
 import { GetFileIcon } from './file-icon.pipe';
+import { AlphabetOnlyDirective } from './directive-and-pipes/alphabet-only/alphabet-only.directive';
+import { AlphanumericDirective } from './directive-and-pipes/alphanumeric/alphanumeric.directive';
+import { NumberLengthDirective } from './directive-and-pipes/number-length.directive';
+import { RestrictFirstDigitAsZeroDirective } from './directive-and-pipes/restrict-first-digit-as-zero/restrict-first-digit-as-zero.directive';
+import { WordLimitClassDirective } from './directive-and-pipes/wordLimit/wordLimit.directive';
+import { ShortKeyValidationDirective } from './directive-and-pipes/shortKeyValidation/short-key-validation.directive';
+import { NumericCommaSeparatorDirective } from './directive-and-pipes/numericCommaSeparator/numeric-comma-separator.directive';
+import { DigitOnlyDirective } from './directive-and-pipes/digitOnly/digit-only.directive';
+import { RestrictFirstCharAsSpaceDirective } from './directive-and-pipes/restrict-first-char-as-space/restrict-first-char-as-space.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +38,16 @@ import { GetFileIcon } from './file-icon.pipe';
     SnackBarComponent,
     WebFormViewComponent,
     FileUploadComponent,
-    GetFileIcon
+    GetFileIcon,
+    AlphabetOnlyDirective,
+    AlphanumericDirective,
+    NumberLengthDirective,
+    RestrictFirstDigitAsZeroDirective,
+    WordLimitClassDirective,
+    ShortKeyValidationDirective,
+    NumericCommaSeparatorDirective,
+    DigitOnlyDirective,
+    RestrictFirstCharAsSpaceDirective
   ],
   imports: [
     BrowserModule,
@@ -47,7 +65,19 @@ import { GetFileIcon } from './file-icon.pipe';
   ],
   schemas:[NO_ERRORS_SCHEMA],
   providers: [],
-  exports: [MyFilterPipe, GetFileIcon],
+  exports: [
+    MyFilterPipe,
+    GetFileIcon,
+    AlphabetOnlyDirective,
+    AlphanumericDirective,
+    NumberLengthDirective,
+    RestrictFirstDigitAsZeroDirective,
+    WordLimitClassDirective,
+    ShortKeyValidationDirective,
+    NumericCommaSeparatorDirective,
+    DigitOnlyDirective,
+    RestrictFirstCharAsSpaceDirective
+  ],
   // entryComponents:[AppComponent],
   entryComponents:[AppComponent],
   // bootstrap: [AppComponent]
