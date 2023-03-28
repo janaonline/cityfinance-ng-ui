@@ -18,9 +18,9 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private renderer: Renderer2,
     private authService: AuthService) {
-      this._router.events.subscribe((event) => {
-        this.isLoggedIn = this.authService.loggedIn();
-      });
+    this._router.events.subscribe((event) => {
+      this.isLoggedIn = this.authService.loggedIn();
+    });
   }
   public objresult = [];
   public assresult = [];
@@ -32,7 +32,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   isHighlightContainerScrolledIntoView: boolean;
   highlightNo: number = 0;
   interval: any;
-  isLoggedIn:boolean = false;
+  isLoggedIn: boolean = false;
   @HostListener('window:scroll', ['$event'])
   isScrolledIntoView() {
     if (this.highlightContainer) {
@@ -61,56 +61,69 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   src = "../../../assets/M FIGMA/laurentiu-morariu-8XZTZIfuNrM-unsplash 1.jpg";
 
-  fqCardData= [
+  fqCardData = [
     {
-      image : "../../../assets/M FIGMA/newDraft.png",
+      image: "../../../assets/M FIGMA/newDraft.png",
       title: "Final Guidelines",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
       text: `These are final guidelines. Please <a class="mailId" href='https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf' target='_blank'> click here </a> to open the Draft guidelines.`,
-     url:`https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Final_Guidelines_March_2023_85825255-1ad9-4f9f-a44c-044210682c7b.pdf`,
-    // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Final_Guidelines_March_2023_85825255-1ad9-4f9f-a44c-044210682c7b.pdf`,
+      // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
       icon_down: '',
       section: 'download_file',
       key: 'draftGuidelines'
-     },
-     {
-      image : "../../../assets/M FIGMA/newBroch.png",
+    },
+    {
+      image: "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
       // url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
-      url:`https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf`,
-     // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_brochure_d49ffe27-951b-41d1-8153-e54f88655d54.pdf`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf`,
+      // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_brochure_d49ffe27-951b-41d1-8153-e54f88655d54.pdf`,
       isModal: false,
       icon_down: '',
       section: 'download_file',
       key: 'brochure'
-     },
-        {
-      image : "../../../assets/M FIGMA/dvr_black_24dp.svg",
+    },
+    {
+      image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
       title: "Know more",
       text: "",
       // url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
-     // url: `https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go%20Live_54e39bb4-5729-4db0-b4d4-28931d21966e.mp4`,
-     url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+      // url: `https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go%20Live_54e39bb4-5729-4db0-b4d4-28931d21966e.mp4`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
       isModal: true,
       icon_down: '',
       section: 'play_video',
       key: 'video'
-     },
+    },
+    {
+      image: "../../../assets/M FIGMA/newDraft.png",
+      title: "Contact Details",
+      // text:`“These are draft guidelines. Please share feedback, if any,
+      // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
+      text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries. Please download the file for regional helpline numbers.`,
+      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/city_finance_rankings_2022_regional_helpline_number_7087a0e5-ad16-4a4a-8533-df05a9727520.pdf`,
+      // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
+      isModal: true,
+      icon_down: '',
+      section: 'download_file',
+      key: 'draftGuidelines'
+    },
   ]
 
   ngOnInit(): void {
     this.openPopup(this.fqCardData[2]);
     this.fiscal.getLandingPageCard().subscribe((data: any) => {
-        console.log("this myu data======>", data.data)
-        this.setDisplayItem();
-        this.filterFromObj(data?.data);
+      console.log("this myu data======>", data.data)
+      this.setDisplayItem();
+      this.filterFromObj(data?.data);
     },
-    (error)=>{
-      alert('Network issues');
-    });
+      (error) => {
+        alert('Network issues');
+      });
 
   }
   @ViewChild('carousel') _carousel: ElementRef<HTMLInputElement>;
@@ -119,25 +132,25 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     const carousel = $(myCarousel).carousel();
   }
 
-  filterFromObj(data){
+  filterFromObj(data) {
     console.log('data,,,,', data);
-    data?.forEach((el)=>{
-     if(el?.section == "Objective"){
-       this.objresult.push(el);
+    data?.forEach((el) => {
+      if (el?.section == "Objective") {
+        this.objresult.push(el);
       }
-     if(el?.section == "Assessment Parameters"){
-      this.assresult.push(el);
+      if (el?.section == "Assessment Parameters") {
+        this.assresult.push(el);
       }
-     if(el?.section == "Salient Features"){
-      this.salientresult.push(el);
-     }
-     if(el?.section == "Ranking Categories"){
-      this.rankresult.push(el);
-     }
-     if(el?.section == "Banner Icon"){
-      this.iconresult.push(el);
-     }
-   });
+      if (el?.section == "Salient Features") {
+        this.salientresult.push(el);
+      }
+      if (el?.section == "Ranking Categories") {
+        this.rankresult.push(el);
+      }
+      if (el?.section == "Banner Icon") {
+        this.iconresult.push(el);
+      }
+    });
     this.iconresult.sort((a, b) => a.seq - b.seq);
     console.log('array', this.objresult);
     console.log('array', this.iconresult);
@@ -146,11 +159,11 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     clearInterval(this.interval);
   }
   setDisplayItem() {
-   // console.log("this myu data======>123", this.assresult);
+    // console.log("this myu data======>123", this.assresult);
     this.assresult.forEach((el) => {
       el.bakePage = false;
     });
-   // console.log("this myu data======>235", this.assresult);
+    // console.log("this myu data======>235", this.assresult);
   }
   selItem = false;
   readMore(data, ind) {
@@ -171,35 +184,35 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
     let shortened = without_html.substring(0, charlimit) + "...";
     return shortened;
   }
-  downloadClick(item){
+  downloadClick(item) {
     console.log('item', item);
-    if(item?.isModal){
-     this.openPopup(item);
-    }else{
+    if (item?.isModal) {
+      this.openPopup(item);
+    } else {
       this.simpleDownload(item);
     }
   }
-  simpleDownload(item){
+  simpleDownload(item) {
     const link = this.renderer.createElement('a');
-      link.setAttribute('target', '_blank');
-      link.setAttribute('href', `${item?.url}`);
-      if(item?.key == 'brochure'){
-        link.setAttribute('download', `City Finance Rankings 2022_Brochure.pdf`);
-      }else{
-        link.setAttribute('download', `City Finance Rankings 2022_${item?.title}.pdf`);
-      }
-      link.click();
-      link.remove();
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', `${item?.url}`);
+    if (item?.key == 'brochure') {
+      link.setAttribute('download', `City Finance Rankings 2022_Brochure.pdf`);
+    } else {
+      link.setAttribute('download', `City Finance Rankings 2022_${item?.title}.pdf`);
+    }
+    link.click();
+    link.remove();
   }
-  openPopup(item){
+  openPopup(item) {
     let wid = 'fit-content';
     let hi = 'fit-content';
     let maxH = '90vh';
     let maxw = '95vw'
-    if(item?.key == 'video'){
+    if (item?.key == 'video') {
       wid = '50rem';
       hi = '';
-      maxH= ''
+      maxH = ''
     }
     const dialogRef = this.dialog.open(DownloadPopupComponent, {
       data: item,
