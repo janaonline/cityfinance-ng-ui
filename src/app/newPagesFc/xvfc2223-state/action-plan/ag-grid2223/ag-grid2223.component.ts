@@ -106,7 +106,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Cost"].value && !isNaN(params.data["Cost"].value) ? params.data["Cost"].value : "",
+        params.data["Cost"] && !isNaN(params.data["Cost"].value) ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 115,
@@ -316,7 +316,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["Cost"] && params.data["Cost"].value) ? params?.data["Cost"]?.value : "",
+        (params.data && params.data["Cost"] && !isNaN(params.data["Cost"].value)) ? params?.data["Cost"]?.value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 120,
@@ -333,7 +333,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["XV_FC"] && params.data["XV_FC"].value) ? params?.data["XV_FC"]?.value : "",
+        (params.data && params.data["XV_FC"] && !isNaN(params.data["XV_FC"].value)) ? params?.data["XV_FC"]?.value : "",
       valueSetter: syncValueSetter(number),
       headerName: "15th FC",
       width: 100,
@@ -351,7 +351,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["Other"] && params.data["Other"].value) ? params.data["Other"].value : "",
+        (params.data && params.data["Other"] && !isNaN(params.data["Other"].value)) ? params.data["Other"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Other",
       width: 100,
@@ -369,7 +369,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        (params.data && params.data["Total"] && params.data["Total"].value) ? params.data["Total"].value : "",
+        (params.data && params.data["Total"] && !isNaN(params.data["Total"].value)) ? params.data["Total"].value : "",
       valueSetter: syncValueSetter(Total),
       headerName: "Total",
       width: 100,
@@ -542,7 +542,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Cost"].value != null ? params.data["Cost"].value : "",
+        (params.data["Cost"] && !isNaN(params.data["Cost"].value)) ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       valueParser: "parseFloat(newValue)",
       headerName: "Project Cost",
@@ -559,7 +559,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Funding"].value != null
+        (params.data["Funding"] && !isNaN(params.data["Funding"].value))
           ? params.data["Funding"].value
           : "",
       valueSetter: syncValueSetter(number),
@@ -575,7 +575,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Amount"].value != null ? params.data["Amount"].value : "",
+        (params.data["Amount"] && !isNaN(params.data["Amount"].value)) ? params.data["Amount"].value : "",
       valueSetter: syncValueSetter(number),
       valueParser: "parseFloat(newValue)",
       headerName: "Amount",
@@ -589,7 +589,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2021-22"].value != null
+        (params.data["2021-22"] && !isNaN(params.data["2021-22"].value))
           ? params.data["2021-22"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
@@ -627,7 +627,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2023-24"].value != null
+        (params.data["2023-24"] && !isNaN(params.data["2023-24"].value))
           ? params.data["2023-24"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
@@ -646,7 +646,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2024-25"].value != null
+      (params.data["2024-25"] && !isNaN(params.data["2024-25"].value))
           ? params.data["2024-25"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
@@ -665,7 +665,7 @@ export class AgGrid2223Component implements OnInit {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["2025-26"].value != null
+      (params.data["2025-26"] && !isNaN(params.data["2025-26"].value))
           ? params.data["2025-26"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),

@@ -278,7 +278,6 @@ export class UlbformComponent implements OnInit {
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
-
         console.log(err);
       }
     );

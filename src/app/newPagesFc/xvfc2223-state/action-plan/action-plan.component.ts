@@ -270,6 +270,7 @@ export class ActionPlanComponent implements OnInit {
         this.postData();
       } else {
         // this.reqBody.isDraft = false;
+
         this.reqBody = this.makeApiData(true);
         if (this.finalError) {
           swal("Missing Data !", `${this.errorMsg}`, "error");
@@ -345,9 +346,21 @@ export class ActionPlanComponent implements OnInit {
   }
 
 
-  saveButtonClicked(type) {
+ saveButtonClicked(type) {
     this.submitted = true;
-    this.submit(type)
+    this.unfoldAllCard(type);
+    setTimeout(() => {
+      this.submit(type);
+    }, 1000);
+
+  }
+  unfoldAllCard(type){
+    if(type == 'save'){
+      let len = this.data.uaData.length;
+      for(let i=0; i < len; i++){
+        this.foldCard(i);
+      }
+    }
   }
   makeApiData(fromSave = false) {
     let newUaData = [];

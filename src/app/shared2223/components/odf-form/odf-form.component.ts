@@ -55,7 +55,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     });
     var dt = new Date();
     let year = dt.getFullYear();
-    let year1 = dt.getFullYear() - 1;
+    let year1 = dt.getFullYear() - 2;
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
     let day = dt.getDate().toString().padStart(2, "0");
     this.maxDate = year + "-" + month + "-" + day;
@@ -72,7 +72,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
-
+    this.yearValue = this.design_year["2022-23"];
   }
   Year = JSON.parse(localStorage.getItem("Years"));
   uploadDeclaration: boolean = false;
@@ -161,12 +161,12 @@ export class OdfFormComponent implements OnInit, OnDestroy {
     });
     // this.isGfc = this.profileForm.value.isGfc;
     console.log("this.isGfc", this.isGfc);
-
-    for (var i in this.design_year) {
-      if (i == "2022-23") {
-        this.yearValue = this.design_year[i];
-      }
-    }
+    this.yearValue = this.design_year["2022-23"];
+    // for (var i in this.design_year) {
+    //   if (i == "2022-23") {
+    //     this.yearValue = this.design_year[i];
+    //   }
+    // }
     const params = {
       ulb: this.ulbId,
       design_year: this.yearValue,
@@ -315,7 +315,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
   fetchData() {
     this.isApiInProgress = true;
     if (this.isGfc == true) {
-      this.commonService.getGfcFormData("gfc").subscribe((res: any) => {
+      this.commonService.getGfcFormData("gfc", this.yearValue).subscribe((res: any) => {
         console.log(res);
         this.ratings = res.data;
         this.dropdownValues = res.data.map((a) => a.name);
@@ -328,7 +328,7 @@ export class OdfFormComponent implements OnInit, OnDestroy {
       }
       );
     } else {
-      this.commonService.getOdfRatings().subscribe((res: any) => {
+      this.commonService.getOdfRatings(this.yearValue).subscribe((res: any) => {
         console.log(res.data);
 
         this.ratings = res?.data;

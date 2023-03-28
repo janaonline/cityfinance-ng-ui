@@ -66,6 +66,9 @@
                                 <th scope="col">TDS in mg/L</th>
                                 <th scope="col">Turbidity in NTU</th>
                                 <th scope="col">Project Details</th>
+                                <th scope="col" class="w-8p">Preparation of DPR</th>
+                                <th scope="col" >Completion of tendering process</th>
+                                <th scope="col">% of work completion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -133,8 +136,11 @@
                                     <!-- {{waterBodies.turbidity}} -->
                                 </td>
                                 <td>
-                                    {{waterBodies.details}}
+                                    {{waterBodies?.details}}
                                 </td>
+                                <td>{{waterBodies?.dprPreparation}}</td>
+                                <td>{{waterBodies?.dprCompletion}}</td>
+                                <td>{{waterBodies?.workCompletion}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -154,6 +160,11 @@
                                     <span>Latitude and Longitude</span>
                                 </th>
                                 <th style="width: 23%;" scope="col">Proposed capacity</th>
+                                <th scope="col">Proposed water quantity to be reused(MLD)</th>
+                                <th scope="col">Target customers/ consumer for reuse of water</th>
+                                <th scope="col" class="w-8p">Preparation of DPR</th>
+                                <th scope="col" >Completion of tendering process</th>
+                                <th scope="col">% of work completion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -176,6 +187,15 @@
                                 <td>
                                     {{waterReuse.stp}}
                                 </td>
+                                <td>
+                                  {{waterReuse.treatmentPlant}}
+                              </td>
+                              <td>
+                                {{waterReuse.targetCust}}
+                            </td>
+                                <td>{{waterReuse?.dprPreparation}}</td>
+                                <td>{{waterReuse?.dprCompletion}}</td>
+                                <td>{{waterReuse?.workCompletion}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -196,7 +216,9 @@
                                 <th scope="col" style="width: 12%;">Existing (As-is)</th>
                                 <th scope="col" style="width: 12%;">After (To-be)</th>
                                 <th scope="col" style="width: 13%;">Estimated Cost (Amount in INR Lakhs)</th>
-
+                                <th scope="col" class="w-8p">Preparation of DPR</th>
+                                <th scope="col" >Completion of tendering process</th>
+                                <th scope="col">% of work completion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -225,6 +247,9 @@
                                 <td>
                                     {{srIn.cost}}
                                 </td>
+                                <td>{{srIn?.dprPreparation}}</td>
+                                <td>{{srIn?.dprCompletion}}</td>
+                                <td>{{srIn?.workCompletion}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -62,9 +62,9 @@ const routes: Routes = [
             path: 'bestPractices', component: BestPracticesComponent
           },
     //only for stg now
-          // {
-          //   path: 'municipal-bond-repository', component: MunicipalBondRepositoryComponent,
-          // },
+          {
+            path: 'municipal-bond-repository', component: MunicipalBondRepositoryComponent,
+          },
 
         ]
       },
