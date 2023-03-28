@@ -4062,8 +4062,8 @@ export class TwentyEightSlbComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.isLoaded = true;
-    this.loadData();
+    this.isLoaded = true;
+    // this.loadData();
   }
 
   get design_year() {
@@ -4103,7 +4103,23 @@ export class TwentyEightSlbComponent implements OnInit {
     const data = this.webForm.questionData;
     console.log(data);
     let slbPreData = {
-      perData: [],
+      perData: {
+        data: data.reduce((obj, item) => ({
+          ...obj, 
+          [item?.title]: item?.childQuestionData?.map(questionsData => ({
+            question: questionsData.find(question => question.shortKey?.endsWith("_question"))?.modelValue,
+            actual: {
+              value: questionsData.find(question => question.shortKey?.endsWith("_actualIndicator"))?.modelValue
+            },
+            target_1: {
+              value: questionsData.find(question => question.shortKey?.endsWith("_targetIndicator"))?.modelValue
+            },
+            unit: "%"
+          }))
+        }), {}),
+        isDraft: true,
+        population: 233
+      },
       ulbId: this.ulbId,
       isDraft: true,
       // saveDataJson: this.slbData
