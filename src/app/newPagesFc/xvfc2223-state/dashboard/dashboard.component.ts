@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   UlbInMillionPlusUA = 0;
   installmentType: string = '1';
   response:any;
-  disableBtn: boolean = false;
+  disableBtn: boolean = true;
   cardApiData;
 
   // cardData: any = {
@@ -267,16 +267,20 @@ export class DashboardComponent implements OnInit {
   getFormData(){
     this.state_service.getDashboardFormData(this.params).subscribe((res:any)=>{
       console.log('formdatadadatatatatta', res);
-      this.response = res
+      this.response = res;
+      let isDisable = true;
     for (const item of this.response?.data) {
       for (const form of item?.formData) {
         if ((form?.formName == 'Annual Accounts') && (form?.approvedValue >= 25) && (form?.submittedValue >= 25)) {
-          this.disableBtn = true;
+          isDisable = false;
         } else if ((form?.approvedValue == 100) && (form?.submittedValue == 100)) {
-          this.disableBtn = true;
+          isDisable = false;
+        }else{
+          isDisable = true;
         }
       }
     }
+    this.disableBtn = isDisable;
       console.log('responsesaasasa', this.response)
     })
   }

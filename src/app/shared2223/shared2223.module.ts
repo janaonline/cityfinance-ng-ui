@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { OdfFormComponent } from "./components/odf-form/odf-form.component";
-import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
+// import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
 import { FooterBtnComponent } from "./components/footer-btn/footer-btn.component";
 import { MatIconModule } from "@angular/material/icon";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -32,7 +32,7 @@ import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.co
 @NgModule({
   declarations: [
     OdfFormComponent,
-    GfcFormComponent,
+   // GfcFormComponent,
     FooterBtnComponent,
     CommonFileUploadComponent,
     NumberToWordINRPipe,
