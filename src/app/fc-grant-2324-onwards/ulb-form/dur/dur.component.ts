@@ -17,6 +17,8 @@ import { DurService } from './dur.service';
 export class DurComponent implements OnInit {
   @ViewChild('webForm') webForm;
 
+  successErrorMessage: string;
+
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
 
@@ -31,7 +33,7 @@ export class DurComponent implements OnInit {
   //     {
   //       _id: '5f4656c92daa9921dc1173aa',
   //       formId: 466,
-        
+
 
   //       language: [
   //         {
@@ -4362,8 +4364,13 @@ export class DurComponent implements OnInit {
       this.isLoaded = true;
       this.questionresponse = res;
     }, ({ error }) => {
+      console.log(error.success)
       this.loaderService.stopLoader();
-      swal('Error', error?.message ?? 'Something went wrong', 'error');
+      if (error?.success == true && error?.message) {
+        this.successErrorMessage = error?.message;
+      } else {
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+      }
     })
   }
 
@@ -4489,9 +4496,9 @@ export class DurComponent implements OnInit {
     }).subscribe(res => {
       this.loaderService.stopLoader();
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
-      .then(() => {
-        if(data.isSaveAsDraft) location.reload();
-      });
+        .then(() => {
+          if (data.isSaveAsDraft) location.reload();
+        });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
