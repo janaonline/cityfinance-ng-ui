@@ -1,16 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-resource",
-  templateUrl: "./resource.component.html",
-  styleUrls: ["./resource.component.scss"],
+  selector: 'app-resource',
+  templateUrl: './resource.component.html',
+  styleUrls: ['./resource.component.scss']
 })
 export class ResourceComponent implements OnInit {
+
   sideMenuItem:any;
   nextRouter;
   backRouter;
   constructor() {
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
   }
 
   resoucesData = [
@@ -66,4 +67,5 @@ export class ResourceComponent implements OnInit {
       });
   }
   }
+
 }

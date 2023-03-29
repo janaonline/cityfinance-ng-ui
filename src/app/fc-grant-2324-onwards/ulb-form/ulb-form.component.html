@@ -3,7 +3,9 @@
     <div class="row">
         <!-- left menu -->
         <div class="col-sm-2">
+          <div class="" *ngIf="leftMenu">
             <app-left-menu-template [leftMenu]="leftMenu"></app-left-menu-template>
+          </div>
         </div>
         <div class="col-sm-10">
             <!-- form header details eg, ulb, state name, and role -->

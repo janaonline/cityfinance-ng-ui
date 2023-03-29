@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 
 import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { DurService } from './dur.service';
@@ -16,6 +18,8 @@ import { DurService } from './dur.service';
 })
 export class DurComponent implements OnInit {
   @ViewChild('webForm') webForm;
+
+  successErrorMessage: string;
 
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
@@ -31,7 +35,7 @@ export class DurComponent implements OnInit {
   //     {
   //       _id: '5f4656c92daa9921dc1173aa',
   //       formId: 466,
-        
+
 
   //       language: [
   //         {
@@ -4328,7 +4332,9 @@ export class DurComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
-    private loaderService: GlobalLoaderService
+    private loaderService: GlobalLoaderService,
+    private commonServices: CommonServicesService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -4362,8 +4368,13 @@ export class DurComponent implements OnInit {
       this.isLoaded = true;
       this.questionresponse = res;
     }, ({ error }) => {
+      console.log(error.success)
       this.loaderService.stopLoader();
-      swal('Error', error?.message ?? 'Something went wrong', 'error');
+      if (error?.success == true && error?.message) {
+        this.successErrorMessage = error?.message;
+      } else {
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+      }
     })
   }
 
@@ -4476,7 +4487,13 @@ export class DurComponent implements OnInit {
 
   onSubmit(data) {
     console.log("submissingdata", data);
-    // return;
+    const selfDeclarationChecked = data?.finalData
+      .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
+    console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
+    if(data.isSaveAsDraft == false && selfDeclarationChecked == '1') {
+      return swal('Error', 'Please check self declaration', 'error');
+    }
+
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: data.isSaveAsDraft,
@@ -4488,7 +4505,11 @@ export class DurComponent implements OnInit {
       data: data.finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
-      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      this.commonServices.setFormStatusUlb.next(true);
+      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
+        .then(() => {
+          if (data.isSaveAsDraft) location.reload();
+        });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
@@ -4498,5 +4519,11 @@ export class DurComponent implements OnInit {
       swal('Error', error?.message ?? 'Something went wrong', 'error');
       console.log('error occured');
     })
+  }
+  nextPreBtn(e){
+    // temporay basic setting url
+      let url = e?.type == 'pre' ? 'grant-tra-certi' : 'annual_acc'
+      this.router.navigate([ `/ulb-form/${url}`]);
+
   }
 }

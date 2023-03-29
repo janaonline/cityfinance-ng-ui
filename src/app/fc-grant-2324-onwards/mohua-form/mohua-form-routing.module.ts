@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
-import { DashbordComponent } from './dashbord/dashbord.component';
+import { Mohua2223Guard } from 'src/app/shared2223/common-gaurds/mohua/mohua2223.guard';
+import { MohuaFormComponent } from './mohua-form.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
-import { StateFormComponent } from './state-form.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: StateFormComponent,
-    canActivate: [State2223Guard],
+    component: MohuaFormComponent,
+    canActivate: [Mohua2223Guard],
     children: [
-      {
-        path: "dashboard",
-        component: DashbordComponent,
-      },
+      // {
+      //   path: "dashboard",
+      //   component: DashbordComponent,
+      // },
       {
         path: "review-ulb-form",
         component: ReviewUlbTableComponent,
@@ -27,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class StateFormRoutingModule { }
+export class MohuaFormRoutingModule { }

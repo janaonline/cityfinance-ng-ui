@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 import { SweetAlert } from "sweetalert/typings/core";
+import { Router } from '@angular/router';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-annual-account',
@@ -11,7 +12,8 @@ const swal: SweetAlert = require("sweetalert");
 export class AnnualAccountComponent implements OnInit {
 
   constructor(
-    private commonServices : CommonServicesService
+    private commonServices : CommonServicesService,
+    private router: Router,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
@@ -2320,8 +2322,8 @@ export class AnnualAccountComponent implements OnInit {
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
    statusId: number = 1;
-   nextBtnUrl:string='../odf';
-   backBtnUrl:string='#'
+  //  nextBtnUrl:string='../odf';
+  //  backBtnUrl:string='#'
  // resData : any;
   ngOnInit(): void {
    // console.log('ResData', this.resData)
@@ -2376,6 +2378,11 @@ export class AnnualAccountComponent implements OnInit {
       }
 
     this.commonServices.formPostMethod(this.postData, 'annual-accounts/create').subscribe((res)=>{
+      this.commonServices.setFormStatusUlb.next(true);
+      if(draft == false){
+        this.isApiComplete = false;
+        this.onload();
+      }
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       console.log(res);
 
@@ -2420,5 +2427,10 @@ export class AnnualAccountComponent implements OnInit {
       }
     });
   }
+  nextPreBtn(e){
+    // temporay basic setting url
+    let url = e?.type == 'pre' ? 'utilisation-report' : 'odf'
+    this.router.navigate([ `/ulb-form/${url}`]);
 
+  }
 }
