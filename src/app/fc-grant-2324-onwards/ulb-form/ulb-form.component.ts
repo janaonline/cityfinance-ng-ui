@@ -76,6 +76,7 @@ getLeftMenu() {
     console.log("left responces..", res);
     this.leftMenu = res?.data;
     localStorage.setItem("leftMenuULB", JSON.stringify(res?.data));
+    localStorage.setItem(res?.card, "overViewCard2324");
   },
   (error)=>{
     console.log('left menu responces', error)

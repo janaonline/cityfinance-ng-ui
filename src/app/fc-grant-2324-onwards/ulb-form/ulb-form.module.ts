@@ -10,11 +10,13 @@ import { DurComponent } from './dur/dur.component';
 import { DurPreviewComponent } from './dur/dur-preview/dur-preview.component';
 import { CommonFormComponent } from './common-form/common-form.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
+import { OverviewComponent } from './overview/overview.component';
+import { ResourceComponent } from './resource/resource.component';
 
 
 
 @NgModule({
-  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent],
+  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent, OverviewComponent, ResourceComponent],
   imports: [
     CommonModule,
     UlbFormRoutingModule,
