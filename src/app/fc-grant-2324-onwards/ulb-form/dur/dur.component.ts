@@ -4497,6 +4497,7 @@ export class DurComponent implements OnInit {
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: data.isSaveAsDraft,
+      status: data.isSaveAsDraft ? 2 : 3,
       isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
