@@ -2429,12 +2429,8 @@ export class AnnualAccountComponent implements OnInit {
   }
   nextPreBtn(e){
     // temporay basic setting url
-    console.log('eeee next pre btn', e);
-    if(this.formName == 'odf'){
-      let url = e?.type == 'pre' ? '#' : 'odf'
-      console.log('routes url', this.router.navigate([url]), url)
-      this.router.navigate([ `/ulb-form/${url}`]);
-    }
+    let url = e?.type == 'pre' ? 'utilisation-report' : 'odf'
+    this.router.navigate([ `/ulb-form/${url}`]);
 
   }
 }

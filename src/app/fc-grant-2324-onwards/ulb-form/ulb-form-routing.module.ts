@@ -6,6 +6,8 @@ import { DurComponent } from './dur/dur.component';
 import { CommonFormComponent } from './common-form/common-form.component';
 import { UlbFormComponent } from './ulb-form.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
+import { OverviewComponent } from './overview/overview.component';
+import { ResourceComponent } from './resource/resource.component';
 
 const routes: Routes = [
   {
@@ -44,6 +46,14 @@ const routes: Routes = [
       {
         path: "slbs",
         component: CommonFormComponent,
+      },
+      {
+        path: "overview",
+        component: OverviewComponent,
+      },
+      {
+        path: "grant-tra-certi",
+        component: ResourceComponent,
       },
 
     ],

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 
 import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { DurService } from './dur.service';
@@ -4330,7 +4332,9 @@ export class DurComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
-    private loaderService: GlobalLoaderService
+    private loaderService: GlobalLoaderService,
+    private commonServices: CommonServicesService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -4489,7 +4493,7 @@ export class DurComponent implements OnInit {
     if(data.isSaveAsDraft == false && selfDeclarationChecked == '1') {
       return swal('Error', 'Please check self declaration', 'error');
     }
-    
+
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: data.isSaveAsDraft,
@@ -4501,6 +4505,7 @@ export class DurComponent implements OnInit {
       data: data.finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
           if (data.isSaveAsDraft) location.reload();
@@ -4514,5 +4519,11 @@ export class DurComponent implements OnInit {
       swal('Error', error?.message ?? 'Something went wrong', 'error');
       console.log('error occured');
     })
+  }
+  nextPreBtn(e){
+    // temporay basic setting url
+      let url = e?.type == 'pre' ? 'grant-tra-certi' : 'annual_acc'
+      this.router.navigate([ `/ulb-form/${url}`]);
+
   }
 }
