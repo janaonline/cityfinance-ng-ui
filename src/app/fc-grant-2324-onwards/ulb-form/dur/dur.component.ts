@@ -4509,7 +4509,7 @@ export class DurComponent implements OnInit {
       this.commonServices.setFormStatusUlb.next(true);
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
-          if (data.isSaveAsDraft) location.reload();
+          if (!data.isSaveAsDraft) location.reload();
         });
       console.log('data send');
     }, ({ error }) => {
