@@ -25,7 +25,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
   GoogleTagID = "UA-171288029-1";
 }
 
-url = "http://192.168.200.165:8080/api/v1"
+// url = "http://192.168.200.165:8080/api/v1"
 
 // url = "https://cityfinance.in/api/v1/";
 export const environment = {
