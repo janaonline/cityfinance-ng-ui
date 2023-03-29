@@ -4145,19 +4145,43 @@ export class TwentyEightSlbComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => { });
   }
 
+  addDisableKeys = data => data?.finalData?.map((question, questionIndex) => ({
+    ...question,
+    nestedAnswer: question?.nestedAnswer?.map((innerNestedAnswer, innerNestedAnswerIndex) => ({
+      ...innerNestedAnswer,
+      answerNestedData: [
+        ...innerNestedAnswer?.answerNestedData,
+        ...['actual', 'target'].map((key) => ({
+          input_type: "1",
+          shortKey: `${key}Disable`,
+          "answer": [
+            {
+              "label": "",
+              "textValue": data?.question?.[questionIndex]?.childQuestionData[innerNestedAnswerIndex].find(item => item.shortKey.endsWith(`_${key}Indicator`))?.isQuestionDisabled,
+              "value": ""
+            }
+          ],
+        }),
+        )
+      ]
+    }))
+  }));
+
   onSubmit(data) {
-    console.log("submissingdata", data);
-    // return;
+
+    const finalData = this.addDisableKeys(data);
+
     this.loaderService.showLoader();
     this.twentyEightSlbService.postForm({
       isDraft: data.isSaveAsDraft,
       financialYear: this.design_year,
       design_year: this.design_year,
+      status: 1,
       actualYear: "606aafb14dff55e6c075d3ae",
       targetYear: "606aaf854dff55e6c075d219",
       ulb: this.ulbId,
       formId: this.formId,
-      data: data.finalData,
+      data: finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
