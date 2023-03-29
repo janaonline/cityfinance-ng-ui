@@ -4182,7 +4182,7 @@ export class TwentyEightSlbComponent implements OnInit {
       isDraft: data.isSaveAsDraft,
       financialYear: this.design_year,
       design_year: this.design_year,
-      status: data.isSaveAsDraft ?  2 : 3,
+      status: data.isSaveAsDraft ? 2 : 3,
       actualYear: "606aafb14dff55e6c075d3ae",
       targetYear: "606aaf854dff55e6c075d219",
       ulb: this.ulbId,
@@ -4190,7 +4190,10 @@ export class TwentyEightSlbComponent implements OnInit {
       data: finalData,
     }).subscribe(res => {
       this.loaderService.stopLoader();
-      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
+        .then(() => {
+          if (!data.isSaveAsDraft) location.reload();
+        });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
