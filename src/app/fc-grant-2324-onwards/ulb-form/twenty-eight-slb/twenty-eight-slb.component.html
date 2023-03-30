@@ -1,5 +1,7 @@
+<div class="pre-y" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
 <div class="my-3" *ngIf="isLoaded">
     <app-web-form #webForm [viewFormTemplate]="'dur'" [questionresponse]="questionresponse"
         [isProjectLoaded]="isProjectLoaded" (submitQuestion)="onSubmit($event)" (onPreviewDUR)="onPreview()">
     </app-web-form>
+    <p class="p-4" *ngIf="successErrorMessage">Click <a routerLink="/ulb-form/slbs" routerLinkActive="router-link-active" >Here</a> to view your performance against the 4 SLBs</p>
 </div>

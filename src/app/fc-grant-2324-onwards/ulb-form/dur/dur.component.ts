@@ -4497,6 +4497,7 @@ export class DurComponent implements OnInit {
     this.loaderService.showLoader();
     this.durService.postForm({
       isDraft: data.isSaveAsDraft,
+      status: data.isSaveAsDraft ? 2 : 3,
       isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
@@ -4508,7 +4509,7 @@ export class DurComponent implements OnInit {
       this.commonServices.setFormStatusUlb.next(true);
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
-          if (data.isSaveAsDraft) location.reload();
+          if (!data.isSaveAsDraft) location.reload();
         });
       console.log('data send');
     }, ({ error }) => {
