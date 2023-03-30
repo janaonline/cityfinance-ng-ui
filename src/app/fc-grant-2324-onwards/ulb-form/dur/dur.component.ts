@@ -4351,14 +4351,6 @@ export class DurComponent implements OnInit {
     return this.userData?.ulb;
   }
 
-
-
-
-
-  onSubmitQuestion(data) {
-    console.log(data)
-  }
-
   loadData() {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
@@ -4490,7 +4482,7 @@ export class DurComponent implements OnInit {
     const selfDeclarationChecked = data?.finalData
       .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if(data.isSaveAsDraft == false && selfDeclarationChecked == '1') {
+    if(data.isSaveAsDraft == false && selfDeclarationChecked != '1') {
       return swal('Error', 'Please check self declaration', 'error');
     }
 
