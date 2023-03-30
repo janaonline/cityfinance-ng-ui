@@ -48,8 +48,9 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   });
 }
 getAllStatus(){
-  this.commonServices.formGetMethod('master-status', {}).subscribe((res)=>{
+  this.commonServices.formGetMethod('master-status', {}).subscribe((res:any)=>{
     console.log('status responces....', res);
+    localStorage.setItem("allStatusArray", JSON.stringify(res?.data));
   },
   (error)=>{
     console.log('error', error);
