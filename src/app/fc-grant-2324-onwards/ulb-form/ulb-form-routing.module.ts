@@ -19,6 +19,7 @@ const routes: Routes = [
       {
         path: "annual_acc",
         component: AnnualAccountComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "utilisation-report",
@@ -28,34 +29,42 @@ const routes: Routes = [
       {
         path: "odf",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "gfc",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "gfc",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "ptax",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "28SLBsForm",
         component: TwentyEightSlbComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "slbs",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "overview",
         component: OverviewComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "grant-tra-certi",
         component: ResourceComponent,
+        canDeactivate: [ConfirmationGuard]
       },
 
     ],

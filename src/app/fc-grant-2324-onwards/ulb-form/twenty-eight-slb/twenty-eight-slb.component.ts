@@ -4188,6 +4188,7 @@ export class TwentyEightSlbComponent implements OnInit {
       formId: this.formId,
       data: finalData,
     }).subscribe(res => {
+      this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
