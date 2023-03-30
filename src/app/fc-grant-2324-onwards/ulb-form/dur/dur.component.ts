@@ -4374,7 +4374,7 @@ export class DurComponent implements OnInit {
     if (type === 'projects') this.getProjects();
   }
 
-  getProjects() {
+  getProjects(shouldOpenPreview = false) {
     this.loaderService.showLoader();
     this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
 
@@ -4390,6 +4390,9 @@ export class DurComponent implements OnInit {
         projectDetails.childQuestionData = res.data;
       }
       console.log(res);
+      if(shouldOpenPreview) {
+        this.onPreview();
+      }
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -4397,6 +4400,7 @@ export class DurComponent implements OnInit {
   }
 
   onPreview() {
+    if(!this.isProjectLoaded) return this.getProjects(true);
     const data = this.webForm.questionData;
 
     const grantPositionWrapper = data?.find(question => question.shortKey == "grantPosition");
