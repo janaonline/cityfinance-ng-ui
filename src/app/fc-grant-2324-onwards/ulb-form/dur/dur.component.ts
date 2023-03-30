@@ -4505,6 +4505,7 @@ export class DurComponent implements OnInit {
       formId: 4,
       data: data.finalData,
     }).subscribe(res => {
+      this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')

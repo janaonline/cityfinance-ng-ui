@@ -8,6 +8,7 @@ import { UlbFormComponent } from './ulb-form.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
+import { ConfirmationGuard } from './guards/confirmation.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       {
         path: "utilisation-report",
         component: DurComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "odf",
