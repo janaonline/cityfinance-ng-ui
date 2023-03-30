@@ -395,7 +395,7 @@ const defaultProject = [
       "input_type": "2",
       "weightage": [],
       "valueHolder": "",
-      "value": "100",
+      "value": "",
       "acceptableType": "",
       "acceptableFileType": "",
       "type": "2",
@@ -411,12 +411,12 @@ const defaultProject = [
       "forParentValue": 1,
       "isSelectValue": false,
       "previousValue": "",
-      "modelValue": "100",
+      "modelValue": "",
       "selectedValue": [
         {
           "label": "",
           "textValue": "",
-          "value": "100"
+          "value": ""
         }
       ],
       "answer": {
@@ -424,7 +424,7 @@ const defaultProject = [
           {
             "label": "",
             "textValue": "",
-            "value": "100"
+            "value": ""
           }
         ],
         "input_type": "2",
@@ -471,7 +471,7 @@ const defaultProject = [
       "input_type": "2",
       "weightage": [],
       "valueHolder": "",
-      "value": "15",
+      "value": "",
       "acceptableType": "",
       "acceptableFileType": "",
       "type": "2",
@@ -487,12 +487,12 @@ const defaultProject = [
       "forParentValue": 1,
       "isSelectValue": false,
       "previousValue": "",
-      "modelValue": "15",
+      "modelValue": "",
       "selectedValue": [
         {
           "label": "",
           "textValue": "",
-          "value": "15"
+          "value": ""
         }
       ],
       "answer": {
@@ -500,7 +500,7 @@ const defaultProject = [
           {
             "label": "",
             "textValue": "",
-            "value": "15"
+            "value": ""
           }
         ],
         "input_type": "2",
@@ -551,7 +551,7 @@ const defaultProject = [
       "input_type": "2",
       "weightage": [],
       "valueHolder": "",
-      "value": 15,
+      "value": "",
       "acceptableType": "",
       "acceptableFileType": "",
       "type": "2",
@@ -569,10 +569,10 @@ const defaultProject = [
         {
           "label": "",
           "textValue": "",
-          "value": 15
+          "value": ""
         }
       ],
-      "modelValue": 15,
+      "modelValue": "",
       "answer": {
         "answer": [
           {
