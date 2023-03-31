@@ -1,9 +1,9 @@
 <h5 class="mx-3 my-4">Property Tax</h5>
 
-<div *ngIf="fiscalForm">
-    <div *ngFor="let tab of fiscalForm.controls; index as i;">
-    
-        <table class="table table-striped caption-top" *ngIf="tab?.value?.id === 's3'">
+<div *ngIf="form">
+    <div *ngFor="let tab of form.controls; index as i;">
+
+        <table class="table table-striped caption-top" *ngIf="tab?.value?.id === 's3'" [formGroup]="tab">
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
@@ -12,12 +12,6 @@
                         <th
                             *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
                             {{ heading }}{{ i > 1 ? ' (in ₹)' : ''}}</th>
-                    </tr>
-                    <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey" class="table-info">
-                        <th colspan="6">REVENUE RECEIPTS (ACTUAL) </th>
-                    </tr>
-                    <tr *ngIf="item?.value?.controls?.position?.value == expenditureSectionBelowKey" class="table-danger">
-                        <th colspan="6">REVENUE EXPENDITURE (ACTUAL) </th>
                     </tr>
                     <tr *ngIf="item?.value?.controls?.canShow?.value">
                         <td>{{ item?.value?.controls?.position?.value }}</td>
@@ -30,7 +24,8 @@
                         <td *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                 <div class="form-group">
-                                    <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                    <input
+                                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                                         formControlName="value" class="form-control"
                                         [type]="yearItem?.controls?.formFieldType?.value"
                                         [readonly]="yearItem?.controls?.readonly?.value"
@@ -47,8 +42,8 @@
                                         <mat-radio-button value="Yes">Yes</mat-radio-button>
                                         <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                     </mat-radio-group>
-    
-    
+
+
                                     <div class="input-group border"
                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                                         [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
@@ -80,8 +75,8 @@
                                                 </div>
                                             </button>
                                             <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)" type="file"
-                                                accept=".pdf" #file>
+                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                type="file" accept=".pdf" #file>
                                         </div>
                                         <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
                                             <a class="w-90" href="{{yearItem?.value?.file?.url}}"
@@ -106,5 +101,32 @@
                 </ng-container>
             </tbody>
         </table>
+    </div>
+
+
+    <div class="d-flex justify-content-end my-2">
+        <div class="row w-100">
+            <div class="col-sm-6">
+                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                    &lt;- Previous Form </button>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-inline-flex mr-1">
+                    <button class="btn btn-save text-uppercase" (click)="submit()">
+                        Save as Draft
+                    </button>
+                </div>
+                <div class="d-inline-flex mr-1">
+                    <button class="btn btn-save text-uppercase" (click)="submit(false)">
+                        Save
+                    </button>
+                </div>
+                <div class="d-inline-flex ">
+                    <button routerLink="ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                        Next Form -&gt;
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

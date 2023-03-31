@@ -332,7 +332,7 @@ table {
         color: #dc3545;
         cursor: pointer;
     }
-    
+
     .border-danger-file {
         border: 1px solid red;
         border-radius: 5px;
@@ -357,4 +357,18 @@ table {
         font-size: 15px;
         font-weight: 400;
     }
+}
+
+.btn-save {
+    background-color: #059b9a !important;
+    color: #fff;
+}
+
+.btn-next {
+    background-color: #0f1f40 !important;
+    color: #fff;
+}
+
+.btn-pre {
+    background-color: #CFCFCF;
 }

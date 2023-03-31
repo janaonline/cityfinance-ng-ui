@@ -72,7 +72,7 @@ export class PropertyTaxComponent implements OnInit {
   isDraft: boolean;
   ulbName: string;
   userTypes = USER_TYPE;
-  fiscalForm: FormArray;
+  form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
   formSubmitted = false;
@@ -111,7 +111,7 @@ export class PropertyTaxComponent implements OnInit {
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
-      this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
+      this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       // this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
@@ -216,7 +216,7 @@ export class PropertyTaxComponent implements OnInit {
       'data.registerGis.yearData.0': 'registerGisProof',
       'data.accountStwre.yearData.0': 'accountStwreProof'
     }
-    const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
       const control = s3Control.get(selector)
       control.valueChanges.subscribe(({ value }) => {
@@ -232,6 +232,26 @@ export class PropertyTaxComponent implements OnInit {
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
+  }
+
+  submit(isDraft = true) {
+    const payload = {
+      ulbId: this.ulbId,
+      formId: this.formId,
+      design_year: this.design_year,
+      isDraft: isDraft,
+      actions: this.form.getRawValue()
+    }
+    this.loaderService.showLoader();
+    this.propertyTaxService.postData(payload).subscribe(res => {
+      this.form.markAsPristine();
+      this.loaderService.stopLoader();
+      this.formSubmitted = !isDraft;
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+    }, ({error}) => {
+      this.loaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
   }
 
 }

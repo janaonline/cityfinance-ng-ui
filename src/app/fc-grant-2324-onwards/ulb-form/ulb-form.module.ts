@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -47,6 +48,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDatepickerModule,
     MatTooltipModule,
     MatIconModule,
+    ReactiveFormsModule,
   ]
 })
 export class UlbFormModule { }
