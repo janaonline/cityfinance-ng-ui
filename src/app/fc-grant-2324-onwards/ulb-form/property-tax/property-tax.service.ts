@@ -5808,7 +5808,7 @@ export class PropertyTaxService {
     return this.http.get(`${environment.api.url}/28-slbs?ulb=${ulb}&design_year=${design_year}&formId=${formId}`)
       .pipe(
         map((res: any) => {
-          return response;
+          return { data: response };
         })
       );
   }
