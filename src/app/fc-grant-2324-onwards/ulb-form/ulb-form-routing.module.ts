@@ -9,6 +9,7 @@ import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.com
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
 import { ConfirmationGuard } from './guards/confirmation.guard';
+import { PropertyTaxComponent } from './property-tax/property-tax.component';
 
 const routes: Routes = [
   {
@@ -43,8 +44,8 @@ const routes: Routes = [
       },
       {
         path: "ptax",
-        component: CommonFormComponent,
-        canDeactivate: [ConfirmationGuard]
+        component: PropertyTaxComponent,
+        // canDeactivate: [ConfirmationGuard]
       },
       {
         path: "28SLBsForm",
