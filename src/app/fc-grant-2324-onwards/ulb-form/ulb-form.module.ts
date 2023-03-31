@@ -13,11 +13,12 @@ import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.com
 import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb/twenty-eight-slb-preview/twenty-eight-slb-preview.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
+import { PropertyTaxComponent } from './property-tax/property-tax.component';
 
 
 
 @NgModule({
-  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent, TwentyEightSlbPreviewComponent, OverviewComponent, ResourceComponent],
+  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent, TwentyEightSlbPreviewComponent, OverviewComponent, ResourceComponent, PropertyTaxComponent],
   imports: [
     CommonModule,
     UlbFormRoutingModule,

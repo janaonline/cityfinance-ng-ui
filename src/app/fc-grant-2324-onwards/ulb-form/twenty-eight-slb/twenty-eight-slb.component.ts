@@ -26,7 +26,7 @@ export class TwentyEightSlbComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"));
 
   questionresponse;
-  //  {
+  // {
   //   timestamp: 1621316934,
   //   success: true,
   //   message: 'Form Questionare!',
@@ -132,7 +132,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     "order": "1.002",
   //                     "answer_option": [],
   //                     "title": "Actual Indicator 2022-23",
-  //                     "hint": "",
+  //                     "hint": "range 0 - 24",
   //                     "resource_urls": [],
   //                     "label": "",
   //                     "shortKey": "waterSupply_actualIndicator",
@@ -151,7 +151,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     ],
   //                     "restrictions": [],
   //                     "minRange": 0,
-  //                     "maxRange": 9999,
+  //                     "maxRange": 100,
   //                     "min": 1,
   //                     "max": 4,
   //                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
@@ -159,7 +159,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     "weightage": [],
   //                     "valueHolder": "",
   //                     "isQuestionDisabled": false,
-  //                     "value": "565",
+  //                     "value": "",
   //                     "acceptableType": "",
   //                     "acceptableFileType": "",
   //                     "type": "2",
@@ -175,12 +175,12 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     "forParentValue": 1,
   //                     "isSelectValue": false,
   //                     "previousValue": "",
-  //                     "modelValue": "565",
+  //                     "modelValue": "",
   //                     "selectedValue": [
   //                       {
   //                         "label": "",
   //                         "textValue": "",
-  //                         "value": "565"
+  //                         "value": ""
   //                       }
   //                     ],
   //                     "answer": {
@@ -188,7 +188,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                         {
   //                           "label": "",
   //                           "textValue": "",
-  //                           "value": "565"
+  //                           "value": ""
   //                         }
   //                       ],
   //                       "input_type": "2",
@@ -549,7 +549,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     ],
   //                     "restrictions": [],
   //                     "minRange": 0,
-  //                     "maxRange": 9999,
+  //                     "maxRange": 24,
   //                     "min": 1,
   //                     "max": 4,
   //                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
@@ -557,7 +557,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     "weightage": [],
   //                     "valueHolder": "",
   //                     "isQuestionDisabled": false,
-  //                     "value": "80",
+  //                     "value": "",
   //                     "acceptableType": "",
   //                     "acceptableFileType": "",
   //                     "type": "2",
@@ -573,12 +573,12 @@ export class TwentyEightSlbComponent implements OnInit {
   //                     "forParentValue": 2,
   //                     "isSelectValue": false,
   //                     "previousValue": "",
-  //                     "modelValue": "80",
+  //                     "modelValue": "",
   //                     "selectedValue": [
   //                       {
   //                         "label": "",
   //                         "textValue": "",
-  //                         "value": "80"
+  //                         "value": ""
   //                       }
   //                     ],
   //                     "answer": {
@@ -586,7 +586,7 @@ export class TwentyEightSlbComponent implements OnInit {
   //                         {
   //                           "label": "",
   //                           "textValue": "",
-  //                           "value": "80"
+  //                           "value": ""
   //                         }
   //                       ],
   //                       "input_type": "2",
@@ -4189,6 +4189,7 @@ export class TwentyEightSlbComponent implements OnInit {
       formId: this.formId,
       data: finalData,
     }).subscribe(res => {
+      this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {

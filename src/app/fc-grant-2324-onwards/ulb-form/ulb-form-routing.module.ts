@@ -8,6 +8,8 @@ import { UlbFormComponent } from './ulb-form.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
+import { ConfirmationGuard } from './guards/confirmation.guard';
+import { PropertyTaxComponent } from './property-tax/property-tax.component';
 
 const routes: Routes = [
   {
@@ -18,42 +20,52 @@ const routes: Routes = [
       {
         path: "annual_acc",
         component: AnnualAccountComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "utilisation-report",
         component: DurComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "odf",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "gfc",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "gfc",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "ptax",
-        component: CommonFormComponent,
+        component: PropertyTaxComponent,
+        // canDeactivate: [ConfirmationGuard]
       },
       {
         path: "28SLBsForm",
         component: TwentyEightSlbComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "slbs",
         component: CommonFormComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "overview",
         component: OverviewComponent,
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "grant-tra-certi",
         component: ResourceComponent,
+        canDeactivate: [ConfirmationGuard]
       },
 
     ],

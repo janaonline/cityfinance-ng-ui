@@ -4351,14 +4351,6 @@ export class DurComponent implements OnInit {
     return this.userData?.ulb;
   }
 
-
-
-
-
-  onSubmitQuestion(data) {
-    console.log(data)
-  }
-
   loadData() {
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
@@ -4382,7 +4374,7 @@ export class DurComponent implements OnInit {
     if (type === 'projects') this.getProjects();
   }
 
-  getProjects() {
+  getProjects(shouldOpenPreview = false) {
     this.loaderService.showLoader();
     this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
 
@@ -4398,6 +4390,9 @@ export class DurComponent implements OnInit {
         projectDetails.childQuestionData = res.data;
       }
       console.log(res);
+      if(shouldOpenPreview) {
+        this.onPreview();
+      }
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -4405,6 +4400,7 @@ export class DurComponent implements OnInit {
   }
 
   onPreview() {
+    if(!this.isProjectLoaded) return this.getProjects(true);
     const data = this.webForm.questionData;
 
     const grantPositionWrapper = data?.find(question => question.shortKey == "grantPosition");
@@ -4490,7 +4486,7 @@ export class DurComponent implements OnInit {
     const selfDeclarationChecked = data?.finalData
       .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if(data.isSaveAsDraft == false && selfDeclarationChecked == '1') {
+    if(data.isSaveAsDraft == false && selfDeclarationChecked != '1') {
       return swal('Error', 'Please check self declaration', 'error');
     }
 
@@ -4505,6 +4501,7 @@ export class DurComponent implements OnInit {
       formId: 4,
       data: data.finalData,
     }).subscribe(res => {
+      this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
       swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')

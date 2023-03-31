@@ -1,7 +1,7 @@
 
 
 <div class="" *ngIf="isApiComplete">
-  <app-cf-annual-account [formName]="formName" [questionresponse]="questionResponse"
+  <app-cf-annual-account #webForm [formName]="formName" [questionresponse]="questionResponse"
  (submitQuestion)="resData($event)" [s3FolderName]="fileFolderName" (nextPreBtn)="nextPreBtn($event)"></app-cf-annual-account>
 </div>
 <div class="loader" *ngIf="!isApiComplete">
