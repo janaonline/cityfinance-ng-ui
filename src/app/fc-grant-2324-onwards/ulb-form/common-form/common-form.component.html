@@ -1,5 +1,5 @@
 <div class="" *ngIf="isApiComplete">
-  <app-web-form [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
+  <app-web-form #webForm [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
   [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
   (nextPreBtn)="nextPreBtn($event)"></app-web-form>
 </div>

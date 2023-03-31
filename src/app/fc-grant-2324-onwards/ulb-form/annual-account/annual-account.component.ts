@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 import { SweetAlert } from "sweetalert/typings/core";
@@ -10,6 +10,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./annual-account.component.scss']
 })
 export class AnnualAccountComponent implements OnInit {
+  @ViewChild('webForm') webForm;
 
   constructor(
     private commonServices : CommonServicesService,
@@ -2377,6 +2378,7 @@ export class AnnualAccountComponent implements OnInit {
       }
 
     this.commonServices.formPostMethod(this.postData, 'annual-accounts/create').subscribe((res)=>{
+      this.webForm.hasUnsavedChanges = false;
       this.commonServices.setFormStatusUlb.next(true);
       if(draft == false){
         this.isApiComplete = false;

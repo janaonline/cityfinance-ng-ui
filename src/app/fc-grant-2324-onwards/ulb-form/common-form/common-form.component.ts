@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
@@ -12,6 +12,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./common-form.component.scss']
 })
 export class CommonFormComponent implements OnInit {
+  @ViewChild('webForm') webForm;
 
   constructor(
     private router: Router,
@@ -1281,6 +1282,7 @@ export class CommonFormComponent implements OnInit {
       data: finalData
     }
     this.commonServices.formPostMethod(this.postData, this.endPoints).subscribe((res) => {
+      this.webForm.hasUnsavedChanges = false;
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       this.commonServices.setFormStatusUlb.next(true);
       if(draft == false){

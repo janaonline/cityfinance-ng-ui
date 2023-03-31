@@ -200,7 +200,7 @@ const defaultProject = [
       "restrictions": [],
       "input_type": "14",
       "weightage": [],
-      "value": "2023-03-22",
+      "value": "",
       "acceptableType": "",
       "acceptableFileType": "",
       "type": "14",
@@ -214,13 +214,13 @@ const defaultProject = [
         "name": " 1"
       },
       "forParentValue": 1,
-      "modelValue": "2023-03-22",
+      "modelValue": "",
       "isSelectValue": false,
-      "previousValue": "2023-03-22",
+      "previousValue": "",
       "selectedValue": [
         {
           "label": "",
-          "textValue": "2023-03-22",
+          "textValue": "",
           "value": ""
         }
       ],
@@ -229,7 +229,7 @@ const defaultProject = [
           {
             "label": "",
             "textValue": "",
-            "value": "2023-03-22"
+            "value": ""
           }
         ],
         "input_type": "14",
@@ -265,7 +265,7 @@ const defaultProject = [
       "restrictions": [],
       "input_type": "14",
       "weightage": [],
-      "value": "2023-03-22",
+      "value": "",
       "acceptableType": "",
       "acceptableFileType": "",
       "type": "14",
@@ -279,13 +279,13 @@ const defaultProject = [
         "name": " 1"
       },
       "forParentValue": 1,
-      "modelValue": "2023-03-22",
+      "modelValue": "",
       "isSelectValue": false,
-      "previousValue": "2023-03-22",
+      "previousValue": "",
       "selectedValue": [
         {
           "label": "",
-          "textValue": "2023-03-22",
+          "textValue": "",
           "value": ""
         }
       ],
@@ -294,7 +294,7 @@ const defaultProject = [
           {
             "label": "",
             "textValue": "",
-            "value": "2023-03-22"
+            "value": ""
           }
         ],
         "input_type": "14",
@@ -341,11 +341,11 @@ const defaultProject = [
       "forParentValue": 1,
       "isSelectValue": false,
       "previousValue": "",
-      "modelValue": "20.30,40.20",
+      "modelValue": "0,0",
       "selectedValue": [
         {
           "label": "",
-          "textValue": "20.30,40.20",
+          "textValue": "0,0",
           "value": ""
         }
       ],
