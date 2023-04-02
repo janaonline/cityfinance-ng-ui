@@ -99,12 +99,13 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get ulbId() {
+    return '5fa24660072dab780a6f141e';
     return this.userData?.ulb;
   }
 
 
   loadData() {
-    this.propertyTaxService.getForm(this.ulbId, this.design_year, '6').subscribe((res: any) => {
+    this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       console.log('response', res);
       // this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
@@ -135,14 +136,6 @@ export class PropertyTaxComponent implements OnInit {
         if (this.linearTabs.includes(tab.id)) {
           obj[key] = this.getInnerFormGroup({ ...item, key })
         }
-        else if (tab.id == this.selfDeclarationTabId) {
-          obj[key] = this.fb.group({
-            uploading: [{ value: false, disabled: true }],
-            name: [item.name,  item.required ? Validators.required : null],
-            status: item.status,
-            url: [item.url, item.required ? Validators.required : null],
-          })
-        }
         else {
           obj[key] = this.fb.group({
             key: item.key,
@@ -154,7 +147,7 @@ export class PropertyTaxComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
-            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item)))
+            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
         }
         return obj;
@@ -240,6 +233,7 @@ export class PropertyTaxComponent implements OnInit {
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
+      status: isDraft ? 2 : 3,
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
