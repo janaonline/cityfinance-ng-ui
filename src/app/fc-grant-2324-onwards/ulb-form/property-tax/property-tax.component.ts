@@ -99,13 +99,14 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get ulbId() {
-    return '5fa24660072dab780a6f141e';
     return this.userData?.ulb;
   }
 
 
   loadData() {
+    this.loaderService.showLoader();
     this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
+      this.loaderService.stopLoader();
       console.log('response', res);
       // this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
@@ -113,12 +114,14 @@ export class PropertyTaxComponent implements OnInit {
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      // this.addSkipLogics();
+      this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
       this.isLoader = false;
       console.log('response', res);
+    }, err => {
+      this.loaderService.stopLoader();
     });
   }
 
@@ -206,8 +209,8 @@ export class PropertyTaxComponent implements OnInit {
 
   addSkipLogics() {
     const dependencies = {
-      'data.registerGis.yearData.0': 'registerGisProof',
-      'data.accountStwre.yearData.0': 'accountStwreProof'
+      'data.notificationPropertyTax.yearData.0': 'notificationAdoptionDate',
+      'data.notificationIssuedBy.yearData.0': 'notificationFile'
     }
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
