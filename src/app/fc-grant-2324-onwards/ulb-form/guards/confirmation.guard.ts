@@ -13,13 +13,13 @@ export class ConfirmationGuard implements CanDeactivate<any> {
     // console.log('hasUnsavedChanges', component.webForm.hasUnsavedChanges)
     if(component?.webForm?.hasUnsavedChanges) {
       return swal(
-        "Unsaved changes!",
-        `Are you sure you want to leave this page? You have unsaved changes.`,
+        "Unsaved Changes!",
+        `You have some unsaved changes on this page. Do you wish to save your data as draft?`,
         "warning"
         , {
           buttons: {
             Leave: {
-              text: "Leave",
+              text: "Discard",
               className: 'btn-danger',
               value: true,
             },
