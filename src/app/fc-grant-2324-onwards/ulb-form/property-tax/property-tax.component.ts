@@ -93,6 +93,10 @@ export class PropertyTaxComponent implements OnInit {
     this.loadData();
   }
 
+  get uploadFolderName() {
+    return `${this.userData?.role}/2022-23/fiscalRanking/${this.userData?.ulbCode}`
+  }
+
   get design_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
     return years?.['2023-24'];
@@ -228,6 +232,29 @@ export class PropertyTaxComponent implements OnInit {
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
+  }
+
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
+    console.log({ event, fileType, control })
+    if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
+    const maxFileSize = 5;
+    const excelFileExtensions = ['xls', 'xlsx'];
+    const file: File = event.target.files[0];
+    if (!file) return;
+    const fileExtension = file.name.split('.').pop();
+
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
+
+    control.patchValue({ uploading: true });
+    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe((s3Response: any) => {
+      const { url, file_url } = s3Response.data[0];
+      this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
+        if (res.type !== HttpEventType.Response) return;
+        control.patchValue({ uploading: false, name: file.name, url: file_url });
+      });
+    }, err => console.log(err));
   }
 
   submit(isDraft = true) {
