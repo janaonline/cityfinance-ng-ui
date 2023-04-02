@@ -14,16 +14,41 @@ import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb/twenty-eight-
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
 import { PropertyTaxComponent } from './property-tax/property-tax.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [UlbFormComponent, AnnualAccountComponent, DurComponent, DurPreviewComponent, CommonFormComponent, TwentyEightSlbComponent, TwentyEightSlbPreviewComponent, OverviewComponent, ResourceComponent, PropertyTaxComponent],
+  declarations: [
+    UlbFormComponent, 
+    AnnualAccountComponent, 
+    DurComponent, 
+    DurPreviewComponent, 
+    CommonFormComponent, 
+    TwentyEightSlbComponent, 
+    TwentyEightSlbPreviewComponent, 
+    OverviewComponent, 
+    ResourceComponent, 
+    PropertyTaxComponent
+  ],
   imports: [
     CommonModule,
     UlbFormRoutingModule,
     FcSharedModule,
     WebFormModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    MatIconModule,
+    ReactiveFormsModule,
   ]
 })
 export class UlbFormModule { }
