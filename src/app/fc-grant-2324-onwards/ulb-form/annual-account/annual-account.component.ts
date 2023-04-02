@@ -2377,10 +2377,9 @@ export class AnnualAccountComponent implements OnInit {
     this.commonServices.formPostMethod(this.postData, 'annual-accounts/create').subscribe((res)=>{
       this.webForm.hasUnsavedChanges = false;
       this.commonServices.setFormStatusUlb.next(true);
-      if(draft == false){
         this.isApiComplete = false;
         this.onload();
-      }
+      
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       console.log(res);
 
