@@ -1285,10 +1285,8 @@ export class CommonFormComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       this.commonServices.setFormStatusUlb.next(true);
-      if(draft == false){
         this.isApiComplete = false;
         this.callGetApi(this.endPoints, this.getQuery);
-      }
       console.log(res);
     },
       (error) => {
