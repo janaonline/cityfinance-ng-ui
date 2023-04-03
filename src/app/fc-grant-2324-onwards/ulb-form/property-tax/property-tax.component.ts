@@ -22,6 +22,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { PreviewComponent } from './preview/preview.component';
 // import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 
@@ -94,7 +95,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2022-23/fiscalRanking/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/2022-23/property-tax/${this.userData?.ulbCode}`
   }
 
   get design_year() {
@@ -257,6 +258,71 @@ export class PropertyTaxComponent implements OnInit {
     }, err => console.log(err));
   }
 
+  onPreview() {
+    const date = new Date();
+    console.log(this.form.getRawValue());
+    const rowValues = this.form.getRawValue();
+    const dialogRef = this.dialog.open(PreviewComponent, {
+      id: 'UlbFisPreviewComponent',
+      data: {
+        showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        additionalData: {
+          pristine: this.form.pristine,
+          date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
+          // otherFile: this.otherUploadControl?.value
+        }
+      },
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+
+    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+      this.submit();
+    });
+  }
+
+  validateErrors() {
+    this.form.markAllAsTouched();
+    if (this.form.status === 'INVALID') {
+      return false;
+    }
+    return true;
+  }
+
+  finalSubmitConfirmation() {
+    swal(
+      "Confirmation !",
+      `Are you sure you want to submit this form? Once submitted,
+     it will become uneditable and will be sent to MoHUA for Review.
+      Alternatively, you can save as draft for now and submit it later.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      if (value == 'submit') {
+        if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');;
+        this.submit(false);
+      }
+      else if (value == 'draft') this.submit();
+    })
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
@@ -271,7 +337,9 @@ export class PropertyTaxComponent implements OnInit {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success').then(() => {
+        if(!isDraft) location.reload();
+      });
     }, ({error}) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
