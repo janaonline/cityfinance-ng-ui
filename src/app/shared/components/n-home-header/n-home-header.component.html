@@ -73,7 +73,7 @@
                         <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
+                        <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" routerLink="/rankings/ulb-form">Rankings</a>
@@ -170,7 +170,7 @@
                             <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a>
                         </li>
                         <li class="nav-item" *ngIf="isLoggedIn">
-                            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" routerLinkActive="active" routerLink="/fc-home-page">15<sup>TH</sup>
+                            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>TH</sup>
                               FC Grants</a>
                         </li>
                         <li class="nav-item">

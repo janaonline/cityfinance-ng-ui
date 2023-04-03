@@ -1,0 +1,379 @@
+.heading {
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 60px;
+    /* identical to box height, or 167% */
+    text-align: center;
+    color: #101010;
+}
+
+.ch-icon {
+    font-size: 1.8rem;
+    vertical-align: bottom;
+}
+
+::ng-deep .mat-step-icon {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+}
+
+::ng-deep .mat-stepper-label-position-bottom .mat-stepper-horizontal-line {
+    top: 40px !important;
+    color: #C0E2FF;
+}
+
+::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header::after,
+::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header::before {
+    top: 40px !important;
+    color: #C0E2FF;
+}
+
+// .n-circle {
+//     background: #C0E2FF;
+// }
+::ng-deep .mat-step-header .mat-step-icon-state-state {
+    background-color: #C0E2FF;
+    color: #C0E2FF;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #2668AC;
+    color: #2668AC;
+}
+
+.st-title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    color: #101010;
+}
+
+::ng-deep .material-icons {
+    vertical-align: middle !important;
+}
+
+.form-control {
+    height: 40px;
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    &.comment {
+        height: unset;
+    }
+
+    &:disabled {
+        pointer-events: none;
+    }
+}
+
+.form-ic {
+    display: inline-block;
+    width: 80%;
+}
+
+.btn-f-next {
+    background: #E67E15;
+    border-radius: 8px;
+    color: #FFFFFF;
+}
+
+.btn {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.btn-f-c {
+    border: none;
+    color: #E67E15;
+}
+
+.card-form {
+    background: #FFFFFF;
+    box-shadow: 0px 4px 24px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+}
+
+.h-label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.form-l {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.com-style {
+    font-family: 'Manrope';
+    font-style: normal;
+    //  font-weight: 400;
+    //  line-height: 22px;
+}
+
+.yrformCon {
+    background: #FFFFFF;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    height: 50px;
+}
+
+.bot-text {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.h-gui {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+    color: #101010;
+}
+
+.file-text {
+    font-weight: 400;
+    font-size: smaller;
+    line-height: 22px;
+    /* identical to box height */
+    color: #101010;
+}
+
+.form-btn {
+    background: #FFFFFF;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    width: 70%;
+    height: 40px;
+    padding: 0.375rem 0.75rem;
+}
+
+.c-head {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    /* identical to box height */
+    text-align: center;
+    color: #101010;
+}
+
+.c-sub-h {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    /* identical to box height */
+    text-align: center;
+    color: #101010;
+}
+
+.btn-d-org {
+    background: #E67E15;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    color: #fff
+}
+
+.btn-up-org {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #E67E15;
+    text-align: center;
+    border: 1px solid #E67E15;
+}
+
+.u-i {
+    vertical-align: bottom;
+}
+
+.pd-m {
+    padding: 2rem 1rem;
+}
+
+.pd-b {
+    padding: 0px 0px 0 11px;
+}
+
+.l-h {
+    min-height: 5rem;
+}
+
+.f-w {
+    font-weight: 600 !important;
+}
+
+.br-a {
+    background: #fff;
+    border-right-width: 0;
+}
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+    margin-left: 16px;
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #E67E15;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle,
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+::ng-deep .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #E67E15;
+}
+
+.disable {
+
+    input,
+    .mat-radio-button,
+    .mat-datepicker-toggle,
+    .mat-form-field {
+        pointer-events: none;
+    }
+
+    .form-control,
+    .br-a {
+        background-color: #ccc;
+    }
+}
+
+
+.mat-datepicker-input {
+    width: 80px;
+}
+
+::ng-deep .st-title {
+    display: inline-flex !important
+}
+
+.al-up {
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    height: 40px;
+    padding: 0.65rem 0.75rem;
+    font-size: smaller;
+    width: 100%;
+}
+
+.w-70 {
+    width: 70%;
+}
+
+::ng-deep .mat-form-field-flex {
+    border: none;
+}
+
+::ng-deep .mat-form-field {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    font-family: 'Manrope';
+    font-style: normal;
+}
+
+.w-10 {
+    width: 10%;
+    display: inline-block;
+}
+
+.w-90 {
+    width: 88%;
+    display: inline-block;
+}
+
+// ::ng-deep .mat-input-element:disabled {
+//     color: #000;
+// }
+
+// ::ng-deep .mat-form-field-disabled {
+//     .mat-form-field-outline {
+//         background-color: #ccc;
+//     }
+// }
+
+.pe-none {
+    pointer-events: none;
+}
+
+::ng-deep .mat-radio-group.ng-invalid.ng-touched {
+    border: 2px solid red;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline,
+.mat-input-element:disabled {
+    color: #d3d3d3 !important;
+}
+
+::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style {
+    color: #727272 !important;
+}
+
+::ng-deep .mat-tooltip {
+    white-space: pre-line !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+table {
+    .error-icon {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.375rem;
+        color: #dc3545;
+        cursor: pointer;
+    }
+
+    .border-danger-file {
+        border: 1px solid red;
+        border-radius: 5px;
+    }
+
+    .tooltip.show {
+        opacity: 1;
+    }
+
+    .table-gray {
+        background-color: #c3c3c3;
+        color: black;
+        text-align: center;
+    }
+
+    .whole-number {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .float-number {
+        font-size: 15px;
+        font-weight: 400;
+    }
+}
+
+.btn-save {
+    background-color: #059b9a !important;
+    color: #fff;
+}
+
+.btn-next {
+    background-color: #0f1f40 !important;
+    color: #fff;
+}
+
+.btn-pre {
+    background-color: #CFCFCF;
+}
