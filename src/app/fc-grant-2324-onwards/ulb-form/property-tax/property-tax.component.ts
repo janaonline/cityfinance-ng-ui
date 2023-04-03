@@ -93,6 +93,10 @@ export class PropertyTaxComponent implements OnInit {
     this.loadData();
   }
 
+  get uploadFolderName() {
+    return `${this.userData?.role}/2022-23/fiscalRanking/${this.userData?.ulbCode}`
+  }
+
   get design_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
     return years?.['2023-24'];
@@ -104,7 +108,9 @@ export class PropertyTaxComponent implements OnInit {
 
 
   loadData() {
-    this.propertyTaxService.getForm(this.ulbId, this.design_year, '6').subscribe((res: any) => {
+    this.loaderService.showLoader();
+    this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
+      this.loaderService.stopLoader();
       console.log('response', res);
       // this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
@@ -112,12 +118,14 @@ export class PropertyTaxComponent implements OnInit {
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      // this.addSkipLogics();
+      this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
       this.isLoader = false;
       console.log('response', res);
+    }, err => {
+      this.loaderService.stopLoader();
     });
   }
 
@@ -135,14 +143,6 @@ export class PropertyTaxComponent implements OnInit {
         if (this.linearTabs.includes(tab.id)) {
           obj[key] = this.getInnerFormGroup({ ...item, key })
         }
-        else if (tab.id == this.selfDeclarationTabId) {
-          obj[key] = this.fb.group({
-            uploading: [{ value: false, disabled: true }],
-            name: [item.name,  item.required ? Validators.required : null],
-            status: item.status,
-            url: [item.url, item.required ? Validators.required : null],
-          })
-        }
         else {
           obj[key] = this.fb.group({
             key: item.key,
@@ -154,7 +154,7 @@ export class PropertyTaxComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
-            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item)))
+            yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
         }
         return obj;
@@ -213,8 +213,8 @@ export class PropertyTaxComponent implements OnInit {
 
   addSkipLogics() {
     const dependencies = {
-      'data.registerGis.yearData.0': 'registerGisProof',
-      'data.accountStwre.yearData.0': 'accountStwreProof'
+      'data.notificationPropertyTax.yearData.0': 'notificationAdoptionDate',
+      'data.notificationIssuedBy.yearData.0': 'notificationFile'
     }
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
@@ -234,12 +234,36 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
+    console.log({ event, fileType, control })
+    if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
+    const maxFileSize = 5;
+    const excelFileExtensions = ['xls', 'xlsx'];
+    const file: File = event.target.files[0];
+    if (!file) return;
+    const fileExtension = file.name.split('.').pop();
+
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
+
+    control.patchValue({ uploading: true });
+    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe((s3Response: any) => {
+      const { url, file_url } = s3Response.data[0];
+      this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
+        if (res.type !== HttpEventType.Response) return;
+        control.patchValue({ uploading: false, name: file.name, url: file_url });
+      });
+    }, err => console.log(err));
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
+      status: isDraft ? 2 : 3,
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
