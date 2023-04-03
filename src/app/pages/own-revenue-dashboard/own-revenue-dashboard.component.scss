@@ -4,6 +4,7 @@
 $text-color-ord: #0f1f40;
 $font-archivo: "Archivo";
 $font-Montserrat: "Montserrat";
+
 .dashboard-container {
     background-color: #dae2fd;
     padding-bottom: 7rem;
@@ -249,6 +250,7 @@ $font-Montserrat: "Montserrat";
 .doughnut-container {
     margin-top: 1.8rem;
     width: 50%;
+
     @media (max-width: 1200px) {
         margin-top: 4rem;
         width: 70%;
@@ -314,6 +316,7 @@ td {
 // }
 .table-container {
     margin-top: 2.5rem;
+
     tr,
     th,
     td {
@@ -322,11 +325,13 @@ td {
         border-top: none;
         border-bottom: none;
     }
+
     table {
         border: 1px solid #d9d8d8;
         border-radius: 10px !important;
         border-collapse: inherit;
     }
+
     .col-attr {
         background-color: #f2f5ff;
         padding: 0.8rem 1rem;
@@ -336,15 +341,18 @@ td {
         color: $text-color-ord;
         width: 20%;
     }
+
     th,
     td {
         padding: 0.8rem 1rem;
     }
+
     th:first-child {
         position: sticky;
         background-color: #f2f5ff;
         left: 0px;
     }
+
     td:first-child {
         position: sticky;
         background-color: #fff;
@@ -361,6 +369,7 @@ td {
     .dataAvailablePara {
         padding-right: 4%;
     }
+
     .smallText {
         margin-top: 15px;
     }
@@ -370,9 +379,11 @@ td {
     .statusPara {
         padding: 4%;
     }
+
     .second-tab {
         padding: 7px;
     }
+
     .accordion-button::after {
         flex-shrink: 0;
         width: 1.25rem;
@@ -397,14 +408,17 @@ td {
 // }
 .accContainer {
     margin-top: 2.5rem;
+
     .accBg {
         background-color: #f7f7f7;
     }
+
     p {
         font-family: $font-archivo;
         font-size: $font-size-base * 0.8;
         color: #6e7281;
     }
+
     .imgTitle {
         font-family: $font-archivo;
         font-weight: 500;
@@ -415,21 +429,25 @@ td {
 
 .barChartContainer {
     margin-top: 2.6rem;
+
     .barCharttitle {
         font-family: $font-archivo;
         font-weight: 700;
         font-size: $font-size-base * 1.5;
         color: $text-color-ord;
     }
+
     .barChartSubTitle {
         font-family: $font-archivo;
         font-weight: 500;
         font-size: $font-size-base * 1;
         color: #6e7281;
     }
+
     .chartExcelDataCont {
         margin-top: 2rem;
     }
+
     .DataDownloadText {
         font-family: $font-archivo;
         font-size: $font-size-base * 0.8;
@@ -442,33 +460,41 @@ td {
 @media (max-width: 576px) {
     .dashboard-container {
         width: 100%;
+
         .perform-dashboard-heading {
             font-size: $font-size-base * 1.625;
             margin-top: 2.25rem;
         }
+
         .perform-dashboard-para {
             font-size: $font-size-base * 1.125;
             line-height: 1.5;
             margin-top: 1.125rem;
         }
+
         .first-tab a {
             padding: 2px;
         }
+
         .second-tab a {
             padding: 2px;
         }
     }
+
     .para-styling {
         margin-top: 3.25rem;
         font-size: $font-size-base * 1.063;
         line-height: 1.4;
     }
+
     .filters-container {
         margin-top: 1.25rem;
     }
+
     .filters-container>.row>div {
         display: none !important;
     }
+
     // Filter Popup for mobile
     .filter_title_mobile {
         font-family: $font-archivo;
@@ -476,15 +502,18 @@ td {
         font-weight: 600;
         color: $text-color-ord;
     }
+
     .filters_type {
         margin-top: 1.313rem;
         font-size: $font-size-base * 1.06;
         font-family: $font-archivo;
         font-weight: 600;
     }
+
     .btn_clearAll img {
         padding-left: 0.5rem;
     }
+
     .btn_clearAll {
         margin-top: 2.8rem;
         background-color: #fff;
@@ -493,19 +522,23 @@ td {
         font-weight: medium;
         color: #e67e15;
     }
+
     .resetAndApply {
         margin-top: 5rem;
     }
+
     .iconText {
         color: #e67e15;
         font-size: 13px;
     }
+
     .chartHeader {
         font-size: 1rem;
         font-weight: 600;
         font-family: "Archivo";
         color: #0f1f40;
     }
+
     .revenuChartContainer {
         margin-top: 1.8rem;
         padding-top: 2rem;
@@ -513,9 +546,11 @@ td {
         //   flex-direction: column;
         // }
     }
+
     .revenueChart {
         padding-top: 3rem;
     }
+
     .iconImg img {
         width: 1em;
         height: 50%;
@@ -524,9 +559,11 @@ td {
         position: relative;
         margin: 0 auto;
     }
+
     .svg {
         cursor: pointer;
     }
+
     .btnBesideTitle>button {
         box-shadow: 0px 2px 8px #ffdaa8;
         border-radius: 8px;
@@ -539,23 +576,28 @@ td {
         color: #fff;
         width: max-content;
     }
+
     .compare {
         border: 1px solid #d0d0d0;
         background-color: white;
         height: 2.3rem;
     }
+
     @media only screen and (max-width: 600px) {
         .revenueChart {
             width: 100%;
             height: auto;
             margin-top: 100px !important;
         }
+
         .compare {
             font-size: 10px;
         }
+
         .revenueHeading {
             font-size: 14px;
         }
+
         .headerIcons {
             position: absolute;
             margin-top: 26%;
@@ -564,11 +606,13 @@ td {
             margin-left: -290px;
         }
     }
+
     @media only screen and (max-width: 400px) {
         .headerIcons {
             margin-left: -240px;
         }
     }
+
     .btn_reset {
         background-color: #fff;
         font-size: $font-size-base * 1;
@@ -577,6 +621,7 @@ td {
         font-weight: 700;
         color: #6e7281;
     }
+
     .btn_apply {
         background-color: #fff;
         font-size: $font-size-base * 1;
@@ -585,48 +630,59 @@ td {
         font-weight: 700;
         color: #e67e15;
     }
+
     .data-availability {
         position: relative;
         display: flex;
         flex-direction: column;
         margin-top: 1.375rem;
+
         .heading {
             padding-top: 1rem;
             padding-left: 1rem;
             font-size: $font-size-base * 1.125;
             font-weight: bold;
         }
+
         .da-para {
             margin-top: 1rem;
             font-size: $font-size-base * 0.875;
             padding-left: 1rem;
             text-align: justify;
         }
+
         .extra-text {
             display: none;
         }
+
         .three-dots {
             display: block;
         }
+
         .btn-rm {
             color: #e67e15;
         }
+
         // Semi-Doughnut chart styling Start
         .btn-download {
             display: none;
         }
+
         .btn-ghost {
             margin-top: 1.2rem;
             margin-bottom: 0.8rem;
             margin-left: 4.5rem;
             display: block;
         }
+
         // Semi-Doughnut chart End
     }
+
     .accBg {
         display: flex;
         flex-direction: column;
     }
+
     .chartExcelDataCont {
         flex-direction: column;
     }
@@ -642,4 +698,22 @@ td {
     .fl-form {
         display: none;
     }
+}
+
+::ng-deep .filter-component .cuppa-dropdown .selected-list {
+    .c-btn {
+        line-height: 1.5;
+        font-size: 1rem;
+        font-weight: 600;
+
+        span:first-child {
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #ced4da;
 }

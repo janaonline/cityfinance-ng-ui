@@ -116,7 +116,8 @@ export class UlbFisPreviewComponent implements OnInit {
 
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "fiscalRanking_2022-23.pdf");
+        if(!res) return swal('Error', "Something went wrong", 'success');
+        this.fiscalService.downloadFile(res.slice(0), "pdf", "fiscalRanking_2022-23.pdf");
      //   this.showLoader = false;
       },
       (err) => {
@@ -133,20 +134,6 @@ export class UlbFisPreviewComponent implements OnInit {
     option.message = message;
  //   this.showLoader = false;
     this.dialog.open(DialogComponent, { data: option });
-  }
-  private downloadFile(blob: any, type: string, filename: string): string {
-    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
-
-    // create hidden dom element (so it works in all browsers)
-    const a = document.createElement("a");
-    a.setAttribute("style", "display:none;");
-    document.body.appendChild(a);
-
-    // create file, attach to hidden element and open hidden element
-    a.href = url;
-    a.download = filename;
-    a.click();
-    return url;
   }
 
   dialogRef;

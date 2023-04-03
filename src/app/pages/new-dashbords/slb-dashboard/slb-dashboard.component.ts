@@ -230,7 +230,7 @@ export class SlbDashboardComponent
   popBtn = true;
   tableData: any = [];
   myForm: FormGroup;
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "India",
     enableSearchFilter: false,

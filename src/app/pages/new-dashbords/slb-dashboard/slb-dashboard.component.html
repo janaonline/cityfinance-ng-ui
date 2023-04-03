@@ -118,7 +118,7 @@
                                 <div class="row w-100">
                                     <div class="col-lg-4 col-md-6 col-sm-6 mt-1">
                                         <form [formGroup]="myForm" class="w-100">
-                                            <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                                            <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
                                             </angular2-multiselect>
                                         </form>
                                     </div>

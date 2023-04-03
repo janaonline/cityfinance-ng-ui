@@ -59,6 +59,7 @@
     color: #E67E15;
     display: inline-block;
     position: relative;
+    outline: none !important;
 }
 
 @media screen and (max-width: 700px) {
@@ -77,4 +78,7 @@
     // .fq-c {
     //     padding: 2px 1px;
     // }
+}
+.a:-webkit-any-link:focus-visible {
+  outline: none;
 }

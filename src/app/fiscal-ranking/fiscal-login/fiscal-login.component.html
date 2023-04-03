@@ -78,7 +78,10 @@
                             </ul>
                         </div>
                         <div class="card-body" *ngIf="!isOtpLogin">
-                            <h5 class="text-center fw-bolder fs-2">Login</h5>
+                            <h5 class="text-center fw-bolder fs-2">Login
+                              <mat-icon class="info-icon" matTooltipClass="tooltip-red"
+                              [matTooltip]="loginInfo">info</mat-icon>
+                            </h5>
                             <form [formGroup]="loginForm" (ngSubmit)="login()">
                                 <mat-form-field appearance="outline">
                                     <mat-label>{{ loginSet.loginName }}</mat-label>

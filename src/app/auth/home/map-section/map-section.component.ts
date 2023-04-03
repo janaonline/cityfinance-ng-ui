@@ -63,7 +63,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     loading: boolean;
   } = { loading: true };
 
-  DropdownSettings = {
+  dropdownSettings = {
     singleSelection: true,
     text: "India",
     enableSearchFilter: false,
