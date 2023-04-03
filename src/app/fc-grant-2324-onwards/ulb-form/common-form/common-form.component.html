@@ -1,0 +1,16 @@
+<div class="" *ngIf="isApiComplete">
+  <app-web-form #webForm [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
+  [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
+  (nextPreBtn)="nextPreBtn($event)"></app-web-form>
+</div>
+<!-- <div class="" *ngIf="isApiComplete">
+  <app-web-form [formName]="formName" [viewFormTemplate]="'commonFormCf'"
+  [questionresponse]="respon2" (submitQuestion)="resData($event)"
+  [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
+  (nextPreBtn)="nextPreBtn($event)"></app-web-form>
+</div> -->
+<div class="loader" *ngIf="!isApiComplete">
+<app-form-loader></app-form-loader>
+</div>
+
+

@@ -209,6 +209,27 @@ export const appRouter: Routes = [
     path: "profile-update",
     component: ProfileUpdateComponent,
   },
+  {
+    path: "ulb-form",
+    loadChildren: () =>
+      import("./fc-grant-2324-onwards/ulb-form/ulb-form.module").then(
+        (m) => m.UlbFormModule
+      ),
+  },
+  {
+    path: "state-form",
+    loadChildren: () =>
+      import("./fc-grant-2324-onwards/state-form/state-form.module").then(
+        (m) => m.StateFormModule
+      ),
+  },
+  {
+    path: "mohua-form",
+    loadChildren: () =>
+      import("./fc-grant-2324-onwards/mohua-form/mohua-form.module").then(
+        (m) => m.MohuaFormModule
+      ),
+  },
   // for municipal-bonds only for stg now
   // {
   //   path: "municipal-bonds",

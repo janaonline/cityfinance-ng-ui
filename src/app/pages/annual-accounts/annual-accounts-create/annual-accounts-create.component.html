@@ -401,6 +401,60 @@
                           </span>
                         </div>
                     </div>
+                    <label>Audited Annual Accounts for financial year 2020-21 including Schedules:-</label><br />
+                    <div class="row">
+                        <div class="col-sm-6 button-layout">
+                            <label>Upload PDF:</label>&nbsp;
+                            <input style="display: none" #pdf20_21 type="file" accept=".pdf" (change)="upload($event, 'pdf', 'financial_year_2020_21', '2020-21')" />
+                            <button [disabled]="
+                          !validateForm.valid ||
+                          ((validateForm.value.parastatalName == null ||
+                            validateForm.value.parastatalName == '') &&
+                            validateForm.value.ulb == null) ||
+                          disableSubmit
+                        " class="btn btn-primary" (click)="pdf20_21.click()">
+                            Select File
+                          </button>
+                            <div *ngIf="loader.financial_year_2020_21.pdf" class="spinner-layout">
+                                <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" diameter="25">
+                                </mat-progress-spinner>
+                                <span>{{ loader.financial_year_2020_21.name.pdf }}</span>
+                            </div>
+                            <span *ngIf="documents.financial_year_2020_21.pdf.length > 0" style="overflow-wrap: break-word">
+                            &nbsp;{{ documents.financial_year_2020_21.pdf[0].name }} &nbsp;
+
+                            <a>
+                              <i class="fa fa-trash icon-layout" aria-hidden="true" title="Remove File"
+                                (click)="remove('year_20_21', 'pdf')"></i></a>
+                          </span>
+                        </div>
+                        <div class="col-sm-6 button-layout">
+                            <label>Upload Excel:</label>&nbsp;
+                            <input style="display: none" #excel20_21 type="file" accept=".xls, .xlsx" (change)="upload($event, 'excel', 'financial_year_2020_21', '2020-21')" />
+                            <button [disabled]="
+                          !validateForm.valid ||
+                          ((validateForm.value.parastatalName == null ||
+                            validateForm.value.parastatalName == '') &&
+                            validateForm.value.ulb == null) ||
+                          disableSubmit
+                        " class="btn btn-primary" (click)="excel20_21.click()">
+                            Select File
+                          </button>
+                            <div *ngIf="loader.financial_year_2020_21.excel" class="spinner-layout">
+                                <mat-progress-spinner class="example-margin" color="warn" mode="indeterminate" diameter="25">
+                                </mat-progress-spinner>
+                                <span>{{ loader.financial_year_2020_21.name.excel }}</span>
+                            </div>
+                            <span *ngIf="documents.financial_year_2020_21.excel.length > 0" style="overflow-wrap: break-word">
+                            &nbsp;{{ documents.financial_year_2020_21.excel[0].name }}
+                            &nbsp;
+
+                            <a>
+                              <i class="fa fa-trash icon-layout" aria-hidden="true" title="Remove File"
+                                (click)="remove('year_20_21', 'excel')"></i></a>
+                          </span>
+                        </div>
+                    </div>
                     <br /><br />
                 </div>
                 <div>

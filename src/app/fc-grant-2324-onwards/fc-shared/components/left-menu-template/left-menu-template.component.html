@@ -1,0 +1,34 @@
+<div class="scrol">
+    <div class="" *ngFor="let menuItem of leftMenu | keyvalue">
+        <div class="row out-f-h " *ngIf="menuItem?.key != ''">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-9 collapsable">
+                {{menuItem.key}}
+            </div>
+        </div>
+        <div class="row link-div" routerLinkActive="active" *ngFor="let sideItem of menuItem?.value">
+            <a routerLink="{{sideItem?.url}}">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <mat-icon aria-hidden="false" class="svg-gt">
+                            <img src="{{sideItem?.icon}}">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 linktext pd collapsable">
+                        {{sideItem?.name}}
+                    </div>
+                    <div class="col-sm-1 collapsable">
+                        <mat-icon class="pull-right" aria-hidden="false" [tooltip]="sideItem?.tooltip">
+                            <img src="{{sideItem?.tick}}">
+                        </mat-icon>
+
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+    </div>
+</div>

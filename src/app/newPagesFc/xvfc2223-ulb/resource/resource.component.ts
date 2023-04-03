@@ -53,13 +53,7 @@ export class ResourceComponent implements OnInit {
       icon: "",
     },
   ];
-  // imageUrls = [
-  //   "../../../../assets/ulbform/overview/Picture1.png",
-  //   "../../../../assets/ulbform/overview/Picture2.png",
-  //   "../../../../assets/ulbform/overview/Picture3.png",
-  //   "../../../../assets/ulbform/overview/Picture4.png",
-  //   "../../../../assets/ulbform/overview/Picture5.png",
-  // ];
+
   ngOnInit(): void {
     for (const key in this.sideMenuItem) {
       console.log(`${key}: ${this.sideMenuItem[key]}`);
