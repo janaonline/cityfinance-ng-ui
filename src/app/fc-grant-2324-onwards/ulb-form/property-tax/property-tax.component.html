@@ -116,12 +116,12 @@
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
                 <div class="d-inline-flex mr-1">
-                    <button class="btn btn-save text-uppercase" (click)="submit()">
+                    <button [disabled]="!isDraft" class="btn btn-save text-uppercase" (click)="submit()">
                         Save as Draft
                     </button>
                 </div>
                 <div class="d-inline-flex mr-1">
-                    <button class="btn btn-save text-uppercase" (click)="finalSubmitConfirmation()">
+                    <button [disabled]="!isDraft" class="btn btn-save text-uppercase" (click)="finalSubmitConfirmation()">
                         Save
                     </button>
                 </div>

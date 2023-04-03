@@ -95,7 +95,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2022-23/fiscalRanking/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/2022-23/property-tax/${this.userData?.ulbCode}`
   }
 
   get design_year() {
@@ -278,9 +278,9 @@ export class PropertyTaxComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
 
-    // dialogRef.componentInstance.saveForm.subscribe((data: any) => {
-    //   this.submit();
-    // });
+    dialogRef.componentInstance.saveForm.subscribe((data: any) => {
+      this.submit();
+    });
   }
 
   validateErrors() {
@@ -337,7 +337,9 @@ export class PropertyTaxComponent implements OnInit {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success').then(() => {
+        if(!isDraft) location.reload();
+      });
     }, ({error}) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
