@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row header mt-2">
+      <div class="col-sm-12 col-lg-12 col-md-12 header2">
+          <span>Resources</span>
+      </div>
+  </div>
+
+
+  <div class="row mb-3">
+      <div class="col-sm-6 col-md-6 col-lg-4" *ngFor="let item of resoucesData">
+          <div class="card-c">
+              <div class="card m-card">
+                  <img [src]="item?.imgurl" class="card-img-top img-t" alt="...">
+                  <div class="card-body mx-auto">
+                      <span>
+                        <a [href]="item?.link" target="_blank" class="a-text">
+                          {{item?.fileName}}
+                        </a>
+                      </span>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+  <div class="row mt-4 mb-3">
+      <div class="col-sm-6">
+          <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+      </div>
+      <div class="col-sm-6 text-end">
+          <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+      </div>
+  </div>
+</div>

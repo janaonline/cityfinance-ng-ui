@@ -1,0 +1,136 @@
+
+<div class="d-flex justify-content-between">
+    <h5 class="mx-3 my-4">Property Tax</h5>
+    <button class="btn btn-primary" (click)="onPreview()">Preview</button>
+</div>
+
+<div *ngIf="form">
+    <div *ngFor="let tab of form.controls; index as i;">
+
+        <table class="table table-striped caption-top" *ngIf="tab?.value?.id === 's3'" [formGroup]="tab">
+            <tbody style="border-top: none;">
+                <ng-container
+                    *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                    <tr class="table-gray"
+                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                        <th
+                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
+                            {{ heading }}{{ i > 1 ? ' (in ₹)' : ''}}</th>
+                    </tr>
+                    <tr *ngIf="item?.value?.controls?.canShow?.value">
+                        <td>{{ item?.value?.controls?.position?.value }}</td>
+                        <th scope="row"
+                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
+                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
+                                *ngIf="item?.value?.controls?.info?.value"
+                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                        </th>
+                        <td *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                            <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+                                <div class="form-group">
+                                    <input
+                                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                        formControlName="value" class="form-control"
+                                        [type]="yearItem?.controls?.formFieldType?.value"
+                                        [readonly]="yearItem?.controls?.readonly?.value"
+                                        [disabled]="yearItem?.controls?.readonly?.value"
+                                        [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
+                                        placeholder="{{yearItem?.controls?.placeholder?.value}}" />
+                                    <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+                                    <small class="text-danger"
+                                        *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
+                                        be equal to {{ yearItem.value.originalValue }}</small>
+                                    <mat-radio-group aria-label="Select an option" formControlName="value"
+                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
+                                        [disabled]="yearItem?.controls?.readonly?.value">
+                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+                                    </mat-radio-group>
+
+
+                                    <div class="input-group border" style="width: 100px;"
+                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+                                        [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                                        <div class="d-flex w-100 px-2 justify-content-between">
+                                            <input matInput formControlName="date" style="pointer-events: none;"
+                                                [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value"
+                                                [max]="currentDate" placeholder="Choose a date" [attr.id]="  + r_i" />
+                                            <mat-datepicker-toggle matSuffix
+                                                [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
+                                            </mat-datepicker-toggle>
+                                        </div>
+                                        <mat-datepicker #r_i></mat-datepicker>
+                                    </div>
+                                    <small style="color: red"
+                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
+                                        provide a valid date</small>
+                                    <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
+                                        <div class="col-sm-12 mb-3" *ngIf="yearItem?.controls?.readonly?.value == false"
+                                            [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                                            <button (click)="bs_pdf1.click()" class="btn form-btn com-style w-100"
+                                                [disabled]="isDisabled">
+                                                <div class="row">
+                                                    <div class="col-sm-6 file-text ">
+                                                        File
+                                                    </div>
+                                                    <div class="col-sm-6 text-end">
+                                                        <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                type="file" accept=".pdf" #file>
+                                        </div>
+                                        <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
+                                            <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                                                target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
+                                                </mat-icon></a>
+                                            <a *ngIf="!yearItem?.controls?.readonly?.value"
+                                                (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                class="w-10" [ngClass]="{'pe-none': isDisabled}">
+                                                <img src="../../../assets/form-icon/close_black_24dp.svg">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-12 text-center w-70">
+                                            <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
+                                            </app-loader>
+                                        </div>
+                                    </ng-container>
+                                    <div class="invalid-feedback">Please provide a valid input.</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="d-flex justify-content-end my-2">
+        <div class="row w-100">
+            <div class="col-sm-6">
+                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                    &lt;- Previous Form </button>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-inline-flex mr-1">
+                    <button [disabled]="isDraft == false" class="btn btn-save text-uppercase" (click)="submit()">
+                        Save as Draft
+                    </button>
+                </div>
+                <div class="d-inline-flex mr-1">
+                    <button [disabled]="isDraft == false" class="btn btn-save text-uppercase" (click)="finalSubmitConfirmation()">
+                        Save
+                    </button>
+                </div>
+                <div class="d-inline-flex ">
+                    <button routerLink="ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                        Next Form -&gt;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

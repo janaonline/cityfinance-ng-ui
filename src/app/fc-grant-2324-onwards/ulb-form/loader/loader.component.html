@@ -1,0 +1,5 @@
+<div class="d-flex justify-content-center mt-3" *ngIf="show">
+    <div class="spinner-grow me-2" [ngClass]="'text-' + colorSequence[i]" role="status" *ngFor="let item of [].constructor(dots);let i = index;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
