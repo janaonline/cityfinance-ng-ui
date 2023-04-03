@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from './loader/loader.component';
 
 
 
@@ -35,7 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent
+    PropertyTaxComponent, LoaderComponent
   ],
   imports: [
     CommonModule,
