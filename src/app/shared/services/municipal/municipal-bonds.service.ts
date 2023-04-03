@@ -1,18 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
 import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
-import { IULBResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
+import { Filter, IULBResponse, MouProjectsByUlbResponse, ProjectsResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
 })
 export class MunicipalBondsService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   private AllBondIssuerItems: IBondIssureItemResponse;
 
@@ -133,5 +133,56 @@ export class MunicipalBondsService {
           return response;
         })
       );
+  }
+
+  private formatNumber(num: number, maxDecimal: number) {
+    const decimalPlaces = num.toString().split('.')[1]?.length || 0;
+    return decimalPlaces > maxDecimal ? num.toFixed(maxDecimal) : num.toString();
+  }
+
+  private getNumberInCrore(number, divideTo) {
+    return '₹ ' + (number < divideTo ? this.formatNumber(number / divideTo, 4) : (number / divideTo).toFixed(2)) + ' Cr';
+  }
+  private getPercent(a, b) {
+    return a == 0 ? 0 : Math.min((100 - (a - b) / a * 100), 100).toFixed(2);
+  }
+
+  getMouProjectsByUlb(ulbId: string, params: any = {}, appliedFilters?: Filter[]) {
+    delete params['implementationAgencies']; // TODO: remove when implemented from backend
+    return this._http
+      .get<MouProjectsByUlbResponse>(`${environment.api.url}UA/get-mou-project/${ulbId}`, { params }).pipe(
+        map((response) => {
+          response.filters = appliedFilters || response.filters
+            .map(filter => filter.key === 'implementationAgencies' ? {
+              ...filter, options: filter.options.map(option => ({ ...option, checked: true }))
+            } : filter);
+          response.rows = response.rows.map(row => ({
+            ...row,
+            ...['totalProjectCost', 'capitalExpenditureState', 'capitalExpenditureUlb', 'omExpensesState', 'omExpensesUlb', 'expenditure']
+              .reduce((obj, key) => { if ((row as any).hasOwnProperty(key)) obj[key] = this.getNumberInCrore(row[key], row.divideTo); return obj; }, {}),
+            ...(row.stateShare && { stateShare: this.getNumberInCrore(row.stateShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.stateShare)})%`, }),
+            ...(row.ulbShare && { ulbShare: this.getNumberInCrore(row.ulbShare, row.divideTo) + ` (${this.getPercent(row.totalProjectCost, row.ulbShare)})%`, })
+          }));
+          return response;
+        })
+      );;
+  }
+  getProjects(queryParams: string, columns) {
+    return this._http.get<ProjectsResponse>(`${environment.api.url}/UA/get-projects?${queryParams}`).pipe(
+      map((response) => {
+        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
+        response.columns = columns || response.columns.map(column => ({
+          ...column,
+          sort: 0,
+          ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
+        }));
+        response.data = response.data.map(item => ({
+          ...item,
+          ulbShare: (item.ulbShare as number / 100).toFixed(2),
+          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
+        }))
+        return response;
+      })
+    );
   }
 }

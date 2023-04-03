@@ -16,7 +16,7 @@ export class ResourcesDashboardService {
   castCount = this.resourceCount.asObservable()
   hideSearchedData: BehaviorSubject<any> = new BehaviorSubject([]);
   castSearchedData = this.hideSearchedData.asObservable()
-  constructor(private https: HttpClient) {}
+  constructor(private https: HttpClient) { }
   getShowCardValue() {
     return this.showCard;
   }
@@ -29,37 +29,47 @@ export class ResourcesDashboardService {
       `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&globalName=${globalName}`
     );
   }
-  getSearchedData(filter){
+  getSearchedData(filter) {
     return this.https.get(
       `${environment.api.url}?search=${filter}`
     );
   }
-  updateResouceCount(resourceCount){
-      this.resourceCount.next(resourceCount);
+  updateResouceCount(resourceCount) {
+    this.resourceCount.next(resourceCount);
   }
-  updateSearchedData(hideSearchedData){
+  updateSearchedData(hideSearchedData) {
     this.hideSearchedData.next(hideSearchedData);
-}
+  }
 
-GlobalSearch(input){
-  return this.https.get(
-    `${environment.api.url}resourceDashboard/search?name=${input}`
-  );
-}
+  GlobalSearch(input) {
+    return this.https.get(
+      `${environment.api.url}resourceDashboard/search?name=${input}`
+    );
+  }
 
-getPdfData(pdfInput) {
-  return this.https.get(
-    `${environment.api.url}resourceDashboard/?toolKitVisible=${pdfInput?.toolKitVisible}&type=PDF&header=${pdfInput?.header}&subHeader=${pdfInput?.subHeader}&globalName=${pdfInput?.globalName}&state=${pdfInput?.state}&ulb=${pdfInput?.ulb}&year=${pdfInput?.year}`
-  )
-}
+  getPdfData(pdfInput) {
+    return this.https.get(
+      `${environment.api.url}resourceDashboard/?toolKitVisible=${pdfInput?.toolKitVisible}&type=PDF&header=${pdfInput?.header}&subHeader=${pdfInput?.subHeader}&globalName=${pdfInput?.globalName}&state=${pdfInput?.state}&ulb=${pdfInput?.ulb}&year=${pdfInput?.year}`
+    )
+  }
 
-getStandardizedExcel(body){
-  return this.https.post(
-    `${environment.api.url}annual-accounts/datasets`, body, { responseType: "blob"}
-  )
-}
+  getStandardizedExcel(body) {
+    return this.https.post(
+      `${environment.api.url}annual-accounts/datasets`, body, { responseType: "blob" }
+    )
+  }
 
-getYearsList() {
-  return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
-}
+  getYearsList() {
+    return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
+  }
+
+  getMunicipalityBondsRepositoryCategories() {
+    return this.https.get(`${environment.api.url}main_category/list`);
+  }
+  getMunicipalityBondsRepositorySubCategories(categoryId) {
+    return this.https.get(`${environment.api.url}sub_category/list?categoryId=` + categoryId);
+  }
+  getMunicipalityBondsRepositoryList(params) {
+    return this.https.get(`${environment.api.url}municipalBondRepository/list`, { params });
+  }
 }

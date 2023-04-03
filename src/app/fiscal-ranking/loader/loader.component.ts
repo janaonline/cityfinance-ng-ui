@@ -7,8 +7,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LoaderComponent implements OnInit {
 
+  colorSequence = ['success', 'danger', 'warning', 'info'];
+
   constructor() { }
-  @Input() fileUpLoader;
+  @Input() show: boolean = false;
+  @Input() dots: number = 3;
   ngOnInit(): void {
   }
 

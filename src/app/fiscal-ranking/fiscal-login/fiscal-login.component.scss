@@ -12,10 +12,9 @@
 
 .city-fr-div {
     position: absolute;
-    width: 241px;
-    height: 26px;
-    /* left: 28%; */
-    top: -12px;
+    width: 300px;
+    height: 36px;
+    top: -19px;
     background: #FFFFFF;
     box-shadow: 0px 4px 24px 8px rgb(0 0 0 / 7%);
     border-radius: 5px;
@@ -28,10 +27,13 @@
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 24px;
     text-align: center;
     color: #101010;
+    vertical-align: middle;
+    vertical-align: -webkit-baseline-middle;
+
 }
 
 .login-btnn {
@@ -54,15 +56,15 @@
 }
 
 @media only screen and(max-width: 1400px) and (min-width:1100px) {
-    .city-fr {
-        font-family: 'Manrope';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        text-align: center;
-        color: #101010;
-    }
+    // .city-fr {
+    //     // font-family: 'Manrope';
+    //     // font-style: normal;
+    //     // font-weight: 600;
+    //     font-size: 20px;
+    //     line-height: 24px;
+    //     text-align: center;
+    //     color: #101010;
+    // }
     .button-b {
         margin: 1px;
         padding: 5px 18px;
@@ -512,3 +514,10 @@ li>a.active {
     font-size: large;
     padding: 1ch;
 }
+.info-icon {
+  vertical-align: middle;
+}
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+  }

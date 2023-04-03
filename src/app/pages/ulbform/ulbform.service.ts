@@ -39,7 +39,7 @@ export class UlbformService {
 
   getAllForms(ulb, design_year, financialYear) {
     return this.http.get(
-      `${environment.api.url}masterForm/getAllForms?ulb=${ulb}&&design_year=${design_year}&&financialYear=${financialYear}`
+      `${environment.api.url}masterForm/getAllForms?ulb=${ulb}&design_year=${design_year}&financialYear=${financialYear}`
     );
   }
   getEligibleULBForm(ulb_id) {

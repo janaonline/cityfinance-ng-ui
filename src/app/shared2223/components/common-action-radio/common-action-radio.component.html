@@ -1,9 +1,11 @@
-<div class="mt-2">
-    <button class="btn btn-outline-primary mr-1" for="APPROVED" (click)="setType('APPROVED')">
-        <i class="fa fa-lg text-success" [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o'" aria-hidden="true"></i>
+<div class="mt-2" *ngIf="canShow"[ngClass]="{'pe-none': readonly}" >
+    <button class="btn btn-outline-primary mr-1" for="APPROVED" (click)="updateValue('APPROVED')">
+        <i class="fa fa-lg text-success" [ngClass]="value === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o'" aria-hidden="true"></i>
     </button>
-    <button class="btn btn-outline-primary" (click)="setType('REJECTED')">
-        <i class="fa fa-lg text-warning" [ngClass]="status === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
+    <button class="btn btn-outline-primary" (click)="updateValue('REJECTED')">
+        <i class="fa fa-lg text-warning" [ngClass]="value === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
     </button>
 </div>
-status: {{ status }}
+<p *ngIf="canShow" class="m-0">
+    status: {{ value }}
+</p>

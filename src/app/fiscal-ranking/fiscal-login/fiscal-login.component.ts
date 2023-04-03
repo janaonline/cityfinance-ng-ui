@@ -86,6 +86,7 @@ export class FiscalLoginComponent implements OnInit {
   };
   public hide = true;
   directLogin = false;
+  loginInfo :string = 'Please use the same login details as used for 15th FC Grants Module.'
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -143,7 +144,7 @@ export class FiscalLoginComponent implements OnInit {
     console.log('login form....', this.loginForm);
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value };
+      const body = { ...this.loginForm.value, type:'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
@@ -387,6 +388,7 @@ export class FiscalLoginComponent implements OnInit {
   tabChanged(item) {
     console.log('login form', this.loginForm);
     this.loginForm.reset();
+    this.loginForm
     console.log('item', item);
     this.loginTabs.forEach((el) => {
       el.selected = false;

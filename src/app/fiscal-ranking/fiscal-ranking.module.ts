@@ -22,7 +22,7 @@ import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
 import {MatRadioModule} from '@angular/material/radio';
-import { UlbFisPreviewComponent } from './ulb-fiscal/ulb-fis-preview/ulb-fis-preview.component';
+import { UlbFisPreviewComponent } from './ulb-fiscal-new/ulb-fis-preview/ulb-fis-preview.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { MdePopoverModule } from '@material-extended/mde';
@@ -30,16 +30,26 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { Shared2223Module } from '../shared2223/shared2223.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
+import { TowordPipe } from './pipes/toword.pipe';
+import { PercentprogressPipe } from './pipes/percentprogress.pipe';
+import { YearInfoPipe } from './pipes/year-info.pipe';
+import { DisplayPositionPipe } from './pipes/display-position.pipe';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
     UlbFiscalComponent,
+    UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
     DownloadPopupComponent,
     ReviewUlbTableComponent,
+    TowordPipe,
+    PercentprogressPipe,
+    YearInfoPipe,
+    DisplayPositionPipe,
   ],
   imports: [
     CommonModule,

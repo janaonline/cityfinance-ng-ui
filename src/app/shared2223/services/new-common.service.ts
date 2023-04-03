@@ -34,8 +34,8 @@ export class NewCommonService {
       `${environment.api.url}link-pfms?ulb=${params.ulb}&design_year=${params.design_year}`
     );
   }
-  getOdfRatings() {
-    return this.http.get(`${environment.api.url}ratings?formName=odf`);
+  getOdfRatings(yr) {
+    return this.http.get(`${environment.api.url}ratings?formName=odf&financialYear=${yr}`);
   }
 
   odfSubmitForm(body: any) {
@@ -69,8 +69,8 @@ export class NewCommonService {
   pfmsSubmitForm(body: any) {
     return this.http.post(`${environment.api.url}link-pfms`, body);
   }
-  getGfcFormData(param) {
-    return this.http.get(`${environment.api.url}ratings?formName=${param}`);
+  getGfcFormData(param, yr) {
+    return this.http.get(`${environment.api.url}ratings?formName=${param}&financialYear=${yr}`);
   }
   getOdfFormData(params) {
     return this.http.get(
