@@ -13,6 +13,21 @@ export class PropertyTaxService {
     private http: HttpClient,
   ) { }
 
+  downloadFile(blob: any, type: string, filename: string): string {
+    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
+
+    // create hidden dom element (so it works in all browsers)
+    const a = document.createElement("a");
+    a.setAttribute("style", "display:none;");
+    document.body.appendChild(a);
+
+    // create file, attach to hidden element and open hidden element
+    a.href = url;
+    a.download = filename;
+    a.click();
+    return url;
+  }
+
   getForm(ulb: string, design_year: string) {
     return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`);
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UlbFormComponent } from '../ulb-form.component';
 import { SweetAlert } from 'sweetalert/typings/core';
@@ -9,9 +9,15 @@ const swal: SweetAlert = require("sweetalert");
   providedIn: 'root'
 })
 export class ConfirmationGuard implements CanDeactivate<any> {
-  canDeactivate(component: any): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(
+    component: any,
+    route: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     // console.log('hasUnsavedChanges', component.webForm.hasUnsavedChanges)
-    if(component?.webForm?.hasUnsavedChanges) {
+    console.log(nextState.url);
+    if (nextState.url != '/rankings/home' && component?.webForm?.hasUnsavedChanges) {
       return swal(
         "Unsaved Changes!",
         `You have some unsaved changes on this page. Do you wish to save your data as draft?`,
