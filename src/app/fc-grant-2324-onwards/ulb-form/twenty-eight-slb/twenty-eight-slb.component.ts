@@ -10,6 +10,8 @@ import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twent
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { TwentyEightSlbService } from './twenty-eight-slb.service';
 
+
+
 @Component({
   selector: 'app-twenty-eight-slb',
   templateUrl: './twenty-eight-slb.component.html',
@@ -17,6 +19,11 @@ import { TwentyEightSlbService } from './twenty-eight-slb.service';
 })
 export class TwentyEightSlbComponent implements OnInit {
   @ViewChild('webForm') webForm;
+
+  oppositeComparisionKeys: string[] = [
+    '6284d6f65da0fa64b423b516',
+    '6284d6f65da0fa64b423b540'
+  ];
 
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
@@ -4173,9 +4180,42 @@ export class TwentyEightSlbComponent implements OnInit {
     }))
   }));
 
-  onSubmit(data) {
+  isFormValid(finalData) {
+    for (let section of finalData) {
+      for (let answer of section?.nestedAnswer) {
+        const actualValue = answer?.answerNestedData
+          ?.find(col => col?.shortKey?.endsWith('_actualIndicator'))
+          ?.answer?.[0]?.value;
+        const targetValue = answer?.answerNestedData
+          ?.find(col => col?.shortKey?.endsWith('_targetIndicator'))
+          ?.answer?.[0]?.value;
+        const lineItemValue = answer?.answerNestedData
+          ?.find(col => col?.shortKey?.endsWith('_indicatorLineItem'))
+          ?.answer?.[0]?.textValue;
+        console.log('ans', lineItemValue, actualValue, targetValue);
 
+        if (!actualValue || !targetValue) continue;
+
+        if (this.oppositeComparisionKeys.includes(lineItemValue)) {
+          if (actualValue <= targetValue) {
+            return false;
+          }
+        } else {
+          if (actualValue >= targetValue) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  onSubmit(data) {
     const finalData = this.addDisableKeys(data);
+
+    if (!data.isSaveAsDraft && !this.isFormValid(finalData)) {
+      return swal('Error', 'Please fill valid values in form', 'error');
+    }
 
     this.loaderService.showLoader();
     this.twentyEightSlbService.postForm({
