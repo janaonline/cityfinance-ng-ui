@@ -920,7 +920,7 @@ console.log('new Data', newData.data.labels);
       };
       this.multiChartLabel = [];
       data[key].forEach((value, index) => {
-        
+
         console.log("valuueuee", value);
         doughnutChartData.datasets[0].backgroundColor.push(
           value.colour
@@ -930,7 +930,7 @@ console.log('new Data', newData.data.labels);
         );
 
         if (key != "compData")
-        
+
           this.multiChartLabel.push({
             text: value._id.lineItem,
             color: value.colour,
@@ -984,8 +984,8 @@ console.log('new Data', newData.data.labels);
       console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     }
 
-  
-   
+
+
     this.multiPie = true;
   }
 

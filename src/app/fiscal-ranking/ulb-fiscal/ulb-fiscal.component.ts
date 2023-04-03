@@ -45,101 +45,40 @@ export class UlbFiscalComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
-  stepperArray = [
-    {
-      label: `Basic ULB Details`,
-      key: 'basicDet',
-      id: 's1',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Contact Information`,
-      key: 'conInfo',
-      id: 's6',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Revenue Mobilization Parameters`,
-      key: 'revenueMob',
-      id: 's2',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Expenditure Performance Parameters`,
-      key: 'expPerf',
-      id: 's3',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Fiscal Governance Parameters`,
-      key: 'fisGov',
-      id: 's4',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Upload Financial Documents`,
-      key: 'upFy',
-      id: 's5',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-    {
-      label: `Self Declaration`,
-      key: 'selDec',
-      id: 's7',
-      icon: '',
-      text: '',
-      feedback: {
-        status: '', // NA | APPROVE | REJECT | PENDING 
-        comment: '',
-      }
-    },
-  ];
+  tabs = [];
+  status;
+  formId;
   fiscalFormFeild;
   fiscalForm;
   fisc
   revenueMob;
+  conInfo;
   expPerf;
   uploadFyDoc;
   totalOwnRevenueArea = null;
+  fy_21_22_cash = null;
+  fy_21_22_online = null;
+
+  totalOwnRevenueAreaStatus = null;
+  fy_21_22_cashStatus = null;
+  fy_21_22_onlineStatus = null;
+
+
   property_tax_register = null;
   paying_property_tax = null;
   paid_property_tax = null;
-  fy_21_22_cash = null;
-  fy_21_22_online = null;
+
+  property_tax_registerStatus = null;
+  paying_property_taxStatus = null;
+  paid_property_taxStatus = null;
+
   isPopAvl11 = false;
   isPopAvlFr = false;
   fileUpLoader = false;
   fyDataArr = [];
+
+  basicUlbDetailsStatus;
+  contactInfoStatus;
 
   cantakeAction = false;
 
@@ -163,10 +102,11 @@ export class UlbFiscalComponent implements OnInit {
       label: 'Own Revenue Details',
       yearData: [
         {
-          label: 'Total Own Revenue Arrears as on 31st March 2020',
-          key: 'totalOwnRevenArr_20',
+          label: 'Total Own Revenue Arrears as on 31st March 2022',
+          key: 'totalOwnRevenueArea',
           postion: '1',
           amount: this.totalOwnRevenueArea,
+          status: this.totalOwnRevenueAreaStatus,
           min: '',
           max: '',
           required: true,
@@ -187,6 +127,7 @@ export class UlbFiscalComponent implements OnInit {
           key: "fy_21_22_cash",
           postion: "2",
           amount: this.fy_21_22_cash,
+          status: this.fy_21_22_cashStatus,
           min: "",
           max: "",
           required: true,
@@ -201,6 +142,7 @@ export class UlbFiscalComponent implements OnInit {
           key: "fy_21_22_online",
           postion: "3",
           amount: this.fy_21_22_online,
+          status: this.fy_21_22_onlineStatus,
           min: "",
           max: "",
           required: true,
@@ -218,9 +160,10 @@ export class UlbFiscalComponent implements OnInit {
       yearData: [
         {
           label: 'Number of Properties assessed/listed as per Property Tax Register',
-          key: 'NoOfProlisted',
+          key: 'property_tax_register',
           postion: '1',
           amount: this.property_tax_register,
+          status: this.property_tax_registerStatus,
           min: '',
           max: '',
           required: true,
@@ -232,9 +175,10 @@ export class UlbFiscalComponent implements OnInit {
         },
         {
           label: 'Number of Properties exemt from paying Property Tax',
-          key: 'NoOfProExemtfromPayProTax',
+          key: 'paying_property_tax',
           postion: '2',
           amount: this.paying_property_tax,
+          status: this.paying_property_taxStatus,
           min: '',
           max: '',
           required: true,
@@ -246,9 +190,10 @@ export class UlbFiscalComponent implements OnInit {
         },
         {
           label: 'Number of Properties for which Property Tax has been paid',
-          key: 'NoOfProwhichProTaxPaid',
+          key: 'paid_property_tax',
           postion: '3',
           amount: this.paid_property_tax,
+          status: this.paid_property_taxStatus,
           min: '',
           max: '',
           required: true,
@@ -319,19 +264,41 @@ export class UlbFiscalComponent implements OnInit {
     },
   }
   signedFileName = '';
+  signedFileStatus;
   signedFileUrl = '';
   formSubmitted = false;
   postData = {
     "ulb": "",
     "design_year": "",
     "population11": null,
-    "populationFr": null,
-    "webLink": null,
-    "nameCmsnr": "",
-    "nameOfNodalOfficer": "",
-    "designationOftNodalOfficer": "",
-    "email": "",
-    "mobile": "",
+    "populationFr": {
+      status: "",
+      value: null
+    },
+    "webLink": {
+      status: "",
+      value: null
+    },
+    "nameCmsnr": {
+      status: "",
+      value: null
+    },
+    "nameOfNodalOfficer": {
+      status: "",
+      value: null
+    },
+    "designationOftNodalOfficer": {
+      status: "",
+      value: null
+    },
+    "email": {
+      status: "",
+      value: null
+    },
+    "mobile": {
+      status: "",
+      value: null
+    },
     "webUrlAnnual": {
       status: "",
       value: null
@@ -429,12 +396,11 @@ export class UlbFiscalComponent implements OnInit {
     this.navigationCheck();
   }
 
-
   ngOnInit(): void {
     this.onLoad();
     sessionStorage.setItem("changeInFR", "false");
-
   }
+
   initializeForm() {
     this.fiscalForm = this.fb.group({
       basicUlbDetails: this.fb.group({
@@ -450,80 +416,17 @@ export class UlbFiscalComponent implements OnInit {
       }),
       contactInfo: this.fb.group({
         nameOfNodalOfficer: ["", Validators.required],
-        designationOftNodalOfficer: [null, Validators.required],
-        mobile: [null, [Validators.required, mobileNoValidator]],
-        email: [null, [Validators.required, Validators.email, customEmailValidator]],
+        designationOftNodalOfficer: ['', Validators.required],
+        mobile: ['', [Validators.required, mobileNoValidator]],
+        email: ['', [Validators.required, Validators.email, customEmailValidator]],
       }),
-      // revenueMob: this.fb.array([
-      //   this.fb.group({
-      //     totalRecActual: this.fb.array([
 
-      //     ]),
-      //     totalRecBudgetEst: this.fb.array([
-
-      //     ]),
-      //     totalOwnRevenues: this.fb.array([
-
-      //     ]),
-      //     totalPropTaxRevenue: this.fb.array([
-
-      //     ]),
-
-      //   }),
-
-      // ]),
-      // expPerf: this.fb.array([
-      //   this.fb.group({
-      //     totalGrossBlock: this.fb.array([
-
-      //     ]),
-      //     totalCWIP: this.fb.array([
-
-      //     ]),
-      //     estAdmExpenses: this.fb.array([
-
-      //     ]),
-      //     totalRevExp: this.fb.array([
-
-      //     ]),
-
-      //   }),
-
-      // ]),
-      // goverPar: this.fb.group({
-      //   webUrlAnnual: ["", Validators.required],
-      //   digitalRegtr: [null, Validators.required],
-      //   registerGis: [null, Validators.required],
-      //   accountStwre: [null, Validators.required],
-      //   ownRevDetails: this.fb.group({
-      //     totalOwnRevenArr_20: ["", Validators.required],
-      //     fy_19_20_cash: [null, Validators.required],
-      //     fy_19_20_online: [null, Validators.required],
-      //   }),
-      //   propertyDetails: this.fb.group({
-      //     NoOfProlisted: ["", Validators.required],
-      //     NoOfProExemtfromPayProTax: [null, Validators.required],
-      //     NoOfProwhichProTaxPaid: [null, Validators.required],
-      //   }),
-      // }),
-      // uploadFyDoc: this.fb.group({
-      //   AppAnnualBudget: this.fb.group({
-      //     budget_2017_18: [null, Validators.required],
-      //     budget_2018_19: [null, Validators.required],
-      //     budget_2019_20: [null, Validators.required],
-      //   }),
-      //   auditedAnnualFySt: this.fb.group({
-      //     audited_2017_18: [null, Validators.required],
-      //     audited_2018_19: [null, Validators.required],
-      //     audited_2019_20: [null, Validators.required],
-      //   })
-      // }),
       status: [""],
       rejectReason: '',
 
     });
     this.fiscalForm.controls.basicUlbDetails.controls.nameCmsnr.valueChanges.subscribe(value => {
-      const nameCmsnr = value.charAt(0).toUpperCase() + value.slice(1);
+      const nameCmsnr = value ? value?.charAt(0).toUpperCase() + value?.slice(1) : '';
       this.fiscalForm.controls.basicUlbDetails.patchValue({ nameCmsnr }, { emitEvent: false })
     });
   }
@@ -532,6 +435,11 @@ export class UlbFiscalComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.yearIdArr['2022-23'], this.ulbId).subscribe((res: any) => {
       console.log('fiscal res', res);
       this.fiscalFormFeild = res;
+      this.tabs = res?.tabs;
+      this.formId = res?.data?._id;
+      this.status = res?.status;
+      this.basicUlbDetailsStatus = res?.tabs.find(tab => tab.key == 'basicUlbDetails')?.data;
+      this.contactInfoStatus = res?.tabs.find(tab => tab.key == 'conInfo')?.data;
       let formObjKey = res?.fyDynemic;
       this.expPerf = formObjKey?.expPerf;
       this.revenueMob = formObjKey?.revenueMob;
@@ -543,8 +451,6 @@ export class UlbFiscalComponent implements OnInit {
       }))
       this.fillDataInForm(res?.data);
       this.changeNumToWords();
-      this.skipLogicForGov('onload');
-      console.log('revenueMob', this.revenueMob);
       this.isLoader = false;
     },
       (err) => {
@@ -555,45 +461,57 @@ export class UlbFiscalComponent implements OnInit {
     );
   }
   changeDecInForm() {
-    // this.fiscalForm?.controls.contactInfo.valueChanges.subscribe((el) => {
-    //  console.log("changes form", el);
-    console.log('form', this.fiscalForm);
     sessionStorage.setItem("changeInFR", "true");
-    // });
   }
   fillDataInForm(data) {
     console.log('this form.....', this.fiscalForm);
     this.signedFileUrl = data?.signedCopyOfFile?.url;
     this.signedFileName = data?.signedCopyOfFile?.name;
+    this.signedFileStatus = data?.signedCopyOfFile?.status;
     this.goverParaNdata.normalData.yearData.webUrlAnnual.value = data?.webUrlAnnual?.value ? data?.webUrlAnnual?.value : null;
     this.goverParaNdata.normalData.yearData.registerGis.value = data?.registerGis?.value ? data?.registerGis?.value : null;
     this.goverParaNdata.normalData.yearData.accountStwre.value = data?.accountStwre?.value ? data?.accountStwre?.value : null;
+
+    this.goverParaNdata.normalData.yearData.webUrlAnnual.status = data?.webUrlAnnual?.status ? data?.webUrlAnnual?.status : null;
+    this.goverParaNdata.normalData.yearData.registerGis.status = data?.registerGis?.status ? data?.registerGis?.status : null;
+    this.goverParaNdata.normalData.yearData.accountStwre.status = data?.accountStwre?.status ? data?.accountStwre?.status : null;
+
     this.totalOwnRevenueArea = data?.totalOwnRevenueArea?.value ? data?.totalOwnRevenueArea?.value : null;
-    this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
+    this.totalOwnRevenueAreaStatus = data?.totalOwnRevenueArea?.status ? data?.totalOwnRevenueArea?.status : null;
+
     this.fy_21_22_online = data?.fy_21_22_online?.amount ? data?.fy_21_22_online?.amount : null;
     this.fy_21_22_cash = data?.fy_21_22_cash?.amount ? data?.fy_21_22_cash?.amount : null;
+
+    this.fy_21_22_onlineStatus = data?.fy_21_22_online?.status ? data?.fy_21_22_online?.status : null;
+    this.fy_21_22_cashStatus = data?.fy_21_22_cash?.status ? data?.fy_21_22_cash?.status : null;
+    this.property_tax_register = data?.property_tax_register?.value ? data?.property_tax_register?.value : null;
     this.paying_property_tax = data?.paying_property_tax?.value ? data?.paying_property_tax?.value : null;
     this.paid_property_tax = data?.paid_property_tax?.value ? data?.paid_property_tax?.value : null;
+
+    this.property_tax_registerStatus = data?.property_tax_register?.status ? data?.property_tax_register?.status : null;
+    this.paying_property_taxStatus = data?.paying_property_tax?.status ? data?.paying_property_tax?.status : null;
+    this.paid_property_taxStatus = data?.paid_property_tax?.status ? data?.paid_property_tax?.status : null;
+
     this.isDraft = data?.isDraft;
 
     this.isPopAvl11 = data?.population11?.readonly;
     this.isPopAvlFr = data?.populationFr?.readonly;
     this.fiscalForm.patchValue({
-      basicUlbDetails: {
+      basicUlbDetails: { // TODO: this can be shorter
         population11: data?.population11?.value,
         populationFr: data?.populationFr?.value,
-        webLink: data?.webLink,
-        nameCmsnr: data?.nameCmsnr,
+        webLink: data?.webLink?.value,
+        nameCmsnr: data?.nameCmsnr?.value,
         waterSupply: data?.waterSupply.value,
         sanitationService: data?.sanitationService.value,
         propertyWaterTax: data?.propertyWaterTax.value,
         propertySanitationTax: data?.propertySanitationTax.value
       },
       contactInfo: {
-        nameOfNodalOfficer: data?.nameOfNodalOfficer,
-        designationOftNodalOfficer: data?.designationOftNodalOfficer,
-        mobile: data?.mobile,
-        email: data?.email,
+        nameOfNodalOfficer: data?.nameOfNodalOfficer.value,
+        designationOftNodalOfficer: data?.designationOftNodalOfficer.value,
+        mobile: data?.mobile.value,
+        email: data?.email.value,
       },
     });
 
@@ -604,9 +522,10 @@ export class UlbFiscalComponent implements OnInit {
         yearData: [
           {
             label: 'Total Own Revenue Arrears as on 31st March 2022',
-            key: 'totalOwnRevenArr_20',
+            key: 'totalOwnRevenueArea',
             postion: '1',
             amount: this.totalOwnRevenueArea,
+            status: this.totalOwnRevenueAreaStatus,
             min: '',
             max: '',
             required: true,
@@ -627,6 +546,7 @@ export class UlbFiscalComponent implements OnInit {
             key: "fy_21_22_cash",
             postion: "2",
             amount: this.fy_21_22_cash,
+            status: this.fy_21_22_cashStatus,
             min: "",
             max: "",
             required: true,
@@ -641,6 +561,7 @@ export class UlbFiscalComponent implements OnInit {
             key: "fy_21_22_online",
             postion: "3",
             amount: this.fy_21_22_online,
+            status: this.fy_21_22_onlineStatus,
             min: "",
             max: "",
             required: true,
@@ -658,9 +579,10 @@ export class UlbFiscalComponent implements OnInit {
         yearData: [
           {
             label: 'Number of Properties assessed/listed as per Property Tax Register (as on 1st April 2022)',
-            key: 'NoOfProlisted',
+            key: 'property_tax_register',
             postion: '1',
             amount: this.property_tax_register,
+            status: this.property_tax_registerStatus,
             min: '',
             max: '',
             required: true,
@@ -672,9 +594,10 @@ export class UlbFiscalComponent implements OnInit {
           },
           {
             label: 'Number of Properties exemt from paying Property Tax (as on 1st April 2022)',
-            key: 'NoOfProExemtfromPayProTax',
+            key: 'paying_property_tax',
             postion: '2',
             amount: this.paying_property_tax,
+            status: this.paying_property_taxStatus,
             min: '',
             max: '',
             required: true,
@@ -686,9 +609,10 @@ export class UlbFiscalComponent implements OnInit {
           },
           {
             label: 'Number of Properties for which Property Tax has been paid  (for FY 2021-22)',
-            key: 'NoOfProwhichProTaxPaid',
+            key: 'paid_property_tax',
             postion: '3',
             amount: this.paid_property_tax,
+            status: this.paid_property_taxStatus,
             min: '',
             max: '',
             required: true,
@@ -712,7 +636,6 @@ export class UlbFiscalComponent implements OnInit {
       this.isDisabled = true;
       this.fiscalForm.disable();
     }
-    console.log('fiscal form.....', this.fiscalForm);
     if (this.isPopAvl11) {
       this.fiscalForm.controls.basicUlbDetails.controls.population11.disable();
     }
@@ -747,12 +670,9 @@ export class UlbFiscalComponent implements OnInit {
     }
     for (const key in this.revenueMob) {
       this.revenueMob[key].yearData.forEach((el) => {
-        // console.log('Object.keys(el).length', Object.keys(el).length);
         if (Object.keys(el).length > 0) {
           el['error'] = false;
         }
-
-
       })
     }
     for (const key in this.goverPar) {
@@ -762,58 +682,19 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   stepperContinue(item) {
-    console.log(this.revenueMob);
-    // console.log("stepper", stepper, item);
-    // let lb: string = label;
-    // switch (label) {
-    //   case "enumeration": {
-    //     this.lGreen.enum = true;
-    //     this.lSelected.enum = false;
-    //     console.log("enum", this.scorePerformanceForm);
-    //     break;
-    //   }
-    //   case "valuation": {
-    //     this.lGreen.valu = true;
-    //     this.lSelected.valu = false;
-    //     //  console.log('valu', this.scorePerformanceForm)
-    //     break;
-    //   }
-    //   case "assessment": {
-    //     this.lGreen.asse = true;
-    //     this.lSelected.asse = false;
-    //     break;
-    //   }
-    //   case "billing_collection": {
-    //     //  console.log('bilii', this.scorePerformanceForm)
-    //     this.lGreen.bAndC = true;
-    //     this.lSelected.bAndC = false;
-    //     break;
-    //   }
-    //   case "reporting": {
-    //     this.lGreen.repo = true;
-    //     this.lSelected.repo = false;
-    //     //console.log('repo', this.scorePerformanceForm)
-    //     break;
-    //   }
-    // }
+    console.log(this.tabs);
     this.stepper.next();
   }
   stepperContinueSave(item) {
-    console.log('this form.....', this.fiscalForm?.value);
+    if (this.loggedInUserType === this.userTypes.MoHUA) {
+      return this.saveMohuaAction(true);
+    }
     this.isDraft = true;
     this.updateValueInForm();
-    // console.log('this form.....', JSON.stringify(this.fiscalForm.value));
     this.saveForm(item);
 
   }
-  keyUpValidationNum(e, stepItem, yearItem) {
-    console.log('validation', e, stepItem, yearItem)
-  }
-  skipLogicForGov(type) {
-
-  }
   skipLogicRadio(type, val) {
-    //  console.log('vvvvv', type, val);
     if (!this.isDisabled) {
       sessionStorage.setItem("changeInFR", "true");
       if (type == 'digitalRegtr' && val == 'Yes') {
@@ -827,9 +708,7 @@ export class UlbFiscalComponent implements OnInit {
         currency: false,
         doNotAddOnly: true,
       });
-
     }
-    console.log('revenueMob', this.revenueMob, yearItem);
   }
 
   getPercentIncrement(currentYear, previewYear) {
@@ -864,16 +743,11 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   async fileChangeEvent(event, fileType, inputType, yrItem, stepItem) {
-    console.log(fileType, event);
-    console.log("aaa", event.target.files[0].size);
     let files;
     let fileSize = event?.target?.files[0]?.size / 1048576; //size in mb
-    console.log("aaa", fileSize);
     if (fileSize < 5) {
       if (typeof event != "boolean") files = event.target.files[0];
-      //  else files = this.data[fileType].file;
       let fileExtension = files.name.split(".").pop();
-      console.log(fileExtension, fileType);
       if (fileType == "excel") {
         if (fileExtension == "xls" || fileExtension == "xlsx") {
           this.uploadFile(files, files.name, files.type, inputType, yrItem, stepItem);
@@ -884,7 +758,7 @@ export class UlbFiscalComponent implements OnInit {
         if (fileExtension == "pdf") {
           this.uploadFile(files, files.name, files.type, inputType, yrItem, stepItem);
         } else {
-          console.log("error type", event);
+          console.error("error type", event);
           swal("Error", "Only PDF File can be Uploaded.", "error");
           return;
         }
@@ -903,13 +777,9 @@ export class UlbFiscalComponent implements OnInit {
   }
 
   uploadFile(file, name, type, inputType, yrItem, stepItem) {
-    //  console.log("this.data", this.data);
-    // this.data[fileType].progress = 20;
-    let folderName = `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulb}`
+    let folderName = `${this.userData?.role}/${this.yearIdArr['2022-23']}/fiscalRanking/${this.userData?.ulbCode}`
     this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
       (s3Response) => {
-        console.log('dgffffffffff', s3Response.data[0])
-        //  this.data[fileType].progress = 50;
         const res = s3Response.data[0];
         // this.data[fileType].name = name;
         this.uploadFileToS3(
@@ -924,8 +794,6 @@ export class UlbFiscalComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        //  this.data[fileType].file = file;
-        //  this.data[fileType].error = true;
       }
     );
   }
@@ -938,12 +806,11 @@ export class UlbFiscalComponent implements OnInit {
     inputType,
     yrItem, stepItem
   ) {
-    //this.data[fileType].progress = 60;
-    console.log('abc....', file, s3URL, fileAlias, name, inputType);
+    console.log('uploadFileToS3....', file, s3URL, fileAlias, name, inputType);
 
     this.dataEntryService.newUploadFileToS3(file, s3URL).subscribe(
       (res) => {
-        console.log('s3Response upload res', res)
+        console.log('s3Response', res)
         //   this.data[fileType].progress = 70;
         if (res.type === HttpEventType.Response) {
           if (inputType == 'signed') {
@@ -960,16 +827,13 @@ export class UlbFiscalComponent implements OnInit {
         }
       },
       (err) => {
-        //this.data[fileType].file = file;
-        //this.data[fileType].error = true;
+        console.error(err);
       }
     );
   }
 
   saveForm(item) {
-    console.log('goverParaNdata', this.goverParaNdata);
     this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
-      console.log('post res', res);
       if (item?.id != 's7') {
         swal('Saved', "Data save as draft successfully!", 'success');
         this.stepper.next();
@@ -986,28 +850,34 @@ export class UlbFiscalComponent implements OnInit {
   }
   updateValueInForm() {
     this.setFYData();
-    this.postData = {
+    this.postData = { // TODO: this can be shorter
       ulb: this.ulbId,
       "design_year": this.yearIdArr['2022-23'],
       // ...this.fiscalForm?.value?.basicUlbDetails,
       ...this.fiscalForm?.value?.contactInfo,
-      webLink: this.fiscalForm?.value?.basicUlbDetails?.webLink,
-      nameCmsnr: this.fiscalForm?.value?.basicUlbDetails?.nameCmsnr,
-      ulbName: this.ulbName,
       waterSupply: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.waterSupply,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.waterSupply.value,
         status: "PENDING"
       },
+      webLink: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.webLink.value,
+        status: "PENDING"
+      },
+      nameCmsnr: {
+        value: this.fiscalForm.controls.basicUlbDetails.controls.nameCmsnr.value,
+        status: "PENDING"
+      },
+      ulbName: this.ulbName,
       sanitationService: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.sanitationService,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.sanitationService.value,
         status: "PENDING",
       },
       propertyWaterTax: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.propertyWaterTax,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.propertyWaterTax.value,
         status: "PENDING"
       },
       propertySanitationTax: {
-        value: this.fiscalForm?.value?.basicUlbDetails?.propertySanitationTax,
+        value: this.fiscalForm.controls.basicUlbDetails.controls.propertySanitationTax.value,
         status: "PENDING"
       },
       population11: {
@@ -1016,16 +886,28 @@ export class UlbFiscalComponent implements OnInit {
       },
       populationFr: {
         value: this.fiscalForm.controls.basicUlbDetails.controls.populationFr.value,
-        readonly: this.isPopAvl11
+        status: 'PENDING'
+      },
+      designationOftNodalOfficer: {
+        value: this.fiscalForm.controls.contactInfo.controls.designationOftNodalOfficer.value,
+        status: "PENDING"
+      },
+      nameOfNodalOfficer: {
+        value: this.fiscalForm.controls.contactInfo.controls.nameOfNodalOfficer.value,
+        status: "PENDING"
+      },
+      email: {
+        value: this.fiscalForm.controls.contactInfo.controls.email.value,
+        status: "PENDING"
+      },
+      mobile: {
+        value: this.fiscalForm.controls.contactInfo.controls.mobile.value,
+        status: "PENDING"
       },
       "webUrlAnnual": {
         value: this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
         status: 'PENDING',
       },
-      // "auditReprtDate": {
-      //   value: this.goverParaNdata?.auditReprtDate?.yearData,
-      //   status: 'PENDING',
-      // },
       "registerGis": {
         value: this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
         status: 'PENDING',
@@ -1064,13 +946,10 @@ export class UlbFiscalComponent implements OnInit {
         status: "PENDING",
         value: this.paid_property_tax
       },
+      // feedback: this.tabs.map(tab => ({id: tab.id, comment: tab.feedback?.comment})),
       "status": "PENDING",
       "isDraft": this.isDraft
     };
-    // this.isPopAvl11 = data?.populationFr?.readonly;
-    // this.isPopAvlFr = data?.populationFr?.readonly;
-    // delete this.postData.population11;
-    // delete this.postData.populationFr;
   }
 
   setFYData() {
@@ -1159,15 +1038,7 @@ export class UlbFiscalComponent implements OnInit {
         })
       }
     }
-    console.log({ goverParaNPostArray });
-    console.log('expPostArr', expPostArr);
-    console.log('revPostArr', revPostArr);
-    this.fyDataArr = revPostArr.concat(expPostArr);
-    this.fyDataArr = this.fyDataArr.concat(goverParaNPostArray);
-    this.fyDataArr = this.fyDataArr.concat(annFyPostArr);
-    console.log('whole', this.fyDataArr);
-
-
+    this.fyDataArr = [...revPostArr, ...expPostArr,  ...goverParaNPostArray, ...annFyPostArr]
   }
   amountPushInFY(type, index, yItem, stItem) {
     let dType = '';
@@ -1197,31 +1068,9 @@ export class UlbFiscalComponent implements OnInit {
         "typeofdata": dType, /* Number, PDF,Excel    */
         "status": "PENDING" /* PENDING,APPROVED,REJECTED    */
       }
-    } else if (stItem?.key == "fisGov") {
-      switch (yItem.key) {
-        case "totalOwnRevenArr_20":
-          this.totalOwnRevenueArea = yItem?.amount;
-          break;
-        case "NoOfProlisted":
-          this.property_tax_register = yItem?.amount;
-          break;
-        case "fy_21_22_cash":
-          this.fy_21_22_cash = yItem?.amount;
-          break;
-        case "fy_21_22_online":
-          this.fy_21_22_online = yItem?.amount;
-          break;
-        case "NoOfProExemtfromPayProTax":
-          this.paying_property_tax = yItem?.amount;
-          break;
-        case "NoOfProwhichProTaxPaid":
-          this.paid_property_tax = yItem?.amount;
-          break;
-      }
+    } else if (stItem?.key == "goverPar") {
+      this[yItem.key] = yItem?.amount;
     }
-
-
-    console.log({ log: 'amountPushInFY', type, index, yItem, stItem, paying_property_tax: this.paying_property_tax });
   }
   backTohome() {
     this._router.navigateByUrl('../home')
@@ -1295,7 +1144,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Revenue Mobilization Parameters`,
         key: 'revenueMob',
-        id: 's2',
+        id: 's3',
         icon: '',
         text: '',
         value: this.revenueMob
@@ -1303,7 +1152,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Expenditure Performance Parameters`,
         key: 'expPerf',
-        id: 's3',
+        id: 's4',
         icon: '',
         text: '',
         value: this.expPerf
@@ -1311,7 +1160,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Fiscal Governance Parameters`,
         key: 'fisGov',
-        id: 's4',
+        id: 's5',
         icon: '',
         text: '',
         value: {
@@ -1343,7 +1192,7 @@ export class UlbFiscalComponent implements OnInit {
             yearData: [
               {
                 label: 'Total Own Revenue Arrears as on 31st March 2020',
-                key: 'totalOwnRevenArr_20',
+                key: 'totalOwnRevenueArea',
                 amount: this.totalOwnRevenueArea,
               },
             ]
@@ -1354,17 +1203,17 @@ export class UlbFiscalComponent implements OnInit {
             yearData: [
               {
                 label: 'Number of Properties assessed/listed as per Property Tax Register',
-                key: 'NoOfProlisted',
+                key: 'property_tax_register',
                 amount: this.property_tax_register,
               },
               {
                 label: 'Number of Properties exemt from paying Property Tax',
-                key: 'NoOfProExemtfromPayProTax',
+                key: 'paying_property_tax',
                 amount: this.paying_property_tax,
               },
               {
                 label: 'Number of Properties for which Property Tax has been paid',
-                key: 'NoOfProwhichProTaxPaid',
+                key: 'paid_property_tax',
                 amount: this.paid_property_tax,
               },
             ]
@@ -1374,7 +1223,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Upload Financial Documents`,
         key: 'upFy',
-        id: 's5',
+        id: 's6',
         icon: '',
         text: '',
         value: this.uploadFyDoc
@@ -1382,7 +1231,7 @@ export class UlbFiscalComponent implements OnInit {
       {
         label: `Contact Information`,
         key: 'conInfo',
-        id: 's6',
+        id: 's2',
         icon: '',
         text: '',
         value: {
@@ -1392,26 +1241,22 @@ export class UlbFiscalComponent implements OnInit {
             yearData: [
               {
                 label: 'Name of the Nodal Officer',
-                // value: this.fiscalForm?.value?.contactInfo?.designationOftNodalOfficer,
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.designationOftNodalOfficer?.value,
                 status: 'PENDING'
               },
               {
                 label: 'Designation of the Nodal Officer',
-                //value: this.fiscalForm?.value?.contactInfo?.nameOfNodalOfficer,
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.nameOfNodalOfficer?.value,
                 status: 'PENDING'
               },
               {
                 label: 'Email ID',
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.email?.value,
-                // value: this.fiscalForm?.value?.contactInfo?.email,
                 status: 'PENDING'
               },
               {
                 label: 'Mobile number',
                 value: this.fiscalForm?.controls?.contactInfo?.controls?.mobile?.value,
-                // value: this.fiscalForm?.value?.contactInfo?.mobile,
                 status: 'PENDING'
               }
             ]
@@ -1447,32 +1292,6 @@ export class UlbFiscalComponent implements OnInit {
     this.isDraft = true;
     this.updateValueInForm();
     this.getFullDataArray();
-    // let formdata = {
-    //   ...this.fiscalForm?.value?.basicUlbDetails,
-    //   ...this.fiscalForm?.value?.contactInfo,
-    //   revMob: this.revenueMob,
-    //   expPer: this.expPerf,
-    //   fisGov: this.goverPar,
-    //   upldDoc: this.uploadFyDoc,
-    //   nrmlData: this.goverParaNdata,
-    //   "signedCopyOfFile": {
-    //     "name": this.signedFileName,
-    //     "url": this.signedFileUrl
-    //   },
-    //   "webUrlAnnual": this.goverParaNdata?.normalData?.yearData?.webUrlAnnual?.value,
-    //   "digitalRegtr": this.goverParaNdata?.normalData?.yearData?.digitalRegtr?.value,
-    //   "registerGis": this.goverParaNdata?.normalData?.yearData?.registerGis?.value,
-    //   "accountStwre": this.goverParaNdata?.normalData?.yearData?.accountStwre?.value,
-    //   "totalOwnRevenueArea": 123546,
-    //   "fy_19_20_cash": {
-    //     "type": "Cash",
-    //     "amount": 10000
-    //   },
-    //   "fy_19_20_online": {
-    //     "type": "UPI",
-    //     "amount": 99999
-    //   },
-    // };
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       data: {
         showData: this.stePreDataArray,
@@ -1483,7 +1302,6 @@ export class UlbFiscalComponent implements OnInit {
       maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    // this.hidden = false;
     dialogRef.afterClosed().subscribe((result) => {
       // console.log(`Dialog result: ${result}`);
       //   this.hidden = true;
@@ -1500,7 +1318,6 @@ export class UlbFiscalComponent implements OnInit {
       if (this.errorPageIndex == null) this.errorPageIndex = 1;
     }
     for (const key in this.revenueMob) {
-      console.log('keyyyyyyyy', key);
       if (!this.canShowFormSection(key)) continue;
       this.revenueMob[key].yearData.forEach((el) => {
         if (Object.keys(el).length > 0) {
@@ -1587,14 +1404,12 @@ export class UlbFiscalComponent implements OnInit {
         if (key != 'guidanceNotes') {
           this.uploadFyDoc[key].yearData.forEach((el) => {
             if (el?.readonly == false) {
-              // if (el?.file?.url == '' || el?.file?.url == null) {
               if (el?.file?.url === '' || el?.file?.url === null || el?.file?.url === undefined) {
                 el['error'] = true;
                 if (this.errorPageIndex == null) this.errorPageIndex = 5;
               } else {
                 el['error'] = false;
               }
-              // }
             } else {
               el['error'] = false;
             }
@@ -1623,14 +1438,7 @@ export class UlbFiscalComponent implements OnInit {
       }
     }
   }
-  action() {
-    console.log({
-      revenueMob: this.revenueMob,
-      expPerf: this.expPerf
-    })
-  }
   finalSubmit() {
-    console.log({ Ndata: this.goverParaNdata });
     if (this.fiscalForm.status != "INVALID" && this.formError) {
       console.log('post body', this.postData);
       this.fiscalService.postFiscalRankingData(this.postData).subscribe((res) => {
@@ -1642,13 +1450,16 @@ export class UlbFiscalComponent implements OnInit {
       },
         (error) => {
           console.log('post error', error);
-          
+
         }
       )
     }
   }
 
   finalSubmitAlert() {
+    if (this.loggedInUserType === this.userTypes.MoHUA) {
+      return this.saveMohuaAction(false);
+    }
     this.isDraft = false;
     this.formError = true;
     this.updateValueInForm();
@@ -1707,7 +1518,6 @@ export class UlbFiscalComponent implements OnInit {
     }
   }
   numberLimitV(e, input, minV, maxV) {
-    console.log("sss", e, input, minV, maxV);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
@@ -1748,14 +1558,10 @@ export class UlbFiscalComponent implements OnInit {
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
-
-    // console.log(this._router.url);
   }
   private initializeLoggedInUserDataFetch() {
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
-
-      console.log("hi", data);
     });
   }
   clearFile(type, yrItem, stpItem) {
@@ -1765,7 +1571,6 @@ export class UlbFiscalComponent implements OnInit {
   }
 
   navigationCheck() {
-    // if (!this.clickedSave) {
     this._router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.alertError =
@@ -1786,7 +1591,6 @@ export class UlbFiscalComponent implements OnInit {
         }
       }
     });
-    // }
   }
   openDialog(template) {
     if (template == undefined) return;
@@ -1844,11 +1648,66 @@ export class UlbFiscalComponent implements OnInit {
   setWebUrlAnnualError() {
     const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
     const value = this.goverParaNdata.normalData.yearData.webUrlAnnual.value;
-    if(!regex.test(value)) {
+    if (!regex.test(value)) {
       this.goverParaNdata.normalData.yearData.webUrlAnnual['error'] = true;
       if (this.errorPageIndex == null) this.errorPageIndex = 4;
     } else {
       this.goverParaNdata.normalData.yearData.webUrlAnnual['error'] = false;
     }
+  }
+  get canShowComment() {
+    if (this.loggedInUserType == this.userTypes.ULB) return false;
+    return true;
+  }
+  get canEditComment() {
+    if (this.loggedInUserType == this.userTypes.MoHUA) return true;
+    return false;
+  }
+
+  getActionsData(tab) {
+    const result = {};
+    if (tab.id === 's1') return this.basicUlbDetailsStatus;
+    if (tab.id === 's2') return this.contactInfoStatus;
+    if (tab.id === 's3') return this.revenueMob;
+    if (tab.id === 's4') return this.expPerf;
+    if (tab.id === 's5') return {
+      ...this.goverPar,
+      auditReprtDate: this.goverParaNdata.auditReprtDate,
+      normalData: {
+        key: this.goverParaNdata.normalData.key,
+        label: this.goverParaNdata.normalData.label,
+        yearData: Object.values(this.goverParaNdata.normalData.yearData)
+      }
+    }
+    if (tab.id === 's6') return this.uploadFyDoc;
+    if (tab.id === 's7') return {
+      signedCopyOfFile: {
+        status: this.signedFileStatus
+      }
+    }
+    return tab.data;
+  }
+
+  saveMohuaAction(draftMode: boolean) {
+    const payload = {
+      ulbId: this.ulbId,
+      formId: this.formId,
+      design_year: this.yearIdArr['2022-23'],
+      isDraft: draftMode,
+      actions: this.tabs.map(tab => ({
+        id: tab.id,
+        _id: tab._id,
+        feedback: tab.feedback,
+        data: this.getActionsData(tab)
+      }))
+    }
+
+    console.log(payload);
+
+    this.fiscalService.actionByMohua(payload).subscribe(res => {
+      swal('Saved', draftMode ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+    }, (error) => {
+      console.log('post error', error)
+    })
   }
 }

@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { OdfFormComponent } from "./components/odf-form/odf-form.component";
-import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
+// import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
 import { FooterBtnComponent } from "./components/footer-btn/footer-btn.component";
 import { MatIconModule } from "@angular/material/icon";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -29,10 +29,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
 import { CommonActionRadioComponent } from './components/common-action-radio/common-action-radio.component';
+
 @NgModule({
   declarations: [
     OdfFormComponent,
-    GfcFormComponent,
+   // GfcFormComponent,
     FooterBtnComponent,
     CommonFileUploadComponent,
     NumberToWordINRPipe,

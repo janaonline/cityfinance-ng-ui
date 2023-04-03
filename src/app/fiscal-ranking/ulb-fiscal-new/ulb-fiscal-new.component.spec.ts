@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GfcFormComponent } from './gfc-form.component';
+import { UlbFiscalNewComponent } from './ulb-fiscal-new.component';
 
-describe('GfcFormComponent', () => {
-  let component: GfcFormComponent;
-  let fixture: ComponentFixture<GfcFormComponent>;
+describe('UlbFiscalNewComponent', () => {
+  let component: UlbFiscalNewComponent;
+  let fixture: ComponentFixture<UlbFiscalNewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GfcFormComponent ]
+      declarations: [ UlbFiscalNewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GfcFormComponent);
+    fixture = TestBed.createComponent(UlbFiscalNewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

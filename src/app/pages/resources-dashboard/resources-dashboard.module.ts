@@ -40,6 +40,8 @@ import { MunicipalLawsComponent } from "./learning-center/municipal-laws/municip
 import { EnumerationComponent } from "./learning-center/enumeration/enumeration.component";
 
 import { PdfViewerModule } from "ng2-pdf-viewer";
+import { MunicipalBondRepositoryComponent } from './learning-center/municipal-bond-repository/municipal-bond-repository.component';
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -59,7 +61,8 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
     ELearningModuleComponent,
     MunicipalLawsComponent,
     EnumerationComponent,
-    FileOpenComponent
+    FileOpenComponent,
+    MunicipalBondRepositoryComponent
   ],
   imports: [
     CommonModule,
@@ -71,6 +74,7 @@ import { PdfViewerModule } from "ng2-pdf-viewer";
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularMultiSelectModule,
     MatIconModule,
     MatButtonModule,
     TabsModule.forRoot(),

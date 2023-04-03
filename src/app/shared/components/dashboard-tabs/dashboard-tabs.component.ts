@@ -13,7 +13,7 @@ import {
   styleUrls: ["./dashboard-tabs.component.scss"],
 })
 export class DashboardTabsComponent implements OnInit, OnChanges {
-  constructor() {}
+  constructor() { }
 
   currentStateId;
   tableView = true;
@@ -200,6 +200,11 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     }
   }
 
+  onChangeTab({ tabName, subTabName }) { // changing tab and subtab -- dirty fix due to no routing setup
+    document.getElementById(tabName).click();
+    setTimeout(() => { document.getElementById(subTabName).click(); }, 1000);
+  }
+
   getStickyValue() {
     if (this.stateId) {
       if (this.scrollCords > 1100) {
@@ -240,10 +245,10 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     if (changes.scrollCords) {
       this.getStickyValue();
     }
-  //  console.log('tab data....', this.data)
-     let mouTabObj:any = this.data.filter(o => o.name == "Infrastructure Projects");
-     this.tabDesc = mouTabObj[0]?.description
-   //   console.log('this.tabDesc', this.tabDesc);
+    //  console.log('tab data....', this.data)
+    let mouTabObj: any = this.data.filter(o => o.name == "Infrastructure Projects");
+    this.tabDesc = mouTabObj[0]?.description
+    //   console.log('this.tabDesc', this.tabDesc);
 
     // console.log("stickyValue==>", this.sticky);
   }
@@ -269,6 +274,7 @@ function convertToPastYears(year) {
   }
   return newYears;
 }
+
 
 // var startProductBarPos=-1;
 // window.onscroll=function(){
