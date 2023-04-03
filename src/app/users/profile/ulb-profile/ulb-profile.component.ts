@@ -217,7 +217,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       this.isVerified2223 == false &&
       this.loggedInUserType === USER_TYPE.ULB
     ) {
-      this.router.navigateByUrl("/ulbform2223/overview");
+      this.router.navigateByUrl("/fc-home-page");
     }
   }
 
