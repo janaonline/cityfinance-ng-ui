@@ -1,4 +1,8 @@
-<h5 class="mx-3 my-4">Property Tax</h5>
+
+<div class="d-flex justify-content-between">
+    <h5 class="mx-3 my-4">Property Tax</h5>
+    <button class="btn btn-primary" (click)="onPreview()">Preview</button>
+</div>
 
 <div *ngIf="form">
     <div *ngFor="let tab of form.controls; index as i;">
@@ -44,10 +48,10 @@
                                     </mat-radio-group>
 
 
-                                    <div class="input-group border"
+                                    <div class="input-group border" style="width: 100px;"
                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                                         [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
-                                        <div class="d-flex w-100 px-2">
+                                        <div class="d-flex w-100 px-2 justify-content-between">
                                             <input matInput formControlName="date" style="pointer-events: none;"
                                                 [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value"
                                                 [max]="currentDate" placeholder="Choose a date" [attr.id]="  + r_i" />
@@ -117,7 +121,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex mr-1">
-                    <button class="btn btn-save text-uppercase" (click)="submit(false)">
+                    <button class="btn btn-save text-uppercase" (click)="finalSubmitConfirmation()">
                         Save
                     </button>
                 </div>

@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
+import { PreviewComponent } from './property-tax/preview/preview.component';
 
 
 
@@ -36,7 +37,7 @@ import { LoaderComponent } from './loader/loader.component';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent, LoaderComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent
   ],
   imports: [
     CommonModule,
