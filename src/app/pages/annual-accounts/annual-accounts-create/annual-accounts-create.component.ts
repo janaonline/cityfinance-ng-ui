@@ -141,7 +141,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   typeInHistory;
   anyDocumentUploaded = false;
   dialogRefForAlert;
-  totalFiles = 10;
+  totalFiles = 12;
   ngOnInit() {
     this.date = new Date();
     if (this.viewData != undefined) {

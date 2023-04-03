@@ -431,11 +431,13 @@
                         <div class="col-sm-6 button-layout">
                             <label>Upload Excel:</label>&nbsp;
                             <input style="display: none" #excel20_21 type="file" accept=".xls, .xlsx" (change)="upload($event, 'excel', 'financial_year_2020_21', '2020-21')" />
-                            <button disabled="{{!validateForm.valid || 
-                              ((validateForm.value.parastatalName == null || 
-                              validateForm.value.parastatalName == '') 
-                              && validateForm.value.ulb == null) || disableSubmit}}"
-                           class="btn btn-primary" (click)="excel20_21.click()">
+                            <button [disabled]="
+                          !validateForm.valid ||
+                          ((validateForm.value.parastatalName == null ||
+                            validateForm.value.parastatalName == '') &&
+                            validateForm.value.ulb == null) ||
+                          disableSubmit
+                        " class="btn btn-primary" (click)="excel20_21.click()">
                             Select File
                           </button>
                             <div *ngIf="loader.financial_year_2020_21.excel" class="spinner-layout">
