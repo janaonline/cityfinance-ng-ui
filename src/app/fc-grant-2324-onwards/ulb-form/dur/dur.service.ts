@@ -183,15 +183,11 @@ const defaultProject = [
       "resource_urls": [],
       "label": "3",
       "shortKey": "startDate",
+      "max": new Date().toISOString().slice(0,10),
       "viewSequence": "23",
       "child": [],
       "parent": [],
       "validation": [
-        {
-          "_id": "24",
-          "error_msg": "",
-          "value": ""
-        },
         {
           "error_msg": "",
           "_id": "1"
