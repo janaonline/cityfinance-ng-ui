@@ -4376,7 +4376,11 @@ export class DurComponent implements OnInit {
 
   getProjects(shouldOpenPreview = false) {
     this.loaderService.showLoader();
-    this.durService.getProjects(this.ulbId, this.design_year).subscribe((res: any) => {
+    this.durService.getProjects(
+      this.ulbId,
+      this.design_year,
+      this.questionresponse?.data[0]?.language[0].isDraft
+    ).subscribe((res: any) => {
 
       this.loaderService.stopLoader();
       if (!res?.data) return;
@@ -4390,7 +4394,7 @@ export class DurComponent implements OnInit {
         projectDetails.childQuestionData = res.data;
       }
       console.log(res);
-      if(shouldOpenPreview) {
+      if (shouldOpenPreview) {
         this.onPreview();
       }
     }, ({ error }) => {
@@ -4400,7 +4404,7 @@ export class DurComponent implements OnInit {
   }
 
   onPreview() {
-    if(!this.isProjectLoaded) return this.getProjects(true);
+    if (!this.isProjectLoaded) return this.getProjects(true);
     const data = this.webForm.questionData;
 
     const grantPositionWrapper = data?.find(question => question.shortKey == "grantPosition");
@@ -4486,7 +4490,7 @@ export class DurComponent implements OnInit {
     const selfDeclarationChecked = data?.finalData
       .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if(data.isSaveAsDraft == false && selfDeclarationChecked != '1') {
+    if (data.isSaveAsDraft == false && selfDeclarationChecked != '1') {
       return swal('Error', 'Please check self declaration', 'error');
     }
 
@@ -4518,10 +4522,10 @@ export class DurComponent implements OnInit {
       console.log('error occured');
     })
   }
-  nextPreBtn(e){
+  nextPreBtn(e) {
     // temporay basic setting url
-      let url = e?.type == 'pre' ? 'grant-tra-certi' : 'annual_acc'
-      this.router.navigate([ `/ulb-form/${url}`]);
+    let url = e?.type == 'pre' ? 'grant-tra-certi' : 'annual_acc'
+    this.router.navigate([`/ulb-form/${url}`]);
 
   }
 }
