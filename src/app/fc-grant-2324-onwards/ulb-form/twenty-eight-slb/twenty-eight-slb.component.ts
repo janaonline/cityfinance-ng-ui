@@ -4190,11 +4190,11 @@ export class TwentyEightSlbComponent implements OnInit {
         const actualValue = +actual.modelValue;
         const targetValue = +target.modelValue;
         const lineItemValue = lineItem.modelValue;
-        
-        if(actualValue < +actual?.minRange) {
+
+        if (actualValue < +actual?.minRange) {
           return false;
         }
-        if(targetValue < +target?.minRange) {
+        if (targetValue < +target?.minRange) {
           return false;
         }
 

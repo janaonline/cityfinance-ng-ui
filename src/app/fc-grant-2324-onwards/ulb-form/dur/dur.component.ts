@@ -4528,4 +4528,9 @@ export class DurComponent implements OnInit {
     this.router.navigate([`/ulb-form/${url}`]);
 
   }
+  updateInParent(item) {
+    Object.entries(item).forEach(([key, value]) => {
+      this[key] = value;
+    });
+  }
 }
