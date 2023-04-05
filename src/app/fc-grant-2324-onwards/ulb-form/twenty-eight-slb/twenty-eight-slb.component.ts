@@ -4178,7 +4178,19 @@ export class TwentyEightSlbComponent implements OnInit {
             }
           ],
         }),
-        )
+        ),
+        {
+          input_type: "1",
+          shortKey: `range`,
+          "answer": [
+            {
+              "label": "",
+              "textValue": data?.question?.[questionIndex]?.childQuestionData[innerNestedAnswerIndex]
+                .find(item => item.shortKey.endsWith(`_actualIndicator`))?.hint,
+              "value": ""
+            }
+          ],
+        }
       ]
     }))
   }));
