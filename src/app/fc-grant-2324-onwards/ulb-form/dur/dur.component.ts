@@ -23,6 +23,9 @@ export class DurComponent implements OnInit {
 
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
+  finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
+  it will become uneditable and will be sent to State for Review.
+   Alternatively, you can save as draft for now and submit it later.`
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -4485,19 +4488,48 @@ export class DurComponent implements OnInit {
     });
   }
 
-  onSubmit(data) {
-    console.log("submissingdata", data);
+  async onSubmit(data) {
+    let isDraft = data.isSaveAsDraft;
+    if(isDraft == false) {
+      const userAction = await swal(
+        "Confirmation !",
+        `${this.finalSubmitMsg}`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      );
+      if(userAction == 'draft') {
+        isDraft = true;
+      }
+      if(userAction == 'cancel') return;
+    }
+
+
     const selfDeclarationChecked = data?.finalData
       .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if (data.isSaveAsDraft == false && selfDeclarationChecked != '1') {
+    if (isDraft == false && selfDeclarationChecked != '1') {
       return swal('Error', 'Please check self declaration', 'error');
     }
 
     this.loaderService.showLoader();
     this.durService.postForm({
-      isDraft: data.isSaveAsDraft,
-      status: data.isSaveAsDraft ? 2 : 3,
+      isDraft: isDraft,
+      status: isDraft ? 2 : 3,
       isProjectLoaded: this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
@@ -4508,9 +4540,9 @@ export class DurComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
-      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
-          if (!data.isSaveAsDraft) location.reload();
+          if (!isDraft) location.reload();
         });
       console.log('data send');
     }, ({ error }) => {

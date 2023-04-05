@@ -25,6 +25,10 @@ export class TwentyEightSlbComponent implements OnInit {
     '6284d6f65da0fa64b423b540'
   ];
 
+
+  finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
+  it will become uneditable and will be sent to State for Review.
+   Alternatively, you can save as draft for now and submit it later.`;
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
   successErrorMessage: string;
@@ -4214,19 +4218,48 @@ export class TwentyEightSlbComponent implements OnInit {
     return true;
   }
 
-  onSubmit(data) {
+  async onSubmit(data) {
+
+    let isDraft = data.isSaveAsDraft;
+    if (isDraft == false) {
+      const userAction = await swal(
+        "Confirmation !",
+        `${this.finalSubmitMsg}`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      );
+      if (userAction == 'draft') {
+        isDraft = true;
+      }
+      if (userAction == 'cancel') return;
+    }
     const finalData = this.addDisableKeys(data);
 
-    if (!data.isSaveAsDraft && !this.isFormValid(data?.question)) {
+    if (!isDraft && !this.isFormValid(data?.question)) {
       return swal('Error', 'Please fill valid values in form', 'error');
     }
 
     this.loaderService.showLoader();
     this.twentyEightSlbService.postForm({
-      isDraft: data.isSaveAsDraft,
+      isDraft: isDraft,
       financialYear: this.design_year,
       design_year: this.design_year,
-      status: data.isSaveAsDraft ? 2 : 3,
+      status: isDraft ? 2 : 3,
       actualYear: "606aafb14dff55e6c075d3ae",
       targetYear: "606aaf854dff55e6c075d219",
       ulb: this.ulbId,
@@ -4235,9 +4268,9 @@ export class TwentyEightSlbComponent implements OnInit {
     }).subscribe(res => {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
-      swal('Saved', data.isSaveAsDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
-          if (!data.isSaveAsDraft) location.reload();
+          if (!isDraft) location.reload();
         });
       console.log('data send');
     }, ({ error }) => {
