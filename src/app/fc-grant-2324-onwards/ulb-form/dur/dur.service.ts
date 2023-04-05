@@ -618,12 +618,13 @@ export class DurService {
         })
       );
   }
-  getProjects(ulb: string, design_year: string) {
+  getProjects(ulb: string, design_year: string, isDraft) {
+    console.log(isDraft);
     return this.http.get(`${environment.api.url}/getProjects?ulb=${ulb}&design_year=${design_year}&formId=4`)
       .pipe(
         map((response: any) => {
           console.log('projects :::', response);
-          if (response.data?.length === 0) {
+          if (response.data?.length === 0 && isDraft != false) {
             response.data = defaultProject;
           }
           return response;
