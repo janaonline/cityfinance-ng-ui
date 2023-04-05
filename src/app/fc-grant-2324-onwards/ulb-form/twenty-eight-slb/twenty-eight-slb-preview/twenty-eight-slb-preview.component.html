@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">
-                Submissions for 15th FC grant for FY 2022-23
+                Submissions for 15th FC grant for FY 2023-24
             </span>
             <b class="sub-h">{{ulbName}}, {{stateName}}</b>
         </div>
@@ -36,8 +36,8 @@
                         <thead>
                             <tr class="tableBorder">
                                 <th scope="col" class="text-center headingClass">Sections/Indicators</th>
-                                <th scope="col" class="text-center headingClass">Actual Indicator 2021-22</th>
-                                <th scope="col" class="text-center headingClass">Target Indicator 2022-23</th>
+                                <th scope="col" class="text-center headingClass">Actual Indicator 2022-23</th>
+                                <th scope="col" class="text-center headingClass">Target Indicator 2023-24</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let lineItem of data?.perData?.data | keyvalue : returnZero" class="tableBody">
@@ -62,12 +62,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col-sm-12 pop-t">
-                            Population : <span class="ms-3">{{data?.perData?.population ? data?.perData?.population : 'N/A'}}</span>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>

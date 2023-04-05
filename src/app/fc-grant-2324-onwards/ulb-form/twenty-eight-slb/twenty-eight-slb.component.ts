@@ -4142,7 +4142,6 @@ export class TwentyEightSlbComponent implements OnInit {
           }))
         }), {}),
         isDraft: true,
-        population: 233
       },
       ulbId: this.ulbId,
       isDraft: true,
