@@ -4179,19 +4179,24 @@ export class TwentyEightSlbComponent implements OnInit {
     }))
   }));
 
-  isFormValid(finalData) {
-    for (let section of finalData) {
-      for (let answer of section?.nestedAnswer) {
-        const actualValue = answer?.answerNestedData
-          ?.find(col => col?.shortKey?.endsWith('_actualIndicator'))
-          ?.answer?.[0]?.value;
-        const targetValue = answer?.answerNestedData
-          ?.find(col => col?.shortKey?.endsWith('_targetIndicator'))
-          ?.answer?.[0]?.value;
-        const lineItemValue = answer?.answerNestedData
-          ?.find(col => col?.shortKey?.endsWith('_indicatorLineItem'))
-          ?.answer?.[0]?.textValue;
-        console.log('ans', lineItemValue, actualValue, targetValue);
+  isFormValid(quetions) {
+    console.log('finalData', quetions);
+    for (let question of quetions) {
+      for (let childQuestionsData of question?.childQuestionData) {
+        const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
+        const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
+        const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
+
+        const actualValue = +actual.modelValue;
+        const targetValue = +target.modelValue;
+        const lineItemValue = lineItem.modelValue;
+        
+        if(actualValue < +actual?.minRange) {
+          return false;
+        }
+        if(targetValue < +target?.minRange) {
+          return false;
+        }
 
         if (!actualValue || !targetValue) continue;
 
@@ -4212,7 +4217,7 @@ export class TwentyEightSlbComponent implements OnInit {
   onSubmit(data) {
     const finalData = this.addDisableKeys(data);
 
-    if (!data.isSaveAsDraft && !this.isFormValid(finalData)) {
+    if (!data.isSaveAsDraft && !this.isFormValid(data?.question)) {
       return swal('Error', 'Please fill valid values in form', 'error');
     }
 
