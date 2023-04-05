@@ -251,11 +251,6 @@ const defaultProject = [
         {
           "error_msg": "",
           "_id": "1"
-        },
-        {
-          "_id": "24",
-          "error_msg": "",
-          "value": ""
         }
       ],
       "restrictions": [],
