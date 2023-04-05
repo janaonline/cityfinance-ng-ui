@@ -4205,11 +4205,11 @@ export class TwentyEightSlbComponent implements OnInit {
         if (!actualValue || !targetValue) continue;
 
         if (this.oppositeComparisionKeys.includes(lineItemValue)) {
-          if (actualValue <= targetValue) {
+          if (actualValue < targetValue) {
             return false;
           }
         } else {
-          if (actualValue >= targetValue) {
+          if (actualValue > targetValue) {
             return false;
           }
         }
