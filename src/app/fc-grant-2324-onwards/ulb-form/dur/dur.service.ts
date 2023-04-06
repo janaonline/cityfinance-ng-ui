@@ -534,6 +534,7 @@ const defaultProject = [
         }
       ],
       "restrictions": [],
+      "isQuestionDisabled": true,
       "minRange": 0,
       "maxRange": 100,
       "min": 1,

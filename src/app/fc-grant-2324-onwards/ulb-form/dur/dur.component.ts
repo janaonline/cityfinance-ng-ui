@@ -4488,9 +4488,21 @@ export class DurComponent implements OnInit {
     });
   }
 
+  isFormValid(finalData) {
+    const projectDetails = finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
+    console.log('projectDetails', projectDetails);
+    for (let project of projectDetails) {
+      const location = project?.answerNestedData.find(item => item.shortKey == "location");
+      if (location.answer[0].value == '0,0') {
+        return false
+      }
+    }
+    return true;
+  }
+
   async onSubmit(data) {
     let isDraft = data.isSaveAsDraft;
-    if(isDraft == false) {
+    if (isDraft == false) {
       const userAction = await swal(
         "Confirmation !",
         `${this.finalSubmitMsg}`,
@@ -4512,19 +4524,21 @@ export class DurComponent implements OnInit {
           },
         }
       );
-      if(userAction == 'draft') {
+      if (userAction == 'draft') {
         isDraft = true;
       }
-      if(userAction == 'cancel') return;
+      if (userAction == 'cancel') return;
     }
 
 
     const selfDeclarationChecked = data?.finalData
       .find(item => item?.shortKey === "declaration" && item.answer?.[0].value == '1')?.answer?.[0].value;
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
-    if (isDraft == false && selfDeclarationChecked != '1') {
-      return swal('Error', 'Please check self declaration', 'error');
+    if (isDraft == false) {
+      if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
+      if (!this.isFormValid(data?.finalData)) return swal('Error', 'Please fill valid values in form', 'error');
     }
+
 
     this.loaderService.showLoader();
     this.durService.postForm({
