@@ -20,6 +20,7 @@ export class DurComponent implements OnInit {
   @ViewChild('webForm') webForm;
 
   successErrorMessage: string;
+  isLastDeleted = false;
 
   isLoaded: boolean = false;
   isProjectLoaded: boolean = false;
@@ -4544,7 +4545,7 @@ export class DurComponent implements OnInit {
     this.durService.postForm({
       isDraft: isDraft,
       status: isDraft ? 2 : 3,
-      isProjectLoaded: this.isProjectLoaded,
+      isProjectLoaded: this.isLastDeleted || this.isProjectLoaded,
       financialYear: this.design_year,
       designYear: this.design_year,
       ulb: this.ulbId,
@@ -4577,6 +4578,8 @@ export class DurComponent implements OnInit {
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
       this[key] = value;
+      this.isLastDeleted = true;
+      console.log(this.isLastDeleted);
     });
   }
 }
