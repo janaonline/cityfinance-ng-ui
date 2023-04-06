@@ -11,6 +11,9 @@
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
+                    <tr  class="table-main-heading" *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
+                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
+                    </tr>
                     <tr class="table-gray"
                         *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
                         <th
@@ -125,11 +128,11 @@
                         Save
                     </button>
                 </div>
-                <div class="d-inline-flex ">
+                <!-- <div class="d-inline-flex ">
                     <button routerLink="ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
                         Next Form -&gt;
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
