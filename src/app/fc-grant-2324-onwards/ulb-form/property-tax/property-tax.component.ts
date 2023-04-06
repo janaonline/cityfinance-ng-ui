@@ -77,6 +77,11 @@ export class PropertyTaxComponent implements OnInit {
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
   formSubmitted = false;
+  specialHeaders = {
+    "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
+    "23.1": "Water Charges Demand and Collection Details",
+    "29.1": "Sewerage Charges Details by household/property type",
+  }
 
   constructor(
     private fb: FormBuilder,
