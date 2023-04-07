@@ -1194,12 +1194,20 @@ export class CommonFormComponent implements OnInit {
    routerSubs:any;
    isButtonAvail : boolean = true;
    isFormDisable: boolean = false;
+   canTakeAction:boolean = false; 
+   actionPayload={};
+  currentActionData:any={}
+  actionData:any={}
+  errorInAction:boolean = false;
+  isActionSubmitted:boolean = false;
+  actionViewMode:boolean = false;
   ngOnInit(): void {
     if(this.userData?.role == 'ULB'){
       this.isButtonAvail = true;
     }else{
       this.isButtonAvail = false;
       this.isFormDisable = true;
+     
     }
     this.getActionRes();
   }
@@ -1226,34 +1234,25 @@ export class CommonFormComponent implements OnInit {
           this.getQuery.formId = 2;
           this.getScroing('gfc', this.getQuery.design_year);
           this.callGetApi(this.endPoints, this.getQuery);
-        } else if (urlArray.includes("ptax")) {
-          this.endPoints = 'ptax';
-          this.formName = 'ptax';
-          this.callGetApi(this.endPoints, this.getQuery);
-        } else {
+         }
+         // else if (urlArray.includes("ptax")) {
+        //   this.endPoints = 'ptax';
+        //   this.formName = 'ptax';
+        //   this.callGetApi(this.endPoints, this.getQuery);
+        // } 
+        else {
 
         }
-        //folder: "ULB/2022-23/odf/UK030"
-        // this.nextBtnUrl = this.formName == 'odf' ? '../gfc' : '#';
-        // this.backBtnUrl = this.formName == 'odf' ? '../annual_acc' : '../odf';
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
       }
     });
   }
   callGetApi(endPoints: string, queryParams: {}) {
-
-    if (this.endPoints == 'ptax') {
-      this.questionResponse.data[0] = {
-        language: [
-          this.ptoJson
-        ]
-      }
-      this.isApiComplete = true;
-    }
     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res: any) => {
       console.log('res.........', res);
-      this.questionResponse.data = res.data;  
-      this.formDisable(res?.data[0]?.language[0])
+      this.questionResponse.data = res.data; 
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.formDisable(res?.data[0]?.language[0]);
       console.log('res.........', this.questionResponse);
       this.questionResponse = {
         ...JSON.parse(JSON.stringify(this.questionResponse))
@@ -1372,12 +1371,20 @@ export class CommonFormComponent implements OnInit {
       this.isFormDisable = false;
     }
  }
+
   formChangeDetect(e){
-    console.log('eeeeeee', e)
+    console.log('eeeeeee', e);
+    this.currentActionData = e;
+    if((e?.status == '5' || e?.status == '7') && e?.rejectReason == ''){
+      this.errorInAction = true;
+    }else{
+      this.errorInAction = false;
+    }
   }
   // /common-action/masterAction
-actionPayload={}
+
 saveAction(){
+  this.isActionSubmitted = true;
   this.actionPayload = {
     "form_level": 1,
     "design_year" : this.designYearArray["2023-24"],
@@ -1386,26 +1393,37 @@ saveAction(){
         this.ulbId
     ],
     "responses": [
-        {
-        "shortKey": "form_level",
-        "status": 4,
-        "rejectReason": "static testing..........",
-        "responseFile": {
-            "url":"annualAc.pdf",
-            "name": "google.in"
-        }
-    }
+      this.currentActionData
+        // {
+        // "shortKey": "form_level",
+        // "status": this.currentActionData.status,
+        // "rejectReason": this.currentActionData.rejectReason,
+        // "responseFile": {
+        //     "url":"a,
+        //     "name": "google.in"
+        // }
+  //  }
     ],
     "multi": true,
     "shortKeys": [
         "form_level"
     ]
   }
+  if(!this.currentActionData?.status){
+    swal('Error', "Status is mandatory", "error");
+    return
+  }
+  if(this.errorInAction){
+    swal('Error', "Reject reason is mandatory", "error");
+    return
+  }
   this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
     console.log('ressssss action', res);
+    swal('Saved', "Action submitted successfully", "success");
   },
   (error)=>{
     console.log('ressssss action', error);
+    this.isActionSubmitted = false;
   }
   )
 }
@@ -1417,8 +1435,15 @@ saveAction(){
 //   "formId":2
 // }
 getActionRes(){
-  this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res)=>{
-    console.log('action get res', res)
+  this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
+    console.log('action get res', res);
+    this.actionData = res?.data;
+    if(this.actionData[0].status == 1 || this.actionData[0].status == 2 || this.actionData[0].status == false){
+      this.actionViewMode = false;
+    }else{
+      this.actionViewMode = true;
+    }
+
   },
   (err)=>{
     console.log('err action get')

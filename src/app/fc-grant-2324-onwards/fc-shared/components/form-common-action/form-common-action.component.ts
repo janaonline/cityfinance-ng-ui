@@ -19,6 +19,7 @@ export class FormCommonActionComponent implements OnInit {
   ) {
     this.initializeForm();
     this.formValueChange();
+    this.getStatusId();
   }
 
   Years = JSON.parse(localStorage.getItem("Years"));
@@ -212,7 +213,13 @@ export class FormCommonActionComponent implements OnInit {
   responceFile = {
     name: '',
     url: ''
-  }
+  };
+  statusIdForApprove:number = null;
+  statusIdForReject:number = null;
+  activeClassApprove = false;
+  activeClassReturn = false;
+  @Input() errorInAction = false;
+  @Input() isActionSubmitted = false;
   ngOnInit(): void {
     
   }
@@ -225,22 +232,22 @@ export class FormCommonActionComponent implements OnInit {
       responseFile: this.formBuilder.group({
         url: [""],
         name: [""],
-        uploading: false
       }),
     });
   }
   formValueChange() {
     this.statusForm.valueChanges.subscribe((value) => {
       console.log("value has changed:", value);
-
       this.actionData = value;
       console.log(this.actionData);
-      if (value.status == "APPROVED") {
-        // this.activeClassApprove = true;
-        // this.activeClassReturn = false;
-      } else if (value.status == "REJECTED") {
-        // this.activeClassReturn = true;
-        // this.activeClassApprove = false;
+      if (value.status == 4 || value.status == 6) {
+        this.activeClassApprove = true;
+        this.activeClassReturn = false;
+        if(value?.rejectReason) this.errorInAction = false;
+      } else if (value.status == 5 || value.status == 7) {
+        this.activeClassReturn = true;
+        this.activeClassApprove = false;
+        if(!value?.rejectReason) this.errorInAction = true;
       }
     //   this.toggle = value;
     //   console.log(this.toggle);
@@ -287,5 +294,15 @@ export class FormCommonActionComponent implements OnInit {
   removeUploadedFile(){
     this.formControl.responseFile.patchValue({ name: '', url: '' });
     this.responceFile = { name: '', url: ''};
+  }
+
+  getStatusId(){
+     if(this.userData?.role == 'STATE'){
+       this.statusIdForApprove = 4;
+       this.statusIdForReject = 5;
+     }else if(this.userData?.role == 'MoHUA'){
+       this.statusIdForApprove = 6;
+       this.statusIdForReject = 7;
+     }
   }
 }

@@ -12,8 +12,9 @@
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
 </div>
-<div class="d-none" *ngIf="userData?.role != 'ULB' && isApiComplete">
-  <app-form-common-action [canTakeAction]="true" [actionData]="questionResponse" viewMode="false" (formChangeEventEmit)="formChangeDetect($event)"></app-form-common-action>
+<div class="" *ngIf="userData?.role != 'ULB' && isApiComplete && canTakeAction">
+  <app-form-common-action [canTakeAction]="true" [actionData]="actionData" [viewMode]="actionViewMode" 
+  (formChangeEventEmit)="formChangeDetect($event)" [isActionSubmitted]="isActionSubmitted" [errorInAction]="errorInAction"></app-form-common-action>
  <div class="container-fluid">
   <div class="row mt-3 mb-3">
     <!-- save, draft, pre and next button -->
