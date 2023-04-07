@@ -12,7 +12,9 @@ export class ReviewStateComponent implements OnInit {
   constructor(
     private commonService: NewCommonService,
     private stateServices: State2223Service,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { 
+      this.design_year = this.years["2022-23"];
+    }
 
   formId = "62c553822954384b44b3c38e";
   formUrl = "";
@@ -24,6 +26,9 @@ export class ReviewStateComponent implements OnInit {
   };
   reviewTableName = 'Review State Forms';
   stateId = '';
+  years = JSON.parse(localStorage.getItem("Years"));
+  design_year = '';
+  formBaseUrl:string = 'stateform2223';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();

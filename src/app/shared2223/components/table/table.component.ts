@@ -73,9 +73,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   };
   //  data: UserData[] = [];
   @Input() formId;
+  @Input() designYear;
   @Input() dropdownData;
   @Input() state_id_i;
   @Input() tableName;
+  @Input() formBaseUrl:string = '';
+  @Input() endPoint:string = ''
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -86,7 +89,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   populationType;
   columnNames = [];
   params = {
-    design_year: "606aafb14dff55e6c075d3ae",
+    design_year: "",
     formId: "",
   };
   formRouterLink;
@@ -155,6 +158,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.updatedTableData();
+    this.setParams();
     this.tableDefaultOptions.itemPerPage = 10;
     this.params["limit"] = this.tableDefaultOptions.itemPerPage;
   }
@@ -164,6 +168,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
+    this.params["design_year"] = this.designYear;
     if (this.userData?.role !== "STATE") {
       this.params["state"] = this.state_id_i ? this.state_id_i : null;
     }
@@ -199,11 +204,11 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     //debugger
     this.formUrl = formData?.url;
     this.formName = formData?.folderName;
-    this.formRouterLink =
-      "../../ulbform2223/" + this.formUrl;
+   // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
+    this.formRouterLink = `../../${this.formBaseUrl}/` + this.formUrl;
     console.log("form data url", formData);
-    this.formStateRouterLink =
-      "../../stateform2223/" + this.formUrl;
+  //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
+    
   }
   filterFormValue;
   reviewSubs;
@@ -223,8 +228,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   callAPI() {
     this.isLoader = true;
     this.params.formId = this.formId;
-    console.log(this.params);
-    this.commonService.getReviewForms(this.params).subscribe(
+    console.log('ppppppppppp', this.params);
+    this.commonService.getReviewForms(this.params, this.endPoint).subscribe(
       (res) => {
         this.isLoader = false;
         this.title = res["title"];
@@ -564,7 +569,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   setParams(reset = false) {
     this.params = {
-      design_year: "606aafb14dff55e6c075d3ae",
+      design_year: this.designYear,
       formId: this.formId,
     };
     this.params["state"] = this.state_id_i ? this.state_id_i : null;

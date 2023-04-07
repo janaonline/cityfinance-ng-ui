@@ -17,8 +17,10 @@ export class ReviewUlbComponent implements OnInit {
     private _commonService: CommonService,) {
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    this.design_year = this.years["2022-23"];
   }
-
+  years = JSON.parse(localStorage.getItem("Years"));
+  design_year = '';
   //formId = "62aa1b04729673217e5ca3aa";
   formId = "62aa1cc9c9a98b2254632a8e";
   formUrl = "";
@@ -32,6 +34,7 @@ export class ReviewUlbComponent implements OnInit {
   stateList = [];
   userData;
   reviewTableName = 'Review Grant Application';
+  formBaseUrl:string = 'ulbform2223';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();

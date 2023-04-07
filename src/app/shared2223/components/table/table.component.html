@@ -216,7 +216,7 @@
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
-                            [routerLink]="formStateRouterLink">
+                        [routerLink]="formRouterLink">
                             <!-- [routerLink]="[
                         '/ulbform/overview', resData?._id  ]" -->
                             <mat-icon aria-hidden="false">
@@ -231,7 +231,7 @@
                           Take Action
                       </a> -->
                         <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
-                            (click)="viewStateForm(resData)" [routerLink]="formStateRouterLink">
+                            (click)="viewStateForm(resData)" [routerLink]="formRouterLink">
                             Take Action
                         </a>
                     </td>
