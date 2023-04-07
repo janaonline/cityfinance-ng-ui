@@ -1197,10 +1197,11 @@ export class CommonFormComponent implements OnInit {
    canTakeAction:boolean = false; 
    actionPayload={};
   currentActionData:any={}
-  actionData:any={}
+  actionData:any;
   errorInAction:boolean = false;
   isActionSubmitted:boolean = false;
   actionViewMode:boolean = false;
+  actBtnDis:boolean = false;
   ngOnInit(): void {
     if(this.userData?.role == 'ULB'){
       this.isButtonAvail = true;
@@ -1419,6 +1420,7 @@ saveAction(){
   }
   this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
     console.log('ressssss action', res);
+    this.actBtnDis = true;
     swal('Saved', "Action submitted successfully", "success");
   },
   (error)=>{

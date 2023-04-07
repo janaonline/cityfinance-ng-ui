@@ -12,19 +12,20 @@
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
 </div>
-<div class="" *ngIf="userData?.role != 'ULB' && isApiComplete && canTakeAction">
-  <app-form-common-action [canTakeAction]="true" [actionData]="actionData" [viewMode]="actionViewMode" 
-  (formChangeEventEmit)="formChangeDetect($event)" [isActionSubmitted]="isActionSubmitted" [errorInAction]="errorInAction"></app-form-common-action>
- <div class="container-fluid">
+<div class="" *ngIf="actionData">
+  <app-form-common-action [canTakeAction]="canTakeAction" [actionData]="actionData" [viewMode]="actionViewMode" 
+  (formChangeEventEmit)="formChangeDetect($event)" [isActionSubmitted]="isActionSubmitted" [errorInAction]="errorInAction"
+  [actBtnDis]="actBtnDis"></app-form-common-action>
+ <div class="container-fluid" *ngIf="userData?.role != 'ULB'">
   <div class="row mt-3 mb-3">
-    <!-- save, draft, pre and next button -->
+    <!-- save, draft, pre and next button --> 
     <div class="col-sm-6">
         <button class="btn btn-pre" (click)="nextPreBtn({type: 'pre',formName: ''})">
             <- Previous Form </button>
     </div>
     <div class="col-sm-6 d-flex justify-content-end">
-        <div class="d-inline-flex mr1">
-            <button class="btn btn-save text-uppercase" (click)="saveAction()">
+        <div class="d-inline-flex mr1" *ngIf="canTakeAction">
+            <button class="btn btn-save text-uppercase" (click)="saveAction()" [disabled]="actBtnDis">
                 Submit
             </button>
         </div>
