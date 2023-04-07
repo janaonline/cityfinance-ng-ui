@@ -11,7 +11,9 @@ import { FormLoaderComponent } from './components/form-loader/form-loader.compon
 import { UlbFormRoutingModule } from '../ulb-form/ulb-form-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormCommonActionComponent } from './components/form-common-action/form-common-action.component';
-
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent, FormCommonActionComponent],
@@ -21,15 +23,18 @@ import { FormCommonActionComponent } from './components/form-common-action/form-
     MatTooltipModule,
     TooltipModule.forRoot(),
     UlbFormRoutingModule,
-    // ReactiveFormsModule,
-    // FormsModule,
+    ButtonsModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
+    MatSnackBarModule
 
   ],
   exports: [
     AnnualAccountTemplateComponent,
     DurTemplateComponent,
     LeftMenuTemplateComponent,
-    FormLoaderComponent
+    FormLoaderComponent,
+    FormCommonActionComponent
   ]
 })
 export class FcSharedModule { }

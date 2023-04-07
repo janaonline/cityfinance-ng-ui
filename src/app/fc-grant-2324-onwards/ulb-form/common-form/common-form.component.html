@@ -1,7 +1,7 @@
 <div class="" *ngIf="isApiComplete">
   <app-web-form #webForm [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
   [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
-  (nextPreBtn)="nextPreBtn($event)"></app-web-form>
+  (nextPreBtn)="nextPreBtn($event)" [isButtonDisplay]="isButtonAvail" [isFormDisable]="isFormDisable"></app-web-form>
 </div>
 <!-- <div class="" *ngIf="isApiComplete">
   <app-web-form [formName]="formName" [viewFormTemplate]="'commonFormCf'"
@@ -11,6 +11,39 @@
 </div> -->
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
+</div>
+<div class="" *ngIf="userData?.role != 'ULB' && isApiComplete && canTakeAction">
+  <app-form-common-action [canTakeAction]="true" [actionData]="actionData" [viewMode]="actionViewMode" 
+  (formChangeEventEmit)="formChangeDetect($event)" [isActionSubmitted]="isActionSubmitted" [errorInAction]="errorInAction"></app-form-common-action>
+ <div class="container-fluid">
+  <div class="row mt-3 mb-3">
+    <!-- save, draft, pre and next button -->
+    <div class="col-sm-6">
+        <button class="btn btn-pre" (click)="nextPreBtn({type: 'pre',formName: ''})">
+            <- Previous Form </button>
+    </div>
+    <div class="col-sm-6 d-flex justify-content-end">
+        <div class="d-inline-flex mr1">
+            <button class="btn btn-save text-uppercase" (click)="saveAction()">
+                Submit
+            </button>
+        </div>
+        <div class="d-inline-flex mr1">
+            <!-- <button class="btn btn-save text-uppercase"
+                [disabled]="isImageUploading || (questionresponse?.data[0]?.language[0].isDraft == false)"
+                (click)="beforeSubmitPrepareResponse()" *ngIf="!pdfbuttonhide">
+                {{buttonText}}
+            </button> -->
+        </div>
+        <div class="d-inline-flex ">
+            <button class="btn btn-next text-uppercase" (click)="nextPreBtn({type: 'next',formName: ''})">
+                Next Form ->
+            </button>
+        </div>
+    </div>
+    </div>
+ </div>
+ 
 </div>
 
 

@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { PreviewComponent } from './property-tax/preview/preview.component';
+import { PfmsComponent } from './pfms/pfms.component';
 
 
 
@@ -37,7 +38,7 @@ import { PreviewComponent } from './property-tax/preview/preview.component';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent, LoaderComponent, PreviewComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent
   ],
   imports: [
     CommonModule,

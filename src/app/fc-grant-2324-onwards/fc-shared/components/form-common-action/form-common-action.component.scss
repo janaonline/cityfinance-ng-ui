@@ -1,0 +1,66 @@
+.card {
+    // width: 96%;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem !important;
+    background-color: #FFFFFF;
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
+}
+
+.row {
+    align-items: initial;
+    margin-bottom: 1rem;
+}
+
+.formShadow {
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 2%;
+}
+
+.card-body {
+    padding: 5px 8px;
+    height: auto;
+}
+.btn-r {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+.customApprove {
+    border-radius: 8px !important;
+    margin-right: 1rem;
+    background-color: #75fdbe;
+    color: black;
+}
+
+.customReturn {
+    border-radius: 8px !important;
+    background-color: rgb(255, 194, 194);
+    color: black;
+}
+
+.customApproveActive {
+    background-color: green;
+    color: #fff
+}
+
+.customReturnActive {
+    background-color: rgb(250, 37, 37);
+    color: #fff
+}
+
+.btn-a {
+    background-color: green;
+    color: #FFFFFF;
+}
+.btn:hover {
+    background-color: #ffc500;
+}
+.file-icon-cross {
+    vertical-align: middle;
+}
+
+
+

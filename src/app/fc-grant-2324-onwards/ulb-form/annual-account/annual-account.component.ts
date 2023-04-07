@@ -2332,6 +2332,8 @@ export class AnnualAccountComponent implements OnInit {
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
    statusId: number = 1;
+   isButtonAvail : boolean = true;
+   isFormDisable: boolean = false;
   //  nextBtnUrl:string='../odf';
   //  backBtnUrl:string='#'
  // resData : any;
@@ -2448,4 +2450,13 @@ export class AnnualAccountComponent implements OnInit {
     this.router.navigate([ `/ulb-form/${url}`]);
 
   }
+  formDisable(res){
+    if(!res) return;
+    if(this.userData?.role != 'ULB' || (this.userData?.role == 'ULB' && res?.isDraft == false)){
+      this.isFormDisable = true;
+      return;
+    }else {
+      this.isFormDisable = false;
+    }
+ }
 }

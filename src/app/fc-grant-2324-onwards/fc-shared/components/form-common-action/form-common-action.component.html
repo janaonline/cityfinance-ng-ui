@@ -1,1 +1,70 @@
-<p>form-common-action works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mt-2" *ngIf="canTakeAction == true">
+                <div class="card-body">
+                    <div class="action-form">
+                        <form *ngIf="statusForm" [formGroup]="statusForm">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    Review Status* :
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group mb-2">
+                                        <div class="btn-group" btnRadioGroup formControlName="status">
+                                            <label btnRadio="{{statusIdForApprove}}" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                                            <label btnRadio="{{statusIdForReject}}" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
+                                        </div>
+                                    </div>
+                                    <div class="text-danger" *ngIf="isActionSubmitted && (!actionData.status)">
+                                        This is the required field.
+                                       </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    Remarks/Reject Reason* :
+                                </div>
+                                <div class="col-sm-7">
+                                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="rejectReason" [disabled]="actBtnDis" placeholder="Type here ..."></textarea>
+                                    <div class="text-danger" *ngIf="errorInAction">
+                                     This is the required field.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    Supporting Document : 
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="">
+                                        <input #bs_pdf1 style="display: none;" onclick="value=null;" 
+                                        (change)="uploadFile($event, 'pdf')"
+                                        type="file" accept=".pdf" #file>
+                                        <button (click)="bs_pdf1.click()" class="btn btn-primary"
+                                         [disabled]="actBtnDis">Upload PDF</button>
+                                    </div>
+                                    <div class="mt-3" *ngIf="responceFile?.url">
+                                          <a href="{{responceFile?.url}}" target="_blank">
+                                            {{responceFile?.name}}
+                                          </a>
+                                          <span class="ms-3">
+                                            <span class="material-icons file-icon-cross"
+                                            matTooltip="Remove the upload file"
+                                            (click)="removeUploadedFile()">cancel</span>
+                                          </span>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div class="action-view-form">
+                        
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
