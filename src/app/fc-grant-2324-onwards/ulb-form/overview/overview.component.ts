@@ -16,7 +16,7 @@ export class OverviewComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
-    this.cardData = JSON.parse(localStorage.getItem("overViewCard2324"));
+    this.cardsOverview = JSON.parse(localStorage.getItem("overViewCard2324"));
 
     this.getSideBar();
   }
@@ -197,13 +197,14 @@ export class OverviewComponent implements OnInit {
         queryParam._id = this.userData?.ulb;
         queryParam.role = this.userData?.role;
       }
-      // else {
-      //   ulb = localStorage.getItem("ulb_id");;
-      //   role = 'ULB';
-      // }
+      else {
+        queryParam._id = localStorage.getItem("ulb_id");;
+        queryParam.role = 'ULB';
+      }
       this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
         console.log("left responces..", res);
-        localStorage.setItem("leftMenuULB", JSON.stringify(res?.data));
+        localStorage.setItem("leftMenuULB", JSON.stringify(res?.data)); 
+        this.cardsOverview = res?.card;
         localStorage.setItem(res?.card, "overViewCard2324");
         this.isApiComplete = true;
       },
@@ -214,7 +215,7 @@ export class OverviewComponent implements OnInit {
       );
     }
     ngAfterViewInit() {
-      this.row_width = this.myIdentifier.nativeElement.offsetWidth;
+      this.row_width = this.myIdentifier?.nativeElement.offsetWidth;
       var height = this.myIdentifier.nativeElement.offsetHeight;
       this.messWidth = this.row_width - 42;
       console.log("Width:" + this.row_width);

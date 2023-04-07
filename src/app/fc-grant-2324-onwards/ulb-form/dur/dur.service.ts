@@ -183,15 +183,11 @@ const defaultProject = [
       "resource_urls": [],
       "label": "3",
       "shortKey": "startDate",
+      "max": new Date().toISOString().slice(0, 10),
       "viewSequence": "23",
       "child": [],
       "parent": [],
       "validation": [
-        {
-          "_id": "24",
-          "error_msg": "",
-          "value": ""
-        },
         {
           "error_msg": "",
           "_id": "1"
@@ -255,11 +251,6 @@ const defaultProject = [
         {
           "error_msg": "",
           "_id": "1"
-        },
-        {
-          "_id": "24",
-          "error_msg": "",
-          "value": ""
         }
       ],
       "restrictions": [],
@@ -543,6 +534,7 @@ const defaultProject = [
         }
       ],
       "restrictions": [],
+      "isQuestionDisabled": true,
       "minRange": 0,
       "maxRange": 100,
       "min": 1,
@@ -619,13 +611,11 @@ export class DurService {
       );
   }
   getProjects(ulb: string, design_year: string, isDraft) {
-    console.log(isDraft);
     return this.http.get(`${environment.api.url}/getProjects?ulb=${ulb}&design_year=${design_year}&formId=4`)
       .pipe(
         map((response: any) => {
-          console.log('projects :::', response);
           if (response.data?.length === 0 && isDraft != false) {
-            response.data = defaultProject;
+            response.data = [...defaultProject];
           }
           return response;
         })
