@@ -5,6 +5,7 @@ import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-inter
 
 import { SweetAlert } from "sweetalert/typings/core";
 import { isThisMinute } from 'date-fns';
+import { log } from 'console';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-common-form',
@@ -22,9 +23,9 @@ export class CommonFormComponent implements OnInit {
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     // this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.ulbId = this.userData?.ulb;
-    // if (!this.ulbId) {
-    //   this.ulbId = localStorage.getItem("ulb_id");
-    // }
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.getQuery = {
       design_year: this.designYearArray["2023-24"],
       formId: null,
@@ -1191,8 +1192,16 @@ export class CommonFormComponent implements OnInit {
   //  nextBtnUrl:string='../odf';
   //  backBtnUrl:string='#';
    routerSubs:any;
+   isButtonAvail : boolean = true;
+   isFormDisable: boolean = false;
   ngOnInit(): void {
-
+    if(this.userData?.role == 'ULB'){
+      this.isButtonAvail = true;
+    }else{
+      this.isButtonAvail = false;
+      this.isFormDisable = true;
+    }
+    this.getActionRes();
   }
   checkRouterForApi() {
   this.routerSubs = this.router.events.subscribe((event) => {
@@ -1243,7 +1252,8 @@ export class CommonFormComponent implements OnInit {
     }
     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res: any) => {
       console.log('res.........', res);
-      this.questionResponse.data = res.data;
+      this.questionResponse.data = res.data;  
+      this.formDisable(res?.data[0]?.language[0])
       console.log('res.........', this.questionResponse);
       this.questionResponse = {
         ...JSON.parse(JSON.stringify(this.questionResponse))
@@ -1353,164 +1363,67 @@ export class CommonFormComponent implements OnInit {
     }
 
   }
-  respon2 : any = {
-    timestamp: 1621316934,
-    success: true,
-    message: 'Form Questionare!',
-    data: [
-      {
-        _id: '5f4656c92daa9921dc1173aa',
-        formId: 466,
-        language: [
-          {
-            "_id": "64212205cc09cd11d2152955",
-            "lng": "en",
-            "question": [
-                {
-                    "information": "",
-                    "_id": "642120e6e6aa5311d3f5f8b9",
-                    "order": "1",
-                    "answer_option": [
-                        {
-                            "name": "Approve",
-                            "did": [],
-                            "viewSequence": "1",
-                            "coordinates": [],
-                            "_id": "1"
-                        },
-                        {
-                            "name": "Return",
-                            "did": [],
-                            "viewSequence": "2",
-                            "coordinates": [],
-                            "_id": "2"
-                        }
-                    ],
-                    "title": "Review Status",
-                    "hint": "Status is mandatory",
-                    "resource_urls": [],
-                    "label": "1",
-                    "shortKey": "status",
-                    "viewSequence": "1",
-                    "child": [
-                        {
-                            "type": "1",
-                            "value": "^([2])$",
-                            "order": "2"
-                        }
-                    ],
-                    "parent": [],
-                    "validation": [
-                        {
-                            "error_msg": "",
-                            "_id": "1"
-                        }
-                    ],
-                    "restrictions": [],
-                    "input_type": "5",
-                    "weightage": [],
-                    "editable": false
-                },
-                {
-                    "information": "",
-                    "_id": "6421217ce6aa5311d3f5f90c",
-                    "order": "2",
-                    "answer_option": [],
-                    "title": "Reject Reason",
-                    "hint": "",
-                    "resource_urls": [],
-                    "label": "2",
-                    "shortKey": "state_rejectReason",
-                    "viewSequence": "2",
-                    "child": [],
-                    "parent": [
-                        {
-                            "value": "^([2])$",
-                            "type": "5",
-                            "order": "1"
-                        }
-                    ],
-                    "pattern": "",
-                    "validation": [
-                        {
-                            "error_msg": "",
-                            "_id": "1"
-                        }
-                    ],
-                    "restrictions": [],
-                    "min": 1,
-                    "max": null,
-                    "input_type": "1",
-                    "editable": false,
-                    "weightage": []
-                },
-                {
-                    "information": "",
-                    "_id": "642121d2cc09cd11d2152918",
-                    "order": "3",
-                    "answer_option": [],
-                    "title": "Remarks",
-                    "hint": "",
-                    "resource_urls": [],
-                    "label": "3",
-                    "shortKey": "remarks",
-                    "viewSequence": "3",
-                    "child": [],
-                    "parent": [],
-                    "pattern": "",
-                    "validation": [],
-                    "restrictions": [],
-                    "min": 1,
-                    "max": null,
-                    "input_type": "1",
-                    "editable": false,
-                    "weightage": []
-                },
-                {
-                    "information": "",
-                    "_id": "64212205cc09cd11d2152953",
-                    "answer_option": [],
-                    "title": "Supporting Documents",
-                    "hint": "",
-                    "order": "4",
-                    "resource_urls": [],
-                    "label": "4",
-                    "shortKey": "order4",
-                    "viewSequence": "4",
-                    "child": [],
-                    "parent": [],
-                    "min": null,
-                    "max": null,
-                    "minRange": null,
-                    "maxRange": null,
-                    "pattern": "",
-                    "validation": [
-                        {
-                            "error_msg": "",
-                            "_id": "81",
-                            "value": "10240"
-                        },
-                        {
-                            "error_msg": "",
-                            "_id": "82",
-                            "value": "1"
-                        }
-                    ],
-                    "restrictions": [],
-                    "input_type": "11",
-                    "editable": false,
-                    "weightage": []
-                }
-            ],
-            "title": "State Action",
-            "buttons": []
-        }
-        ],
-        groupOrder: 37,
-        createDynamicOption: [],
-        getDynamicOption: [],
-      },
-    ],
+ formDisable(res){
+    if(!res) return;
+    if(this.userData?.role != 'ULB' || (this.userData?.role == 'ULB' && res?.isDraft == false)){
+      this.isFormDisable = true;
+      return;
+    }else {
+      this.isFormDisable = false;
+    }
+ }
+  formChangeDetect(e){
+    console.log('eeeeeee', e)
   }
+  // /common-action/masterAction
+actionPayload={}
+saveAction(){
+  this.actionPayload = {
+    "form_level": 1,
+    "design_year" : this.designYearArray["2023-24"],
+    "formId": this.getQuery?.formId,
+    "ulbs": [
+        this.ulbId
+    ],
+    "responses": [
+        {
+        "shortKey": "form_level",
+        "status": 4,
+        "rejectReason": "static testing..........",
+        "responseFile": {
+            "url":"annualAc.pdf",
+            "name": "google.in"
+        }
+    }
+    ],
+    "multi": true,
+    "shortKeys": [
+        "form_level"
+    ]
+  }
+  this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
+    console.log('ressssss action', res);
+  },
+  (error)=>{
+    console.log('ressssss action', error);
+  }
+  )
+}
+//action get.......
+// /common-action/getMasterAction
+// {
+//   "design_year": "606aafc14dff55e6c075d3ec",
+//   "ulb": "5dcfca53df6f59198c4ac3d5",
+//   "formId":2
+// }
+getActionRes(){
+  this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res)=>{
+    console.log('action get res', res)
+  },
+  (err)=>{
+    console.log('err action get')
+  })
+}
+
 
 }
