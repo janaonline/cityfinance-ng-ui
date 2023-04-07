@@ -38,10 +38,9 @@
                               <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
                                   <!-- [ngStyle]="{'width': width+'px'}" -->
                                   <div class="row" style="">
-                                      <div class="col-sm-3" *ngFor="let slide of cardsOverview; let index=index">
-                                          <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
-                                          <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
-                                          <div *ngIf="index < 4">
+                                      <div class="col-sm"  [ngClass]="{'d-n' : (index >= 5), 'w-d-20': (cardsOverview?.length > 4), 'w-d-25': (cardsOverview?.length < 5)}" *ngFor="let slide of cardsOverview; let index=index">
+                                         
+                                          <div *ngIf="index < 5">
                                               <a [routerLink]="'../' + slide?.link">
                                                   <div class="card  individualCard" style="" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
         index == 0 ?' linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
@@ -58,20 +57,6 @@
 
                                               </a>
                                           </div>
-
-                                          <!-- </div> -->
-
-                                          <!-- <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
-                                        <line [attr.x1]="65" y1="0px " [attr.x2]="65" y2="42px " style="stroke-width:2;"
-                                            [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
-                              '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
-                              '#9D198B' : '#73C557' } " />
-                                        <svg height="30 " width="auto">
-                                            <circle [attr.cx]="65" cy="42 " r="12 " stroke="white " stroke-width="10 "
-                                                [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
-                                  index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />
-                                        </svg>
-                                          </svg> -->
                                       </div>
 
                                   </div>
@@ -94,9 +79,9 @@
                               <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
                                   <!-- [ngStyle]="{'width': width+'px'}" -->
                                   <div class="row">
-                                      <div class="col-sm-3" [ngClass]="{'d-n' : (index < 4)}" *ngFor="let slide of cardsOverview; let index=index">
+                                      <div class="col-sm-3" [ngClass]="{'d-n' : (index < 5)}" *ngFor="let slide of cardsOverview; let index=index">
 
-                                          <div *ngIf="index >= 4">
+                                          <div *ngIf="index >= 5">
                                               <a [routerLink]="'../' + slide?.link">
                                                   <div class="card  individualCard" (mouseenter)="onHover(index, cardsOverview[index].title, cardsOverview[index].key, slide)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
         index == 0 ?' linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?

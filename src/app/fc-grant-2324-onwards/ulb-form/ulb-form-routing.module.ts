@@ -10,6 +10,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
 import { ConfirmationGuard } from './guards/confirmation.guard';
 import { PropertyTaxComponent } from './property-tax/property-tax.component';
+import { PfmsComponent } from './pfms/pfms.component';
 
 const routes: Routes = [
   {
@@ -63,10 +64,16 @@ const routes: Routes = [
         canDeactivate: [ConfirmationGuard]
       },
       {
-        path: "grant-tra-certi",
+        path: "resources",
         component: ResourceComponent,
         canDeactivate: [ConfirmationGuard]
       },
+      {
+        path: "pfms_acc",
+        component: PfmsComponent,
+        canDeactivate: [ConfirmationGuard]
+      },
+      
 
     ],
   },
