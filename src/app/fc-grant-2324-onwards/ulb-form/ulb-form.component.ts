@@ -69,10 +69,10 @@ getLeftMenu() {
     queryParam._id = this.userData?.ulb;
     queryParam.role = this.userData?.role;
   }
-  // else {
-  //   ulb = localStorage.getItem("ulb_id");;
-  //   role = 'ULB';
-  // }
+  else {
+    queryParam._id = localStorage.getItem("ulb_id");;
+    queryParam.role = 'ULB';
+  }
   this.commonServices.formGetMethod("menu", queryParam).subscribe((res: any) => {
     console.log("left responces..", res);
     this.leftMenu = res?.data;

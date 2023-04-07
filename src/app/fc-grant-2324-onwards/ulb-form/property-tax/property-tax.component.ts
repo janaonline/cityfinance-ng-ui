@@ -79,8 +79,9 @@ export class PropertyTaxComponent implements OnInit {
   formSubmitted = false;
   specialHeaders = {
     "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
-    "23.1": "Water Charges Demand and Collection Details",
-    "29.1": "Sewerage Charges Details by household/property type",
+    "14.1": "Water Charges Details",
+    "24.1": "Sewerage Charges Details",
+    "27.1": "Sewerage Charges Details by household/property type",
   }
 
   constructor(
