@@ -188,13 +188,40 @@ export class DurComponent implements OnInit {
     });
   }
 
-  isFormValid(finalData) {
-    const projectDetails = finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
-    console.log('projectDetails', projectDetails);
+  isFormValid(data) {
+    const projectDetails = data?.finalData.find(item => item.shortKey == "projectDetails_tableView_addButton")?.nestedAnswer || [];
+    const waterManagement = data?.finalData.find(item => item.shortKey == "waterManagement_tableView")?.nestedAnswer || [];
+    const solidWasteManagement = data?.finalData.find(item => item.shortKey == "solidWasteManagement_tableView")?.nestedAnswer || [];
     for (let project of projectDetails) {
       const location = project?.answerNestedData.find(item => item.shortKey == "location");
+      const cost = project?.answerNestedData.find(item => item.shortKey == "cost");
+      const expenditure = project?.answerNestedData.find(item => item.shortKey == "expenditure");
       if (location.answer[0].value == '0,0') {
         return false
+      }
+      if (expenditure.answer[0].value && cost.answer[0].value && (+expenditure.answer[0].value > +cost.answer[0].value)) {
+        return false;
+      }
+    }
+
+    for (let item of waterManagement) {
+      const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "wm_grantUtilised");
+      const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "wm_totalProjectCost");
+      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value && 
+        (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
+      ) {
+        console.log('invalid', item);
+        return false;
+      }
+    }
+
+    for (let item of solidWasteManagement) {
+      const grantUtilised = item?.answerNestedData.find(item => item.shortKey == "sw_grantUtilised");
+      const totalProjectCost = item?.answerNestedData.find(item => item.shortKey == "sw_totalProjectCost");
+      if (grantUtilised.answer[0].value && totalProjectCost.answer[0].value && 
+        (+grantUtilised.answer[0].value > +totalProjectCost.answer[0].value)
+      ) {
+        return false;
       }
     }
     return true;
@@ -236,7 +263,7 @@ export class DurComponent implements OnInit {
     console.log('selfDeclaration', data?.finalData.find(item => item.shortKey === "declaration"), selfDeclarationChecked)
     if (isDraft == false) {
       if (selfDeclarationChecked != '1') return swal('Error', 'Please check self declaration', 'error');
-      if (!this.isFormValid(data?.finalData)) return swal('Error', 'Please fill valid values in form', 'error');
+      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
     }
 
 
@@ -254,10 +281,10 @@ export class DurComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
-        .then(() => {
-          if (!isDraft) location.reload();
-        });
+      if(!isDraft) {
+        this.loadData();
+      }
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
