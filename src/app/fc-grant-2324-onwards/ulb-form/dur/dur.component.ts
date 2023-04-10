@@ -55,6 +55,7 @@ export class DurComponent implements OnInit {
   }
 
   loadData() {
+    this.isLoaded = false;
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       console.log('loadData::', res);
