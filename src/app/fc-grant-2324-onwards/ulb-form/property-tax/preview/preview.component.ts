@@ -24,7 +24,7 @@ export class PreviewComponent implements OnInit {
   stateName: string = '';
   ulbId: string = "";
   dialogRef;
-  yearList: string[] = ['#', '2021-22', '2020-21', '2019-20', '2018-19'];
+  yearList: string[] = ['#', '2018-19', '2019-20','2020-21', '2021-22', '2022-23'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(
