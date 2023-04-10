@@ -81,6 +81,7 @@ export class PropertyTaxComponent implements OnInit {
     "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
     "14.1": "Water Charges Details",
     "24.1": "Sewerage Charges Details",
+    "17.1": "Water Charges Demand and Collection Details by Household/Property type",
     "27.1": "Sewerage Charges Details by household/property type"
  };
 
