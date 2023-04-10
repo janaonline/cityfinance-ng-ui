@@ -81,8 +81,8 @@ export class PropertyTaxComponent implements OnInit {
     "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
     "14.1": "Water Charges Details",
     "24.1": "Sewerage Charges Details",
-    "27.1": "Sewerage Charges Details by household/property type",
-  }
+    "27.1": "Sewerage Charges Details by household/property type"
+ };
 
   constructor(
     private fb: FormBuilder,
@@ -123,6 +123,7 @@ export class PropertyTaxComponent implements OnInit {
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
+      // this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
