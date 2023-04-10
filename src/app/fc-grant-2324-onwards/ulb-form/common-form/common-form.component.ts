@@ -1203,14 +1203,7 @@ export class CommonFormComponent implements OnInit {
   actionViewMode:boolean = false;
   actBtnDis:boolean = false;
   ngOnInit(): void {
-    if(this.userData?.role == 'ULB'){
-      this.isButtonAvail = true;
-    }else{
-      this.isButtonAvail = false;
-      this.isFormDisable = true;
-     
-    }
-    this.getActionRes();
+    
   }
   checkRouterForApi() {
   this.routerSubs = this.router.events.subscribe((event) => {
@@ -1253,7 +1246,8 @@ export class CommonFormComponent implements OnInit {
       console.log('res.........', res);
       this.questionResponse.data = res.data; 
       this.canTakeAction =  res?.data[0]?.canTakeAction;
-      this.formDisable(res?.data[0]?.language[0]);
+      this.getActionRes();
+      this.formDisable(res?.data[0]);
       console.log('res.........', this.questionResponse);
       this.questionResponse = {
         ...JSON.parse(JSON.stringify(this.questionResponse))
@@ -1365,11 +1359,26 @@ export class CommonFormComponent implements OnInit {
   }
  formDisable(res){
     if(!res) return;
-    if(this.userData?.role != 'ULB' || (this.userData?.role == 'ULB' && res?.isDraft == false)){
+    if(this.userData?.role != 'ULB'){
       this.isFormDisable = true;
+      this.isButtonAvail = false;
       return;
-    }else {
+    }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+      this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
       this.isFormDisable = false;
+      this.isButtonAvail = true;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+      this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }
+    else {
+      this.isFormDisable = false;
+      this.isButtonAvail = true;
     }
  }
 

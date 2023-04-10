@@ -16,7 +16,7 @@
                                             <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
                                         </div>
                                     </div>
-                                    <div class="text-danger" *ngIf="isActionSubmitted && (!formValue.status)">
+                                    <div class="text-danger" *ngIf="isActionSubmitted && (!formValue?.status)">
                                         This is the required field.
                                        </div>
                                 </div>
@@ -64,15 +64,26 @@
             </div>
             <div class="card mt-2" *ngIf="!canTakeAction && viewMode">
                 <div class="card-body">
-                    <div class="action-view-form" *ngIf="state_action?.status">
+                    <div class="final-status" *ngIf="finalStatus">
                         <div class="row">
+                            <div class="col-sm-6">
+                                Review Status:
+                            </div>
+                            <div class="col-sm-6">
+                                {{finalStatus}}
+                            </div>
+                        </div> 
+                        <hr>
+                    </div>
+                    <div class="action-view-form" *ngIf="state_action?.status">
+                        <!-- <div class="row">
                             <div class="col-sm-6">
                                 State Review Status:
                             </div>
                             <div class="col-sm-6">
                                 {{state_action?.status}}
                             </div>
-                        </div>  
+                        </div>   -->
                         <div class="row">
                             <div class="col-sm-6">
                                 State Remarks/Reject Reason:
@@ -92,16 +103,8 @@
                             </div>
                         </div> 
                     </div>
-                    <hr>
-                    <div class="action-view-form" *ngIf="mohua_action?.status">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                MoHUA Review Status:
-                            </div>
-                            <div class="col-sm-6">
-                                {{mohua_action?.status}}
-                            </div>
-                        </div>  
+                    
+                    <div class="action-view-form" *ngIf="mohua_action?.status"> 
                         <div class="row">
                             <div class="col-sm-6">
                                 MoHUA Remarks/Reject Reason:

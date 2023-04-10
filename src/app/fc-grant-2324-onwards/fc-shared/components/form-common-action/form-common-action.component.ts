@@ -67,6 +67,7 @@ export class FormCommonActionComponent implements OnInit {
   }
   mohua_action = {
   }
+  finalStatus:string =  '';
   ngOnInit(): void {
   console.log('action data', this.actionData);
   this.setStatusData(this.actionData);
@@ -155,7 +156,10 @@ export class FormCommonActionComponent implements OnInit {
   }
   
   setStatusData(data){
+    let ulbRes = data.find(el => el.actionTakenByRole === "ULB");
+    if(ulbRes && ulbRes?.statusId == 3) this.finalStatus = ulbRes?.status ? ulbRes?.status : '';
     let stateRes = data.find(el => el.actionTakenByRole === "STATE");
+    this.finalStatus = stateRes?.status ? stateRes?.status : '';
     this.state_action = {
       status: stateRes?.status,
       rejectReason:stateRes?.rejectReason,
@@ -165,6 +169,7 @@ export class FormCommonActionComponent implements OnInit {
       }
     }
     let mohuaRes = data.find(el => el.actionTakenByRole === "MoHUA");
+    this.finalStatus = mohuaRes?.status ? mohuaRes?.status : (stateRes?.status ? stateRes?.status : '');
     this.mohua_action = {
       status: mohuaRes?.status,
       rejectReason:mohuaRes?.rejectReason,
