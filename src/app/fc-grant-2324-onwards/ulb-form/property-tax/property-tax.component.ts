@@ -126,7 +126,7 @@ export class PropertyTaxComponent implements OnInit {
       // this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      this.addSkipLogics();
+      // this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
