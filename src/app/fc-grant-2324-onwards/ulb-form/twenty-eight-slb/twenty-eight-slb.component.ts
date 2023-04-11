@@ -101,7 +101,7 @@ export class TwentyEightSlbComponent implements OnInit {
             target_1: {
               value: questionsData.find(question => question.shortKey?.endsWith("_targetIndicator"))?.modelValue
             },
-            unit: "%"
+            unit: questionsData.find(question => question.shortKey?.endsWith("_unit"))?.modelValue
           }))
         }), {}),
         isDraft: true,
