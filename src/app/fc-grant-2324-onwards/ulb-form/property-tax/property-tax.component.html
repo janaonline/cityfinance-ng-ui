@@ -10,7 +10,7 @@
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
-                    <tr [ngClass]="item?.value?.controls?.position?.value == '27.1' ? 'table-gray' : 'table-main-heading'"
+                    <tr [ngClass]="['17.1', '27.1'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
                         *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
                     </tr>
