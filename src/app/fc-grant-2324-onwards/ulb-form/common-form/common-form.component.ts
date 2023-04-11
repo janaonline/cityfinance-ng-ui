@@ -1430,6 +1430,9 @@ saveAction(){
   this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
     console.log('ressssss action', res);
     this.actBtnDis = true;
+    this.commonServices.setFormStatusUlb.next(true);
+    this.isApiComplete = false;
+    this.callGetApi(this.endPoints, this.getQuery);
     swal('Saved', "Action submitted successfully", "success");
   },
   (error)=>{
@@ -1449,7 +1452,7 @@ getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res', res);
     this.actionData = res?.data;
-    if(this.actionData[0].status == 1 || this.actionData[0].status == 2 || this.actionData[0].status == false){
+    if(this.actionData[0].statusId == 1 || this.actionData[0].statusId == 2 || this.actionData[0].statusId == false){
       this.actionViewMode = false;
     }else{
       this.actionViewMode = true;

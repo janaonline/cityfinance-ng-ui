@@ -54,6 +54,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   design_year;
   userData;
   formName = '';
+  actionPayload:any;
   ngOnInit(): void {
     // this.onLoad();
   }
@@ -73,7 +74,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         state: [this.data?.selectedId],
         statesData: [this.emptyArr],
         formId: [this.data?.formId],
-        design_year: [this.getDesignYear()],
+        design_year: [this.data?.designYear],
       });
     } else {
       this.approveReturnForm = this.formBuilder.group({
@@ -84,7 +85,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         rejectReason: [""],
         ulb: [this.data?.selectedId],
         formId: [this.data?.formId],
-        design_year: [this.getDesignYear()],
+        design_year: [this.data?.designYear],
       });
     }
 
@@ -276,21 +277,50 @@ export class TableApproveReturnDialogComponent implements OnInit {
     }
 
   }
-  obj;
+  
   onSubmit(type) {
-    if (this.data.type == "Approve") {
-      this.obj = {
-        ...this.approveReturnForm.value,
-        status: "APPROVED",
-      };
-    } else {
-      this.obj = {
-        ...this.approveReturnForm.value,
-        status: "REJECTED",
-      };
+    if(this.data?.reviewType == 'old_review'){
+      if (this.data.type == "Approve") {
+        this.actionPayload = {
+          ...this.approveReturnForm.value,
+          status: "APPROVED",
+        };
+      } else {
+        this.actionPayload = {
+          ...this.approveReturnForm.value,
+          status: "REJECTED",
+        };
+      }
+    }else{
+      console.log(this.approveReturnForm);
+      let statusId = null;
+      if(this.data.type == "Approve" && this.userData?.role == 'STATE') statusId = 4;
+      if(this.data.type == "Return" && this.userData?.role == 'STATE') statusId = 5;
+      if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
+      if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
+      this.actionPayload = {
+        "form_level": 1,
+        "design_year" : this.data?.designYear,
+        "formId": this.data.formId,
+        "ulbs": this.data?.selectedId,
+        "responses": [
+            {
+            "shortKey": "form_level",
+            "status": statusId,
+            "rejectReason": this.approveReturnForm?.value?.rejectReason,
+            "responseFile": this.approveReturnForm?.value?.responseFile
+       }
+        ],
+        "multi": true,
+        "shortKeys": [
+            "form_level"
+        ]
+      }
     }
+   console.log('this.acccc', this.actionPayload);
+   
 
-    this.newCommonService.postTableApproveRejectData(this.obj).subscribe(
+    this.newCommonService.postTableApproveRejectData(this.actionPayload, this.data?.reviewType).subscribe(
       (res: any) => {
         console.log("post successful", res);
         swal("Saved", "Saved Data Successfully", "success");
@@ -300,7 +330,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       },
       (error) => {
         console.error("err", error);
-        swal("Error", error ? error : "Error", "error");
+        swal("Error", "something went wrong..", "error");
       }
     );
   }

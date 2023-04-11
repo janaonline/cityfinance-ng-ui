@@ -1,5 +1,5 @@
 import { HttpEventType } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
@@ -11,7 +11,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./form-common-action.component.html",
   styleUrls: ["./form-common-action.component.scss"],
 })
-export class FormCommonActionComponent implements OnInit {
+export class FormCommonActionComponent implements OnInit, OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -21,6 +21,7 @@ export class FormCommonActionComponent implements OnInit {
     this.formValueChange();
     this.getStatusId();
   }
+ 
 
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -72,7 +73,9 @@ export class FormCommonActionComponent implements OnInit {
   console.log('action data', this.actionData);
   this.setStatusData(this.actionData);
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+   if(this.actionData) this.setStatusData(this.actionData);
+  }
   initializeForm() {
     this.statusForm = this.formBuilder.group({
      shortKey: "form_level",
@@ -159,7 +162,7 @@ export class FormCommonActionComponent implements OnInit {
     let ulbRes = data.find(el => el.actionTakenByRole === "ULB");
     if(ulbRes && ulbRes?.statusId == 3) this.finalStatus = ulbRes?.status ? ulbRes?.status : '';
     let stateRes = data.find(el => el.actionTakenByRole === "STATE");
-    this.finalStatus = stateRes?.status ? stateRes?.status : '';
+    if(stateRes) this.finalStatus = stateRes?.status ? stateRes?.status : '';
     this.state_action = {
       status: stateRes?.status,
       rejectReason:stateRes?.rejectReason,
@@ -169,7 +172,7 @@ export class FormCommonActionComponent implements OnInit {
       }
     }
     let mohuaRes = data.find(el => el.actionTakenByRole === "MoHUA");
-    this.finalStatus = mohuaRes?.status ? mohuaRes?.status : (stateRes?.status ? stateRes?.status : '');
+    if(mohuaRes) this.finalStatus = mohuaRes?.status ? mohuaRes?.status : (stateRes?.status ? stateRes?.status : '');
     this.mohua_action = {
       status: mohuaRes?.status,
       rejectReason:mohuaRes?.rejectReason,
