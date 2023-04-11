@@ -198,10 +198,16 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     } else {
     }
     this.callAPI();
-    let formData = this.dropdownData?.find(({ _id }) => {
-      return _id === this.formId;
-    });
-    //debugger
+    let formData;
+    if(this.designYear == '606aafc14dff55e6c075d3ec'){
+      formData = this.dropdownData?.find(({ formId }) => {
+        return formId == this.formId;
+      });
+    }else{
+       formData = this.dropdownData?.find(({ _id }) => {
+        return _id == this.formId;
+      });
+    }
     this.formUrl = formData?.url;
     this.formName = formData?.folderName;
    // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
@@ -460,7 +466,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       selectedId: this.selectedId,
       type: type,
       formId: this.formId,
-      tableName: this.title
+      tableName: this.title,
+      designYear : this.designYear,
+      reviewType: this.designYear == '606aafc14dff55e6c075d3ec' ? 'new_review' : 'old_review'
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {

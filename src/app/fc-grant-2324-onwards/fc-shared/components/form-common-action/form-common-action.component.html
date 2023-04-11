@@ -49,7 +49,7 @@
                                           <a href="{{responceFile?.url}}" target="_blank">
                                             {{responceFile?.name}}
                                           </a>
-                                          <span class="ms-3">
+                                          <span class="ms-3" [ngClass]="{'disCls' : actBtnDis}">
                                             <span class="material-icons file-icon-cross"
                                             matTooltip="Remove the upload file"
                                             (click)="removeUploadedFile()">cancel</span>
