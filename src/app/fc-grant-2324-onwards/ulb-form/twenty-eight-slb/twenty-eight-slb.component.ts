@@ -156,36 +156,36 @@ export class TwentyEightSlbComponent implements OnInit {
 
   isFormValid(quetions) {
     console.log('finalData', quetions);
-    for (let question of quetions) {
-      for (let childQuestionsData of question?.childQuestionData) {
-        const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
-        const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
-        const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
+    // for (let question of quetions) {
+    //   for (let childQuestionsData of question?.childQuestionData) {
+    //     const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
+    //     const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
+    //     const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
 
-        const actualValue = +actual.modelValue;
-        const targetValue = +target.modelValue;
-        const lineItemValue = lineItem.modelValue;
+    //     const actualValue = +actual.modelValue;
+    //     const targetValue = +target.modelValue;
+    //     const lineItemValue = lineItem.modelValue;
 
-        if (actualValue < +actual?.minRange) {
-          return false;
-        }
-        if (targetValue < +target?.minRange) {
-          return false;
-        }
+    //     if (actualValue < +actual?.minRange) {
+    //       return false;
+    //     }
+    //     if (targetValue < +target?.minRange) {
+    //       return false;
+    //     }
 
-        if (!actualValue || !targetValue) continue;
+    //     if (!actualValue || !targetValue) continue;
 
-        if (this.oppositeComparisionKeys.includes(lineItemValue)) {
-          if (actualValue < targetValue) {
-            return false;
-          }
-        } else {
-          if (actualValue > targetValue) {
-            return false;
-          }
-        }
-      }
-    }
+    //     if (this.oppositeComparisionKeys.includes(lineItemValue)) {
+    //       if (actualValue < targetValue) {
+    //         return false;
+    //       }
+    //     } else {
+    //       if (actualValue > targetValue) {
+    //         return false;
+    //       }
+    //     }
+    //   }
+    // }
     return true;
   }
 
