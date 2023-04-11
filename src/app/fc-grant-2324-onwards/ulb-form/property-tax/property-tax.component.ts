@@ -118,7 +118,7 @@ export class PropertyTaxComponent implements OnInit {
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
-      // this.specialHeaders = res?.data?.specialHeaders;
+      this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       // this.addSkipLogics();
