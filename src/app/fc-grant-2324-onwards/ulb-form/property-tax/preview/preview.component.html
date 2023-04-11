@@ -32,8 +32,8 @@
 
                         <tbody>
                             <tr *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
-                                <th class="th" scope="row" width="40%">{{ tabData?.value?.label }}</th>
-                                <td class="td" width="15%" *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
+                                <th class="th" scope="row" width="50%">{{ tabData?.value?.label }}</th>
+                                <td class="td" width="10%" *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
                                     <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
                                     <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
                                             target="_blank">{{elem?.file?.name}}</a></span>

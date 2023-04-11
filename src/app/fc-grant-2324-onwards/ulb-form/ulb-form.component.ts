@@ -38,8 +38,12 @@ export class UlbFormComponent implements OnInit,OnDestroy {
   userData : any;
   designYearArray:any;
   subscription:any;
+  ulbName:string='';
+  stateName:string='';
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
+   this.ulbName = sessionStorage.getItem("ulbName");
+   this.stateName = sessionStorage.getItem("stateName");
   }
   getQueryParams() {
   this.route.queryParams.subscribe(params => {
