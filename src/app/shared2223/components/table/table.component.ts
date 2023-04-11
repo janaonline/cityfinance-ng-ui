@@ -460,7 +460,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       selectedId: this.selectedId,
       type: type,
       formId: this.formId,
-      tableName: this.title
+      tableName: this.title,
+      designYear : this.designYear,
+      reviewType: this.designYear == '606aafc14dff55e6c075d3ec' ? 'new_review' : 'old_review'
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {

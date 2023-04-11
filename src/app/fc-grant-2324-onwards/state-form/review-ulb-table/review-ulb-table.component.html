@@ -9,7 +9,7 @@
           <label for="form">Select Form:</label>
           <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
           <select (change)="setFormId($event.target.value)" name="form" id="form" class="mt-1 dropdown ms-3">
-            <option *ngFor="let element of data" [value]="element._id" [selected]="element._id == formId">
+            <option *ngFor="let element of data" [value]="element.formId" [selected]="element._id == formId">
                 {{element.name}}
             </option>
           </select>

@@ -20,9 +20,9 @@ export class AnnualAccountComponent implements OnInit {
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     // this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
     this.ulbId = this.userData?.ulb;
-    // if (!this.ulbId) {
-    //   this.ulbId = localStorage.getItem("ulb_id");
-    // }
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
     this.getQuery = {
       design_year: this.designYearArray["2023-24"],
       formId: 5,
@@ -2331,9 +2331,9 @@ export class AnnualAccountComponent implements OnInit {
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
-   statusId: number = 1;
-   isButtonAvail : boolean = true;
-   isFormDisable: boolean = false;
+  statusId: number = 1;
+  isButtonAvail : boolean = true;
+  isFormDisable: boolean = false;
   //  nextBtnUrl:string='../odf';
   //  backBtnUrl:string='#'
  // resData : any;
@@ -2346,7 +2346,7 @@ export class AnnualAccountComponent implements OnInit {
 //     item["customMessage"] = "This is a required field."
 //   }
 //   console.log('resss, ', this.questionResponse);
-
+   this.getActionRes();
    this.isApiComplete = false;
    this.onload();
   }
@@ -2354,6 +2354,18 @@ export class AnnualAccountComponent implements OnInit {
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res: any)=>{
       console.log('res.........', res);
       this.questionResponse.data = res.data;
+      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3)){
+        for(let el of res.data[0]?.language[0].question){
+          console.log('qus el el', el);
+          if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
+          if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
+          if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
+          if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
+          
+        }
+      }
+     
+      this.formDisable(res?.data[0]);
       console.log('res.........22', this.questionResponse);
       this.questionResponse = {
         ...JSON.parse(JSON.stringify(this.questionResponse))
@@ -2369,7 +2381,6 @@ export class AnnualAccountComponent implements OnInit {
   resData(e){
     console.log('ResData..................', e);
     //this.postData.data = e?.finalData;
-
     // this.onSave(this.postData);
     let finalData = e?.finalData;
     if (e?.isSaveAsDraft == false) {
@@ -2450,13 +2461,44 @@ export class AnnualAccountComponent implements OnInit {
     this.router.navigate([ `/ulb-form/${url}`]);
 
   }
-  formDisable(res){
-    if(!res) return;
-    if(this.userData?.role != 'ULB' || (this.userData?.role == 'ULB' && res?.isDraft == false)){
-      this.isFormDisable = true;
-      return;
-    }else {
-      this.isFormDisable = false;
-    }
- }
+ 
+ getActionRes(){
+  this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
+    console.log('action get res annual', res);
+   // this.actionData = res?.data;
+    // if(this.actionData[0].status == 1 || this.actionData[0].status == 2 || this.actionData[0].status == false){
+    //   this.actionViewMode = false;
+    // }else{
+    //   this.actionViewMode = true;
+    // }
+
+  },
+  (err)=>{
+    console.log('err action get')
+  })
+}
+formDisable(res){
+  if(!res) return;
+  if(this.userData?.role != 'ULB'){
+    this.isFormDisable = true;
+    this.isButtonAvail = false;
+    return;
+  }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+    this.isFormDisable = true;
+    this.isButtonAvail = false;
+    return;
+  }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    this.isFormDisable = false;
+    this.isButtonAvail = true;
+    return;
+  }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+    this.isFormDisable = true;
+    this.isButtonAvail = false;
+    return;
+  }
+  else {
+    this.isFormDisable = false;
+    this.isButtonAvail = true;
+  }
+}
 }
