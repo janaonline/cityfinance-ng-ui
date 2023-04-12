@@ -1452,7 +1452,9 @@ getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res', res);
     this.actionData = res?.data;
-    if(this.actionData[0].statusId == 1 || this.actionData[0].statusId == 2 || this.actionData[0].statusId == false){
+    if(!this.actionData && !this.actionData.length ){
+      this.actionViewMode = false;
+    }else if( this.actionData[0]?.statusId == 1 || this.actionData[0]?.statusId == 2 || this.actionData[0]?.statusId == false){
       this.actionViewMode = false;
     }else{
       this.actionViewMode = true;
