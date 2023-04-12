@@ -159,6 +159,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   }
   
   setStatusData(data){
+    this.finalStatus = '';
     let ulbRes = data.find(el => el.actionTakenByRole === "ULB");
     if(ulbRes && ulbRes?.statusId == 3) this.finalStatus = ulbRes?.status ? ulbRes?.status : '';
     let stateRes = data.find(el => el.actionTakenByRole === "STATE");
