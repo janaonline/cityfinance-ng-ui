@@ -24,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { PreviewComponent } from './property-tax/preview/preview.component';
 import { PfmsComponent } from './pfms/pfms.component';
+import { FourSlbComponent } from './four-slb/four-slb.component';
 
 
 
@@ -38,7 +39,7 @@ import { PfmsComponent } from './pfms/pfms.component';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent
   ],
   imports: [
     CommonModule,
