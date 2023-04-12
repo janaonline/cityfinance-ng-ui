@@ -301,7 +301,7 @@ export class DurComponent implements OnInit {
   }
   nextPreBtn(e) {
     // temporay basic setting url
-    let url = e?.type == 'pre' ? 'grant-tra-certi' : 'annual_acc'
+    let url = e?.type == 'pre' ? 'pfms_acc' : 'annual_acc'
     this.router.navigate([`/ulb-form/${url}`]);
 
   }
