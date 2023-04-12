@@ -54,7 +54,7 @@ export class DurComponent implements OnInit {
     return this.userData?.ulb;
   }
 
-  loadData() {
+  loadData(loadProjects = false) {
     this.isLoaded = false;
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
@@ -63,6 +63,9 @@ export class DurComponent implements OnInit {
       console.log(res);
       this.isLoaded = true;
       this.questionresponse = res;
+      if(loadProjects) {
+        this.getProjects();
+      }
     }, ({ error }) => {
       console.log(error.success)
       this.loaderService.stopLoader();
@@ -283,7 +286,7 @@ export class DurComponent implements OnInit {
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
       if(!isDraft) {
-        this.loadData();
+        this.loadData(true);
       }
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
