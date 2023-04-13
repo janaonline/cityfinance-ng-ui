@@ -149,7 +149,7 @@ export class PropertyTaxComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: +item.displayPriority || 1, disabled: true }],
+            position: [{ value: item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
