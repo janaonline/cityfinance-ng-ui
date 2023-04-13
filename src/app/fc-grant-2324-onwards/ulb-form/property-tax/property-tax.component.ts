@@ -209,9 +209,12 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
-    const a = +itemA.value.controls.position?.value;
-    const b = +itemB.value.controls.position?.value;
-    return a > b ? 1 : (b > a ? -1 : 0);;
+    const [integerA, decimalA] = itemA.value.controls.position?.value?.split('.').map(i => +i);
+    const [integerB, decimalB] = itemB.value.controls.position?.value?.split('.').map(i => +i);
+    if (integerA != integerB) {
+      return integerA > integerB ? 1 : (integerB > integerA ? -1 : 0);;
+    }
+    return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
   addSkipLogics() {

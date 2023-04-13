@@ -144,7 +144,7 @@ const response = {
               },
               "dmdIncludingCess": {
                  "key": "dmdIncludingCess",
-                 "label": "Total Property Tax Demand Details(including cess,other taxes, And excluding user charges if user charges are collected with property tax)",
+                 "label": "Total Property Tax Demand Details(including cess,other taxes, AND excluding user charges if user charges are collected with property tax)",
                  "displayPriority": "2.1",
                  "yearData": [
                     {
@@ -883,7 +883,7 @@ const response = {
               "userChargesDmndDrainage": {
                  "key": "userChargesDmndDrainage",
                  "label": "User Charges Demand Details - Drainage Charges",
-                 "displayPriority": "3.5",
+                 "displayPriority": "3.6",
                  "yearData": [
                     {
                        "label": "FY 2018-19",
@@ -975,7 +975,7 @@ const response = {
               },
               "collectIncludingCess": {
                  "key": "collectIncludingCess",
-                 "label": "Total Property Tax Collection Details(including cess,other taxes, And excluding user charges if user charges are collected with property tax)(INR Lakh)",
+                 "label": "Total Property Tax Collection Details(including cess,other taxes, AND excluding user charges if user charges are collected with property tax)(INR Lakh)",
                  "displayPriority": "4.1",
                  "yearData": [
                     {
@@ -7447,7 +7447,7 @@ const response = {
               },
               "waterChrgCollectionBookCurrentArCol": {
                  "key": "waterChrgCollectionBookCurrentArCol",
-                 "label": "Arrear Demand",
+                 "label": "Arrear Collection",
                  "displayPriority": "22.4",
                  "yearData": [
                     {
@@ -10548,6 +10548,8 @@ const response = {
               }
            }
            
+           
+           
            ,
             "feedback": {
                "status": null,
@@ -10852,19 +10854,10 @@ const response = {
             "",
             "",
             ""
-         ],
-         "35.1": [
-            "",
-            "Notes",
-            "",
-            "",
-            "",
-            "",
-            ""
          ]
       },
       "specialHeaders": {
-         "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
+         "6.1": "Property Tax Demand and Collection Figures by Property Type",
          "14.1": "Water Charges Details",
          "24.1": "Sewerage Charges Details",
          "17.1": "Water Charges Demand and Collection Details by Household/Property type",
