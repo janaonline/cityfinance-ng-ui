@@ -2501,4 +2501,54 @@ formDisable(res){
     this.isButtonAvail = true;
   }
 }
+saveAction(data){
+  console.log('action data', data);
+  
+  // this.isActionSubmitted = true;
+  // this.actionPayload = {
+  //   "form_level": 1,
+  //   "design_year" : this.designYearArray["2023-24"],
+  //   "formId": this.getQuery?.formId,
+  //   "ulbs": [
+  //       this.ulbId
+  //   ],
+  //   "responses": [
+  //     this.currentActionData
+  //       // {
+  //       // "shortKey": "form_level",
+  //       // "status": this.currentActionData.status,
+  //       // "rejectReason": this.currentActionData.rejectReason,
+  //       // "responseFile": {
+  //       //     "url":"a,
+  //       //     "name": "google.in"
+  //       // }
+  // //  }
+  //   ],
+  //   "multi": true,
+  //   "shortKeys": [
+  //       "form_level"
+  //   ]
+  // }
+  // if(!this.currentActionData?.status){
+  //   swal('Error', "Status is mandatory", "error");
+  //   return
+  // }
+  // if(this.errorInAction){
+  //   swal('Error', "Reject reason is mandatory", "error");
+  //   return
+  // }
+  // this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
+  //   console.log('ressssss action', res);
+  //   this.actBtnDis = true;
+  //   this.commonServices.setFormStatusUlb.next(true);
+  //   this.isApiComplete = false;
+  // //  this.callGetApi(this.endPoints, this.getQuery);
+  //   swal('Saved', "Action submitted successfully", "success");
+  // },
+  // (error)=>{
+  //   console.log('ressssss action', error);
+  //   this.isActionSubmitted = false;
+  // }
+  // )
+}
 }
