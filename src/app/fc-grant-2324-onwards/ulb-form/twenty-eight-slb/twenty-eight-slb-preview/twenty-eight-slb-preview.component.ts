@@ -107,13 +107,6 @@ tr:nth-child(even) {
   </style>`;
   ngOnInit(): void {
     this.getUserData();
-    if(this.data?.isDraft == true){
-      this.formStatus = "In Progress";
-    }else if(this.data?.isDraft == false){
-      this.formStatus = "Completed";
-    }else{
-      this.formStatus = "Not Started";
-    }
   }
   getUserData() {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -130,7 +123,6 @@ tr:nth-child(even) {
   dialogRef;
   download;
   showLoader;
-  formStatus= "";
   @ViewChild("gtcpre") _html: ElementRef;
   clickedDownloadAsPDF(template) {
     this.download = true;
