@@ -31,14 +31,24 @@ export class DurComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"));
 
   questionresponse;
-
+  isButtonAvail : boolean = false;
+  // nextRouter:string = '';
+  // backRouter:string = '';
+  formId:number = null;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
     private router: Router
-  ) { }
+  ) { 
+    this.getNextPreUrl();
+  }
 
   ngOnInit(): void {
     // this.isLoaded = true;
@@ -51,7 +61,9 @@ export class DurComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if(this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
+
   }
 
   loadData(loadProjects = false) {
@@ -311,5 +323,22 @@ export class DurComponent implements OnInit {
       this.isLastDeleted = true;
       console.log(this.isLastDeleted);
     });
+  }
+  actionFormChangeDetect(data){
+
+  }
+
+  getNextPreUrl(){
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == "dur") {
+          this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+          // this.nextRouter = element?.nextUrl;
+          // this.backRouter = element?.prevUrl;
+          this.formId = ele?.formId;
+        }
+      });
+    }
   }
 }

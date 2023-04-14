@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { CommonServicesService } from "../../service/common-services.service";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -15,11 +16,16 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private commonServices: CommonServicesService
   ) {
     this.initializeForm();
     this.formValueChange();
     this.getStatusId();
+    this.ulbId = this.userData?.ulb;
+    if (!this.ulbId) {
+      this.ulbId = localStorage.getItem("ulb_id");
+    }
   }
  
 
@@ -54,7 +60,10 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   @Input() isActionSubmitted = false;
   @Input() actBtnDis:boolean = false;
   @Output() formChangeEventEmit = new EventEmitter<string>();
-  
+  @Input() isButtonAvail:boolean= false;
+  @Input() nextPreUrl;
+  @Input() formId;
+
   responceFile = {
     name: '',
     url: ''
@@ -69,9 +78,12 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   mohua_action = {
   }
   finalStatus:string =  '';
+  ulbId:string = ''
   ngOnInit(): void {
   console.log('action data', this.actionData);
-  this.setStatusData(this.actionData);
+  if(this.actionData) this.setStatusData(this.actionData);
+  console.log('form id.....', this.formId, this.nextPreUrl);
+  
   }
   ngOnChanges(changes: SimpleChanges): void {
    if(this.actionData) this.setStatusData(this.actionData);
@@ -103,7 +115,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       }
     //   this.toggle = value;
     //   console.log(this.toggle);
-      this.formChangeEventEmit.emit(this.statusForm.value);
+      // this.formChangeEventEmit.emit(this.statusForm.value);
     });
   }
   get formControl() {
@@ -182,5 +194,60 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
         url: mohuaRes?.responseFile?.url
       }
     }
+  }
+  // saveAction(){
+  //   this.formChangeEventEmit.emit(this.statusForm.value);
+  // }
+  actionPayload = {}
+  saveAction(){
+    this.isActionSubmitted = true;
+    this.actionPayload = {
+      "form_level": 1,
+      "design_year" : this.Years["2023-24"],
+      "formId": 4,
+      "ulbs": [
+          this.ulbId
+      ],
+      "responses": [
+       // this.currentActionData
+          {
+          "shortKey": "form_level",
+          "status": 4,
+          "rejectReason": 'ABCD',
+          "responseFile": {
+              "url":"a",
+              "name": "google.in"
+          }
+     }
+      ],
+      "multi": true,
+      "shortKeys": [
+          "form_level"
+      ]
+    }
+    // if(!this.currentActionData?.status){
+    //   swal('Error', "Status is mandatory", "error");
+    //   return
+    // }
+    if(this.errorInAction){
+      swal('Error', "Reject reason is mandatory", "error");
+      return
+    }
+    this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
+      console.log('ressssss action', res);
+      this.actBtnDis = true;
+      // this.commonServices.setFormStatusUlb.next(true);
+      // this.isApiComplete = false;
+      // this.callGetApi(this.endPoints, this.getQuery);
+      swal('Saved', "Action submitted successfully", "success");
+    },
+    (error)=>{
+      console.log('ressssss action', error);
+      this.isActionSubmitted = false;
+    }
+    )
+  }
+  nextPreBtn(e){
+
   }
 }

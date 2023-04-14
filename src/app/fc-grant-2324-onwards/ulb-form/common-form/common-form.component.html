@@ -3,12 +3,7 @@
   [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
   (nextPreBtn)="nextPreBtn($event)" [isButtonDisplay]="isButtonAvail" [isFormDisable]="isFormDisable"></app-web-form>
 </div>
-<!-- <div class="" *ngIf="isApiComplete">
-  <app-web-form [formName]="formName" [viewFormTemplate]="'commonFormCf'"
-  [questionresponse]="respon2" (submitQuestion)="resData($event)"
-  [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
-  (nextPreBtn)="nextPreBtn($event)"></app-web-form>
-</div> -->
+
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
 </div>
@@ -29,13 +24,6 @@
             <button class="btn btn-save text-uppercase" (click)="saveAction()" [disabled]="actBtnDis">
                 Submit
             </button>
-        </div>
-        <div class="d-inline-flex mr1">
-            <!-- <button class="btn btn-save text-uppercase"
-                [disabled]="isImageUploading || (questionresponse?.data[0]?.language[0].isDraft == false)"
-                (click)="beforeSubmitPrepareResponse()" *ngIf="!pdfbuttonhide">
-                {{buttonText}}
-            </button> -->
         </div>
         <div class="d-inline-flex " *ngIf="isButtonAvail == false">
             <button class="btn btn-next text-uppercase" (click)="nextPreBtn({type: 'next',formName: ''})">
