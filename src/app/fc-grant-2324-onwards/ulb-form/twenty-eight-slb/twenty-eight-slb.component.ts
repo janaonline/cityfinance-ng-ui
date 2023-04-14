@@ -33,6 +33,7 @@ export class TwentyEightSlbComponent implements OnInit {
   isProjectLoaded: boolean = false;
   successErrorMessage: string;
   formId = '6';
+  status: string;
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -78,6 +79,7 @@ export class TwentyEightSlbComponent implements OnInit {
       this.isLoaded = true;
       console.log(res);
       this.questionresponse = res;
+      this.status = res.status;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -104,10 +106,9 @@ export class TwentyEightSlbComponent implements OnInit {
             unit: questionsData.find(question => question.shortKey?.endsWith("_unit"))?.modelValue
           }))
         }), {}),
-        isDraft: true,
       },
       ulbId: this.ulbId,
-      isDraft: true,
+      status: this.status
       // saveDataJson: this.slbData
     };
     const dialogRef = this.dialog.open(TwentyEightSlbPreviewComponent, {
@@ -190,6 +191,7 @@ export class TwentyEightSlbComponent implements OnInit {
   }
 
   async onSubmit(data) {
+    console.log('submit', data);
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
