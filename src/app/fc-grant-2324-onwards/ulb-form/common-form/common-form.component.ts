@@ -304,9 +304,9 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     backBtnRouter: ''
   }
   sideMenuItem: object | any;
-  leftMenuuSubs:any;
+  leftMenuSubs:any;
   ngOnInit(): void {
-    this.leftMenuuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       if (res == true) {
         this.getNextPreUrl(this.formName);
       }
@@ -569,7 +569,7 @@ getNextPreUrl(form){
   }
 }
 ngOnDestroy() {
-  this.leftMenuuSubs.unsubscribe();
+  this.leftMenuSubs.unsubscribe();
   this.routerSubs.unsubscribe();
 }
 }

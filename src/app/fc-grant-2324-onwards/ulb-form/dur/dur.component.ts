@@ -42,6 +42,7 @@ export class DurComponent implements OnInit {
   sideMenuItem: object | any;
   isFormFinalSubmit : boolean = false;
   canTakeAction:boolean = false;
+  leftMenuSubs:any;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -54,6 +55,11 @@ export class DurComponent implements OnInit {
 
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
   }
 

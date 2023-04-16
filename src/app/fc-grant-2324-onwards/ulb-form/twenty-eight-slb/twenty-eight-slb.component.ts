@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 const swal: SweetAlert = require("sweetalert");
@@ -10,6 +10,7 @@ import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twent
 
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { TwentyEightSlbService } from './twenty-eight-slb.service';
+import { Router } from '@angular/router';
 
 
 
@@ -18,7 +19,7 @@ import { TwentyEightSlbService } from './twenty-eight-slb.service';
   templateUrl: './twenty-eight-slb.component.html',
   styleUrls: ['./twenty-eight-slb.component.scss']
 })
-export class TwentyEightSlbComponent implements OnInit {
+export class TwentyEightSlbComponent implements OnInit,OnDestroy {
   @ViewChild('webForm') webForm;
 
   oppositeComparisionKeys: string[] = [
@@ -45,10 +46,24 @@ export class TwentyEightSlbComponent implements OnInit {
     private twentyEightSlbService: TwentyEightSlbService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
+    private router:Router
   ) { }
-
+  isButtonAvail : boolean = false;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  isFormFinalSubmit : boolean = false;
+  canTakeAction:boolean = false;
+  leftMenuSubs:any;
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
   }
 
@@ -58,7 +73,8 @@ export class TwentyEightSlbComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if(this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
   }
 
 
@@ -81,6 +97,8 @@ export class TwentyEightSlbComponent implements OnInit {
       this.isLoaded = true;
       console.log(res);
       this.questionresponse = res;
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.formDisable(res?.data[0]);
       this.status = res.status;
     }, ({ error }) => {
       this.loaderService.stopLoader();
@@ -245,6 +263,7 @@ export class TwentyEightSlbComponent implements OnInit {
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
       this.loadData();
+      this.isFormFinalSubmit = true;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
           if (!isDraft) location.reload();
@@ -258,5 +277,55 @@ export class TwentyEightSlbComponent implements OnInit {
       swal('Error', error?.message ?? 'Something went wrong', 'error');
       console.log('error occured');
     })
+  }
+
+  nextPreBtn(e) {
+    let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+  }
+  actionFormChangeDetect(res){
+    if(res == true){
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
+    }
+  }
+  
+  getNextPreUrl(){
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == '28slb') {
+          this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+          this.formId = ele?.formId;
+        }
+      });
+    }
+  }
+  formDisable(res){
+    if(!res) return;
+    if(this.userData?.role != 'ULB'){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    //  this.isFormDisable = false;
+      this.isButtonAvail = true;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }
+    else {
+     // this.isFormDisable = false;
+      this.isButtonAvail = true;
+    }
+ }
+  ngOnDestroy() {
+    this.leftMenuSubs.unsubscribe();
   }
 }
