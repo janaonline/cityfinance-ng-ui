@@ -29,7 +29,7 @@ export class DurComponent implements OnInit {
    Alternatively, you can save as draft for now and submit it later.`
 
   userData = JSON.parse(localStorage.getItem("userData"));
-
+  
   questionresponse;
   isButtonAvail : boolean = false;
   // nextRouter:string = '';
@@ -40,6 +40,8 @@ export class DurComponent implements OnInit {
     backBtnRouter: ''
   }
   sideMenuItem: object | any;
+  isFormFinalSubmit : boolean = false;
+  canTakeAction:boolean = false;
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -75,6 +77,9 @@ export class DurComponent implements OnInit {
       console.log(res);
       this.isLoaded = true;
       this.questionresponse = res;
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      // this.getActionRes();
+      this.formDisable(res?.data[0]);
       if(loadProjects) {
         this.getProjects();
       }
@@ -299,6 +304,7 @@ export class DurComponent implements OnInit {
       this.commonServices.setFormStatusUlb.next(true);
       if(!isDraft) {
         this.loadData(true);
+        this.isFormFinalSubmit = true;
       }
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
@@ -312,10 +318,8 @@ export class DurComponent implements OnInit {
     })
   }
   nextPreBtn(e) {
-    // temporay basic setting url
-    let url = e?.type == 'pre' ? 'pfms_acc' : 'annual_acc'
-    this.router.navigate([`/ulb-form/${url}`]);
-
+    let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
   }
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
@@ -324,8 +328,11 @@ export class DurComponent implements OnInit {
       console.log(this.isLastDeleted);
     });
   }
-  actionFormChangeDetect(data){
-
+  actionFormChangeDetect(res){
+    if(res == true){
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData(true);
+    }
   }
 
   getNextPreUrl(){
@@ -334,11 +341,34 @@ export class DurComponent implements OnInit {
       this.sideMenuItem[key].forEach((ele) => {
         if (ele?.folderName == "dur") {
           this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
-          // this.nextRouter = element?.nextUrl;
-          // this.backRouter = element?.prevUrl;
           this.formId = ele?.formId;
         }
       });
     }
   }
+  formDisable(res){
+    if(!res) return;
+    if(this.userData?.role != 'ULB'){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    //  this.isFormDisable = false;
+      this.isButtonAvail = true;
+      return;
+    }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+     // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }
+    else {
+     // this.isFormDisable = false;
+      this.isButtonAvail = true;
+    }
+ }
+  
 }

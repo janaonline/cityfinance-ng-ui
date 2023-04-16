@@ -5,6 +5,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonServicesService } from "../../service/common-services.service";
+import { queryParam } from "../../common-interface";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -31,39 +32,20 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
 
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
-  //action payload..............
-  actionPostBody = {
-    form_level: 2,
-    design_year: "606aafc14dff55e6c075d3ec",
-    formId: 4,
-    ulbs: ["5dcfca53df6f59198c4ac3d5"],
-    responses: [
-      {
-        shortKey: "form_level",
-        status: 3,
-        rejectReason: "qwdftyui",
-        responseFile: {
-          url: "dbjkf",
-          name: "1123456",
-        },
-      },
-    ],
-    multi: false,
-    shortKeys: ["form_level"],
-  };
+  
   statusForm: FormGroup;
   @Input() canTakeAction:boolean = false;
-  @Input() actionData : any;
-  @Input() viewMode: boolean = false;
   @Input() uploadFolderName:string = '';
-  @Input() errorInAction = false;
-  @Input() isActionSubmitted = false;
-  @Input() actBtnDis:boolean = false;
-  @Output() formChangeEventEmit = new EventEmitter<string>();
+  @Output() formChangeEventEmit = new EventEmitter<boolean>();
   @Input() isButtonAvail:boolean= false;
   @Input() nextPreUrl;
   @Input() formId;
-
+  @Input() isFormFinalSubmit = false;
+  viewMode:boolean = false;
+  actionData: any;
+  isActionSubmitted: boolean = false;
+  actBtnDis : boolean = false;
+  errorInAction:boolean = false;
   responceFile = {
     name: '',
     url: ''
@@ -78,15 +60,27 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   mohua_action = {
   }
   finalStatus:string =  '';
-  ulbId:string = ''
+  ulbId:string = '';
+  getQuery: queryParam = {
+    design_year: '',
+    formId: null,
+    ulb: null
+  };
+  actionPayload = {}
   ngOnInit(): void {
   console.log('action data', this.actionData);
   if(this.actionData) this.setStatusData(this.actionData);
   console.log('form id.....', this.formId, this.nextPreUrl);
-  
+  this.getQuery = {
+    design_year: this.Years["2023-24"],
+    formId: this.formId,
+    ulb: this.ulbId
+  };
+  this.getActionRes();
   }
   ngOnChanges(changes: SimpleChanges): void {
-   if(this.actionData) this.setStatusData(this.actionData);
+    if(this.isFormFinalSubmit) this.getActionRes()
+  // if(this.actionData) this.setStatusData(this.actionData);
   }
   initializeForm() {
     this.statusForm = this.formBuilder.group({
@@ -111,11 +105,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       } else if (value.status == 5 || value.status == 7) {
         this.activeClassReturn = true;
         this.activeClassApprove = false;
-        if(!value?.rejectReason) this.errorInAction = true;
+        this.errorInAction =  !value?.rejectReason ? true : false
       }
-    //   this.toggle = value;
-    //   console.log(this.toggle);
-      // this.formChangeEventEmit.emit(this.statusForm.value);
     });
   }
   get formControl() {
@@ -195,59 +186,79 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       }
     }
   }
-  // saveAction(){
-  //   this.formChangeEventEmit.emit(this.statusForm.value);
-  // }
-  actionPayload = {}
+
   saveAction(){
+    console.log('...this.statusForm.value', this.statusForm.value);
     this.isActionSubmitted = true;
     this.actionPayload = {
       "form_level": 1,
       "design_year" : this.Years["2023-24"],
-      "formId": 4,
+      "formId": this.formId,
       "ulbs": [
           this.ulbId
       ],
       "responses": [
-       // this.currentActionData
-          {
-          "shortKey": "form_level",
-          "status": 4,
-          "rejectReason": 'ABCD',
-          "responseFile": {
-              "url":"a",
-              "name": "google.in"
-          }
-     }
+       this.statusForm.value
+    //       {
+    //       "shortKey": "form_level",
+    //       "status": 4,
+    //       "rejectReason": 'ABCD',
+    //       "responseFile": {
+    //           "url":"a",
+    //           "name": "google.in"
+    //       }
+    //  }
       ],
       "multi": true,
       "shortKeys": [
           "form_level"
       ]
     }
-    // if(!this.currentActionData?.status){
-    //   swal('Error', "Status is mandatory", "error");
-    //   return
-    // }
+    if(!this.statusForm.value?.status){
+      swal('Error', "Status is mandatory", "error");
+      return
+    }
     if(this.errorInAction){
       swal('Error', "Reject reason is mandatory", "error");
       return
     }
-    this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
+    
+    this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res:any)=>{
       console.log('ressssss action', res);
       this.actBtnDis = true;
-      // this.commonServices.setFormStatusUlb.next(true);
-      // this.isApiComplete = false;
-      // this.callGetApi(this.endPoints, this.getQuery);
+      this.isActionSubmitted = false;
+      this.formChangeEventEmit.emit(true);
+      this.getActionRes();
       swal('Saved', "Action submitted successfully", "success");
     },
     (error)=>{
       console.log('ressssss action', error);
+      this.formChangeEventEmit.emit(false);
       this.isActionSubmitted = false;
     }
     )
   }
-  nextPreBtn(e){
+  // nextPreBtn(e){
 
+  // }
+
+  getActionRes(){
+    this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
+      console.log('action get res', res);
+      this.setStatusData(res?.data);
+      this.actionData = res?.data;
+      if(!this.actionData && !this.actionData.length ){
+        this.viewMode = false;
+      }else if( this.actionData[0]?.statusId == 1 || this.actionData[0]?.statusId == 2 || this.actionData[0]?.statusId == false){
+        this.viewMode = false;
+      }else{
+        this.viewMode = true;
+      }
+  
+    },
+    (err)=>{
+      console.log('err action get');
+
+    })
   }
 }

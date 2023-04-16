@@ -15,7 +15,12 @@
   </app-web-form>
 
   <div class="" *ngIf="true">
-    <app-form-common-action [canTakeAction]="true" [actionData]="actionData" [viewMode]="actionViewMode" 
-    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" [formId]="formId"></app-form-common-action>
+    <!-- <app-form-common-action [canTakeAction]="true" [actionData]="actionData"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId"></app-form-common-action> -->
+ 
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail"></app-form-common-action>
   </div>
 </div>

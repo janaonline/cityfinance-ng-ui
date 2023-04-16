@@ -23,9 +23,10 @@ export class AnnualAccountComponent implements OnInit {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
+    this.getNextPreUrl();
     this.getQuery = {
       design_year: this.designYearArray["2023-24"],
-      formId: 5,
+      formId: this.formId,
       ulb: this.ulbId
     };
     this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
@@ -44,10 +45,6 @@ export class AnnualAccountComponent implements OnInit {
   formName:string = 'annual_accounts';
   fileFolderName:string = '';
   postData ={
-    // design_year : '606aafc14dff55e6c075d3ec',
-    // data : [
-
-    // ]
   };
   questionResponse: any = {
     timestamp: 1621316934,
@@ -2334,9 +2331,12 @@ export class AnnualAccountComponent implements OnInit {
   statusId: number = 1;
   isButtonAvail : boolean = true;
   isFormDisable: boolean = false;
-  //  nextBtnUrl:string='../odf';
-  //  backBtnUrl:string='#'
- // resData : any;
+  formId:number = null;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2380,8 +2380,6 @@ export class AnnualAccountComponent implements OnInit {
   }
   resData(e){
     console.log('ResData..................', e);
-    //this.postData.data = e?.finalData;
-    // this.onSave(this.postData);
     let finalData = e?.finalData;
     if (e?.isSaveAsDraft == false) {
       this.alertForFianlSubmit(finalData, e?.isSaveAsDraft)
@@ -2400,7 +2398,7 @@ export class AnnualAccountComponent implements OnInit {
         "design_year": this.designYearArray["2023-24"],
         "ulb": this.ulbId,
         "isDraft": draft,
-        "formId": 5,
+        "formId": this.formId,
         "status": this.statusId,
         data: finalData
       }
@@ -2455,13 +2453,7 @@ export class AnnualAccountComponent implements OnInit {
       }
     });
   }
-  nextPreBtn(e){
-    // temporay basic setting url
-    let url = e?.type == 'pre' ? 'utilisation-report' : 'odf'
-    this.router.navigate([ `/ulb-form/${url}`]);
-
-  }
- 
+  
  getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res annual', res);
@@ -2503,52 +2495,22 @@ formDisable(res){
 }
 saveAction(data){
   console.log('action data', data);
-  
-  // this.isActionSubmitted = true;
-  // this.actionPayload = {
-  //   "form_level": 1,
-  //   "design_year" : this.designYearArray["2023-24"],
-  //   "formId": this.getQuery?.formId,
-  //   "ulbs": [
-  //       this.ulbId
-  //   ],
-  //   "responses": [
-  //     this.currentActionData
-  //       // {
-  //       // "shortKey": "form_level",
-  //       // "status": this.currentActionData.status,
-  //       // "rejectReason": this.currentActionData.rejectReason,
-  //       // "responseFile": {
-  //       //     "url":"a,
-  //       //     "name": "google.in"
-  //       // }
-  // //  }
-  //   ],
-  //   "multi": true,
-  //   "shortKeys": [
-  //       "form_level"
-  //   ]
-  // }
-  // if(!this.currentActionData?.status){
-  //   swal('Error', "Status is mandatory", "error");
-  //   return
-  // }
-  // if(this.errorInAction){
-  //   swal('Error', "Reject reason is mandatory", "error");
-  //   return
-  // }
-  // this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
-  //   console.log('ressssss action', res);
-  //   this.actBtnDis = true;
-  //   this.commonServices.setFormStatusUlb.next(true);
-  //   this.isApiComplete = false;
-  // //  this.callGetApi(this.endPoints, this.getQuery);
-  //   swal('Saved', "Action submitted successfully", "success");
-  // },
-  // (error)=>{
-  //   console.log('ressssss action', error);
-  //   this.isActionSubmitted = false;
-  // }
-  // )
+}
+
+
+getNextPreUrl(){
+  this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+  for (const key in this.sideMenuItem) {
+    this.sideMenuItem[key].forEach((ele) => {
+      if (ele?.folderName == "annual_accounts") {
+        this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+        this.formId = ele?.formId;
+      }
+    });
+  }
+}
+nextPreBtn(e) {
+  let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+  this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
 }
 }

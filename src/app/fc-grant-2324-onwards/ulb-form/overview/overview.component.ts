@@ -205,7 +205,7 @@ export class OverviewComponent implements OnInit {
         console.log("left responces..", res);
         localStorage.setItem("leftMenuULB", JSON.stringify(res?.data)); 
         this.cardsOverview = res?.card;
-        localStorage.setItem(res?.card, "overViewCard2324");
+        localStorage.setItem("overViewCard2324", JSON.stringify(res?.card));
         this.isApiComplete = true;
       },
       (error)=>{
