@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { DurService } from './dur.service';
   templateUrl: './dur.component.html',
   styleUrls: ['./dur.component.scss']
 })
-export class DurComponent implements OnInit {
+export class DurComponent implements OnInit, OnDestroy {
   @ViewChild('webForm') webForm;
 
   successErrorMessage: string;
@@ -52,6 +52,7 @@ export class DurComponent implements OnInit {
   ) { 
     this.getNextPreUrl();
   }
+
 
   ngOnInit(): void {
     // this.isLoaded = true;
@@ -308,9 +309,10 @@ export class DurComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
+      this.isFormFinalSubmit = true;
       if(!isDraft) {
         this.loadData(true);
-        this.isFormFinalSubmit = true;
+        
       }
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
@@ -362,7 +364,7 @@ export class DurComponent implements OnInit {
      // this.isFormDisable = true;
       this.isButtonAvail = false;
       return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
     //  this.isFormDisable = false;
       this.isButtonAvail = true;
       return;
@@ -376,5 +378,8 @@ export class DurComponent implements OnInit {
       this.isButtonAvail = true;
     }
  }
+ ngOnDestroy(): void {
+  this.leftMenuSubs.unsubscribe();
+}
   
 }

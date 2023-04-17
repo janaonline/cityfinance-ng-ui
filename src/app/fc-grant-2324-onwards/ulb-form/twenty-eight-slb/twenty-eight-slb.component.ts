@@ -99,7 +99,7 @@ export class TwentyEightSlbComponent implements OnInit,OnDestroy {
       this.questionresponse = res;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
       this.formDisable(res?.data[0]);
-      this.status = res.status;
+      this.status = res?.data[0].status;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -265,9 +265,9 @@ export class TwentyEightSlbComponent implements OnInit,OnDestroy {
       this.loadData();
       this.isFormFinalSubmit = true;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
-        .then(() => {
-          if (!isDraft) location.reload();
-        });
+        // .then(() => {
+        //   if (!isDraft) location.reload();
+        // });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
@@ -311,7 +311,7 @@ export class TwentyEightSlbComponent implements OnInit,OnDestroy {
      // this.isFormDisable = true;
       this.isButtonAvail = false;
       return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
     //  this.isFormDisable = false;
       this.isButtonAvail = true;
       return;

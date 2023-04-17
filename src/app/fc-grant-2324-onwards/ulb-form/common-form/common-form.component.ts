@@ -393,7 +393,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       this.webForm.hasUnsavedChanges = false;
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       this.commonServices.setFormStatusUlb.next(true);
-      if(draft == false) this.isFormFinalSubmit = true;
+      this.isFormFinalSubmit = true;
         this.isApiComplete = false;
        // this.callGetApi(this.endPoints, this.getQuery);
         console.log(res);
@@ -472,7 +472,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       this.isFormDisable = true;
       this.isButtonAvail = false;
       return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
       this.isFormDisable = false;
       this.isButtonAvail = true;
       return;

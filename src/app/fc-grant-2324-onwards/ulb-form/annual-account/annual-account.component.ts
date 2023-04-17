@@ -26,7 +26,7 @@ export class AnnualAccountComponent implements OnInit {
     this.getNextPreUrl();
     this.getQuery = {
       design_year: this.designYearArray["2023-24"],
-      formId: this.formId,
+      formId: 5,
       ulb: this.ulbId
     };
     this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
@@ -2337,6 +2337,7 @@ export class AnnualAccountComponent implements OnInit {
     backBtnRouter: ''
   }
   sideMenuItem: object | any;
+  leftMenuSubs:any;
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2346,6 +2347,11 @@ export class AnnualAccountComponent implements OnInit {
 //     item["customMessage"] = "This is a required field."
 //   }
 //   console.log('resss, ', this.questionResponse);
+this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+  if (res == true) {
+    this.getNextPreUrl();
+  }
+});
    this.getActionRes();
    this.isApiComplete = false;
    this.onload();
@@ -2479,7 +2485,7 @@ formDisable(res){
     this.isFormDisable = true;
     this.isButtonAvail = false;
     return;
-  }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+  }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
     this.isFormDisable = false;
     this.isButtonAvail = true;
     return;
@@ -2512,5 +2518,8 @@ getNextPreUrl(){
 nextPreBtn(e) {
   let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
   this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+}
+ngOnDestroy(): void {
+  this.leftMenuSubs.unsubscribe();
 }
 }
