@@ -10,6 +10,7 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GtcComponent } from './gtc/gtc.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     Shared2223Module,
     ReactiveFormsModule,
     FormsModule,
+    WebFormModule,
     AccordionModule.forRoot(),
   ]
 })
