@@ -23,6 +23,7 @@ export class AnnualAccountComponent implements OnInit {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     }
+    this.getNextPreUrl();
     this.getQuery = {
       design_year: this.designYearArray["2023-24"],
       formId: 5,
@@ -44,10 +45,6 @@ export class AnnualAccountComponent implements OnInit {
   formName:string = 'annual_accounts';
   fileFolderName:string = '';
   postData ={
-    // design_year : '606aafc14dff55e6c075d3ec',
-    // data : [
-
-    // ]
   };
   questionResponse: any = {
     timestamp: 1621316934,
@@ -2334,9 +2331,13 @@ export class AnnualAccountComponent implements OnInit {
   statusId: number = 1;
   isButtonAvail : boolean = true;
   isFormDisable: boolean = false;
-  //  nextBtnUrl:string='../odf';
-  //  backBtnUrl:string='#'
- // resData : any;
+  formId:number = null;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  leftMenuSubs:any;
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2346,6 +2347,11 @@ export class AnnualAccountComponent implements OnInit {
 //     item["customMessage"] = "This is a required field."
 //   }
 //   console.log('resss, ', this.questionResponse);
+this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+  if (res == true) {
+    this.getNextPreUrl();
+  }
+});
    this.getActionRes();
    this.isApiComplete = false;
    this.onload();
@@ -2380,8 +2386,6 @@ export class AnnualAccountComponent implements OnInit {
   }
   resData(e){
     console.log('ResData..................', e);
-    //this.postData.data = e?.finalData;
-    // this.onSave(this.postData);
     let finalData = e?.finalData;
     if (e?.isSaveAsDraft == false) {
       this.alertForFianlSubmit(finalData, e?.isSaveAsDraft)
@@ -2400,7 +2404,7 @@ export class AnnualAccountComponent implements OnInit {
         "design_year": this.designYearArray["2023-24"],
         "ulb": this.ulbId,
         "isDraft": draft,
-        "formId": 5,
+        "formId": this.formId,
         "status": this.statusId,
         data: finalData
       }
@@ -2455,13 +2459,7 @@ export class AnnualAccountComponent implements OnInit {
       }
     });
   }
-  nextPreBtn(e){
-    // temporay basic setting url
-    let url = e?.type == 'pre' ? 'utilisation-report' : 'odf'
-    this.router.navigate([ `/ulb-form/${url}`]);
-
-  }
- 
+  
  getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res annual', res);
@@ -2487,7 +2485,7 @@ formDisable(res){
     this.isFormDisable = true;
     this.isButtonAvail = false;
     return;
-  }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+  }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
     this.isFormDisable = false;
     this.isButtonAvail = true;
     return;
@@ -2500,5 +2498,28 @@ formDisable(res){
     this.isFormDisable = false;
     this.isButtonAvail = true;
   }
+}
+saveAction(data){
+  console.log('action data', data);
+}
+
+
+getNextPreUrl(){
+  this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+  for (const key in this.sideMenuItem) {
+    this.sideMenuItem[key].forEach((ele) => {
+      if (ele?.folderName == "annual_accounts") {
+        this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+        this.formId = ele?.formId;
+      }
+    });
+  }
+}
+nextPreBtn(e) {
+  let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+  this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+}
+ngOnDestroy(): void {
+  this.leftMenuSubs.unsubscribe();
 }
 }

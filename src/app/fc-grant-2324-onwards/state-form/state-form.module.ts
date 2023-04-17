@@ -8,10 +8,11 @@ import { DashbordComponent } from './dashbord/dashbord.component';
 import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 
 
 @NgModule({
-  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent],
+  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, ProjectsWssComponent],
   imports: [
     CommonModule,
     StateFormRoutingModule,

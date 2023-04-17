@@ -78,9 +78,13 @@
                         </div>
                     </th>
                     <th class="filter">
-                        <select class="form-select in-sel" formControlName="status_s" (change)="search()">
+                        <select class="form-select in-sel" formControlName="status_s" (change)="search()" *ngIf="designYear == '606aaf854dff55e6c075d219'">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                        </select>
+                        <select class="form-select in-sel" formControlName="status_s" (change)="search()" *ngIf="designYear != '606aaf854dff55e6c075d219'">
+                            <option selected value="">Status</option>
+                            <option *ngFor="let item of statusList" [value]="item?.statusId">{{item?.status}}</option>
                         </select>
                     </th>
                     <th class="filter">

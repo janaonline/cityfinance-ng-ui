@@ -267,8 +267,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
-
-
         if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
           setTimeout(() => {
             const table = document.querySelector('.table-responsive') as HTMLElement;
