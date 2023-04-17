@@ -19,26 +19,21 @@
                             <button type="button" class="btn btn-primary">Select</button>
                         </div>
                     </div>
+                    
 
 
-                    <div class="card mt-2" *ngFor="let quesItem of itemLabel?.quesArray; let qIndex = index">
+                    <div class="card mt-2" *ngFor="let question of formItem?.questions; let qIndex = index">
                         <div class="card-body">
                             <div class="ins-h">
-                                {{quesItem?.instlText}}
+                                {{question?.instlText}}
                             </div>
                             <div class="row mt-2">
                                 <div class="col-sm-7 q-h">
-                                    {{quesItem?.quesText}}
+                                    {{question?.quesText}}
                                 </div>
-                                <div class="col-sm-5" [matTooltip]="quesItem?.disableMsg" matTooltipClass="tooltip-red" [matTooltipDisabled]="quesItem?.isDisableQues == false">
-                                    <!-- <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues">Upload PDF*</button> -->
-                                    <button [disabled]="quesItem?.isDisableQues" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
-                                      <sup><span class="wh-s">*</span></sup>
-                                       <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
-                                   </button>
-                                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf', cIndex, qIndex, 'normal')" type="file" accept=".pdf" #file>
-                                </div>
+                                
                             </div>
+                            
                         </div>
                     </div>
 
