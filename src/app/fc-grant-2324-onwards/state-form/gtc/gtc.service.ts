@@ -47,7 +47,7 @@ const staticResponse = {
                     "input_type": "14",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "2023-04-18",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "14",
@@ -60,7 +60,31 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "modelValue": "2023-04-18",
+                    "isSelectValue": false,
+                    "previousValue": "2023-04-18",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "2023-04-18",
+                        "value": ""
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "2023-04-18"
+                        }
+                      ],
+                      "input_type": "14",
+                      "nestedAnswer": [],
+                      "order": "1.005",
+                      "shortKey": "year"
+                    }
                   },
                   {
                     "information": "",
@@ -98,7 +122,7 @@ const staticResponse = {
                     "input_type": "3",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "1",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -111,7 +135,31 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "modelValue": "1",
+                    "isSelectValue": true,
+                    "previousValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": "MPC",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "MPC",
+                          "textValue": "",
+                          "value": "1"
+                        }
+                      ],
+                      "input_type": "3",
+                      "nestedAnswer": [],
+                      "order": "1.002",
+                      "shortKey": "ulbType"
+                    }
                   },
                   {
                     "information": "",
@@ -149,7 +197,7 @@ const staticResponse = {
                     "input_type": "3",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "1",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -162,7 +210,31 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "modelValue": "1",
+                    "isSelectValue": true,
+                    "previousValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": " Tied",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": " Tied",
+                          "textValue": "",
+                          "value": "1"
+                        }
+                      ],
+                      "input_type": "3",
+                      "nestedAnswer": [],
+                      "order": "1.003",
+                      "shortKey": "grantType"
+                    }
                   },
                   {
                     "information": "",
@@ -190,7 +262,7 @@ const staticResponse = {
                     "input_type": "1",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "first",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "1",
@@ -203,7 +275,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "first",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "first",
+                        "value": ""
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "first",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "1",
+                      "nestedAnswer": [],
+                      "order": "1.004",
+                      "pattern": "",
+                      "shortKey": "installment_type"
+                    }
                   }
                 ]
               ],
@@ -392,7 +489,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "985",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -405,7 +502,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "985",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "985"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "985"
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "2.001",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
+                      "shortKey": "totalMpc"
+                    }
                   },
                   {
                     "information": "",
@@ -438,7 +560,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "55",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -451,7 +573,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "55",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "55"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "55"
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "2.002",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
+                      "shortKey": "totalNmpc"
+                    }
                   },
                   {
                     "information": "",
@@ -484,7 +631,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "23",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -497,7 +644,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "23",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "23"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "23"
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "2.003",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
+                      "shortKey": "totalElectedMpc"
+                    }
                   },
                   {
                     "information": "",
@@ -530,7 +702,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "78",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -543,7 +715,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "78",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "78"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "78"
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "2.004",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
+                      "shortKey": "totalElectedNmpc"
+                    }
                   }
                 ]
               ],
@@ -745,7 +942,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "88",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -758,7 +955,32 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "88",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "88"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "88"
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "3.001",
+                      "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
+                      "shortKey": "recAmount"
+                    }
                   },
                   {
                     "information": "",
@@ -788,7 +1010,7 @@ const staticResponse = {
                     "input_type": "14",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "2023-04-18",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "14",
@@ -801,7 +1023,31 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "modelValue": "2023-04-18",
+                    "isSelectValue": false,
+                    "previousValue": "2023-04-18",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "2023-04-18",
+                        "value": ""
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": "2023-04-18"
+                        }
+                      ],
+                      "input_type": "14",
+                      "nestedAnswer": [],
+                      "order": "3.002",
+                      "shortKey": "receiptDate"
+                    }
                   }
                 ]
               ],
@@ -937,7 +1183,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "40",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -950,7 +1196,18 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "40",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "40"
+                      }
+                    ],
+                    "errorMessage": ""
                   },
                   {
                     "information": "",
@@ -1077,7 +1334,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "30",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1090,7 +1347,18 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "30",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "30"
+                      }
+                    ],
+                    "errorMessage": ""
                   },
                   {
                     "information": "",
@@ -1123,7 +1391,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "80",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1136,7 +1404,18 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "80",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "80"
+                      }
+                    ],
+                    "errorMessage": ""
                   },
                   {
                     "information": "",
@@ -1169,7 +1448,7 @@ const staticResponse = {
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": "40",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1182,7 +1461,18 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "40",
+                    "selectedValue": [
+                      {
+                        "label": "",
+                        "textValue": "",
+                        "value": "40"
+                      }
+                    ],
+                    "errorMessage": ""
                   },
                   {
                     "information": "",
@@ -1616,7 +1906,9 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "1"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -1629,7 +1921,33 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": "Yes",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": {
+                            "value": "1"
+                          }
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "5.001",
+                      "shortKey": "recomAvail"
+                    }
                   },
                   {
                     "information": "",
@@ -1667,7 +1985,9 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "1"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -1680,7 +2000,33 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": " As per Census 2011",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": {
+                            "value": "1"
+                          }
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "5.002",
+                      "shortKey": "grantDistribute"
+                    }
                   },
                   {
                     "information": "",
@@ -1718,7 +2064,9 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "1"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -1731,7 +2079,33 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": "Yes",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": {
+                            "value": "1"
+                          }
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "5.003",
+                      "shortKey": "sfcNotification"
+                    }
                   },
                   {
                     "information": "",
@@ -1793,7 +2167,22 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "answer": {
+                      "answer": [
+                        {
+                          "textValue": "",
+                          "label": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "11",
+                      "nestedAnswer": [],
+                      "order": "5.004",
+                      "pattern": "",
+                      "shortKey": "sfcNotificationCopy"
+                    },
+                    "errorMessage": "This is a required field"
                   }
                 ]
               ],
