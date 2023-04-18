@@ -2338,6 +2338,8 @@ export class AnnualAccountComponent implements OnInit {
   }
   sideMenuItem: object | any;
   leftMenuSubs:any;
+  auditedActionPayLoad;
+  canTakeAction:boolean = false;
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2360,6 +2362,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res: any)=>{
       console.log('res.........', res);
       this.questionResponse.data = res.data;
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
       if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3)){
         for(let el of res.data[0]?.language[0].question){
           console.log('qus el el', el);

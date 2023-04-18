@@ -101,7 +101,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       if (value.status == 4 || value.status == 6) {
         this.activeClassApprove = true;
         this.activeClassReturn = false;
-        if(value?.rejectReason) this.errorInAction = false;
+        this.errorInAction = false;
       } else if (value.status == 5 || value.status == 7) {
         this.activeClassReturn = true;
         this.activeClassApprove = false;
