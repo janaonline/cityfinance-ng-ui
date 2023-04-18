@@ -12,10 +12,11 @@ import { GtcComponent } from './gtc/gtc.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
 import { GtcPreviewComponent } from './gtc/gtc-preview/gtc-preview.component';
+import { InstallmentPreviewComponent } from './gtc/installment-preview/installment-preview.component';
 
 
 @NgModule({
-  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, GtcComponent, GtcPreviewComponent],
+  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent],
   imports: [
     CommonModule,
     StateFormRoutingModule,

@@ -111,18 +111,6 @@ export class GtcPreviewComponent implements OnInit {
     console.log("preview data", this.data);
   }
 
-  clickedDownloadAsPDF(template) {
-    this.download = true;
-    let changeHappen;
-
-    changeHappen = sessionStorage.getItem("changeInGtc");
-    console.log(changeHappen);
-    if (changeHappen === "true") {
-      this.openDialog(template);
-    } else {
-      this.downloadAsPDF();
-    }
-  }
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
