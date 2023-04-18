@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
 import { GtcService } from './gtc.service';
 
 @Component({
@@ -11,7 +13,8 @@ export class GtcComponent implements OnInit {
   baseForm: any[];
 
   constructor(
-    private gtcService: GtcService
+    private gtcService: GtcService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -26,7 +29,20 @@ export class GtcComponent implements OnInit {
   }
 
   onPreview() {
-    
+    console.log(this.baseForm);
+    let formdata = this.baseForm;
+    const dialogRef = this.dialog.open(GtcPreviewComponent, {
+      data: formdata,
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
   }
 
 }
