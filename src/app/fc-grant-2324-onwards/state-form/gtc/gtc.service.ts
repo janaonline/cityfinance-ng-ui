@@ -1549,8 +1549,8 @@ const staticResponse = {
                       }
                     ],
                     "restrictions": [],
-                    "minRange": null,
-                    "maxRange": null,
+                    "minRange": 0,
+                    "maxRange": 9999,
                     "pattern": "",
                     "input_type": "2",
                     "weightage": [],
@@ -1591,8 +1591,8 @@ const staticResponse = {
                       }
                     ],
                     "restrictions": [],
-                    "minRange": null,
-                    "maxRange": null,
+                    "minRange": 0,
+                    "maxRange": 9999,
                     "pattern": "",
                     "input_type": "2",
                     "weightage": [],

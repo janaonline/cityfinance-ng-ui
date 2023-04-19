@@ -45,4 +45,24 @@ export class GtcComponent implements OnInit {
     });
   }
 
+  onSubmit(data, question) {
+    const payload = {
+      installment: question.installment,
+      year: question.year,
+      type: question.type,
+      isDraft: true,
+      status:  2,
+      financialYear: 'this.design_year',
+      designYear: 'this.design_year',
+      state: 'this.ulbId',
+      formId: '4',
+      data: data.finalData,
+    }
+
+    console.log(payload);
+
+
+
+  }
+
 }
