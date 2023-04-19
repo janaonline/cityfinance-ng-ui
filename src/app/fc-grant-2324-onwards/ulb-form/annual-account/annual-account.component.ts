@@ -2338,7 +2338,7 @@ export class AnnualAccountComponent implements OnInit {
   }
   sideMenuItem: object | any;
   leftMenuSubs:any;
-  auditedActionPayLoad;
+  actionPayLoad = [];
   canTakeAction:boolean = false;
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
@@ -2363,16 +2363,20 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       console.log('res.........', res);
       this.questionResponse.data = res.data;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
-      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3)){
-        for(let el of res.data[0]?.language[0].question){
+      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3 || res.data[0].statusId == 4)){
+        for(let el of res.data[0]?.language[0].question) {
           console.log('qus el el', el);
           if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
           if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
-          
+          if(el?.isReview && el?.canTakeAction){
+            this.preparingActionPayload(el);
+          }
+         
         }
       }
+     console.log('annual accounts', this.actionPayLoad);
      
       this.formDisable(res?.data[0]);
       console.log('res.........22', this.questionResponse);
@@ -2525,4 +2529,18 @@ nextPreBtn(e) {
 ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
 }
+
+preparingActionPayload(question){
+let actionObj = {
+    shortKey: question?.reviewShortKey,
+    status: question?.status,
+    rejectReason: "",
+    responseFile: {
+      url: "",
+      name: "",
+      }, 
+    }
+
+  this.actionPayLoad.push(actionObj); 
+  }
 }
