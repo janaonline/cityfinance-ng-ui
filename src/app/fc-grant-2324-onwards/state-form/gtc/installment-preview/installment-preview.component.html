@@ -4,16 +4,16 @@
         <td rowspan="2">Million Plus Cities (MPC)/ Non - Million Plus Cities(NMPC)</td>
         <td rowspan="2">Total No. Of </td>
         <td>MPC</td>
-        <td>Value</td>
+        <td>{{ formData.totalMpc }}</td>
         <td rowspan="2">Duly elected bodies in the State</td>
         <td>ULBs in MPC</td>
-        <td colspan="2">Value</td>
+        <td colspan="2">{{ formData.totalElectedMpc }}</td>
     </tr>
     <tr>
         <td>NMPC</td>
-        <td>Value</td>
+        <td>{{ formData.totalNmpc }}</td>
         <td>ULBs in NMPC</td>
-        <td colspan="2">Value</td>
+        <td colspan="2">{{ formData.totalElectedNmpc }}</td>
     </tr>
     <tr>
         <td rowspan="2">2.</td>
@@ -24,10 +24,10 @@
         <td colspan="3">Date of receipt</td>
     </tr>
     <tr>
-        <td style="height: 40px;"></td>
-        <td colspan="2"></td>
-        <td></td>
-        <td colspan="3"></td>
+        <td style="height: 40px;">{{ formData.year }}</td>
+        <td colspan="2">{{ formData.installment_type }}</td>
+        <td>{{ formData.recAmount }}</td>
+        <td colspan="3">{{ formData.receiptDate }}</td>
     </tr>
     <tr>
         <td rowspan="2">3.</td>
@@ -50,26 +50,26 @@
     <tr>
         <td>4.</td>
         <td>Whether State Finance Commission (SFC) Recommendations available</td>
-        <td>Yes/No</td>
+        <td>{{ formData.recomAvail }}</td>
         <td colspan="2">If yes, whether, grant distributed as per census 2011 population or as per SFC Recommendation</td>
-        <td></td>
+        <td>{{ formData.grantDistribute }}</td>
         <td>If No, whether notification for constitution of SFC issued</td>
         <td colspan="2">Yes/No (if yes attach a copy of notification) </td>
     </tr>
     <tr>
         <td>5.</td>
         <td>Whether project works undertaken uploaded on the website</td>
-        <td colspan="7">Yes/No</td>
+        <td colspan="7">{{ formData.projectUndtkn }}</td>
     </tr>
     <tr>
         <td>6.</td>
         <td>Whether Property Tax Notification issued (if not already in force)</td>
-        <td colspan="7">Yes/No (if Yes, attach a copy of Notification)</td>
+        <td colspan="7">{{ formData.propertyTaxNotif }}</td>
     </tr>
     <tr>
         <td>7.</td>
         <td>Whether ULB account for 15th FC Grants linked to PFMS fo r all transactions</td>
-        <td colspan="7">Yes/No</td>
+        <td colspan="7">{{ formData.accountLinked }}</td>
     </tr>
 </table>
 <p class="mb-1" style="font-size: 13px;">* Strikeout whichever is not applicable.</p>

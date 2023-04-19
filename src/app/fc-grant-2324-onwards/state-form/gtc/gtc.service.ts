@@ -31,9 +31,22 @@ const staticResponse = {
                 [
                   {
                     "information": "",
-                    "_id": "643d18e25fc82902c972e4d8",
+                    "_id": "643f8e66c93c81645b9fbe2f",
                     "order": "1.005",
-                    "answer_option": [],
+                    "answer_option": [
+                      {
+                        "name": "2022-23",
+                        "did": [],
+                        "viewSequence": "1",
+                        "_id": "1"
+                      },
+                      {
+                        "name": "2023-24",
+                        "did": [],
+                        "viewSequence": "2",
+                        "_id": "2"
+                      }
+                    ],
                     "title": "Year",
                     "hint": "",
                     "resource_urls": [],
@@ -42,15 +55,20 @@ const staticResponse = {
                     "viewSequence": "2",
                     "child": [],
                     "parent": [],
-                    "validation": [],
+                    "validation": [
+                      {
+                        "error_msg": "",
+                        "_id": "1"
+                      }
+                    ],
                     "restrictions": [],
-                    "input_type": "14",
+                    "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": false,
-                    "value": "2023-04-18",
+                    "isQuestionDisabled": true,
+                    "value": "1",
                     "acceptableType": "",
                     "acceptableFileType": "",
-                    "type": "14",
+                    "type": "3",
                     "visibility": true,
                     "nestedConfig": {
                       "parentOrder": "1",
@@ -61,26 +79,26 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "2023-04-18",
-                    "isSelectValue": false,
-                    "previousValue": "2023-04-18",
+                    "modelValue": "1",
+                    "isSelectValue": true,
+                    "previousValue": "1",
                     "selectedValue": [
                       {
-                        "label": "",
-                        "textValue": "2023-04-18",
-                        "value": ""
+                        "label": "2022-23",
+                        "textValue": "",
+                        "value": "1"
                       }
                     ],
                     "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": "",
+                          "label": "2022-23",
                           "textValue": "",
-                          "value": "2023-04-18"
+                          "value": "1"
                         }
                       ],
-                      "input_type": "14",
+                      "input_type": "3",
                       "nestedAnswer": [],
                       "order": "1.005",
                       "shortKey": "year"
@@ -121,7 +139,7 @@ const staticResponse = {
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": false,
+                    "isQuestionDisabled": true,
                     "value": "1",
                     "acceptableType": "",
                     "acceptableFileType": "",
@@ -196,7 +214,7 @@ const staticResponse = {
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": false,
+                    "isQuestionDisabled": true,
                     "value": "1",
                     "acceptableType": "",
                     "acceptableFileType": "",
@@ -238,18 +256,30 @@ const staticResponse = {
                   },
                   {
                     "information": "",
-                    "_id": "6437fbfc1a51164651cac4a5",
+                    "_id": "643f8faff8e5d564560e8c17",
                     "order": "1.004",
-                    "answer_option": [],
+                    "answer_option": [
+                      {
+                        "name": "1st Installment",
+                        "did": [],
+                        "viewSequence": "1",
+                        "_id": "1"
+                      },
+                      {
+                        "name": "2nd Installment",
+                        "did": [],
+                        "viewSequence": "2",
+                        "_id": "2"
+                      }
+                    ],
                     "title": "Installment Type",
                     "hint": "",
                     "resource_urls": [],
-                    "label": "4",
+                    "label": "",
                     "shortKey": "installment_type",
                     "viewSequence": "5",
                     "child": [],
                     "parent": [],
-                    "pattern": "",
                     "validation": [
                       {
                         "error_msg": "",
@@ -257,15 +287,13 @@ const staticResponse = {
                       }
                     ],
                     "restrictions": [],
-                    "min": 1,
-                    "max": null,
-                    "input_type": "1",
+                    "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": false,
-                    "value": "first",
+                    "isQuestionDisabled": true,
+                    "value": "2",
                     "acceptableType": "",
                     "acceptableFileType": "",
-                    "type": "1",
+                    "type": "3",
                     "visibility": true,
                     "nestedConfig": {
                       "parentOrder": "1",
@@ -276,29 +304,28 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "first",
+                    "modelValue": "2",
+                    "isSelectValue": true,
+                    "previousValue": "2",
                     "selectedValue": [
                       {
-                        "label": "",
-                        "textValue": "first",
-                        "value": ""
+                        "label": "2nd Installment",
+                        "textValue": "",
+                        "value": "2"
                       }
                     ],
                     "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": "",
-                          "textValue": "first",
-                          "value": ""
+                          "label": "2nd Installment",
+                          "textValue": "",
+                          "value": "2"
                         }
                       ],
-                      "input_type": "1",
+                      "input_type": "3",
                       "nestedAnswer": [],
                       "order": "1.004",
-                      "pattern": "",
                       "shortKey": "installment_type"
                     }
                   }
@@ -401,18 +428,30 @@ const staticResponse = {
             },
             {
               "information": "",
-              "_id": "6437fbfc1a51164651cac4a5",
+              "_id": "643f8faff8e5d564560e8c17",
               "order": "1.004",
-              "answer_option": [],
+              "answer_option": [
+                {
+                  "name": "1st Installment",
+                  "did": [],
+                  "viewSequence": "1",
+                  "_id": "1"
+                },
+                {
+                  "name": "2nd Installment",
+                  "did": [],
+                  "viewSequence": "2",
+                  "_id": "2"
+                }
+              ],
               "title": "Installment Type",
               "hint": "",
               "resource_urls": [],
-              "label": "4",
+              "label": "",
               "shortKey": "installment_type",
               "viewSequence": "5",
               "child": [],
               "parent": [],
-              "pattern": "",
               "validation": [
                 {
                   "error_msg": "",
@@ -420,16 +459,27 @@ const staticResponse = {
                 }
               ],
               "restrictions": [],
-              "min": 1,
-              "max": null,
-              "input_type": "1",
+              "input_type": "3",
               "weightage": []
             },
             {
               "information": "",
-              "_id": "643d18e25fc82902c972e4d8",
+              "_id": "643f8e66c93c81645b9fbe2f",
               "order": "1.005",
-              "answer_option": [],
+              "answer_option": [
+                {
+                  "name": "2022-23",
+                  "did": [],
+                  "viewSequence": "1",
+                  "_id": "1"
+                },
+                {
+                  "name": "2023-24",
+                  "did": [],
+                  "viewSequence": "2",
+                  "_id": "2"
+                }
+              ],
               "title": "Year",
               "hint": "",
               "resource_urls": [],
@@ -438,9 +488,14 @@ const staticResponse = {
               "viewSequence": "2",
               "child": [],
               "parent": [],
-              "validation": [],
+              "validation": [
+                {
+                  "error_msg": "",
+                  "_id": "1"
+                }
+              ],
               "restrictions": [],
-              "input_type": "14",
+              "input_type": "3",
               "weightage": []
             },
             {
@@ -2382,8 +2437,8 @@ const staticResponse = {
                 [
                   {
                     "information": "",
-                    "_id": "643805b610d7a646562ea84e",
-                    "order": "6.001",
+                    "_id": "643806ccbae92b46491920ae",
+                    "order": "8.001",
                     "answer_option": [
                       {
                         "name": "Yes",
@@ -2398,12 +2453,12 @@ const staticResponse = {
                         "_id": "2"
                       }
                     ],
-                    "title": "Whether Project works undertaken are uploaded on the website",
+                    "title": "Whether ULB account for 15th FC Grants linked to PFMS for all transactions",
                     "hint": "",
                     "resource_urls": [],
                     "label": "1",
-                    "shortKey": "projectUndtkn",
-                    "viewSequence": "29",
+                    "shortKey": "accountLinked",
+                    "viewSequence": "34",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2416,20 +2471,33 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "1"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
                     "visibility": true,
                     "nestedConfig": {
-                      "parentOrder": "6",
+                      "parentOrder": "8",
                       "index": 0,
                       "loopIndex": 0
                     },
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": "Yes",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": ""
                   }
                 ]
               ],
@@ -2553,7 +2621,9 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "2"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2566,7 +2636,33 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "2",
+                    "selectedValue": [
+                      {
+                        "label": "No",
+                        "textValue": "",
+                        "value": "2"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": {
+                            "value": "2"
+                          }
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "7.001",
+                      "shortKey": "propertyTaxNotif"
+                    }
                   },
                   {
                     "information": "",
@@ -2628,7 +2724,22 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "answer": {
+                      "answer": [
+                        {
+                          "textValue": "",
+                          "label": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "11",
+                      "nestedAnswer": [],
+                      "order": "7.002",
+                      "pattern": "",
+                      "shortKey": "propertyTaxNotifCopy"
+                    },
+                    "errorMessage": "This is a required field"
                   }
                 ]
               ],
@@ -2795,7 +2906,9 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "",
+                    "value": {
+                      "value": "1"
+                    },
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2808,7 +2921,33 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "isSelectValue": false,
+                    "previousValue": "",
+                    "modelValue": "1",
+                    "selectedValue": [
+                      {
+                        "label": "Yes",
+                        "textValue": "",
+                        "value": "1"
+                      }
+                    ],
+                    "errorMessage": "",
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": {
+                            "value": "1"
+                          }
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "8.001",
+                      "shortKey": "accountLinked"
+                    }
                   }
                 ]
               ],
