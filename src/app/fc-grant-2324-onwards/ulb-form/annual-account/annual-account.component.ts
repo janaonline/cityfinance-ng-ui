@@ -2340,6 +2340,7 @@ export class AnnualAccountComponent implements OnInit {
   leftMenuSubs:any;
   actionPayLoad = [];
   canTakeAction:boolean = false;
+  reviewShortKeyArray= [];
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2354,7 +2355,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
     this.getNextPreUrl();
   }
 });
-   this.getActionRes();
+   //this.getActionRes();
    this.isApiComplete = false;
    this.onload();
   }
@@ -2372,6 +2373,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
           if(el?.isReview && el?.canTakeAction){
             this.preparingActionPayload(el);
+            this.reviewShortKeyArray.push(el.reviewShortKey);
           }
          
         }
@@ -2384,6 +2386,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
         ...JSON.parse(JSON.stringify(this.questionResponse))
       }
       this.isApiComplete = true;
+      this.getActionRes();
     },
     (error)=> {
       console.log('error', error);
@@ -2470,13 +2473,6 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
  getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res annual', res);
-   // this.actionData = res?.data;
-    // if(this.actionData[0].status == 1 || this.actionData[0].status == 2 || this.actionData[0].status == false){
-    //   this.actionViewMode = false;
-    // }else{
-    //   this.actionViewMode = true;
-    // }
-
   },
   (err)=>{
     console.log('err action get')
@@ -2507,6 +2503,10 @@ formDisable(res){
   }
 }
 saveAction(data){
+  if(data == true){
+    this.commonServices.setFormStatusUlb.next(true);
+    this.onload();
+  }
   console.log('action data', data);
 }
 
@@ -2533,7 +2533,7 @@ ngOnDestroy(): void {
 preparingActionPayload(question){
 let actionObj = {
     shortKey: question?.reviewShortKey,
-    status: question?.status,
+    status: '',
     rejectReason: "",
     responseFile: {
       url: "",
