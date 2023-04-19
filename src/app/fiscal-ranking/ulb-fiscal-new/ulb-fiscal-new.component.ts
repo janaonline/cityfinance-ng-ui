@@ -253,7 +253,7 @@ export class UlbFiscalNewComponent implements OnInit {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col })) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
