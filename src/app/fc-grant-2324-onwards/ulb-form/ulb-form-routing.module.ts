@@ -11,6 +11,7 @@ import { ResourceComponent } from './resource/resource.component';
 import { ConfirmationGuard } from './guards/confirmation.guard';
 import { PropertyTaxComponent } from './property-tax/property-tax.component';
 import { PfmsComponent } from './pfms/pfms.component';
+import { FourSlbComponent } from './four-slb/four-slb.component';
 
 const routes: Routes = [
   {
@@ -55,7 +56,7 @@ const routes: Routes = [
       },
       {
         path: "slbs",
-        component: CommonFormComponent,
+        component: FourSlbComponent,
         canDeactivate: [ConfirmationGuard]
       },
       {

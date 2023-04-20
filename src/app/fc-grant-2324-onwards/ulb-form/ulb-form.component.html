@@ -11,8 +11,26 @@
             <!-- form header details eg, ulb, state name, and role -->
             <div class="row mt-3">
                 <div class="col-sm-12 text-center">
-                  <div class="m-head">
+                  <div class="m-head" *ngIf="userData?.role === 'ULB'">
                     {{userData?.name}}, {{userData?.stateName}}
+                  </div>
+                  <div class="m-head">
+                    <span *ngIf="userData?.role === 'ADMIN' ||
+                    userData?.role === 'MoHUA'">
+                       {{ userData?.role }}
+                     <div>
+                       <span style="font-size: 18px; font-weight: 600;">
+                           {{ulbName}}<span *ngIf="ulbName != ''">,</span> {{stateName}}
+                       </span>
+                      </div>
+                    </span>
+                  </div>
+                  <div class="m-head">
+                    <span *ngIf="userData?.role === 'STATE'">
+                       <span style="font-size: 18px; font-weight: 600;">
+                           {{ulbName}}<span *ngIf="ulbName != ''">,</span> {{stateName}}
+                       </span>
+                    </span>
                   </div>
 
                 </div>

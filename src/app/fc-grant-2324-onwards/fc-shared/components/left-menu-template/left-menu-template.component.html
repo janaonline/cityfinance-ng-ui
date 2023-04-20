@@ -1,11 +1,11 @@
 <div class="scrol">
-    <div class="" *ngFor="let menuItem of leftMenu | keyvalue">
-        <div class="row out-f-h " *ngIf="menuItem?.key != ''">
+    <div class="" *ngFor="let menuItem of leftMenu | keyvalue : returnPostion">
+        <div class="row out-f-h " *ngIf="menuItem?.key != '' && (menuItem?.key?.split('_'))[0]">
             <div class="col-sm-2">
 
             </div>
             <div class="col-sm-9 collapsable">
-                {{menuItem.key}}
+                {{(menuItem?.key?.split('_'))[0]}}
             </div>
         </div>
         <div class="row link-div" routerLinkActive="active" *ngFor="let sideItem of menuItem?.value">

@@ -107,8 +107,13 @@ export class NewCommonService {
     );
   }
 
-  postTableApproveRejectData(body) {
-    return this.http.patch(`${environment.api.url}common-action`, body);
+  postTableApproveRejectData(body, reviewType:string) {
+    if(reviewType == 'old_review'){
+      return this.http.patch(`${environment.api.url}common-action`, body);
+    }else{
+      return this.http.post(`${environment.api.url}common-action/masterAction`, body);
+    }
+    
   }
   getTableApproveRejectData(body) {
     return this.http.patch(`${environment.api.url}common-action`, body);

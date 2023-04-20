@@ -5,6 +5,7 @@ const swal: SweetAlert = require("sweetalert");
 
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twenty-eight-slb-preview.component';
 
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
@@ -33,6 +34,7 @@ export class TwentyEightSlbComponent implements OnInit {
   isProjectLoaded: boolean = false;
   successErrorMessage: string;
   formId = '6';
+  status: string;
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -41,7 +43,8 @@ export class TwentyEightSlbComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private twentyEightSlbService: TwentyEightSlbService,
-    private loaderService: GlobalLoaderService
+    private loaderService: GlobalLoaderService,
+    private commonServices: CommonServicesService,
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +81,7 @@ export class TwentyEightSlbComponent implements OnInit {
       this.isLoaded = true;
       console.log(res);
       this.questionresponse = res;
+      this.status = res.status;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -101,13 +105,12 @@ export class TwentyEightSlbComponent implements OnInit {
             target_1: {
               value: questionsData.find(question => question.shortKey?.endsWith("_targetIndicator"))?.modelValue
             },
-            unit: "%"
+            unit: questionsData.find(question => question.shortKey?.endsWith("_unit"))?.modelValue
           }))
         }), {}),
-        isDraft: true,
       },
       ulbId: this.ulbId,
-      isDraft: true,
+      status: this.status
       // saveDataJson: this.slbData
     };
     const dialogRef = this.dialog.open(TwentyEightSlbPreviewComponent, {
@@ -156,40 +159,41 @@ export class TwentyEightSlbComponent implements OnInit {
 
   isFormValid(quetions) {
     console.log('finalData', quetions);
-    for (let question of quetions) {
-      for (let childQuestionsData of question?.childQuestionData) {
-        const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
-        const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
-        const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
+    // for (let question of quetions) {
+    //   for (let childQuestionsData of question?.childQuestionData) {
+    //     const actual = childQuestionsData.find(col => col.shortKey.endsWith('_actualIndicator'));
+    //     const target = childQuestionsData.find(col => col.shortKey.endsWith('_targetIndicator'));
+    //     const lineItem = childQuestionsData.find(col => col.shortKey.endsWith('_indicatorLineItem'));
 
-        const actualValue = +actual.modelValue;
-        const targetValue = +target.modelValue;
-        const lineItemValue = lineItem.modelValue;
+    //     const actualValue = +actual.modelValue;
+    //     const targetValue = +target.modelValue;
+    //     const lineItemValue = lineItem.modelValue;
 
-        if (actualValue < +actual?.minRange) {
-          return false;
-        }
-        if (targetValue < +target?.minRange) {
-          return false;
-        }
+    //     if (actualValue < +actual?.minRange) {
+    //       return false;
+    //     }
+    //     if (targetValue < +target?.minRange) {
+    //       return false;
+    //     }
 
-        if (!actualValue || !targetValue) continue;
+    //     if (!actualValue || !targetValue) continue;
 
-        if (this.oppositeComparisionKeys.includes(lineItemValue)) {
-          if (actualValue < targetValue) {
-            return false;
-          }
-        } else {
-          if (actualValue > targetValue) {
-            return false;
-          }
-        }
-      }
-    }
+    //     if (this.oppositeComparisionKeys.includes(lineItemValue)) {
+    //       if (actualValue < targetValue) {
+    //         return false;
+    //       }
+    //     } else {
+    //       if (actualValue > targetValue) {
+    //         return false;
+    //       }
+    //     }
+    //   }
+    // }
     return true;
   }
 
   async onSubmit(data) {
+    console.log('submit', data);
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
@@ -239,6 +243,8 @@ export class TwentyEightSlbComponent implements OnInit {
     }).subscribe(res => {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
         .then(() => {
           if (!isDraft) location.reload();

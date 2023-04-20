@@ -77,12 +77,7 @@ export class PropertyTaxComponent implements OnInit {
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
   formSubmitted = false;
-  specialHeaders = {
-    "6.1": "Property Tax Demand and Collection Figures by Property Type (Amount in INR Lakhs)",
-    "14.1": "Water Charges Details",
-    "24.1": "Sewerage Charges Details",
-    "27.1": "Sewerage Charges Details by household/property type",
-  }
+  specialHeaders: { [key: number]: string[] } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -123,9 +118,10 @@ export class PropertyTaxComponent implements OnInit {
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
+      this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      this.addSkipLogics();
+      // this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
@@ -153,7 +149,7 @@ export class PropertyTaxComponent implements OnInit {
         else {
           obj[key] = this.fb.group({
             key: item.key,
-            position: [{ value: +item.displayPriority || 1, disabled: true }],
+            position: [{ value: item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
@@ -213,9 +209,12 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   sortPosition(itemA: KeyValue<number, FormGroup>, itemB: KeyValue<number, FormGroup>) {
-    const a = +itemA.value.controls.position?.value;
-    const b = +itemB.value.controls.position?.value;
-    return a > b ? 1 : (b > a ? -1 : 0);;
+    const [integerA, decimalA] = itemA.value.controls.position?.value?.split('.').map(i => +i);
+    const [integerB, decimalB] = itemB.value.controls.position?.value?.split('.').map(i => +i);
+    if (integerA != integerB) {
+      return integerA > integerB ? 1 : (integerB > integerA ? -1 : 0);;
+    }
+    return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 
   addSkipLogics() {
