@@ -2338,6 +2338,9 @@ export class AnnualAccountComponent implements OnInit {
   }
   sideMenuItem: object | any;
   leftMenuSubs:any;
+  actionPayLoad = [];
+  canTakeAction:boolean = false;
+  reviewShortKeyArray= [];
   ngOnInit(): void {
 //    console.log('ResData', this.resData)
 //    this.questionResponse = {
@@ -2352,7 +2355,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
     this.getNextPreUrl();
   }
 });
-   this.getActionRes();
+   //this.getActionRes();
    this.isApiComplete = false;
    this.onload();
   }
@@ -2360,16 +2363,22 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe((res: any)=>{
       console.log('res.........', res);
       this.questionResponse.data = res.data;
-      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3)){
-        for(let el of res.data[0]?.language[0].question){
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3 || res.data[0].statusId == 4)){
+        for(let el of res.data[0]?.language[0].question) {
           console.log('qus el el', el);
           if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
           if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
-          
+          if(el?.isReview && el?.canTakeAction){
+            this.preparingActionPayload(el);
+            this.reviewShortKeyArray.push(el.reviewShortKey);
+          }
+         
         }
       }
+     console.log('annual accounts', this.actionPayLoad);
      
       this.formDisable(res?.data[0]);
       console.log('res.........22', this.questionResponse);
@@ -2377,6 +2386,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
         ...JSON.parse(JSON.stringify(this.questionResponse))
       }
       this.isApiComplete = true;
+      this.getActionRes();
     },
     (error)=> {
       console.log('error', error);
@@ -2463,13 +2473,6 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
  getActionRes(){
   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
     console.log('action get res annual', res);
-   // this.actionData = res?.data;
-    // if(this.actionData[0].status == 1 || this.actionData[0].status == 2 || this.actionData[0].status == false){
-    //   this.actionViewMode = false;
-    // }else{
-    //   this.actionViewMode = true;
-    // }
-
   },
   (err)=>{
     console.log('err action get')
@@ -2500,6 +2503,10 @@ formDisable(res){
   }
 }
 saveAction(data){
+  if(data == true){
+    this.commonServices.setFormStatusUlb.next(true);
+    this.onload();
+  }
   console.log('action data', data);
 }
 
@@ -2522,4 +2529,18 @@ nextPreBtn(e) {
 ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();
 }
+
+preparingActionPayload(question){
+let actionObj = {
+    shortKey: question?.reviewShortKey,
+    status: '',
+    rejectReason: "",
+    responseFile: {
+      url: "",
+      name: "",
+      }, 
+    }
+
+  this.actionPayLoad.push(actionObj); 
+  }
 }

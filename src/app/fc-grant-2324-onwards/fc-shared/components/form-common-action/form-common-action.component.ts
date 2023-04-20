@@ -35,7 +35,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   
   statusForm: FormGroup;
   @Input() canTakeAction:boolean = false;
-  @Input() uploadFolderName:string = '';
+  @Input() formName:string = '';
   @Output() formChangeEventEmit = new EventEmitter<boolean>();
   @Input() isButtonAvail:boolean= false;
   @Input() nextPreUrl;
@@ -66,7 +66,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     formId: null,
     ulb: null
   };
-  actionPayload = {}
+  actionPayload = {};
+  uploadFolderName:string='';
   ngOnInit(): void {
   console.log('action data', this.actionData);
   if(this.actionData) this.setStatusData(this.actionData);
@@ -76,6 +77,11 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     formId: this.formId,
     ulb: this.ulbId
   };
+ let id = this.userData?.ulbCode;
+  if (!id) {
+    id = sessionStorage.getItem('ulbCode');
+   }
+  this.uploadFolderName = `${this.userData?.role}/2023-24/supporting_douments/${this.formName}/${id}`;
   this.getActionRes();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,7 +107,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       if (value.status == 4 || value.status == 6) {
         this.activeClassApprove = true;
         this.activeClassReturn = false;
-        if(value?.rejectReason) this.errorInAction = false;
+        this.errorInAction = false;
       } else if (value.status == 5 || value.status == 7) {
         this.activeClassReturn = true;
         this.activeClassApprove = false;
