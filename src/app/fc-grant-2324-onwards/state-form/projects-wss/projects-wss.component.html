@@ -1,1 +1,57 @@
-<p>projects-wss works!</p>
+<div class="containe-fluid">
+    <div class="pre-message">
+        <div class="row">
+            <div class="col-sm-12">
+
+            </div>
+        </div>
+    </div>
+    <div class="form">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="" *ngFor="let uas of Uas; let projectIndex=index">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="">
+                                {{projectIndex}}
+                                <div class="col-sm-9 head-l" style="">
+                                    UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex)}}
+                                </div>
+                                <div class="col-sm-3 text-end" style="">
+                                    <button class="btn btn-primary" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive table-con" *ngIf="tableData">
+    <table class="table">
+      <thead>
+        <tr>
+          <th
+            scope="col"
+            *ngFor="let column of tableData?.columns"
+            class="{{ column?.key }}"
+          >
+            {{ column?.display_name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData?.rows | slice:1">
+          <td
+            *ngFor="let column of tableData?.columns"
+            class="{{ column?.key }}"
+          >
+            {{ row[column.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
