@@ -9,10 +9,11 @@ import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
+import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
 
 
 @NgModule({
-  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, ProjectsWssComponent],
+  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, ProjectsWssComponent, ProjectsWaterRejComponent],
   imports: [
     CommonModule,
     StateFormRoutingModule,

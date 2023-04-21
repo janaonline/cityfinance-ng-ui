@@ -63,74 +63,312 @@ export class ProjectsWssComponent implements OnInit {
   }
 
   
-tableData = {
+tableRes = {
+    title:'AAA',
+    tables : [
+      {
+        tableName: 'AAAAAAA',
+        data: {
+          "columns": [
+            {
+                "key": "ulbType",
+                "display_name": "Population Category"
+            },
+            {
+                "key": "numberOfULBs",
+                "display_name": "Number Of ULBs"
+            },
+            {
+                "key": "ulbsWithData",
+                "display_name": "ULBs With Data"
+            },
+            {
+                "key": "DataAvailPercentage",
+                "display_name": "Data Availability Percentage"
+            },
+            {
+                "key": "urbanPopulationPercentage",
+                "display_name": "Urban Population Percentage"
+            }
+        ],
+        "rows": [
+            {
 
-  "columns": [
-      {
-          "key": "ulbType",
-          "display_name": "Population Category"
-      },
-      {
-          "key": "numberOfULBs",
-          "display_name": "Number Of ULBs"
-      },
-      {
-          "key": "ulbsWithData",
-          "display_name": "ULBs With Data"
-      },
-      {
-          "key": "DataAvailPercentage",
-          "display_name": "Data Availability Percentage"
-      },
-      {
-          "key": "urbanPopulationPercentage",
-          "display_name": "Urban Population Percentage"
+              "ulbType": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "numberOfULBs": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "ulbsWithData":  {
+                value: 87,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "DataAvailPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "urbanPopulationPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+            },
+            {
+              "ulbType": {
+                value: 4,
+                type: "file",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "numberOfULBs": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "ulbsWithData":  {
+                value: '',
+                type: "date",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "DataAvailPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "urbanPopulationPercentage":  {
+                value: 111,
+                type: "number",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+            },
+            // {
+            //     "ulbType": "1 Million - 4 Million",
+            //     "numberOfULBs": 42,
+            //     "ulbsWithData": 14,
+            //     "DataAvailPercentage": "33 %",
+            //     "urbanPopulationPercentage": "1 %"
+            // },
+            // {
+            //     "ulbType": "500 Thousand - 1 Million",
+            //     "numberOfULBs": 55,
+            //     "ulbsWithData": 21,
+            //     "DataAvailPercentage": "38 %",
+            //     "urbanPopulationPercentage": "1 %"
+            // },
+            // {
+            //     "ulbType": "100 Thousand - 500 Thousand",
+            //     "numberOfULBs": 392,
+            //     "ulbsWithData": 117,
+            //     "DataAvailPercentage": "30 %",
+            //     "urbanPopulationPercentage": "8 %"
+            // },
+            // {
+            //     "ulbType": "< 100 Thousand",
+            //     "numberOfULBs": 4380,
+            //     "ulbsWithData": 0,
+            //     "DataAvailPercentage": "0 %",
+            //     "urbanPopulationPercentage": "90 %"
+            // }
+        ]
       }
-  ],
-  "rows": [
-      {
-          "ulbType": "Average",
-          "numberOfULBs": 975,
-          "ulbsWithData": 31,
-          "DataAvailPercentage": "29 %",
-          "urbanPopulationPercentage": "20 %"
       },
       {
-          "ulbType": "4 Million+",
-          "numberOfULBs": 7,
-          "ulbsWithData": 3,
-          "DataAvailPercentage": "43 %",
-          "urbanPopulationPercentage": "0 %"
-      },
-      {
-          "ulbType": "1 Million - 4 Million",
-          "numberOfULBs": 42,
-          "ulbsWithData": 14,
-          "DataAvailPercentage": "33 %",
-          "urbanPopulationPercentage": "1 %"
-      },
-      {
-          "ulbType": "500 Thousand - 1 Million",
-          "numberOfULBs": 55,
-          "ulbsWithData": 21,
-          "DataAvailPercentage": "38 %",
-          "urbanPopulationPercentage": "1 %"
-      },
-      {
-          "ulbType": "100 Thousand - 500 Thousand",
-          "numberOfULBs": 392,
-          "ulbsWithData": 117,
-          "DataAvailPercentage": "30 %",
-          "urbanPopulationPercentage": "8 %"
-      },
-      {
-          "ulbType": "< 100 Thousand",
-          "numberOfULBs": 4380,
-          "ulbsWithData": 0,
-          "DataAvailPercentage": "0 %",
-          "urbanPopulationPercentage": "90 %"
+        tableName: 'BBBBBBBbbb',
+        data: {
+          "columns": [
+            {
+                "key": "ulbType",
+                "display_name": "Population Category"
+            },
+            {
+                "key": "numberOfULBs",
+                "display_name": "Number Of ULBs"
+            },
+            {
+                "key": "ulbsWithData",
+                "display_name": "ULBs With Data"
+            },
+            {
+                "key": "DataAvailPercentage",
+                "display_name": "Data Availability Percentage"
+            },
+            {
+                "key": "urbanPopulationPercentage",
+                "display_name": "Urban Population Percentage"
+            }
+        ],
+        "rows": [
+          {
+
+            "ulbType": {
+              value: 4,
+              type: "text",
+              changeFns: this.getTextValidation(),
+              min: 1,
+              max: 10
+            },
+            "numberOfULBs": {
+              value: 4,
+              type: "text",
+              changeFns: this.getTextValidation(),
+              min: 1,
+              max: 10
+            },
+            "ulbsWithData":  {
+              value: 87,
+              type: "text",
+              changeFns: this.getTextValidation(),
+              min: 1,
+              max: 10
+            },
+            "DataAvailPercentage":  {
+              value: 4,
+              type: "text",
+              changeFns: this.getTextValidation(),
+              min: 1,
+              max: 10
+            },
+            "urbanPopulationPercentage":  {
+              value: 4,
+              type: "text",
+              changeFns: this.getTextValidation(),
+              min: 1,
+              max: 10
+            },
+        },
+            {
+              "ulbType": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "numberOfULBs": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "ulbsWithData":  {
+                value: 87,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "DataAvailPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "urbanPopulationPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+            },
+            {
+              "ulbType": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "numberOfULBs": {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "ulbsWithData":  {
+                value: 87,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "DataAvailPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+              "urbanPopulationPercentage":  {
+                value: 4,
+                type: "text",
+                changeFns: this.getTextValidation(),
+                min: 1,
+                max: 10
+              },
+            },
+            // {
+            //     "ulbType": "1 Million - 4 Million",
+            //     "numberOfULBs": 42,
+            //     "ulbsWithData": 14,
+            //     "DataAvailPercentage": "33 %",
+            //     "urbanPopulationPercentage": "1 %"
+            // },
+            // {
+            //     "ulbType": "500 Thousand - 1 Million",
+            //     "numberOfULBs": 55,
+            //     "ulbsWithData": 21,
+            //     "DataAvailPercentage": "38 %",
+            //     "urbanPopulationPercentage": "1 %"
+            // },
+            // {
+            //     "ulbType": "100 Thousand - 500 Thousand",
+            //     "numberOfULBs": 392,
+            //     "ulbsWithData": 117,
+            //     "DataAvailPercentage": "30 %",
+            //     "urbanPopulationPercentage": "8 %"
+            // },
+            // {
+            //     "ulbType": "< 100 Thousand",
+            //     "numberOfULBs": 4380,
+            //     "ulbsWithData": 0,
+            //     "DataAvailPercentage": "0 %",
+            //     "urbanPopulationPercentage": "90 %"
+            // }
+        ]
       }
-  ]
+      }
+    ]
+    
 }
 userData = JSON.parse(localStorage.getItem("userData"));
 Year = JSON.parse(localStorage.getItem("Years"));
@@ -147,7 +385,7 @@ showLoader=true;
       this.stateId = localStorage.getItem("state_id");
     }
     this.setUaList();
-    this.initializeReport();
+   // this.initializeReport();
   }
  setUaList(){
     this.stateDashboardService.getCardData(this.stateId).subscribe(
@@ -171,6 +409,9 @@ showLoader=true;
   foldCard(index) {
     this.Uas[index].controls.foldCard.value =
       !this.Uas[index].controls.foldCard.value;
+  }
+  checkCard(index) {
+    return this.Uas[index].controls.foldCard.value;
   }
   uaIdToName(index) {
     if (this.uasData) {
@@ -216,7 +457,7 @@ showLoader=true;
     console.log('ggggggg', this.uasData)
     // this.isLoadingError = true;
     // this.isApiInProgress = true;
-    this.waterRejenuvationService.getData(this.Year["2022-23"], this.stateId).subscribe(
+    this.waterRejenuvationService.getData(this.Year["2023-24"], this.stateId).subscribe(
       (res) => {
         this.showLoader = false;
         // this.errorOnload = true;
@@ -232,9 +473,9 @@ showLoader=true;
       //  this.isDraft = res["data"].isDraft;
       //  this.totalStatus = res["data"].status;
       //  this.storeData(res["data"]);
-      //  this.showLoader = false;
+        this.showLoader = false;
       //  console.log("water rej data", this.data);
-      //  this.initializeReport();
+         this.initializeReport();
       //  this.setSkipLogic(this.data);
       //  this.isLoadingError = false;
         // resolve("ss");
@@ -245,5 +486,8 @@ showLoader=true;
 
       }
     );
+  }
+  getTextValidation(){
+    console.log('validation', )
   }
 }
