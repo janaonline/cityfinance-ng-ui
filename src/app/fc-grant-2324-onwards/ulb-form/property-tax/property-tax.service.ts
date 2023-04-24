@@ -4336,8 +4336,8 @@ const response = {
                },
                "notificationWaterCharges": {
                   "key": "notificationWaterCharges",
-                  "label": "Does ULB collect water charges?",
-                  "displayPriority": "14.1",
+                  "label": "Are water charges being collected in the ULB?",
+                  "displayPriority": "5.1",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4363,10 +4363,68 @@ const response = {
                   ],
                   "info": ""
                },
+               "entityWaterCharges": {
+                  "key": "entityWaterCharges",
+                  "label": "Which entity is collecting the water charges?",
+                  "displayPriority": "5.2",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "entityWaterCharges",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "radio-toggle",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {},
+                     {},
+                     {},
+                     {}
+                  ],
+                  "info": ""
+               },
+               "entityNameWaterCharges": {
+                  "key": "entityNameWaterCharges",
+                  "label": "Please fill the name of entity",
+                  "displayPriority": "5.3",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "entityNameWaterCharges",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "radio-toggle",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {},
+                     {},
+                     {},
+                     {}
+                  ],
+                  "info": ""
+               },
                "notificationWaterChargesFile": {
                   "key": "notificationWaterChargesFile",
                   "label": "Upload a copy of gazette notification that notifies water charges",
-                  "displayPriority": "14.2",
+                  "displayPriority": "5.4",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4395,10 +4453,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "WaterChrgDm": {
-                  "key": "WaterChrgDm",
-                  "label": "Total Water Charges Demand(Total Demand)",
-                  "displayPriority": "15.1",
+               "waterChrgDm": {
+                  "key": "waterChrgDm",
+                  "label": "Total water charges demand",
+                  "displayPriority": "5.5",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4409,7 +4467,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgDm",
+                        "type": "waterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
@@ -4426,7 +4484,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgDm",
+                        "type": "waterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
@@ -4443,7 +4501,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgDm",
+                        "type": "waterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
                         "code": [],
                         "readonly": false,
@@ -4460,7 +4518,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgDm",
+                        "type": "waterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
                         "code": [],
                         "readonly": false,
@@ -4477,7 +4535,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgDm",
+                        "type": "waterChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
                         "code": [],
                         "readonly": false,
@@ -4488,10 +4546,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "WaterChrgCol": {
-                  "key": "WaterChrgCol",
-                  "label": "Total Water Charges Collection(Total collections)",
-                  "displayPriority": "15.2",
+               "cuWaterChrgDm": {
+                  "key": "cuWaterChrgDm",
+                  "label": "Current water charges demand",
+                  "displayPriority": "5.6",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4502,7 +4560,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgCol",
+                        "type": "cuWaterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
@@ -4519,7 +4577,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgCol",
+                        "type": "cuWaterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
@@ -4536,7 +4594,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgCol",
+                        "type": "cuWaterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
                         "code": [],
                         "readonly": false,
@@ -4553,7 +4611,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgCol",
+                        "type": "cuWaterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
                         "code": [],
                         "readonly": false,
@@ -4570,7 +4628,379 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "WaterChrgCol",
+                        "type": "cuWaterChrgDm",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "arWaterChrgDm": {
+                  "key": "arWaterChrgDm",
+                  "label": "Arrear water charges demand",
+                  "displayPriority": "5.7",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgDm",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgDm",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgDm",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgDm",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgDm",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "waterChrgCol": {
+                  "key": "waterChrgCol",
+                  "label": "Total water charges collection",
+                  "displayPriority": "5.8",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "waterChrgCol",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "waterChrgCol",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "waterChrgCol",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "waterChrgCol",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "waterChrgCol",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "cuWaterChrgCol": {
+                  "key": "cuWaterChrgCol",
+                  "label": "Current water charges collection",
+                  "displayPriority": "5.9",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "cuWaterChrgCol",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "cuWaterChrgCol",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "cuWaterChrgCol",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "cuWaterChrgCol",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "cuWaterChrgCol",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "arWaterChrgCol": {
+                  "key": "arWaterChrgCol",
+                  "label": "Arrear water charges collection",
+                  "displayPriority": "5.10",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgCol",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgCol",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgCol",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgCol",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arWaterChrgCol",
                         "year": "606aafb14dff55e6c075d3ae",
                         "code": [],
                         "readonly": false,
@@ -4584,7 +5014,7 @@ const response = {
                "waterChrgConnectionDm": {
                   "key": "waterChrgConnectionDm",
                   "label": "Total Number of connections from which water charges was demanded",
-                  "displayPriority": "16.1",
+                  "displayPriority": "5.11",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4677,7 +5107,7 @@ const response = {
                "waterChrgConnectionCol": {
                   "key": "waterChrgConnectionCol",
                   "label": "Total Number of connections from which water charges were collected",
-                  "displayPriority": "16.2",
+                  "displayPriority": "5.12",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4770,7 +5200,7 @@ const response = {
                "resValueWaterChrgDm": {
                   "key": "resValueWaterChrgDm",
                   "label": "Value of Water charges Demanded(INR Lakhs)",
-                  "displayPriority": "17.1",
+                  "displayPriority": "5.13",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4863,7 +5293,7 @@ const response = {
                "resNoWaterChrgDm": {
                   "key": "resNoWaterChrgDm",
                   "label": "Number of households/properties from which water charges was demanded",
-                  "displayPriority": "17.2",
+                  "displayPriority": "5.14",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -4956,7 +5386,7 @@ const response = {
                "resValueWaterChrgCollected": {
                   "key": "resValueWaterChrgCollected",
                   "label": "Value of water charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "17.3",
+                  "displayPriority": "5.15",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5049,7 +5479,7 @@ const response = {
                "resNoWaterChrgCollected": {
                   "key": "resNoWaterChrgCollected",
                   "label": "Number of household/properties from which water charges was collected",
-                  "displayPriority": "17.4",
+                  "displayPriority": "5.16",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5142,7 +5572,7 @@ const response = {
                "comValueWaterChrgDm": {
                   "key": "comValueWaterChrgDm",
                   "label": "Value of Water charges Demanded(INR Lakhs)",
-                  "displayPriority": "18.1",
+                  "displayPriority": "5.17",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5235,7 +5665,7 @@ const response = {
                "comNoWaterChrgDm": {
                   "key": "comNoWaterChrgDm",
                   "label": "Number of households/properties from which water charges was demanded",
-                  "displayPriority": "18.2",
+                  "displayPriority": "5.18",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5328,7 +5758,7 @@ const response = {
                "comValueWaterChrgCollected": {
                   "key": "comValueWaterChrgCollected",
                   "label": "Value of water charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "18.3",
+                  "displayPriority": "5.19",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5421,7 +5851,7 @@ const response = {
                "comNoWaterChrgCollected": {
                   "key": "comNoWaterChrgCollected",
                   "label": "Number of household/properties from which water charges was collected",
-                  "displayPriority": "18.4",
+                  "displayPriority": "5.20",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5514,7 +5944,7 @@ const response = {
                "indValueWaterChrgDm": {
                   "key": "indValueWaterChrgDm",
                   "label": "Value of Water charges Demanded(INR Lakhs)",
-                  "displayPriority": "19.1",
+                  "displayPriority": "5.21",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5607,7 +6037,7 @@ const response = {
                "indNoWaterChrgDm": {
                   "key": "indNoWaterChrgDm",
                   "label": "Number of households/properties from which water charges was demanded",
-                  "displayPriority": "19.2",
+                  "displayPriority": "5.22",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5700,7 +6130,7 @@ const response = {
                "indValueWaterChrgCollected": {
                   "key": "indValueWaterChrgCollected",
                   "label": "Value of water charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "19.3",
+                  "displayPriority": "5.23",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5793,7 +6223,7 @@ const response = {
                "indNoWaterChrgCollected": {
                   "key": "indNoWaterChrgCollected",
                   "label": "Number of household/properties from which water charges was collected",
-                  "displayPriority": "19.4",
+                  "displayPriority": "5.24",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5886,7 +6316,7 @@ const response = {
                "othersValueWaterType": {
                   "key": "othersValueWaterType",
                   "label": "Property type",
-                  "displayPriority": "20.1",
+                  "displayPriority": "5.25",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -5915,7 +6345,7 @@ const response = {
                "othersValueWaterChrgDm": {
                   "key": "othersValueWaterChrgDm",
                   "label": "Value of Water charges Demanded(INR Lakhs)",
-                  "displayPriority": "20.2",
+                  "displayPriority": "5.26",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6008,7 +6438,7 @@ const response = {
                "othersNoWaterChrgDm": {
                   "key": "othersNoWaterChrgDm",
                   "label": "Number of households/properties from which water charges was demanded",
-                  "displayPriority": "20.3",
+                  "displayPriority": "5.27",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6101,7 +6531,7 @@ const response = {
                "othersValueWaterChrgCollected": {
                   "key": "othersValueWaterChrgCollected",
                   "label": "Value of water charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "20.4",
+                  "displayPriority": "5.28",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6194,7 +6624,7 @@ const response = {
                "othersNoWaterChrgCollected": {
                   "key": "othersNoWaterChrgCollected",
                   "label": "Number of household/properties from which water charges was collected",
-                  "displayPriority": "20.5",
+                  "displayPriority": "5.29",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6286,8 +6716,8 @@ const response = {
                },
                "waterChrgTariffDetails": {
                   "key": "waterChrgTariffDetails",
-                  "label": "Water Charges Tariff Details- Water Charges Tariff Sheet",
-                  "displayPriority": "21.1",
+                  "label": "Please provide the water tariff sheet",
+                  "displayPriority": "5.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6316,568 +6746,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "waterChrgCollectionBookCurrentDm": {
-                  "key": "waterChrgCollectionBookCurrentDm",
-                  "label": "Current Demand",
-                  "displayPriority": "22.1",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "waterChrgCollectionBookCurrentCol": {
-                  "key": "waterChrgCollectionBookCurrentCol",
-                  "label": "Current Collections",
-                  "displayPriority": "22.2",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "waterChrgCollectionBookCurrentArdm": {
-                  "key": "waterChrgCollectionBookCurrentArdm",
-                  "label": "Arrear Demand",
-                  "displayPriority": "22.3",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArdm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArdm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArdm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArdm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArdm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "waterChrgCollectionBookCurrentArCol": {
-                  "key": "waterChrgCollectionBookCurrentArCol",
-                  "label": "Arrear Collection",
-                  "displayPriority": "22.4",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentArCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "waterChrgCollectionBookCurrentTotalDm": {
-                  "key": "waterChrgCollectionBookCurrentTotalDm",
-                  "label": "Total Demand",
-                  "displayPriority": "22.5",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "waterChrgCollectionBookCurrentTotalCol": {
-                  "key": "waterChrgCollectionBookCurrentTotalCol",
-                  "label": "Total Collections",
-                  "displayPriority": "22.5",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "waterChrgCollectionBookCurrentTotalCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
                "omCostDeleveryWater": {
                   "key": "omCostDeleveryWater",
                   "label": "What is the O&M cost of service delivery for water?(INR Lakhs)",
-                  "displayPriority": "23.1",
+                  "displayPriority": "5.31",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -6970,7 +6842,7 @@ const response = {
                "omCostWaterService": {
                   "key": "omCostWaterService",
                   "label": "Working of the O&M Cost- Water Service",
-                  "displayPriority": "23.2",
+                  "displayPriority": "5.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7001,8 +6873,8 @@ const response = {
                },
                "doesColSewerageCharges": {
                   "key": "doesColSewerageCharges",
-                  "label": "Does ULB collects Sewerage charges?",
-                  "displayPriority": "24.1",
+                  "label": "Are sewerage charges being collected in the ULB?",
+                  "displayPriority": "6.1",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7028,10 +6900,68 @@ const response = {
                   ],
                   "info": ""
                },
+               "entitySewerageCharges": {
+                  "key": "entitySewerageCharges",
+                  "label": "Which entity is collecting the sewerage charges?",
+                  "displayPriority": "6.2",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "entitySewerageCharges",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "radio-toggle",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {},
+                     {},
+                     {},
+                     {}
+                  ],
+                  "info": ""
+               },
+               "entityNaSewerageCharges": {
+                  "key": "entityNaSewerageCharges",
+                  "label": "Please fill the name of the entity",
+                  "displayPriority": "6.3",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "entityNaSewerageCharges",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "radio-toggle",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {},
+                     {},
+                     {},
+                     {}
+                  ],
+                  "info": ""
+               },
                "copyGazetteNotificationSewerage": {
                   "key": "copyGazetteNotificationSewerage",
-                  "label": "Upload a copy of gazette notification of sewerage service",
-                  "displayPriority": "24.2",
+                  "label": "Upload a copy of gazette notification that notifies collection of sewerage charges",
+                  "displayPriority": "6.4",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7063,7 +6993,7 @@ const response = {
                "totalSewergeChrgDm": {
                   "key": "totalSewergeChrgDm",
                   "label": "Total Sewerage Charges Demand",
-                  "displayPriority": "25.1",
+                  "displayPriority": "6.5",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7143,6 +7073,192 @@ const response = {
                         "max": 9999999,
                         "required": true,
                         "type": "totalSewergeChrgDm",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "curSewergeChrgDm": {
+                  "key": "curSewergeChrgDm",
+                  "label": "Current sewerage charges demand",
+                  "displayPriority": "6.6",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgDm",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgDm",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgDm",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgDm",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgDm",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "arrSewergeChrgDm": {
+                  "key": "arrSewergeChrgDm",
+                  "label": "Arrear sewerage charges demand",
+                  "displayPriority": "6.7",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgDm",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgDm",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgDm",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgDm",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
                         "code": [],
                         "readonly": false,
@@ -7156,7 +7272,7 @@ const response = {
                "totalSewergeChrgCol": {
                   "key": "totalSewergeChrgCol",
                   "label": "Total Sewerage Charges Collection",
-                  "displayPriority": "25.2",
+                  "displayPriority": "6.8",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7246,10 +7362,196 @@ const response = {
                   ],
                   "info": ""
                },
+               "curSewergeChrgCol": {
+                  "key": "curSewergeChrgCol",
+                  "label": "Current sewerage charges collection",
+                  "displayPriority": "6.9",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgCol",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgCol",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgCol",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgCol",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "curSewergeChrgCol",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
+               "arrSewergeChrgCol": {
+                  "key": "arrSewergeChrgCol",
+                  "label": "Arrear sewerage charges collection",
+                  "displayPriority": "6.10",
+                  "yearData": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgCol",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgCol",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgCol",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgCol",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": 9999999,
+                        "required": true,
+                        "type": "arrSewergeChrgCol",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "info": ""
+               },
                "totalSewergeConnectionDm": {
                   "key": "totalSewergeConnectionDm",
                   "label": "Total Number of connections from which Sewerage charges was demanded",
-                  "displayPriority": "26.1",
+                  "displayPriority": "6.11",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7342,7 +7644,7 @@ const response = {
                "totalSewergeConnectionCol": {
                   "key": "totalSewergeConnectionCol",
                   "label": "Total Number of connections from which Sewerage charges were collected",
-                  "displayPriority": "26.2",
+                  "displayPriority": "6.12",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7435,7 +7737,7 @@ const response = {
                "resValueSewerageTaxDm": {
                   "key": "resValueSewerageTaxDm",
                   "label": "Value of Sewerage charges Demanded(INR Lakhs)",
-                  "displayPriority": "27.1",
+                  "displayPriority": "6.13",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7528,7 +7830,7 @@ const response = {
                "resNoSewerageTaxDm": {
                   "key": "resNoSewerageTaxDm",
                   "label": "Number of households/properties from which sewerage charges was demanded",
-                  "displayPriority": "27.2",
+                  "displayPriority": "6.14",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7621,7 +7923,7 @@ const response = {
                "resValueSewerageTaxCollected": {
                   "key": "resValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "27.3",
+                  "displayPriority": "6.15",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7714,7 +8016,7 @@ const response = {
                "resNoSewerageTaxCollected": {
                   "key": "resNoSewerageTaxCollected",
                   "label": "Number of household/properties from which sewerage charges was collected",
-                  "displayPriority": "27.4",
+                  "displayPriority": "6.16",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7807,7 +8109,7 @@ const response = {
                "comValueSewerageTaxDm": {
                   "key": "comValueSewerageTaxDm",
                   "label": "Value of Sewerage charges Demanded(INR Lakhs)",
-                  "displayPriority": "28.1",
+                  "displayPriority": "6.17",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7900,7 +8202,7 @@ const response = {
                "comNoSewerageTaxDm": {
                   "key": "comNoSewerageTaxDm",
                   "label": "Number of households/properties from which sewerage charges was demanded",
-                  "displayPriority": "28.2",
+                  "displayPriority": "6.18",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -7993,7 +8295,7 @@ const response = {
                "comValueSewerageTaxCollected": {
                   "key": "comValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "28.3",
+                  "displayPriority": "6.19",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8086,7 +8388,7 @@ const response = {
                "comNoSewerageTaxCollected": {
                   "key": "comNoSewerageTaxCollected",
                   "label": "Number of household/properties from which sewerage charges was collected",
-                  "displayPriority": "28.4",
+                  "displayPriority": "6.20",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8179,7 +8481,7 @@ const response = {
                "indValueSewerageTaxDm": {
                   "key": "indValueSewerageTaxDm",
                   "label": "Value of Sewerage charges Demanded(INR Lakhs)",
-                  "displayPriority": "29.1",
+                  "displayPriority": "6.21",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8272,7 +8574,7 @@ const response = {
                "indNoSewerageTaxDm": {
                   "key": "indNoSewerageTaxDm",
                   "label": "Number of households/properties from which sewerage charges was demanded",
-                  "displayPriority": "29.2",
+                  "displayPriority": "6.22",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8365,7 +8667,7 @@ const response = {
                "indValueSewerageTaxCollected": {
                   "key": "indValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "29.3",
+                  "displayPriority": "6.23",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8458,7 +8760,7 @@ const response = {
                "indNoSewerageTaxCollected": {
                   "key": "indNoSewerageTaxCollected",
                   "label": "Number of household/properties from which sewerage charges was collected",
-                  "displayPriority": "29.4",
+                  "displayPriority": "6.24",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8551,7 +8853,7 @@ const response = {
                "otherValueSewerageType": {
                   "key": "otherValueSewerageType",
                   "label": "Property type",
-                  "displayPriority": "30.1",
+                  "displayPriority": "6.25",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8580,7 +8882,7 @@ const response = {
                "otherValueSewerageTaxDm": {
                   "key": "otherValueSewerageTaxDm",
                   "label": "Value of Sewerage charges Demanded(INR Lakhs)",
-                  "displayPriority": "30.2",
+                  "displayPriority": "6.26",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8673,7 +8975,7 @@ const response = {
                "otherNoSewerageTaxDm": {
                   "key": "otherNoSewerageTaxDm",
                   "label": "Number of households/properties from which sewerage charges was demanded",
-                  "displayPriority": "30.3",
+                  "displayPriority": "6.27",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8766,7 +9068,7 @@ const response = {
                "otherValueSewerageTaxCollected": {
                   "key": "otherValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
-                  "displayPriority": "30.4",
+                  "displayPriority": "6.28",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8859,7 +9161,7 @@ const response = {
                "otherNoSewerageTaxCollected": {
                   "key": "otherNoSewerageTaxCollected",
                   "label": "Number of household/properties from which sewerage charges was collected",
-                  "displayPriority": "30.5",
+                  "displayPriority": "6.29",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8949,10 +9251,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "SewerageChrgTarrifSheet": {
-                  "key": "SewerageChrgTarrifSheet",
-                  "label": "Sewerage Charges Tariff Details- Sewerage Charges Tariff Sheet",
-                  "displayPriority": "31.1",
+               "sewerageChrgTarrifSheet": {
+                  "key": "sewerageChrgTarrifSheet",
+                  "label": "Please provide the sewerage tariff sheet",
+                  "displayPriority": "6.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -8966,7 +9268,7 @@ const response = {
                         "min": "",
                         "max": 9999999,
                         "required": true,
-                        "type": "SewerageChrgTarrifSheet",
+                        "type": "sewerageChrgTarrifSheet",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
@@ -8981,568 +9283,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "sewerageCollectionBookCurrentDm": {
-                  "key": "sewerageCollectionBookCurrentDm",
-                  "label": "Current Demand",
-                  "displayPriority": "32.1",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "sewerageCollectionBookCurrentCol": {
-                  "key": "sewerageCollectionBookCurrentCol",
-                  "label": "Current Collections",
-                  "displayPriority": "32.2",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "sewerageCollectionBookCurrentArdm": {
-                  "key": "sewerageCollectionBookCurrentArdm",
-                  "label": "Arrear Demand",
-                  "displayPriority": "32.3",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArdm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArdm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArdm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArdm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArdm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "sewerageCollectionBookCurrentArCol": {
-                  "key": "sewerageCollectionBookCurrentArCol",
-                  "label": "Arrear Collections",
-                  "displayPriority": "32.4",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentArCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "sewerageCollectionBookCurrentTotalDm": {
-                  "key": "sewerageCollectionBookCurrentTotalDm",
-                  "label": "Total Demand",
-                  "displayPriority": "32.5",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "sewerageCollectionBookCurrentTotalCol": {
-                  "key": "sewerageCollectionBookCurrentTotalCol",
-                  "label": "Total Collections",
-                  "displayPriority": "32.6",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalCol",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalCol",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalCol",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalCol",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "sewerageCollectionBookCurrentTotalCol",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
                "omCostDeleverySewerage": {
                   "key": "omCostDeleverySewerage",
                   "label": "What is the O&M cost of service delivery for sewerage ?(INR Lakhs)",
-                  "displayPriority": "33.1",
+                  "displayPriority": "6.31",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -9634,8 +9378,8 @@ const response = {
                },
                "omCostSewerageService": {
                   "key": "omCostSewerageService",
-                  "label": "Working of the O&M Cost - Sewerage Service",
-                  "displayPriority": "34.1",
+                  "label": "Please provide the working sheet for O&M cost calculation",
+                  "displayPriority": "6.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -9667,7 +9411,7 @@ const response = {
                "signedPdf": {
                   "key": "signedPdf",
                   "label": "Upload signed PDF",
-                  "displayPriority": "35.1",
+                  "displayPriority": "7",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -9697,8 +9441,6 @@ const response = {
                   "info": ""
                }
             }
-
-
             ,
             "feedback": {
                "status": null,
@@ -9743,43 +9485,7 @@ const response = {
             "",
             ""
          ],
-         // "2.1": [
-         //    "",
-         //    "Property Tax Demand Details (Amount in INR Lakhs)",
-         //    "2018-19",
-         //    "2019-20",
-         //    "2020-21",
-         //    "2021-22",
-         //    "2022-23"
-         // ],
-         "4.1": [
-            "",
-            "Property Tax Collection Details (Amount in INR Lakhs)",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
-         ],
-         "3.1": [
-            "",
-            "Do you collect any user charges along with Property Tax?",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
-         ],
-         "5.1": [
-            "",
-            "Property Register Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
-         ],
-         "6.1": [
+         "2.5": [
             "",
             "Residential Properties",
             "2018-19",
@@ -9788,7 +9494,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "7.1": [
+         "2.9": [
             "",
             "Commercial Properties",
             "2018-19",
@@ -9797,7 +9503,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "8.1": [
+         "2.13": [
             "",
             "Industrial Properties",
             "2018-19",
@@ -9806,7 +9512,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "9.1": [
+         "2.17": [
             "",
             "Government Properties",
             "2018-19",
@@ -9815,7 +9521,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "10.1": [
+         "2.21": [
             "",
             "Institutional Properties",
             "2018-19",
@@ -9824,7 +9530,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "11.1": [
+         "2.25": [
             "",
             "Other Properties",
             "2018-19",
@@ -9833,34 +9539,34 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "12.1": [
+         "3.1": [
             "",
-            "Property Tax Collection Details by Mode of payment",
+            "Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)	",
             "2018-19",
             "2019-20",
             "2020-21",
             "2021-22",
             "2022-23"
          ],
-         "12.3": [
+         "4.1": [
             "",
-            "Property Tax Valuation Details- Property Tax Rate Card",
+            "Property Tax Valuation Details",
             "",
             "",
             "",
             "",
             ""
          ],
-         "13.1": [
+         "5.1": [
             "",
-            "Extract of Demand Collection Book",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+            "Water Charges Details",
+            "",
+            "",
+            "",
+            "",
+            ""
          ],
-         "15.1": [
+         "5.5": [
             "",
             "Water Charges Demand and Collection Details",
             "2018-19",
@@ -9869,7 +9575,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "16.1": [
+         "5.11": [
             "",
             "Water Connection Details",
             "2018-19",
@@ -9878,7 +9584,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "17.1": [
+         "5.13": [
             "",
             "Residential households/properties",
             "2018-19",
@@ -9887,7 +9593,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "18.1": [
+         "5.17": [
             "",
             "Commercial households/properties",
             "2018-19",
@@ -9896,7 +9602,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "19.1": [
+         "5.21": [
             "",
             "Industrial households/properties",
             "2018-19",
@@ -9905,7 +9611,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "20.1": [
+         "5.25": [
             "",
             "Other households/properties(any other connection type)",
             "2018-19",
@@ -9914,34 +9620,43 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "21.1": [
+         "5.30": [
             "",
-            "Water Charges Tariff Details- Water Charges Tariff Sheet",
+            "Water Charges Tariff Details",
             "",
             "",
             "",
             "",
             ""
          ],
-         "22.1": [
-            "",
-            "Extract of Demand Collection Book",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
-         ],
-         "23.1": [
+         "5.31": [
             "",
             "Water Charges: Cost of Service Delivery Details",
+            "",
+            "",
+            "",
+            "",
+            ""
+         ],
+         "5.32": [
+            "",
+            "Working of the O&M Cost- Water Service",
+            "",
+            "",
+            "",
+            "",
+            ""
+         ],
+         "6.1": [
+            "",
+            "Sewerage Charges Details",
             "2018-19",
             "2019-20",
             "2020-21",
             "2021-22",
             "2022-23"
          ],
-         "25.1": [
+         "6.5": [
             "",
             "Sewerage Charges Demand and Collection Details",
             "2018-19",
@@ -9950,7 +9665,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "26.1": [
+         "6.11": [
             "",
             "Sewerage Connection Details",
             "2018-19",
@@ -9959,7 +9674,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "27.1": [
+         "6.13": [
             "",
             "Residential households/properties",
             "2018-19",
@@ -9968,7 +9683,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "28.1": [
+         "6.17": [
             "",
             "Commercial Properties",
             "2018-19",
@@ -9977,7 +9692,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "29.1": [
+         "6.21": [
             "",
             "Industrial Properties",
             "2018-19",
@@ -9986,7 +9701,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "30.1": [
+         "6.25": [
             "",
             "Other Properties",
             "2018-19",
@@ -9995,7 +9710,7 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "31.1": [
+         "6.30": [
             "",
             "Sewerage Charges Tariff Details- Sewerage Charges Tariff Sheet",
             "",
@@ -10004,16 +9719,7 @@ const response = {
             "",
             ""
          ],
-         "32.1": [
-            "",
-            "Extract of Demand Collection Book",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
-         ],
-         "33.1": [
+         "6.31": [
             "",
             "Sewerage Charges: Cost of Service Delivery Details",
             "2018-19",
@@ -10022,22 +9728,20 @@ const response = {
             "2021-22",
             "2022-23"
          ],
-         "34.1": [
+         "6.32": [
             "",
             "Working of the O&M Cost- Sewerage Service",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "2018-19",
+            "2019-20",
+            "2020-21",
+            "2021-22",
+            "2022-23"
          ]
       },
       "specialHeaders": {
-         "6.1": "Property Tax Demand and Collection Figures by Property Type",
-         "14.1": "Water Charges Details",
-         "24.1": "Sewerage Charges Details",
-         "17.1": "Water Charges Demand and Collection Details by Household/Property type",
-         "27.1": "Sewerage Charges Details by household/property type"
+         "2.5": "Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)",
+         "5.13": "Water Charges Demand and Collection Details by Household/Property type",
+         "6.13": "Sewerage Charges Details by household/property type"
       }
    }
 };
