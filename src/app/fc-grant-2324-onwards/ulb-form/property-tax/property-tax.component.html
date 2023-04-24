@@ -50,6 +50,12 @@
                                         <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                     </mat-radio-group>
 
+                                    <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'"
+                                        class="form-select" formControlName="value"
+                                        [disabled]="yearItem?.controls?.readonly?.value">
+                                        <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{ option?.label}}</option>
+                                    </select>
+
 
                                     <div class="input-group border" style="width: 100px;"
                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"

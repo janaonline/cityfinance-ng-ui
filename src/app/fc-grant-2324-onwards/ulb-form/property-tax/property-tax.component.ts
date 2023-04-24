@@ -174,6 +174,7 @@ export class PropertyTaxComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
