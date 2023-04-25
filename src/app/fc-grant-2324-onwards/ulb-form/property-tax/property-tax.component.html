@@ -111,6 +111,16 @@
                             </div>
                         </td>
                     </tr>
+                    <!-- <tr *ngFor="let yearItem of item?.value?.controls?.child?.controls; let r_i=index">
+                        <td colspan="7">
+                            <p>{{ yearItem.value.key | json  }}</p>
+                        </td>
+                    </tr> -->
+                    <tr *ngIf="item?.value?.controls?.child?.value">
+                        <td colspan="7">
+                            <button class="btn btn-primary">Add more</button>
+                        </td>
+                    </tr>
                 </ng-container>
             </tbody>
         </table>

@@ -126,7 +126,7 @@ export class PropertyTaxComponent implements OnInit {
       // this.addSubtractLogics();
       // this.navigationCheck();
       this.isLoader = false;
-      console.log('response', res);
+      console.log('form', this.form);
     }, err => {
       this.loaderService.stopLoader();
     });
@@ -157,6 +157,15 @@ export class PropertyTaxComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
+            ...(item.child && {
+              child: this.fb.array([
+                this.fb.group({
+
+                  yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+                })]),
+            }),
+            maxChild: [{ value: item.maxChild, disabled: true }],
+            copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
         }
@@ -235,7 +244,7 @@ export class PropertyTaxComponent implements OnInit {
         [nameControl, urlControl].forEach(fileControl => {
           fileControl?.setValidators(canShow ? [Validators.required] : [])
           fileControl?.updateValueAndValidity({ emitEvent: true });
-        }) 
+        })
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
@@ -344,9 +353,9 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success').then(() => {
-        if(!isDraft) location.reload();
+        if (!isDraft) location.reload();
       });
-    }, ({error}) => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })

@@ -243,7 +243,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewerage charges etc demanded along with property tax"
+                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewerage charges etc demanded along with property tax."
                },
                "cdmdIncludingCess": {
                   "key": "cdmdIncludingCess",
@@ -522,7 +522,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "excluding cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewerage charges etc demanded along with property tax"
+                  "info": "Excluding cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewerage charges etc demanded along with property tax."
                },
                "taxTypeDemand": {
                   "key": "taxTypeDemand",
@@ -536,7 +536,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeDemand",
                         "year": "63735a5bd44534713673c1ca",
@@ -553,7 +553,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeDemand",
                         "year": "607697074dff55e6c0be33ba",
@@ -570,7 +570,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeDemand",
                         "year": "606aadac4dff55e6c075c507",
@@ -587,7 +587,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeDemand",
                         "year": "606aaf854dff55e6c075d219",
@@ -604,7 +604,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeDemand",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -629,7 +629,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessDemand",
                         "year": "63735a5bd44534713673c1ca",
@@ -646,7 +646,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessDemand",
                         "year": "607697074dff55e6c0be33ba",
@@ -663,7 +663,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessDemand",
                         "year": "606aadac4dff55e6c075c507",
@@ -680,7 +680,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessDemand",
                         "year": "606aaf854dff55e6c075d219",
@@ -697,7 +697,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessDemand",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -708,7 +708,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "For example,Water tax, Sanitation tax, etc."
+                  "info": "For example, Tree cess, Library cess etc."
                },
                "doesUserChargesDmnd": {
                   "key": "doesUserChargesDmnd",
@@ -722,7 +722,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "doesUserChargesDmnd",
                         "year": "63735a5bd44534713673c1ca",
@@ -750,91 +750,45 @@ const response = {
                         "postion": "0",
                         "value": "",
                         "file": "",
+                        "options": [
+                           {
+                              "id": "Water charges",
+                              "label": "Water charges"
+                           },
+                           {
+                              "id": "Sewerage charges",
+                              "label": "Sewerage charges"
+                           },
+                           {
+                              "id": "Solid-waste management charges & Drainage charges",
+                              "label": "Solid-waste management charges & Drainage charges"
+                           },
+                           {
+                              "id": "others",
+                              "label": "others"
+                           }
+                        ],
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "userChargesDmnd",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "number",
+                        "formFieldType": "select",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesDmnd",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesDmnd",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesDmnd",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesDmnd",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
-                  "info": ""
+                  "info": "For example, Water charges, Sewerage charges etc."
                },
                "collectIncludingCess": {
                   "key": "collectIncludingCess",
-                  "label": "Total Property Tax Collection Details(including cess,other taxes, AND excluding user charges if user charges are collected with property tax)(INR Lakh)",
+                  "label": "Total property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
                   "displayPriority": "1.13",
                   "yearData": [
                      {
@@ -923,7 +877,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax"
+                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax."
                },
                "cuCollectIncludingCess": {
                   "key": "cuCollectIncludingCess",
@@ -1113,7 +1067,7 @@ const response = {
                },
                "collectExcludingCess": {
                   "key": "collectExcludingCess",
-                  "label": "Total Property Tax Collection Details(excluding cess,other taxes, user charges if user charges if any)(INR Lakh)",
+                  "label": "Total property tax collection (excluding cess,other taxes, user charges if any)",
                   "displayPriority": "1.16",
                   "yearData": [
                      {
@@ -1202,11 +1156,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax"
+                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax."
                },
                "taxTypeCollection": {
                   "key": "taxTypeCollection",
-                  "label": "Other Tax Collections Details(Collection figure for each type of tax other than property tax collected)(INR Lakh)",
+                  "label": "Other tax collections (Collection figure for each type of tax other than property tax collected)",
                   "displayPriority": "1.17",
                   "yearData": [
                      {
@@ -1216,7 +1170,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeCollection",
                         "year": "63735a5bd44534713673c1ca",
@@ -1233,7 +1187,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeCollection",
                         "year": "607697074dff55e6c0be33ba",
@@ -1250,7 +1204,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeCollection",
                         "year": "606aadac4dff55e6c075c507",
@@ -1267,7 +1221,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeCollection",
                         "year": "606aaf854dff55e6c075d219",
@@ -1284,7 +1238,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "taxTypeCollection",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1299,7 +1253,7 @@ const response = {
                },
                "cessCollect": {
                   "key": "cessCollect",
-                  "label": "Cess Collection Details(Collection figure for each type of cess collected)(INR Lakh)",
+                  "label": "Cess collection (Collection figure for each type of cess collected)",
                   "displayPriority": "1.18",
                   "yearData": [
                      {
@@ -1309,7 +1263,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessCollect",
                         "year": "63735a5bd44534713673c1ca",
@@ -1326,7 +1280,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessCollect",
                         "year": "607697074dff55e6c0be33ba",
@@ -1343,7 +1297,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessCollect",
                         "year": "606aadac4dff55e6c075c507",
@@ -1360,7 +1314,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessCollect",
                         "year": "606aaf854dff55e6c075d219",
@@ -1377,7 +1331,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "cessCollect",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1388,7 +1342,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "For example, Tree cess, Library cess etc"
+                  "info": "For example, Tree cess, Library cess etc."
                },
                "userChargesCollection": {
                   "key": "userChargesCollection",
@@ -1401,6 +1355,28 @@ const response = {
                         "postion": "0",
                         "value": "",
                         "file": "",
+                        "options": [
+                           {
+                              "id": "Water charges",
+                              "label": "Water charges"
+                           },
+                           {
+                              "id": "Sewerage/Sanitation Charges",
+                              "label": "Sewerage/Sanitation Charges"
+                           },
+                           {
+                              "id": "Solid-waste management Charges",
+                              "label": "Solid-waste management Charges"
+                           },
+                           {
+                              "id": "Drainage Charges",
+                              "label": "Drainage Charges"
+                           },
+                           {
+                              "id": "Other charges",
+                              "label": "Other charges"
+                           }
+                        ],
                         "min": "",
                         "max": 9999999,
                         "required": true,
@@ -1408,84 +1384,20 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "number",
+                        "formFieldType": "select",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesCollection",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesCollection",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesCollection",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesCollection",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
                   "info": ""
                },
                "totalMappedPropertiesUlb": {
                   "key": "totalMappedPropertiesUlb",
-                  "label": "Total number of properties mapped in the ULB(including exempted properties from paying property tax)",
+                  "label": "Total number of properties mapped in the ULB (including properties exempted from paying property tax)",
                   "displayPriority": "2.1",
                   "yearData": [
                      {
@@ -1495,7 +1407,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalMappedPropertiesUlb",
                         "year": "63735a5bd44534713673c1ca",
@@ -1512,7 +1424,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalMappedPropertiesUlb",
                         "year": "607697074dff55e6c0be33ba",
@@ -1529,7 +1441,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalMappedPropertiesUlb",
                         "year": "606aadac4dff55e6c075c507",
@@ -1546,7 +1458,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalMappedPropertiesUlb",
                         "year": "606aaf854dff55e6c075d219",
@@ -1563,7 +1475,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalMappedPropertiesUlb",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1578,7 +1490,7 @@ const response = {
                },
                "totalPropertiesTax": {
                   "key": "totalPropertiesTax",
-                  "label": "Total number of properties exempted from paying tax",
+                  "label": "Total number of properties exempted from paying property tax",
                   "displayPriority": "2.2",
                   "yearData": [
                      {
@@ -1588,7 +1500,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTax",
                         "year": "63735a5bd44534713673c1ca",
@@ -1605,7 +1517,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTax",
                         "year": "607697074dff55e6c0be33ba",
@@ -1622,7 +1534,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTax",
                         "year": "606aadac4dff55e6c075c507",
@@ -1639,7 +1551,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTax",
                         "year": "606aaf854dff55e6c075d219",
@@ -1656,7 +1568,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTax",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1681,7 +1593,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -1698,7 +1610,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -1715,7 +1627,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -1732,7 +1644,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -1749,7 +1661,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1774,7 +1686,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDmCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -1791,7 +1703,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDmCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -1808,7 +1720,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDmCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -1825,7 +1737,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDmCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -1842,7 +1754,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalPropertiesTaxDmCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -1857,7 +1769,7 @@ const response = {
                },
                "resValuePropertyTaxDm": {
                   "key": "resValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.5",
                   "yearData": [
                      {
@@ -1950,7 +1862,7 @@ const response = {
                },
                "resNoPropertyTaxDm": {
                   "key": "resNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.6",
                   "yearData": [
                      {
@@ -1960,7 +1872,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -1977,7 +1889,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -1994,7 +1906,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -2011,7 +1923,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -2028,7 +1940,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2043,7 +1955,7 @@ const response = {
                },
                "resValuePropertyTaxCollected": {
                   "key": "resValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.7",
                   "yearData": [
                      {
@@ -2136,7 +2048,7 @@ const response = {
                },
                "resNoPropertyTaxCollected": {
                   "key": "resNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.8",
                   "yearData": [
                      {
@@ -2146,7 +2058,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -2163,7 +2075,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -2180,7 +2092,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -2197,7 +2109,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -2214,7 +2126,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2225,11 +2137,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "comValuePropertyTaxDm": {
                   "key": "comValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.9",
                   "yearData": [
                      {
@@ -2322,7 +2234,7 @@ const response = {
                },
                "comNoPropertyTaxDm": {
                   "key": "comNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.10",
                   "yearData": [
                      {
@@ -2332,7 +2244,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -2349,7 +2261,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -2366,7 +2278,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -2383,7 +2295,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -2400,7 +2312,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2415,7 +2327,7 @@ const response = {
                },
                "comValuePropertyTaxCollected": {
                   "key": "comValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.11",
                   "yearData": [
                      {
@@ -2508,7 +2420,7 @@ const response = {
                },
                "comNoPropertyTaxCollected": {
                   "key": "comNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.12",
                   "yearData": [
                      {
@@ -2518,7 +2430,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -2535,7 +2447,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -2552,7 +2464,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -2569,7 +2481,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -2586,7 +2498,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2597,11 +2509,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "indValuePropertyTaxDm": {
                   "key": "indValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.13",
                   "yearData": [
                      {
@@ -2694,7 +2606,7 @@ const response = {
                },
                "indNoPropertyTaxDm": {
                   "key": "indNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.14",
                   "yearData": [
                      {
@@ -2704,7 +2616,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -2721,7 +2633,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -2738,7 +2650,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -2755,7 +2667,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -2772,7 +2684,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2787,7 +2699,7 @@ const response = {
                },
                "indValuePropertyTaxCollected": {
                   "key": "indValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.15",
                   "yearData": [
                      {
@@ -2880,7 +2792,7 @@ const response = {
                },
                "indNoPropertyTaxCollected": {
                   "key": "indNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.16",
                   "yearData": [
                      {
@@ -2890,7 +2802,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -2907,7 +2819,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -2924,7 +2836,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -2941,7 +2853,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -2958,7 +2870,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -2969,11 +2881,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "govValuePropertyTaxDm": {
                   "key": "govValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.17",
                   "yearData": [
                      {
@@ -3066,7 +2978,7 @@ const response = {
                },
                "govNoPropertyTaxDm": {
                   "key": "govNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.18",
                   "yearData": [
                      {
@@ -3076,7 +2988,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -3093,7 +3005,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -3110,7 +3022,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -3127,7 +3039,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -3144,7 +3056,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -3159,7 +3071,7 @@ const response = {
                },
                "govValuePropertyTaxCollected": {
                   "key": "govValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.19",
                   "yearData": [
                      {
@@ -3252,7 +3164,7 @@ const response = {
                },
                "govNoPropertyTaxCollected": {
                   "key": "govNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.20",
                   "yearData": [
                      {
@@ -3262,7 +3174,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -3279,7 +3191,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -3296,7 +3208,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -3313,7 +3225,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -3330,7 +3242,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "govNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -3341,11 +3253,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "insValuePropertyTaxDm": {
                   "key": "insValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.21",
                   "yearData": [
                      {
@@ -3438,7 +3350,7 @@ const response = {
                },
                "insNoPropertyTaxDm": {
                   "key": "insNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.22",
                   "yearData": [
                      {
@@ -3448,7 +3360,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -3465,7 +3377,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -3482,7 +3394,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -3499,7 +3411,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -3516,7 +3428,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -3531,7 +3443,7 @@ const response = {
                },
                "insValuePropertyTaxCollected": {
                   "key": "insValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.23",
                   "yearData": [
                      {
@@ -3624,7 +3536,7 @@ const response = {
                },
                "insNoPropertyTaxCollected": {
                   "key": "insNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.24",
                   "yearData": [
                      {
@@ -3634,7 +3546,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -3651,7 +3563,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -3668,7 +3580,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -3685,7 +3597,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -3702,7 +3614,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "insNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -3713,12 +3625,107 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "otherValuePropertyType": {
                   "key": "otherValuePropertyType",
-                  "label": "Property type",
+                  "label": "Property Type",
                   "displayPriority": "2.25",
+                  "child": [
+                     {
+                        "label": "FY 2018-19",
+                        "key": "FY2018-19",
+                        "postion": "0",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "otherValuePropertyType",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "otherValuePropertyType",
+                        "year": "607697074dff55e6c0be33ba",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2020-21",
+                        "key": "FY2020-21",
+                        "postion": "2",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "otherValuePropertyType",
+                        "year": "606aadac4dff55e6c075c507",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2021-22",
+                        "key": "FY2021-22",
+                        "postion": "3",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "otherValuePropertyType",
+                        "year": "606aaf854dff55e6c075d219",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2022-23",
+                        "key": "FY2022-23",
+                        "postion": "4",
+                        "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "otherValuePropertyType",
+                        "year": "606aafb14dff55e6c075d3ae",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "number",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     }
+                  ],
+                  "maxChild": 5,
+                  "copyChildFrom": [
+                     "otherValuePropertyType",
+                     "otherValuePropertyTaxDm",
+                     "otherNoPropertyTaxDm",
+                     "otherValuePropertyTaxCollected",
+                     "otherNoPropertyTaxCollected"
+                  ],
                   "yearData": [
                      {
                         "label": "FY 2018-19",
@@ -3727,7 +3734,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "otherValuePropertyType",
                         "year": "63735a5bd44534713673c1ca",
@@ -3746,7 +3753,7 @@ const response = {
                },
                "otherValuePropertyTaxDm": {
                   "key": "otherValuePropertyTaxDm",
-                  "label": "Value of Property Tax Demanded(INR Lakhs)",
+                  "label": "Value of property tax demanded (INR lakhs)",
                   "displayPriority": "2.26",
                   "yearData": [
                      {
@@ -3839,7 +3846,7 @@ const response = {
                },
                "otherNoPropertyTaxDm": {
                   "key": "otherNoPropertyTaxDm",
-                  "label": "Number of Properties from which Property Tax Demanded",
+                  "label": "Number of properties from which property tax was demanded",
                   "displayPriority": "2.27",
                   "yearData": [
                      {
@@ -3849,7 +3856,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -3866,7 +3873,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -3883,7 +3890,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -3900,7 +3907,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -3917,7 +3924,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -3932,7 +3939,7 @@ const response = {
                },
                "otherValuePropertyTaxCollected": {
                   "key": "otherValuePropertyTaxCollected",
-                  "label": "Value of Property Tax Collected(INR Lakhs)",
+                  "label": "Value of property tax collected (INR lakhs)",
                   "displayPriority": "2.28",
                   "yearData": [
                      {
@@ -4025,7 +4032,7 @@ const response = {
                },
                "otherNoPropertyTaxCollected": {
                   "key": "otherNoPropertyTaxCollected",
-                  "label": "Number of Properties from which Property Tax Collected",
+                  "label": "Number of properties from which property tax was collected",
                   "displayPriority": "2.29",
                   "yearData": [
                      {
@@ -4035,7 +4042,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -4052,7 +4059,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -4069,7 +4076,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -4086,7 +4093,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -4103,7 +4110,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoPropertyTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -4114,11 +4121,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live"
+                  "info": ""
                },
                "noOfPropertiesPaidOnline": {
                   "key": "noOfPropertiesPaidOnline",
-                  "label": "Number of properties that paid online(through website or mobile application)",
+                  "label": "Number of properties that paid online (through website or mobile application)",
                   "displayPriority": "3.1",
                   "yearData": [
                      {
@@ -4128,7 +4135,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "noOfPropertiesPaidOnline",
                         "year": "63735a5bd44534713673c1ca",
@@ -4145,7 +4152,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "noOfPropertiesPaidOnline",
                         "year": "607697074dff55e6c0be33ba",
@@ -4162,7 +4169,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "noOfPropertiesPaidOnline",
                         "year": "606aadac4dff55e6c075c507",
@@ -4179,7 +4186,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "noOfPropertiesPaidOnline",
                         "year": "606aaf854dff55e6c075d219",
@@ -4196,7 +4203,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "noOfPropertiesPaidOnline",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -4207,11 +4214,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "collection data to always include cess and other taxes and exclude user charges if any"
+                  "info": ""
                },
                "totalCollectionOnline": {
                   "key": "totalCollectionOnline",
-                  "label": "Total collections made via online channel i.e. through website or mobile application(INR Lakh)",
+                  "label": "Total collections made via online channel i.e. through website or mobile application (INR lakhs)",
                   "displayPriority": "3.2",
                   "yearData": [
                      {
@@ -4300,11 +4307,11 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "collection data to always include cess and other taxes and exclude user charges if any"
+                  "info": ""
                },
                "propertyTaxValuationDetails": {
                   "key": "propertyTaxValuationDetails",
-                  "label": "Property Tax Valuation Details- Property Tax Rate Card",
+                  "label": "Please submit the property tax rate card",
                   "displayPriority": "4.1",
                   "yearData": [
                      {
@@ -4317,7 +4324,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "propertyTaxValuationDetails",
                         "year": "63735a5bd44534713673c1ca",
@@ -4332,7 +4339,7 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": "collection data to always include cess and other taxes and exclude user charges if any"
+                  "info": "Please submit the formula by which property tax is calculated for different types of properties."
                },
                "notificationWaterCharges": {
                   "key": "notificationWaterCharges",
@@ -4374,6 +4381,24 @@ const response = {
                         "postion": "0",
                         "value": "",
                         "file": "",
+                        "options": [
+                           {
+                              "id": "ULB",
+                              "label": "ULB"
+                           },
+                           {
+                              "id": "State Department",
+                              "label": "State Department"
+                           },
+                           {
+                              "id": "Parastatal Agency",
+                              "label": "Parastatal Agency"
+                           },
+                           {
+                              "id": "Others",
+                              "label": "Others"
+                           }
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -4381,7 +4406,7 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "select",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -4390,7 +4415,7 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": ""
+                  "info": "If any option other than ULB is selected, please ensure that the relevant authority collecting the water charges fills the below details."
                },
                "entityNameWaterCharges": {
                   "key": "entityNameWaterCharges",
@@ -5023,7 +5048,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -5040,7 +5065,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -5057,7 +5082,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -5074,7 +5099,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -5091,7 +5116,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5116,7 +5141,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionCol",
                         "year": "63735a5bd44534713673c1ca",
@@ -5133,7 +5158,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionCol",
                         "year": "607697074dff55e6c0be33ba",
@@ -5150,7 +5175,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionCol",
                         "year": "606aadac4dff55e6c075c507",
@@ -5167,7 +5192,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionCol",
                         "year": "606aaf854dff55e6c075d219",
@@ -5184,7 +5209,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "waterChrgConnectionCol",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5199,7 +5224,7 @@ const response = {
                },
                "resValueWaterChrgDm": {
                   "key": "resValueWaterChrgDm",
-                  "label": "Value of Water charges Demanded(INR Lakhs)",
+                  "label": "Value of water charges demanded (INR lakhs)",
                   "displayPriority": "5.13",
                   "yearData": [
                      {
@@ -5292,7 +5317,7 @@ const response = {
                },
                "resNoWaterChrgDm": {
                   "key": "resNoWaterChrgDm",
-                  "label": "Number of households/properties from which water charges was demanded",
+                  "label": "Number of Households/properties from which water charges was demanded",
                   "displayPriority": "5.14",
                   "yearData": [
                      {
@@ -5302,7 +5327,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -5319,7 +5344,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -5336,7 +5361,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -5353,7 +5378,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -5370,7 +5395,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5385,7 +5410,7 @@ const response = {
                },
                "resValueWaterChrgCollected": {
                   "key": "resValueWaterChrgCollected",
-                  "label": "Value of water charges collected from household/properties(INR Lakh)",
+                  "label": "Value of water charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "5.15",
                   "yearData": [
                      {
@@ -5478,7 +5503,7 @@ const response = {
                },
                "resNoWaterChrgCollected": {
                   "key": "resNoWaterChrgCollected",
-                  "label": "Number of household/properties from which water charges was collected",
+                  "label": "Number of Households/properties from which water charges was collected",
                   "displayPriority": "5.16",
                   "yearData": [
                      {
@@ -5488,7 +5513,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -5505,7 +5530,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -5522,7 +5547,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -5539,7 +5564,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -5556,7 +5581,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoWaterChrgCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5571,7 +5596,7 @@ const response = {
                },
                "comValueWaterChrgDm": {
                   "key": "comValueWaterChrgDm",
-                  "label": "Value of Water charges Demanded(INR Lakhs)",
+                  "label": "Value of water charges demanded (INR lakhs)",
                   "displayPriority": "5.17",
                   "yearData": [
                      {
@@ -5664,7 +5689,7 @@ const response = {
                },
                "comNoWaterChrgDm": {
                   "key": "comNoWaterChrgDm",
-                  "label": "Number of households/properties from which water charges was demanded",
+                  "label": "Number of Households/properties from which water charges was demanded",
                   "displayPriority": "5.18",
                   "yearData": [
                      {
@@ -5674,7 +5699,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -5691,7 +5716,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -5708,7 +5733,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -5725,7 +5750,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -5742,7 +5767,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5757,7 +5782,7 @@ const response = {
                },
                "comValueWaterChrgCollected": {
                   "key": "comValueWaterChrgCollected",
-                  "label": "Value of water charges collected from household/properties(INR Lakh)",
+                  "label": "Value of water charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "5.19",
                   "yearData": [
                      {
@@ -5850,7 +5875,7 @@ const response = {
                },
                "comNoWaterChrgCollected": {
                   "key": "comNoWaterChrgCollected",
-                  "label": "Number of household/properties from which water charges was collected",
+                  "label": "Number of Households/properties from which water charges was collected",
                   "displayPriority": "5.20",
                   "yearData": [
                      {
@@ -5860,7 +5885,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -5877,7 +5902,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -5894,7 +5919,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -5911,7 +5936,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -5928,7 +5953,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoWaterChrgCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -5943,7 +5968,7 @@ const response = {
                },
                "indValueWaterChrgDm": {
                   "key": "indValueWaterChrgDm",
-                  "label": "Value of Water charges Demanded(INR Lakhs)",
+                  "label": "Value of water charges demanded (INR lakhs)",
                   "displayPriority": "5.21",
                   "yearData": [
                      {
@@ -6036,7 +6061,7 @@ const response = {
                },
                "indNoWaterChrgDm": {
                   "key": "indNoWaterChrgDm",
-                  "label": "Number of households/properties from which water charges was demanded",
+                  "label": "Number of Households/properties from which water charges was demanded",
                   "displayPriority": "5.22",
                   "yearData": [
                      {
@@ -6046,7 +6071,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -6063,7 +6088,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -6080,7 +6105,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -6097,7 +6122,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -6114,7 +6139,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -6129,7 +6154,7 @@ const response = {
                },
                "indValueWaterChrgCollected": {
                   "key": "indValueWaterChrgCollected",
-                  "label": "Value of water charges collected from household/properties(INR Lakh)",
+                  "label": "Value of water charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "5.23",
                   "yearData": [
                      {
@@ -6222,7 +6247,7 @@ const response = {
                },
                "indNoWaterChrgCollected": {
                   "key": "indNoWaterChrgCollected",
-                  "label": "Number of household/properties from which water charges was collected",
+                  "label": "Number of Households/properties from which water charges was collected",
                   "displayPriority": "5.24",
                   "yearData": [
                      {
@@ -6232,7 +6257,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -6249,7 +6274,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -6266,7 +6291,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -6283,7 +6308,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -6300,7 +6325,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoWaterChrgCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -6315,7 +6340,7 @@ const response = {
                },
                "othersValueWaterType": {
                   "key": "othersValueWaterType",
-                  "label": "Property type",
+                  "label": "Property Type",
                   "displayPriority": "5.25",
                   "yearData": [
                      {
@@ -6325,7 +6350,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "othersValueWaterType",
                         "year": "63735a5bd44534713673c1ca",
@@ -6344,7 +6369,7 @@ const response = {
                },
                "othersValueWaterChrgDm": {
                   "key": "othersValueWaterChrgDm",
-                  "label": "Value of Water charges Demanded(INR Lakhs)",
+                  "label": "Value of water charges demanded (INR lakhs)",
                   "displayPriority": "5.26",
                   "yearData": [
                      {
@@ -6437,7 +6462,7 @@ const response = {
                },
                "othersNoWaterChrgDm": {
                   "key": "othersNoWaterChrgDm",
-                  "label": "Number of households/properties from which water charges was demanded",
+                  "label": "Number of Households/properties from which water charges was demanded",
                   "displayPriority": "5.27",
                   "yearData": [
                      {
@@ -6447,7 +6472,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -6464,7 +6489,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -6481,7 +6506,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -6498,7 +6523,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -6515,7 +6540,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -6530,7 +6555,7 @@ const response = {
                },
                "othersValueWaterChrgCollected": {
                   "key": "othersValueWaterChrgCollected",
-                  "label": "Value of water charges collected from household/properties(INR Lakh)",
+                  "label": "Value of water charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "5.28",
                   "yearData": [
                      {
@@ -6623,7 +6648,7 @@ const response = {
                },
                "othersNoWaterChrgCollected": {
                   "key": "othersNoWaterChrgCollected",
-                  "label": "Number of household/properties from which water charges was collected",
+                  "label": "Number of Households/properties from which water charges was collected",
                   "displayPriority": "5.29",
                   "yearData": [
                      {
@@ -6633,7 +6658,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -6650,7 +6675,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -6667,7 +6692,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -6684,7 +6709,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -6701,7 +6726,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "othersNoWaterChrgCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -6729,7 +6754,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "waterChrgTariffDetails",
                         "year": "63735a5bd44534713673c1ca",
@@ -6744,11 +6769,11 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": ""
+                  "info": "Please provide the base formula/ rates at which different connection types are charged."
                },
                "omCostDeleveryWater": {
                   "key": "omCostDeleveryWater",
-                  "label": "What is the O&M cost of service delivery for water?(INR Lakhs)",
+                  "label": "What is the O&M cost of service delivery for water? (INR lakhs)",
                   "displayPriority": "5.31",
                   "yearData": [
                      {
@@ -6841,7 +6866,7 @@ const response = {
                },
                "omCostWaterService": {
                   "key": "omCostWaterService",
-                  "label": "Working of the O&M Cost- Water Service",
+                  "label": "Please provide the working sheet for O&M cost calculation",
                   "displayPriority": "5.32",
                   "yearData": [
                      {
@@ -6854,7 +6879,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "omCostWaterService",
                         "year": "63735a5bd44534713673c1ca",
@@ -6883,7 +6908,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
@@ -6911,14 +6936,32 @@ const response = {
                         "postion": "0",
                         "value": "",
                         "file": "",
+                        "options": [
+                           {
+                              "id": "ULB",
+                              "label": "ULB"
+                           },
+                           {
+                              "id": "State Department",
+                              "label": "State Department"
+                           },
+                           {
+                              "id": "Parastatal Agency",
+                              "label": "Parastatal Agency"
+                           },
+                           {
+                              "id": "Others",
+                              "label": "Others"
+                           }
+                        ],
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "entitySewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "select",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -6927,7 +6970,7 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": ""
+                  "info": "If any option other than ULB is selected, please ensure that the relevant authority collecting the sewerage charges fills the below details."
                },
                "entityNaSewerageCharges": {
                   "key": "entityNaSewerageCharges",
@@ -6941,7 +6984,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "entityNaSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
@@ -6973,7 +7016,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "copyGazetteNotificationSewerage",
                         "year": "63735a5bd44534713673c1ca",
@@ -6992,7 +7035,7 @@ const response = {
                },
                "totalSewergeChrgDm": {
                   "key": "totalSewergeChrgDm",
-                  "label": "Total Sewerage Charges Demand",
+                  "label": "Total sewerage charges demand",
                   "displayPriority": "6.5",
                   "yearData": [
                      {
@@ -7271,7 +7314,7 @@ const response = {
                },
                "totalSewergeChrgCol": {
                   "key": "totalSewergeChrgCol",
-                  "label": "Total Sewerage Charges Collection",
+                  "label": "Total sewerage charges collection",
                   "displayPriority": "6.8",
                   "yearData": [
                      {
@@ -7550,7 +7593,7 @@ const response = {
                },
                "totalSewergeConnectionDm": {
                   "key": "totalSewergeConnectionDm",
-                  "label": "Total Number of connections from which Sewerage charges was demanded",
+                  "label": "Total number of connections from which sewerage charges was demanded",
                   "displayPriority": "6.11",
                   "yearData": [
                      {
@@ -7560,7 +7603,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -7577,7 +7620,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -7594,7 +7637,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -7611,7 +7654,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -7628,7 +7671,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -7643,7 +7686,7 @@ const response = {
                },
                "totalSewergeConnectionCol": {
                   "key": "totalSewergeConnectionCol",
-                  "label": "Total Number of connections from which Sewerage charges were collected",
+                  "label": "Total number of connections from which sewerage charges were collected",
                   "displayPriority": "6.12",
                   "yearData": [
                      {
@@ -7653,7 +7696,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionCol",
                         "year": "63735a5bd44534713673c1ca",
@@ -7670,7 +7713,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionCol",
                         "year": "607697074dff55e6c0be33ba",
@@ -7687,7 +7730,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionCol",
                         "year": "606aadac4dff55e6c075c507",
@@ -7704,7 +7747,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionCol",
                         "year": "606aaf854dff55e6c075d219",
@@ -7721,7 +7764,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 999999999999999,
                         "required": true,
                         "type": "totalSewergeConnectionCol",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -7736,7 +7779,7 @@ const response = {
                },
                "resValueSewerageTaxDm": {
                   "key": "resValueSewerageTaxDm",
-                  "label": "Value of Sewerage charges Demanded(INR Lakhs)",
+                  "label": "Value of sewerage charges demanded (INR lakhs)",
                   "displayPriority": "6.13",
                   "yearData": [
                      {
@@ -7829,7 +7872,7 @@ const response = {
                },
                "resNoSewerageTaxDm": {
                   "key": "resNoSewerageTaxDm",
-                  "label": "Number of households/properties from which sewerage charges was demanded",
+                  "label": "Number of Households/properties from which sewerage charges was demanded",
                   "displayPriority": "6.14",
                   "yearData": [
                      {
@@ -7839,7 +7882,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -7856,7 +7899,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -7873,7 +7916,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -7890,7 +7933,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -7907,7 +7950,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -7922,7 +7965,7 @@ const response = {
                },
                "resValueSewerageTaxCollected": {
                   "key": "resValueSewerageTaxCollected",
-                  "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
+                  "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "6.15",
                   "yearData": [
                      {
@@ -8015,7 +8058,7 @@ const response = {
                },
                "resNoSewerageTaxCollected": {
                   "key": "resNoSewerageTaxCollected",
-                  "label": "Number of household/properties from which sewerage charges was collected",
+                  "label": "Number of Households/properties from which sewerage charges was collected",
                   "displayPriority": "6.16",
                   "yearData": [
                      {
@@ -8025,7 +8068,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -8042,7 +8085,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -8059,7 +8102,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -8076,7 +8119,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -8093,7 +8136,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "resNoSewerageTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -8108,7 +8151,7 @@ const response = {
                },
                "comValueSewerageTaxDm": {
                   "key": "comValueSewerageTaxDm",
-                  "label": "Value of Sewerage charges Demanded(INR Lakhs)",
+                  "label": "Value of sewerage charges demanded (INR lakhs)",
                   "displayPriority": "6.17",
                   "yearData": [
                      {
@@ -8201,7 +8244,7 @@ const response = {
                },
                "comNoSewerageTaxDm": {
                   "key": "comNoSewerageTaxDm",
-                  "label": "Number of households/properties from which sewerage charges was demanded",
+                  "label": "Number of Households/properties from which sewerage charges was demanded",
                   "displayPriority": "6.18",
                   "yearData": [
                      {
@@ -8211,7 +8254,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -8228,7 +8271,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -8245,7 +8288,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -8262,7 +8305,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -8279,7 +8322,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -8294,7 +8337,7 @@ const response = {
                },
                "comValueSewerageTaxCollected": {
                   "key": "comValueSewerageTaxCollected",
-                  "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
+                  "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "6.19",
                   "yearData": [
                      {
@@ -8387,7 +8430,7 @@ const response = {
                },
                "comNoSewerageTaxCollected": {
                   "key": "comNoSewerageTaxCollected",
-                  "label": "Number of household/properties from which sewerage charges was collected",
+                  "label": "Number of Households/properties from which sewerage charges was collected",
                   "displayPriority": "6.20",
                   "yearData": [
                      {
@@ -8397,7 +8440,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -8414,7 +8457,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -8431,7 +8474,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -8448,7 +8491,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -8465,7 +8508,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "comNoSewerageTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -8480,7 +8523,7 @@ const response = {
                },
                "indValueSewerageTaxDm": {
                   "key": "indValueSewerageTaxDm",
-                  "label": "Value of Sewerage charges Demanded(INR Lakhs)",
+                  "label": "Value of sewerage charges demanded (INR lakhs)",
                   "displayPriority": "6.21",
                   "yearData": [
                      {
@@ -8573,7 +8616,7 @@ const response = {
                },
                "indNoSewerageTaxDm": {
                   "key": "indNoSewerageTaxDm",
-                  "label": "Number of households/properties from which sewerage charges was demanded",
+                  "label": "Number of Households/properties from which sewerage charges was demanded",
                   "displayPriority": "6.22",
                   "yearData": [
                      {
@@ -8583,7 +8626,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -8600,7 +8643,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -8617,7 +8660,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -8634,7 +8677,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -8651,7 +8694,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -8666,7 +8709,7 @@ const response = {
                },
                "indValueSewerageTaxCollected": {
                   "key": "indValueSewerageTaxCollected",
-                  "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
+                  "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "6.23",
                   "yearData": [
                      {
@@ -8759,7 +8802,7 @@ const response = {
                },
                "indNoSewerageTaxCollected": {
                   "key": "indNoSewerageTaxCollected",
-                  "label": "Number of household/properties from which sewerage charges was collected",
+                  "label": "Number of Households/properties from which sewerage charges was collected",
                   "displayPriority": "6.24",
                   "yearData": [
                      {
@@ -8769,7 +8812,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -8786,7 +8829,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -8803,7 +8846,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -8820,7 +8863,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -8837,7 +8880,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "indNoSewerageTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -8852,7 +8895,7 @@ const response = {
                },
                "otherValueSewerageType": {
                   "key": "otherValueSewerageType",
-                  "label": "Property type",
+                  "label": "Property Type",
                   "displayPriority": "6.25",
                   "yearData": [
                      {
@@ -8862,7 +8905,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "otherValueSewerageType",
                         "year": "63735a5bd44534713673c1ca",
@@ -8881,7 +8924,7 @@ const response = {
                },
                "otherValueSewerageTaxDm": {
                   "key": "otherValueSewerageTaxDm",
-                  "label": "Value of Sewerage charges Demanded(INR Lakhs)",
+                  "label": "Value of sewerage charges demanded (INR lakhs)",
                   "displayPriority": "6.26",
                   "yearData": [
                      {
@@ -8974,7 +9017,7 @@ const response = {
                },
                "otherNoSewerageTaxDm": {
                   "key": "otherNoSewerageTaxDm",
-                  "label": "Number of households/properties from which sewerage charges was demanded",
+                  "label": "Number of Households/properties from which sewerage charges was demanded",
                   "displayPriority": "6.27",
                   "yearData": [
                      {
@@ -8984,7 +9027,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxDm",
                         "year": "63735a5bd44534713673c1ca",
@@ -9001,7 +9044,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxDm",
                         "year": "607697074dff55e6c0be33ba",
@@ -9018,7 +9061,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxDm",
                         "year": "606aadac4dff55e6c075c507",
@@ -9035,7 +9078,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxDm",
                         "year": "606aaf854dff55e6c075d219",
@@ -9052,7 +9095,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxDm",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -9067,7 +9110,7 @@ const response = {
                },
                "otherValueSewerageTaxCollected": {
                   "key": "otherValueSewerageTaxCollected",
-                  "label": "Value of sewerage charges collected from household/properties(INR Lakh)",
+                  "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
                   "displayPriority": "6.28",
                   "yearData": [
                      {
@@ -9160,7 +9203,7 @@ const response = {
                },
                "otherNoSewerageTaxCollected": {
                   "key": "otherNoSewerageTaxCollected",
-                  "label": "Number of household/properties from which sewerage charges was collected",
+                  "label": "Number of Households/properties from which sewerage charges was collected",
                   "displayPriority": "6.29",
                   "yearData": [
                      {
@@ -9170,7 +9213,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxCollected",
                         "year": "63735a5bd44534713673c1ca",
@@ -9187,7 +9230,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxCollected",
                         "year": "607697074dff55e6c0be33ba",
@@ -9204,7 +9247,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxCollected",
                         "year": "606aadac4dff55e6c075c507",
@@ -9221,7 +9264,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxCollected",
                         "year": "606aaf854dff55e6c075d219",
@@ -9238,7 +9281,7 @@ const response = {
                         "value": "",
                         "file": "",
                         "min": "",
-                        "max": 9999999,
+                        "max": 9999999999,
                         "required": true,
                         "type": "otherNoSewerageTaxCollected",
                         "year": "606aafb14dff55e6c075d3ae",
@@ -9266,7 +9309,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "sewerageChrgTarrifSheet",
                         "year": "63735a5bd44534713673c1ca",
@@ -9281,11 +9324,11 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": ""
+                  "info": "Please provide the base formula/ rates at which different connection types are charged."
                },
                "omCostDeleverySewerage": {
                   "key": "omCostDeleverySewerage",
-                  "label": "What is the O&M cost of service delivery for sewerage ?(INR Lakhs)",
+                  "label": "What is the O&M cost of service delivery for sewerage ?(INR lakhs)",
                   "displayPriority": "6.31",
                   "yearData": [
                      {
@@ -9391,7 +9434,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "omCostSewerageService",
                         "year": "63735a5bd44534713673c1ca",
@@ -9410,7 +9453,7 @@ const response = {
                },
                "signedPdf": {
                   "key": "signedPdf",
-                  "label": "Upload signed PDF",
+                  "label": "Upload Signed PDF",
                   "displayPriority": "7",
                   "yearData": [
                      {
@@ -9423,7 +9466,7 @@ const response = {
                            "url": ""
                         },
                         "min": "",
-                        "max": 9999999,
+                        "max": "",
                         "required": true,
                         "type": "signedPdf",
                         "year": "63735a5bd44534713673c1ca",
@@ -9441,6 +9484,7 @@ const response = {
                   "info": ""
                }
             }
+            
             ,
             "feedback": {
                "status": null,
@@ -9775,7 +9819,7 @@ export class PropertyTaxService {
       return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`)
          .pipe(
             map((res: any) => {
-               return response;
+               return res;
             })
          );
 
