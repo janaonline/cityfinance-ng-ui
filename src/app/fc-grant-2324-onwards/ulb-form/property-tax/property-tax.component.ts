@@ -363,6 +363,32 @@ export class PropertyTaxComponent implements OnInit {
   }
 
 
+  async removeLastQuestion(item: FormGroup) {
+    const childrens = item.controls.child as FormArray;
+    const lastItemReplicaCount = childrens.controls[childrens.controls.length - 1]?.value?.replicaCount;
+    const willDelete = await swal({
+      title: "Are you sure?",
+      text: "Do you want to remove this question?",
+      icon: "warning",
+      dangerMode: true,
+    });
+    if (!willDelete) return;
+    const removableIndexes = [];
+    childrens.controls.forEach((control, index) => {
+      if(control.value.replicaCount == lastItemReplicaCount) {
+        removableIndexes.push(index);
+      }
+    });
+    removableIndexes.reverse();
+    removableIndexes.forEach(index => {
+      childrens.removeAt(index);
+    });
+    let replicaCount = item.controls?.replicaCount?.value;
+    replicaCount--;
+    item.patchValue({
+      replicaCount,
+    });
+  }
   async addChildQuestions(item: FormGroup) {
     const copyChildFromKeys = item.controls?.copyChildFrom.value as string[];
     const maxChild = item.controls?.maxChild?.value;
