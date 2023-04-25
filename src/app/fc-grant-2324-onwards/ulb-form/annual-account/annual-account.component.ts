@@ -2364,7 +2364,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
       console.log('res.........', res);
       this.questionResponse.data = res.data;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
-      if(res.data[0] && res.data[0].statusId && (res.data[0].statusId == 3 || res.data[0].statusId == 4)){
+      if(res.data[0] && res.data[0].statusId ){
         for(let el of res.data[0]?.language[0].question) {
           console.log('qus el el', el);
           if(el?.shortKey == 'audited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
@@ -2372,6 +2372,7 @@ this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 2) el["isReview"] = true;
           if(el?.shortKey == 'unAudited.submit_annual_accounts' && el?.value == 1) el["isReview"] = false;
           if(el?.isReview && el?.canTakeAction){
+            el.errorInAction = false;
             this.preparingActionPayload(el);
             this.reviewShortKeyArray.push(el.reviewShortKey);
           }
