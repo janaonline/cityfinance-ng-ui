@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center">
-    <h5 class="mx-3 my-4">Property Tax</h5>
+    <h5 class="mx-3 my-4">Details of Property Tax and User Charges</h5>
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
 
@@ -49,6 +49,12 @@
                                         <mat-radio-button value="Yes">Yes</mat-radio-button>
                                         <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
                                     </mat-radio-group>
+
+                                    <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'"
+                                        class="form-select" formControlName="value"
+                                        [disabled]="yearItem?.controls?.readonly?.value">
+                                        <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{ option?.label}}</option>
+                                    </select>
 
 
                                     <div class="input-group border" style="width: 100px;"
@@ -103,6 +109,16 @@
                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                 </div>
                             </div>
+                        </td>
+                    </tr>
+                    <!-- <tr *ngFor="let yearItem of item?.value?.controls?.child?.controls; let r_i=index">
+                        <td colspan="7">
+                            <p>{{ yearItem.value.key | json  }}</p>
+                        </td>
+                    </tr> -->
+                    <tr *ngIf="item?.value?.controls?.child?.value">
+                        <td colspan="7">
+                            <button class="btn btn-primary">Add more</button>
                         </td>
                     </tr>
                 </ng-container>
