@@ -7,7 +7,7 @@
         <div class="row mb-2" style="">
             <div class="col-sm-9">
                 <h4 class="form-header">
-                    Projects for Water and Sanitation
+                    {{waterRejRes?.formName}}
                 </h4>
             </div>
             <div class="col-sm-3 text-end">
@@ -30,33 +30,19 @@
                         <div class="row"  *ngIf="checkCard(projectIndex)">
                           <div class="col-sm-12">
                             <div>
-                              <h5 class="tb-head" style="">Fill Details of Project for Rejuvenation of Water Bodies<span style="color: red;">*</span></h5>
-                          </div>
+                                <h4 class="tb-head" style="">{{waterRejRes?.tables[0]?.tableName}}<span style="color: red;">*</span>
+                                </h4>
+                            </div>
                           <div class="table-responsive">
                             <table class="table custom-position tb1">
                               <thead>
-                                  <tr class="thHeader">
-                                      <th scope="col">S.No</th>
-                                      <th  scope="col">Project Name</th>
-                                      <th  scope="col">Name Of Water Body</th>
-                                      <th scope="col">Area</th>
-                                      <th scope="col">Upload Photo</th>
-                                      <th  scope="col">
-                                          <span>Location</span><br>
-                                          <span>Latitude and Longitude</span>
-                                      </th>
-                                      <th scope="col"></th>
-                                      <th scope="col">BOD in mg/L</th>
-                                      <th scope="col">COD in mg/L</th>
-                                      <th scope="col">DO in mg/L</th>
-                                      <th scope="col">TDS in mg/L</th>
-                                      <th scope="col">Turbidity in NTU</th>
-                                      <th scope="col">Project Details</th>
-                                      <th scope="col" class="w-8p">Preparation of DPR</th>
-                                      <th scope="col">Completion of tendering process</th>
-                                      <th scope="col">% of work completion</th>
-                                      <th scope="col"></th>
-                                  </tr>
+                                <tr class="thHeader">
+                                    <th scope="col" width="{{itemTh?.width}}" *ngFor="let itemTh of waterRejRes?.tables[0]?.columns">
+                                        <span>{{itemTh?.displayName}}</span><br *ngIf="itemTh.key == 'location'">
+                                        <span *ngIf="itemTh.key == 'location'">Latitude and Longitude</span> 
+                                    </th>
+                                    <th scope="col"></th>
+                                </tr>
                               </thead>
                               <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                   <tr [formGroupName]="waterBodiesIndex" [ngClass]="{'anDisable': getDisableRow(projectRow)}">
@@ -78,7 +64,9 @@
                                               <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
                                               <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                           </label>
-                                              <input style="display: none;" onclick="this.value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" [ngClass]="{'disableInputs': isDisabled }" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required
+                                              <input style="display: none;" onclick="this.value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 
+                                              [ngClass]="{'disableInputs': isDisabled }"
+                                               accept=".png,.jpg,.jpeg" (change)="uploadFile($event, 'img', waterBodiesIndex, projectIndex, 'img')" required
                                                   multiple />
                                           </div>
                                           <a style="margin-left: 1ch; pointer-events: all;" (click)="imgPreview(waterBodiesIndex,projectIndex)">
@@ -192,7 +180,7 @@
                                       </td>
 
                                       <td class="icon">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow3(projectIndex, waterBodiesIndex)" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, waterBodiesIndex, 0, 'waterBodies')" class="d-i">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -206,38 +194,26 @@
 
                           </div>
                           <div class="addMoreDiv text-right mb-2">
-                            <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore1">
-                            <span class="material-icons text-center"
-                                style="font-size: 12px; margin-right: 3px;">
-                                add_circle_outline
-                            </span>Add more</button>
-                        </div>
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 0, 'waterBodies')" id="addmoreBtn" [disabled]="waterRejRes?.tables[0]?.addProjectAvailable">
+                                <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
+                                Add more
+                            </button>
+                         </div>
 
                           <div class="mt-3">
-                              <h5 class="tb-head" style="">Fill Details of Projects for Recycling and Reuse of Water<span style="color: red;">*</span></h5>
+                            <h4 class="tb-head" style="">{{waterRejRes?.tables[1]?.tableName}}<span style="color: red;">*</span>
+                            </h4>
                           </div>
                           <div class="table-responsive">
                             <table class="table custom-position tb2">
                               <thead>
-                                  <tr class="thHeader">
-                                      <th scope="col">S.No</th>
-                                      <th  scope="col">Project Name</th>
-                                      <th  scope="col">
-                                          <span>Location of Water Treatment Plant</span><br>
-                                          <span>Latitude and Longitude</span>
-                                      </th>
-                                      <th scope="col">Proposed capacity of STP(MLD)</th>
-                                      <th scope="col">Proposed water quantity to be reused(MLD)</th>
-
-                                      <th scope="col">Target customers/ consumer for reuse of water</th>
-                                      <!-- <th style="width: 12%;" scope="col">Preparation of DPR and completion of tendering process</th>
-                                      <th style="width: 10%;" scope="col">% of work completion</th> -->
-                                      <th scope="col" class="w-8p">Preparation of DPR</th>
-                                      <th scope="col" >Completion of tendering process</th>
-                                      <th scope="col">% of work completion</th>
-
-                                      <th scope="col"></th>
-                                  </tr>
+                                <tr class="thHeader">
+                                    <th scope="col" width="{{itemTh?.width}}" *ngFor="let itemTh of waterRejRes?.tables[1]?.columns">
+                                        <span>{{itemTh?.displayName}}</span><br *ngIf="itemTh.key == 'location'">
+                                        <span *ngIf="itemTh.key == 'location'">Latitude and Longitude</span>
+                                    </th>
+                                    <th scope="col"></th>
+                                </tr>
                               </thead>
                               <tbody formArrayName="reuseWater" *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
 
@@ -294,7 +270,7 @@
                                       </td>
                                       <!-- *ngIf="1+reuseWaterIndex>1" -->
                                       <td class="iconSliAndReuse">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow1(projectIndex,reuseWaterIndex)" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}"  (click)="deleteRow(projectIndex, reuseWaterIndex, 1, 'reuseWater')" class="d-i">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -306,43 +282,28 @@
                               </tbody>
                           </table>
                           </div>
-                          <div class="addMoreDiv text-right">
-                            <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore2">
-                            <span class="material-icons text-center"
-                                style="font-size: 12px; margin-right: 3px;">
-                                add_circle_outline
-                            </span>Add more</button>
-                        </div>
+                          <div class="addMoreDiv text-right mb-2">
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 1, 'reuseWater')" id="addmoreBtn" [disabled]="waterRejRes?.tables[1]?.addProjectAvailable">
+                                <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
+                                Add more
+                            </button>
+                         </div>
 
                           <div class="mt-3" style="">
-                              <h4 class="tb-head" style=""> Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
+                              <h4 class="tb-head" style="">{{waterRejRes?.tables[2]?.tableName}}<span style="color: red;">*</span>
                               </h4>
                           </div>
                           <div class="table-responsive">
                             <table class="table custom-position tb3">
                               <thead>
-                                  <tr class="thHeader">
-                                      <th style="width: 5%;" scope="col">S.No</th>
-                                      <th scope="col">Project Name</th>
-                                      <th scope="col">Physical Components
-
-                                          <img matTooltip="such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up" style="width: 16px;height: 16px;" src="../../../../assets/ulbform/info_black_24dp.svg">
-
-                                      </th>
-                                      <th scope="col">Indicator</th>
-                                      <th scope="col">Existing (As-is)
-                                      </th>
-                                      <th scope="col">After (To-be)
-                                      </th>
-                                      <th scope="col">Estimated Cost (Amount in INR Lakhs)</th>
-                                      <th class="w-8p" scope="col">Preparation of DPR</th>
-                                      <th class="w-8p" scope="col">Completion of tendering process</th>
-                                      <th scope="col">% of work completion</th>
-                                      <!-- <th style="" scope="col">
-                                      <span [ngClass]="{'toggle' : toggle2}"> % of work completion</span>
-                                  </th> -->
-                                      <th scope="col"></th>
-                                  </tr>
+                                <tr class="thHeader">
+                                    <th scope="col" width="{{itemTh?.width}}" *ngFor="let itemTh of waterRejRes?.tables[2]?.columns">
+                                        <span>{{itemTh?.displayName}}</span><br *ngIf="itemTh?.key == 'location'">
+                                        <span *ngIf="itemTh?.key == 'location'">Latitude and Longitude</span>
+                                        <span *ngIf="itemTh?.info"><img matTooltip="{{itemTh?.info}}" style="width: 16px;height: 16px;" src="../../../../assets/ulbform/info_black_24dp.svg"></span>
+                                    </th>
+                                    <th scope="col"></th>
+                                </tr>
                               </thead>
                               <tbody formArrayName="serviceLevelIndicators" *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index">
 
@@ -361,14 +322,14 @@
                                       <td>
 
 
-                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex,sliIndex)">
-                                          <option value="">--Select Indicator--</option>
-                                          <option
-                                              [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator"
-                                              *ngFor="let Indicator of waterIndicators">
-                                              {{Indicator}}</option>
+                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)">
+                                             <option value="">--Select Indicator--</option>
+                                                <option
+                                                    [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.name"
+                                                     *ngFor="let Indicator of waterIndicators">
+                                                        {{Indicator?.name}}</option>
 
-                                      </select>
+                                             </select>
                                           <!-- <input  matTooltipPosition="above"
                                           [matTooltip]="" type="text"> -->
                                       </td>
@@ -408,7 +369,7 @@
                                       </td>
                                       <!-- *ngIf="1+sliIndex>1" -->
                                       <td class="iconSliAndReuse">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow2(projectIndex, sliIndex)" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, sliIndex, 2, 'serviceLevelIndicators')" class="d-i">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -421,13 +382,12 @@
                           </table>
 
                           </div>
-                          <div class="addMoreDiv text-right">
-                            <button type="button" class="btn" (click)="addRow3(projectIndex)" id="addmoreBtn" [disabled]="disableAddMore3">
-                            <span class="material-icons text-center"
-                                style="font-size: 12px; margin-right: 3px;">
-                                add_circle_outline
-                            </span>Add more</button>
-                        </div>
+                          <div class="addMoreDiv text-right mb-2">
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 2, 'serviceLevelIndicators')" id="addmoreBtn" [disabled]="waterRejRes?.tables[2]?.addProjectAvailable">
+                                <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
+                                Add more
+                            </button>
+                         </div>
                           </div>
 
 
@@ -511,10 +471,10 @@
             </button>
                 </div>
                 <div class="col-sm-7 text-end">
-                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="onDraft()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
+                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="onDraft()" type="button" [disabled]="isDisabled">
                 Save as Draft
               </button>
-                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
+                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled">
                 Submit
               </button>
                     <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->

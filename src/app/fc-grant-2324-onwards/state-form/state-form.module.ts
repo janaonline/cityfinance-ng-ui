@@ -10,10 +10,18 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, ProjectsWssComponent, ProjectsWaterRejComponent],
+  declarations: [
+    StateFormComponent,
+    ReviewUlbTableComponent, 
+    DashbordComponent,
+    ProjectsWssComponent, 
+    ProjectsWaterRejComponent
+    ],
   imports: [
     CommonModule,
     StateFormRoutingModule,
@@ -21,6 +29,8 @@ import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-r
     Shared2223Module,
     ReactiveFormsModule,
     FormsModule,
+    MatTooltipModule,
+    MatIconModule,
   ]
 })
 export class StateFormModule { }

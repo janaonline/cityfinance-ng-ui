@@ -269,3 +269,7 @@ input::-webkit-inner-spin-button {
 .w-8p {
   width: 10%;
 }
+::ng-deep .d-i {
+width: 24px !important;
+display: inline-block;
+}

@@ -2,6 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { WaterRejenuvations2223PreviewComponent } from 'src/app/newPagesFc/xvfc2223-state/water-rejenuvations2223/water-rejenuvations2223-preview/water-rejenuvations2223-preview.component';
 import { WaterRejenuvations2223ServiceService } from 'src/app/newPagesFc/xvfc2223-state/water-rejenuvations2223/water-rejenuvations2223-service.service';
@@ -38,18 +39,18 @@ export class ProjectsWaterRejComponent implements OnInit {
   latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   isPreYear = false;
   preMess = '';
-  waterIndicators = [
-    "Continuity of Water supplied",
-    "Cost Recovery",
-    "Coverage of Water Supply connections",
-    "Extent of Metering",
-    "Extent of Non-revenue WaterSanitationComponent",
-    "Efficiency in Collection of Water Charges",
-    "Efficiency in redressal of customer complaints",
-    "Per Capita Supply of Water",
-    "Quality of Water Supplied",
-  ];
-  ;
+  // waterIndicators = [
+  //   "Continuity of Water supplied",
+  //   "Cost Recovery",
+  //   "Coverage of Water Supply connections",
+  //   "Extent of Metering",
+  //   "Extent of Non-revenue WaterSanitationComponent",
+  //   "Efficiency in Collection of Water Charges",
+  //   "Efficiency in redressal of customer complaints",
+  //   "Per Capita Supply of Water",
+  //   "Quality of Water Supplied",
+  // ];
+  
   isDisabled = false;
   errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";;
   alertError;
@@ -61,6 +62,311 @@ export class ProjectsWaterRejComponent implements OnInit {
   design_year = "";
   stateId= '';
   formDisable = false;
+  waterIndicators = [
+      {
+        id: 1,
+        name:'Coverage of water supply connections',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 2,
+        name:'Per capita supply of water(lpcd)',
+        min: 0,
+        max:999,
+        unit: 'lpcd'
+      },
+      {
+        id: 3,
+        name:'Extent of metering of water connections',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 4,
+        name:'Extent of non-revenue water (NRW)',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 5,
+        name:'Continuity of water supply',
+        min: 0,
+        max: 24,
+        unit: 'Hours per day'
+      },
+      {
+        id: 6,
+        name: 'Efficiency in redressal of customer complaints',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 7,
+        name: 'Quality of water supplied',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 8,
+        name:'Cost recovery in water supply service',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+      {
+        id: 9,
+        name:'Efficiency in collection of water supply-related charges',
+        min: 0,
+        max:100,
+        unit: '%'
+      },
+  ]
+
+waterRejRes = {
+ formId: '',
+ status: '',
+ formName: 'Projects for Water and Sanitation',
+ tables: [
+    {
+      tableName:'Fill Details of Project for Rejuvenation of Water Bodies',
+      position: 1,
+      addProjectAvailable : false,
+      columns:  [
+        {
+          key: 'sNo',
+          displayName: 'S.No',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'projectName',
+          displayName: 'Project Name',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'nameOfWaterBody',
+          displayName: 'Name Of Water Body',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'area',
+          displayName: 'Area',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'uploadPhoto',
+          displayName: 'Upload Photo',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'location',
+          displayName: 'Location',
+           info: '',
+              width: ''
+        },
+        {
+          key: '',
+          displayName: '',
+           info: '',
+          width: ''
+        },
+        {
+          key: 'bod',
+          displayName: 'BOD in mg/L',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'cod',
+          displayName: 'COD in mg/L',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'do',
+          displayName: 'DO in mg/L',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'tds',
+          displayName: 'TDS in mg/L',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'turbidity',
+          displayName: 'Turbidity in NTU',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'projectDetails',
+          displayName: 'Project Details',
+           info: '',
+              width: ''
+        },
+        {
+          key: 'preparationofDPR',
+          displayName: 'Preparation of DPR',
+           info: '',
+          width: '10%'
+        },
+        {
+          key: 'tenderingProcess',
+          displayName: 'Completion of tendering process',
+           info: '',
+          width: '10%'
+        },
+        {
+          key: 'workCompletion',
+          displayName: '% of work completion',
+           info: '',
+              width: ''
+        },
+       
+      ]
+    },
+    {
+      tableName:'Fill Details of Projects for Recycling and Reuse of Water',
+      position: 2,
+      addProjectAvailable : false,
+      columns: [
+        {
+          key: 'sNo',
+          displayName: 'S.No',
+          info: '',
+          width: ''
+        }, 
+        {
+          key: 'projectName',
+          displayName: 'Project Name',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'location',
+          displayName: 'Location of Water Treatment Plant',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'proposedCapacity',
+          displayName: 'Proposed capacity of STP(MLD)',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'proposedQuantity',
+          displayName: 'Proposed water quantity to be reused(MLD)',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'targetReuseOfWater',
+          displayName: 'Target customers/ consumer for reuse of water',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'preparationofDPR',
+          displayName: 'Preparation of DPR',
+          info: '',
+          width: '10%'
+        },
+        {
+          key: 'tenderingProcess',
+          displayName: 'Completion of tendering process',
+          info: '',
+          width: '10%'
+        },
+        {
+          key: 'workCompletion',
+          displayName: '% of work completion',
+          info: '',
+          width: ''
+        },   
+  ] 
+    },
+    {
+      tableName:'Details of Proposed Project to Improve Service Level Indicators related to Water Supply',
+      position: 3,
+      addProjectAvailable : false,
+      columns: [
+        {
+          key: 'sNo',
+          displayName: 'S.No',
+          info: '',
+          width: ''
+        }, 
+        {
+          key: 'projectName',
+          displayName: 'Project Name',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'physicalComponents',
+          displayName: 'Physical Components',
+          info: 'such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up',
+          width: ''
+        },
+        {
+          key: 'indicator',
+          displayName: 'Indicator',
+          info: '',
+           width: ''
+        },
+        {
+          key: 'existing',
+          displayName: 'Existing (As-is)',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'after',
+          displayName: 'After (To-be)',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'estimatedCost',
+          displayName: 'Estimated Cost (Amount in INR Lakhs)',
+          info: '',
+          width: ''
+        },
+        {
+          key: 'preparationofDPR',
+          displayName: 'Preparation of DPR',
+          info: '',
+          width: '10%'
+        },
+        {
+          key: 'tenderingProcess',
+          displayName: 'Completion of tendering process',
+          info: '',
+          width: '10%'
+        },
+        {
+          key: 'workCompletion',
+          displayName: '% of work completion',
+          info: '',
+          width: ''
+        },
+      ]
+    }
+  ]
+}
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -69,6 +375,7 @@ export class ProjectsWaterRejComponent implements OnInit {
     public _stateformsService: StateformsService,
     public stateDashboardService: StateDashboardService,
     public newCommonService: NewCommonService,
+    private _snackBar: MatSnackBar,
   ) {
     this.stateId = this.userData?.state;
     if (!this.stateId) {
@@ -85,8 +392,7 @@ export class ProjectsWaterRejComponent implements OnInit {
 
   indicatorSet(event, index, rowIndex) {
     console.log(event.target.value, rowIndex)
-    let indicatorValue = event.target.value
-
+    let indicatorValue = event.target.value;
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
@@ -94,7 +400,6 @@ export class ProjectsWaterRejComponent implements OnInit {
         el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue)
       }
     }
-    console.log(this.waterRejenuvation)
     // this.checkDiff();
   }
 
@@ -189,174 +494,33 @@ export class ProjectsWaterRejComponent implements OnInit {
   getWaterBodies(dataArray) {
     console.log('dataArray dataArray', dataArray);
     return dataArray.map((data) =>
-      this.fb.group({
-        name: this.fb.control(data.name, [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        area: this.fb.control(data.area, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        nameOfBody: this.fb.control(data.nameOfBody, [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        lat: this.fb.control(data.lat, [
-          Validators.required,
-          Validators.pattern(this.latLongRegex)
-        ]),
-        long: this.fb.control(data.long, [
-          Validators.required,
-          Validators.pattern(this.latLongRegex)
-
-        ]),
-        photos: this.fb.array(this.getPhotos(data.photos), [
-          Validators.required,
-        ]),
-        bod: this.fb.control(data.bod, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        cod: this.fb.control(data.cod, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        do: this.fb.control(data.do, [Validators.required, Validators.min(1)]),
-        tds: this.fb.control(data.tds, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        turbidity: this.fb.control(data.turbidity, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        bod_expected: this.fb.control(data.bod_expected, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        cod_expected: this.fb.control(data.cod_expected, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        do_expected: this.fb.control(data.do_expected, [Validators.required, Validators.min(1)]),
-        tds_expected: this.fb.control(data.tds_expected, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        turbidity_expected: this.fb.control(data.turbidity_expected, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        details: this.fb.control(data.details, [
-          Validators.required,
-          Validators.maxLength(200),
-        ]),
-        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
-          Validators.required,
-        ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
-        ]),
-        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
-
-        ]),
-        isDisable: this.fb.control(data?.isDisable, [
-        ]),
-      })
+     this.waterBodiesFormElem(data)
     );
   }
 
   getPhotos(dataArray) {
-    return dataArray?.map((data) =>
+    if(dataArray){
+      return dataArray?.map((data) =>
       this.fb.group({
         url: this.fb.control(data?.url, [Validators.required]),
         name: this.fb.control(data?.name, [Validators.required]),
       })
     );
+    }else{
+      return []
+    }
+   
   }
 
   getServiceLevelIndicator(dataArray) {
     console.log(dataArray)
     return dataArray?.map((data) =>
-      this.fb.group({
-        name: this.fb.control(data.name, [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        component: this.fb.control(data.component, [
-          Validators.required,
-          Validators.maxLength(200),
-        ]),
-        indicator: this.fb.control(data.indicator, [
-          Validators.required,
-
-        ]),
-        existing: this.fb.control(data.existing, [
-          Validators.required,
-
-        ]),
-        after: this.fb.control(data.after, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        cost: this.fb.control(data.cost, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
-          Validators.required,
-        ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
-        ]),
-        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
-        ]),
-        isDisable: this.fb.control(data?.isDisable, [
-          Validators.required,
-        ]),
-
-      })
-
+      this.slbFormElem(data)
     );
   }
   getReuseWater(dataArray) {
     return dataArray?.map((data) =>
-      this.fb.group({
-        name: this.fb.control(data.name, [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        treatmentPlant: this.fb.control(data.treatmentPlant, [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-        targetCust: this.fb.control(data.targetCust, [
-          Validators.required,
-          Validators.maxLength(300),
-        ]),
-        lat: this.fb.control(data.lat, [
-          Validators.required,
-          Validators.pattern(this.latLongRegex)
-        ]),
-        long: this.fb.control(data.long, [
-          Validators.required,
-          Validators.pattern(this.latLongRegex)
-        ]),
-        stp: this.fb.control(data.stp, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [
-          Validators.required,
-        ]),
-        dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), [
-        ]),
-        workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), [
-        ]),
-        isDisable: this.fb.control(data?.isDisable, [
-          Validators.required,
-        ]),
-      })
-
+    this.waterReuseFormElem(data)
     );
   }
  
@@ -425,276 +589,96 @@ export class ProjectsWaterRejComponent implements OnInit {
     return pRow?.value?.isDisable;
     // return false
   }
-  // addRow2(index) {
-  //   let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-  //   this.projectIndex = uaDataAtIndex
-  //   console.log('22222222222222222222', uaDataAtIndex._id);
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       if (el['controls']['reuseWater'].length > 9) {
-  //         this.disableAddMore1 = true;
-  //         return swal('Maximum 10 Rows can be added.')
-  //       }
-  //     }
-  //   }
-  //   console.log(this.data)
-  //   console.log(this.waterRejenuvation['controls']['uaData']['controls'])
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       el['controls']['reuseWater'].push(this.fb.group({
-  //         name: this.fb.control({ value: null, disabled: false }, [
-  //           Validators.required,
-  //           Validators.maxLength(25),
-  //         ]),
-  //         treatmentPlant: this.fb.control({ value: null, disabled: false }, [
-  //           Validators.required,
-  //           Validators.maxLength(25),
-  //         ]),
-  //         targetCust: this.fb.control(null, [
-  //           Validators.required,
-  //           Validators.maxLength(300),
-  //         ]),
-  //         lat: this.fb.control(null, [
-  //           Validators.required,
-  //           Validators.pattern(this.latLongRegex)
-  //         ]),
-  //         long: this.fb.control(null, [
-  //           Validators.required,
-  //           Validators.pattern(this.latLongRegex)
-  //         ]),
-  //         stp: this.fb.control(null, [
-  //           Validators.required,
-  //           Validators.min(1),
-  //         ]),
-  //         dprPreparation: this.fb.control('', [
-  //           Validators.required,
-  //           // Validators.min(1),
-  //         ]),
-  //         dprCompletion: this.fb.control('', [
-  //          // Validators.required,
-  //           // Validators.min(1),
-  //         ]),
-  //         workCompletion: this.fb.control('', [
-  //          // Validators.required,
-  //           // Validators.min(1),
-  //         ]),
-  //         isDisable: this.fb.control(false, [
-  //           Validators.required,
-  //           // Validators.min(1),
-  //         ]),
-  //       })
-  //       )
-  //     }
-  //   }
-  // }
-  // addRow3(index) {
-  //   let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-  //   console.log(uaDataAtIndex._id);
-  //   console.log(this.data)
-  //   console.log('1111111', uaDataAtIndex._id);
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       if (el['controls']['serviceLevelIndicators'].length > 9) {
-  //         this.disableAddMore2 = true
-  //         return swal('Maximum 10 Rows can be added.')
-  //       }
+  waterBodiesFormElem(data) {
+    return  this.fb.group({
+      name: this.fb.control(data?.name, [Validators.required, Validators.maxLength(50)]),
+      area: this.fb.control(data?.area, [Validators.required,Validators.min(1)]),
+      nameOfBody: this.fb.control(data?.nameOfBody, [Validators.required, Validators.maxLength(50)]),
+      lat: this.fb.control(data?.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
+      long: this.fb.control(data?.long, [Validators.required, Validators.pattern(this.latLongRegex)]),
+      photos: this.fb.array(this.getPhotos(data?.photos), [Validators.required]),
+      bod: this.fb.control(data?.bod, [Validators.required,Validators.min(1)]),
+      cod: this.fb.control(data?.cod, [Validators.required,Validators.min(1)]),
+      do: this.fb.control(data?.do, [Validators.required, Validators.min(1)]),
+      tds: this.fb.control(data?.tds, [ Validators.required,Validators.min(1)]),
+      turbidity: this.fb.control(data?.turbidity, [Validators.required,Validators.min(1)]),
+      bod_expected: this.fb.control(data?.bod_expected, [Validators.required,Validators.min(1)]),
+      cod_expected: this.fb.control(data.cod_expected, [Validators.required,Validators.min(1)]),
+      do_expected: this.fb.control(data?.do_expected, [Validators.required, Validators.min(1)]),
+      tds_expected: this.fb.control(data?.tds_expected, [Validators.required,Validators.min(1)]),
+      turbidity_expected: this.fb.control(data?.turbidity_expected, [Validators.required,Validators.min(1)]),
+      details: this.fb.control(data?.details, [Validators.required,Validators.maxLength(200)]),
+      dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
+      dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
+      workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
+      isDisable: this.fb.control(data?.isDisable, []),
+    })
+  
+  }
+  slbFormElem(data){
+    return this.fb.group({
+      name: this.fb.control(data.name, [ Validators.required, Validators.maxLength(50)]),
+      component: this.fb.control(data.component, [ Validators.required,Validators.maxLength(200)]),
+      indicator: this.fb.control(data.indicator, [ Validators.required]),
+      existing: this.fb.control(data.existing, [ Validators.required ]),
+      after: this.fb.control(data.after, [ Validators.required, Validators.min(1)]),
+      cost: this.fb.control(data.cost, [Validators.required, Validators.min(1)]),
+      dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
+      dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
+      workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
+      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+    })
+  }
+  waterReuseFormElem(data){
+    return this.fb.group({
+      name: this.fb.control(data.name, [Validators.required,Validators.maxLength(50)]),
+      treatmentPlant: this.fb.control(data.treatmentPlant, [Validators.required,Validators.maxLength(50)]),
+      targetCust: this.fb.control(data.targetCust, [Validators.required,Validators.maxLength(300)]),
+      lat: this.fb.control(data.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
+      long: this.fb.control(data.long, [Validators.required,Validators.pattern(this.latLongRegex)]),
+      stp: this.fb.control(data.stp, [Validators.required,Validators.min(1)]),
+      dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
+      dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
+      workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
+      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+    })
+  }
+  addRow(index, tableIndex, controlName) {
+    let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        if (el['controls'][controlName].length > 9) {
+           this.waterRejRes.tables[tableIndex].addProjectAvailable = true;
+          return swal('Maximum 10 Rows can be added.')
+        }
 
-  //     }
-  //   }
-  //   console.log(this.waterRejenuvation['controls']['uaData']['controls'])
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      }
+    }
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id && el['controls'][controlName]) {
+        console.log('aaa el el', el['controls'][controlName]);
+        let elem;
+        if(controlName == 'waterBodies') elem = this.waterBodiesFormElem([]);
+        if(controlName == 'reuseWater') elem =  this.waterReuseFormElem([]);
+        if(controlName == 'serviceLevelIndicators') elem = this.slbFormElem([]);
+       el['controls'][controlName].push(elem)
+      }
+    }
+    console.log('aa data', this.waterRejenuvation);
 
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       el['controls']['serviceLevelIndicators'].push(
-  //         this.fb.group({
-  //           name: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.maxLength(25),
-  //           ]),
-  //           component: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.maxLength(25),
-  //           ]),
-  //           indicator: this.fb.control(null, [
-  //             Validators.required,
+  }
 
-  //           ]),
-  //           existing: this.fb.control(null, [
-  //             Validators.required,
-
-  //           ]),
-  //           after: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           cost: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           dprPreparation: this.fb.control('', [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           dprCompletion: this.fb.control('', [
-  //           //  Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           workCompletion: this.fb.control('', [
-  //           //  Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           isDisable: this.fb.control(false, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //         })
-  //       )
-  //     }
-  //   }
-  // }
-  // addRow1(index) {
-  //   console.log('aaaa da', this.data)
-  //   console.log('aaaa da 22321', this.waterRejenuvation)
-  //   let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-  //   console.log(uaDataAtIndex._id);
-  //   console.log('333333333333', uaDataAtIndex._id);
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       if (el['controls']['waterBodies'].length > 9) {
-  //         this.disableAddMore3 = true;
-  //         return swal('Maximum 10 Rows can be added.')
-  //       }
-
-  //     }
-  //   }
-  //   console.log(this.waterRejenuvation['controls']['uaData']['controls'])
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id && el['controls']['waterBodies']) {
-  //       console.log('aaa el el', el['controls']['waterBodies']);
-  //       el['controls']['waterBodies'].push(
-  //         this.fb.group({
-  //           name: this.fb.control({ value: null, disabled: false }, [
-  //             Validators.required,
-  //             Validators.maxLength(25),
-  //           ]),
-  //           nameOfBody: this.fb.control({ value: null, disabled: false }, [
-  //             Validators.required,
-  //             Validators.maxLength(25),
-  //           ]),
-  //           area: this.fb.control(null, [
-  //             Validators.required,
-
-  //           ]),
-  //           photos: this.fb.array([], [
-  //             Validators.required,
-  //           ]),
-  //           lat: this.fb.control(null, [
-  //             Validators.required,
-  //             Validators.pattern(this.latLongRegex)
-  //           ]),
-  //           long: this.fb.control(null, [
-  //             Validators.required,
-  //             Validators.pattern(this.latLongRegex)
-  //           ]),
-  //           bod: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           bod_expected: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           cod: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           cod_expected: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           do: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           do_expected: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           tds: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           tds_expected: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           turbidity: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           turbidity_expected: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           details: this.fb.control(null, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           dprPreparation: this.fb.control('', [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           dprCompletion: this.fb.control('', [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           workCompletion: this.fb.control('', [
-  //            // Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //           isDisable: this.fb.control(false, [
-  //             Validators.required,
-  //             // Validators.min(1),
-  //           ]),
-  //         })
-  //       )
-  //     }
-  //   }
-  //   console.log('aa data', this.waterRejenuvation);
-
-  // }
-
-  // deleteRow1(uaIndex, rowIndex) {
-  //   let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       el['controls']['reuseWater'].removeAt(rowIndex);
-  //     }
-  //   }
-  // }
-  // deleteRow2(uaIndex, rowIndex) {
-  //   let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       el['controls']['serviceLevelIndicators'].removeAt(rowIndex);
-  //     }
-  //   }
-  // }
-  // deleteRow3(uaIndex, rowIndex) {
-  //   let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
-  //   for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
-
-  //     if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-  //       el['controls']['waterBodies'].removeAt(rowIndex);
-  //       if (el['controls']['waterBodies'].length < 10) {
-  //         this.disableAddMore3 = false
-  //       }
-  //     }
-  //   }
-
-  // }
+  deleteRow(uaIndex, rowIndex, tableIndex, controlName) {
+    let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls'][controlName].removeAt(rowIndex);
+        if (el['controls'][controlName].length < 10) {
+          this.waterRejRes.tables[tableIndex].addProjectAvailable = false
+       }
+      }
+    }
+  }
    onChange(val, pIndex, type, uaIndex) {
     console.log('radio', val, pIndex, type, uaIndex)
     if (type == 'waterB') {
@@ -925,260 +909,11 @@ export class ProjectsWaterRejComponent implements OnInit {
       temp[nameIndex].controls.long.patchValue(result.long);
     });
   }
-  disablePreviousInput() {
-
-    console.log('water form.....', this.waterRejenuvation);
-    console.log('data....', this.data);
-    let dataArray = this.data[0];
-    for (let i = 0; i < dataArray?.waterBodies?.length; i++) {
-      let data = dataArray?.waterBodies[i];
-      if (data?.isDisable == false) {
-        this.fb.group({
-          name: this.fb.control(data.name, [
-            Validators.required,
-            Validators.maxLength(25),
-          ]),
-          area: this.fb.control(data.area, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          nameOfBody: this.fb.control(data.nameOfBody, [
-            Validators.required,
-            Validators.maxLength(25),
-          ]),
-          lat: this.fb.control(data.lat, [
-            Validators.required,
-            Validators.pattern(this.latLongRegex)
-          ]),
-          long: this.fb.control(data.long, [
-            Validators.required,
-            Validators.pattern(this.latLongRegex)
-
-          ]),
-          photos: this.fb.array(this.getPhotos(data.photos ? data.photos : []), [
-            Validators.required,
-          ]),
-          bod: this.fb.control(data.bod, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          cod: this.fb.control(data.cod, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          do: this.fb.control(data.do, [Validators.required, Validators.min(1)]),
-          tds: this.fb.control(data.tds, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          turbidity: this.fb.control(data.turbidity, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          bod_expected: this.fb.control(data.bod_expected, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          cod_expected: this.fb.control(data.cod_expected, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          do_expected: this.fb.control(data.do_expected, [Validators.required, Validators.min(1)]),
-          tds_expected: this.fb.control(data.tds_expected, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          turbidity_expected: this.fb.control(data?.turbidity_expected, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          details: this.fb.control(data?.details, [
-            Validators.required,
-            Validators.maxLength(200),
-          ]),
-          dprCompletion: this.fb.control(data?.dprCompletion, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-          workCompletion: this.fb.control(data?.workCompletion, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-          isDisable: this.fb.control(data?.isDisable, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-        })
-      } else {
-        this.fb.group({
-          name: this.fb.control({ value: data.name, disabled: true }, [
-            Validators.required,
-            Validators.maxLength(25),
-          ]),
-          area: this.fb.control(data.area, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          nameOfBody: this.fb.control({ value: data?.nameOfBody, disabled: true }, [
-            Validators.required,
-            Validators.maxLength(25),
-          ]),
-          lat: this.fb.control({ value: data?.lat, disabled: true }, [
-            Validators.required,
-            Validators.pattern(this.latLongRegex)
-          ]),
-          long: this.fb.control({ value: data?.long, disabled: true }, [
-            Validators.required,
-            Validators.pattern(this.latLongRegex)
-
-          ]),
-          photos: this.fb.array(this.getPhotos(data.photos ? data.photos : []), [
-            Validators.required,
-          ]),
-          bod: this.fb.control({ value: data?.bod, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          cod: this.fb.control({ value: data?.cod, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          do: this.fb.control({ value: data?.do, disabled: true }, [Validators.required, Validators.min(1)]),
-          tds: this.fb.control({ value: data?.tds, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          turbidity: this.fb.control({ value: data?.turbidity, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          bod_expected: this.fb.control({ value: data?.bod_expected, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          cod_expected: this.fb.control({ value: data?.cod_expected, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          do_expected: this.fb.control({ value: data?.do_expected, disabled: true }, [Validators.required, Validators.min(1)]),
-          tds_expected: this.fb.control({ value: data?.tds_expected, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          turbidity_expected: this.fb.control({ value: data?.turbidity_expected, disabled: true }, [
-            Validators.required,
-            Validators.min(1),
-          ]),
-          details: this.fb.control({ value: data?.details, disabled: true }, [
-            Validators.required,
-            Validators.maxLength(200),
-          ]),
-          dprCompletion: this.fb.control({ value: data?.dprCompletion, disabled: true }, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-          workCompletion: this.fb.control({ value: data?.workCompletion, disabled: true }, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-          isDisable: this.fb.control(data?.isDisable, [
-            Validators.required,
-            // Validators.min(1),
-          ]),
-        })
-      }
-    }
-  }
-  async onFileChange(event, waterIndex, uaIndex) {
-    console.log('pic uplaod', event);
-    if (this.formDisable) return
-    this.photosArray = [];
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
-    }
-    let file = event.target.files[0];
-    let fileExtension = file.name.split(".").pop();
-    if(fileExtension != 'png' && fileExtension != 'jpg' && fileExtension != 'jpeg'){
-      swal('Error', 'Please select "PNG" or "JPG", or "JPEG" type file', 'error')
-      return
-    }
-    const files = event.target.files;
-    let msg = "Photo uploaded successfully.";
-    let title = "Success";
-    let status = "success";
-
-    let control = this.getSubControlsWaterBodies(uaIndex);
-    let photoControl = control[waterIndex].controls.photos;
-    let leftNum = this.checkPhotos(files.length, photoControl);
-    if (typeof leftNum === "boolean") {
-      swal(
-        `Max ${this.maxPhotos} photos are allowed`,
-        "Delete saved Photos to Continue.",
-        "error"
-      );
-      return;
-    }
-
-    let size = leftNum;
-    for (const key in files) {
-      if (key == "length") break;
-      if (size == 0) {
-        msg = `First ${files.length - leftNum} uploaded successfully`;
-        title = `Max ${this.maxPhotos} photos are allowed`;
-        status = "warning";
-        break;
-      }
-      await this.uploadFile(files[key], files[key].name, files[key].type);
-      size--;
-    }
-
-    let photo = this.getPhotos(this.photosArray);
-    photo.forEach((element) => {
-      photoControl.push(element);
-    });
-    swal(title, msg, status);
-  }
 
   checkPhotos(size, photoControl) {
     let photoControlSize = photoControl.value.length ?? 0;
     if (photoControlSize == this.maxPhotos) return false;
     return this.maxPhotos - photoControlSize;
-  }
-
-  uploadFile(file, name, type) {
-    return new Promise<void>((resolve, reject) => {
-      let folderName = `${this.userData?.role}/2022-23/projects_wss/${this.userData?.stateCode}`
-      this.dataEntryService.newGetURLForFileUpload(name, type, folderName).subscribe(
-        async (s3Response) => {
-          const res = s3Response.data[0];
-          await this.uploadFileToS3(file, res["url"], res["file_url"]);
-          this.photosArray.push({ url: res["file_url"], name });
-          resolve();
-        },
-        (err) => {
-          console.log(err);
-          this.errorPhotosArray.push(file);
-        }
-      );
-    });
-  }
-
-  private uploadFileToS3(file: File, s3URL: string, fileAlias: string) {
-    return new Promise((resolve, reject) => {
-      this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
-        (res) => {
-          if (res.type === HttpEventType.Response) {
-            resolve("aa")
-          }
-        },
-        (err) => {
-          this.errorPhotosArray.push(file);
-          console.log(err);
-        }
-      );
-    })
   }
 
   uaIdToName(index) {
@@ -1216,10 +951,10 @@ export class ProjectsWaterRejComponent implements OnInit {
     // if (this.errorOnload) {
     //   return projectRow.controls[val]?.invalid;
     // }
-    // return (
-    //   projectRow.controls[val]?.invalid &&
-    //   (projectRow.controls[val].dirty || projectRow.controls[val].touched)
-    // );
+    return (
+      projectRow.controls[val]?.invalid &&
+      (projectRow.controls[val].dirty || projectRow.controls[val].touched)
+    );
   }
 
 
@@ -1257,6 +992,98 @@ warningForAmount(val){
     swal('Alert !', `Project progress does not meet with conditions from operations guidelines para 9.2
      but ULB can still submit.`, 'warning');
   }
+  }
+
+async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIndex, uaIndex, uploadType) {
+    const maxFileSize = 5;
+    const excelFileExtensions = ['xls', 'xlsx'];
+    const imgFileExtensions = ['png', 'jpg', 'jpeg'];
+    const file: File = event.target.files[0];
+    if (!file) return;
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
+    let folderName = `${this.userData?.role}/2023-24/projects_wss/${this.userData?.stateCode}`
+    const fileExtension = file.name.split('.').pop();
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
+    if (fileType === 'img' && !imgFileExtensions.includes(fileExtension)) return swal('Error', 'Only "PNG" or "JPG", or "JPEG" file can be Uploaded', 'error');
+    this._snackBar.open("Uploaing File...",'', {"duration": 10000});
+    if(uploadType == 'img'){
+    const files = event.target.files;
+    let msg = "Photo uploaded successfully.";
+    let title = "Success";
+    let status = "success";
+    let control = this.getSubControlsWaterBodies(uaIndex);
+    let photoControl = control[waterIndex].controls.photos;
+    let leftNum = this.checkPhotos(files.length, photoControl);
+    if (typeof leftNum === "boolean") {
+      swal(
+        `Max ${this.maxPhotos} photos are allowed`,
+        "Delete saved Photos to Continue.",
+        "error"
+      );
+      return;
+    }
+    
+    let size = leftNum;
+    for (const key in files) {
+      if (key == "length") break;
+      if (size == 0) {
+        msg = `First ${files.length - leftNum} uploaded successfully`;
+        title = `Max ${this.maxPhotos} photos are allowed`;
+        status = "warning";
+        break;
+      }
+      await this.uploadOnS3(files[key], files[key].name, files[key].type, folderName, uploadType);
+      size--;
+    }
+
+    let photo = this.getPhotos(this.photosArray);
+    photo.forEach((element) => {
+      photoControl.push(element);
+    });
+    swal(title, msg, status);
+    }else{
+      this.uploadOnS3(file, file.name, file.type, folderName, uploadType);
+    }
+  }
+  uploadOnS3(file, fileName, fileType, folderName, uploadType){
+    return new Promise<void>((resolve, reject) => { 
+      this.dataEntryService.newGetURLForFileUpload(fileName, fileType, folderName).subscribe(s3Response => {
+        const { url, file_url } = s3Response.data[0];
+        console.log('url..', url)
+        console.log('asdfgg', s3Response)
+        this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
+          if (res.type !== HttpEventType.Response) return;
+          if(uploadType == 'img') this.photosArray.push({ url: file_url, name: fileName });
+          // this.formControl.responseFile.patchValue({ name: file.name, url: file_url });
+          // this.responceFile = { name: file.name, url: file_url };
+          this._snackBar.dismiss();
+          // console.log('form', this.formControl?.responseFile?.value?.name);
+          resolve();
+        },
+        (err)=>{
+          this._snackBar.dismiss();
+          resolve()
+        }
+        );
+      }, 
+      (err) => {
+          console.log(err);
+          this._snackBar.open("Unable to save the file..",'', {"duration": 2000});
+          this._snackBar.dismiss();
+          resolve();
+      });
+    })
+   
+  }
+  removeUploadedFile(){
+  //  this.formControl.responseFile.patchValue({ name: '', url: '' });
+   //  this.responceFile = { name: '', url: ''};
   }
 }
 
