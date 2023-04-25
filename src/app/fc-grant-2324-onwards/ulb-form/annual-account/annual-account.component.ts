@@ -222,22 +222,25 @@ export class AnnualAccountComponent implements OnInit {
         (res: any) => {
           console.log("action get res annual", res);
           this.isApiComplete = true;
-          for (let el of res.data["STATE"]) {
-            if (
-              el.shortKey == "tab_audited" ||
-              el.shortKey == "audited.bal_sheet"
-            ) {
-              if (el?.responseFile?.url)
-                this.actionResFile["tab_audited"] = el.responseFile;
-            }
-            if (
-              el.shortKey == "tab_unAudited" ||
-              el.shortKey == "unAudited.bal_sheet"
-            ) {
-              if (el?.responseFile?.url)
-                this.actionResFile["tab_unAudited"] = el.responseFile;
+          if(res?.data["STATE"]){
+            for (let el of res.data["STATE"]) {
+              if (
+                el.shortKey == "tab_audited" ||
+                el.shortKey == "audited.bal_sheet"
+              ) {
+                if (el?.responseFile?.url)
+                  this.actionResFile["tab_audited"] = el.responseFile;
+              }
+              if (
+                el.shortKey == "tab_unAudited" ||
+                el.shortKey == "unAudited.bal_sheet"
+              ) {
+                if (el?.responseFile?.url)
+                  this.actionResFile["tab_unAudited"] = el.responseFile;
+              }
             }
           }
+         
           console.log("action get res annual 123", this.actionResFile);
         },
         (err) => {
