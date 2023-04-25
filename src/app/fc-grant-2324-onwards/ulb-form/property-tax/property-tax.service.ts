@@ -3631,119 +3631,17 @@ const response = {
                   "key": "otherValuePropertyType",
                   "label": "Property Type",
                   "displayPriority": "2.25",
-                  "child": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "maxChild": 5,
+                  "replicaCount": 0,
                   "copyChildFrom": [
-                     "otherValuePropertyType",
                      "otherValuePropertyTaxDm",
                      "otherNoPropertyTaxDm",
                      "otherValuePropertyTaxCollected",
                      "otherNoPropertyTaxCollected"
                   ],
+                  "maxChild": 5,
+                  "child": [],
                   "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "otherValuePropertyType",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
+                     {},
                      {},
                      {},
                      {},
@@ -9819,7 +9717,7 @@ export class PropertyTaxService {
       return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`)
          .pipe(
             map((res: any) => {
-               return res;
+               return response;
             })
          );
 

@@ -158,14 +158,18 @@ export class PropertyTaxComponent implements OnInit {
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
             ...(item.child && {
-              child: this.fb.array([
-                this.fb.group({
-
-                  yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
-                })]),
+              replicaCount: item.replicaCount,
+              maxChild: [{ value: item.maxChild, disabled: true }],
+              copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
+              child: this.fb.array(item.child.map(childItem => this.fb.group({
+                key: childItem.key,
+                value: [childItem.value, this.getValidators(childItem, !['date', 'file'].includes(childItem.formFieldType), parent)],
+                _id: childItem._id,
+                label: [{ value: childItem.label, disabled: true }],
+                formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
+                yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+              }))),
             }),
-            maxChild: [{ value: item.maxChild, disabled: true }],
-            copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
         }
@@ -335,6 +339,41 @@ export class PropertyTaxComponent implements OnInit {
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
+    })
+  }
+
+
+
+  async addChildQuestions(item: FormGroup) {
+    const copyChildFromKeys = item.controls?.copyChildFrom.value as string[];
+    const maxChild = item.controls?.maxChild?.value;
+    let replicaCount = item.controls?.replicaCount?.value;
+    console.log({ maxChild, replicaCount });
+    const childrens = item.controls.child as FormArray;
+    if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
+    const newChildValue = await swal("Enter property type", {
+      content: "input"
+    });
+
+    console.log(newChildValue);
+
+    replicaCount++;
+    item.patchValue({
+      replicaCount,
+    });
+    copyChildFromKeys.forEach(key => {
+      const targetQuestion = this.tabs[0].data[key];
+      console.log(targetQuestion);
+      childrens.push(this.fb.group({
+        key: targetQuestion.key,
+        value: [newChildValue, this.getValidators(targetQuestion, !['date', 'file'].includes(targetQuestion.formFieldType), parent)],
+        _id: targetQuestion._id,
+        replicaCount,
+        label: [{ value: targetQuestion.label, disabled: true }],
+        formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
+        readonly: true,
+        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+      }))
     })
   }
 
