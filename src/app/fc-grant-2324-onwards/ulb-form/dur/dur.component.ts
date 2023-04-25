@@ -76,13 +76,13 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   loadData(loadProjects = false) {
-    this.isLoaded = false;
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       console.log('loadData::', res);
       this.loaderService.stopLoader();
       console.log(res);
-      this.isLoaded = true;
+      this.isLoaded = false;
+      setInterval(() => this.isLoaded = true);
       this.questionresponse = res;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
       // this.getActionRes();
