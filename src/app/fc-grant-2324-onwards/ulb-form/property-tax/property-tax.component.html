@@ -112,7 +112,7 @@
                         </td>
                     </tr>
                     <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
-                        <td>delete</td>
+                        <td (click)="editChildQuestions(item?.value, child.controls?.replicaCount.value, child?.controls?.value?.value)">Edit</td>
                         <td>
                             <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaCount?.value }})</p>
                             <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 

@@ -342,6 +342,25 @@ export class PropertyTaxComponent implements OnInit {
     })
   }
 
+  async editChildQuestions(item: FormGroup, replicaCount: number, oldLabel: string) {
+    const childrens = item.controls.child as FormArray;
+    const updatedLabel = await swal("Enter property type", {
+      content: {
+        element: "input",
+        attributes: {
+          value: oldLabel
+        }
+      }
+    });
+    if (!updatedLabel) return;
+    const updatableQuestions = childrens.controls.filter(control => control.value.replicaCount == replicaCount) as FormGroup[];
+
+    updatableQuestions.forEach(control => {
+      control.patchValue({
+        value: updatedLabel,
+      })
+    });
+  }
 
 
   async addChildQuestions(item: FormGroup) {
@@ -352,8 +371,11 @@ export class PropertyTaxComponent implements OnInit {
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
     const newChildValue = await swal("Enter property type", {
-      content: "input"
+      content: {
+        element: 'input'
+      }
     });
+    if (!newChildValue) return;
 
     console.log(newChildValue);
 
