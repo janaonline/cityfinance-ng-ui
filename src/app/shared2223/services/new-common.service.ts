@@ -161,4 +161,8 @@ export class NewCommonService {
   postActionDataAA(body) {
     return this.http.post(`${environment.api.url}annual-accounts/action`, body);
   }
+  getDataForTrackingHistory(formId,ulbId, designYr) {
+  //  console.log(`${environment.api.url}common-history?formId?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`)
+    return this.http.get(`${environment.api.url}common-history?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`);
+  }
 }
