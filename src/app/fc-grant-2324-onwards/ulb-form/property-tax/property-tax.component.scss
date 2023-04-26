@@ -246,7 +246,7 @@
 
 
 .mat-datepicker-input {
-    width: 80px;
+    width: 100%;
 }
 
 ::ng-deep .st-title {
@@ -388,6 +388,6 @@ table {
     right: 0;
     top: 1px;   
 }
-.form-select {
-    width: fit-content;
-}
+// .form-select {
+//     width: fit-content;
+// }
