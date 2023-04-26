@@ -62,69 +62,87 @@ export class ProjectsWaterRejComponent implements OnInit {
   design_year = "";
   stateId= '';
   formDisable = false;
+  // "Continuity of Water supplied",
+  // "Cost Recovery",
+  // "Coverage of Water Supply connections",
+  // "Extent of Metering",
+  // "Extent of Non-revenue WaterSanitationComponent",
+  // "Efficiency in Collection of Water Charges",
+  // "Efficiency in redressal of customer complaints",
+  // "Per Capita Supply of Water",
+  // "Quality of Water Supplied",
   waterIndicators = [
       {
         id: 1,
-        name:'Coverage of water supply connections',
+        name:'Coverage of Water Supply connections',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 2,
-        name:'Per capita supply of water(lpcd)',
+        name:'Per Capita Supply of Water',
         min: 0,
         max:999,
-        unit: 'lpcd'
+        unit: 'lpcd',
+        isShow: true
       },
       {
         id: 3,
         name:'Extent of metering of water connections',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 4,
         name:'Extent of non-revenue water (NRW)',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 5,
-        name:'Continuity of water supply',
+        name:'Continuity of Water supply',
         min: 0,
         max: 24,
-        unit: 'Hours per day'
+        unit: 'Hours per day',
+        isShow: true
       },
       {
         id: 6,
         name: 'Efficiency in redressal of customer complaints',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 7,
         name: 'Quality of water supplied',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 8,
         name:'Cost recovery in water supply service',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
       {
         id: 9,
         name:'Efficiency in collection of water supply-related charges',
         min: 0,
         max:100,
-        unit: '%'
+        unit: '%',
+        isShow: true
       },
   ]
 
