@@ -9690,7 +9690,7 @@ export class PropertyTaxService {
       return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`)
          .pipe(
             map((res: any) => {
-               return res;
+               return response;
             })
          );
 
