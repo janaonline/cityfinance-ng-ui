@@ -112,12 +112,15 @@
                         </td>
                     </tr>
                     <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
-                        <td (click)="editChildQuestions(item?.value, child.controls?.replicaCount.value, child?.controls?.value?.value)">Edit</td>
+                        <td >{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
                         <td>
-                            <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaCount?.value }})</p>
-                            <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
-                                    yearItem: child}">
-                            </ng-container>
+                            <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                            <div style="position: relative;">
+                                <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                        yearItem: child}">
+                                </ng-container>
+                                <button (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)" class="btn btn-primary edit-button"><mat-icon>edit</mat-icon></button>
+                            </div>
                         </td>
                         <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
                             <p></p>

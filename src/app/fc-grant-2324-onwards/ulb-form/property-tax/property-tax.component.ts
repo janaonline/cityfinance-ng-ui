@@ -154,7 +154,7 @@ export class PropertyTaxComponent implements OnInit {
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
-            canShow: [{ value: true, disabled: true }],
+            canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
             ...(item.child && {
@@ -166,7 +166,9 @@ export class PropertyTaxComponent implements OnInit {
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
                 label: [{ value: childItem.label, disabled: true }],
+                replicaNumber: [{ value: childItem.replicaNumber, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
+                position: [{ value: item.displayPriority || 1, disabled: true }],
                 yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item)))
               }))),
             }),
@@ -178,7 +180,7 @@ export class PropertyTaxComponent implements OnInit {
     })
   }
 
-  getInnerFormGroup(item, parent?) {
+  getInnerFormGroup(item, parent?, replicaCount?) {
     return this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
@@ -186,6 +188,7 @@ export class PropertyTaxComponent implements OnInit {
       year: item.year,
       type: item.type,
       _id: item._id,
+      replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -342,7 +345,7 @@ export class PropertyTaxComponent implements OnInit {
     })
   }
 
-  async editChildQuestions(item: FormGroup, replicaCount: number, oldLabel: string) {
+  async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
     const updatedLabel = await swal("Enter property type", {
       content: {
@@ -353,7 +356,8 @@ export class PropertyTaxComponent implements OnInit {
       }
     });
     if (!updatedLabel) return;
-    const updatableQuestions = childrens.controls.filter(control => control.value.replicaCount == replicaCount) as FormGroup[];
+    console.log(childrens.value);
+    const updatableQuestions = childrens.controls.filter(control => control.value.replicaNumber == replicaNumber) as FormGroup[];
 
     updatableQuestions.forEach(control => {
       control.patchValue({
@@ -365,7 +369,7 @@ export class PropertyTaxComponent implements OnInit {
 
   async removeLastQuestion(item: FormGroup) {
     const childrens = item.controls.child as FormArray;
-    const lastItemReplicaCount = childrens.controls[childrens.controls.length - 1]?.value?.replicaCount;
+    const lastItemReplicaNumber = childrens.controls[childrens.controls.length - 1]?.value?.replicaNumber;
     const willDelete = await swal({
       title: "Are you sure?",
       text: "Do you want to remove this question?",
@@ -375,7 +379,7 @@ export class PropertyTaxComponent implements OnInit {
     if (!willDelete) return;
     const removableIndexes = [];
     childrens.controls.forEach((control, index) => {
-      if(control.value.replicaCount == lastItemReplicaCount) {
+      if(control.value.replicaNumber == lastItemReplicaNumber) {
         removableIndexes.push(index);
       }
     });
@@ -416,11 +420,12 @@ export class PropertyTaxComponent implements OnInit {
         key: targetQuestion.key,
         value: [newChildValue, this.getValidators(targetQuestion, !['date', 'file'].includes(targetQuestion.formFieldType), parent)],
         _id: targetQuestion._id,
-        replicaCount,
+        replicaNumber: replicaCount,
         label: [{ value: targetQuestion.label, disabled: true }],
         formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
+        position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
         readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, replicaCount)))
       }))
     })
   }
