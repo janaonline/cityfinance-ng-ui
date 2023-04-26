@@ -7,8 +7,9 @@
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                formControlName="value" class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
-                [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
+                [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value" class="form-control"
+                [type]="yearItem?.controls?.formFieldType?.value" [readonly]="yearItem?.controls?.readonly?.value"
+                [disabled]="yearItem?.controls?.readonly?.value"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                 placeholder="{{yearItem?.controls?.placeholder?.value}}" />
             <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
@@ -29,7 +30,7 @@
             </select>
 
 
-            <div class="input-group border" style="width: 100px;"
+            <div class="input-group border" 
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
@@ -87,7 +88,7 @@
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
-                    <tr [ngClass]="['17.1', '27.1'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
+                    <tr [ngClass]="['2.5'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
                         *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
                     </tr>
@@ -105,21 +106,25 @@
                                 *ngIf="item?.value?.controls?.info?.value"
                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                         </th>
-                        <td *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                        <td style="width: 12%;" *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                             <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                     yearItem: yearItem}">
                             </ng-container>
                         </td>
                     </tr>
                     <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
-                        <td >{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
+                        <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
                         <td>
                             <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
                             <div style="position: relative;">
                                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                         yearItem: child}">
                                 </ng-container>
-                                <button (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)" class="btn btn-primary edit-button"><mat-icon>edit</mat-icon></button>
+                                <button
+                                    (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
+                                    class="btn btn-primary edit-button">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
                             </div>
                         </td>
                         <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
@@ -132,7 +137,8 @@
                     <tr *ngIf="item?.value?.controls?.child?.value">
                         <td colspan="7">
                             <button class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add more</button>
-                            <button *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2" (click)="removeLastQuestion(item?.value)">Delete Last</button>
+                            <button *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2"
+                                (click)="removeLastQuestion(item?.value)">Delete Last</button>
                         </td>
                     </tr>
                 </ng-container>
