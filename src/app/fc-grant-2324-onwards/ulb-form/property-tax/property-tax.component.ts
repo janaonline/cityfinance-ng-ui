@@ -161,6 +161,7 @@ export class PropertyTaxComponent implements OnInit {
             ...(item.child && {
               replicaCount: item.replicaCount,
               maxChild: [{ value: item.maxChild, disabled: true }],
+              copyOptions: [{ value: item.copyOptions, disabled: true }],
               copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
               child: this.fb.array(item.child.map(childItem => this.fb.group({
                 key: childItem.key,
@@ -350,13 +351,14 @@ export class PropertyTaxComponent implements OnInit {
 
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
-    const updatedLabel = await swal("Enter property type", {
-      content: {
-        element: "input",
-        attributes: {
-          value: oldLabel
-        }
-      }
+    const {value: updatedLabel} = await swal2.fire({
+      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
+      input: item.controls?.copyOptions.value ? 'select' : 'text',
+      inputValue: oldLabel,
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Add',
     });
     if (!updatedLabel) return;
     console.log(childrens.value);
@@ -404,12 +406,9 @@ export class PropertyTaxComponent implements OnInit {
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
     const {value} = await swal2.fire({
-      title: 'Select an option',
-      input: 'text',
-      inputOptions: {
-        one: "one",
-        two: "two"
-      },
+      title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
+      input: item.controls?.copyOptions.value ? 'select' : 'text',
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',

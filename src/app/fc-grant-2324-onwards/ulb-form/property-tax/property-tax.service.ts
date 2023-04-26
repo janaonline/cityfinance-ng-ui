@@ -865,6 +865,24 @@ const response = {
                      }
                   ],
                   "maxChild": 5,
+                  "copyOptions": [
+                     {
+                        "id": "Water charges",
+                        "label": "Water charges"
+                     },
+                     {
+                        "id": "Sewerage charges",
+                        "label": "Sewerage charges"
+                     },
+                     {
+                        "id": "Solid-waste management charges & Drainage charges",
+                        "label": "Solid-waste management charges & Drainage charges"
+                     },
+                     {
+                        "id": "others",
+                        "label": "others"
+                     }
+                  ],
                   "child": [],
                   "yearData": [
                      {},
@@ -9703,6 +9721,7 @@ const response = {
                   "info": ""
                }
             }
+            
             
             ,
             "feedback": {
