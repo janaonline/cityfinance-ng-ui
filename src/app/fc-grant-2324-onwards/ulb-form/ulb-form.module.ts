@@ -25,6 +25,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { PreviewComponent } from './property-tax/preview/preview.component';
 import { PfmsComponent } from './pfms/pfms.component';
 import { FourSlbComponent } from './four-slb/four-slb.component';
+import { DecimalLimitDirective } from './property-tax/decimal-limit.directive';
 
 
 
@@ -39,7 +40,7 @@ import { FourSlbComponent } from './four-slb/four-slb.component';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective
   ],
   imports: [
     CommonModule,
