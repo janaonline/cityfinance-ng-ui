@@ -100,15 +100,12 @@ export class AnnualAccountComponent implements OnInit {
               this.reviewShortKeyArray.push(el.reviewShortKey);
             } else if (el?.reviewShortKey == "tab_audited" && el?.value == 1) {
               el["isReview"] = false;
-            } else if (
-              el?.reviewShortKey == "tab_unAudited" &&
-              el?.value == 2
-            ) {
+            } else if (el?.reviewShortKey == "tab_unAudited" && el?.value == 2) {
               el["isReview"] = true;
               el.errorInAction = false;
               this.preparingActionPayload(el);
               this.reviewShortKeyArray.push(el.reviewShortKey);
-            } else if (el?.shortKey == "tab_unAudited" && el?.value == 1) {
+            } else if (el?.reviewShortKey == "tab_unAudited" && el?.value == 1) {
               el["isReview"] = false;
             } else if (
               el?.isReview &&
