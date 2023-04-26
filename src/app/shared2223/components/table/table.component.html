@@ -130,7 +130,9 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData.populationType}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                      <a (click)="viewHistory(template, formId, resData?.ulbId)" style="color: blue;"> {{resData.formStatus}} </a>  
+                    </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>
                     <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{
@@ -216,7 +218,10 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
 
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.formStatus}}</td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        <!-- {{resData.formStatus}} -->
+                        <a (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;"> {{resData.formStatus}} </a> 
+                    </td>
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
@@ -283,3 +288,45 @@
         No Data Found.
     </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-title">
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
+    </div>
+    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+        <table class="table tracking-history-table">
+            <thead>
+                <tr>
+                    <th style="position: sticky; top: 0" class="text-center"></th>
+                    <th style="position: sticky; top: 0">Sr. No</th>
+                    <th style="position: sticky; top: 0">Action</th>
+                    <th style="position: sticky; top: 0">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of historyData; let i = index">
+                    <td class="text-center">
+                        <em *ngIf="row['status'] == 'Approved By MoHUA'" class="fa fa-check-circle text-success"></em>
+                    </td>
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                        <div>{{ row.status }}</div>
+                    </td>
+                    <td>
+                        {{row.time | date:'medium':'IST' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!historyData?.length" class="text-center alert" style="color: red;">No Data Found!</div>
+
+</ng-template>
