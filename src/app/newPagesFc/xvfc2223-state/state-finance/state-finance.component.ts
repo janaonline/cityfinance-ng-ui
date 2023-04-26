@@ -331,7 +331,7 @@ export class StateFinanceComponent implements OnInit {
     console.log(progessType)
     let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
        return;
     }
     if(progessType == 'stateActProgress'){
