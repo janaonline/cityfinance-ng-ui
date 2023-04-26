@@ -25,6 +25,7 @@ import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-load
 import { PreviewComponent } from './preview/preview.component';
 // import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
+const swal2 = require("sweetalert2");
 
 
 export interface Feedback {
@@ -166,10 +167,11 @@ export class PropertyTaxComponent implements OnInit {
                 value: [childItem.value, this.getValidators(childItem, !['date', 'file'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
                 label: [{ value: childItem.label, disabled: true }],
-                replicaNumber: [{ value: childItem.replicaNumber, disabled: true }],
+                replicaNumber: childItem.replicaNumber,
+                readonly: [{ value: childItem.readonly, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
                 position: [{ value: item.displayPriority || 1, disabled: true }],
-                yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item)))
+                yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
               }))),
             }),
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
@@ -380,7 +382,7 @@ export class PropertyTaxComponent implements OnInit {
     if (!willDelete) return;
     const removableIndexes = [];
     childrens.controls.forEach((control, index) => {
-      if(control.value.replicaNumber == lastItemReplicaNumber) {
+      if (control.value.replicaNumber == lastItemReplicaNumber) {
         removableIndexes.push(index);
       }
     });
@@ -395,31 +397,38 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
   async addChildQuestions(item: FormGroup) {
-    const copyChildFromKeys = item.controls?.copyChildFrom.value as string[];
+    const copyChildFrom = item.controls?.copyChildFrom.value as string[];
     const maxChild = item.controls?.maxChild?.value;
     let replicaCount = item.controls?.replicaCount?.value;
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const newChildValue = await swal("Enter property type", {
-      content: {
-        element: 'input'
-      }
-    });
-    if (!newChildValue) return;
+    const {value} = await swal2.fire({
+      title: 'Select an option',
+      input: 'text',
+      inputOptions: {
+        one: "one",
+        two: "two"
+      },
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Add',
+    })
+    console.log(value);
+    if (!value) return;
 
-    console.log(newChildValue);
+    console.log(value);
 
     replicaCount++;
     item.patchValue({
       replicaCount,
     });
-    copyChildFromKeys.forEach(key => {
-      const targetQuestion = this.tabs[0].data[key];
+    copyChildFrom.forEach((targetQuestion: any) => {
+      // const targetQuestion = this.tabs[0].data[key];
       console.log(targetQuestion);
       childrens.push(this.fb.group({
         key: targetQuestion.key,
-        value: [newChildValue, this.getValidators(targetQuestion, !['date', 'file'].includes(targetQuestion.formFieldType), parent)],
+        value: [value, this.getValidators(targetQuestion, !['date', 'file'].includes(targetQuestion.formFieldType), parent)],
         _id: targetQuestion._id,
         replicaNumber: replicaCount,
         label: [{ value: targetQuestion.label, disabled: true }],
