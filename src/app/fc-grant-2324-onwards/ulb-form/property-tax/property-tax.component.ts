@@ -511,6 +511,262 @@ export class PropertyTaxComponent implements OnInit {
           'value': ["State Department", "Parastatal Agency", "Others"],
           'years': [0]
         }
+      },
+      'data.doesColSewerageCharges.yearData.0': {
+        'entitySewerageCharges': {
+          'value': 'Yes',
+          'years': [0]
+        },
+        'copyGazetteNotificationSewerage': {
+          'value': 'Yes',
+          'years': [0]
+        },
+        "totalSewergeChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "curSewergeChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "arrSewergeChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "totalSewergeChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "curSewergeChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "arrSewergeChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "totalSewergeConnectionDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "totalSewergeConnectionCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resValueSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resNoSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resValueSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resNoSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comValueSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comNoSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comValueSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comNoSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indValueSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indNoSewerageTaxDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indValueSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indNoSewerageTaxCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "otherValueSewerageType": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "sewerageChrgTarrifSheet": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "omCostDeleverySewerage": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "omCostSewerageService": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      'data.entitySewerageCharges.yearData.0': {
+        'entityNaSewerageCharges': {
+          'value': ["State Department", "Parastatal Agency", "Others"],
+          'years': [0]
+        }
       }
     }
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
@@ -522,7 +778,7 @@ export class PropertyTaxComponent implements OnInit {
           s3Control.patchValue({ data: { [updatedable]: { canShow } } });
           config.years?.forEach(yearIndex => {
             const updatableControl = s3Control?.get(`data.${updatedable}.yearData.${yearIndex}`) as FormGroup;
-            if(!updatableControl) return;
+            if (!updatableControl) return;
             const nameControl = updatableControl.get('file.name');
             const urlControl = updatableControl.get('file.url');
             [nameControl, urlControl].forEach(fileControl => {
