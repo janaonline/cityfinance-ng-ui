@@ -130,6 +130,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "notificationFile",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -138,14 +155,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "notificationFile",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -4584,6 +4600,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "propertyTaxValuationDetails",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -4592,14 +4625,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "propertyTaxValuationDetails",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -4623,7 +4655,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4721,6 +4753,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "notificationWaterChargesFile",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -4729,14 +4778,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "notificationWaterChargesFile",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -7073,6 +7121,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "waterChrgTariffDetails",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7081,14 +7146,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "waterChrgTariffDetails",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -7203,6 +7267,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "omCostWaterService",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7211,14 +7292,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostWaterService",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -7242,7 +7322,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7340,6 +7420,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "copyGazetteNotificationSewerage",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7348,14 +7445,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "copyGazetteNotificationSewerage",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -9692,6 +9788,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "sewerageChrgTarrifSheet",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -9700,14 +9813,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "sewerageChrgTarrifSheet",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -9822,6 +9934,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "omCostSewerageService",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -9830,14 +9959,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostSewerageService",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -9854,6 +9982,23 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "signedPdf",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
+                        "value": "",
                         "file": {
                            "name": "",
                            "url": ""
@@ -9862,7 +10007,7 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "signedPdf",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
@@ -9871,12 +10016,13 @@ const response = {
                      },
                      {},
                      {},
-                     {},
                      {}
                   ],
                   "info": ""
                }
-            },
+            }
+            
+            ,
             "feedback": {
                "status": null,
                "comment": ""
