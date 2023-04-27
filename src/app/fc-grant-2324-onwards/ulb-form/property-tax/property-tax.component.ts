@@ -246,6 +246,12 @@ export class PropertyTaxComponent implements OnInit {
           'years': [0]
         }
       },
+      'data.doesUserChargesDmnd.yearData.0': {
+        'userChargesDmnd': {
+          'value': 'Yes',
+          'years': [0]
+        }
+      },
       'data.notificationWaterCharges.yearData.0': {
         'entityWaterCharges': {
           'value': 'Yes',
@@ -900,6 +906,7 @@ export class PropertyTaxComponent implements OnInit {
         value: updatedLabel,
       })
     });
+    this.updateDependentQuestionsForSkipLogic(item);
   }
 
 
@@ -928,6 +935,7 @@ export class PropertyTaxComponent implements OnInit {
     item.patchValue({
       replicaCount,
     });
+    this.updateDependentQuestionsForSkipLogic(item);
   }
   async addChildQuestions(item: FormGroup) {
     const copyChildFrom = item.controls?.copyChildFrom.value as string[];
@@ -946,8 +954,6 @@ export class PropertyTaxComponent implements OnInit {
     })
     console.log(value);
     if (!value) return;
-
-    console.log(value);
 
     replicaCount++;
     item.patchValue({
@@ -968,6 +974,24 @@ export class PropertyTaxComponent implements OnInit {
         yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, replicaCount)))
       }))
     })
+    this.updateDependentQuestionsForSkipLogic(item);
+
+  }
+
+  updateDependentQuestionsForSkipLogic(item: FormGroup) {
+    const key = item.controls?.key?.value;
+    const child = item.getRawValue().child;
+    console.log({ key, child: item.getRawValue().child });
+    if(!child) return;
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
+    if(key == 'userChargesDmnd') {
+      s3Control.get('data.notificationWaterCharges.yearData.0').patchValue({
+        value: child.find(item => item.value === "Water charges") ? 'Yes' : 'No'
+      })
+      s3Control.get('data.doesColSewerageCharges.yearData.0').patchValue({
+        value: child.find(item => item.value === "Sewerage charges") ? 'Yes' : 'No'
+      })
+    }
   }
 
   submit(isDraft = true) {
