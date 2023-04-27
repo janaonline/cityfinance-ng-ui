@@ -122,7 +122,7 @@ export class PropertyTaxComponent implements OnInit {
       this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      // this.addSkipLogics();
+      this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
@@ -240,24 +240,299 @@ export class PropertyTaxComponent implements OnInit {
 
   addSkipLogics() {
     const dependencies = {
-      'data.notificationPropertyTax.yearData.0': 'notificationAdoptionDate',
-      'data.notificationIssuedBy.yearData.0': 'notificationFile'
+      'data.notificationPropertyTax.yearData.0': {
+        'userChargesCollection': {
+          'value': 'Yes',
+          'years': [0]
+        }
+      },
+      'data.notificationWaterCharges.yearData.0': {
+        'entityWaterCharges': {
+          'value': 'Yes',
+          'years': [0]
+        },
+        'notificationWaterChargesFile': {
+          'value': 'Yes',
+          'years': [0]
+        },
+        "waterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "cuWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "arWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "waterChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "cuWaterChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "arWaterChrgCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "waterChrgConnectionDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "waterChrgConnectionCol": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resValueWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resNoWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resValueWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "resNoWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comValueWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comNoWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comValueWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "comNoWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indValueWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indNoWaterChrgDm": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indValueWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "indNoWaterChrgCollected": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "othersValueWaterType": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "undefined": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "waterChrgTariffDetails": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "omCostDeleveryWater": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "omCostWaterService": {
+          "value": "Yes",
+          "years": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      'data.entityWaterCharges.yearData.0': {
+        'entityNameWaterCharges': {
+          'value': ["State Department", "Parastatal Agency", "Others"],
+          'years': [0]
+        }
+      }
     }
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    Object.entries(dependencies).forEach(([selector, updatedable]) => {
-      const control = s3Control.get(selector)
-      control.valueChanges.subscribe(({ value }) => {
-        const canShow = value == 'Yes';
-        s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const updatableControl = s3Control.get(`data.${updatedable}.yearData.0`) as FormGroup;
-        const nameControl = updatableControl.get('file.name');
-        const urlControl = updatableControl.get('file.url');
-        [nameControl, urlControl].forEach(fileControl => {
-          fileControl?.setValidators(canShow ? [Validators.required] : [])
-          fileControl?.updateValueAndValidity({ emitEvent: true });
-        })
-      });
-      control.updateValueAndValidity({ emitEvent: true });
+    Object.entries(dependencies).forEach(([selector, updatedables]) => {
+      Object.entries(updatedables).forEach(([updatedable, config]) => {
+        const control = s3Control.get(selector)
+        control.valueChanges.subscribe(({ value }) => {
+          const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
+          s3Control.patchValue({ data: { [updatedable]: { canShow } } });
+          config.years?.forEach(yearIndex => {
+            const updatableControl = s3Control?.get(`data.${updatedable}.yearData.${yearIndex}`) as FormGroup;
+            if(!updatableControl) return;
+            const nameControl = updatableControl.get('file.name');
+            const urlControl = updatableControl.get('file.url');
+            [nameControl, urlControl].forEach(fileControl => {
+              fileControl?.setValidators(canShow ? [Validators.required] : [])
+              fileControl?.updateValueAndValidity({ emitEvent: true });
+            })
+          })
+        });
+        control.updateValueAndValidity({ emitEvent: true });
+      })
     });
   }
 
@@ -351,11 +626,11 @@ export class PropertyTaxComponent implements OnInit {
 
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
-    const {value: updatedLabel} = await swal2.fire({
+    const { value: updatedLabel } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputValue: oldLabel,
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
@@ -405,10 +680,10 @@ export class PropertyTaxComponent implements OnInit {
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const {value} = await swal2.fire({
+    const { value } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',

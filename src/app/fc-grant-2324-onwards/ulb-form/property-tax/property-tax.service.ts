@@ -4700,7 +4700,7 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "text",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -7319,7 +7319,7 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "text",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -9877,9 +9877,6 @@ const response = {
                   "info": ""
                }
             }
-            
-            
-            
             ,
             "feedback": {
                "status": null,
@@ -10183,7 +10180,7 @@ export class PropertyTaxService {
       return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`)
          .pipe(
             map((res: any) => {
-               return res;
+               return response;
             })
          );
 
