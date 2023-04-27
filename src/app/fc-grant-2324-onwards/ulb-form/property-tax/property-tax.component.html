@@ -92,7 +92,7 @@
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
                     </tr>
                     <tr class="table-gray"
-                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0 && canShowHeader(item?.value?.controls?.position?.value)">
                         <th
                             *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
                             {{ heading }}</th>
