@@ -125,7 +125,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     if (!file) return;
     let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
        return;
     }
     const fileExtension = file.name.split('.').pop();

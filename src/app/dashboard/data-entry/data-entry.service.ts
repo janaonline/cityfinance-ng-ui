@@ -174,7 +174,7 @@ export class DataEntryService {
   checkSpcialCharInFileName(files){
     let file = files[0];
     let name = ((file.name).split('.'))[0];
-    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?";
+    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?@";
     for (let i = 0; i < name.length; i++) {
        if (iChars.indexOf(name.charAt(i)) != -1) {
            return false;
