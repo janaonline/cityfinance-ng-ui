@@ -71,14 +71,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
-  //  data: UserData[] = [];
   @Input() formId;
   @Input() designYear;
   @Input() dropdownData;
   @Input() state_id_i;
   @Input() tableName;
   @Input() formBaseUrl:string = '';
-  @Input() endPoint:string = ''
+  @Input() endPoint:string = '';
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+  @HostListener('window:scroll', ['$event'])
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -93,69 +94,24 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     formId: "",
   };
   formRouterLink;
-  formStateRouterLink;
+ // formStateRouterLink;
   isLoader = false;
   formName;
   elementPosition: any;
-  // MatPaginator Inputs
-  length = 100;
-  pageSize = 10;
+  // length = 100;
+  // pageSize = 10;
   pageSizeOptions: number[] = [];
-
-  // MatPaginator Output
   pageEvent: PageEvent;
-  @ViewChild('stickyMenu') menuElement: ElementRef;
-  @HostListener('window:scroll', ['$event'])
-  handleScroll(event) {
-    const threshold = 50;
-    if(event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold)) {
-      this.infiniteScroll();
-    }
-  }
-  infiniteScroll() {
-    console.log('infinite scroll called');
-    if (this.isInfiniteScroll &&
-      !this.isLoader &&
-      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
-      const pageNoClick = this.tableDefaultOptions.currentPage + 1;
-      this.tableDefaultOptions.currentPage = pageNoClick;
-      this.listFetchOption.skip =
-        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
-      this.searchUsersBy(this.filterForm.value);
-    }
-  }
-
-  get isInfiniteScroll() {
-    return this.perPage == 'all';
-  }
-
-  onPerPageChange() {
-    this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
-    this.setParams();
-    if (this.isInfiniteScroll) {
-      this.data = [];
-    }
-    this.filterFormValue = this.filterForm?.value;
-    if (this.tableName == 'Review State Forms') {
-      this.params["state"] = this.filterForm?.value?.state_name_s;
-      this.params["status"] = this.filterForm?.value?.status_s;
-    } else {
-      this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
-      this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
-      this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
-      this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
-      this.params["UA"] = this.filterForm?.value?.ua_name_s;
-      this.params["status"] = this.filterForm?.value?.status_s;
-      this.params["filled1"] = this.filterForm?.value?.filled_1;
-      this.params["populationType"] = this.filterForm?.value?.population_type_s;
-      this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
-    }
-
-    this.params["skip"] = 0;
-    this.callAPI();
-  }
-  
-
+  filterFormValue;
+  reviewSubs;
+  isApiInProgress;
+  reviewEntity = "ULB";
+  stateList;
+  statesByID;
+  pageName = 'Get All Data'
+  noHistorydataFound = false
+  historyData;
+ 
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -216,8 +172,56 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
     
   }
-  filterFormValue;
-  reviewSubs;
+
+  handleScroll(event) {
+    const threshold = 50;
+    if(event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold)) {
+      this.infiniteScroll();
+    }
+  }
+  infiniteScroll() {
+    console.log('infinite scroll called');
+    if (this.isInfiniteScroll &&
+      !this.isLoader &&
+      (this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage < this.tableDefaultOptions.totalCount)) {
+      const pageNoClick = this.tableDefaultOptions.currentPage + 1;
+      this.tableDefaultOptions.currentPage = pageNoClick;
+      this.listFetchOption.skip =
+        (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+      this.searchUsersBy(this.filterForm.value);
+    }
+  }
+
+  get isInfiniteScroll() {
+    return this.perPage == 'all';
+  }
+
+  onPerPageChange() {
+    this.tableDefaultOptions.itemPerPage = this.isInfiniteScroll ? 10 : +this.perPage;
+    this.setParams();
+    if (this.isInfiniteScroll) {
+      this.data = [];
+    }
+    this.filterFormValue = this.filterForm?.value;
+    if (this.tableName == 'Review State Forms') {
+      this.params["state"] = this.filterForm?.value?.state_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+    } else {
+      this.params["ulbName"] = this.filterForm?.value?.ulb_name_s;
+      this.params["ulbCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["censusCode"] = this.filterForm?.value?.ulb_code_s;
+      this.params["ulbType"] = this.filterForm?.value?.ulbType_s;
+      this.params["UA"] = this.filterForm?.value?.ua_name_s;
+      this.params["status"] = this.filterForm?.value?.status_s;
+      this.params["filled1"] = this.filterForm?.value?.filled_1;
+      this.params["populationType"] = this.filterForm?.value?.population_type_s;
+      this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
+    }
+
+    this.params["skip"] = 0;
+    this.callAPI();
+  }
+
   updatedTableData() {
     this.reviewSubs = this.commonService.reviewStatus.subscribe((result) => {
       console.log("review Status ===>", result);
@@ -267,8 +271,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
-
-
         if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
           setTimeout(() => {
             const table = document.querySelector('.table-responsive') as HTMLElement;
@@ -374,8 +376,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.fetchList({ ...(<any>this.listFetchOption) });
   }
 
-  isApiInProgress;
-
   private fetchList(
     body: {
       filter: { [key: string]: string };
@@ -390,7 +390,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     Object.assign(this.params, body);
     this.callAPI();
   }
-  reviewEntity = "ULB";
+
   private initializeFilterForm() {
     switch (this.reviewEntity) {
       case USER_TYPE.ULB:
@@ -426,8 +426,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       limit: this.tableDefaultOptions.itemPerPage,
     };
   }
-  stateList;
-  statesByID;
+
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
@@ -450,14 +449,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         this.selectedId.splice(selectedIndex, 1);
       }
     }
-
-    // let selectedIndex = this.selectedId.findIndex((item) => item == id);
-    // if (selectedIndex > -1) {
-    //   this.selectedId.splice(selectedIndex, 1);
-    //   this.selectedId.splice();
-    // } else {
-    //   this.selectedId.push(id);
-    // }
     console.log(this.selectedId);
   }
   openDialog(type) {
@@ -595,7 +586,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
 
   }
-  pageName = 'Get All Data'
+  
   getAllData(type) {
     this.params['limit'] = 461;
     this.callAPI();
@@ -608,12 +599,37 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
+  
+  viewHistory(template, formId, ulbId) {
+    this.noHistorydataFound = false
+    this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
+      (res) => {
+        this.historyData = res['data']
+        this.historyData.reverse()
+        if (!this.historyData.length) {
+          this.noHistorydataFound = true;
+        }
+        this.openStatus(template)
+      },
+      (err) => {
+        console.log(err.message);
+        swal('Error', "No history found!", 'error')
+      })
+  }
+
+  alertClose() {
+    this.dialog.closeAll();
+  }
+
+
+  openStatus(template) {
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
 }
-
-// export interface UserData {
-//   ulbName: string;
-//   censusCode: string;
-//   ulbType: string;
-//   stateName: string;
-// }

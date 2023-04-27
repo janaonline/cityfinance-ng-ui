@@ -11,6 +11,16 @@
   </div>
   <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'dur'" [questionresponse]="questionresponse"
     [isProjectLoaded]="isProjectLoaded" (submitQuestion)="onSubmit($event)" (onPreviewDUR)="onPreview()"
-    (nextPreBtn)="nextPreBtn($event)" (onLoadInParent)="loadInParent($event)" (updateInParent)="updateInParent($event)">
+    (nextPreBtn)="nextPreBtn($event)" (onLoadInParent)="loadInParent($event)" (updateInParent)="updateInParent($event)" [isButtonDisplay]="isButtonAvail">
   </app-web-form>
+
+  <div class="">
+    <!-- <app-form-common-action [canTakeAction]="true" [actionData]="actionData"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId"></app-form-common-action> -->
+ 
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
+  </div>
 </div>

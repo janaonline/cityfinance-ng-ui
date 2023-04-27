@@ -119,11 +119,11 @@ export class PfmsPreviewComponent implements OnInit {
     this.data?.dataPreview?.otherDocs?.url == '' ? this.hideUnderline = true : false
     if (userData.role !== USER_TYPE.ULB) {
       this.ulbName = sessionStorage.getItem("ulbName");
+      this.stateName = sessionStorage.getItem("stateName");
     } else {
       this.ulbName = userData["name"];
+      this.stateName = userData["stateName"];
     }
-    this.stateName = userData["stateName"];
-
   }
   clickedDownloadAsPDF(template) {
     this.download = true;

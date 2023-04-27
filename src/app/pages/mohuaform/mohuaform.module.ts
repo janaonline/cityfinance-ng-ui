@@ -25,7 +25,7 @@ import { GrantTransferMohuaComponent } from './grant-transfer-mohua/grant-transf
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
-import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
+// import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     ReviewStateComponent,
     // GrantTransferMohuaComponent
   ],
-  providers: [CircleProgressOptions],
+  // providers: [CircleProgressOptions],
   imports: [
     CommonModule,
     MohuaformRoutingModule,
@@ -59,7 +59,7 @@ import { MatInputModule } from '@angular/material/input';
     MatTabsModule,
     MatCardModule,
     MatSelectModule,
-    NgCircleProgressModule,
+    // NgCircleProgressModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule
