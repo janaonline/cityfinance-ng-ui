@@ -65,6 +65,7 @@ export class PropertyTaxComponent implements OnInit {
   incomeSectionBelowKey: number = 1;
   expenditureSectionBelowKey: number = 8;
   financialYearTableHeader: { [key: number]: string[] } = {};
+  skipLogicDependencies: any = {};
   linearTabs: string[] = ['s1', 's2'];
   twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
@@ -118,11 +119,12 @@ export class PropertyTaxComponent implements OnInit {
       // this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
+      this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
-      // this.addSkipLogics();
+      this.addSkipLogics();
       // this.addSumLogics();
       // this.addSubtractLogics();
       // this.navigationCheck();
@@ -239,25 +241,26 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   addSkipLogics() {
-    const dependencies = {
-      'data.notificationPropertyTax.yearData.0': 'notificationAdoptionDate',
-      'data.notificationIssuedBy.yearData.0': 'notificationFile'
-    }
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    Object.entries(dependencies).forEach(([selector, updatedable]) => {
-      const control = s3Control.get(selector)
-      control.valueChanges.subscribe(({ value }) => {
-        const canShow = value == 'Yes';
-        s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const updatableControl = s3Control.get(`data.${updatedable}.yearData.0`) as FormGroup;
-        const nameControl = updatableControl.get('file.name');
-        const urlControl = updatableControl.get('file.url');
-        [nameControl, urlControl].forEach(fileControl => {
-          fileControl?.setValidators(canShow ? [Validators.required] : [])
-          fileControl?.updateValueAndValidity({ emitEvent: true });
-        })
-      });
-      control.updateValueAndValidity({ emitEvent: true });
+    Object.entries(this.skipLogicDependencies).forEach(([selector, updatedables]) => {
+      Object.entries(updatedables).forEach(([updatedable, config]) => {
+        const control = s3Control.get(selector)
+        control.valueChanges.subscribe(({ value }) => {
+          const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
+          s3Control.patchValue({ data: { [updatedable]: { canShow } } });
+          config.years?.forEach(yearIndex => {
+            const updatableControl = s3Control?.get(`data.${updatedable}.yearData.${yearIndex}`) as FormGroup;
+            if (!updatableControl) return;
+            const nameControl = updatableControl.get('file.name');
+            const urlControl = updatableControl.get('file.url');
+            [nameControl, urlControl].forEach(fileControl => {
+              fileControl?.setValidators(canShow ? [Validators.required] : [])
+              fileControl?.updateValueAndValidity({ emitEvent: true });
+            })
+          })
+        });
+        control.updateValueAndValidity({ emitEvent: true });
+      })
     });
   }
 
@@ -351,11 +354,11 @@ export class PropertyTaxComponent implements OnInit {
 
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
     const childrens = item.controls.child as FormArray;
-    const {value: updatedLabel} = await swal2.fire({
+    const { value: updatedLabel } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
       inputValue: oldLabel,
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
@@ -369,6 +372,7 @@ export class PropertyTaxComponent implements OnInit {
         value: updatedLabel,
       })
     });
+    this.updateDependentQuestionsForSkipLogic(item);
   }
 
 
@@ -397,6 +401,7 @@ export class PropertyTaxComponent implements OnInit {
     item.patchValue({
       replicaCount,
     });
+    this.updateDependentQuestionsForSkipLogic(item);
   }
   async addChildQuestions(item: FormGroup) {
     const copyChildFrom = item.controls?.copyChildFrom.value as string[];
@@ -405,18 +410,16 @@ export class PropertyTaxComponent implements OnInit {
     console.log({ maxChild, replicaCount });
     const childrens = item.controls.child as FormArray;
     if (replicaCount >= maxChild) return swal('Warning', `Upto ${maxChild} items allowed`, 'warning');
-    const {value} = await swal2.fire({
+    const { value } = await swal2.fire({
       title: item.controls?.copyOptions.value ? 'Select an option' : 'Enter a value',
       input: item.controls?.copyOptions.value ? 'select' : 'text',
-      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({...result, [item.id]: item.label}), {}),
+      inputOptions: item.controls?.copyOptions.value?.reduce((result, item) => ({ ...result, [item.id]: item.label }), {}),
       showCancelButton: true,
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
     console.log(value);
     if (!value) return;
-
-    console.log(value);
 
     replicaCount++;
     item.patchValue({
@@ -437,6 +440,45 @@ export class PropertyTaxComponent implements OnInit {
         yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, replicaCount)))
       }))
     })
+    this.updateDependentQuestionsForSkipLogic(item);
+
+  }
+
+  get notificationWaterChargesCtrl() {
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
+    return s3Control.get('data.notificationWaterCharges.yearData.0');
+  }
+  get doesColSewerageChargesCtrl() {
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
+    return s3Control.get('data.doesColSewerageCharges.yearData.0');
+  }
+
+  canShowHeader(displayPriority: string) {
+    const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
+    const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
+    if(waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value  !== 'Yes') {
+      return false;
+    }
+    if(sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value  !== 'Yes') {
+      return false;
+    }
+    return true;
+  }
+
+  updateDependentQuestionsForSkipLogic(item: FormGroup) {
+    const key = item.controls?.key?.value;
+    const child = item.getRawValue().child;
+    console.log({ key, child: item.getRawValue().child });
+    if(!child) return;
+    // const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
+    if(key == 'userChargesDmnd') {
+      this.notificationWaterChargesCtrl.patchValue({
+        value: child.find(item => item.value === "Water charges") ? 'Yes' : 'No'
+      })
+      this.doesColSewerageChargesCtrl.patchValue({
+        value: child.find(item => item.value === "Sewerage charges") ? 'Yes' : 'No'
+      })
+    }
   }
 
   submit(isDraft = true) {

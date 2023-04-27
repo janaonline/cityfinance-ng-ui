@@ -7,9 +7,9 @@
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value" class="form-control"
-                [type]="yearItem?.controls?.formFieldType?.value" [readonly]="yearItem?.controls?.readonly?.value"
-                [disabled]="yearItem?.controls?.readonly?.value"
+                [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
+                class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
+                [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                 placeholder="{{yearItem?.controls?.placeholder?.value}}" />
             <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
@@ -30,8 +30,7 @@
             </select>
 
 
-            <div class="input-group border" 
-                *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+            <div class="input-group border" *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
                     <input matInput formControlName="date" style="pointer-events: none;" [matDatepicker]="r_i"
@@ -93,54 +92,59 @@
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
                     </tr>
                     <tr class="table-gray"
-                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0 && canShowHeader(item?.value?.controls?.position?.value)">
                         <th
                             *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
                             {{ heading }}</th>
                     </tr>
-                    <tr *ngIf="item?.value?.controls?.canShow?.value">
-                        <td>{{ item?.value?.controls?.position?.value }}</td>
-                        <th scope="row"
-                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
-                                *ngIf="item?.value?.controls?.info?.value"
-                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
-                        </th>
-                        <td style="width: 12%;" *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                            <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
-                                    yearItem: yearItem}">
-                            </ng-container>
-                        </td>
-                    </tr>
-                    <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
-                        <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
-                        <td>
-                            <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
-                            <div style="position: relative;">
+                    <ng-container *ngIf="item?.value?.controls?.canShow?.value">
+                        <tr>
+                            <td>{{ item?.value?.controls?.position?.value }}</td>
+                            <th scope="row"
+                                [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
+                                {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
+                                    *ngIf="item?.value?.controls?.info?.value"
+                                    [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                            </th>
+                            <td style="width: 12%;"
+                                *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
-                                        yearItem: child}">
+                                        yearItem: yearItem}">
                                 </ng-container>
-                                <button
-                                    (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
-                                    class="btn btn-primary edit-button">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                            </div>
-                        </td>
-                        <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
-                            <p></p>
-                            <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
-                                    yearItem: yearItem}">
-                            </ng-container>
-                        </td>
-                    </tr>
-                    <tr *ngIf="item?.value?.controls?.child?.value">
-                        <td colspan="7">
-                            <button class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add more</button>
-                            <button *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2"
-                                (click)="removeLastQuestion(item?.value)">Delete Last</button>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
+                            <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
+                            <td>
+                                <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                                <div style="position: relative;">
+                                    <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                            yearItem: child}">
+                                    </ng-container>
+                                    <button
+                                        (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
+                                        class="btn btn-primary edit-button">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                            <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
+                                <p></p>
+                                <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                        yearItem: yearItem}">
+                                </ng-container>
+                            </td>
+                        </tr>
+                        <tr *ngIf="item?.value?.controls?.child?.value">
+                            <td colspan="7">
+                                <button class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add
+                                    more</button>
+                                <button *ngIf="item?.value?.controls?.child?.value.length > 0"
+                                    class="btn btn-danger ms-2" (click)="removeLastQuestion(item?.value)">Delete
+                                    Last</button>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </ng-container>
             </tbody>
         </table>
@@ -151,7 +155,7 @@
         <p>1. Once all data is submitted please Preview and Download the form as PDF.</p>
         <p>2. Print the downloaded PDF and provide signature and seal of Commissioner/Executive Officer of Urban Local
             Body</p>
-        <p>3. File size of the single document should not exceed 5 MB. If it exceeds 5 MB the compress the file size
+        <p>3. File size of the single document should not exceed 5 MB. If it exceeds 5 MB then compress the file size
             using <a href="https://pdfcompressor.com" target="_blank">https://pdfcompressor.com</a></p>
     </div>
 
