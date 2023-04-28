@@ -25,6 +25,7 @@ const response = {
                "notificationPropertyTax": {
                   "key": "notificationPropertyTax",
                   "label": "Has the ULB adopted notification for charging property tax?",
+                  "required": true,
                   "displayPriority": "1.1",
                   "yearData": [
                      {
@@ -54,6 +55,7 @@ const response = {
                "notificationAdoptionDate": {
                   "key": "notificationAdoptionDate",
                   "label": "What was the notification adoption date?",
+                  "required": true,
                   "displayPriority": "1.2",
                   "yearData": [
                      {
@@ -84,6 +86,7 @@ const response = {
                "notificationIssuedBy": {
                   "key": "notificationIssuedBy",
                   "label": "The adopted notification was issued by?",
+                  "required": true,
                   "displayPriority": "1.3",
                   "yearData": [
                      {
@@ -123,6 +126,7 @@ const response = {
                "notificationFile": {
                   "key": "notificationFile",
                   "label": "Upload a copy of the notification",
+                  "required": true,
                   "displayPriority": "1.4",
                   "yearData": [
                      {
@@ -152,6 +156,7 @@ const response = {
                "dmdIncludingCess": {
                   "key": "dmdIncludingCess",
                   "label": "Total property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": true,
                   "displayPriority": "1.5",
                   "yearData": [
                      {
@@ -250,6 +255,7 @@ const response = {
                "cdmdIncludingCess": {
                   "key": "cdmdIncludingCess",
                   "label": "Current property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.6",
                   "yearData": [
                      {
@@ -348,6 +354,7 @@ const response = {
                "admdIncludingCess": {
                   "key": "admdIncludingCess",
                   "label": "Arrear property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.7",
                   "yearData": [
                      {
@@ -446,6 +453,7 @@ const response = {
                "dmdexcludingCess": {
                   "key": "dmdexcludingCess",
                   "label": "Total property tax demand (excluding cess, other taxes, user charges if any)",
+                  "required": true,
                   "displayPriority": "1.8",
                   "yearData": [
                      {
@@ -544,12 +552,14 @@ const response = {
                "taxTypeDemand": {
                   "key": "taxTypeDemand",
                   "label": "Other tax demand (Demand figure for each type of tax other than property tax collected)",
+                  "required": true,
                   "displayPriority": "1.9",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "taxTypeDemandChild",
                         "label": "Other tax demand (Demand figure for each type of tax other than property tax collected)",
+                        "required": true,
                         "displayPriority": "1.9",
                         "yearData": [
                            {
@@ -660,12 +670,14 @@ const response = {
                "cessDemand": {
                   "key": "cessDemand",
                   "label": "Cess demand (Demand figure for each type of cess collected)",
+                  "required": true,
                   "displayPriority": "1.10",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "cessDemandChild",
                         "label": "Cess demand (Demand figure for each type of cess collected)",
+                        "required": true,
                         "displayPriority": "1.10",
                         "yearData": [
                            {
@@ -776,6 +788,7 @@ const response = {
                "doesUserChargesDmnd": {
                   "key": "doesUserChargesDmnd",
                   "label": "Do you collect any user charges along with Property Tax?",
+                  "required": true,
                   "displayPriority": "1.11",
                   "yearData": [
                      {
@@ -805,12 +818,14 @@ const response = {
                "userChargesDmnd": {
                   "key": "userChargesDmnd",
                   "label": "User charges demand (Demand figure for each type of user charge collected along with property tax)",
+                  "required": true,
                   "displayPriority": "1.12",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "userChargesDmndChild",
                         "label": "User charges demand (Demand figure for each type of user charge collected along with property tax)",
+                        "required": true,
                         "displayPriority": "1.12",
                         "yearData": [
                            {
@@ -943,6 +958,7 @@ const response = {
                "collectIncludingCess": {
                   "key": "collectIncludingCess",
                   "label": "Total property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": true,
                   "displayPriority": "1.13",
                   "yearData": [
                      {
@@ -1041,6 +1057,7 @@ const response = {
                "cuCollectIncludingCess": {
                   "key": "cuCollectIncludingCess",
                   "label": "Current property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.14",
                   "yearData": [
                      {
@@ -1139,6 +1156,7 @@ const response = {
                "arCollectIncludingCess": {
                   "key": "arCollectIncludingCess",
                   "label": "Arrear property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.15",
                   "yearData": [
                      {
@@ -1237,6 +1255,7 @@ const response = {
                "collectExcludingCess": {
                   "key": "collectExcludingCess",
                   "label": "Total property tax collection (excluding cess,other taxes, user charges if any)",
+                  "required": true,
                   "displayPriority": "1.16",
                   "yearData": [
                      {
@@ -1335,12 +1354,14 @@ const response = {
                "taxTypeCollection": {
                   "key": "taxTypeCollection",
                   "label": "Other tax collections (Collection figure for each type of tax other than property tax collected)",
+                  "required": true,
                   "displayPriority": "1.17",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "taxTypeCollectionChild",
                         "label": "Other tax collections (Collection figure for each type of tax other than property tax collected)",
+                        "required": true,
                         "displayPriority": "1.17",
                         "yearData": [
                            {
@@ -1451,12 +1472,14 @@ const response = {
                "cessCollect": {
                   "key": "cessCollect",
                   "label": "Cess collection (Collection figure for each type of cess collected)",
+                  "required": true,
                   "displayPriority": "1.18",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "cessCollectChild",
                         "label": "Cess collection (Collection figure for each type of cess collected)",
+                        "required": true,
                         "displayPriority": "1.18",
                         "yearData": [
                            {
@@ -1567,12 +1590,14 @@ const response = {
                "userChargesCollection": {
                   "key": "userChargesCollection",
                   "label": "User charges collection (Collection figure for each type of user charge collected along with property tax)",
+                  "required": true,
                   "displayPriority": "1.19",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "cessCollectChild",
                         "label": "Cess collection (Collection figure for each type of cess collected)",
+                        "required": true,
                         "displayPriority": "1.18",
                         "yearData": [
                            {
@@ -1705,6 +1730,7 @@ const response = {
                "totalMappedPropertiesUlb": {
                   "key": "totalMappedPropertiesUlb",
                   "label": "Total number of properties mapped in the ULB (including properties exempted from paying property tax)",
+                  "required": false,
                   "displayPriority": "2.1",
                   "yearData": [
                      {
@@ -1798,6 +1824,7 @@ const response = {
                "totalPropertiesTax": {
                   "key": "totalPropertiesTax",
                   "label": "Total number of properties exempted from paying property tax",
+                  "required": false,
                   "displayPriority": "2.2",
                   "yearData": [
                      {
@@ -1891,6 +1918,7 @@ const response = {
                "totalPropertiesTaxDm": {
                   "key": "totalPropertiesTaxDm",
                   "label": "Total number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.3",
                   "yearData": [
                      {
@@ -1984,6 +2012,7 @@ const response = {
                "totalPropertiesTaxDmCollected": {
                   "key": "totalPropertiesTaxDmCollected",
                   "label": "Total number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.4",
                   "yearData": [
                      {
@@ -2077,6 +2106,7 @@ const response = {
                "resValuePropertyTaxDm": {
                   "key": "resValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.5",
                   "yearData": [
                      {
@@ -2175,6 +2205,7 @@ const response = {
                "resNoPropertyTaxDm": {
                   "key": "resNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.6",
                   "yearData": [
                      {
@@ -2268,6 +2299,7 @@ const response = {
                "resValuePropertyTaxCollected": {
                   "key": "resValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.7",
                   "yearData": [
                      {
@@ -2366,6 +2398,7 @@ const response = {
                "resNoPropertyTaxCollected": {
                   "key": "resNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.8",
                   "yearData": [
                      {
@@ -2459,6 +2492,7 @@ const response = {
                "comValuePropertyTaxDm": {
                   "key": "comValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.9",
                   "yearData": [
                      {
@@ -2557,6 +2591,7 @@ const response = {
                "comNoPropertyTaxDm": {
                   "key": "comNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.10",
                   "yearData": [
                      {
@@ -2650,6 +2685,7 @@ const response = {
                "comValuePropertyTaxCollected": {
                   "key": "comValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.11",
                   "yearData": [
                      {
@@ -2748,6 +2784,7 @@ const response = {
                "comNoPropertyTaxCollected": {
                   "key": "comNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.12",
                   "yearData": [
                      {
@@ -2841,6 +2878,7 @@ const response = {
                "indValuePropertyTaxDm": {
                   "key": "indValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.13",
                   "yearData": [
                      {
@@ -2939,6 +2977,7 @@ const response = {
                "indNoPropertyTaxDm": {
                   "key": "indNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.14",
                   "yearData": [
                      {
@@ -3032,6 +3071,7 @@ const response = {
                "indValuePropertyTaxCollected": {
                   "key": "indValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.15",
                   "yearData": [
                      {
@@ -3130,6 +3170,7 @@ const response = {
                "indNoPropertyTaxCollected": {
                   "key": "indNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.16",
                   "yearData": [
                      {
@@ -3223,6 +3264,7 @@ const response = {
                "govValuePropertyTaxDm": {
                   "key": "govValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.17",
                   "yearData": [
                      {
@@ -3321,6 +3363,7 @@ const response = {
                "govNoPropertyTaxDm": {
                   "key": "govNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.18",
                   "yearData": [
                      {
@@ -3414,6 +3457,7 @@ const response = {
                "govValuePropertyTaxCollected": {
                   "key": "govValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.19",
                   "yearData": [
                      {
@@ -3512,6 +3556,7 @@ const response = {
                "govNoPropertyTaxCollected": {
                   "key": "govNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.20",
                   "yearData": [
                      {
@@ -3605,6 +3650,7 @@ const response = {
                "insValuePropertyTaxDm": {
                   "key": "insValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.21",
                   "yearData": [
                      {
@@ -3703,6 +3749,7 @@ const response = {
                "insNoPropertyTaxDm": {
                   "key": "insNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.22",
                   "yearData": [
                      {
@@ -3796,6 +3843,7 @@ const response = {
                "insValuePropertyTaxCollected": {
                   "key": "insValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.23",
                   "yearData": [
                      {
@@ -3894,6 +3942,7 @@ const response = {
                "insNoPropertyTaxCollected": {
                   "key": "insNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.24",
                   "yearData": [
                      {
@@ -3987,12 +4036,14 @@ const response = {
                "otherValuePropertyType": {
                   "key": "otherValuePropertyType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "2.25",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "otherValuePropertyTaxDm",
                         "label": "Value of property tax demanded (INR lakhs)",
+                        "required": true,
                         "displayPriority": "2.26",
                         "yearData": [
                            {
@@ -4091,6 +4142,7 @@ const response = {
                      {
                         "key": "otherNoPropertyTaxDm",
                         "label": "Number of properties from which property tax was demanded",
+                        "required": true,
                         "displayPriority": "2.27",
                         "yearData": [
                            {
@@ -4184,6 +4236,7 @@ const response = {
                      {
                         "key": "otherValuePropertyTaxCollected",
                         "label": "Value of property tax collected (INR lakhs)",
+                        "required": true,
                         "displayPriority": "2.28",
                         "yearData": [
                            {
@@ -4282,6 +4335,7 @@ const response = {
                      {
                         "key": "otherNoPropertyTaxCollected",
                         "label": "Number of properties from which property tax was collected",
+                        "required": true,
                         "displayPriority": "2.29",
                         "yearData": [
                            {
@@ -4387,6 +4441,7 @@ const response = {
                "noOfPropertiesPaidOnline": {
                   "key": "noOfPropertiesPaidOnline",
                   "label": "Number of properties that paid online (through website or mobile application)",
+                  "required": true,
                   "displayPriority": "3.1",
                   "yearData": [
                      {
@@ -4480,6 +4535,7 @@ const response = {
                "totalCollectionOnline": {
                   "key": "totalCollectionOnline",
                   "label": "Total collections made via online channel i.e. through website or mobile application (INR lakhs)",
+                  "required": true,
                   "displayPriority": "3.2",
                   "yearData": [
                      {
@@ -4578,13 +4634,14 @@ const response = {
                "propertyTaxValuationDetails": {
                   "key": "propertyTaxValuationDetails",
                   "label": "Please submit the property tax rate card",
+                  "required": true,
                   "displayPriority": "4.1",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_d46809df-9ad9-48c0-9177-e7699109fa5c.xlsx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -4626,6 +4683,7 @@ const response = {
                "notificationWaterCharges": {
                   "key": "notificationWaterCharges",
                   "label": "Are water charges being collected in the ULB?",
+                  "required": true,
                   "displayPriority": "5.1",
                   "yearData": [
                      {
@@ -4640,7 +4698,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4655,6 +4713,7 @@ const response = {
                "entityWaterCharges": {
                   "key": "entityWaterCharges",
                   "label": "Which entity is collecting the water charges?",
+                  "required": true,
                   "displayPriority": "5.2",
                   "yearData": [
                      {
@@ -4702,6 +4761,7 @@ const response = {
                "entityNameWaterCharges": {
                   "key": "entityNameWaterCharges",
                   "label": "Please fill the name of entity",
+                  "required": true,
                   "displayPriority": "5.3",
                   "yearData": [
                      {
@@ -4731,6 +4791,7 @@ const response = {
                "notificationWaterChargesFile": {
                   "key": "notificationWaterChargesFile",
                   "label": "Upload a copy of gazette notification that notifies water charges",
+                  "required": true,
                   "displayPriority": "5.4",
                   "yearData": [
                      {
@@ -4760,6 +4821,7 @@ const response = {
                "waterChrgDm": {
                   "key": "waterChrgDm",
                   "label": "Total water charges demand",
+                  "required": true,
                   "displayPriority": "5.5",
                   "yearData": [
                      {
@@ -4793,7 +4855,7 @@ const response = {
                         "type": "waterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "number",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4858,6 +4920,7 @@ const response = {
                "cuWaterChrgDm": {
                   "key": "cuWaterChrgDm",
                   "label": "Current water charges demand",
+                  "required": false,
                   "displayPriority": "5.6",
                   "yearData": [
                      {
@@ -4956,6 +5019,7 @@ const response = {
                "arWaterChrgDm": {
                   "key": "arWaterChrgDm",
                   "label": "Arrear water charges demand",
+                  "required": false,
                   "displayPriority": "5.7",
                   "yearData": [
                      {
@@ -5054,6 +5118,7 @@ const response = {
                "waterChrgCol": {
                   "key": "waterChrgCol",
                   "label": "Total water charges collection",
+                  "required": true,
                   "displayPriority": "5.8",
                   "yearData": [
                      {
@@ -5152,6 +5217,7 @@ const response = {
                "cuWaterChrgCol": {
                   "key": "cuWaterChrgCol",
                   "label": "Current water charges collection",
+                  "required": false,
                   "displayPriority": "5.9",
                   "yearData": [
                      {
@@ -5250,6 +5316,7 @@ const response = {
                "arWaterChrgCol": {
                   "key": "arWaterChrgCol",
                   "label": "Arrear water charges collection",
+                  "required": false,
                   "displayPriority": "5.10",
                   "yearData": [
                      {
@@ -5348,6 +5415,7 @@ const response = {
                "waterChrgConnectionDm": {
                   "key": "waterChrgConnectionDm",
                   "label": "Total Number of connections from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.11",
                   "yearData": [
                      {
@@ -5441,6 +5509,7 @@ const response = {
                "waterChrgConnectionCol": {
                   "key": "waterChrgConnectionCol",
                   "label": "Total Number of connections from which water charges were collected",
+                  "required": true,
                   "displayPriority": "5.12",
                   "yearData": [
                      {
@@ -5534,6 +5603,7 @@ const response = {
                "resValueWaterChrgDm": {
                   "key": "resValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.13",
                   "yearData": [
                      {
@@ -5632,6 +5702,7 @@ const response = {
                "resNoWaterChrgDm": {
                   "key": "resNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.14",
                   "yearData": [
                      {
@@ -5725,6 +5796,7 @@ const response = {
                "resValueWaterChrgCollected": {
                   "key": "resValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.15",
                   "yearData": [
                      {
@@ -5823,6 +5895,7 @@ const response = {
                "resNoWaterChrgCollected": {
                   "key": "resNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.16",
                   "yearData": [
                      {
@@ -5916,6 +5989,7 @@ const response = {
                "comValueWaterChrgDm": {
                   "key": "comValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.17",
                   "yearData": [
                      {
@@ -6014,6 +6088,7 @@ const response = {
                "comNoWaterChrgDm": {
                   "key": "comNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.18",
                   "yearData": [
                      {
@@ -6107,6 +6182,7 @@ const response = {
                "comValueWaterChrgCollected": {
                   "key": "comValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.19",
                   "yearData": [
                      {
@@ -6205,6 +6281,7 @@ const response = {
                "comNoWaterChrgCollected": {
                   "key": "comNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.20",
                   "yearData": [
                      {
@@ -6298,6 +6375,7 @@ const response = {
                "indValueWaterChrgDm": {
                   "key": "indValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.21",
                   "yearData": [
                      {
@@ -6396,6 +6474,7 @@ const response = {
                "indNoWaterChrgDm": {
                   "key": "indNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.22",
                   "yearData": [
                      {
@@ -6489,6 +6568,7 @@ const response = {
                "indValueWaterChrgCollected": {
                   "key": "indValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.23",
                   "yearData": [
                      {
@@ -6587,6 +6667,7 @@ const response = {
                "indNoWaterChrgCollected": {
                   "key": "indNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.24",
                   "yearData": [
                      {
@@ -6680,12 +6761,14 @@ const response = {
                "othersValueWaterType": {
                   "key": "othersValueWaterType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "5.25",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "otherValueWaterTaxDm",
                         "label": "Value of water tax demanded (INR lakhs)",
+                        "required": true,
                         "displayPriority": "5.26",
                         "yearData": [
                            {
@@ -6784,6 +6867,7 @@ const response = {
                      {
                         "key": "othersNoWaterChrgDm",
                         "label": "Number of Households/properties from which water charges was demanded",
+                        "required": true,
                         "displayPriority": "5.27",
                         "yearData": [
                            {
@@ -6877,6 +6961,7 @@ const response = {
                      {
                         "key": "othersValueWaterChrgCollected",
                         "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                        "required": true,
                         "displayPriority": "5.28",
                         "yearData": [
                            {
@@ -6975,6 +7060,7 @@ const response = {
                      {
                         "key": "othersNoWaterChrgCollected",
                         "label": "Number of Households/properties from which water charges was collected",
+                        "required": true,
                         "displayPriority": "5.29",
                         "yearData": [
                            {
@@ -7080,13 +7166,14 @@ const response = {
                "waterChrgTariffDetails": {
                   "key": "waterChrgTariffDetails",
                   "label": "Please provide the water tariff sheet",
+                  "required": true,
                   "displayPriority": "5.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_41836f47-77f3-45c4-a922-f84ed5f05661.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7128,6 +7215,7 @@ const response = {
                "omCostDeleveryWater": {
                   "key": "omCostDeleveryWater",
                   "label": "What is the O&M cost of service delivery for water? (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.31",
                   "yearData": [
                      {
@@ -7226,13 +7314,14 @@ const response = {
                "omCostWaterService": {
                   "key": "omCostWaterService",
                   "label": "Please provide the working sheet for O&M cost calculation",
+                  "required": true,
                   "displayPriority": "5.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/waterServices_be3b6058-a1a8-4106-a8f7-5288f1c28e2b.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7274,6 +7363,7 @@ const response = {
                "doesColSewerageCharges": {
                   "key": "doesColSewerageCharges",
                   "label": "Are sewerage charges being collected in the ULB?",
+                  "required": true,
                   "displayPriority": "6.1",
                   "yearData": [
                      {
@@ -7303,6 +7393,7 @@ const response = {
                "entitySewerageCharges": {
                   "key": "entitySewerageCharges",
                   "label": "Which entity is collecting the sewerage charges?",
+                  "required": true,
                   "displayPriority": "6.2",
                   "yearData": [
                      {
@@ -7350,6 +7441,7 @@ const response = {
                "entityNaSewerageCharges": {
                   "key": "entityNaSewerageCharges",
                   "label": "Please fill the name of the entity",
+                  "required": true,
                   "displayPriority": "6.3",
                   "yearData": [
                      {
@@ -7379,6 +7471,7 @@ const response = {
                "copyGazetteNotificationSewerage": {
                   "key": "copyGazetteNotificationSewerage",
                   "label": "Upload a copy of gazette notification that notifies collection of sewerage charges",
+                  "required": true,
                   "displayPriority": "6.4",
                   "yearData": [
                      {
@@ -7408,6 +7501,7 @@ const response = {
                "totalSewergeChrgDm": {
                   "key": "totalSewergeChrgDm",
                   "label": "Total sewerage charges demand",
+                  "required": true,
                   "displayPriority": "6.5",
                   "yearData": [
                      {
@@ -7506,6 +7600,7 @@ const response = {
                "curSewergeChrgDm": {
                   "key": "curSewergeChrgDm",
                   "label": "Current sewerage charges demand",
+                  "required": false,
                   "displayPriority": "6.6",
                   "yearData": [
                      {
@@ -7604,6 +7699,7 @@ const response = {
                "arrSewergeChrgDm": {
                   "key": "arrSewergeChrgDm",
                   "label": "Arrear sewerage charges demand",
+                  "required": false,
                   "displayPriority": "6.7",
                   "yearData": [
                      {
@@ -7702,6 +7798,7 @@ const response = {
                "totalSewergeChrgCol": {
                   "key": "totalSewergeChrgCol",
                   "label": "Total sewerage charges collection",
+                  "required": true,
                   "displayPriority": "6.8",
                   "yearData": [
                      {
@@ -7800,6 +7897,7 @@ const response = {
                "curSewergeChrgCol": {
                   "key": "curSewergeChrgCol",
                   "label": "Current sewerage charges collection",
+                  "required": false,
                   "displayPriority": "6.9",
                   "yearData": [
                      {
@@ -7898,6 +7996,7 @@ const response = {
                "arrSewergeChrgCol": {
                   "key": "arrSewergeChrgCol",
                   "label": "Arrear sewerage charges collection",
+                  "required": false,
                   "displayPriority": "6.10",
                   "yearData": [
                      {
@@ -7996,6 +8095,7 @@ const response = {
                "totalSewergeConnectionDm": {
                   "key": "totalSewergeConnectionDm",
                   "label": "Total number of connections from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.11",
                   "yearData": [
                      {
@@ -8089,6 +8189,7 @@ const response = {
                "totalSewergeConnectionCol": {
                   "key": "totalSewergeConnectionCol",
                   "label": "Total number of connections from which sewerage charges were collected",
+                  "required": true,
                   "displayPriority": "6.12",
                   "yearData": [
                      {
@@ -8182,6 +8283,7 @@ const response = {
                "resValueSewerageTaxDm": {
                   "key": "resValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.13",
                   "yearData": [
                      {
@@ -8280,6 +8382,7 @@ const response = {
                "resNoSewerageTaxDm": {
                   "key": "resNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.14",
                   "yearData": [
                      {
@@ -8373,6 +8476,7 @@ const response = {
                "resValueSewerageTaxCollected": {
                   "key": "resValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.15",
                   "yearData": [
                      {
@@ -8471,6 +8575,7 @@ const response = {
                "resNoSewerageTaxCollected": {
                   "key": "resNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.16",
                   "yearData": [
                      {
@@ -8564,6 +8669,7 @@ const response = {
                "comValueSewerageTaxDm": {
                   "key": "comValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.17",
                   "yearData": [
                      {
@@ -8662,6 +8768,7 @@ const response = {
                "comNoSewerageTaxDm": {
                   "key": "comNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.18",
                   "yearData": [
                      {
@@ -8755,6 +8862,7 @@ const response = {
                "comValueSewerageTaxCollected": {
                   "key": "comValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.19",
                   "yearData": [
                      {
@@ -8853,6 +8961,7 @@ const response = {
                "comNoSewerageTaxCollected": {
                   "key": "comNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.20",
                   "yearData": [
                      {
@@ -8946,6 +9055,7 @@ const response = {
                "indValueSewerageTaxDm": {
                   "key": "indValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.21",
                   "yearData": [
                      {
@@ -9044,6 +9154,7 @@ const response = {
                "indNoSewerageTaxDm": {
                   "key": "indNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.22",
                   "yearData": [
                      {
@@ -9137,6 +9248,7 @@ const response = {
                "indValueSewerageTaxCollected": {
                   "key": "indValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.23",
                   "yearData": [
                      {
@@ -9235,6 +9347,7 @@ const response = {
                "indNoSewerageTaxCollected": {
                   "key": "indNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.24",
                   "yearData": [
                      {
@@ -9328,12 +9441,14 @@ const response = {
                "otherValueSewerageType": {
                   "key": "otherValueSewerageType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "6.25",
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
                         "key": "otherValueSewerageTaxDm",
                         "label": "Value of sewerage charges demanded (INR lakhs)",
+                        "required": true,
                         "displayPriority": "6.26",
                         "yearData": [
                            {
@@ -9432,6 +9547,7 @@ const response = {
                      {
                         "key": "otherNoSewerageTaxDm",
                         "label": "Number of Households/properties from which sewerage charges was demanded",
+                        "required": true,
                         "displayPriority": "6.27",
                         "yearData": [
                            {
@@ -9525,6 +9641,7 @@ const response = {
                      {
                         "key": "otherValueSewerageTaxCollected",
                         "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                        "required": true,
                         "displayPriority": "6.28",
                         "yearData": [
                            {
@@ -9623,6 +9740,7 @@ const response = {
                      {
                         "key": "otherNoSewerageTaxCollected",
                         "label": "Number of Households/properties from which sewerage charges was collected",
+                        "required": true,
                         "displayPriority": "6.29",
                         "yearData": [
                            {
@@ -9728,13 +9846,14 @@ const response = {
                "sewerageChrgTarrifSheet": {
                   "key": "sewerageChrgTarrifSheet",
                   "label": "Please provide the sewerage tariff sheet",
+                  "required": true,
                   "displayPriority": "6.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/tariffSheet_1b41e678-a258-4c43-9173-16b540f64126.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9776,6 +9895,7 @@ const response = {
                "omCostDeleverySewerage": {
                   "key": "omCostDeleverySewerage",
                   "label": "What is the O&M cost of service delivery for sewerage ?(INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.31",
                   "yearData": [
                      {
@@ -9874,13 +9994,14 @@ const response = {
                "omCostSewerageService": {
                   "key": "omCostSewerageService",
                   "label": "Please provide the working sheet for O&M cost calculation",
+                  "required": true,
                   "displayPriority": "6.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O%20M%20costworking%20sheetsewerage%20services_d884cbc1-35e7-4db7-bdbd-fb8f575ce70d.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9922,6 +10043,7 @@ const response = {
                "signedPdf": {
                   "key": "signedPdf",
                   "label": "Upload Signed PDF",
+                  "required": true,
                   "displayPriority": "7",
                   "yearData": [
                      {

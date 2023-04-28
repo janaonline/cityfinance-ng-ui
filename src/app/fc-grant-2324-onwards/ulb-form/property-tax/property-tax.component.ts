@@ -155,6 +155,7 @@ export class PropertyTaxComponent implements OnInit {
             position: [{ value: item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
+            required: [{ value: item.required, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],

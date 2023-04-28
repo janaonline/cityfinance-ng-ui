@@ -130,7 +130,9 @@
                             <td>{{ item?.value?.controls?.position?.value }}</td>
                             <th scope="row"
                                 [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                                {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
+                                {{item?.value?.controls?.label.value}}
+                                <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
+                                 <mat-icon style="font-size: 18px;"
                                     *ngIf="item?.value?.controls?.info?.value"
                                     [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                             </th>
