@@ -251,8 +251,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           this.pageSizeOptions = [5, 10, 20, this.total];
         }
 
-      if(!this.ulbType) this.ulbType = Object.keys(res["ulbType"]).length > 0 ? Object.values(res["ulbType"]): null
-      if(!this.statusList)  this.statusList = Object.keys(res["statusList"]).length > 0 ? Object.values(res["statusList"]) : null
+      if(!this.ulbType) this.ulbType = Object.keys(res["ulbType"]).length > 0 ? Object.values(res["ulbType"]): null;
+      if(!this.statusList)  this.statusList = Object.keys(res["statusList"]).length > 0 ? Object.values(res["statusList"]) : null;
       if(!this.populationType) this.populationType = Object.keys(res["populationType"]).length > 0 ? Object.values(res["populationType"]) : null;
         console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
