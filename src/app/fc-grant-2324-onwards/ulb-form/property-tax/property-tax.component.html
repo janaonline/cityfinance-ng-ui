@@ -29,7 +29,7 @@
                     option?.label}}</option>
             </select>
 
-            <a class="btn btn-primary w-100" href="" target="_blank"
+            <a class="btn btn-primary w-100" [href]="yearItem?.controls?.value?.value" target="_blank"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'link'">Download</a>
 
 
