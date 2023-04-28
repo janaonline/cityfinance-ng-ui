@@ -13,6 +13,11 @@
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                 placeholder="{{yearItem?.controls?.placeholder?.value}}" />
             <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+
+            <small *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
+                yearItem?.controls?.value?.value == '0'" style="color: #bf9410">
+                contains "0" do you still want to continue?
+            </small>
             <small class="text-danger"
                 *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
                 be equal to {{ yearItem.value.originalValue }}</small>
@@ -132,8 +137,7 @@
                                 [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                 {{item?.value?.controls?.label.value}}
                                 <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
-                                 <mat-icon style="font-size: 18px;"
-                                    *ngIf="item?.value?.controls?.info?.value"
+                                <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
                                     [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                             </th>
                             <td style="width: 12%;"
