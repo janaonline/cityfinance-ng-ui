@@ -918,8 +918,12 @@ const response = {
                         "label": "Sewerage charges"
                      },
                      {
-                        "id": "Solid-waste management charges & Drainage charges",
-                        "label": "Solid-waste management charges & Drainage charges"
+                        "id": "Solid-waste management charges",
+                        "label": "Solid-waste management charges"
+                     },
+                     {
+                        "id": "Drainage charges",
+                        "label": "Drainage charges"
                      },
                      {
                         "id": "others",
@@ -4636,7 +4640,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4742,30 +4746,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "notificationWaterChargesFile",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -7303,7 +7288,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -9983,8 +9968,6 @@ const response = {
                   "info": ""
                }
             }
-            
-            
             ,
             "feedback": {
                "status": null,
@@ -10188,11 +10171,11 @@ const response = {
          '6.1': [
            { label: '', info: '' },
            { label: 'Sewerage Charges Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
          '6.5': [
            { label: '', info: '' },
@@ -10226,7 +10209,7 @@ const response = {
          ],
          '6.17': [
            { label: '', info: '' },
-           { label: 'Commercial Properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: 'Commercial Properties households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10235,7 +10218,7 @@ const response = {
          ],
          '6.21': [
            { label: '', info: '' },
-           { label: 'Industrial Properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: 'Industrial Properties households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10244,7 +10227,7 @@ const response = {
          ],
          '6.25': [
            { label: '', info: '' },
-           { label: 'Other Properties', info: '' },
+           { label: 'Other Properties households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10254,7 +10237,7 @@ const response = {
          '6.30': [
            { label: '', info: '' },
            {
-             label: 'Sewerage Charges Tariff Details- Sewerage Charges Tariff Sheet',
+             label: 'Sewerage Charges Tariff Details',
              info: ''
            },
            { label: '', info: '' },
@@ -10304,6 +10287,10 @@ const response = {
             info: ''
          },
          '6.1': { label: 'Sewerage Charges Details', info: '' },
+         '6.13': {
+            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            info: ''
+         },
          '7': { label: 'Download and Upload Signed PDF', info: '' },
        }
        ,
@@ -10873,7 +10860,7 @@ export class PropertyTaxService {
       return this.http.get(`${environment.api.url}propTaxOp/view?ulb=${ulb}&design_year=${design_year}`)
          .pipe(
             map((res: any) => {
-               return response;
+               return res;
             })
          );
    }
