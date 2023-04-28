@@ -155,6 +155,7 @@ export class PropertyTaxComponent implements OnInit {
             position: [{ value: item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
+            required: [{ value: item.required, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
@@ -167,7 +168,7 @@ export class PropertyTaxComponent implements OnInit {
               copyChildFrom: [{ value: item.copyChildFrom, disabled: true }],
               child: this.fb.array(item.child.map(childItem => this.fb.group({
                 key: childItem.key,
-                value: [childItem.value, this.getValidators(childItem, !['date', 'file'].includes(childItem.formFieldType), parent)],
+                value: [childItem.value, this.getValidators(childItem, !['date', 'file', 'link'].includes(childItem.formFieldType), parent)],
                 _id: childItem._id,
                 label: [{ value: childItem.label, disabled: true }],
                 replicaNumber: childItem.replicaNumber,
@@ -188,7 +189,7 @@ export class PropertyTaxComponent implements OnInit {
   getInnerFormGroup(item, parent?, replicaCount?) {
     return this.fb.group({
       key: item.key,
-      value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
+      value: [item.value, this.getValidators(item, !['date', 'file', 'link'].includes(item.formFieldType), parent)],
       originalValue: item.value,
       year: item.year,
       type: item.type,
@@ -345,11 +346,29 @@ export class PropertyTaxComponent implements OnInit {
       }
     ).then((value) => {
       if (value == 'submit') {
+        console.log('invalid', this.findInvalidControlsRecursive(this.form));
         if (!this.validateErrors()) return swal('Error', 'Please fill all mandatory fields', 'error');;
         this.submit(false);
       }
       else if (value == 'draft') this.submit();
     })
+  }
+
+  findInvalidControlsRecursive(formToInvestigate:FormGroup|FormArray):string[] {
+    var invalidControls:any[] = [];
+    let recursiveFunc = (form:FormGroup|FormArray) => {
+      Object.keys(form.controls).forEach(field => { 
+        const control = form.get(field);
+        if (control.invalid) invalidControls.push({field, control});
+        if (control instanceof FormGroup) {
+          recursiveFunc(control);
+        } else if (control instanceof FormArray) {
+          recursiveFunc(control);
+        }        
+      });
+    }
+    recursiveFunc(formToInvestigate);
+    return invalidControls;
   }
 
   async editChildQuestions(item: FormGroup, replicaNumber: number, oldLabel: string) {
@@ -430,7 +449,7 @@ export class PropertyTaxComponent implements OnInit {
       console.log(targetQuestion);
       childrens.push(this.fb.group({
         key: targetQuestion.key,
-        value: [value, this.getValidators(targetQuestion, !['date', 'file'].includes(targetQuestion.formFieldType), parent)],
+        value: [value, this.getValidators(targetQuestion, !['date', 'file', 'link'].includes(targetQuestion.formFieldType), parent)],
         _id: targetQuestion._id,
         replicaNumber: replicaCount,
         label: [{ value: targetQuestion.label, disabled: true }],
