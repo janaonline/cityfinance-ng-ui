@@ -138,30 +138,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "notificationFile",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -7428,30 +7409,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "copyGazetteNotificationSewerage",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -10022,6 +9984,7 @@ const response = {
                }
             }
             
+            
             ,
             "feedback": {
                "status": null,
@@ -10345,14 +10308,12 @@ const response = {
        }
        ,
       "skipLogicDependencies": {
-         'data.notificationPropertyTax.yearData.0': {
-            'userChargesCollection': {
-               'value': 'Yes',
-               'years': [0]
-            }
-         },
          'data.doesUserChargesDmnd.yearData.0': {
             'userChargesDmnd': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            'userChargesCollection': {
                'value': 'Yes',
                'years': [0]
             }
