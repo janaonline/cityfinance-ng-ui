@@ -3,7 +3,7 @@
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
 
-<ng-template #treeNode let-yearItem="yearItem">
+<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex">
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
@@ -18,6 +18,7 @@
                 yearItem?.controls?.value?.value == '0'" style="color: #bf9410">
                 contains "0" do you still want to continue?
             </small>
+            <small *ngIf="yearItem | yearComparision">year compairiosn, {{yearIndex}}</small>
             <small class="text-danger"
                 *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
                 be equal to {{ yearItem.value.originalValue }}</small>
@@ -39,7 +40,7 @@
 
 
 
-            <div class="input-group border" *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+            <div class="input-group" style="background-color: white;" *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
                     <input matInput formControlName="date" style="pointer-events: none;" [matDatepicker]="r_i"
