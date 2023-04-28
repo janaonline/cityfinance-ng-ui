@@ -196,6 +196,7 @@ export class PropertyTaxComponent implements OnInit {
       _id: item._id,
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
+      downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -456,7 +457,11 @@ export class PropertyTaxComponent implements OnInit {
         formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
         position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
         readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, replicaCount)))
+        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
+          ...yearItem, 
+          label: targetQuestion.label,
+          postion: targetQuestion.displayPriority
+        }, item, replicaCount)))
       }))
     })
     this.updateDependentQuestionsForSkipLogic(item);
