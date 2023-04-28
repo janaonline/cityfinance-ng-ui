@@ -25,6 +25,7 @@ const response = {
                "notificationPropertyTax": {
                   "key": "notificationPropertyTax",
                   "label": "Has the ULB adopted notification for charging property tax?",
+                  "required": true,
                   "displayPriority": "1.1",
                   "yearData": [
                      {
@@ -54,6 +55,7 @@ const response = {
                "notificationAdoptionDate": {
                   "key": "notificationAdoptionDate",
                   "label": "What was the notification adoption date?",
+                  "required": true,
                   "displayPriority": "1.2",
                   "yearData": [
                      {
@@ -84,6 +86,7 @@ const response = {
                "notificationIssuedBy": {
                   "key": "notificationIssuedBy",
                   "label": "The adopted notification was issued by?",
+                  "required": true,
                   "displayPriority": "1.3",
                   "yearData": [
                      {
@@ -123,6 +126,7 @@ const response = {
                "notificationFile": {
                   "key": "notificationFile",
                   "label": "Upload a copy of the notification",
+                  "required": true,
                   "displayPriority": "1.4",
                   "yearData": [
                      {
@@ -130,10 +134,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
+                        "file": "",
                         "min": "",
                         "max": "",
                         "required": true,
@@ -155,6 +156,7 @@ const response = {
                "dmdIncludingCess": {
                   "key": "dmdIncludingCess",
                   "label": "Total property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": true,
                   "displayPriority": "1.5",
                   "yearData": [
                      {
@@ -253,6 +255,7 @@ const response = {
                "cdmdIncludingCess": {
                   "key": "cdmdIncludingCess",
                   "label": "Current property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.6",
                   "yearData": [
                      {
@@ -351,6 +354,7 @@ const response = {
                "admdIncludingCess": {
                   "key": "admdIncludingCess",
                   "label": "Arrear property tax demand (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.7",
                   "yearData": [
                      {
@@ -449,6 +453,7 @@ const response = {
                "dmdexcludingCess": {
                   "key": "dmdexcludingCess",
                   "label": "Total property tax demand (excluding cess, other taxes, user charges if any)",
+                  "required": true,
                   "displayPriority": "1.8",
                   "yearData": [
                      {
@@ -547,192 +552,243 @@ const response = {
                "taxTypeDemand": {
                   "key": "taxTypeDemand",
                   "label": "Other tax demand (Demand figure for each type of tax other than property tax collected)",
+                  "required": true,
                   "displayPriority": "1.9",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "taxTypeDemandChild",
+                        "label": "Other tax demand (Demand figure for each type of tax other than property tax collected)",
                         "required": true,
-                        "type": "taxTypeDemand",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeDemand",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeDemand",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeDemand",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeDemand",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "1.9",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeDemandChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeDemandChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeDemandChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeDemandChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeDemandChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
                   "info": "For example,Water tax, Sanitation tax, etc."
                },
                "cessDemand": {
                   "key": "cessDemand",
                   "label": "Cess demand (Demand figure for each type of cess collected)",
+                  "required": true,
                   "displayPriority": "1.10",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "cessDemandChild",
+                        "label": "Cess demand (Demand figure for each type of cess collected)",
                         "required": true,
-                        "type": "cessDemand",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessDemand",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessDemand",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessDemand",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessDemand",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "1.10",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessDemandChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessDemandChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessDemandChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessDemandChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessDemandChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
                   "info": "For example, Tree cess, Library cess etc."
                },
                "doesUserChargesDmnd": {
                   "key": "doesUserChargesDmnd",
                   "label": "Do you collect any user charges along with Property Tax?",
+                  "required": true,
                   "displayPriority": "1.11",
                   "yearData": [
                      {
@@ -762,43 +818,136 @@ const response = {
                "userChargesDmnd": {
                   "key": "userChargesDmnd",
                   "label": "User charges demand (Demand figure for each type of user charge collected along with property tax)",
+                  "required": true,
                   "displayPriority": "1.12",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "options": [
+                        "key": "userChargesDmndChild",
+                        "label": "User charges demand (Demand figure for each type of user charge collected along with property tax)",
+                        "required": true,
+                        "displayPriority": "1.12",
+                        "yearData": [
                            {
-                              "id": "Water charges",
-                              "label": "Water charges"
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "userChargesDmndChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Sewerage charges",
-                              "label": "Sewerage charges"
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "userChargesDmndChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Solid-waste management charges & Drainage charges",
-                              "label": "Solid-waste management charges & Drainage charges"
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "userChargesDmndChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "others",
-                              "label": "others"
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "userChargesDmndChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "userChargesDmndChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            }
                         ],
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "userChargesDmnd",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "select",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "info": ""
+                     }
+                  ],
+                  "maxChild": 5,
+                  "copyOptions": [
+                     {
+                        "id": "Water charges",
+                        "label": "Water charges"
                      },
+                     {
+                        "id": "Sewerage charges",
+                        "label": "Sewerage charges"
+                     },
+                     {
+                        "id": "Solid-waste management charges",
+                        "label": "Solid-waste management charges"
+                     },
+                     {
+                        "id": "Drainage charges",
+                        "label": "Drainage charges"
+                     },
+                     {
+                        "id": "others",
+                        "label": "others"
+                     }
+                  ],
+                  "child": [],
+                  "yearData": [
+                     {},
                      {},
                      {},
                      {},
@@ -809,6 +958,7 @@ const response = {
                "collectIncludingCess": {
                   "key": "collectIncludingCess",
                   "label": "Total property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": true,
                   "displayPriority": "1.13",
                   "yearData": [
                      {
@@ -907,6 +1057,7 @@ const response = {
                "cuCollectIncludingCess": {
                   "key": "cuCollectIncludingCess",
                   "label": "Current property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.14",
                   "yearData": [
                      {
@@ -1005,6 +1156,7 @@ const response = {
                "arCollectIncludingCess": {
                   "key": "arCollectIncludingCess",
                   "label": "Arrear property tax collection (including cess, other taxes, AND excluding user charges if user charges are collected with property tax)",
+                  "required": false,
                   "displayPriority": "1.15",
                   "yearData": [
                      {
@@ -1103,6 +1255,7 @@ const response = {
                "collectExcludingCess": {
                   "key": "collectExcludingCess",
                   "label": "Total property tax collection (excluding cess,other taxes, user charges if any)",
+                  "required": true,
                   "displayPriority": "1.16",
                   "yearData": [
                      {
@@ -1201,234 +1354,372 @@ const response = {
                "taxTypeCollection": {
                   "key": "taxTypeCollection",
                   "label": "Other tax collections (Collection figure for each type of tax other than property tax collected)",
+                  "required": true,
                   "displayPriority": "1.17",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "taxTypeCollectionChild",
+                        "label": "Other tax collections (Collection figure for each type of tax other than property tax collected)",
                         "required": true,
-                        "type": "taxTypeCollection",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeCollection",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeCollection",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeCollection",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "taxTypeCollection",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "1.17",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeCollectionChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeCollectionChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeCollectionChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeCollectionChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "taxTypeCollectionChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
                   "info": "For example,Water taxes, Sanitation taxes, etc."
                },
                "cessCollect": {
                   "key": "cessCollect",
                   "label": "Cess collection (Collection figure for each type of cess collected)",
+                  "required": true,
                   "displayPriority": "1.18",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "cessCollectChild",
+                        "label": "Cess collection (Collection figure for each type of cess collected)",
                         "required": true,
-                        "type": "cessCollect",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessCollect",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessCollect",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessCollect",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "cessCollect",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "1.18",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
+                     {},
+                     {},
+                     {},
+                     {}
                   ],
                   "info": "For example, Tree cess, Library cess etc."
                },
                "userChargesCollection": {
                   "key": "userChargesCollection",
                   "label": "User charges collection (Collection figure for each type of user charge collected along with property tax)",
+                  "required": true,
                   "displayPriority": "1.19",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "options": [
+                        "key": "cessCollectChild",
+                        "label": "Cess collection (Collection figure for each type of cess collected)",
+                        "required": true,
+                        "displayPriority": "1.18",
+                        "yearData": [
                            {
-                              "id": "Water charges",
-                              "label": "Water charges"
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Sewerage/Sanitation Charges",
-                              "label": "Sewerage/Sanitation Charges"
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Solid-waste management Charges",
-                              "label": "Solid-waste management Charges"
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Drainage Charges",
-                              "label": "Drainage Charges"
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            },
                            {
-                              "id": "Other charges",
-                              "label": "Other charges"
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "cessCollectChild",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
                            }
                         ],
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "userChargesCollection",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "select",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "info": ""
+                     }
+                  ],
+                  "maxChild": 5,
+                  "copyOptions": [
+                     {
+                        "id": "Water charges",
+                        "label": "Water charges"
                      },
+                     {
+                        "id": "Sewerage/Sanitation Charges",
+                        "label": "Sewerage/Sanitation Charges"
+                     },
+                     {
+                        "id": "Solid-waste management Charges",
+                        "label": "Solid-waste management Charges"
+                     },
+                     {
+                        "id": "Drainage Charges",
+                        "label": "Drainage Charges"
+                     },
+                     {
+                        "id": "Other charges",
+                        "label": "Other charges"
+                     }
+                  ],
+                  "child": [],
+                  "yearData": [
+                     {},
                      {},
                      {},
                      {},
@@ -1439,6 +1730,7 @@ const response = {
                "totalMappedPropertiesUlb": {
                   "key": "totalMappedPropertiesUlb",
                   "label": "Total number of properties mapped in the ULB (including properties exempted from paying property tax)",
+                  "required": false,
                   "displayPriority": "2.1",
                   "yearData": [
                      {
@@ -1532,6 +1824,7 @@ const response = {
                "totalPropertiesTax": {
                   "key": "totalPropertiesTax",
                   "label": "Total number of properties exempted from paying property tax",
+                  "required": false,
                   "displayPriority": "2.2",
                   "yearData": [
                      {
@@ -1625,6 +1918,7 @@ const response = {
                "totalPropertiesTaxDm": {
                   "key": "totalPropertiesTaxDm",
                   "label": "Total number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.3",
                   "yearData": [
                      {
@@ -1718,6 +2012,7 @@ const response = {
                "totalPropertiesTaxDmCollected": {
                   "key": "totalPropertiesTaxDmCollected",
                   "label": "Total number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.4",
                   "yearData": [
                      {
@@ -1811,6 +2106,7 @@ const response = {
                "resValuePropertyTaxDm": {
                   "key": "resValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.5",
                   "yearData": [
                      {
@@ -1909,6 +2205,7 @@ const response = {
                "resNoPropertyTaxDm": {
                   "key": "resNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.6",
                   "yearData": [
                      {
@@ -2002,6 +2299,7 @@ const response = {
                "resValuePropertyTaxCollected": {
                   "key": "resValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.7",
                   "yearData": [
                      {
@@ -2100,6 +2398,7 @@ const response = {
                "resNoPropertyTaxCollected": {
                   "key": "resNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.8",
                   "yearData": [
                      {
@@ -2193,6 +2492,7 @@ const response = {
                "comValuePropertyTaxDm": {
                   "key": "comValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.9",
                   "yearData": [
                      {
@@ -2291,6 +2591,7 @@ const response = {
                "comNoPropertyTaxDm": {
                   "key": "comNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.10",
                   "yearData": [
                      {
@@ -2384,6 +2685,7 @@ const response = {
                "comValuePropertyTaxCollected": {
                   "key": "comValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.11",
                   "yearData": [
                      {
@@ -2482,6 +2784,7 @@ const response = {
                "comNoPropertyTaxCollected": {
                   "key": "comNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.12",
                   "yearData": [
                      {
@@ -2575,6 +2878,7 @@ const response = {
                "indValuePropertyTaxDm": {
                   "key": "indValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.13",
                   "yearData": [
                      {
@@ -2673,6 +2977,7 @@ const response = {
                "indNoPropertyTaxDm": {
                   "key": "indNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.14",
                   "yearData": [
                      {
@@ -2766,6 +3071,7 @@ const response = {
                "indValuePropertyTaxCollected": {
                   "key": "indValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.15",
                   "yearData": [
                      {
@@ -2864,6 +3170,7 @@ const response = {
                "indNoPropertyTaxCollected": {
                   "key": "indNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.16",
                   "yearData": [
                      {
@@ -2957,6 +3264,7 @@ const response = {
                "govValuePropertyTaxDm": {
                   "key": "govValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.17",
                   "yearData": [
                      {
@@ -3055,6 +3363,7 @@ const response = {
                "govNoPropertyTaxDm": {
                   "key": "govNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.18",
                   "yearData": [
                      {
@@ -3148,6 +3457,7 @@ const response = {
                "govValuePropertyTaxCollected": {
                   "key": "govValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.19",
                   "yearData": [
                      {
@@ -3246,6 +3556,7 @@ const response = {
                "govNoPropertyTaxCollected": {
                   "key": "govNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.20",
                   "yearData": [
                      {
@@ -3339,6 +3650,7 @@ const response = {
                "insValuePropertyTaxDm": {
                   "key": "insValuePropertyTaxDm",
                   "label": "Value of property tax demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.21",
                   "yearData": [
                      {
@@ -3437,6 +3749,7 @@ const response = {
                "insNoPropertyTaxDm": {
                   "key": "insNoPropertyTaxDm",
                   "label": "Number of properties from which property tax was demanded",
+                  "required": true,
                   "displayPriority": "2.22",
                   "yearData": [
                      {
@@ -3530,6 +3843,7 @@ const response = {
                "insValuePropertyTaxCollected": {
                   "key": "insValuePropertyTaxCollected",
                   "label": "Value of property tax collected (INR lakhs)",
+                  "required": true,
                   "displayPriority": "2.23",
                   "yearData": [
                      {
@@ -3628,6 +3942,7 @@ const response = {
                "insNoPropertyTaxCollected": {
                   "key": "insNoPropertyTaxCollected",
                   "label": "Number of properties from which property tax was collected",
+                  "required": true,
                   "displayPriority": "2.24",
                   "yearData": [
                      {
@@ -3721,13 +4036,396 @@ const response = {
                "otherValuePropertyType": {
                   "key": "otherValuePropertyType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "2.25",
                   "replicaCount": 0,
                   "copyChildFrom": [
-                     "otherValuePropertyTaxDm",
-                     "otherNoPropertyTaxDm",
-                     "otherValuePropertyTaxCollected",
-                     "otherNoPropertyTaxCollected"
+                     {
+                        "key": "otherValuePropertyTaxDm",
+                        "label": "Value of property tax demanded (INR lakhs)",
+                        "required": true,
+                        "displayPriority": "2.26",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "otherNoPropertyTaxDm",
+                        "label": "Number of properties from which property tax was demanded",
+                        "required": true,
+                        "displayPriority": "2.27",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "otherValuePropertyTaxCollected",
+                        "label": "Value of property tax collected (INR lakhs)",
+                        "required": true,
+                        "displayPriority": "2.28",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValuePropertyTaxCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "otherNoPropertyTaxCollected",
+                        "label": "Number of properties from which property tax was collected",
+                        "required": true,
+                        "displayPriority": "2.29",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoPropertyTaxCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     }
                   ],
                   "maxChild": 5,
                   "child": [],
@@ -3740,395 +4438,10 @@ const response = {
                   ],
                   "info": ""
                },
-               "otherValuePropertyTaxDm": {
-                  "key": "otherValuePropertyTaxDm",
-                  "label": "Value of property tax demanded (INR lakhs)",
-                  "displayPriority": "2.26",
-                  "canShow": false,
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherNoPropertyTaxDm": {
-                  "key": "otherNoPropertyTaxDm",
-                  "label": "Number of properties from which property tax was demanded",
-                  "displayPriority": "2.27",
-                  "canShow": false,
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherValuePropertyTaxCollected": {
-                  "key": "otherValuePropertyTaxCollected",
-                  "label": "Value of property tax collected (INR lakhs)",
-                  "displayPriority": "2.28",
-                  "canShow": false,
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValuePropertyTaxCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherNoPropertyTaxCollected": {
-                  "key": "otherNoPropertyTaxCollected",
-                  "label": "Number of properties from which property tax was collected",
-                  "displayPriority": "2.29",
-                  "canShow": false,
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoPropertyTaxCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
                "noOfPropertiesPaidOnline": {
                   "key": "noOfPropertiesPaidOnline",
                   "label": "Number of properties that paid online (through website or mobile application)",
+                  "required": true,
                   "displayPriority": "3.1",
                   "yearData": [
                      {
@@ -4222,6 +4535,7 @@ const response = {
                "totalCollectionOnline": {
                   "key": "totalCollectionOnline",
                   "label": "Total collections made via online channel i.e. through website or mobile application (INR lakhs)",
+                  "required": true,
                   "displayPriority": "3.2",
                   "yearData": [
                      {
@@ -4320,12 +4634,30 @@ const response = {
                "propertyTaxValuationDetails": {
                   "key": "propertyTaxValuationDetails",
                   "label": "Please submit the property tax rate card",
+                  "required": true,
                   "displayPriority": "4.1",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_d46809df-9ad9-48c0-9177-e7699109fa5c.xlsx",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "propertyTaxValuationDetails",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
                         "value": "",
                         "file": {
                            "name": "",
@@ -4335,14 +4667,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "propertyTaxValuationDetails",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -4352,6 +4683,7 @@ const response = {
                "notificationWaterCharges": {
                   "key": "notificationWaterCharges",
                   "label": "Are water charges being collected in the ULB?",
+                  "required": true,
                   "displayPriority": "5.1",
                   "yearData": [
                      {
@@ -4381,6 +4713,7 @@ const response = {
                "entityWaterCharges": {
                   "key": "entityWaterCharges",
                   "label": "Which entity is collecting the water charges?",
+                  "required": true,
                   "displayPriority": "5.2",
                   "yearData": [
                      {
@@ -4428,6 +4761,7 @@ const response = {
                "entityNameWaterCharges": {
                   "key": "entityNameWaterCharges",
                   "label": "Please fill the name of entity",
+                  "required": true,
                   "displayPriority": "5.3",
                   "yearData": [
                      {
@@ -4443,7 +4777,7 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "text",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -4457,6 +4791,7 @@ const response = {
                "notificationWaterChargesFile": {
                   "key": "notificationWaterChargesFile",
                   "label": "Upload a copy of gazette notification that notifies water charges",
+                  "required": true,
                   "displayPriority": "5.4",
                   "yearData": [
                      {
@@ -4464,10 +4799,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
+                        "file": "",
                         "min": "",
                         "max": "",
                         "required": true,
@@ -4489,6 +4821,7 @@ const response = {
                "waterChrgDm": {
                   "key": "waterChrgDm",
                   "label": "Total water charges demand",
+                  "required": true,
                   "displayPriority": "5.5",
                   "yearData": [
                      {
@@ -4522,7 +4855,7 @@ const response = {
                         "type": "waterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "number",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4587,6 +4920,7 @@ const response = {
                "cuWaterChrgDm": {
                   "key": "cuWaterChrgDm",
                   "label": "Current water charges demand",
+                  "required": false,
                   "displayPriority": "5.6",
                   "yearData": [
                      {
@@ -4685,6 +5019,7 @@ const response = {
                "arWaterChrgDm": {
                   "key": "arWaterChrgDm",
                   "label": "Arrear water charges demand",
+                  "required": false,
                   "displayPriority": "5.7",
                   "yearData": [
                      {
@@ -4783,6 +5118,7 @@ const response = {
                "waterChrgCol": {
                   "key": "waterChrgCol",
                   "label": "Total water charges collection",
+                  "required": true,
                   "displayPriority": "5.8",
                   "yearData": [
                      {
@@ -4881,6 +5217,7 @@ const response = {
                "cuWaterChrgCol": {
                   "key": "cuWaterChrgCol",
                   "label": "Current water charges collection",
+                  "required": false,
                   "displayPriority": "5.9",
                   "yearData": [
                      {
@@ -4979,6 +5316,7 @@ const response = {
                "arWaterChrgCol": {
                   "key": "arWaterChrgCol",
                   "label": "Arrear water charges collection",
+                  "required": false,
                   "displayPriority": "5.10",
                   "yearData": [
                      {
@@ -5077,6 +5415,7 @@ const response = {
                "waterChrgConnectionDm": {
                   "key": "waterChrgConnectionDm",
                   "label": "Total Number of connections from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.11",
                   "yearData": [
                      {
@@ -5170,6 +5509,7 @@ const response = {
                "waterChrgConnectionCol": {
                   "key": "waterChrgConnectionCol",
                   "label": "Total Number of connections from which water charges were collected",
+                  "required": true,
                   "displayPriority": "5.12",
                   "yearData": [
                      {
@@ -5263,6 +5603,7 @@ const response = {
                "resValueWaterChrgDm": {
                   "key": "resValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.13",
                   "yearData": [
                      {
@@ -5361,6 +5702,7 @@ const response = {
                "resNoWaterChrgDm": {
                   "key": "resNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.14",
                   "yearData": [
                      {
@@ -5454,6 +5796,7 @@ const response = {
                "resValueWaterChrgCollected": {
                   "key": "resValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.15",
                   "yearData": [
                      {
@@ -5552,6 +5895,7 @@ const response = {
                "resNoWaterChrgCollected": {
                   "key": "resNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.16",
                   "yearData": [
                      {
@@ -5645,6 +5989,7 @@ const response = {
                "comValueWaterChrgDm": {
                   "key": "comValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.17",
                   "yearData": [
                      {
@@ -5743,6 +6088,7 @@ const response = {
                "comNoWaterChrgDm": {
                   "key": "comNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.18",
                   "yearData": [
                      {
@@ -5836,6 +6182,7 @@ const response = {
                "comValueWaterChrgCollected": {
                   "key": "comValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.19",
                   "yearData": [
                      {
@@ -5934,6 +6281,7 @@ const response = {
                "comNoWaterChrgCollected": {
                   "key": "comNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.20",
                   "yearData": [
                      {
@@ -6027,6 +6375,7 @@ const response = {
                "indValueWaterChrgDm": {
                   "key": "indValueWaterChrgDm",
                   "label": "Value of water charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.21",
                   "yearData": [
                      {
@@ -6125,6 +6474,7 @@ const response = {
                "indNoWaterChrgDm": {
                   "key": "indNoWaterChrgDm",
                   "label": "Number of Households/properties from which water charges was demanded",
+                  "required": true,
                   "displayPriority": "5.22",
                   "yearData": [
                      {
@@ -6218,6 +6568,7 @@ const response = {
                "indValueWaterChrgCollected": {
                   "key": "indValueWaterChrgCollected",
                   "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.23",
                   "yearData": [
                      {
@@ -6316,6 +6667,7 @@ const response = {
                "indNoWaterChrgCollected": {
                   "key": "indNoWaterChrgCollected",
                   "label": "Number of Households/properties from which water charges was collected",
+                  "required": true,
                   "displayPriority": "5.24",
                   "yearData": [
                      {
@@ -6409,25 +6761,401 @@ const response = {
                "othersValueWaterType": {
                   "key": "othersValueWaterType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "5.25",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "otherValueWaterTaxDm",
+                        "label": "Value of water tax demanded (INR lakhs)",
                         "required": true,
-                        "type": "othersValueWaterType",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "5.26",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueWaterTaxDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueWaterTaxDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueWaterTaxDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueWaterTaxDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueWaterTaxDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      },
+                     {
+                        "key": "othersNoWaterChrgDm",
+                        "label": "Number of Households/properties from which water charges was demanded",
+                        "required": true,
+                        "displayPriority": "5.27",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "othersValueWaterChrgCollected",
+                        "label": "Value of water charges collected from Households/properties (INR lakhs)",
+                        "required": true,
+                        "displayPriority": "5.28",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "othersValueWaterChrgCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "othersValueWaterChrgCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "othersValueWaterChrgCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "othersValueWaterChrgCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "othersValueWaterChrgCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "othersNoWaterChrgCollected",
+                        "label": "Number of Households/properties from which water charges was collected",
+                        "required": true,
+                        "displayPriority": "5.29",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "othersNoWaterChrgCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
                      {},
                      {},
                      {},
@@ -6435,397 +7163,33 @@ const response = {
                   ],
                   "info": ""
                },
-               "othersValueWaterChrgDm": {
-                  "key": "othersValueWaterChrgDm",
-                  "label": "Value of water charges demanded (INR lakhs)",
-                  "displayPriority": "5.26",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "othersNoWaterChrgDm": {
-                  "key": "othersNoWaterChrgDm",
-                  "label": "Number of Households/properties from which water charges was demanded",
-                  "displayPriority": "5.27",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "othersValueWaterChrgCollected": {
-                  "key": "othersValueWaterChrgCollected",
-                  "label": "Value of water charges collected from Households/properties (INR lakhs)",
-                  "displayPriority": "5.28",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "othersValueWaterChrgCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "othersNoWaterChrgCollected": {
-                  "key": "othersNoWaterChrgCollected",
-                  "label": "Number of Households/properties from which water charges was collected",
-                  "displayPriority": "5.29",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "othersNoWaterChrgCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
                "waterChrgTariffDetails": {
                   "key": "waterChrgTariffDetails",
                   "label": "Please provide the water tariff sheet",
+                  "required": true,
                   "displayPriority": "5.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_41836f47-77f3-45c4-a922-f84ed5f05661.docx",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "waterChrgTariffDetails",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
                         "value": "",
                         "file": {
                            "name": "",
@@ -6835,14 +7199,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "waterChrgTariffDetails",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -6852,6 +7215,7 @@ const response = {
                "omCostDeleveryWater": {
                   "key": "omCostDeleveryWater",
                   "label": "What is the O&M cost of service delivery for water? (INR lakhs)",
+                  "required": true,
                   "displayPriority": "5.31",
                   "yearData": [
                      {
@@ -6950,12 +7314,30 @@ const response = {
                "omCostWaterService": {
                   "key": "omCostWaterService",
                   "label": "Please provide the working sheet for O&M cost calculation",
+                  "required": true,
                   "displayPriority": "5.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/waterServices_be3b6058-a1a8-4106-a8f7-5288f1c28e2b.docx",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "omCostWaterService",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
                         "value": "",
                         "file": {
                            "name": "",
@@ -6965,14 +7347,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostWaterService",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -6982,6 +7363,7 @@ const response = {
                "doesColSewerageCharges": {
                   "key": "doesColSewerageCharges",
                   "label": "Are sewerage charges being collected in the ULB?",
+                  "required": true,
                   "displayPriority": "6.1",
                   "yearData": [
                      {
@@ -6996,7 +7378,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7011,6 +7393,7 @@ const response = {
                "entitySewerageCharges": {
                   "key": "entitySewerageCharges",
                   "label": "Which entity is collecting the sewerage charges?",
+                  "required": true,
                   "displayPriority": "6.2",
                   "yearData": [
                      {
@@ -7058,6 +7441,7 @@ const response = {
                "entityNaSewerageCharges": {
                   "key": "entityNaSewerageCharges",
                   "label": "Please fill the name of the entity",
+                  "required": true,
                   "displayPriority": "6.3",
                   "yearData": [
                      {
@@ -7073,7 +7457,7 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "radio-toggle",
+                        "formFieldType": "text",
                         "bottomText": "",
                         "placeHolder": ""
                      },
@@ -7087,6 +7471,7 @@ const response = {
                "copyGazetteNotificationSewerage": {
                   "key": "copyGazetteNotificationSewerage",
                   "label": "Upload a copy of gazette notification that notifies collection of sewerage charges",
+                  "required": true,
                   "displayPriority": "6.4",
                   "yearData": [
                      {
@@ -7094,10 +7479,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
+                        "file": "",
                         "min": "",
                         "max": "",
                         "required": true,
@@ -7119,6 +7501,7 @@ const response = {
                "totalSewergeChrgDm": {
                   "key": "totalSewergeChrgDm",
                   "label": "Total sewerage charges demand",
+                  "required": true,
                   "displayPriority": "6.5",
                   "yearData": [
                      {
@@ -7217,6 +7600,7 @@ const response = {
                "curSewergeChrgDm": {
                   "key": "curSewergeChrgDm",
                   "label": "Current sewerage charges demand",
+                  "required": false,
                   "displayPriority": "6.6",
                   "yearData": [
                      {
@@ -7315,6 +7699,7 @@ const response = {
                "arrSewergeChrgDm": {
                   "key": "arrSewergeChrgDm",
                   "label": "Arrear sewerage charges demand",
+                  "required": false,
                   "displayPriority": "6.7",
                   "yearData": [
                      {
@@ -7413,6 +7798,7 @@ const response = {
                "totalSewergeChrgCol": {
                   "key": "totalSewergeChrgCol",
                   "label": "Total sewerage charges collection",
+                  "required": true,
                   "displayPriority": "6.8",
                   "yearData": [
                      {
@@ -7511,6 +7897,7 @@ const response = {
                "curSewergeChrgCol": {
                   "key": "curSewergeChrgCol",
                   "label": "Current sewerage charges collection",
+                  "required": false,
                   "displayPriority": "6.9",
                   "yearData": [
                      {
@@ -7609,6 +7996,7 @@ const response = {
                "arrSewergeChrgCol": {
                   "key": "arrSewergeChrgCol",
                   "label": "Arrear sewerage charges collection",
+                  "required": false,
                   "displayPriority": "6.10",
                   "yearData": [
                      {
@@ -7707,6 +8095,7 @@ const response = {
                "totalSewergeConnectionDm": {
                   "key": "totalSewergeConnectionDm",
                   "label": "Total number of connections from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.11",
                   "yearData": [
                      {
@@ -7800,6 +8189,7 @@ const response = {
                "totalSewergeConnectionCol": {
                   "key": "totalSewergeConnectionCol",
                   "label": "Total number of connections from which sewerage charges were collected",
+                  "required": true,
                   "displayPriority": "6.12",
                   "yearData": [
                      {
@@ -7893,6 +8283,7 @@ const response = {
                "resValueSewerageTaxDm": {
                   "key": "resValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.13",
                   "yearData": [
                      {
@@ -7991,6 +8382,7 @@ const response = {
                "resNoSewerageTaxDm": {
                   "key": "resNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.14",
                   "yearData": [
                      {
@@ -8084,6 +8476,7 @@ const response = {
                "resValueSewerageTaxCollected": {
                   "key": "resValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.15",
                   "yearData": [
                      {
@@ -8182,6 +8575,7 @@ const response = {
                "resNoSewerageTaxCollected": {
                   "key": "resNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.16",
                   "yearData": [
                      {
@@ -8275,6 +8669,7 @@ const response = {
                "comValueSewerageTaxDm": {
                   "key": "comValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.17",
                   "yearData": [
                      {
@@ -8373,6 +8768,7 @@ const response = {
                "comNoSewerageTaxDm": {
                   "key": "comNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.18",
                   "yearData": [
                      {
@@ -8466,6 +8862,7 @@ const response = {
                "comValueSewerageTaxCollected": {
                   "key": "comValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.19",
                   "yearData": [
                      {
@@ -8564,6 +8961,7 @@ const response = {
                "comNoSewerageTaxCollected": {
                   "key": "comNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.20",
                   "yearData": [
                      {
@@ -8657,6 +9055,7 @@ const response = {
                "indValueSewerageTaxDm": {
                   "key": "indValueSewerageTaxDm",
                   "label": "Value of sewerage charges demanded (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.21",
                   "yearData": [
                      {
@@ -8755,6 +9154,7 @@ const response = {
                "indNoSewerageTaxDm": {
                   "key": "indNoSewerageTaxDm",
                   "label": "Number of Households/properties from which sewerage charges was demanded",
+                  "required": true,
                   "displayPriority": "6.22",
                   "yearData": [
                      {
@@ -8848,6 +9248,7 @@ const response = {
                "indValueSewerageTaxCollected": {
                   "key": "indValueSewerageTaxCollected",
                   "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.23",
                   "yearData": [
                      {
@@ -8946,6 +9347,7 @@ const response = {
                "indNoSewerageTaxCollected": {
                   "key": "indNoSewerageTaxCollected",
                   "label": "Number of Households/properties from which sewerage charges was collected",
+                  "required": true,
                   "displayPriority": "6.24",
                   "yearData": [
                      {
@@ -9039,25 +9441,401 @@ const response = {
                "otherValueSewerageType": {
                   "key": "otherValueSewerageType",
                   "label": "Property Type",
+                  "required": true,
                   "displayPriority": "6.25",
-                  "yearData": [
+                  "replicaCount": 0,
+                  "copyChildFrom": [
                      {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": "",
-                        "max": "",
+                        "key": "otherValueSewerageTaxDm",
+                        "label": "Value of sewerage charges demanded (INR lakhs)",
                         "required": true,
-                        "type": "otherValueSewerageType",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
+                        "displayPriority": "6.26",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
                      },
+                     {
+                        "key": "otherNoSewerageTaxDm",
+                        "label": "Number of Households/properties from which sewerage charges was demanded",
+                        "required": true,
+                        "displayPriority": "6.27",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxDm",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxDm",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxDm",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxDm",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxDm",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "otherValueSewerageTaxCollected",
+                        "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
+                        "required": true,
+                        "displayPriority": "6.28",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "decimalLimit": 2,
+                              "min": 0,
+                              "max": 9999999,
+                              "required": true,
+                              "type": "otherValueSewerageTaxCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     },
+                     {
+                        "key": "otherNoSewerageTaxCollected",
+                        "label": "Number of Households/properties from which sewerage charges was collected",
+                        "required": true,
+                        "displayPriority": "6.29",
+                        "yearData": [
+                           {
+                              "label": "FY 2018-19",
+                              "key": "FY2018-19",
+                              "postion": "0",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxCollected",
+                              "year": "63735a5bd44534713673c1ca",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2019-20",
+                              "key": "FY2019-20",
+                              "postion": "1",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxCollected",
+                              "year": "607697074dff55e6c0be33ba",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2020-21",
+                              "key": "FY2020-21",
+                              "postion": "2",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxCollected",
+                              "year": "606aadac4dff55e6c075c507",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2021-22",
+                              "key": "FY2021-22",
+                              "postion": "3",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxCollected",
+                              "year": "606aaf854dff55e6c075d219",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           },
+                           {
+                              "label": "FY 2022-23",
+                              "key": "FY2022-23",
+                              "postion": "4",
+                              "value": "",
+                              "file": "",
+                              "min": 0,
+                              "max": 9999999999,
+                              "required": true,
+                              "type": "otherNoSewerageTaxCollected",
+                              "year": "606aafb14dff55e6c075d3ae",
+                              "code": [],
+                              "readonly": false,
+                              "formFieldType": "number",
+                              "bottomText": "",
+                              "placeHolder": ""
+                           }
+                        ],
+                        "info": ""
+                     }
+                  ],
+                  "maxChild": 5,
+                  "child": [],
+                  "yearData": [
+                     {},
                      {},
                      {},
                      {},
@@ -9065,397 +9843,33 @@ const response = {
                   ],
                   "info": ""
                },
-               "otherValueSewerageTaxDm": {
-                  "key": "otherValueSewerageTaxDm",
-                  "label": "Value of sewerage charges demanded (INR lakhs)",
-                  "displayPriority": "6.26",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherNoSewerageTaxDm": {
-                  "key": "otherNoSewerageTaxDm",
-                  "label": "Number of Households/properties from which sewerage charges was demanded",
-                  "displayPriority": "6.27",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxDm",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxDm",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxDm",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxDm",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxDm",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherValueSewerageTaxCollected": {
-                  "key": "otherValueSewerageTaxCollected",
-                  "label": "Value of sewerage charges collected from Households/properties (INR lakhs)",
-                  "displayPriority": "6.28",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "decimalLimit": 2,
-                        "min": 0,
-                        "max": 9999999,
-                        "required": true,
-                        "type": "otherValueSewerageTaxCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
-               "otherNoSewerageTaxCollected": {
-                  "key": "otherNoSewerageTaxCollected",
-                  "label": "Number of Households/properties from which sewerage charges was collected",
-                  "displayPriority": "6.29",
-                  "yearData": [
-                     {
-                        "label": "FY 2018-19",
-                        "key": "FY2018-19",
-                        "postion": "0",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxCollected",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxCollected",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2020-21",
-                        "key": "FY2020-21",
-                        "postion": "2",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxCollected",
-                        "year": "606aadac4dff55e6c075c507",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2021-22",
-                        "key": "FY2021-22",
-                        "postion": "3",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxCollected",
-                        "year": "606aaf854dff55e6c075d219",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2022-23",
-                        "key": "FY2022-23",
-                        "postion": "4",
-                        "value": "",
-                        "file": "",
-                        "min": 0,
-                        "max": 9999999999,
-                        "required": true,
-                        "type": "otherNoSewerageTaxCollected",
-                        "year": "606aafb14dff55e6c075d3ae",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "number",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     }
-                  ],
-                  "info": ""
-               },
                "sewerageChrgTarrifSheet": {
                   "key": "sewerageChrgTarrifSheet",
                   "label": "Please provide the sewerage tariff sheet",
+                  "required": true,
                   "displayPriority": "6.30",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/tariffSheet_1b41e678-a258-4c43-9173-16b540f64126.docx",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "sewerageChrgTarrifSheet",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
                         "value": "",
                         "file": {
                            "name": "",
@@ -9465,14 +9879,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "sewerageChrgTarrifSheet",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -9482,6 +9895,7 @@ const response = {
                "omCostDeleverySewerage": {
                   "key": "omCostDeleverySewerage",
                   "label": "What is the O&M cost of service delivery for sewerage ?(INR lakhs)",
+                  "required": true,
                   "displayPriority": "6.31",
                   "yearData": [
                      {
@@ -9580,12 +9994,30 @@ const response = {
                "omCostSewerageService": {
                   "key": "omCostSewerageService",
                   "label": "Please provide the working sheet for O&M cost calculation",
+                  "required": true,
                   "displayPriority": "6.32",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O%20M%20costworking%20sheetsewerage%20services_d884cbc1-35e7-4db7-bdbd-fb8f575ce70d.docx",
+                        "file": "",
+                        "min": "",
+                        "max": "",
+                        "required": true,
+                        "type": "omCostSewerageService",
+                        "year": "63735a5bd44534713673c1ca",
+                        "code": [],
+                        "readonly": false,
+                        "formFieldType": "link",
+                        "bottomText": "",
+                        "placeHolder": ""
+                     },
+                     {
+                        "label": "FY 2019-20",
+                        "key": "FY2019-20",
+                        "postion": "1",
                         "value": "",
                         "file": {
                            "name": "",
@@ -9595,14 +10027,13 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostSewerageService",
-                        "year": "63735a5bd44534713673c1ca",
+                        "year": "607697074dff55e6c0be33ba",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
-                     {},
                      {},
                      {},
                      {}
@@ -9612,6 +10043,7 @@ const response = {
                "signedPdf": {
                   "key": "signedPdf",
                   "label": "Upload Signed PDF",
+                  "required": true,
                   "displayPriority": "7",
                   "yearData": [
                      {
@@ -9619,10 +10051,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
+                        "file": "",
                         "min": "",
                         "max": "",
                         "required": true,
@@ -9642,7 +10071,6 @@ const response = {
                   "info": ""
                }
             }
-            
             ,
             "feedback": {
                "status": null,
@@ -9651,268 +10079,857 @@ const response = {
          }
       ],
       "financialYearTableHeader": {
-         "1.5": [
-            "",
-            "Property Tax Demand Details (Amount in INR Lakhs)",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '1.5': [
+           { label: '', info: '' },
+           {
+             label: 'Property Tax Demand Details (Amount in INR Lakhs)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "1.13": [
-            "",
-            "Property Tax Collection Details (Amount in INR Lakhs)",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '1.13': [
+           { label: '', info: '' },
+           {
+             label: 'Property Tax Collection Details (Amount in INR Lakhs)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.5": [
-            "",
-            "Residential Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.1': [
+           { label: '', info: '' },
+           { label: 'Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.9": [
-            "",
-            "Commercial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.5': [
+           { label: '', info: '' },
+           { label: 'Residential Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.13": [
-            "",
-            "Industrial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.9': [
+           { label: '', info: '' },
+           { label: 'Commercial Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.17": [
-            "",
-            "Government Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.13': [
+           { label: '', info: '' },
+           { label: 'Industrial Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.21": [
-            "",
-            "Institutional Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.17': [
+           { label: '', info: '' },
+           { label: 'Government Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.25": [
-            "",
-            "Other Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.21': [
+           { label: '', info: '' },
+           { label: 'Institutional Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.1": [
-            "",
-            "Water Charges Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '2.25': [
+           { label: '', info: '' },
+           { label: 'Other Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.5": [
-            "",
-            "Water Charges Demand and Collection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '3.1': [
+           { label: '', info: '' },
+           { label: 'Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.11": [
-            "",
-            "Water Connection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.1': [
+           { label: '', info: '' },
+           { label: 'Water Charges Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "5.13": [
-            "",
-            "Residential households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.5': [
+           { label: '', info: '' },
+           { label: 'Water Charges Demand and Collection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.17": [
-            "",
-            "Commercial households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.11': [
+           { label: '', info: '' },
+           { label: 'Water Connection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.21": [
-            "",
-            "Industrial households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.13': [
+           { label: '', info: '' },
+           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.25": [
-            "",
-            "Other households/properties(any other connection type)",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.17': [
+           { label: '', info: '' },
+           { label: 'Commercial households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.30": [
-            "",
-            "Water Charges Tariff Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.21': [
+           { label: '', info: '' },
+           { label: 'Industrial households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.31": [
-            "",
-            "Water Charges: Cost of Service Delivery Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.25': [
+           { label: '', info: '' },
+           {
+             label: 'Other households/properties(any other connection type)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.32": [
-            "",
-            "Working of the O&M Cost- Water Service",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.30': [
+           { label: '', info: '' },
+           { label: 'Water Charges Tariff Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.1": [
-            "",
-            "Sewerage Charges Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.31': [
+           { label: '', info: '' },
+           {
+             label: 'Water Charges: Cost of Service Delivery Details',
+             info: ''
+           },
+           { label: '', info: '' },
+           { label: '',info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.5": [
-            "",
-            "Sewerage Charges Demand and Collection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.32': [
+           { label: '', info: '' },
+           { label: 'Working of the O&M Cost- Water Service', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.11": [
-            "",
-            "Sewerage Connection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.1': [
+           { label: '', info: '' },
+           { label: 'Sewerage Charges Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.13": [
-            "",
-            "Residential households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.5': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges Demand and Collection Details',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.17": [
-            "",
-            "Commercial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.11': [
+           { label: '', info: '' },
+           { label: 'Sewerage Connection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.21": [
-            "",
-            "Industrial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.13': [
+           { label: '', info: '' },
+           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.25": [
-            "",
-            "Other Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.17': [
+           { label: '', info: '' },
+           { label: 'Commercial Properties households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.30": [
-            "",
-            "Sewerage Charges Tariff Details- Sewerage Charges Tariff Sheet",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '6.21': [
+           { label: '', info: '' },
+           { label: 'Industrial Properties households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.31": [
-            "",
-            "Sewerage Charges: Cost of Service Delivery Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.25': [
+           { label: '', info: '' },
+           { label: 'Other Properties households/properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.32": [
-            "",
-            "Working of the O&M Cost- Sewerage Service",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.30': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges Tariff Details',
+             info: ''
+           },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+       { label: '', info: '' }
+         ],
+         '6.31': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges: Cost of Service Delivery Details',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
+         ],
+         '6.32': [
+           { label: '', info: '' },
+           { label: 'Working of the O&M Cost- Sewerage Service', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ]
-      },
+       }
+       ,
       "specialHeaders": {
-         "1.1": "Property Tax Details",
-         "2.1": "Property Register Details",
-         "2.5": "Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)",
-         "3.1": "Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)",
-         "4.1": "Property Tax Valuation Details",
-         "5.1": "Water Charges Details",
-         "6.1": "Sewerage Charges Details",
-         "7": "Download and Upload Signed PDF"
+         '1.1': { label: 'Property Tax Details', info: '' },
+         '2.1': { label: 'Property Register Details', info: '' },
+         '2.5': {
+            label: 'Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)',
+           info: ''
+         },
+         '3.1': {
+           label: 'Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)',
+           info: ''
+         },
+         '4.1': { label: 'Property Tax Valuation Details', info: '' },
+         '5.1': { label: 'Water Charges Details', info: '' },
+         '5.13': {
+            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            info: ''
+         },
+         '6.1': { label: 'Sewerage Charges Details', info: '' },
+         '6.13': {
+            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            info: ''
+         },
+         '7': { label: 'Download and Upload Signed PDF', info: '' },
+       }
+       ,
+      "skipLogicDependencies": {
+         'data.doesUserChargesDmnd.yearData.0': {
+            'userChargesDmnd': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            'userChargesCollection': {
+               'value': 'Yes',
+               'years': [0]
+            }
+         },
+         'data.notificationWaterCharges.yearData.0': {
+            'entityWaterCharges': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            'notificationWaterChargesFile': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            "waterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "cuWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "arWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "waterChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "cuWaterChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "arWaterChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "waterChrgConnectionDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "waterChrgConnectionCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resValueWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resNoWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resValueWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resNoWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comValueWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comNoWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comValueWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comNoWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indValueWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indNoWaterChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indValueWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indNoWaterChrgCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "othersValueWaterType": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "undefined": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "waterChrgTariffDetails": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "omCostDeleveryWater": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "omCostWaterService": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            }
+         },
+         'data.entityWaterCharges.yearData.0': {
+            'entityNameWaterCharges': {
+               'value': ["State Department", "Parastatal Agency", "Others"],
+               'years': [0]
+            }
+         },
+         'data.doesColSewerageCharges.yearData.0': {
+            'entitySewerageCharges': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            'copyGazetteNotificationSewerage': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            "totalSewergeChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "curSewergeChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "arrSewergeChrgDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "totalSewergeChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "curSewergeChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "arrSewergeChrgCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "totalSewergeConnectionDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "totalSewergeConnectionCol": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resValueSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resNoSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resValueSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "resNoSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comValueSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comNoSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comValueSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "comNoSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indValueSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indNoSewerageTaxDm": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indValueSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "indNoSewerageTaxCollected": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "otherValueSewerageType": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "sewerageChrgTarrifSheet": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "omCostDeleverySewerage": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            },
+            "omCostSewerageService": {
+               "value": "Yes",
+               "years": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+               ]
+            }
+         },
+         'data.entitySewerageCharges.yearData.0': {
+            'entityNaSewerageCharges': {
+               'value': ["State Department", "Parastatal Agency", "Others"],
+               'years': [0]
+            }
+         }
       }
    }
 };
@@ -9949,7 +10966,6 @@ export class PropertyTaxService {
                return res;
             })
          );
-
    }
 
    postData(body) {
