@@ -29,7 +29,7 @@
                     option?.label}}</option>
             </select>
 
-            <a class="btn btn-primary w-100" href="" target="_blank"
+            <a class="btn btn-primary w-100" [href]="yearItem?.controls?.value?.value" target="_blank"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'link'">Download</a>
 
 
@@ -91,15 +91,22 @@
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
-                    <tr [ngClass]="['2.5'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
+                    <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
                         *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
-                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
+                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
+                            <mat-icon style="font-size: 18px;"
+                                *ngIf="specialHeaders[item?.value?.controls?.position?.value]?.info"
+                                [matTooltip]="specialHeaders[item?.value?.controls?.position?.value]?.info">info
+                            </mat-icon>
+                        </th>
                     </tr>
                     <tr class="table-gray"
                         *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0 && canShowHeader(item?.value?.controls?.position?.value)">
                         <th
-                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
-                            {{ heading }}</th>
+                            *ngFor="let year of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
+                            {{ year.label }} <mat-icon style="font-size: 18px;" *ngIf="year.info"
+                                [matTooltip]="year.info">info</mat-icon>
+                        </th>
                     </tr>
 
                     <tr *ngIf="item?.value?.controls?.position?.value == '7'">

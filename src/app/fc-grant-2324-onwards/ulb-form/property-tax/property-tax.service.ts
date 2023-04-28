@@ -138,30 +138,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "notificationFile",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -937,8 +918,12 @@ const response = {
                         "label": "Sewerage charges"
                      },
                      {
-                        "id": "Solid-waste management charges & Drainage charges",
-                        "label": "Solid-waste management charges & Drainage charges"
+                        "id": "Solid-waste management charges",
+                        "label": "Solid-waste management charges"
+                     },
+                     {
+                        "id": "Drainage charges",
+                        "label": "Drainage charges"
                      },
                      {
                         "id": "others",
@@ -4599,7 +4584,7 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -4655,7 +4640,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4761,30 +4746,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "notificationWaterChargesFile",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -7120,7 +7086,7 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7266,7 +7232,7 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7322,7 +7288,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7428,30 +7394,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "copyGazetteNotificationSewerage",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -9787,7 +9734,7 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9933,7 +9880,7 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "",
+                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/dashboard/municipal_bond_repository/Indicative%20Process%20of%20Issuance%20of%20Municipal%20Debt%20Securities_p_54834d15-dcad-4599-915e-d0b31e36fc0c.pdf",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9990,30 +9937,11 @@ const response = {
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "file": {
-                           "name": "",
-                           "url": ""
-                        },
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "signedPdf",
-                        "year": "607697074dff55e6c0be33ba",
-                        "code": [],
-                        "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -10021,7 +9949,6 @@ const response = {
                   "info": ""
                }
             }
-            
             ,
             "feedback": {
                "status": null,
@@ -10030,296 +9957,331 @@ const response = {
          }
       ],
       "financialYearTableHeader": {
-         "1.5": [
-            "",
-            "Property Tax Demand Details (Amount in INR Lakhs)",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '1.5': [
+           { label: '', info: '' },
+           {
+             label: 'Property Tax Demand Details (Amount in INR Lakhs)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "1.13": [
-            "",
-            "Property Tax Collection Details (Amount in INR Lakhs)",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '1.13': [
+           { label: '', info: '' },
+           {
+             label: 'Property Tax Collection Details (Amount in INR Lakhs)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.1": [
-            "",
-            "Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.1': [
+           { label: '', info: '' },
+           { label: 'Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.5": [
-            "",
-            "Residential Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.5': [
+           { label: '', info: '' },
+           { label: 'Residential Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.9": [
-            "",
-            "Commercial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.9': [
+           { label: '', info: '' },
+           { label: 'Commercial Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.13": [
-            "",
-            "Industrial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.13': [
+           { label: '', info: '' },
+           { label: 'Industrial Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.17": [
-            "",
-            "Government Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.17': [
+           { label: '', info: '' },
+           { label: 'Government Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.21": [
-            "",
-            "Institutional Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.21': [
+           { label: '', info: '' },
+           { label: 'Institutional Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "2.25": [
-            "",
-            "Other Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '2.25': [
+           { label: '', info: '' },
+           { label: 'Other Properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "3.1": [
-            "",
-            "Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '3.1': [
+           { label: '', info: '' },
+           { label: 'Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.1": [
-            "",
-            "Water Charges Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.1': [
+           { label: '', info: '' },
+           { label: 'Water Charges Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "5.5": [
-            "",
-            "Water Charges Demand and Collection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.5': [
+           { label: '', info: '' },
+           { label: 'Water Charges Demand and Collection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.11": [
-            "",
-            "Water Connection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.11': [
+           { label: '', info: '' },
+           { label: 'Water Connection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.13": [
-            "",
-            "Residential households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.13': [
+           { label: '', info: '' },
+           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.17": [
-            "",
-            "Commercial households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.17': [
+           { label: '', info: '' },
+           { label: 'Commercial households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.21": [
-            "",
-            "Industrial households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.21': [
+           { label: '', info: '' },
+           { label: 'Industrial households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.25": [
-            "",
-            "Other households/properties(any other connection type)",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '5.25': [
+           { label: '', info: '' },
+           {
+             label: 'Other households/properties(any other connection type)',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "5.30": [
-            "",
-            "Water Charges Tariff Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.30': [
+           { label: '', info: '' },
+           { label: 'Water Charges Tariff Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "5.31": [
-            "",
-            "Water Charges: Cost of Service Delivery Details",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.31': [
+           { label: '', info: '' },
+           {
+             label: 'Water Charges: Cost of Service Delivery Details',
+             info: ''
+           },
+           { label: '', info: '' },
+           { label: '',info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "5.32": [
-            "",
-            "Working of the O&M Cost- Water Service",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '5.32': [
+           { label: '', info: '' },
+           { label: 'Working of the O&M Cost- Water Service', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.1": [
-            "",
-            "Sewerage Charges Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.1': [
+           { label: '', info: '' },
+           { label: 'Sewerage Charges Details', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' }
          ],
-         "6.5": [
-            "",
-            "Sewerage Charges Demand and Collection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.5': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges Demand and Collection Details',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.11": [
-            "",
-            "Sewerage Connection Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.11': [
+           { label: '', info: '' },
+           { label: 'Sewerage Connection Details', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.13": [
-            "",
-            "Residential households/properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.13': [
+           { label: '', info: '' },
+           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.17": [
-            "",
-            "Commercial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.17': [
+           { label: '', info: '' },
+           { label: 'Commercial Properties households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.21": [
-            "",
-            "Industrial Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.21': [
+           { label: '', info: '' },
+           { label: 'Industrial Properties households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.25": [
-            "",
-            "Other Properties",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.25': [
+           { label: '', info: '' },
+           { label: 'Other Properties households/properties', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.30": [
-            "",
-            "Sewerage Charges Tariff Details- Sewerage Charges Tariff Sheet",
-            "",
-            "",
-            "",
-            "",
-            ""
+         '6.30': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges Tariff Details',
+             info: ''
+           },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+           { label: '', info: '' },
+       { label: '', info: '' }
          ],
-         "6.31": [
-            "",
-            "Sewerage Charges: Cost of Service Delivery Details",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.31': [
+           { label: '', info: '' },
+           {
+             label: 'Sewerage Charges: Cost of Service Delivery Details',
+             info: ''
+           },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ],
-         "6.32": [
-            "",
-            "Working of the O&M Cost- Sewerage Service",
-            "2018-19",
-            "2019-20",
-            "2020-21",
-            "2021-22",
-            "2022-23"
+         '6.32': [
+           { label: '', info: '' },
+           { label: 'Working of the O&M Cost- Sewerage Service', info: '' },
+           { label: '2018-19', info: '' },
+           { label: '2019-20', info: '' },
+           { label: '2020-21', info: '' },
+           { label: '2021-22', info: '' },
+           { label: '2022-23', info: '' }
          ]
-      },
+       }
+       ,
       "specialHeaders": {
-         "1.1": "Property Tax Details",
-         "2.1": "Property Register Details",
-         "2.5": "Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)",
-         "3.1": "Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)",
-         "4.1": "Property Tax Valuation Details",
-         "5.1": "Water Charges Details",
-         "6.1": "Sewerage Charges Details",
-         "7": "Download and Upload Signed PDF"
-      },
-      "skipLogicDependencies": {
-         'data.notificationPropertyTax.yearData.0': {
-            'userChargesCollection': {
-               'value': 'Yes',
-               'years': [0]
-            }
+         '1.1': { label: 'Property Tax Details', info: '' },
+         '2.1': { label: 'Property Register Details', info: '' },
+         '2.5': {
+            label: 'Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)',
+           info: ''
          },
+         '3.1': {
+           label: 'Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)',
+           info: ''
+         },
+         '4.1': { label: 'Property Tax Valuation Details', info: '' },
+         '5.1': { label: 'Water Charges Details', info: '' },
+         '5.13': {
+            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            info: ''
+         },
+         '6.1': { label: 'Sewerage Charges Details', info: '' },
+         '6.13': {
+            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            info: ''
+         },
+         '7': { label: 'Download and Upload Signed PDF', info: '' },
+       }
+       ,
+      "skipLogicDependencies": {
          'data.doesUserChargesDmnd.yearData.0': {
             'userChargesDmnd': {
+               'value': 'Yes',
+               'years': [0]
+            },
+            'userChargesCollection': {
                'value': 'Yes',
                'years': [0]
             }
