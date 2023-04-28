@@ -196,6 +196,7 @@ export class PropertyTaxComponent implements OnInit {
       _id: item._id,
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
+      downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
