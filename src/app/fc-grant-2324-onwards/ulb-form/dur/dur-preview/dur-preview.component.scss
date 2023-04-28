@@ -40,17 +40,17 @@
 }
 
 .se-r {
-    margin-top: 2%;
+    margin-top: 0.75rem;
 }
 
 .st-n {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .m-top {
-    margin-top: 1%;
-    margin-bottom: 2%;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 tr {
@@ -69,8 +69,8 @@ tr {
 }
 
 .m-b {
-    margin-bottom: 5%;
-    margin-top: 1%;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .pd-row {
@@ -98,4 +98,8 @@ table>tbody>tr>td,
 .name-row {
     text-align: center;
     margin-top: 4%;
+}
+.f-normal {
+margin-left:  5px;
+font-weight: normal;
 }

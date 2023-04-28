@@ -12,7 +12,7 @@
                 <div class="col-sm-12 h-uti-p" [ngClass]="{'heading-p':!parentData, 'heading-ut-p' : parentData }">
                     <span>
                       GRANT UTILISATION REPORT FOR THE FIFTEENTH COMMISSION RECOMMENDED
-                      TIED GRANT RECEIVED DURING THE AWARD PERIOD 2023-24 TO 2025-26.
+                      TIED GRANT RECEIVED DURING THE AWARD PERIOD 2021-22 TO 2025-26.
                   </span>
                     <hr style="border: 1px solid #FFFFFF; margin: 5px 0;">
                 </div>
@@ -26,19 +26,26 @@
     </div>
     <div class="row se-r pd-row-n">
         <div class="col-sm-9 st-n">
-            <span>Name of State:- <span>{{ state }}</span></span>
+            <span>Name of State:- <span class="f-normal">{{ state }}</span></span>
         </div>
         <div class="col-sm-3 pdf-hide" style="text-align: right;">
-            <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
+            <button *ngIf="!parentData" id="donwloadButton" style="height: 36px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
               Download as PDF
           </button>
         </div>
-        <div class="col-sm-12 st-n m-top">
+        <div class="col-sm-12 st-n">
             <span>
               Name of City/UA[MPC/NMPC]:-
-              <span>{{ ulb }}</span>
+              <span class="f-normal">{{ ulb }}</span>
             </span>
         </div>
+        <div class="col-sm-12 st-n m-top">
+            <span>
+                Form Current Status:
+              <span class="f-normal">{{ data?.status }}</span>
+            </span>
+        </div>
+        
     </div>
     <div class="row pd-row">
         <div class="col-sm-12 ff-table">

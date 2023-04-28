@@ -189,6 +189,7 @@ tr {
       this.state = sessionStorage.getItem("stateName");
       this.ulb = sessionStorage.getItem("ulbName");
     }
+console.log('preview data', this.data);
 
   }
 

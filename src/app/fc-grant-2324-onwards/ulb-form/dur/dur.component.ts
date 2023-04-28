@@ -43,6 +43,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isFormFinalSubmit : boolean = false;
   canTakeAction:boolean = false;
   leftMenuSubs:any;
+  statusShow:string = '';
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -85,6 +86,7 @@ export class DurComponent implements OnInit, OnDestroy {
       setInterval(() => this.isLoaded = true);
       this.questionresponse = res;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.statusShow = res?.data[0]?.status;
       // this.getActionRes();
       this.formDisable(res?.data[0]);
       if(loadProjects) {
@@ -189,7 +191,7 @@ export class DurComponent implements OnInit, OnDestroy {
     // console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
     let previewData = {
-      status: "",
+      status: this.statusShow,
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",

@@ -6,6 +6,7 @@ import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.com
 import { StateFormComponent } from './state-form.component';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
+import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
         path: "water-rejenuvation-new",
         component: ProjectsWssComponent,
       },
+      {
+        path: "action-plan",
+        component: ActionPlanSliComponent,
+      },
+      
       
     ],
   },
