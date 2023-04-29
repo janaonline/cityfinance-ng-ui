@@ -5,7 +5,7 @@
                     src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
+            <span style="display: block;">Details of Property Tax and User Charges</span>
             <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
@@ -20,9 +20,9 @@
         <div class="col-sm-12">
             <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
                 <div class="card-body" *ngIf="tab?.id">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-sm-12 m-hed text-center">{{tab?.label}}</div>
-                    </div>
+                    </div> -->
 
                     <table class="table mt-3" *ngIf="tab?.id == 's3'">
 
