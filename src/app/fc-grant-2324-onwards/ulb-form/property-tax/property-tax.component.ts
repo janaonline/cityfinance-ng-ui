@@ -296,7 +296,9 @@ export class PropertyTaxComponent implements OnInit {
     const dialogRef = this.dialog.open(PreviewComponent, {
       id: 'UlbFisPreviewComponent',
       data: {
-        showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        showData: this.form.getRawValue(),
+        financialYearTableHeader: this.financialYearTableHeader,
+        specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
