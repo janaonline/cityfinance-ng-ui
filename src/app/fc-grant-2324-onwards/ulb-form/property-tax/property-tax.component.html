@@ -18,7 +18,8 @@
                 yearItem?.controls?.value?.value == '0'" style="color: #c9880f">
                 contains "0" do you still want to continue?
             </small>
-            <small *ngIf="yearItem._parent | yearComparision: yearIndex" style="color: #c9880f; display: block;">Prior year amount is
+            <small *ngIf="yearItem._parent | yearComparision: yearIndex" style="color: #c9880f; display: block;">Prior
+                year amount is
                 greater</small>
             <small class="text-danger"
                 *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
@@ -70,14 +71,15 @@
                         </div>
                     </button>
                     <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                        (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)" type="file" accept=".pdf" #file>
+                        (change)="uploadFile($event, yearItem?.controls?.file)" type="file"
+                        [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                    <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url}}"
                         target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
                         </mat-icon></a>
                     <a *ngIf="!yearItem?.controls?.readonly?.value"
-                        (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)" class="w-10"
+                        (click)="uploadFile($event, yearItem?.controls?.file, true)" class="w-10"
                         [ngClass]="{'pe-none': isDisabled}">
                         <img src="../../../assets/form-icon/close_black_24dp.svg">
                     </a>

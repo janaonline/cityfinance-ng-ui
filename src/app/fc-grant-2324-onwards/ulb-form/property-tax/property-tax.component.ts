@@ -212,6 +212,7 @@ export class PropertyTaxComponent implements OnInit {
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {
+        allowedFileTypes: [{ value: item.allowedFileTypes, disabled: true }],
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
           name: [item.file.name, item.required ? [Validators.required] : []],
@@ -266,18 +267,14 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
-    console.log({ event, fileType, control })
+  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false) {
+    console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
-    const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    const fileExtension = file.name.split('.').pop();
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
-    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
-    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
 
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe((s3Response: any) => {
