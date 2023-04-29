@@ -3,14 +3,14 @@
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
 
-<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex">
+<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                 [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
                 class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
                 [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
-                [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
+                [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
                 placeholder="{{yearItem?.controls?.placeholder?.value}}" />
             <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
 
@@ -102,7 +102,7 @@
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
                     <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
-                        *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
+                        *ngIf="specialHeaders[item?.value?.controls?.position?.value] && canShowHeader(item?.value?.controls?.position?.value)">
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
                             <mat-icon style="font-size: 18px;"
                                 *ngIf="specialHeaders[item?.value?.controls?.position?.value]?.info"
@@ -157,10 +157,12 @@
                         <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
                             <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
                             <td>
-                                <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                                <p *ngIf="item?.value?.controls?.copyChildFrom?.value?.length > 1">{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
                                 <div style="position: relative;">
                                     <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
-                                            yearItem: child}">
+                                            yearItem: child,
+                                            hideErrors: true
+                                        }">
                                     </ng-container>
                                     <button
                                         (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
@@ -170,7 +172,6 @@
                                 </div>
                             </td>
                             <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
-                                <p></p>
                                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                         yearItem: yearItem,
                                         yearIndex: r_i

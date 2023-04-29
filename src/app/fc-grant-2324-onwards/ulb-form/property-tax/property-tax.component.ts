@@ -23,7 +23,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { PreviewComponent } from './preview/preview.component';
-// import { DateAdapter } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -88,9 +88,11 @@ export class PropertyTaxComponent implements OnInit {
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
-    // private dateAdapter: DateAdapter<Date>,
+    private dateAdapter: DateAdapter<Date>,
     private propertyTaxService: PropertyTaxService
-  ) { }
+  ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit(): void {
 
@@ -391,7 +393,6 @@ export class PropertyTaxComponent implements OnInit {
         value: updatedLabel,
       })
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
 
 
@@ -420,7 +421,6 @@ export class PropertyTaxComponent implements OnInit {
     item.patchValue({
       replicaCount,
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
   async addChildQuestions(item: FormGroup) {
     const copyChildFrom = item.controls?.copyChildFrom.value as string[];
@@ -463,8 +463,6 @@ export class PropertyTaxComponent implements OnInit {
         }, item, replicaCount)))
       }))
     })
-    this.updateDependentQuestionsForSkipLogic(item);
-
   }
 
   get notificationWaterChargesCtrl() {
@@ -486,22 +484,6 @@ export class PropertyTaxComponent implements OnInit {
       return false;
     }
     return true;
-  }
-
-  updateDependentQuestionsForSkipLogic(item: FormGroup) {
-    const key = item.controls?.key?.value;
-    const child = item.getRawValue().child;
-    console.log({ key, child: item.getRawValue().child });
-    if(!child) return;
-    // const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    if(key == 'userChargesDmnd') {
-      this.notificationWaterChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Water charges") ? 'Yes' : 'No'
-      })
-      this.doesColSewerageChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Sewerage charges") ? 'Yes' : 'No'
-      })
-    }
   }
 
   submit(isDraft = true) {
