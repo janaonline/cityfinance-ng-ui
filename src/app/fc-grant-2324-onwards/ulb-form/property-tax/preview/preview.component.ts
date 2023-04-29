@@ -24,7 +24,7 @@ export class PreviewComponent implements OnInit {
   stateName: string = '';
   ulbId: string = "";
   dialogRef;
-  yearList: string[] = ['#', '2018-19', '2019-20','2020-21', '2021-22', '2022-23'];
+  yearList: string[] = ['#', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(
@@ -41,7 +41,7 @@ export class PreviewComponent implements OnInit {
     }
     this.stateName = this.userData?.stateName;
   }
-  
+
   styleForPDF = `<style>
     .header-p {
         background-color: #047474;
@@ -99,6 +99,17 @@ export class PreviewComponent implements OnInit {
       font-size: 6px;
       text-align: left;
     }
+    .table-gray {
+      background-color: #c3c3c3;
+      color: black;
+      text-align: center;
+    }
+    
+    .table-main-heading {
+      background-color: #6bbdc9;
+      color: black;
+      text-align: center;
+    }
   </style>`;
   ngOnInit(): void {
     //preview data
@@ -117,8 +128,8 @@ export class PreviewComponent implements OnInit {
     this._questionnaireService.downloadPDF({ html: this.styleForPDF + this._html.nativeElement.outerHTML }).subscribe(res => {
       this.propertyService.downloadFile(res.slice(0), "pdf", "fiscalRanking_2022-23.pdf");
     }, err => {
-        this.onGettingError(' "Failed to download PDF. Please try after sometime."');
-      }
+      this.onGettingError(' "Failed to download PDF. Please try after sometime."');
+    }
     );
   }
   private onGettingError(message: string) {
@@ -143,13 +154,16 @@ export class PreviewComponent implements OnInit {
     setTimeout(() => {
       this.downloadAsPdf();
       this.data.additionalData.pristine = true;
-    },2000)
+    }, 2000)
   }
 
 
   sortPosition(itemA: KeyValue<number, any>, itemB: KeyValue<number, any>) {
-    const a = +itemA.value.position;
-    const b = +itemB.value.position;
-    return a > b ? 1 : (b > a ? -1 : 0);;
+    const [integerA, decimalA] = itemA.value.position?.split('.').map(i => +i);
+    const [integerB, decimalB] = itemB.value.position?.split('.').map(i => +i);
+    if (integerA != integerB) {
+      return integerA > integerB ? 1 : (integerB > integerA ? -1 : 0);;
+    }
+    return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 }
