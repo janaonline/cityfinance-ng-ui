@@ -159,8 +159,11 @@ export class PreviewComponent implements OnInit {
 
 
   sortPosition(itemA: KeyValue<number, any>, itemB: KeyValue<number, any>) {
-    const a = +itemA.value.position;
-    const b = +itemB.value.position;
-    return a > b ? 1 : (b > a ? -1 : 0);;
+    const [integerA, decimalA] = itemA.value.position?.split('.').map(i => +i);
+    const [integerB, decimalB] = itemB.value.position?.split('.').map(i => +i);
+    if (integerA != integerB) {
+      return integerA > integerB ? 1 : (integerB > integerA ? -1 : 0);;
+    }
+    return decimalA > decimalB ? 1 : (decimalB > decimalA ? -1 : 0);;
   }
 }

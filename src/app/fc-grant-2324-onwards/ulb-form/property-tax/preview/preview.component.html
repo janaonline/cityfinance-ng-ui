@@ -54,6 +54,24 @@
                                             }}</span>
                                     </td>
                                 </tr>
+                                <tr *ngFor="let child of tabData?.value?.child; let r_i=index">
+                                    <th class="th" scope="row" width="5%">{{ child.position }}.{{ child?.replicaNumber }}</th>
+                                    <th class="th" scope="row" width="45%">
+                                        <div>{{ child.label }} ({{ child?.replicaNumber }})</div>
+                                        <div>{{ child.value }}</div>
+                                    </th>
+                                    <td class="td" width="10%"
+                                        *ngFor="let elem of child.yearData; let y_i=index">
+                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                                target="_blank">{{elem?.file?.name}}</a></span>
+                                        <span>{{
+                                            elem?.formFieldType == 'number'
+                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            : elem?.value
+                                            }}</span>
+                                    </td>
+                                </tr>
                             </ng-container>
                         </tbody>
                     </table>
