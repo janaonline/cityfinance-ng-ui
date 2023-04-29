@@ -134,7 +134,10 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
                         "min": "",
                         "max": "",
                         "required": true,
@@ -4700,7 +4703,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4801,7 +4804,10 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
                         "min": "",
                         "max": "",
                         "required": true,
@@ -7384,7 +7390,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7485,7 +7491,10 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
                         "min": "",
                         "max": "",
                         "required": true,
@@ -10084,6 +10093,7 @@ const response = {
                   "info": ""
                }
             }
+            
             ,
             "feedback": {
                "status": null,
@@ -10187,15 +10197,6 @@ const response = {
            { label: '2020-21', info: '' },
            { label: '2021-22', info: '' },
            { label: '2022-23', info: '' }
-         ],
-         '5.1': [
-           { label: '', info: '' },
-           { label: 'Water Charges Details', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
          ],
          '5.5': [
            { label: '', info: '' },
