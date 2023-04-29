@@ -139,9 +139,7 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf",
-                           "xls",
-                           "xlsx"
+                           "pdf"
                         ],
                         "min": "",
                         "max": "",
@@ -4674,7 +4672,9 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf"
+                           "pdf",
+                           "xls",
+                           "xlsx"
                         ],
                         "min": "",
                         "max": "",
@@ -4711,7 +4711,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -4817,9 +4817,7 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf",
-                           "xls",
-                           "xlsx"
+                           "pdf"
                         ],
                         "min": "",
                         "max": "",
@@ -7219,7 +7217,9 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf"
+                           "pdf",
+                           "xls",
+                           "xlsx"
                         ],
                         "min": "",
                         "max": "",
@@ -7372,7 +7372,9 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf"
+                           "pdf",
+                           "xls",
+                           "xlsx"
                         ],
                         "min": "",
                         "max": "",
@@ -7409,7 +7411,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7515,9 +7517,7 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf",
-                           "xls",
-                           "xlsx"
+                           "pdf"
                         ],
                         "min": "",
                         "max": "",
@@ -9917,7 +9917,9 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf"
+                           "pdf",
+                           "xls",
+                           "xlsx"
                         ],
                         "min": "",
                         "max": "",
@@ -10070,7 +10072,9 @@ const response = {
                            "url": ""
                         },
                         "allowedFileTypes": [
-                           "pdf"
+                           "pdf",
+                           "xls",
+                           "xlsx"
                         ],
                         "min": "",
                         "max": "",
@@ -10311,15 +10315,6 @@ const response = {
          '5.32': [
            { label: '', info: '' },
            { label: 'Working of the O&M Cost- Water Service', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
-         ],
-         '6.1': [
-           { label: '', info: '' },
-           { label: 'Sewerage Charges Details', info: '' },
            { label: '', info: '' },
            { label: '', info: '' },
            { label: '', info: '' },

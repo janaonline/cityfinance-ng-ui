@@ -102,7 +102,7 @@
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
                     <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
-                        *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
+                        *ngIf="specialHeaders[item?.value?.controls?.position?.value] && canShowHeader(item?.value?.controls?.position?.value)">
                         <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
                             <mat-icon style="font-size: 18px;"
                                 *ngIf="specialHeaders[item?.value?.controls?.position?.value]?.info"
@@ -157,7 +157,7 @@
                         <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
                             <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
                             <td>
-                                <p>{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                                <p *ngIf="item?.value?.controls?.copyChildFrom?.value?.length > 1">{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
                                 <div style="position: relative;">
                                     <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                             yearItem: child,
@@ -172,7 +172,6 @@
                                 </div>
                             </td>
                             <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
-                                <p></p>
                                 <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                         yearItem: yearItem,
                                         yearIndex: r_i
