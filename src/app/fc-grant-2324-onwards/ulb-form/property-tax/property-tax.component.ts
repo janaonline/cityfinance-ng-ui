@@ -393,7 +393,6 @@ export class PropertyTaxComponent implements OnInit {
         value: updatedLabel,
       })
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
 
 
@@ -422,7 +421,6 @@ export class PropertyTaxComponent implements OnInit {
     item.patchValue({
       replicaCount,
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
   async addChildQuestions(item: FormGroup) {
     const copyChildFrom = item.controls?.copyChildFrom.value as string[];
@@ -465,8 +463,6 @@ export class PropertyTaxComponent implements OnInit {
         }, item, replicaCount)))
       }))
     })
-    this.updateDependentQuestionsForSkipLogic(item);
-
   }
 
   get notificationWaterChargesCtrl() {
@@ -488,22 +484,6 @@ export class PropertyTaxComponent implements OnInit {
       return false;
     }
     return true;
-  }
-
-  updateDependentQuestionsForSkipLogic(item: FormGroup) {
-    const key = item.controls?.key?.value;
-    const child = item.getRawValue().child;
-    console.log({ key, child: item.getRawValue().child });
-    if(!child) return;
-    // const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    if(key == 'userChargesDmnd') {
-      this.notificationWaterChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Water charges") ? 'Yes' : 'No'
-      })
-      this.doesColSewerageChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Sewerage charges") ? 'Yes' : 'No'
-      })
-    }
   }
 
   submit(isDraft = true) {
