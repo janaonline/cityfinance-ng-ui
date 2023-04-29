@@ -47,7 +47,7 @@ const routes: Routes = [
       {
         path: "ptax",
         component: PropertyTaxComponent,
-        // canDeactivate: [ConfirmationGuard]
+        canDeactivate: [ConfirmationGuard]
       },
       {
         path: "28SLBsForm",
