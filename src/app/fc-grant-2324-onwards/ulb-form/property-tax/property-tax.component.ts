@@ -23,7 +23,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { PreviewComponent } from './preview/preview.component';
-// import { DateAdapter } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -88,9 +88,11 @@ export class PropertyTaxComponent implements OnInit {
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
-    // private dateAdapter: DateAdapter<Date>,
+    private dateAdapter: DateAdapter<Date>,
     private propertyTaxService: PropertyTaxService
-  ) { }
+  ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit(): void {
 
