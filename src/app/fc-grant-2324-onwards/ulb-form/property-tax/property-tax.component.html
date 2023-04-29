@@ -73,7 +73,7 @@
                         (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)" type="file" accept=".pdf" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                    <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url}}"
                         target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
                         </mat-icon></a>
                     <a *ngIf="!yearItem?.controls?.readonly?.value"

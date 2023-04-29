@@ -10405,7 +10405,7 @@ const response = {
          },
          '6.1': { label: 'Sewerage Charges Details', info: '' },
          '6.13': {
-            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            label: 'Sewerage Charges Details by household/property type',
             info: ''
          },
          '7': { label: 'Download and Upload Signed PDF', info: '' },

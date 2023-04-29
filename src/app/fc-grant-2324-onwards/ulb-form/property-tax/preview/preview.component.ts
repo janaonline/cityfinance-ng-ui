@@ -104,11 +104,13 @@ export class PreviewComponent implements OnInit {
       color: black;
       text-align: center;
     }
-    
     .table-main-heading {
       background-color: #6bbdc9;
       color: black;
       text-align: center;
+    }
+    .file-link {
+      word-break: break-all;
     }
   </style>`;
   ngOnInit(): void {
