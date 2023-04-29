@@ -4711,7 +4711,7 @@ const response = {
                         "type": "notificationWaterCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7409,7 +7409,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": false,
+                        "readonly": true,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -10250,7 +10250,7 @@ const response = {
          ],
          '5.13': [
            { label: '', info: '' },
-           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: 'Residential households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10259,7 +10259,7 @@ const response = {
          ],
          '5.17': [
            { label: '', info: '' },
-           { label: 'Commercial households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: 'Commercial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10268,7 +10268,7 @@ const response = {
          ],
          '5.21': [
            { label: '', info: '' },
-           { label: 'Industrial households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: 'Industrial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10349,7 +10349,7 @@ const response = {
          ],
          '6.13': [
            { label: '', info: '' },
-           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: 'Residential households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10358,7 +10358,7 @@ const response = {
          ],
          '6.17': [
            { label: '', info: '' },
-           { label: 'Commercial Properties households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: 'Commercial Properties households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10367,7 +10367,7 @@ const response = {
          ],
          '6.21': [
            { label: '', info: '' },
-           { label: 'Industrial Properties households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: 'Industrial Properties households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10440,7 +10440,7 @@ const response = {
             label: 'Sewerage Charges Details by household/property type',
             info: ''
          },
-         '7': { label: 'Download and Upload Signed PDF', info: '' },
+         '7.1': { label: 'Download and Upload Signed PDF', info: '' },
        }
        ,
       "skipLogicDependencies": {

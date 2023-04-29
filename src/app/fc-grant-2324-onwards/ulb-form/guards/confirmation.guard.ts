@@ -5,6 +5,8 @@ import { UlbFormComponent } from '../ulb-form.component';
 import { SweetAlert } from 'sweetalert/typings/core';
 const swal: SweetAlert = require("sweetalert");
 
+const reactiveFromForms = ['PropertyTaxComponent']
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +18,8 @@ export class ConfirmationGuard implements CanDeactivate<any> {
     nextState: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     // console.log('hasUnsavedChanges', component.webForm.hasUnsavedChanges)
-    console.log(nextState.url);
-    if (nextState.url != '/rankings/home' && component?.webForm?.hasUnsavedChanges) {
+    console.log('conponent', component);
+    if (nextState.url != '/rankings/home' && this.checkHasUnsavedChanges(component)) {
       return swal(
         "Unsaved Changes!",
         `You have some unsaved changes on this page. Do you wish to save your data as draft?`,
@@ -39,5 +41,13 @@ export class ConfirmationGuard implements CanDeactivate<any> {
       );
     }
     return true;
+  }
+
+  checkHasUnsavedChanges(component) {
+    if(reactiveFromForms.includes(component.constructor.name)) {
+      return !component?.form.pristine;
+    } else {
+      return component?.webForm?.hasUnsavedChanges;
+    }
   }
 }
