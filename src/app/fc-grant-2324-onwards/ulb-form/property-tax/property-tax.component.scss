@@ -246,7 +246,8 @@
 
 
 .mat-datepicker-input {
-    width: 80px;
+    border: none;
+    width: 100%;
 }
 
 ::ng-deep .st-title {
@@ -352,6 +353,12 @@ table {
         color: black;
         text-align: center;
     }
+    
+    .table-main-heading {
+        background-color: #6bbdc9;
+        color: black;
+        text-align: center;
+    }
 
     .whole-number {
         font-size: 16px;
@@ -377,3 +384,11 @@ table {
 .btn-pre {
     background-color: #CFCFCF;
 }
+.edit-button {
+    position: absolute;
+    right: 0;
+    top: 1px;   
+}
+// .form-select {
+//     width: fit-content;
+// }

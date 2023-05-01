@@ -12,7 +12,11 @@ export class ReviewApplicationComponent implements OnInit {
     private commonService: NewCommonService,
     private route: ActivatedRoute,
     private stateServices: State2223Service
-  ) {}
+  ) { 
+     this.design_year = this.years["2022-23"];
+    }
+    years = JSON.parse(localStorage.getItem("Years"));
+    design_year = '';
 
   //formId = "62aa1b04729673217e5ca3aa";
   formId = "62aa1cc9c9a98b2254632a8e";
@@ -27,6 +31,7 @@ export class ReviewApplicationComponent implements OnInit {
   sideMenuItem;
   backRouter = '';
   nextRouter = '';
+  formBaseUrl:string = 'ulbform2223';
   ngOnInit(): void {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();

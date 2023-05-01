@@ -9,7 +9,7 @@
           <label for="form">Select Form:</label>
           <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
           <select (change)="setFormId($event.target.value)" name="form" id="form" class="mt-1 dropdown ms-3">
-            <option *ngFor="let element of data" [value]="element._id" [selected]="element._id == formId">
+            <option *ngFor="let element of data" [value]="element.formId" [selected]="element.formId == formId">
                 {{element.name}}
             </option>
           </select>
@@ -17,7 +17,8 @@
   </div>
   <div class="row">
       <div class="col-sm-12">
-          <app-table [dropdownData]="data" [formId]="formId" [tableName]="reviewTableName"></app-table>
+          <app-table [dropdownData]="data" [formId]="formId" [tableName]="reviewTableName"
+           [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
       </div>
   </div>
   <div class="row mt-3 mb-3">

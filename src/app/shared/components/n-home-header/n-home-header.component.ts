@@ -34,7 +34,7 @@ export class NHomeHeaderComponent implements OnInit {
 
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
-
+      
       this.initializeAccessChecking();
 
       if (this.isLoggedIn) {
