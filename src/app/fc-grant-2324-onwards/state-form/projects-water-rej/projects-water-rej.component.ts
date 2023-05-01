@@ -253,6 +253,12 @@ waterRejRes = {
           width: ''
         },
         {
+          key: 'projectName',
+          displayName: 'Project Name',
+          info: '',
+          width: ''
+        },
+        {
           key: 'location',
           displayName: 'Location of Water Treatment Plant',
           info: '',
@@ -365,6 +371,7 @@ waterRejRes = {
     }
   ]
 }
+costMaxVal: number = 999999999999999;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,

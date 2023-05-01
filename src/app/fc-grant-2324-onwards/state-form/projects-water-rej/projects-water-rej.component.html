@@ -15,6 +15,7 @@
             </div>
         </div>
         <form [formGroup]="waterRejenuvation">
+            <!-- -------all tables------- -->
             <div class="mb-3" formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index">
                 <div class="card mt-2 ms-0">
                     <div [formGroupName]="projectIndex" class="card-body">
@@ -49,10 +50,16 @@
                                           <input style="height:4rem" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
                                       </td>
                                       <td>
-                                          <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"/>
+                                          <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" 
+                                          [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"/>
                                       </td>
                                       <td>
-                                          <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$">
+                                          <input style="height:4rem" matTooltipPosition="above" 
+                                          [matTooltip]="checkErrorState(projectRow,'area') ? 'Area 0 upto 5 digis' : null" 
+                                          [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" 
+                                          formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$" 
+                                          (keydown)="setMinMaxValidations($event, areaW, 0, 99999, '')" #areaW>
                                       </td>
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
@@ -85,64 +92,91 @@
                                               </mat-icon>
                                           </a>
                                       </td>
-
-
                                       <td>
                                           <div class="exp-text mb-2">Current</div>
                                           <div class="exp-text" >Expected</div>
                                       </td>
+                                      <td>
+                                          <div style="margin-bottom:5px">
+                                              <input matTooltipPosition="above" placeholder="Current" 
+                                              [matTooltip]="checkErrorState(projectRow,'bod') ? 'BOD 0 upto 3 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}" 
+                                              formControlName="bod" pattern="^\d*(\.\d{0,6})?$" type="number"
+                                              (keydown)="setMinMaxValidations($event, bodW, 0, 999, '')" #bodW>
+                                          </div>
+                                          <div>
+                                              <input matTooltipPosition="above" placeholder="Expected" 
+                                              [matTooltip]="checkErrorState(projectRow,'bod_expected') ? 'BOD expected 0 upto 3 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'bod_expected')}" 
+                                              formControlName="bod_expected" pattern="^\d*(\.\d{0,6})?$"
+                                            type="number" (keydown)="setMinMaxValidations($event, bod_expectedW, 0, 999, '')" #bod_expectedW>
+                                          </div>
+                                      </td>
 
                                       <td>
                                           <div style="margin-bottom:5px">
-                                              <input matTooltipPosition="above" placeholder="Current" [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}" formControlName="bod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                                  min="1">
+                                              <input matTooltipPosition="above" placeholder="Current" 
+                                              [matTooltip]="checkErrorState(projectRow,'cod') ? 'COD  0 upto 4 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}" 
+                                              formControlName="cod" pattern="^\d*(\.\d{0,6})?$" type="number"
+                                              (keydown)="setMinMaxValidations($event, codW, 0, 9999, '')" #codW>
                                           </div>
                                           <div>
-                                              <input matTooltipPosition="above" placeholder="Expected" [matTooltip]="checkErrorState(projectRow,'bod_expected') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'bod_expected')}" formControlName="bod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" min="1">
-                                          </div>
-                                      </td>
-
-                                      <td>
-                                          <div style="margin-bottom:5px">
-                                              <input matTooltipPosition="above" placeholder="Current" [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}" formControlName="cod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                                  min="1">
-                                          </div>
-                                          <div>
-                                              <input matTooltipPosition="above" placeholder="Expected" [matTooltip]="checkErrorState(projectRow,'cod_expected') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'cod_expected')}" formControlName="cod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Expected" 
+                                              [matTooltip]="checkErrorState(projectRow,'cod_expected') ? 'COD expected 0 upto 4 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'cod_expected')}" formControlName="cod_expected" pattern="^\d*(\.\d{0,6})?$"
+                                                  type="number" (keydown)="setMinMaxValidations($event, cod_expectedW, 0, 9999, '')" #cod_expectedW>
                                           </div>
                                       </td>
 
                                       <td>
                                           <div style="margin-bottom: 5px;">
-                                              <input matTooltipPosition="above" placeholder="Current" [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}" formControlName="do" pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Current" 
+                                              [matTooltip]="checkErrorState(projectRow,'do') ? 'DO  0 upto 3 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}" 
+                                              formControlName="do" pattern="^\d*(\.\d{0,6})?$" type="number"
+                                              (keydown)="setMinMaxValidations($event, doW, 0, 999, '')" #doW>
                                           </div>
                                           <div>
-                                              <input matTooltipPosition="above" placeholder="Expected" [matTooltip]="checkErrorState(projectRow,'do_expected') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'do_expected')}" formControlName="do_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Expected" 
+                                              [matTooltip]="checkErrorState(projectRow,'do_expected') ? 'DO expected 0 upto 3 digits'  : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'do_expected')}" 
+                                              formControlName="do_expected" pattern="^\d*(\.\d{0,6})?$"
+                                                  type="number" (keydown)="setMinMaxValidations($event, do_expectedW, 0, 999, '')" #do_expectedW>
                                           </div>
                                       </td>
 
                                       <td>
                                           <div style="margin-bottom: 5px;">
-                                              <input matTooltipPosition="above" placeholder="Current" [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}" formControlName="tds" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                                  min="1">
+                                              <input matTooltipPosition="above" placeholder="Current" 
+                                              [matTooltip]="checkErrorState(projectRow,'tds') ? 'TDS 0 upto 5 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}" formControlName="tds" 
+                                              pattern="^\d*(\.\d{0,6})?$" type="number"
+                                              (keydown)="setMinMaxValidations($event, tdsW, 0, 99999, '')" #tdsW>
                                           </div>
                                           <div>
-                                              <input matTooltipPosition="above" placeholder="Expected" [matTooltip]="checkErrorState(projectRow,'tds_expected') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'tds_expected')}" formControlName="tds_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Expected" 
+                                              [matTooltip]="checkErrorState(projectRow,'tds_expected') ? 'TDS expected 0 upto 5 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'tds_expected')}" 
+                                              formControlName="tds_expected" pattern="^\d*(\.\d{0,6})?$"
+                                                  type="number" (keydown)="setMinMaxValidations($event, tds_expectedW, 0, 99999, '')" #tds_expectedW>
                                           </div>
                                       </td>
 
                                       <td>
                                           <div style="margin-bottom: 5px;">
-                                              <input matTooltipPosition="above" placeholder="Current" [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" formControlName="turbidity" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Current" 
+                                              [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Turbidity 0 upto 5 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" 
+                                              formControlName="turbidity" pattern="^\d*(\.\d{0,6})?$"
+                                                  type="number" (keydown)="setMinMaxValidations($event, turbidityW, 0, 9999, '')" #turbidityW>
                                           </div>
                                           <div>
-                                              <input matTooltipPosition="above" placeholder="Expected" [matTooltip]="checkErrorState(projectRow,'turbidity_expected') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity_expected')}" formControlName="turbidity_expected"
-                                                  pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
+                                              <input matTooltipPosition="above" placeholder="Expected" 
+                                              [matTooltip]="checkErrorState(projectRow,'turbidity_expected') ? 'Turbidity expected 0 upto 5 digits' : null" 
+                                              [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity_expected')}" 
+                                              formControlName="turbidity_expected"
+                                            pattern="^\d*(\.\d{0,6})?$" type="number" (keydown)="setMinMaxValidations($event, turbidityExpW, 0, 9999, '')" #turbidityExpW>
                                           </div>
                                       </td>
                                       <td>
@@ -211,9 +245,7 @@
                                       <td class="t-i">
                                           <span>{{1+reuseWaterIndex}}</span>
                                       </td>
-
                                       <td>
-
                                           <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
                                       </td>
                                       <td style="display: flex;position: relative;bottom: 2px;">
@@ -228,7 +260,10 @@
                                           </a>
                                       </td>
                                       <td>
-                                          <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" formControlName="stp" type="number" pattern="^\d*(\.\d{0,6})?$" min="1">
+                                          <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'value 0 upto 3 digis' : null"
+                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" 
+                                           formControlName="stp" type="number" pattern="^\d*(\.\d{0,6})?$"
+                                           (keydown)="setMinMaxValidations($event, stpWr, 0, 1000, '')" #stpWr>
                                       </td>
                                       <td>
                                           <input formControlName="treatmentPlant" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter Number' : null" type="number">
@@ -297,11 +332,14 @@
                                           <span>{{1+sliIndex}}</span>
                                       </td>
                                       <td>
-                                          <input formControlName="name" matTooltipPosition="above" [matTooltip]="" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null"
+                                          <input formControlName="name" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
+                                           [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null"
                                           />
                                       </td>
                                       <td>
-                                          <input formControlName="component" matTooltipPosition="above" [matTooltip]="" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null">
+                                          <input formControlName="component" type="text" 
+                                          matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'component') ? 'Enter 1-200 Characters' : null">
                                       </td>
                                       <td>
                                           <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)">
@@ -313,16 +351,16 @@
                                              </select>
                                       </td>
                                       <td>
-                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]=""
+                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
                                            (keydown)="setMinMaxValidations($event, existing, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #existing>
                                       </td>
                                       <td>
-                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]=""
+                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
                                           (keydown)="setMinMaxValidations($event, above, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #above>
                                       </td>
                                       <td>
-                                          <input formControlName="cost" matTooltipPosition="above" [matTooltip]="" type="number"
-                                           pattern="^\d*(\.\d{0,6})?$">
+                                          <input formControlName="cost" matTooltipPosition="above" [matTooltip]="'cost 0 upto 15 digits'" type="number" 
+                                           pattern="^\d*(\.\d{0,6})?$" (keydown)="setMinMaxValidations($event, costSli, 0, costMaxVal, '')" #costSli>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
@@ -375,7 +413,42 @@
                 </div>
 
             </div>
-
+            <!-- -----declaration file------- -->
+            <div class="card">
+                <div class="card-body">
+                  <div class="row" >
+                    <div class="col-sm-6">
+                        Declaration Upload
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="">
+                            <input #bs_pdf1 style="display: none;" onclick="value=null;" (change)="uploadFile($event, 'pdf', '', '', 'pdf')"
+                            type="file" accept=".pdf" #file>
+                            <button (click)="bs_pdf1.click()" class="btn btn-primary" 
+                            [disabled]="actBtnDis">Upload PDF</button>
+                          </div>
+                         
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mt-3" *ngIf="true">
+                                <a href="#" target="_blank">
+                                    <!-- {{activeTab?.responseFile?.name}} -->
+                                </a>
+                                <!-- <span class="ms-3">
+                                    <span class="material-icons file-icon-cross"
+                                        matTooltip="Remove the upload file"
+                                        (click)="removeUploadedFile( '', '' )">cancel</span>
+                                </span> -->
+                                </div> 
+                                                                            
+                        </div>
+                  </div>
+              
+                </div>
+              </div>
+            <!-- --------all buttons-------- -->
             <div class="row mb-3 mt-3" style="">
                 <div class="col-sm-5">
                     <button [routerLink]="backRouter" routerLinkActive="router-link-active" class="btn btn-c-back">
