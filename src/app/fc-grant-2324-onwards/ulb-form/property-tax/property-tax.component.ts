@@ -181,7 +181,7 @@ export class PropertyTaxComponent implements OnInit {
                 replicaNumber: childItem.replicaNumber,
                 readonly: [{ value: childItem.readonly, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
-                position: [{ value: item.displayPriority || 1, disabled: true }],
+                position: [{ value: childItem.displayPriority || 1, disabled: true }],
                 yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
               }))),
             }),
@@ -252,14 +252,27 @@ export class PropertyTaxComponent implements OnInit {
 
   addSkipLogics() {
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    Object.entries(this.skipLogicDependencies).forEach(([selector, updatedables]) => {
-      Object.entries(updatedables).forEach(([updatedable, config]) => {
+    Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
+      (skipLogicDependency as any)?.updatables?.forEach(updatable => {
+        console.log({ updatable });
+        const control = s3Control.get(selector);
+        control.valueChanges.subscribe(({ value }) => {
+          const updatableControl = s3Control?.get(updatable.target) as FormGroup;
+          if (value === updatable?.on) {
+            updatableControl.patchValue({
+              value: updatable?.value
+            });
+          }
+        });
+        control.updateValueAndValidity({ emitEvent: true });
+      })
+      Object.entries(((skipLogicDependency as any).skippable as object)).forEach(([skippable, config]) => {
         const control = s3Control.get(selector)
         control.valueChanges.subscribe(({ value }) => {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
-          s3Control.patchValue({ data: { [updatedable]: { canShow } } });
+          s3Control.patchValue({ data: { [skippable]: { canShow } } });
           config.years?.forEach(yearIndex => {
-            const selectorString = `data.${updatedable}.yearData.${yearIndex}`;
+            const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
             const valueControl = updatableControl.get('value');
@@ -269,8 +282,8 @@ export class PropertyTaxComponent implements OnInit {
               fileControl?.setValidators(canShow ? [Validators.required] : [])
               fileControl?.updateValueAndValidity({ emitEvent: true });
             });
-            if(valueControl) {
-              if(!this.validators[selectorString]) {
+            if (valueControl) {
+              if (!this.validators[selectorString]) {
                 this.validators[selectorString] = valueControl.validator;
               }
               valueControl?.setValidators(canShow ? this.validators[selectorString] : []);

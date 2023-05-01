@@ -10139,290 +10139,290 @@ const response = {
       ],
       "financialYearTableHeader": {
          '1.5': [
-           { label: '', info: '' },
-           {
-             label: 'Property Tax Demand Details (Amount in INR Lakhs)',
-             info: ''
-           },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Property Tax Demand Details (Amount in INR Lakhs)',
+               info: ''
+            },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '1.13': [
-           { label: '', info: '' },
-           {
-             label: 'Property Tax Collection Details (Amount in INR Lakhs)',
-             info: ''
-           },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Property Tax Collection Details (Amount in INR Lakhs)',
+               info: ''
+            },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.1': [
-           { label: '', info: '' },
-           { label: 'Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Details', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.5': [
-           { label: '', info: '' },
-           { label: 'Residential Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Residential Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.9': [
-           { label: '', info: '' },
-           { label: 'Commercial Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Commercial Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.13': [
-           { label: '', info: '' },
-           { label: 'Industrial Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Industrial Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.17': [
-           { label: '', info: '' },
-           { label: 'Government Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Government Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.21': [
-           { label: '', info: '' },
-           { label: 'Institutional Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Institutional Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '2.25': [
-           { label: '', info: '' },
-           { label: 'Other Properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Other Properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '3.1': [
-           { label: '', info: '' },
-           { label: 'Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Details', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.5': [
-           { label: '', info: '' },
-           { label: 'Water Charges Demand and Collection Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Water Charges Demand and Collection Details', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.11': [
-           { label: '', info: '' },
-           { label: 'Water Connection Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Water Connection Details', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.13': [
-           { label: '', info: '' },
-           { label: 'Residential households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Residential households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.17': [
-           { label: '', info: '' },
-           { label: 'Commercial households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Commercial households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.21': [
-           { label: '', info: '' },
-           { label: 'Industrial households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Industrial households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.25': [
-           { label: '', info: '' },
-           {
-             label: 'Other households/properties(any other connection type)',
-             info: ''
-           },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Other households/properties(any other connection type)',
+               info: ''
+            },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '5.30': [
-           { label: '', info: '' },
-           { label: 'Water Charges Tariff Details', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
+            { label: '', info: '' },
+            { label: 'Water Charges Tariff Details', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' }
          ],
          '5.31': [
-           { label: '', info: '' },
-           {
-             label: 'Water Charges: Cost of Service Delivery Details',
-             info: ''
-           },
-           { label: '', info: '' },
-           { label: '',info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Water Charges: Cost of Service Delivery Details',
+               info: ''
+            },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' }
          ],
          '5.32': [
-           { label: '', info: '' },
-           { label: 'Working of the O&M Cost- Water Service', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
+            { label: '', info: '' },
+            { label: 'Working of the O&M Cost- Water Service', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' }
          ],
          '6.5': [
-           { label: '', info: '' },
-           {
-             label: 'Sewerage Charges Demand and Collection Details',
-             info: ''
-           },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Sewerage Charges Demand and Collection Details',
+               info: ''
+            },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.11': [
-           { label: '', info: '' },
-           { label: 'Sewerage Connection Details', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Sewerage Connection Details', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.13': [
-           { label: '', info: '' },
-           { label: 'Residential households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Residential households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.17': [
-           { label: '', info: '' },
-           { label: 'Commercial households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Commercial households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.21': [
-           { label: '', info: '' },
-           { label: 'Industrial households/properties', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Industrial households/properties', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.25': [
-           { label: '', info: '' },
-           { label: 'Other households/properties(any other connection type)', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Other households/properties(any other connection type)', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.30': [
-           { label: '', info: '' },
-           {
-             label: 'Sewerage Charges Tariff Details',
-             info: ''
-           },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-       { label: '', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Sewerage Charges Tariff Details',
+               info: ''
+            },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' }
          ],
          '6.31': [
-           { label: '', info: '' },
-           {
-             label: 'Sewerage Charges: Cost of Service Delivery Details',
-             info: ''
-           },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            {
+               label: 'Sewerage Charges: Cost of Service Delivery Details',
+               info: ''
+            },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ],
          '6.32': [
-           { label: '', info: '' },
-           { label: 'Working of the O&M Cost- Sewerage Service', info: '' },
-           { label: '2018-19', info: '' },
-           { label: '2019-20', info: '' },
-           { label: '2020-21', info: '' },
-           { label: '2021-22', info: '' },
-           { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: 'Working of the O&M Cost- Sewerage Service', info: '' },
+            { label: '2018-19', info: '' },
+            { label: '2019-20', info: '' },
+            { label: '2020-21', info: '' },
+            { label: '2021-22', info: '' },
+            { label: '2022-23', info: '' }
          ]
-       }
-       ,
+      }
+      ,
       "specialHeaders": {
          '1.1': { label: 'Property Tax Details', info: '' },
          '2.1': { label: 'Property Register Details', info: '' },
          '2.5': {
             label: 'Property Tax Demand and Collection Details by Property Type (including cess, other tax charges, excluding user charges if any)',
-           info: ''
+            info: ''
          },
          '3.1': {
-           label: 'Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)',
-           info: ''
+            label: 'Property Tax Collection Details by Mode of payment (including cess, other tax charges, excluding user charges if any)',
+            info: ''
          },
          '4.1': { label: 'Property Tax Valuation Details', info: '' },
          '5.1': { label: 'Water Charges Details', info: '' },
@@ -10436,539 +10436,553 @@ const response = {
             info: ''
          },
          '7.1': { label: 'Download and Upload Signed PDF', info: '' },
-       }
-       ,
+      }
+      ,
       "skipLogicDependencies": {
          'data.doesUserChargesDmnd.yearData.0': {
-            'userChargesDmnd': {
-               'value': 'Yes',
-               'years': [0]
-            },
-            'userChargesCollection': {
-               'value': 'Yes',
-               'years': [0]
+            'skippable': {
+               'userChargesDmnd': {
+                  'value': 'Yes',
+                  'years': [0]
+               },
+               'userChargesCollection': {
+                  'value': 'Yes',
+                  'years': [0]
+               }
             }
          },
          'data.notificationWaterCharges.yearData.0': {
-            'entityWaterCharges': {
-               'value': 'Yes',
-               'years': [0]
-            },
-            'notificationWaterChargesFile': {
-               'value': 'Yes',
-               'years': [0]
-            },
-            "waterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "cuWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "arWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "waterChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "cuWaterChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "arWaterChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "waterChrgConnectionDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "waterChrgConnectionCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resValueWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resNoWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resValueWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resNoWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comValueWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comNoWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comValueWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comNoWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indValueWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indNoWaterChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indValueWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indNoWaterChrgCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "othersValueWaterType": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "undefined": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "waterChrgTariffDetails": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "omCostDeleveryWater": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "omCostWaterService": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
+            'updatables': [
+               {
+                  'on': 'No',
+                  'target': 'data.entityWaterCharges.yearData.0',
+                  'value': ''
+               }
+            ],
+            'skippable': {
+               'entityWaterCharges': {
+                  'value': 'Yes',
+                  'years': [0]
+               },
+               'notificationWaterChargesFile': {
+                  'value': 'Yes',
+                  'years': [0]
+               },
+               "waterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "cuWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "arWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "waterChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "cuWaterChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "arWaterChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "waterChrgConnectionDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "waterChrgConnectionCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resValueWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resNoWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resValueWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resNoWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comValueWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comNoWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comValueWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comNoWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indValueWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indNoWaterChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indValueWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indNoWaterChrgCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "othersValueWaterType": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "waterChrgTariffDetails": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "omCostDeleveryWater": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "omCostWaterService": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               }
             }
          },
          'data.entityWaterCharges.yearData.0': {
-            'entityNameWaterCharges': {
-               'value': ["State Department", "Parastatal Agency", "Others"],
-               'years': [0]
+            'skippable': {
+               'entityNameWaterCharges': {
+                  'value': ["State Department", "Parastatal Agency", "Others"],
+                  'years': [0]
+               }
             }
          },
          'data.doesColSewerageCharges.yearData.0': {
-            'entitySewerageCharges': {
-               'value': 'Yes',
-               'years': [0]
-            },
-            'copyGazetteNotificationSewerage': {
-               'value': 'Yes',
-               'years': [0]
-            },
-            "totalSewergeChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "curSewergeChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "arrSewergeChrgDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "totalSewergeChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "curSewergeChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "arrSewergeChrgCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "totalSewergeConnectionDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "totalSewergeConnectionCol": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resValueSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resNoSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resValueSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "resNoSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comValueSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comNoSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comValueSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "comNoSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indValueSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indNoSewerageTaxDm": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indValueSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "indNoSewerageTaxCollected": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "otherValueSewerageType": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "sewerageChrgTarrifSheet": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "omCostDeleverySewerage": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
-            },
-            "omCostSewerageService": {
-               "value": "Yes",
-               "years": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-               ]
+            'updatables': [
+               {
+                  'on': 'No',
+                  'target': 'data.entitySewerageCharges.yearData.0',
+                  'value': ''
+               }
+            ],
+            'skippable': {
+               'entitySewerageCharges': {
+                  'value': 'Yes',
+                  'years': [0]
+               },
+               'copyGazetteNotificationSewerage': {
+                  'value': 'Yes',
+                  'years': [0]
+               },
+               "totalSewergeChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "curSewergeChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "arrSewergeChrgDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "totalSewergeChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "curSewergeChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "arrSewergeChrgCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "totalSewergeConnectionDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "totalSewergeConnectionCol": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resValueSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resNoSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resValueSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "resNoSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comValueSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comNoSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comValueSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "comNoSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indValueSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indNoSewerageTaxDm": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indValueSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "indNoSewerageTaxCollected": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "otherValueSewerageType": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "sewerageChrgTarrifSheet": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "omCostDeleverySewerage": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               },
+               "omCostSewerageService": {
+                  "value": "Yes",
+                  "years": [
+                     0,
+                     1,
+                     2,
+                     3,
+                     4
+                  ]
+               }
             }
          },
          'data.entitySewerageCharges.yearData.0': {
-            'entityNaSewerageCharges': {
-               'value': ["State Department", "Parastatal Agency", "Others"],
-               'years': [0]
+            'skippable': {
+               'entityNaSewerageCharges': {
+                  'value': ["State Department", "Parastatal Agency", "Others"],
+                  'years': [0]
+               }
             }
          }
       }
