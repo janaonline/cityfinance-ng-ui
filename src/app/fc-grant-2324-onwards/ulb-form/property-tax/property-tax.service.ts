@@ -10405,11 +10405,11 @@ const response = {
          '6.32': [
             { label: '', info: '' },
             { label: 'Working of the O&M Cost- Sewerage Service', info: '' },
-            { label: '2018-19', info: '' },
-            { label: '2019-20', info: '' },
-            { label: '2020-21', info: '' },
-            { label: '2021-22', info: '' },
-            { label: '2022-23', info: '' }
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' },
+            { label: '', info: '' }
          ]
       }
       ,

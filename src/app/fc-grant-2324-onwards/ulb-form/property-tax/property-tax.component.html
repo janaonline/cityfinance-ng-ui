@@ -186,9 +186,9 @@
                         </tr>
                         <tr *ngIf="item?.value?.controls?.child?.value">
                             <td colspan="7">
-                                <button class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add
+                                <button [disabled]="buttonDissabled" class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add
                                     more</button>
-                                <button *ngIf="item?.value?.controls?.child?.value.length > 0"
+                                <button [disabled]="buttonDissabled" *ngIf="item?.value?.controls?.child?.value.length > 0"
                                     class="btn btn-danger ms-2" (click)="removeLastQuestion(item?.value)">Delete
                                     Last</button>
                             </td>
@@ -217,7 +217,7 @@
                 <div class="d-inline-flex mr-1">
                     <button [disabled]="isDraft == false" class="btn btn-save text-uppercase"
                         (click)="finalSubmitConfirmation()">
-                        Save
+                        Submit
                     </button>
                 </div>
                 <div class="d-inline-flex ">
