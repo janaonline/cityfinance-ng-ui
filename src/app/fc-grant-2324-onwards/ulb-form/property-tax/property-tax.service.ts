@@ -935,8 +935,8 @@ const response = {
                         "label": "Water charges"
                      },
                      {
-                        "id": "Sewerage charges",
-                        "label": "Sewerage charges"
+                        "id": "Sewerage /Sanitation charges",
+                        "label": "Sewerage /Sanitation charges"
                      },
                      {
                         "id": "Solid-waste management charges",
@@ -1601,10 +1601,10 @@ const response = {
                   "replicaCount": 0,
                   "copyChildFrom": [
                      {
-                        "key": "cessCollectChild",
+                        "key": "userChargesCollectionChild",
                         "label": "Cess collection (Collection figure for each type of cess collected)",
                         "required": true,
-                        "displayPriority": "1.18",
+                        "displayPriority": "1.19",
                         "yearData": [
                            {
                               "label": "FY 2018-19",
@@ -1616,7 +1616,7 @@ const response = {
                               "min": 0,
                               "max": 9999999,
                               "required": true,
-                              "type": "cessCollectChild",
+                              "type": "userChargesCollectionChild",
                               "year": "63735a5bd44534713673c1ca",
                               "code": [],
                               "readonly": false,
@@ -1634,7 +1634,7 @@ const response = {
                               "min": 0,
                               "max": 9999999,
                               "required": true,
-                              "type": "cessCollectChild",
+                              "type": "userChargesCollectionChild",
                               "year": "607697074dff55e6c0be33ba",
                               "code": [],
                               "readonly": false,
@@ -1652,7 +1652,7 @@ const response = {
                               "min": 0,
                               "max": 9999999,
                               "required": true,
-                              "type": "cessCollectChild",
+                              "type": "userChargesCollectionChild",
                               "year": "606aadac4dff55e6c075c507",
                               "code": [],
                               "readonly": false,
@@ -1670,7 +1670,7 @@ const response = {
                               "min": 0,
                               "max": 9999999,
                               "required": true,
-                              "type": "cessCollectChild",
+                              "type": "userChargesCollectionChild",
                               "year": "606aaf854dff55e6c075d219",
                               "code": [],
                               "readonly": false,
@@ -1688,7 +1688,7 @@ const response = {
                               "min": 0,
                               "max": 9999999,
                               "required": true,
-                              "type": "cessCollectChild",
+                              "type": "userChargesCollectionChild",
                               "year": "606aafb14dff55e6c075d3ae",
                               "code": [],
                               "readonly": false,
@@ -10129,7 +10129,7 @@ const response = {
                   ],
                   "info": ""
                }
-            }
+            }            
             ,
             "feedback": {
                "status": null,

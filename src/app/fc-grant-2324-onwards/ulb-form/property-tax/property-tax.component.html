@@ -32,6 +32,7 @@
             </mat-radio-group>
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
+                [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
                 formControlName="value" [disabled]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
@@ -71,7 +72,7 @@
                         </div>
                     </button>
                     <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                        (change)="uploadFile($event, yearItem?.controls?.file)" type="file"
+                        (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)" type="file"
                         [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
@@ -88,6 +89,8 @@
                     <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                     </app-loader>
                 </div>
+                <small style="color: red"
+                *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is required</small>
             </ng-container>
             <div class="invalid-feedback">Please provide a valid input.</div>
         </div>
@@ -157,7 +160,8 @@
                         <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
                             <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
                             <td>
-                                <p *ngIf="item?.value?.controls?.copyChildFrom?.value?.length > 1">{{ child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                                <p *ngIf="item?.value?.controls?.copyChildFrom?.value?.length > 1">{{
+                                    child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
                                 <div style="position: relative;">
                                     <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
                                             yearItem: child,
