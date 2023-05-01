@@ -13,7 +13,7 @@ export class YearComparisionPipe implements PipeTransform {
     const b = value.controls[index - 1]?.value?.value;
     
     if(!a || !b) return false;
-    return a < b;
+    return +a < +b;
   }
 
 }
