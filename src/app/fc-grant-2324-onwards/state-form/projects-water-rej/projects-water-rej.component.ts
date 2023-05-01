@@ -10,8 +10,9 @@ import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/
 import { StateformsService } from 'src/app/pages/stateforms/stateforms.service';
 import { ImagePreviewComponent } from 'src/app/pages/ulbform/utilisation-report/image-preview/image-preview.component';
 import { MapDialogComponent } from 'src/app/shared/components/map-dialog/map-dialog.component';
-import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+// import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { SweetAlert } from "sweetalert/typings/core";
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-projects-water-rej',
@@ -39,18 +40,6 @@ export class ProjectsWaterRejComponent implements OnInit {
   latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   isPreYear = false;
   preMess = '';
-  // waterIndicators = [
-  //   "Continuity of Water supplied",
-  //   "Cost Recovery",
-  //   "Coverage of Water Supply connections",
-  //   "Extent of Metering",
-  //   "Extent of Non-revenue WaterSanitationComponent",
-  //   "Efficiency in Collection of Water Charges",
-  //   "Efficiency in redressal of customer complaints",
-  //   "Per Capita Supply of Water",
-  //   "Quality of Water Supplied",
-  // ];
-  
   isDisabled = false;
   errorMsg = "One or more required fields are empty or contains invalid data. Please check your input.";;
   alertError;
@@ -62,88 +51,79 @@ export class ProjectsWaterRejComponent implements OnInit {
   design_year = "";
   stateId= '';
   formDisable = false;
-  // "Continuity of Water supplied",
-  // "Cost Recovery",
-  // "Coverage of Water Supply connections",
-  // "Extent of Metering",
-  // "Extent of Non-revenue WaterSanitationComponent",
-  // "Efficiency in Collection of Water Charges",
-  // "Efficiency in redressal of customer complaints",
-  // "Per Capita Supply of Water",
-  // "Quality of Water Supplied",
   waterIndicators = [
-      {
-        id: 1,
-        name:'Coverage of Water Supply connections',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 2,
-        name:'Per Capita Supply of Water',
-        min: 0,
-        max:999,
-        unit: 'lpcd',
-        isShow: true
-      },
-      {
-        id: 3,
-        name:'Extent of metering of water connections',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 4,
-        name:'Extent of non-revenue water (NRW)',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 5,
-        name:'Continuity of Water supply',
-        min: 0,
-        max: 24,
-        unit: 'Hours per day',
-        isShow: true
-      },
-      {
-        id: 6,
-        name: 'Efficiency in redressal of customer complaints',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 7,
-        name: 'Quality of water supplied',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 8,
-        name:'Cost recovery in water supply service',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
-      {
-        id: 9,
-        name:'Efficiency in collection of water supply-related charges',
-        min: 0,
-        max:100,
-        unit: '%',
-        isShow: true
-      },
+      // {
+      //   id: 1,
+      //   name:'Coverage of Water Supply connections',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 2,
+      //   name:'Per Capita Supply of Water',
+      //   min: 0,
+      //   max:999,
+      //   unit: 'lpcd',
+      //   isShow: true
+      // },
+      // {
+      //   id: 3,
+      //   name:'Extent of metering of water connections',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 4,
+      //   name:'Extent of non-revenue water (NRW)',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 5,
+      //   name:'Continuity of Water supply',
+      //   min: 0,
+      //   max: 24,
+      //   unit: 'Hours per day',
+      //   isShow: true
+      // },
+      // {
+      //   id: 6,
+      //   name: 'Efficiency in redressal of customer complaints',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 7,
+      //   name: 'Quality of water supplied',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 8,
+      //   name:'Cost recovery in water supply service',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
+      // {
+      //   id: 9,
+      //   name:'Efficiency in collection of water supply-related charges',
+      //   min: 0,
+      //   max:100,
+      //   unit: '%',
+      //   isShow: true
+      // },
   ]
 
 waterRejRes = {
@@ -390,21 +370,21 @@ waterRejRes = {
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
     private dialog: MatDialog,
     private dataEntryService: DataEntryService,
-    public _stateformsService: StateformsService,
     public stateDashboardService: StateDashboardService,
-    public newCommonService: NewCommonService,
     private _snackBar: MatSnackBar,
+    private commonServices: CommonServicesService
   ) {
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
     }
+    this.getIndicatorLineItem();
   }
 
   ngOnInit() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();
-    this.design_year = this.Year["2022-23"];
+    this.design_year = this.Year["2023-22"];
     this.setUaList();
   }
 
@@ -415,17 +395,18 @@ waterRejRes = {
     console.log(uaDataAtIndex._id);
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue)
+        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue);
+        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['existing']?.patchValue('');
+        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['after']?.patchValue('');
       }
     }
-    // this.checkDiff();
   }
 
 
   public initializeReport() {
     this.waterRejenuvation = this.fb.group({
       state: this.fb.control(this.stateId, [Validators.required]),
-      design_year: this.fb.control(this.Year["2022-23"], [Validators.required]),
+      design_year: this.fb.control(this.Year["2023-24"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
       status: this.fb.control('', []),
    //   isDraft: this.fb.control(this.isDraft, []),
@@ -545,7 +526,7 @@ waterRejRes = {
   loadData() {
     console.log('ggggggg', this.uasData)
     this.isApiInProgress = true;
-    this.waterRejenuvationService.getData(this.Year["2022-23"], this.stateId).subscribe(
+    this.waterRejenuvationService.getData(this.Year["2023-24"], this.stateId).subscribe(
       (res) => {
         this.isPreYear = true;
         this.isApiInProgress = false;
@@ -841,7 +822,7 @@ waterRejRes = {
               // this.getFormData();
               this.waterRejenuvation.disable();
               this.isDisabled = true;
-              this.newCommonService.setStateFormStatus2223.next(true);
+            //  this.newCommonService.setStateFormStatus2223.next(true);
               sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
             } else {
               swal("Error", res?.message ? res?.message : "Error", "error");
@@ -941,14 +922,12 @@ waterRejRes = {
     }
   }
 
-
   saveButtonClicked() {
     this.submitted = true
     this.submit();
   }
-
   onPreview() {
-    let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
+  //  let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
    // if (change == "true")
      // this.waterRejenuvation?.controls?.isDraft?.patchValue(!this.formStatus);
     let data = this.waterRejenuvation?.value;
@@ -1069,7 +1048,7 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
       this.uploadOnS3(file, file.name, file.type, folderName, uploadType);
     }
   }
-  uploadOnS3(file, fileName, fileType, folderName, uploadType){
+uploadOnS3(file, fileName, fileType, folderName, uploadType){
     return new Promise<void>((resolve, reject) => { 
       this.dataEntryService.newGetURLForFileUpload(fileName, fileType, folderName).subscribe(s3Response => {
         const { url, file_url } = s3Response.data[0];
@@ -1102,6 +1081,34 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
   removeUploadedFile(){
   //  this.formControl.responseFile.patchValue({ name: '', url: '' });
    //  this.responceFile = { name: '', url: ''};
+  }
+
+  getIndicatorLineItem(){
+    let queryParam = {
+      type: 'water supply'
+    }
+    this.commonServices.formGetMethod('indicatorLineItem', queryParam).subscribe((res:any)=>{
+      console.log('indicatorLineItem', res);
+      this.waterIndicators = res?.data;
+      
+    },
+    (error)=>{
+      swal("Error", "No indicator found for slb table, please refresh the page", "error")
+    }
+    )
+  //  BASE_URL/indicatorLineItem
+  }
+  setMinMaxValidations(e, input, min, max, value){
+    console.log('indicator value..', value);
+    let indicatorDetails = this.waterIndicators.find(({lineItemId})=> value == lineItemId);
+    console.log('indicator value.. 54321', indicatorDetails);
+    if(!min && !max){
+      min = indicatorDetails?.range?.split("-")[0];
+      max = indicatorDetails?.range?.split("-")[1];
+    }
+
+   return this.commonServices.minMaxValidation(e, input, min, max);
+    
   }
 }
 

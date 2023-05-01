@@ -15,24 +15,20 @@
             </div>
         </div>
         <form [formGroup]="waterRejenuvation">
-            <div class="mb-3" formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index" style="">
-                <div class="card mt-2 ms-0" style="">
-                    <div [formGroupName]="projectIndex" class="card-body ">
-                        <div class="row" style="">
-                            <div class="col-sm-9 head-l" style="">
-                                <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
+            <div class="mb-3" formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index">
+                <div class="card mt-2 ms-0">
+                    <div [formGroupName]="projectIndex" class="card-body">
+                        <div class="row">
+                            <div class="col-sm-9 head-l">
                                 UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex)}}
                             </div>
-                            <div class="col-sm-3 text-end" style="">
+                            <div class="col-sm-3 text-end">
                                 <button class="btn btn-primary" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
                             </div>
                         </div>
                         <div class="row"  *ngIf="checkCard(projectIndex)">
                           <div class="col-sm-12">
-                            <div>
-                                <h4 class="tb-head" style="">{{waterRejRes?.tables[0]?.tableName}}<span style="color: red;">*</span>
-                                </h4>
-                            </div>
+                                <h4 class="tb-head" >{{waterRejRes?.tables[0]?.tableName}}<span style="color: red;">*</span></h4>
                           <div class="table-responsive">
                             <table class="table custom-position tb1">
                               <thead>
@@ -53,8 +49,7 @@
                                           <input style="height:4rem" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
                                       </td>
                                       <td>
-                                          <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"
-                                          />
+                                          <input style="height:4rem" formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"/>
                                       </td>
                                       <td>
                                           <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$">
@@ -64,18 +59,18 @@
                                               <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
                                               <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                           </label>
-                                              <input style="display: none;" onclick="this.value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 
+                                              <input style="display: none;" onclick="value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 
                                               [ngClass]="{'disableInputs': isDisabled }"
                                                accept=".png,.jpg,.jpeg" (change)="uploadFile($event, 'img', waterBodiesIndex, projectIndex, 'img')" required
                                                   multiple />
                                           </div>
                                           <a style="margin-left: 1ch; pointer-events: all;" (click)="imgPreview(waterBodiesIndex,projectIndex)">
-                                              <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
+                                              <span class="material-icons file p-icon">
                                               collections
                                           </span>
                                           </a>
                                           <a style="margin-left: 1ch;" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'disableInputs': isDisabled }">
-                                              <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
+                                              <span class="material-icons file p-icon" style="color: red;">
                                               delete_forever
                                           </span></a>
                                       </td>
@@ -93,10 +88,8 @@
 
 
                                       <td>
-                                          <div style="margin-bottom: 33%;  font-size: 13px;
-                                      font-weight: bold;">Current</div>
-                                          <div style=" font-size: 13px;
-                                      font-weight: bold;">Expected</div>
+                                          <div class="exp-text mb-2">Current</div>
+                                          <div class="exp-text" >Expected</div>
                                       </td>
 
                                       <td>
@@ -155,7 +148,6 @@
                                       <td>
                                           <input style="height:4rem" formControlName="details" [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null" type="text" />
                                       </td>
-                                      <!-- [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}" -->
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprPreparation') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
@@ -186,8 +178,6 @@
                                               </mat-icon>
                                           </a>
                                       </td>
-                                      <!-- <td *ngIf="1+waterBodiesIndex==1">
-                                  </td> -->
                                   </tr>
                               </tbody>
                           </table>
@@ -247,7 +237,6 @@
                                           <input formControlName="targetCust" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'targetCust')}" [matTooltip]="checkErrorState(projectRow,'targetCust') ? 'Enter Text' : null" type="text">
                                       </td>
                                       <td class=" rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                          <!-- [name]="'dprCompletion2' + reuseWaterIndex" [attr.name]="'dprCompletion2' + reuseWaterIndex" -->
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
@@ -268,7 +257,6 @@
                                                 type="number" (change)="warningForAmount($event.target.value)">
                                           </div>
                                       </td>
-                                      <!-- *ngIf="1+reuseWaterIndex>1" -->
                                       <td class="iconSliAndReuse">
                                           <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}"  (click)="deleteRow(projectIndex, reuseWaterIndex, 1, 'reuseWater')" class="d-i">
                                               <mat-icon aria-hidden="false">
@@ -276,8 +264,6 @@
                                               </mat-icon>
                                           </a>
                                       </td>
-                                      <!-- <td *ngIf="1+reuseWaterIndex==1">
-                                  </td> -->
                                   </tr>
                               </tbody>
                           </table>
@@ -306,9 +292,7 @@
                                 </tr>
                               </thead>
                               <tbody formArrayName="serviceLevelIndicators" *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index">
-
                                   <tr [formGroupName]="sliIndex" [ngClass]="{'anDisable': getDisableRow(projectRow)}">
-
                                       <td class="t-i">
                                           <span>{{1+sliIndex}}</span>
                                       </td>
@@ -320,28 +304,27 @@
                                           <input formControlName="component" matTooltipPosition="above" [matTooltip]="" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null">
                                       </td>
                                       <td>
-
-
                                           <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)">
                                              <option value="">--Select Indicator--</option>
                                                 <option
-                                                    [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.name"
-                                                     *ngFor="let Indicator of waterIndicators">
+                                                    [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
+                                                     *ngFor="let Indicator of waterIndicators" [value]="Indicator?.lineItemId">
                                                         {{Indicator?.name}}</option>
-
                                              </select>
                                       </td>
                                       <td>
-                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]="">
+                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]=""
+                                           (keydown)="setMinMaxValidations($event, existing, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #existing>
                                       </td>
                                       <td>
-                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]="">
+                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]=""
+                                          (keydown)="setMinMaxValidations($event, above, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #above>
                                       </td>
                                       <td>
-                                          <input formControlName="cost" matTooltipPosition="above" [matTooltip]="" type="number" pattern="^\d*(\.\d{0,6})?$">
+                                          <input formControlName="cost" matTooltipPosition="above" [matTooltip]="" type="number"
+                                           pattern="^\d*(\.\d{0,6})?$">
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                          <!-- [name]="'dprCompletion3' + sliIndex" [attr.name]="'dprCompletion2' + sliIndex" -->
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
@@ -373,8 +356,6 @@
                                               </mat-icon>
                                           </a>
                                       </td>
-                                      <!-- <td *ngIf="1+sliIndex==1">
-                                  </td> -->
                                   </tr>
                               </tbody>
                           </table>
@@ -390,77 +371,10 @@
 
 
                         </div>
-
-                        <!-- action components -->
-                        <!-- <div class="mt-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <app-common-action [actionRes]="actionRes" [formData]="wData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'projects_wss'">
-                                    </app-common-action>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card mt-3" style="">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6 head-l">
-                                    Declaration Upload :
-                                </div>
-                                <div class="col-sm-6">
-                                    <!-- <div class="mb-3 question"> -->
-                                    <div class="image-upload">
-                                        <label for="ipt">
-                                      <button class="btn btn-primary" (click)="ipt.click()" [disabled]="isDisabled">Upload
-                                          PDF
-                                          <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                              style="" class="ms-2">
-                                      </button>
-                                      <p class="errorMessege">{{errorMessegeStateAct}}</p>
-                                  </label>
-                                        <input #ipt id="ipt" name="cin3" type="file" onclick="this.value = null;" (change)="fileChangeEvent($event, 'stateActProgress')" accept=".pdf" [disabled]="isDisabled" />
-
-                                        <div *ngIf="submitted && f?.declaration?.status == 'INVALID'" class="customDate text-danger">
-                                            File is required*.
-                                        </div>
-
-                                    </div>
-                                    <!-- </div> -->
-                                </div>
-                            </div>
-                            <div>
-                                <div class="row" *ngIf="showStateAct">
-                                    <div class="col-6 filePadding mb-3">
-                                        {{stateActFileName}}
-                                    </div>
-                                    <div class="col-2 progressBar ms-4" *ngIf="stateActProgress">
-                                        <div class="progress-bar" *ngIf="stateActProgress" role="progressbar" attr.aria-valuenow="{{ stateActProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: stateActProgress + '%' }">
-                                            {{ stateActProgress }}%
-                                        </div>
-                                    </div>
-                                    <div class="col-1 filePadding">
-                                        <a href="{{ stateActUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
-                                        </a>
-                                        <span>
-
-                                  <a (click)="clearFile('stateAct')" style="margin-left: 4px;" [ngClass]="{'disableInputs': isDisabled }">
-                                      <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
-                                  </a>
-                              </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <div class="row mb-3 mt-3" style="">
                 <div class="col-sm-5">

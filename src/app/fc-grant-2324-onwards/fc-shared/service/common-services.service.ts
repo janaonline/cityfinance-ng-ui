@@ -34,4 +34,42 @@ export class CommonServicesService {
        }
     );
   }
+  minMaxValidation(e, input, minV, maxV) {
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (
+      +newValue > maxV ||
+      newValue.length > maxV?.length ||
+      +newValue < minV ||
+      e.key == " "
+    ) {
+      e.preventDefault();
+    }
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
 }
