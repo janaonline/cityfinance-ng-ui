@@ -171,6 +171,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+   this.ulbName = sessionStorage.getItem("ulbName");
     this.onResize();
     await this.getData();
     this.accessGrant();
@@ -184,10 +185,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
           this.percentage = Number(res["percentage"]);
-          if (this.userData.role != USER_TYPE.ULB)
-            this.ulbName = sessionStorage.getItem("ulbName");
-          else this.ulbName = res["response"]["ulbName"];
-
           this.annualStatus =
             res["response"]["steps"]["annualAccounts"]["status"];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;

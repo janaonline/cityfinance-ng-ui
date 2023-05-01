@@ -10,9 +10,7 @@ import { CommonServicesService } from '../fc-shared/service/common-services.serv
 })
 export class UlbFormComponent implements OnInit,OnDestroy {
 
-  leftMenu = {};
-  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
-  loggedInUserType:boolean;
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,7 +26,7 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     }
     this.getLeftMenu();
     this.getAllStatus();
-    this.subscription = this.commonServices.setFormStatusUlb.subscribe((res) => {
+    this.statusSubs = this.commonServices.setFormStatusUlb.subscribe((res) => {
       if (res == true) {
         console.log("form status 2223", res);
         this.getLeftMenu();
@@ -43,9 +41,12 @@ export class UlbFormComponent implements OnInit,OnDestroy {
     this.ulbFormId = sessionStorage.getItem("form_id");
     this.ulbFormName = sessionStorage.getItem("form_name");
   }
+  leftMenu = {};
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  loggedInUserType:boolean;
   userData : any;
   designYearArray:any;
-  subscription:any;
+  statusSubs:any;
   ulbName:string='';
   stateName:string='';
   pathMohua = null;
@@ -103,8 +104,7 @@ getLeftMenu() {
   );
 }
 ngOnDestroy() {
-  this.subscription.unsubscribe();
-
+  this.statusSubs?.unsubscribe();
 }
 backStatePage(type) {
   if (type == 'ULB Review' && !this.pathMohua) {

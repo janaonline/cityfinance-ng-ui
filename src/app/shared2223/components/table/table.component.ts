@@ -31,8 +31,6 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./table.component.scss"],
 })
 export class TableComponent implements OnInit, OnChanges, OnDestroy {
-  // @ViewChild(MatPaginator ) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
   constructor(
     private commonService: NewCommonService,
     private _commonService: CommonService,
@@ -40,16 +38,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     public dialog: MatDialog,
     private stateServices: State2223Service
   ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.fetchStateList();
     this.getDesignYear();
-    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.dropdownChanges();
   }
   userData;
-  public keepOriginalOrder = (a, b) => a.key;
-  // dataSource: MatTableDataSource<UserData>;
   title = "";
   total = 0;
 
@@ -58,7 +54,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   listType: USER_TYPE;
   filterForm: FormGroup;
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
-
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -79,7 +74,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() formBaseUrl:string = '';
   @Input() endPoint:string = '';
   @ViewChild('stickyMenu') menuElement: ElementRef;
-  @HostListener('window:scroll', ['$event'])
+ // @HostListener('window:scroll', ['$event'])
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -256,18 +251,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           this.pageSizeOptions = [5, 10, 20, this.total];
         }
 
-        (this.ulbType =
-          Object.keys(res["ulbType"]).length > 0
-            ? Object.values(res["ulbType"])
-            : null),
-          (this.statusList =
-            Object.keys(res["statusList"]).length > 0
-              ? Object.values(res["statusList"])
-              : null);
-        this.populationType =
-          Object.keys(res["populationType"]).length > 0
-            ? Object.values(res["populationType"])
-            : null;
+      if(!this.ulbType) this.ulbType = Object.keys(res["ulbType"]).length > 0 ? Object.values(res["ulbType"]): null;
+      if(!this.statusList)  this.statusList = Object.keys(res["statusList"]).length > 0 ? Object.values(res["statusList"]) : null;
+      if(!this.populationType) this.populationType = Object.keys(res["populationType"]).length > 0 ? Object.values(res["populationType"]) : null;
         console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
@@ -553,6 +539,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   resetFilter() {
     this.filterForm.reset();
     this.initializeULBFilterForm();
+    //this.resetInfinite();
+    this.data = [];
     this.setParams();
     this.callAPI();
   }
@@ -601,6 +589,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
+    if(this.designYear == '606aafc14dff55e6c075d3ec') return;
     this.noHistorydataFound = false
     this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
       (res) => {
@@ -621,7 +610,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.dialog.closeAll();
   }
 
-
   openStatus(template) {
     let dialogRef = this.dialog.open(template, {
       height: "auto",
@@ -631,5 +619,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+ keepOriginalOrder = (a, b) => b.key - a.key;
 
 }
