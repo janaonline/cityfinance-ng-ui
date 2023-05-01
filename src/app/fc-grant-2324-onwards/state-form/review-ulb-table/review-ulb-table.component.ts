@@ -14,28 +14,35 @@ export class ReviewUlbTableComponent implements OnInit {
     private commonService: NewCommonService,
     private route: ActivatedRoute,
     private stateServices: State2223Service
-  ) {}
+  ) { 
+    this.design_year = this.years["2023-24"];
+    this.params = {design_year : this.design_year, role: 'ULB'}
+    }
+    years = JSON.parse(localStorage.getItem("Years"));
+    design_year = '';
 
   //formId = "62aa1b04729673217e5ca3aa";
-  formId = "62aa1cc9c9a98b2254632a8e";
+  formId = "1";
   formUrl = "";
   data;
   title = "";
   reviewTableName = 'Review Grant Application';
   params = {
     role: "ULB",
-    design_year: "606aafb14dff55e6c075d3ae",
+    design_year: "",
   };
   sideMenuItem;
   backRouter = '';
   nextRouter = '';
+  formBaseUrl:string = 'ulb-form';
   ngOnInit(): void {
+    
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();
     this.onLoad();
     this.getFormId();
     if (this.data?.length > 0)
-    this.formId = this.data[0]["_id"];
+    this.formId = this.data[0]["formId"];
   }
 
   onLoad() {

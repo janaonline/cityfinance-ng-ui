@@ -1,0 +1,282 @@
+.card-body {
+    padding: 5px 8px;
+}
+
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.workCompletion {
+    margin-bottom: 5px;
+    height: 4rem;
+}
+
+.card {
+    border: 1px #00000029;
+    // margin-left: 20px;
+    box-shadow: 1px 1px 1px 1.5px #00000029;
+    padding: 6px 10px;
+}
+
+.cellHeight {
+    height: 4rem;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.thHeader {
+    background-color: #058e91;
+    font-family: Roboto;
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.table {
+    border: 2px solid #00000029;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.filePadding {
+    // padding-left: 23px;
+    font-style: italic;
+}
+
+.progressBar {
+    padding: 0;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: inherit;
+    text-align: center;
+    padding: 8px 2px;
+    border-bottom-width: inherit;
+}
+
+.custom-position {
+    td {
+        position: relative;
+    }
+}
+
+.backgd {
+    background-color: #177A27;
+}
+
+.custom-position {
+    input {
+        position: relative;
+        width: 80%;
+        // height: 4ch;
+        text-align: center;
+    }
+}
+
+.disableUpload {
+    background-color: #cfcfcf !important;
+}
+
+.toggle {
+    display: none
+}
+
+.custom-position {
+    select {
+        position: relative;
+    }
+}
+
+.custom-position {
+    textarea {
+        height: 2pc;
+        vertical-align: bottom;
+        margin-right: 1pc;
+    }
+    .error {
+        border-color: red;
+    }
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    color: white;
+}
+
+.file:hover {
+    cursor: pointer;
+    background-color: #eaecee;
+}
+
+.selectBtn {
+    background-color: #ffc500;
+    color: white;
+}
+
+::ng-deep .mat-tooltip {
+    background-color: black !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.falseVal {
+    border-color: red;
+}
+
+.icon {
+    padding-top: 18px !important;
+}
+
+.iconSliAndReuse {
+    padding-top: 2px !important;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+}
+
+#addmoreBtn {
+    background-color: #177A27;
+    color: #FFFFFF;
+    margin-top: 15px;
+    width: 91px;
+    height: 25px;
+    font-size: 11px;
+    padding: 0;
+}
+
+.head-l {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tb-head {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.pre-y {
+    font-size: 1.5rem;
+    padding: 5rem 5rem;
+}
+
+.anDisable {
+    pointer-events: none;
+    input,
+    select,
+    textarea {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
+    .d-i {
+        opacity: .6;
+    }
+    .td {
+        cursor: not-allowed;
+    }
+    // opacity: .5;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-top: none;
+}
+
+.rdBtn {
+    width: 17px !important;
+}
+
+.rdDiv {
+    align-items: center !important;
+}
+
+.disableInputs {
+    pointer-events: none !important;
+    opacity: .6;
+    .rdBtn {
+        background-color: #e9ecef !important;
+        opacity: .6;
+    }
+}
+
+.enableInputs {
+    pointer-events: all !important;
+    opacity: 1;
+    .rdBtn {
+        // background-color: #e9ecef !important;
+        opacity: 1;
+    }
+    input,
+    textarea {
+        background-color: #fff;
+    }
+}
+
+.ph-error {
+    border: 1px solid red;
+}
+
+.ph-error-sp {
+    color: red !important;
+}
+
+.p-none {
+    pointer-events: none;
+}
+.tb1 {
+  width: 100rem;
+  overflow-x: auto;
+}
+.tb2 {
+  width: 80rem;
+  overflow-x: auto;
+}
+.tb3 {
+  width: 80rem;
+  overflow-x: auto;
+}
+.w-8p {
+  width: 10%;
+}
+::ng-deep .d-i {
+width: 24px !important;
+display: inline-block;
+}
+
+.p-icon {
+    font-size: 14px; padding-left:2px; vertical-align: middle;
+}
+.exp-text {
+    font-size: 13px; font-weight: bold;
+}

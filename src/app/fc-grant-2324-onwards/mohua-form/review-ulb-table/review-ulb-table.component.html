@@ -8,7 +8,7 @@
       <div class="col-sm-4">
           <label for="form" class="l-l">Select Form:</label>
           <select [(ngModel)]="formId" (change)="setFormId($event.target.value)" name="form" id="form" class="form-select ms-1">
-          <option *ngFor="let element of data" [value]="element._id">
+          <option *ngFor="let element of data" [value]="element.formId">
               {{element.name}}
           </option>
         </select>
@@ -23,7 +23,8 @@
   </div>
   <div class="row">
       <div class="col-sm-12">
-          <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId" [tableName]="reviewTableName"></app-table>
+          <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"
+           [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
       </div>
   </div>
 </div>

@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <a routerLink="/ulbform2223/pfms_acc">Click to view PFMS Account Linkage of Financial Year 2022-23</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3 mt-4">
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]='backRouter'>
+                <- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button type="button" class="btn btn-c-next" 
+            routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form-></button>
+        </div>
+            
+
+    </div>
+</div>

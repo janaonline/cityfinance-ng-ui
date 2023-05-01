@@ -54,6 +54,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   design_year;
   userData;
   formName = '';
+  actionPayload:any;
   ngOnInit(): void {
     // this.onLoad();
   }
@@ -73,7 +74,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         state: [this.data?.selectedId],
         statesData: [this.emptyArr],
         formId: [this.data?.formId],
-        design_year: [this.getDesignYear()],
+        design_year: [this.data?.designYear],
       });
     } else {
       this.approveReturnForm = this.formBuilder.group({
@@ -84,7 +85,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         rejectReason: [""],
         ulb: [this.data?.selectedId],
         formId: [this.data?.formId],
-        design_year: [this.getDesignYear()],
+        design_year: [this.data?.designYear],
       });
     }
 
@@ -104,7 +105,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   fileChangeEvent(event, progessType) {
     let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
        return;
     }
     console.log(progessType);
@@ -177,14 +178,14 @@ export class TableApproveReturnDialogComponent implements OnInit {
     return new Promise((resolve, reject) => {
       // this.formName = this.data?.formName ? this.data?.formName : 'review_table';
       let form_name = sessionStorage.getItem('form_name');
-      let code = ''
-      // if(this.userData?.role == 'STATE'){
-      //   code = this.userData?.stateCode;
-      // }else {
-      //   code = 'mohua';
-      // }
+      let folderName = ''
+      if(this.data?.designYear == '606aafc14dff55e6c075d3ec'){
+        folderName = `${this.userData?.role}/2023-24/supporting_douments/review_table/${form_name}`
+      }else{
+        folderName = `${this.userData?.role}/2022-23/supporting_douments/review_table/${form_name}`
+      }
       //let folderName = `${this.userData?.role}/${this.Years['2022-23']}//${this.userData?.ulb}`
-      let folderName = `${this.userData?.role}/2022-23/supporting_douments/review_table/${form_name}`
+      
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
@@ -276,21 +277,50 @@ export class TableApproveReturnDialogComponent implements OnInit {
     }
 
   }
-  obj;
+  
   onSubmit(type) {
-    if (this.data.type == "Approve") {
-      this.obj = {
-        ...this.approveReturnForm.value,
-        status: "APPROVED",
-      };
-    } else {
-      this.obj = {
-        ...this.approveReturnForm.value,
-        status: "REJECTED",
-      };
+    if(this.data?.reviewType == 'old_review'){
+      if (this.data.type == "Approve") {
+        this.actionPayload = {
+          ...this.approveReturnForm.value,
+          status: "APPROVED",
+        };
+      } else {
+        this.actionPayload = {
+          ...this.approveReturnForm.value,
+          status: "REJECTED",
+        };
+      }
+    }else{
+      console.log(this.approveReturnForm);
+      let statusId = null;
+      if(this.data.type == "Approve" && this.userData?.role == 'STATE') statusId = 4;
+      if(this.data.type == "Return" && this.userData?.role == 'STATE') statusId = 5;
+      if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
+      if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
+      this.actionPayload = {
+        "form_level": this.data.formId == 5 ? 2 : 1,
+        "design_year" : this.data?.designYear,
+        "formId": this.data.formId,
+        "ulbs": this.data?.selectedId,
+        "responses": [
+            {
+            "shortKey": "form_level",
+            "status": statusId,
+            "rejectReason": this.approveReturnForm?.value?.rejectReason,
+            "responseFile": this.approveReturnForm?.value?.responseFile
+       }
+        ],
+        "multi": true,
+        "shortKeys": [
+            "form_level"
+        ]
+      }
     }
+   console.log('this.acccc', this.actionPayload);
+   
 
-    this.newCommonService.postTableApproveRejectData(this.obj).subscribe(
+    this.newCommonService.postTableApproveRejectData(this.actionPayload, this.data?.reviewType).subscribe(
       (res: any) => {
         console.log("post successful", res);
         swal("Saved", "Saved Data Successfully", "success");
@@ -300,7 +330,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       },
       (error) => {
         console.error("err", error);
-        swal("Error", error ? error : "Error", "error");
+        swal("Error", "something went wrong..", "error");
       }
     );
   }

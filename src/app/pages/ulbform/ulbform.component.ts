@@ -66,7 +66,6 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
-
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
@@ -224,6 +223,9 @@ export class UlbformComponent implements OnInit {
 
   getStatus() {
     this.id = sessionStorage.getItem("row_id");
+    if((this.userLoggedInDetails.role == this.userTypes.STATE ||  this.userLoggedInDetails.role == this.userTypes.MoHUA) && !this.id){
+      location.reload();
+    }
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
