@@ -299,7 +299,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
       if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
       this.actionPayload = {
-        "form_level": 1,
+        "form_level": this.data.formId == 5 ? 2 : 1,
         "design_year" : this.data?.designYear,
         "formId": this.data.formId,
         "ulbs": this.data?.selectedId,
