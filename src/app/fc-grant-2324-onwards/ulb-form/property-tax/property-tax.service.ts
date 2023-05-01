@@ -4648,7 +4648,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_f56394ca-9fce-428c-b3cd-338b99872deb.xlsx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_da45183d-630c-4373-b9c7-163482fa0c30.xlsx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -4666,7 +4666,7 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_f56394ca-9fce-428c-b3cd-338b99872deb.xlsx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_da45183d-630c-4373-b9c7-163482fa0c30.xlsx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7193,7 +7193,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_af9e53d8-afa5-4e23-aa63-d6eb73ec5767.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_009def63-be2d-4dd9-8c94-8c3aaa8cb1e7.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7211,7 +7211,7 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_af9e53d8-afa5-4e23-aa63-d6eb73ec5767.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_009def63-be2d-4dd9-8c94-8c3aaa8cb1e7.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7348,7 +7348,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_622c759f-e168-4e44-aaf9-6b8230d5ee98.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_cbf356c2-6615-40e8-ad66-4917e104ef0f.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7366,7 +7366,7 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_622c759f-e168-4e44-aaf9-6b8230d5ee98.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_cbf356c2-6615-40e8-ad66-4917e104ef0f.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -9893,7 +9893,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_15b0be7b-09b7-4cb5-8244-596eed988371.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_4f0716b8-11ff-4e3d-bc45-148bf137598d.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9911,7 +9911,7 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_15b0be7b-09b7-4cb5-8244-596eed988371.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_4f0716b8-11ff-4e3d-bc45-148bf137598d.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -10048,7 +10048,7 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_51ee7721-c35c-4e22-a873-28b533f40e34.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_ca1c1056-588a-41a3-83d5-d2b46012e7cc.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -10066,7 +10066,7 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_51ee7721-c35c-4e22-a873-28b533f40e34.docx",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_ca1c1056-588a-41a3-83d5-d2b46012e7cc.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -10129,7 +10129,7 @@ const response = {
                   ],
                   "info": ""
                }
-            }            
+            }
             ,
             "feedback": {
                "status": null,
