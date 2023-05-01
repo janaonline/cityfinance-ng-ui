@@ -72,7 +72,7 @@
                         </div>
                     </button>
                     <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                        (change)="uploadFile($event, yearItem?.controls?.file)" type="file"
+                        (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)" type="file"
                         [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
@@ -89,6 +89,8 @@
                     <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                     </app-loader>
                 </div>
+                <small style="color: red"
+                *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is required</small>
             </ng-container>
             <div class="invalid-feedback">Please provide a valid input.</div>
         </div>

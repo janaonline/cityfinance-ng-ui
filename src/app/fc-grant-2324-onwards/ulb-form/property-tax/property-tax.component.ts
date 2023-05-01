@@ -269,12 +269,14 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false) {
+  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
     console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const file: File = event.target.files[0];
     if (!file) return;
+    const fileExtension = file.name.split('.').pop();
+    if (!allowedFileTypes.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes.join(', ')}`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
