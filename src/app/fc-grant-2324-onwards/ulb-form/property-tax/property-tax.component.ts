@@ -24,6 +24,7 @@ import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { PreviewComponent } from './preview/preview.component';
 import { DateAdapter } from '@angular/material/core';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -74,12 +75,14 @@ export class PropertyTaxComponent implements OnInit {
   formId: string;
   isDraft: boolean;
   ulbName: string;
+  statusText: string;
   userTypes = USER_TYPE;
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
+  validators = {};
 
   constructor(
     private fb: FormBuilder,
@@ -89,7 +92,8 @@ export class PropertyTaxComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
     private dateAdapter: DateAdapter<Date>,
-    private propertyTaxService: PropertyTaxService
+    private propertyTaxService: PropertyTaxService,
+    private commonServices: CommonServicesService,
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
@@ -121,6 +125,7 @@ export class PropertyTaxComponent implements OnInit {
       // this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
+      this.statusText = res?.data?.statusText;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -254,14 +259,23 @@ export class PropertyTaxComponent implements OnInit {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
           s3Control.patchValue({ data: { [updatedable]: { canShow } } });
           config.years?.forEach(yearIndex => {
-            const updatableControl = s3Control?.get(`data.${updatedable}.yearData.${yearIndex}`) as FormGroup;
+            const selectorString = `data.${updatedable}.yearData.${yearIndex}`;
+            const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
+            const valueControl = updatableControl.get('value');
             const nameControl = updatableControl.get('file.name');
             const urlControl = updatableControl.get('file.url');
             [nameControl, urlControl].forEach(fileControl => {
               fileControl?.setValidators(canShow ? [Validators.required] : [])
               fileControl?.updateValueAndValidity({ emitEvent: true });
-            })
+            });
+            if(valueControl) {
+              if(!this.validators[selectorString]) {
+                this.validators[selectorString] = valueControl.validator;
+              }
+              valueControl?.setValidators(canShow ? this.validators[selectorString] : []);
+              valueControl?.updateValueAndValidity({ emitEvent: true });
+            }
           })
         });
         control.updateValueAndValidity({ emitEvent: true });
@@ -269,12 +283,14 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false) {
+  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
     console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
     const file: File = event.target.files[0];
     if (!file) return;
+    const fileExtension = file.name.split('.').pop();
+    if (!allowedFileTypes.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes.join(', ')}`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
@@ -300,6 +316,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
+          statusText: this.statusText,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           // otherFile: this.otherUploadControl?.value
         }
@@ -356,17 +373,17 @@ export class PropertyTaxComponent implements OnInit {
     })
   }
 
-  findInvalidControlsRecursive(formToInvestigate:FormGroup|FormArray):string[] {
-    var invalidControls:any[] = [];
-    let recursiveFunc = (form:FormGroup|FormArray) => {
-      Object.keys(form.controls).forEach(field => { 
+  findInvalidControlsRecursive(formToInvestigate: FormGroup | FormArray): string[] {
+    var invalidControls: any[] = [];
+    let recursiveFunc = (form: FormGroup | FormArray) => {
+      Object.keys(form.controls).forEach(field => {
         const control = form.get(field);
-        if (control.invalid) invalidControls.push({field, control});
+        if (control.invalid) invalidControls.push({ field, control });
         if (control instanceof FormGroup) {
           recursiveFunc(control);
         } else if (control instanceof FormArray) {
           recursiveFunc(control);
-        }        
+        }
       });
     }
     recursiveFunc(formToInvestigate);
@@ -457,7 +474,7 @@ export class PropertyTaxComponent implements OnInit {
         position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
         readonly: true,
         yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
-          ...yearItem, 
+          ...yearItem,
           label: targetQuestion.label,
           postion: targetQuestion.displayPriority
         }, item, replicaCount)))
@@ -477,32 +494,33 @@ export class PropertyTaxComponent implements OnInit {
   canShowHeader(displayPriority: string) {
     const waterChargesHeaders = ['5.5', '5.11', '5.13', '5.17', '5.21', '5.25', '5.30', '5.31', '5.32'];
     const sewerageChargesHeaders = ['6.5', '6.11', '6.13', '6.17', '6.21', '6.25', '6.30', '6.31', '6.32'];
-    if(waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value  !== 'Yes') {
+    if (waterChargesHeaders.includes(displayPriority) && this.notificationWaterChargesCtrl.value.value !== 'Yes') {
       return false;
     }
-    if(sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value  !== 'Yes') {
+    if (sewerageChargesHeaders.includes(displayPriority) && this.doesColSewerageChargesCtrl.value.value !== 'Yes') {
       return false;
     }
     return true;
   }
 
   submit(isDraft = true) {
+    console.log(this.form)
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      status: isDraft ? 2 : 3,
+      currentFormStatus: isDraft ? 2 : 3,
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
     this.propertyTaxService.postData(payload).subscribe(res => {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
       this.formSubmitted = !isDraft;
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success').then(() => {
-        if (!isDraft) location.reload();
-      });
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');

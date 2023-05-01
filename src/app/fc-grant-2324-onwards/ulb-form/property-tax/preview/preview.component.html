@@ -9,8 +9,10 @@
             <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
-    <div class="row" style="margin-top: 1rem;">
-        <div class="col-sm-12 text-end pdf-hide">
+    <div class="row align-items-center" style="margin-top: 1rem;">
+        <div class="col-sm-6">Status: {{ data?.additionalData?.statusText }}</div>
+        
+        <div class="col-sm-6 text-end pdf-hide">
             <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as
                 PDF</button>
         </div>
