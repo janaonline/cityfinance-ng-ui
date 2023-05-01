@@ -78,7 +78,7 @@ export class PropertyTaxComponent implements OnInit {
   statusText: string;
   userTypes = USER_TYPE;
   form: FormArray;
-  status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
+  currentFormStatus: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
@@ -126,6 +126,7 @@ export class PropertyTaxComponent implements OnInit {
       this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
       this.statusText = res?.data?.statusText;
+      this.currentFormStatus = res?.data?.currentFormStatus;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -142,6 +143,9 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
+  get buttonDissabled() {
+    return ![1, 2, 5, 7].includes(this.currentFormStatus);
+  }
 
   getTabFormGroup(tab: Tab): any {
     const { data, feedback, ...rest } = tab;
@@ -318,6 +322,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   onPreview() {
+    if(!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
     const date = new Date();
     console.log(this.form.getRawValue());
     const rowValues = this.form.getRawValue();
