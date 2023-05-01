@@ -14,7 +14,14 @@ export class StateFormComponent implements OnInit {
     private router: Router,
     private commonServices : CommonServicesService
   ) {
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    if (!this.loggedInUserType) {
+      this.router.navigate(["/login"]);
+    }
     this.userData = JSON.parse(localStorage.getItem("userData"));
+    if (this.userData?.role != 'MoHUA' && this.userData?.role != 'STATE' && this.userData?.role != 'ADMIN') {
+      this.router.navigate(["/fc-home-page"]);
+    }
   //  this.leftMenu = JSON.parse(localStorage.getItem("leftMenuState"));
     this.stateName = sessionStorage.getItem("stateName");
     this.stateId = this.userData?.state;
@@ -22,11 +29,7 @@ export class StateFormComponent implements OnInit {
       this.stateId = localStorage.getItem("state_id");
     }
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
-    this.loggedInUserType = this.loggedInUserDetails.role;
-    if (!this.loggedInUserType) {
-      this.router.navigate(["/login"]);
-      // this.showLoader = false;
-    }
+  
   this.getLeftMenu();
     
   }
