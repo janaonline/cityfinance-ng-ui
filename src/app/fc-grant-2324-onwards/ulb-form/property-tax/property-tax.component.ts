@@ -82,6 +82,7 @@ export class PropertyTaxComponent implements OnInit {
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
+  validators = {};
 
   constructor(
     private fb: FormBuilder,
@@ -258,14 +259,23 @@ export class PropertyTaxComponent implements OnInit {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
           s3Control.patchValue({ data: { [updatedable]: { canShow } } });
           config.years?.forEach(yearIndex => {
-            const updatableControl = s3Control?.get(`data.${updatedable}.yearData.${yearIndex}`) as FormGroup;
+            const selectorString = `data.${updatedable}.yearData.${yearIndex}`;
+            const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
+            const valueControl = updatableControl.get('value');
             const nameControl = updatableControl.get('file.name');
             const urlControl = updatableControl.get('file.url');
             [nameControl, urlControl].forEach(fileControl => {
               fileControl?.setValidators(canShow ? [Validators.required] : [])
               fileControl?.updateValueAndValidity({ emitEvent: true });
-            })
+            });
+            if(valueControl) {
+              if(!this.validators[selectorString]) {
+                this.validators[selectorString] = valueControl.validator;
+              }
+              valueControl?.setValidators(canShow ? this.validators[selectorString] : []);
+              valueControl?.updateValueAndValidity({ emitEvent: true });
+            }
           })
         });
         control.updateValueAndValidity({ emitEvent: true });
@@ -494,6 +504,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   submit(isDraft = true) {
+    console.log(this.form)
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
