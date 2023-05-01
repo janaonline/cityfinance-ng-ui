@@ -2,6 +2,7 @@
     <h5 class="mx-3 my-4">Details of Property Tax and User Charges</h5>
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
+<small class="text-danger">All questions with * are mandatory</small>
 
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">

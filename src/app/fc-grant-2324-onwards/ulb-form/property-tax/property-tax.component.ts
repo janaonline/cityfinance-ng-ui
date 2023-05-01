@@ -181,7 +181,7 @@ export class PropertyTaxComponent implements OnInit {
                 replicaNumber: childItem.replicaNumber,
                 readonly: [{ value: childItem.readonly, disabled: true }],
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
-                position: [{ value: item.displayPriority || 1, disabled: true }],
+                position: [{ value: childItem.displayPriority || 1, disabled: true }],
                 yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
               }))),
             }),
@@ -258,7 +258,7 @@ export class PropertyTaxComponent implements OnInit {
         const control = s3Control.get(selector);
         control.valueChanges.subscribe(({ value }) => {
           const updatableControl = s3Control?.get(updatable.target) as FormGroup;
-          if(value === updatable?.on) {
+          if (value === updatable?.on) {
             updatableControl.patchValue({
               value: updatable?.value
             });

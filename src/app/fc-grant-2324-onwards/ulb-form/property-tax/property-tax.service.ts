@@ -10452,6 +10452,13 @@ const response = {
             }
          },
          'data.notificationWaterCharges.yearData.0': {
+            'updatables': [
+               {
+                  'on': 'No',
+                  'target': 'data.entityWaterCharges.yearData.0',
+                  'value': ''
+               }
+            ],
             'skippable': {
                'entityWaterCharges': {
                   'value': 'Yes',
