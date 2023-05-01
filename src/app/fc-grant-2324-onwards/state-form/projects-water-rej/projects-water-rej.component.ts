@@ -404,7 +404,7 @@ waterRejRes = {
   ngOnInit() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
     this.setRouter();
-    this.design_year = this.Year["2022-23"];
+    this.design_year = this.Year["2023-22"];
     this.setUaList();
   }
 
@@ -425,7 +425,7 @@ waterRejRes = {
   public initializeReport() {
     this.waterRejenuvation = this.fb.group({
       state: this.fb.control(this.stateId, [Validators.required]),
-      design_year: this.fb.control(this.Year["2022-23"], [Validators.required]),
+      design_year: this.fb.control(this.Year["2023-24"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
       status: this.fb.control('', []),
    //   isDraft: this.fb.control(this.isDraft, []),
@@ -545,7 +545,7 @@ waterRejRes = {
   loadData() {
     console.log('ggggggg', this.uasData)
     this.isApiInProgress = true;
-    this.waterRejenuvationService.getData(this.Year["2022-23"], this.stateId).subscribe(
+    this.waterRejenuvationService.getData(this.Year["2023-24"], this.stateId).subscribe(
       (res) => {
         this.isPreYear = true;
         this.isApiInProgress = false;
