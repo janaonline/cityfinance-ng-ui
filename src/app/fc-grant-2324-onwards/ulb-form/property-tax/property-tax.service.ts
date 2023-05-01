@@ -10353,7 +10353,7 @@ const response = {
          ],
          '6.17': [
            { label: '', info: '' },
-           { label: 'Commercial Properties households/properties', info: '' },
+           { label: 'Commercial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10362,7 +10362,7 @@ const response = {
          ],
          '6.21': [
            { label: '', info: '' },
-           { label: 'Industrial Properties households/properties', info: '' },
+           { label: 'Industrial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10371,7 +10371,7 @@ const response = {
          ],
          '6.25': [
            { label: '', info: '' },
-           { label: 'Other Properties households/properties', info: '' },
+           { label: 'Other households/properties(any other connection type)', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
