@@ -134,7 +134,13 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
+                        "allowedFileTypes": [
+                           "pdf"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -250,7 +256,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewerage charges etc demanded along with property tax."
+                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc. And excluding user charges like water charges, sewerage charges etc demanded along with property tax."
                },
                "cdmdIncludingCess": {
                   "key": "cdmdIncludingCess",
@@ -1052,7 +1058,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax."
+                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc. And excluding user charges like water charges, sewearge charges etc demanded along with property tax."
                },
                "cuCollectIncludingCess": {
                   "key": "cuCollectIncludingCess",
@@ -1349,7 +1355,7 @@ const response = {
                         "placeHolder": ""
                      }
                   ],
-                  "info": "Including cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax."
+                  "info": "Excluding cess like library cess, tree cess etc , other taxes like water tax, sanitation tax etc and user charges like water charges, sewearge charges etc demanded along with property tax."
                },
                "taxTypeCollection": {
                   "key": "taxTypeCollection",
@@ -4641,7 +4647,8 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_d46809df-9ad9-48c0-9177-e7699109fa5c.xlsx",
+                        "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_f56394ca-9fce-428c-b3cd-338b99872deb.xlsx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -4659,10 +4666,16 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card_f56394ca-9fce-428c-b3cd-338b99872deb.xlsx",
                         "file": {
                            "name": "",
                            "url": ""
                         },
+                        "allowedFileTypes": [
+                           "pdf",
+                           "xls",
+                           "xlsx"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -4799,7 +4812,13 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
+                        "allowedFileTypes": [
+                           "pdf"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -4855,7 +4874,7 @@ const response = {
                         "type": "waterChrgDm",
                         "year": "607697074dff55e6c0be33ba",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "number",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7173,7 +7192,8 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_41836f47-77f3-45c4-a922-f84ed5f05661.docx",
+                        "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_af9e53d8-afa5-4e23-aa63-d6eb73ec5767.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7191,10 +7211,16 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet_af9e53d8-afa5-4e23-aa63-d6eb73ec5767.docx",
                         "file": {
                            "name": "",
                            "url": ""
                         },
+                        "allowedFileTypes": [
+                           "pdf",
+                           "xls",
+                           "xlsx"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -7321,7 +7347,8 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/waterServices_be3b6058-a1a8-4106-a8f7-5288f1c28e2b.docx",
+                        "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_622c759f-e168-4e44-aaf9-6b8230d5ee98.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -7339,10 +7366,16 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services_622c759f-e168-4e44-aaf9-6b8230d5ee98.docx",
                         "file": {
                            "name": "",
                            "url": ""
                         },
+                        "allowedFileTypes": [
+                           "pdf",
+                           "xls",
+                           "xlsx"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -7378,7 +7411,7 @@ const response = {
                         "type": "doesColSewerageCharges",
                         "year": "63735a5bd44534713673c1ca",
                         "code": [],
-                        "readonly": true,
+                        "readonly": false,
                         "formFieldType": "radio-toggle",
                         "bottomText": "",
                         "placeHolder": ""
@@ -7479,7 +7512,13 @@ const response = {
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
+                        "allowedFileTypes": [
+                           "pdf"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -9853,7 +9892,8 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/tariffSheet_1b41e678-a258-4c43-9173-16b540f64126.docx",
+                        "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_15b0be7b-09b7-4cb5-8244-596eed988371.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -9871,10 +9911,16 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet_15b0be7b-09b7-4cb5-8244-596eed988371.docx",
                         "file": {
                            "name": "",
                            "url": ""
                         },
+                        "allowedFileTypes": [
+                           "pdf",
+                           "xls",
+                           "xlsx"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -10001,7 +10047,8 @@ const response = {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
-                        "value": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O%20M%20costworking%20sheetsewerage%20services_d884cbc1-35e7-4db7-bdbd-fb8f575ce70d.docx",
+                        "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_51ee7721-c35c-4e22-a873-28b533f40e34.docx",
                         "file": "",
                         "min": "",
                         "max": "",
@@ -10019,10 +10066,16 @@ const response = {
                         "key": "FY2019-20",
                         "postion": "1",
                         "value": "",
+                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services_51ee7721-c35c-4e22-a873-28b533f40e34.docx",
                         "file": {
                            "name": "",
                            "url": ""
                         },
+                        "allowedFileTypes": [
+                           "pdf",
+                           "xls",
+                           "xlsx"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -10044,14 +10097,20 @@ const response = {
                   "key": "signedPdf",
                   "label": "Upload Signed PDF",
                   "required": true,
-                  "displayPriority": "7",
+                  "displayPriority": "7.1",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "file": "",
+                        "file": {
+                           "name": "",
+                           "url": ""
+                        },
+                        "allowedFileTypes": [
+                           "pdf"
+                        ],
                         "min": "",
                         "max": "",
                         "required": true,
@@ -10175,15 +10234,6 @@ const response = {
            { label: '2021-22', info: '' },
            { label: '2022-23', info: '' }
          ],
-         '5.1': [
-           { label: '', info: '' },
-           { label: 'Water Charges Details', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
-         ],
          '5.5': [
            { label: '', info: '' },
            { label: 'Water Charges Demand and Collection Details', info: '' },
@@ -10204,7 +10254,7 @@ const response = {
          ],
          '5.13': [
            { label: '', info: '' },
-           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: 'Residential households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10213,7 +10263,7 @@ const response = {
          ],
          '5.17': [
            { label: '', info: '' },
-           { label: 'Commercial households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: 'Commercial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10222,7 +10272,7 @@ const response = {
          ],
          '5.21': [
            { label: '', info: '' },
-           { label: 'Industrial households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: 'Industrial households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10271,15 +10321,6 @@ const response = {
            { label: '', info: '' },
            { label: '', info: '' }
          ],
-         '6.1': [
-           { label: '', info: '' },
-           { label: 'Sewerage Charges Details', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' },
-           { label: '', info: '' }
-         ],
          '6.5': [
            { label: '', info: '' },
            {
@@ -10303,7 +10344,7 @@ const response = {
          ],
          '6.13': [
            { label: '', info: '' },
-           { label: 'Residential households/properties', info: 'Properties that includes homes, townhouses, apartments and any other property that has been designated for people to live.' },
+           { label: 'Residential households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10312,7 +10353,7 @@ const response = {
          ],
          '6.17': [
            { label: '', info: '' },
-           { label: 'Commercial Properties households/properties', info: 'This category includes properties like shops, shopping malls, offices, etc.' },
+           { label: 'Commercial Properties households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10321,7 +10362,7 @@ const response = {
          ],
          '6.21': [
            { label: '', info: '' },
-           { label: 'Industrial Properties households/properties', info: 'Properties which has been designed to support different business and industrial operations.' },
+           { label: 'Industrial Properties households/properties', info: '' },
            { label: '2018-19', info: '' },
            { label: '2019-20', info: '' },
            { label: '2020-21', info: '' },
@@ -10391,10 +10432,10 @@ const response = {
          },
          '6.1': { label: 'Sewerage Charges Details', info: '' },
          '6.13': {
-            label: 'Water Charges Demand and Collection Details by Household/Property type',
+            label: 'Sewerage Charges Details by household/property type',
             info: ''
          },
-         '7': { label: 'Download and Upload Signed PDF', info: '' },
+         '7.1': { label: 'Download and Upload Signed PDF', info: '' },
        }
        ,
       "skipLogicDependencies": {

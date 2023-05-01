@@ -23,7 +23,7 @@ import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { PreviewComponent } from './preview/preview.component';
-// import { DateAdapter } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -88,9 +88,11 @@ export class PropertyTaxComponent implements OnInit {
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private loaderService: GlobalLoaderService,
-    // private dateAdapter: DateAdapter<Date>,
+    private dateAdapter: DateAdapter<Date>,
     private propertyTaxService: PropertyTaxService
-  ) { }
+  ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit(): void {
 
@@ -196,6 +198,7 @@ export class PropertyTaxComponent implements OnInit {
       _id: item._id,
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
+      downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -211,6 +214,7 @@ export class PropertyTaxComponent implements OnInit {
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
       ...(item.file && {
+        allowedFileTypes: [{ value: item.allowedFileTypes, disabled: true }],
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
           name: [item.file.name, item.required ? [Validators.required] : []],
@@ -265,18 +269,14 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, control: FormControl, reset: boolean = false) {
-    console.log({ event, fileType, control })
+  uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false) {
+    console.log({ event, control })
     if (reset) return control.patchValue({ uploading: false, name: '', url: '' });
     const maxFileSize = 5;
-    const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    const fileExtension = file.name.split('.').pop();
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
-    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
-    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
 
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe((s3Response: any) => {
@@ -295,7 +295,9 @@ export class PropertyTaxComponent implements OnInit {
     const dialogRef = this.dialog.open(PreviewComponent, {
       id: 'UlbFisPreviewComponent',
       data: {
-        showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        showData: this.form.getRawValue(),
+        financialYearTableHeader: this.financialYearTableHeader,
+        specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
@@ -391,7 +393,6 @@ export class PropertyTaxComponent implements OnInit {
         value: updatedLabel,
       })
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
 
 
@@ -420,7 +421,6 @@ export class PropertyTaxComponent implements OnInit {
     item.patchValue({
       replicaCount,
     });
-    this.updateDependentQuestionsForSkipLogic(item);
   }
   async addChildQuestions(item: FormGroup) {
     const copyChildFrom = item.controls?.copyChildFrom.value as string[];
@@ -456,11 +456,13 @@ export class PropertyTaxComponent implements OnInit {
         formFieldType: [{ value: targetQuestion.formFieldType || 'text', disabled: true }],
         position: [{ value: targetQuestion.displayPriority || 1, disabled: true }],
         readonly: true,
-        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, replicaCount)))
+        yearData: this.fb.array(targetQuestion?.yearData?.map(yearItem => this.getInnerFormGroup({
+          ...yearItem, 
+          label: targetQuestion.label,
+          postion: targetQuestion.displayPriority
+        }, item, replicaCount)))
       }))
     })
-    this.updateDependentQuestionsForSkipLogic(item);
-
   }
 
   get notificationWaterChargesCtrl() {
@@ -482,22 +484,6 @@ export class PropertyTaxComponent implements OnInit {
       return false;
     }
     return true;
-  }
-
-  updateDependentQuestionsForSkipLogic(item: FormGroup) {
-    const key = item.controls?.key?.value;
-    const child = item.getRawValue().child;
-    console.log({ key, child: item.getRawValue().child });
-    if(!child) return;
-    // const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
-    if(key == 'userChargesDmnd') {
-      this.notificationWaterChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Water charges") ? 'Yes' : 'No'
-      })
-      this.doesColSewerageChargesCtrl.patchValue({
-        value: child.find(item => item.value === "Sewerage charges") ? 'Yes' : 'No'
-      })
-    }
   }
 
   submit(isDraft = true) {
