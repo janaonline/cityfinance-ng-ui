@@ -165,6 +165,7 @@ export class PropertyTaxComponent implements OnInit {
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
+            downloadLink: [{ value: item.downloadLink, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
             ...(item.child && {
@@ -203,7 +204,6 @@ export class PropertyTaxComponent implements OnInit {
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
-      downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -318,7 +318,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   onPreview() {
-    if(!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
+    if (!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
     const date = new Date();
     console.log(this.form.getRawValue());
     const rowValues = this.form.getRawValue();
