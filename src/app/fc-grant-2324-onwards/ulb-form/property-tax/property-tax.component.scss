@@ -392,6 +392,9 @@ table {
 }
 
 .form-group {
+    .mat-date {
+        font-size: 13px;
+    }
     input:focus+.focus-warning {
         color: #c9880f;
         display: block;
