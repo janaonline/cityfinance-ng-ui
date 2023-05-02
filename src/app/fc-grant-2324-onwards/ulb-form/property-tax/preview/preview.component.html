@@ -50,7 +50,7 @@
                                         <span class="file-link" *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
-                                            elem?.formFieldType == 'number'
+                                            elem?.isRupee
                                             ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
                                             : elem?.value
                                             }}</span>
@@ -68,7 +68,7 @@
                                         <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
-                                            elem?.formFieldType == 'number'
+                                            elem?.isRupee
                                             ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
                                             : elem?.value
                                             }}</span>
@@ -77,51 +77,6 @@
                             </ng-container>
                         </tbody>
                     </table>
-
-
-                    <ng-container *ngFor="let tabData of tab?.data| keyvalue; let y_i=index">
-                        <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
-                            <div class="row mb-1 bg-amt pd-r">
-                                <div class="col-sm-6 yr-l">{{tabData?.value?.label}}</div>
-                                <div class="col-sm-6 yr-ans">{{tabData?.value?.value }}</div>
-                            </div>
-                        </div>
-
-                        <div *ngIf="tab?.id == 's4' && tabData?.value?.key != 'guidanceNotes'">
-                            <div class="row">
-                                <div class="col-sm-12 f-label mb-2">{{tabData?.value?.label }}</div>
-                            </div>
-                            <div class="div">
-                                <div class="row mb-1 bg-amt pd-r"
-                                    *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                    <div class="col-sm-6 yr-l">{{elem?.label}}</div>
-                                    <div class="col-sm-6 yr-ans" *ngIf="elem?.value">
-                                        {{elem?.value | currency:"INR":"symbol"}}
-                                    </div>
-                                    <div class="col-sm-6 yr-ans" *ngIf="elem?.file">
-                                        <div *ngIf="elem?.file?.url">
-                                            <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
-                                        </div>
-                                        <div *ngIf="!elem?.file?.url && elem?.readonly == true">
-                                            Already uploaded on Cityfinance.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <div *ngIf="tab?.id == 's4'">
-                        <div class="row">
-                            <div class="col-sm-6 f-label mb-2">Any other information that you would like to provide
-                                us?</div>
-                            <div class="col-sm-6 f-label yr-ans mb-2">
-                                <div *ngIf="data?.additionalData?.otherFile?.url">
-                                    <a href="{{data?.additionalData?.otherFile?.url}}"
-                                        target="_blank">{{data?.additionalData?.otherFile?.name}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
