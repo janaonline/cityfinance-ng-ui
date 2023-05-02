@@ -353,7 +353,7 @@ table {
         color: black;
         text-align: center;
     }
-    
+
     .table-main-heading {
         background-color: #6bbdc9;
         color: black;
@@ -384,11 +384,20 @@ table {
 .btn-pre {
     background-color: #CFCFCF;
 }
+
 .edit-button {
     position: absolute;
     right: 0;
-    top: 1px;   
+    top: 1px;
 }
-// .form-select {
-//     width: fit-content;
-// }
+
+.form-group {
+    input:focus+.focus-warning {
+        color: #c9880f;
+        display: block;
+    }
+
+    .focus-warning {
+        display: none;
+    }
+}

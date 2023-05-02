@@ -104,7 +104,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2022-23/property-tax/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/2023-24/property-tax/${this.userData?.ulbCode}`
   }
 
   get design_year() {

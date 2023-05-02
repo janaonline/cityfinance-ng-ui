@@ -15,16 +15,13 @@
                 placeholder="{{yearItem?.controls?.placeholder?.value}}" />
             <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
 
-            <small *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
-                yearItem?.controls?.value?.value == '0'" style="color: #c9880f">
+            <small class="focus-warning" *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
+                yearItem?.controls?.value?.value == '0'">
                 contains "0" do you still want to continue?
             </small>
-            <small *ngIf="yearItem._parent | yearComparision: yearIndex" style="color: #c9880f; display: block;">Prior
+            <small class="focus-warning" *ngIf="yearItem._parent | yearComparision: yearIndex">Prior
                 year amount is
                 greater</small>
-            <small class="text-danger"
-                *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
-                be equal to {{ yearItem.value.originalValue }}</small>
             <mat-radio-group aria-label="Select an option" formControlName="value"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
                 [disabled]="yearItem?.controls?.readonly?.value">
