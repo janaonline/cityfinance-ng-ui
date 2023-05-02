@@ -73,8 +73,8 @@
                         </div>
                     </button>
                     <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                        (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)" type="file"
-                        [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
+                        (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)"
+                        type="file" [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
                 </div>
                 <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
                     <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url}}"
@@ -91,9 +91,14 @@
                     </app-loader>
                 </div>
                 <small style="color: red"
-                *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is required</small>
+                    *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is
+                    required</small>
             </ng-container>
-            <div class="invalid-feedback">Please provide a valid input.</div>
+            <div class="invalid-feedback" *ngIf="
+                yearItem.controls?.value?.invalid 
+                && 
+                (yearItem.controls?.value?.dirty || yearItem.controls?.value?.touched)">{{ yearItem.controls?.value |
+                formError }}</div>
         </div>
     </div>
 </ng-template>
@@ -186,10 +191,12 @@
                         </tr>
                         <tr *ngIf="item?.value?.controls?.child?.value">
                             <td colspan="7">
-                                <button [disabled]="buttonDissabled" class="btn btn-primary" (click)="addChildQuestions(item?.value)">Add
+                                <button [disabled]="buttonDissabled" class="btn btn-primary"
+                                    (click)="addChildQuestions(item?.value)">Add
                                     more</button>
-                                <button [disabled]="buttonDissabled" *ngIf="item?.value?.controls?.child?.value.length > 0"
-                                    class="btn btn-danger ms-2" (click)="removeLastQuestion(item?.value)">Delete
+                                <button [disabled]="buttonDissabled"
+                                    *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2"
+                                    (click)="removeLastQuestion(item?.value)">Delete
                                     Last</button>
                             </td>
                         </tr>
