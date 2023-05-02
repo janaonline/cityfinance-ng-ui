@@ -14,9 +14,13 @@ import { FormCommonActionComponent } from './components/form-common-action/form-
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { AgGridComponent } from './components/ag-grid/ag-grid.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { ActionPlanSliComponent } from '../state-form/action-plan-sli/action-plan-sli.component';
+import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 
 @NgModule({
-  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent, FormCommonActionComponent],
+  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent, FormCommonActionComponent, AgGridComponent],
   imports: [
     CommonModule,
     MatIconModule,
@@ -26,15 +30,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ButtonsModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    MatSnackBarModule
-
+    MatSnackBarModule,
+    AgGridModule.withComponents([ActionPlanSliComponent, AgGridComponent, CustomTooltipComponent]),
   ],
   exports: [
     AnnualAccountTemplateComponent,
     DurTemplateComponent,
     LeftMenuTemplateComponent,
     FormLoaderComponent,
-    FormCommonActionComponent
+    FormCommonActionComponent,
+    AgGridComponent
   ]
 })
 export class FcSharedModule { }

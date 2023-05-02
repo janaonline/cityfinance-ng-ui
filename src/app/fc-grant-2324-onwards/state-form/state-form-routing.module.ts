@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: "",
     component: StateFormComponent,
-    canActivate: [State2223Guard],
+   canActivate: [State2223Guard],
     children: [
       {
         path: "dashboard",

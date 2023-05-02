@@ -1,4 +1,4 @@
-<!-- <div class="" *ngIf="!isApiInProgress">
+<div class="" *ngIf="!isApiInProgress">
     <div class="container-fluid">
         <div class="pre-y" style="" *ngIf="!isPreYear" [innerHTML]="preMess">
         </div>
@@ -25,11 +25,11 @@
                     <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': item.fold}" style="" (click)="foldCard(projectIndex)">Select</button>
                 </div>
                 <div *ngIf="item.fold">
-                    <app-ag-grid2223 [catList]="projectCategories" 
+                    <app-ag-grid [catList]="projectCategories" 
                     (gridData)="getDataFromGrid($event, projectIndex)" 
                     [ulbList]="item.ulbList" [rowData]="item" 
                     [isDisabled]="isDisabled">
-                    </app-ag-grid2223>
+                    </app-ag-grid>
                 </div>
             </div>
 
@@ -51,4 +51,4 @@
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
     <app-pre-loader-new></app-pre-loader-new>
-</div> -->
+</div>
