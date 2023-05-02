@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './action-plan-sli.component.html',
   styleUrls: ['./action-plan-sli.component.scss']
 })
-export class ActionPlanSliComponent implements OnInit {
+export class ActionPlanSliComponent extends ActionPlanComponent implements OnInit {
  
   constructor(
      actionplanserviceService: ActionplanserviceService,
@@ -22,20 +22,27 @@ export class ActionPlanSliComponent implements OnInit {
      stateService: State2223Service,
      newCommonService: NewCommonService
   ) { 
-    // super(
-    //   actionplanserviceService,
-    //   _router,
-    //   profileService,
-    //   stateDashboardService,
-    //   stateService, 
-    //   newCommonService
-    //   );
+    super(
+      actionplanserviceService,
+      _router,
+      profileService,
+      stateDashboardService,
+      stateService, 
+      newCommonService
+      );
+     // this.initializeUserType();
+
+      this.stateId = this.userData?.state;
+      if (!this.stateId) {
+        this.stateId = localStorage.getItem("state_id");
+      }
+      this.designYear = this.Year['2023-24'];
   }
-  
+  yearCode="2023-24"
   ngOnInit(): void {
-  //  this.sideMenuItem = JSON.parse(localStorage.getItem("leftStateMenuRes"));
-   // this.getUAList();
-   // this.setRouter();
+   this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+   this.getUAList();
+   this.setRouter();
   }
   
 
