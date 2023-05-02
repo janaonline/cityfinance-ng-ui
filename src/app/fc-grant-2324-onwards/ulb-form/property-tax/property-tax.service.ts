@@ -968,23 +968,28 @@ const response = {
                   "copyOptions": [
                      {
                         "id": "Water charges",
-                        "label": "Water charges"
+                        "label": "Water charges",
+                        "disabled": false
                      },
                      {
                         "id": "Sewerage /Sanitation charges",
-                        "label": "Sewerage /Sanitation charges"
+                        "label": "Sewerage /Sanitation charges",
+                        "disabled": false
                      },
                      {
                         "id": "Solid-waste management charges",
-                        "label": "Solid-waste management charges"
+                        "label": "Solid-waste management charges",
+                        "disabled": false
                      },
                      {
                         "id": "Drainage charges",
-                        "label": "Drainage charges"
+                        "label": "Drainage charges",
+                        "disabled": false
                      },
                      {
                         "id": "others",
-                        "label": "others"
+                        "label": "others",
+                        "disabled": false
                      }
                   ],
                   "child": [],
@@ -1534,7 +1539,7 @@ const response = {
                      {},
                      {}
                   ],
-                  "info": "For example,Water taxes, Sanitation taxes, etc."
+                  "info": "For example, Water tax, Sanitation tax, etc."
                },
                "cessCollect": {
                   "key": "cessCollect",
@@ -1775,23 +1780,28 @@ const response = {
                   "copyOptions": [
                      {
                         "id": "Water charges",
-                        "label": "Water charges"
+                        "label": "Water charges",
+                        "disabled": false
                      },
                      {
                         "id": "Sewerage/Sanitation Charges",
-                        "label": "Sewerage/Sanitation Charges"
+                        "label": "Sewerage/Sanitation Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Solid-waste management Charges",
-                        "label": "Solid-waste management Charges"
+                        "label": "Solid-waste management Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Drainage Charges",
-                        "label": "Drainage Charges"
+                        "label": "Drainage Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Other charges",
-                        "label": "Other charges"
+                        "label": "Other charges",
+                        "disabled": false
                      }
                   ],
                   "child": [],
@@ -4778,31 +4788,13 @@ const response = {
                   "label": "Please submit the property tax rate card",
                   "required": true,
                   "displayPriority": "4.1",
+                  "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card.xlsx",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card.xlsx",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "propertyTaxValuationDetails",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20format%20for%20property%20tax%20rate%20card.xlsx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -4816,13 +4808,14 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "propertyTaxValuationDetails",
-                        "year": "607697074dff55e6c0be33ba",
+                        "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -7393,31 +7386,13 @@ const response = {
                   "label": "Please provide the water tariff sheet",
                   "required": true,
                   "displayPriority": "5.30",
+                  "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet.docx",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet.docx",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "waterChrgTariffDetails",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Water%20Tariff%20Rate%20Sheet.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7431,13 +7406,14 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "waterChrgTariffDetails",
-                        "year": "607697074dff55e6c0be33ba",
+                        "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -7553,31 +7529,13 @@ const response = {
                   "label": "Please provide the working sheet for O&M cost calculation",
                   "required": true,
                   "displayPriority": "5.32",
+                  "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services.docx",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services.docx",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "omCostWaterService",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20water%20services.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -7591,13 +7549,14 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostWaterService",
-                        "year": "607697074dff55e6c0be33ba",
+                        "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -10168,31 +10127,13 @@ const response = {
                   "label": "Please provide the sewerage tariff sheet",
                   "required": true,
                   "displayPriority": "6.30",
+                  "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet.docx",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet.docx",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "sewerageChrgTarrifSheet",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20Sewerage%20Tariff%20Rate%20Sheet.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -10206,13 +10147,14 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "sewerageChrgTarrifSheet",
-                        "year": "607697074dff55e6c0be33ba",
+                        "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
@@ -10328,31 +10270,13 @@ const response = {
                   "label": "Please provide the working sheet for O&M cost calculation",
                   "required": true,
                   "displayPriority": "6.32",
+                  "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services.docx",
                   "yearData": [
                      {
                         "label": "FY 2018-19",
                         "key": "FY2018-19",
                         "postion": "0",
                         "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services.docx",
-                        "file": "",
-                        "min": "",
-                        "max": "",
-                        "required": true,
-                        "type": "omCostSewerageService",
-                        "year": "63735a5bd44534713673c1ca",
-                        "code": [],
-                        "readonly": false,
-                        "formFieldType": "link",
-                        "bottomText": "",
-                        "placeHolder": ""
-                     },
-                     {
-                        "label": "FY 2019-20",
-                        "key": "FY2019-20",
-                        "postion": "1",
-                        "value": "",
-                        "downloadLink": "https://democityfinance.s3.ap-south-1.amazonaws.com/ULB/2022-23/property-tax/sample-files/Sample%20O_M%20cost%20working%20sheet%20-%20sewerage%20services.docx",
                         "file": {
                            "name": "",
                            "url": ""
@@ -10366,13 +10290,14 @@ const response = {
                         "max": "",
                         "required": true,
                         "type": "omCostSewerageService",
-                        "year": "607697074dff55e6c0be33ba",
+                        "year": "63735a5bd44534713673c1ca",
                         "code": [],
                         "readonly": false,
                         "formFieldType": "file",
                         "bottomText": "",
                         "placeHolder": ""
                      },
+                     {},
                      {},
                      {},
                      {}
