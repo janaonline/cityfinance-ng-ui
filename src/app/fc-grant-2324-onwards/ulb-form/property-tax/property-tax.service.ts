@@ -968,23 +968,28 @@ const response = {
                   "copyOptions": [
                      {
                         "id": "Water charges",
-                        "label": "Water charges"
+                        "label": "Water charges",
+                        "disabled": false
                      },
                      {
                         "id": "Sewerage /Sanitation charges",
-                        "label": "Sewerage /Sanitation charges"
+                        "label": "Sewerage /Sanitation charges",
+                        "disabled": false
                      },
                      {
                         "id": "Solid-waste management charges",
-                        "label": "Solid-waste management charges"
+                        "label": "Solid-waste management charges",
+                        "disabled": false
                      },
                      {
                         "id": "Drainage charges",
-                        "label": "Drainage charges"
+                        "label": "Drainage charges",
+                        "disabled": false
                      },
                      {
                         "id": "others",
-                        "label": "others"
+                        "label": "others",
+                        "disabled": false
                      }
                   ],
                   "child": [],
@@ -1775,23 +1780,28 @@ const response = {
                   "copyOptions": [
                      {
                         "id": "Water charges",
-                        "label": "Water charges"
+                        "label": "Water charges",
+                        "disabled": false
                      },
                      {
                         "id": "Sewerage/Sanitation Charges",
-                        "label": "Sewerage/Sanitation Charges"
+                        "label": "Sewerage/Sanitation Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Solid-waste management Charges",
-                        "label": "Solid-waste management Charges"
+                        "label": "Solid-waste management Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Drainage Charges",
-                        "label": "Drainage Charges"
+                        "label": "Drainage Charges",
+                        "disabled": false
                      },
                      {
                         "id": "Other charges",
-                        "label": "Other charges"
+                        "label": "Other charges",
+                        "disabled": false
                      }
                   ],
                   "child": [],
@@ -10330,7 +10340,8 @@ const response = {
                   ],
                   "info": ""
                }
-            },
+            }
+            ,
             "feedback": {
                "status": null,
                "comment": ""
