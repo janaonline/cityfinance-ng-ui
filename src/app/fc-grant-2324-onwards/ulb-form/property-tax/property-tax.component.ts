@@ -73,7 +73,7 @@ export class PropertyTaxComponent implements OnInit {
   tabs: Tab[];
   cantakeAction: boolean = true;
   formId: string;
-  isDraft: boolean;
+  // isDraft: boolean;
   ulbName: string;
   statusText: string;
   userTypes = USER_TYPE;
@@ -122,8 +122,6 @@ export class PropertyTaxComponent implements OnInit {
     this.propertyTaxService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       this.loaderService.stopLoader();
       console.log('response', res);
-      // this.formId = res?.data?._id;
-      this.isDraft = res?.data?.isDraft;
       this.tabs = res?.data?.tabs;
       this.statusText = res?.data?.statusText;
       this.currentFormStatus = res?.data?.currentFormStatus;
@@ -133,9 +131,6 @@ export class PropertyTaxComponent implements OnInit {
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
-      // this.addSumLogics();
-      // this.addSubtractLogics();
-      // this.navigationCheck();
       this.isLoader = false;
       console.log('form', this.form);
     }, err => {
@@ -207,6 +202,7 @@ export class PropertyTaxComponent implements OnInit {
       _id: item._id,
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
+      isRupee: [{ value: item.isRupee, disabled: true }],
       downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
