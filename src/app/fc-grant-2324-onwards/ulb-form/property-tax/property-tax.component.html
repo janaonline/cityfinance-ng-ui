@@ -220,7 +220,7 @@
     <div class="d-flex justify-content-end my-2">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
                     &lt;- Previous Form </button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
@@ -236,7 +236,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex ">
-                    <button routerLink="/ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
                         Next Form -&gt;
                     </button>
                 </div>
