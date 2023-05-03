@@ -367,7 +367,7 @@ waterRejRes = {
           info: '',
           width: ''
         },
-      ]
+      ],
     }
   ]
 }

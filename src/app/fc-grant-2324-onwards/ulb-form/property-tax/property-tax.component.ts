@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PropertyTaxService } from './property-tax.service';
 
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
@@ -75,15 +75,24 @@ export class PropertyTaxComponent implements OnInit {
   formId: string;
   // isDraft: boolean;
   ulbName: string;
-  statusText: string;
+  status: string;
   userTypes = USER_TYPE;
   form: FormArray;
-  currentFormStatus: number;
+  statusId: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
   validators = {};
 
+  isButtonAvail: boolean = false;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  isFormFinalSubmit: boolean = false;
+  canTakeAction: boolean = false;
+  leftMenuSubs: any;
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -96,10 +105,15 @@ export class PropertyTaxComponent implements OnInit {
     private commonServices: CommonServicesService,
   ) {
     this.dateAdapter.setLocale('en-GB');
+    this.getNextPreUrl();
   }
 
   ngOnInit(): void {
-
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
   }
 
@@ -113,7 +127,8 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if (this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
   }
 
 
@@ -123,8 +138,8 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
-      this.statusText = res?.data?.statusText;
-      this.currentFormStatus = res?.data?.currentFormStatus;
+      this.status = res?.data?.status;
+      this.statusId = res?.data?.statusId;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -132,6 +147,8 @@ export class PropertyTaxComponent implements OnInit {
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.isLoader = false;
+      this.canTakeAction = res?.data?.canTakeAction;
+      this.formDisable(res?.data);
       console.log('form', this.form);
     }, err => {
       this.loaderService.stopLoader();
@@ -139,7 +156,8 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.currentFormStatus);
+    if(this.userData?.role != USER_TYPE.ULB) return true;
+    return ![1, 2, 5, 7].includes(this.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -183,7 +201,7 @@ export class PropertyTaxComponent implements OnInit {
                 formFieldType: [{ value: childItem.formFieldType || 'text', disabled: true }],
                 position: [{ value: childItem.displayPriority || 1, disabled: true }],
                 yearData: this.fb.array(childItem?.yearData?.map(yearItem => this.getInnerFormGroup(yearItem, item, childItem.replicaNumber)))
-              }))),
+              })), item?.required ? [Validators.required] : []),
             }),
             yearData: this.fb.array(item.yearData.map(yearItem => this.getInnerFormGroup(yearItem, item)))
           })
@@ -271,6 +289,9 @@ export class PropertyTaxComponent implements OnInit {
         control.valueChanges.subscribe(({ value }) => {
           const canShow = (typeof config.value == 'string' ? [config.value] : config.value).includes(value);
           s3Control.patchValue({ data: { [skippable]: { canShow } } });
+          const childSelectorString = `data.${skippable}.child`;
+          const childControl = s3Control.get(childSelectorString);
+          this.toggleValidations(childControl, childSelectorString, canShow);
           config.years?.forEach(yearIndex => {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
@@ -282,18 +303,23 @@ export class PropertyTaxComponent implements OnInit {
               fileControl?.setValidators(canShow ? [Validators.required] : [])
               fileControl?.updateValueAndValidity({ emitEvent: true });
             });
-            if (valueControl) {
-              if (!this.validators[selectorString]) {
-                this.validators[selectorString] = valueControl.validator;
-              }
-              valueControl?.setValidators(canShow ? this.validators[selectorString] : []);
-              valueControl?.updateValueAndValidity({ emitEvent: true });
-            }
+
+            this.toggleValidations(valueControl, selectorString, canShow);
           })
         });
         control.updateValueAndValidity({ emitEvent: true });
       })
     });
+  }
+
+  toggleValidations(control: AbstractControl, selector: string, canShow: boolean) {
+    if (control) {
+      if (!this.validators[selector]) {
+        this.validators[selector] = control.validator;
+      }
+      control?.setValidators(canShow ? this.validators[selector] : []);
+      control?.updateValueAndValidity({ emitEvent: true });
+    }
   }
 
   uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
@@ -330,7 +356,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
-          statusText: this.statusText,
+          statusText: this.status,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           // otherFile: this.otherUploadControl?.value
         }
@@ -539,6 +565,34 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
+  }
+
+  actionFormChangeDetect(res) {
+    if (res == true) {
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
+    }
+  }
+
+  getNextPreUrl() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == "pto") {
+          this.nextPreUrl = { nextBtnRouter: ele?.nextUrl, backBtnRouter: ele?.prevUrl }
+          this.formId = ele?.formId;
+        }
+      });
+    }
+  }
+
+  formDisable(res) {
+    if (!res) return;
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+  }
+
+  ngOnDestroy(): void {
+    this.leftMenuSubs.unsubscribe();
   }
 
 }

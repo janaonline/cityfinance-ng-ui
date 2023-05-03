@@ -31,7 +31,8 @@
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value">
+                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value"
+                [readonly]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
             </select>
@@ -51,7 +52,7 @@
                 </div>
                 <mat-datepicker #r_i></mat-datepicker>
             </div>
-            <small style="color: red"
+            <small class="text-danger"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
                 provide a valid date</small>
             <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
@@ -85,7 +86,7 @@
                     <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                     </app-loader>
                 </div>
-                <small style="color: red"
+                <small class="text-danger"
                     *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is
                     required</small>
             </ng-container>
@@ -145,13 +146,17 @@
                             <th scope="row"
                                 [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                 <p class="mb-0">{{item?.value?.controls?.label.value}}
-                                    <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
+                                    <span *ngIf="item?.value?.controls?.required.value" class="text-danger">*</span>
                                     <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
                                         [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                 </p>
 
-                                <a [href]="item?.value?.controls?.downloadLink?.value"
-                                    target="_blank"
+                                <small class="text-danger"
+                                    *ngIf="item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)">{{
+                                    item?.value?.controls?.child |
+                                    formError }}</small>
+
+                                <a [href]="item?.value?.controls?.downloadLink?.value" target="_blank"
                                     *ngIf="item?.value?.controls?.downloadLink?.value">Download</a>
                             </th>
                             <td style="width: 12%;"
@@ -174,7 +179,7 @@
                                             hideErrors: true
                                         }">
                                     </ng-container>
-                                    <button
+                                    <button [disabled]="buttonDissabled"
                                         (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
                                         class="btn btn-primary edit-button">
                                         <mat-icon>edit</mat-icon>
@@ -205,14 +210,18 @@
             </tbody>
         </table>
     </div>
-
-
+    <!---------- review process for State and Mohua ----------------->
+    <!-- <div class="">
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
+</div> -->
 
 
     <div class="d-flex justify-content-end my-2">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
                     &lt;- Previous Form </button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
@@ -228,7 +237,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex ">
-                    <button routerLink="/ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
                         Next Form -&gt;
                     </button>
                 </div>
