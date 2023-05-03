@@ -123,8 +123,8 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
-      this.status = res?.data?.statusText;
-      this.statusId = res?.data?.currentFormStatus;
+      this.status = res?.data?.status;
+      this.statusId = res?.data?.statusId;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
