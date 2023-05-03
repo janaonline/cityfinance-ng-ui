@@ -156,7 +156,8 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.statusId) && this.userData?.role == USER_TYPE.ULB;
+    if(this.userData?.role != USER_TYPE.ULB) return true;
+    return ![1, 2, 5, 7].includes(this.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {

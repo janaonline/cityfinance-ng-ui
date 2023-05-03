@@ -52,7 +52,7 @@
                 </div>
                 <mat-datepicker #r_i></mat-datepicker>
             </div>
-            <small style="color: red"
+            <small class="text-danger"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
                 provide a valid date</small>
             <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
@@ -86,7 +86,7 @@
                     <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                     </app-loader>
                 </div>
-                <small style="color: red"
+                <small class="text-danger"
                     *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is
                     required</small>
             </ng-container>
@@ -146,12 +146,12 @@
                             <th scope="row"
                                 [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                 <p class="mb-0">{{item?.value?.controls?.label.value}}
-                                    <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
+                                    <span *ngIf="item?.value?.controls?.required.value" class="text-danger">*</span>
                                     <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
                                         [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                 </p>
 
-                                <small style="color: red;"
+                                <small class="text-danger"
                                     *ngIf="item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)">{{
                                     item?.value?.controls?.child |
                                     formError }}</small>

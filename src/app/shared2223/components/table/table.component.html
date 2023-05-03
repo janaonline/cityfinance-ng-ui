@@ -132,7 +132,7 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- (click)="viewHistory(template, formId, resData?.ulbId)" style="color: blue;" -->
-                      <a (click)="viewHistory(template, formId, resData?.ulbId)" style="color: blue;"> {{resData.formStatus}} </a>  
+                      <a> {{resData.formStatus}} </a>  
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>
@@ -222,7 +222,7 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- {{resData.formStatus}} -->
                         <!-- (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;" -->
-                        <a (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;"> {{resData.formStatus}} </a> 
+                        <a> {{resData.formStatus}} </a> 
                     </td>
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
