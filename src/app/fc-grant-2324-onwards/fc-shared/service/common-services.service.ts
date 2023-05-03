@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -73,17 +74,7 @@ export class CommonServicesService {
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
   formDisable(res, userData){
-    if(userData?.role != 'ULB'){
-      return false;
-    }else if(userData?.role == 'ULB' && res?.statusId != 5 && res?.statusId != 7){
-      return false;
-    }else if(userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
-      return true;
-    }else if(userData?.role == 'ULB' && res?.statusId == 3){
-      return false;
-    }
-    else {
-      return true;
-    }
+    if(userData?.role != USER_TYPE.ULB) return false;
+    return [1, 2, 5, 7].includes(res?.statusId);
  }
 }
