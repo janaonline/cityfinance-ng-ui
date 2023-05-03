@@ -31,7 +31,8 @@
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value" [readonly]="yearItem?.controls?.readonly?.value">
+                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value"
+                [readonly]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
             </select>
@@ -178,7 +179,7 @@
                                             hideErrors: true
                                         }">
                                     </ng-container>
-                                    <button
+                                    <button [disabled]="buttonDissabled"
                                         (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
                                         class="btn btn-primary edit-button">
                                         <mat-icon>edit</mat-icon>
@@ -220,7 +221,7 @@
     <div class="d-flex justify-content-end my-2">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
                     &lt;- Previous Form </button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
@@ -236,7 +237,7 @@
                     </button>
                 </div>
                 <div class="d-inline-flex ">
-                    <button routerLink="/ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
                         Next Form -&gt;
                     </button>
                 </div>
