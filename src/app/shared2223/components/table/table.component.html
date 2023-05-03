@@ -224,7 +224,6 @@
                         <!-- (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;" -->
                         <a (click)="viewHistory(template, formId, resData['_id'])" class="bl-ln"> {{resData.formStatus}} </a> 
                     </td>
-
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
                         [routerLink]="formRouterLink">
