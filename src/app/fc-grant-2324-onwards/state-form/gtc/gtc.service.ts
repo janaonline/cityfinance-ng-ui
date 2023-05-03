@@ -3027,123 +3027,126 @@ const staticResponse = {
   "message": "Form Questionare!"
 };
 
-const baseForm = [
-  {
-    label: "1. GTCs for Non-Million Plus Cities Tied Grants",
-    isDisabled: false,
-    error: false,
-    icon: "",
-    questions: [
+const baseForm = {
+  data: [
       {
-        installment: 1,
-        year: '606aadac4dff55e6c075c507',
-        type: "nonmillion_tied",
-        instlText: "1st Installment (2023-24)",
-        quesText: "Upload Signed Grant Transfer Certificate",
-        isDisableQues: false,
-        disableMsg: "",
-        key: "nonmillion_tied_2021-22_2",
-        question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2022-23)",
-        questionresponse: staticResponse,
-        qusType: "",
-        isDraft: null,
-        status: null,
-        rejectReason_mohua: null,
-        canTakeAction: false
+        label: "1. GTCs for Non-Million Plus Cities Tied Grants",
+        isDisabled: false,
+        error: false,
+        icon: "",
+        questions: [
+          {
+            installment: 1,
+            year: '606aadac4dff55e6c075c507',
+            type: "nonmillion_tied",
+            instlText: "1st Installment (2023-24)",
+            quesText: "Upload Signed Grant Transfer Certificate",
+            isDisableQues: false,
+            disableMsg: "",
+            key: "nonmillion_tied_2021-22_2",
+            question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2022-23)",
+            questionresponse: staticResponse,
+            qusType: "",
+            isDraft: null,
+            status: null,
+            rejectReason_mohua: null,
+            canTakeAction: false
+          },
+          {
+            installment: 2,
+            year: '606aafb14dff55e6c075d3ae',
+            type: "nonmillion_tied",
+            instlText: "2nd Installment (2023-24)",
+            quesText: "Upload Signed Grant Transfer Certificate",
+            isDisableQues: true,
+            disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
+            question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
+            questionresponse: staticResponse,
+            key: "nonmillion_tied_2022-23_1",
+            qusType: "",
+            isDraft: null,
+            status: null,
+            rejectReason_mohua: null,
+            canTakeAction: false
+          }
+        ],
       },
       {
-        installment: 2,
-        year: '606aafb14dff55e6c075d3ae',
-        type: "nonmillion_tied",
-        instlText: "2nd Installment (2023-24)",
-        quesText: "Upload Signed Grant Transfer Certificate",
-        isDisableQues: true,
-        disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
-        question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
-        questionresponse: staticResponse,
-        key: "nonmillion_tied_2022-23_1",
-        qusType: "",
-        isDraft: null,
-        status: null,
-        rejectReason_mohua: null,
-        canTakeAction: false
-      }
-    ],
-  },
-  {
-    label: "2. GTCs for Non-Million Plus Cities Untied Grants",
-    isDisabled: false,
-    error: false,
-    icon: "",
-    questions: [
-      {
-        installment: 1,
-        year: '606aafc14dff55e6c075d3ec',
-        type: "nonmillion_untied",
-        instlText: "1st Installment (2023-24)",
-        quesText: "Upload Signed Grant Transfer Certificate",
-        isDisableQues: false,
-        disableMsg: "",
-        question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2023-24)",
-        questionresponse: staticResponse,
-        key: "nonmillion_untied_2021-22_2",
-        qusType: "",
-        isDraft: null,
-        status: null,
-        rejectReason_mohua: null,
-        canTakeAction: false
+        label: "2. GTCs for Non-Million Plus Cities Untied Grants",
+        isDisabled: false,
+        error: false,
+        icon: "",
+        questions: [
+          {
+            installment: 1,
+            year: '606aafc14dff55e6c075d3ec',
+            type: "nonmillion_untied",
+            instlText: "1st Installment (2023-24)",
+            quesText: "Upload Signed Grant Transfer Certificate",
+            isDisableQues: false,
+            disableMsg: "",
+            question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2023-24)",
+            questionresponse: staticResponse,
+            key: "nonmillion_untied_2021-22_2",
+            qusType: "",
+            isDraft: null,
+            status: null,
+            rejectReason_mohua: null,
+            canTakeAction: false
+          },
+          {
+            installment: 2,
+            year: '606aafb14dff55e6c075d3ae',
+            type: "nonmillion_untied",
+            instlText: "2nd Installment (2023-24)",
+            quesText: "Upload Signed Grant Transfer Certificate",
+            isDisableQues: true,
+            disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
+            question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
+            questionresponse: staticResponse,
+            key: "nonmillion_untied_2022-23_1",
+            qusType: "",
+            isDraft: null,
+            status: null,
+            rejectReason_mohua: null,
+            responseFile_mohua: {
+              name: '',
+              url: '',
+              progress: null
+            },
+            canTakeAction: false
+          }
+        ],
       },
       {
-        installment: 2,
-        year: '606aafb14dff55e6c075d3ae',
-        type: "nonmillion_untied",
-        instlText: "2nd Installment (2023-24)",
-        quesText: "Upload Signed Grant Transfer Certificate",
-        isDisableQues: true,
-        disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
-        question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
-        questionresponse: staticResponse,
-        key: "nonmillion_untied_2022-23_1",
-        qusType: "",
-        isDraft: null,
-        status: null,
-        rejectReason_mohua: null,
-        responseFile_mohua: {
-          name: '',
-          url: '',
-          progress: null
-        },
-        canTakeAction: false
-      }
-    ],
-  },
-  {
-    label: "3. GTC for Million Plus Cities Tied Grants for Water Supply and SWM",
-    isDisabled: false,
-    error: false,
-    icon: "",
-    questions: [
-      {
-        installment: 1,
-        year: '606aaf854dff55e6c075d219',
-        type: "million_tied",
-        instlText: "FY 2023-24",
-        isDisableQues: false,
-        quesText:
-          "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
-        question:
-          "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM - FY ( 2021-22)",
-        questionresponse: staticResponse,
-        key: "million_tied_2021-22_1",
-        qusType: "",
-        isDraft: null,
-        status: null,
-        rejectReason_mohua: null,
-        canTakeAction: false
-      }
-    ],
-  },
-];
+        label: "3. GTC for Million Plus Cities Tied Grants for Water Supply and SWM",
+        isDisabled: false,
+        error: false,
+        icon: "",
+        questions: [
+          {
+            installment: 1,
+            year: '606aaf854dff55e6c075d219',
+            type: "million_tied",
+            instlText: "FY 2023-24",
+            isDisableQues: false,
+            quesText:
+              "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
+            question:
+              "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM - FY ( 2021-22)",
+            questionresponse: staticResponse,
+            key: "million_tied_2021-22_1",
+            qusType: "",
+            isDraft: null,
+            status: null,
+            rejectReason_mohua: null,
+            canTakeAction: false
+          }
+        ],
+      },
+    ]
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -3155,10 +3158,10 @@ export class GtcService {
   ) { }
 
   getBaseForm() {
-    return this.http.get(`${environment.api.url}/grant-transfer-certificate?state=5dcf9d7316a06aed41c748e8&design_year=606aafb14dff55e6c075d3ae`)
+    return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7316a06aed41c748e8`)
       .pipe(
-        map((response: any) => {
-          return baseForm;
+        map((res: any) => {
+          return res;
         })
       );
   }

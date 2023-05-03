@@ -24,7 +24,7 @@ export class GtcComponent implements OnInit {
   getBaseForm() {
     this.gtcService.getBaseForm().subscribe((res: any) => {
       console.log(res);
-      this.baseForm = res;
+      this.baseForm = res.data;
     })
   }
 
