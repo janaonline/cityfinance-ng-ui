@@ -1,18 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { queryParam } from 'src/app/fc-grant-2324-onwards/fc-shared/common-interface';
 
 import { SweetAlert } from "sweetalert/typings/core";
-import { isThisMinute } from 'date-fns';
-import { log } from 'console';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-common-form',
   templateUrl: './common-form.component.html',
   styleUrls: ['./common-form.component.scss']
 })
-export class CommonFormComponent implements OnInit {
+export class CommonFormComponent implements OnInit, OnDestroy {
   @ViewChild('webForm') webForm;
 
   constructor(
@@ -44,8 +42,6 @@ export class CommonFormComponent implements OnInit {
   };
   endPoints: string = null
   postData = {
-    // design_year : null,
-    // data : [ ]
   };
   formName: string = '';
   isApiComplete: boolean = false;
@@ -289,902 +285,9 @@ export class CommonFormComponent implements OnInit {
           createDynamicOption: [],
           getDynamicOption: [],
         },
-
-
     ],
   };
   statusId: number = 1;
-  odfJson = {
-
-          "_id": "64219c9dd7bd0c129dfdc260",
-          "lng": "en",
-          "question": [
-              {
-                  "information": "",
-                  "_id": "63fc53dad4434c05939ac50c",
-                  "order": "1",
-                  "answer_option": [
-                      {
-                          "name": "ODF",
-                          "did": [],
-                          "viewSequence": "1",
-                          "coordinates": [],
-                          "_id": "1"
-                      },
-                      {
-                          "name": "ODF+",
-                          "did": [],
-                          "viewSequence": "2",
-                          "coordinates": [],
-                          "_id": "2"
-                      },
-                      {
-                          "name": "ODF++",
-                          "did": [],
-                          "viewSequence": "3",
-                          "coordinates": [],
-                          "_id": "3"
-                      },
-                      {
-                          "name": "Non ODF",
-                          "did": [],
-                          "viewSequence": "4",
-                          "coordinates": [],
-                          "_id": "4"
-                      },
-                      {
-                          "name": "No Rating",
-                          "did": [],
-                          "viewSequence": "5",
-                          "coordinates": [],
-                          "_id": "5"
-                      }
-                  ],
-                  "title": "Open Defecation Free (ODF) Rating",
-                  "hint": "Single Select",
-                  "resource_urls": [],
-                  "label": "1",
-                  "shortKey": "rating",
-                  "viewSequence": "1",
-                  "child": [
-                      {
-                          "type": "11",
-                          "value": "^([1]|[2]|[3]|[4])$",
-                          "order": "3"
-                      },
-                      {
-                          "type": "14",
-                          "value": "^([1]|[2]|[3]|[4])$",
-                          "order": "6"
-                      },
-                      {
-                          "type": "11",
-                          "value": "^([5])$",
-                          "order": "2"
-                      }
-                  ],
-                  "parent": [],
-                  "validation": [
-                      {
-                          "_id": "1",
-                          "error_msg": ""
-                      }
-                  ],
-                  "restrictions": [],
-                  "input_type": "3",
-                  "weightage": [],
-                  "editable": false
-              },
-              {
-                  "information": "",
-                  "_id": "63fc5529d4434c05939ac521",
-                  "order": "2",
-                  "answer_option": [],
-                  "title": "Upload Declaration?",
-                  "hint": "Upload PDF",
-                  "resource_urls": [],
-                  "label": "2",
-                  "shortKey": "cert_declaration",
-                  "viewSequence": "2",
-                  "child": [],
-                  "parent": [
-                      {
-                          "value": "^([5])$",
-                          "type": "3",
-                          "order": "1"
-                      }
-                  ],
-                  "min": null,
-                  "max": null,
-                  "minRange": null,
-                  "maxRange": null,
-                  "pattern": "",
-                  "validation": [
-                      {
-                          "error_msg": "",
-                          "_id": "1"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "83",
-                          "value": "application/pdf"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "81",
-                          "value": "5120"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "82",
-                          "value": "1"
-                      }
-                  ],
-                  "restrictions": [],
-                  "input_type": "11",
-                  "editable": false,
-                  "weightage": []
-              },
-              {
-                  "information": "",
-                  "_id": "63fc556dd4434c05939ac535",
-                  "order": "3",
-                  "answer_option": [],
-                  "title": "Upload ODF Certificate?",
-                  "hint": "Upload PDF",
-                  "resource_urls": [],
-                  "label": "3",
-                  "shortKey": "cert",
-                  "viewSequence": "3",
-                  "child": [],
-                  "parent": [
-                      {
-                          "value": "^([1]|[2]|[3]|[4])$",
-                          "type": "3",
-                          "order": "1"
-                      }
-                  ],
-                  "min": null,
-                  "max": null,
-                  "minRange": null,
-                  "maxRange": null,
-                  "pattern": "",
-                  "validation": [
-                      {
-                          "error_msg": "",
-                          "_id": "1"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "83",
-                          "value": "application/pdf"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "81",
-                          "value": "5120"
-                      },
-                      {
-                          "error_msg": "",
-                          "_id": "82",
-                          "value": "1"
-                      }
-                  ],
-                  "restrictions": [],
-                  "input_type": "11",
-                  "editable": false,
-                  "weightage": []
-              },
-              {
-                  "information": "",
-                  "_id": "6405ee6e2638a6093d1b7123",
-                  "order": "6",
-                  "answer_option": [],
-                  "title": "Certification Issue Date",
-                  "hint": "Date",
-                  "resource_urls": [],
-                  "label": "4",
-                  "shortKey": "certDate",
-                  "viewSequence": "4",
-                  "child": [],
-                  "parent": [
-                      {
-                          "value": "^([1]|[2]|[3]|[4])$",
-                          "type": "3",
-                          "order": "1"
-                      }
-                  ],
-                  "validation": [
-                      {
-                          "error_msg": "",
-                          "_id": "1"
-                      },
-                      {
-                          "_id": "26.4",
-                          "error_msg": "",
-                          "value": "2"
-                      }
-                  ],
-                  "restrictions": [],
-                  "input_type": "14",
-                  "editable": false,
-                  "weightage": []
-              }
-          ],
-          "title": "Open Defecation Free (ODF)",
-          "buttons": []
-  };
-  gfcJson = {
-    "_id": "64096fa1235a2809db049260",
-    "lng": "en",
-    "question": [
-      {
-        "information": "",
-        "_id": "63fde71b894068061927048d",
-        "order": "1",
-        "answer_option": [
-          {
-            "name": "No Star",
-            "did": [],
-            "viewSequence": "1",
-            "coordinates": [],
-            "_id": "1"
-          },
-          {
-            "name": "1 Star",
-            "did": [],
-            "viewSequence": "2",
-            "coordinates": [],
-            "_id": "2"
-          },
-          {
-            "name": "3 Star",
-            "did": [],
-            "viewSequence": "3",
-            "coordinates": [],
-            "_id": "3"
-          },
-          {
-            "name": "5 Star",
-            "did": [],
-            "viewSequence": "4",
-            "coordinates": [],
-            "_id": "4"
-          },
-          {
-            "name": "7 Star",
-            "did": [],
-            "viewSequence": "5",
-            "coordinates": [],
-            "_id": "5"
-          },
-          {
-            "name": "No Rating",
-            "did": [],
-            "viewSequence": "6",
-            "coordinates": [],
-            "_id": "6"
-          }
-        ],
-        "title": "Garbage Free City (GFC) Rating",
-        "hint": "Single Select",
-        "resource_urls": [],
-        "label": "1",
-        "shortKey": "rating",
-        "viewSequence": "1",
-        "child": [
-          {
-            "type": "11",
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "order": "2"
-          },
-          {
-            "type": "11",
-            "value": "^([6])$",
-            "order": "4"
-          },
-          {
-            "type": "14",
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "order": "3"
-          }
-        ],
-        "parent": [],
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          }
-        ],
-        "restrictions": [],
-        "input_type": "3",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "information": "",
-        "_id": "63fde765894068061927049a",
-        "order": "2",
-        "answer_option": [],
-        "title": "Upload GFC Certificate",
-        "hint": "Upload PDF",
-        "resource_urls": [],
-        "label": "2",
-        "shortKey": "cert",
-        "viewSequence": "2",
-        "child": [],
-        "parent": [
-          {
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "type": "3",
-            "order": "1"
-          }
-        ],
-        "min": null,
-        "max": null,
-        "minRange": null,
-        "maxRange": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "5120"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "information": "",
-        "_id": "63fde7ca89406806192704ad",
-        "order": "3",
-        "answer_option": [],
-        "title": "Certification Issue Date",
-        "hint": "Date ",
-        "resource_urls": [],
-        "label": "4",
-        "shortKey": "certDate",
-        "viewSequence": "4",
-        "child": [],
-        "parent": [
-          {
-            "value": "^([1]|[2]|[3]|[4]|[5])$",
-            "type": "3",
-            "order": "1"
-          }
-        ],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "_id": "26.4",
-            "error_msg": "",
-            "value": "2"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "14",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "information": "",
-        "_id": "63fde84c89406806192704dc",
-        "order": "4",
-        "answer_option": [],
-        "title": "Upload Declaration",
-        "hint": "Upload PDF",
-        "resource_urls": [],
-        "label": "3",
-        "shortKey": "cert_declaration",
-        "viewSequence": "3",
-        "child": [],
-        "parent": [
-          {
-            "value": "^([6])$",
-            "type": "3",
-            "order": "1"
-          }
-        ],
-        "min": null,
-        "max": null,
-        "minRange": null,
-        "maxRange": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "5120"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      }
-    ],
-    "title": "Garbage Free City (GFC)",
-    "buttons": []
-  }
-  ptoJson = {
-    "_id": "63ff042889406806192731be",
-    "lng": "en",
-    "question": [
-      {
-        "label": "1",
-        "shortKey": "toCollect",
-        "information": "",
-        "viewSequence": "1",
-        "child": [
-          {
-            "value": "^([1])$",
-            "order": "2",
-            "type": 5
-          }
-        ],
-        "parent": [],
-        "_id": "63fefd478940680619272f9b",
-        "order": "1",
-        "answer_option": [
-          {
-            "name": "Yes",
-            "did": [],
-            "viewSequence": "1",
-            "coordinates": [],
-            "_id": "1"
-          },
-          {
-            "name": "No",
-            "did": [],
-            "viewSequence": "2",
-            "coordinates": [],
-            "_id": "2"
-          }
-        ],
-        "title": "Are you collecting Property Taxes in 2022-23?",
-        "hint": "Single select",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "5",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "2",
-        "shortKey": "operationalize",
-        "information": "i = \"Operationalization may include any or all of the following steps: 1) Notifying the property tax floor rate as per state notification, in the governing council/official gazette  2) Publishing the revised Property Tax rate card as per state notification, in the public domain 3) Updating the existing systems and processes, including training ULB revenue officials, running public awareness campaigns, updating IT systems, etc., to ensure collection under the new property tax rates/regime\"",
-        "viewSequence": "2",
-        "child": [
-          {
-            "type": "11",
-            "value": "^([1])$",
-            "order": "3"
-          }
-        ],
-        "parent": [
-          {
-            "type": "5",
-            "value": "^([1])$",
-            "order": "1"
-          }
-        ],
-        "_id": "63fefdd28940680619272fe4",
-        "order": "2",
-        "answer_option": [
-          {
-            "name": "Yes",
-            "did": [],
-            "viewSequence": "1",
-            "coordinates": [],
-            "_id": "1"
-          },
-          {
-            "name": "No",
-            "did": [],
-            "viewSequence": "2",
-            "coordinates": [],
-            "_id": "2"
-          }
-        ],
-        "title": "Has the Property Tax collection process been operationalized as per the state notification?",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "5",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "3",
-        "shortKey": "proof",
-        "information": "Upload copy of council resolution/gazette notification or any other proof",
-        "viewSequence": "3",
-        "child": [],
-        "parent": [
-          {
-            "value": "^([1])$",
-            "type": "5",
-            "order": "2"
-          }
-        ],
-        "_id": "63fefe748940680619272ff8",
-        "order": "3",
-        "answer_option": [],
-        "title": "Proof of operationalization of Property Tax Collection Process as per state notification",
-        "hint": "Upload Pdf",
-        "resource_urls": [],
-        "min": null,
-        "max": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "20480"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "label": "4",
-        "shortKey": "method",
-        "information": "",
-        "viewSequence": "4",
-        "child": [
-          {
-            "value": "^([4])$",
-            "order": "5",
-            "type": 1
-          }
-        ],
-        "parent": [],
-        "_id": "63feff61894068061927300b",
-        "order": "4",
-        "answer_option": [
-          {
-            "name": "Unit Area Value(UAV) System",
-            "did": [],
-            "viewSequence": "1",
-            "coordinates": [],
-            "_id": "1"
-          },
-          {
-            "name": "Annual Rental Value(ARV) System",
-            "did": [],
-            "viewSequence": "2",
-            "coordinates": [],
-            "_id": "2"
-          },
-          {
-            "name": "Capital Value (CV) System",
-            "did": [],
-            "viewSequence": "3",
-            "coordinates": [],
-            "_id": "3"
-          },
-          {
-            "name": "Other",
-            "did": [],
-            "viewSequence": "4",
-            "coordinates": [],
-            "_id": "4"
-          }
-        ],
-        "title": "Property Tax Valuation Method",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "_id": "1",
-            "error_msg": ""
-          }
-        ],
-        "restrictions": [],
-        "input_type": "3",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "5",
-        "shortKey": "other_info",
-        "information": "",
-        "viewSequence": "5",
-        "child": [],
-        "parent": [
-          {
-            "type": "3",
-            "value": "^([4])$",
-            "order": "4"
-          }
-        ],
-        "_id": "63feffe98940680619273024",
-        "order": "5",
-        "answer_option": [],
-        "title": "Please specify, Others",
-        "hint": "",
-        "resource_urls": [],
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          }
-        ],
-        "restrictions": [],
-        "min": 1,
-        "max": 400,
-        "input_type": "1",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "label": "6",
-        "shortKey": "rateCard",
-        "information": "",
-        "viewSequence": "6",
-        "child": [],
-        "parent": [],
-        "_id": "63ff006e894068061927306c",
-        "order": "6",
-        "answer_option": [],
-        "title": "Upload a copy of Property Tax Rate Card",
-        "hint": "Upload Pdf*",
-        "resource_urls": [],
-        "min": null,
-        "max": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "20480"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      },
-      {
-        "label": "7",
-        "shortKey": "collection2019_20",
-        "information": "\"Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register",
-        "viewSequence": "7",
-        "child": [],
-        "parent": [],
-        "_id": "63ff021389406806192730d3",
-        "order": "7",
-        "answer_option": [],
-        "title": "Property Tax Collection for 2019-20",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "2"
-          }
-        ],
-        "restrictions": [],
-        "min": 1,
-        "max": 2,
-        "pattern": "^((?:[0-9]|1[0-5]))$",
-        "input_type": "2",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "8",
-        "shortKey": "collection2020_21",
-        "information": "Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register",
-        "viewSequence": "8",
-        "child": [],
-        "parent": [],
-        "_id": "63ff027c89406806192730f0",
-        "order": "8",
-        "answer_option": [],
-        "title": "Property Tax Collection for 2020-21",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "2"
-          }
-        ],
-        "restrictions": [],
-        "min": 1,
-        "max": 2,
-        "pattern": "^((?:[0-9]|1[0-5]))$",
-        "input_type": "2",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "9",
-        "shortKey": "collection2021_22",
-        "information": "Property Tax Collection should be sum of current and arrears collection as per Demand Collection Balance(DCB) Register",
-        "viewSequence": "9",
-        "child": [],
-        "parent": [],
-        "_id": "63ff02dd8940680619273110",
-        "order": "9",
-        "answer_option": [],
-        "title": "Property Tax Collection for 2021-22",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "2"
-          }
-        ],
-        "restrictions": [],
-        "min": 1,
-        "max": 2,
-        "pattern": "^((?:[0-9]|1[0-5]))$",
-        "input_type": "2",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "10",
-        "shortKey": "target2022_23",
-        "information": "Property Tax Collection Target calculation should be based on Demand Collection Balance(DCB) Register",
-        "viewSequence": "10",
-        "child": [],
-        "parent": [],
-        "_id": "63ff03308940680619273131",
-        "order": "10",
-        "answer_option": [],
-        "title": "Property Tax Collection Target for 2022-23",
-        "hint": "",
-        "resource_urls": [],
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "2"
-          }
-        ],
-        "restrictions": [],
-        "min": 1,
-        "max": 2,
-        "pattern": "^((?:[0-9]|1[0-5]))$",
-        "input_type": "2",
-        "weightage": [],
-        "editable": false
-      },
-      {
-        "label": "11",
-        "shortKey": "ptCollection",
-        "information": "Info - Please upload a copy of DCB",
-        "viewSequence": "11",
-        "child": [],
-        "parent": [],
-        "_id": "63ff03f38940680619273179",
-        "order": "11",
-        "answer_option": [],
-        "title": "Upload proof for property tax collection for 2021-22",
-        "hint": "Upload Pdf*",
-        "resource_urls": [],
-        "min": null,
-        "max": null,
-        "pattern": "",
-        "validation": [
-          {
-            "error_msg": "",
-            "_id": "83",
-            "value": "application/pdf"
-          },
-          {
-            "error_msg": "",
-            "_id": "1"
-          },
-          {
-            "error_msg": "",
-            "_id": "81",
-            "value": "20480"
-          },
-          {
-            "error_msg": "",
-            "_id": "82",
-            "value": "1"
-          }
-        ],
-        "restrictions": [],
-        "input_type": "11",
-        "editable": false,
-        "weightage": []
-      }
-    ],
-    "title": "Property Tax Operationalisation",
-    "buttons": []
-  }
-
   fileFolderName: string = '';
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
@@ -1195,15 +298,19 @@ export class CommonFormComponent implements OnInit {
    isButtonAvail : boolean = true;
    isFormDisable: boolean = false;
    canTakeAction:boolean = false; 
-   actionPayload={};
-  currentActionData:any={}
-  actionData:any;
-  errorInAction:boolean = false;
-  isActionSubmitted:boolean = false;
-  actionViewMode:boolean = false;
-  actBtnDis:boolean = false;
+   isFormFinalSubmit:boolean = false;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  leftMenuSubs:any;
   ngOnInit(): void {
-    
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl(this.formName);
+      }
+    });
   }
   checkRouterForApi() {
   this.routerSubs = this.router.events.subscribe((event) => {
@@ -1218,22 +325,19 @@ export class CommonFormComponent implements OnInit {
           this.endPoints = 'gfc-odf-form-collection';
           this.getQuery.isGfc = false;
           this.formName = 'odf';
-          this.getQuery.formId = 1;
+        //  this.getQuery.formId = 1;
+         this.getNextPreUrl('odf');
           this.getScroing('odf', this.getQuery.design_year);
-          this.callGetApi(this.endPoints, this.getQuery);
+        // this.callGetApi(this.endPoints, this.getQuery);
         } else if (urlArray.includes("gfc")) {
           this.endPoints = 'gfc-odf-form-collection';
           this.getQuery.isGfc = true;
           this.formName = 'gfc';
-          this.getQuery.formId = 2;
+       //   this.getQuery.formId = 2;
+          this.getNextPreUrl('gfc');
           this.getScroing('gfc', this.getQuery.design_year);
-          this.callGetApi(this.endPoints, this.getQuery);
+     //   this.callGetApi(this.endPoints, this.getQuery);
          }
-         // else if (urlArray.includes("ptax")) {
-        //   this.endPoints = 'ptax';
-        //   this.formName = 'ptax';
-        //   this.callGetApi(this.endPoints, this.getQuery);
-        // } 
         else {
 
         }
@@ -1246,7 +350,7 @@ export class CommonFormComponent implements OnInit {
       console.log('res.........', res);
       this.questionResponse.data = res.data; 
       this.canTakeAction =  res?.data[0]?.canTakeAction;
-      this.getActionRes();
+      // this.getActionRes();
       this.formDisable(res?.data[0]);
       console.log('res.........', this.questionResponse);
       this.questionResponse = {
@@ -1289,9 +393,10 @@ export class CommonFormComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
       this.commonServices.setFormStatusUlb.next(true);
+      this.isFormFinalSubmit = true;
         this.isApiComplete = false;
-        this.callGetApi(this.endPoints, this.getQuery);
-      console.log(res);
+       // this.callGetApi(this.endPoints, this.getQuery);
+        console.log(res);
     },
       (error) => {
         console.log('post error', error);
@@ -1343,20 +448,20 @@ export class CommonFormComponent implements OnInit {
   }
 
 
-  nextPreBtn(e){
-    // temporay basic setting url
-    console.log('eeee next pre btn', e);
-    if(this.formName == 'odf'){
-      let url = e?.type == 'pre' ? 'annual_acc' : 'gfc'
-      console.log('routes url', this.router.navigate([url]), url)
-      this.router.navigate([ `/ulb-form/${url}`]);
-    }else if(this.formName == 'gfc'){
-      let url = e?.type == 'pre' ? 'odf' : 'annual_acc'
-      console.log('routes url', url)
-      this.router.navigate([ `/ulb-form/${url}`]);
-    }
+  // nextPreBtn(e){
+  //   // temporay basic setting url
+  //   console.log('eeee next pre btn', e);
+  //   if(this.formName == 'odf'){
+  //     let url = e?.type == 'pre' ? 'annual_acc' : 'gfc'
+  //     console.log('routes url', this.router.navigate([url]), url)
+  //     this.router.navigate([ `/ulb-form/${url}`]);
+  //   }else if(this.formName == 'gfc'){
+  //     let url = e?.type == 'pre' ? 'odf' : 'annual_acc'
+  //     console.log('routes url', url)
+  //     this.router.navigate([ `/ulb-form/${url}`]);
+  //   }
 
-  }
+  // }
  formDisable(res){
     if(!res) return;
     if(this.userData?.role != 'ULB'){
@@ -1367,7 +472,7 @@ export class CommonFormComponent implements OnInit {
       this.isFormDisable = true;
       this.isButtonAvail = false;
       return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 5 && res?.statusId == 7){
+    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
       this.isFormDisable = false;
       this.isButtonAvail = true;
       return;
@@ -1382,89 +487,89 @@ export class CommonFormComponent implements OnInit {
     }
  }
 
-  formChangeDetect(e){
-    console.log('eeeeeee', e);
-    this.currentActionData = e;
-    if((e?.status == '5' || e?.status == '7') && e?.rejectReason == ''){
-      this.errorInAction = true;
-    }else{
-      this.errorInAction = false;
-    }
-  }
-  // /common-action/masterAction
 
-saveAction(){
-  this.isActionSubmitted = true;
-  this.actionPayload = {
-    "form_level": 1,
-    "design_year" : this.designYearArray["2023-24"],
-    "formId": this.getQuery?.formId,
-    "ulbs": [
-        this.ulbId
-    ],
-    "responses": [
-      this.currentActionData
-        // {
-        // "shortKey": "form_level",
-        // "status": this.currentActionData.status,
-        // "rejectReason": this.currentActionData.rejectReason,
-        // "responseFile": {
-        //     "url":"a,
-        //     "name": "google.in"
-        // }
-  //  }
-    ],
-    "multi": true,
-    "shortKeys": [
-        "form_level"
-    ]
-  }
-  if(!this.currentActionData?.status){
-    swal('Error', "Status is mandatory", "error");
-    return
-  }
-  if(this.errorInAction){
-    swal('Error', "Reject reason is mandatory", "error");
-    return
-  }
-  this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
-    console.log('ressssss action', res);
-    this.actBtnDis = true;
-    this.commonServices.setFormStatusUlb.next(true);
-    this.isApiComplete = false;
-    this.callGetApi(this.endPoints, this.getQuery);
-    swal('Saved', "Action submitted successfully", "success");
-  },
-  (error)=>{
-    console.log('ressssss action', error);
-    this.isActionSubmitted = false;
-  }
-  )
-}
-//action get.......
-// /common-action/getMasterAction
-// {
-//   "design_year": "606aafc14dff55e6c075d3ec",
-//   "ulb": "5dcfca53df6f59198c4ac3d5",
-//   "formId":2
+// saveAction(){
+//   this.isActionSubmitted = true;
+//   this.actionPayload = {
+//     "form_level": 1,
+//     "design_year" : this.designYearArray["2023-24"],
+//     "formId": this.getQuery?.formId,
+//     "ulbs": [
+//         this.ulbId
+//     ],
+//     "responses": [
+//       this.currentActionData
+
+//     ],
+//     "multi": true,
+//     "shortKeys": [
+//         "form_level"
+//     ]
+//   }
+//   if(!this.currentActionData?.status){
+//     swal('Error', "Status is mandatory", "error");
+//     return
+//   }
+//   if(this.errorInAction){
+//     swal('Error', "Reject reason is mandatory", "error");
+//     return
+//   }
+//   this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
+//     console.log('ressssss action', res);
+//     this.actBtnDis = true;
+//     this.commonServices.setFormStatusUlb.next(true);
+//     this.isApiComplete = false;
+//     this.callGetApi(this.endPoints, this.getQuery);
+//     swal('Saved', "Action submitted successfully", "success");
+//   },
+//   (error)=>{
+//     console.log('ressssss action', error);
+//     this.isActionSubmitted = false;
+//   }
+//   )
 // }
-getActionRes(){
-  this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
-    console.log('action get res', res);
-    this.actionData = res?.data;
-    if(!this.actionData && !this.actionData.length ){
-      this.actionViewMode = false;
-    }else if( this.actionData[0]?.statusId == 1 || this.actionData[0]?.statusId == 2 || this.actionData[0]?.statusId == false){
-      this.actionViewMode = false;
-    }else{
-      this.actionViewMode = true;
-    }
+// getActionRes(){
+//   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
+//     console.log('action get res', res);
+//     this.actionData = res?.data;
+//     if(!this.actionData && !this.actionData.length ){
+//       this.actionViewMode = false;
+//     }else if( this.actionData[0]?.statusId == 1 || this.actionData[0]?.statusId == 2 || this.actionData[0]?.statusId == false){
+//       this.actionViewMode = false;
+//     }else{
+//       this.actionViewMode = true;
+//     }
 
-  },
-  (err)=>{
-    console.log('err action get')
-  })
+//   },
+//   (err)=>{
+//     console.log('err action get')
+//   })
+// }
+nextPreBtn(e) {
+  let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+  this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+}
+actionFormChangeDetect(res){
+  if(res == true){
+    this.commonServices.setFormStatusUlb.next(true);
+    this.callGetApi(this.endPoints, this.getQuery);
+  }
 }
 
-
+getNextPreUrl(form){
+  this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+  for (const key in this.sideMenuItem) {
+    this.sideMenuItem[key].forEach((ele) => {
+      if (ele?.folderName == form) {
+        this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+        this.getQuery.formId = ele?.formId;
+      this.callGetApi(this.endPoints, this.getQuery);
+      }
+    });
+  }
+}
+ngOnDestroy() {
+  this.leftMenuSubs.unsubscribe();
+  this.routerSubs.unsubscribe();
+}
 }

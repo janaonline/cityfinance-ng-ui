@@ -5,12 +5,15 @@ import { DashbordComponent } from './dashbord/dashbord.component';
 import { GtcComponent } from './gtc/gtc.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { StateFormComponent } from './state-form.component';
+import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
+import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
+import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
 
 const routes: Routes = [
   {
     path: "",
     component: StateFormComponent,
-    canActivate: [State2223Guard],
+   canActivate: [State2223Guard],
     children: [
       {
         path: "dashboard",
@@ -24,6 +27,16 @@ const routes: Routes = [
         path: "gtCertificate",
         component: GtcComponent,
       },
+      {
+        path: "water-rejenuvation-new",
+        component: ProjectsWssComponent,
+      },
+      {
+        path: "action-plan",
+        component: ActionPlanSliComponent,
+      },
+      
+      
     ],
   },
 ];

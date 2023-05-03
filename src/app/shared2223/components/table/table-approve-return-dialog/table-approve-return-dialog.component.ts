@@ -105,7 +105,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   fileChangeEvent(event, progessType) {
     let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
        return;
     }
     console.log(progessType);
@@ -178,14 +178,14 @@ export class TableApproveReturnDialogComponent implements OnInit {
     return new Promise((resolve, reject) => {
       // this.formName = this.data?.formName ? this.data?.formName : 'review_table';
       let form_name = sessionStorage.getItem('form_name');
-      let code = ''
-      // if(this.userData?.role == 'STATE'){
-      //   code = this.userData?.stateCode;
-      // }else {
-      //   code = 'mohua';
-      // }
+      let folderName = ''
+      if(this.data?.designYear == '606aafc14dff55e6c075d3ec'){
+        folderName = `${this.userData?.role}/2023-24/supporting_douments/review_table/${form_name}`
+      }else{
+        folderName = `${this.userData?.role}/2022-23/supporting_douments/review_table/${form_name}`
+      }
       //let folderName = `${this.userData?.role}/${this.Years['2022-23']}//${this.userData?.ulb}`
-      let folderName = `${this.userData?.role}/2022-23/supporting_douments/review_table/${form_name}`
+      
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];
@@ -299,7 +299,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
       if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
       this.actionPayload = {
-        "form_level": 1,
+        "form_level": this.data.formId == 5 ? 2 : 1,
         "design_year" : this.data?.designYear,
         "formId": this.data.formId,
         "ulbs": this.data?.selectedId,

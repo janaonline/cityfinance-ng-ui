@@ -14,18 +14,45 @@ import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
 import { GtcPreviewComponent } from './gtc/gtc-preview/gtc-preview.component';
 import { InstallmentPreviewComponent } from './gtc/installment-preview/installment-preview.component';
 
+import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
+import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { ActionPlanComponent } from 'src/app/newPagesFc/xvfc2223-state/action-plan/action-plan.component';
+import { AgGrid2223Component } from 'src/app/newPagesFc/xvfc2223-state/action-plan/ag-grid2223/ag-grid2223.component';
+import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent],
+
+
+@NgModule({
+  declarations: [
+    StateFormComponent,
+    ReviewUlbTableComponent, 
+    DashbordComponent,
+    ProjectsWssComponent, 
+    ProjectsWaterRejComponent, ActionPlanSliComponent
+    ],
   imports: [
     CommonModule,
     StateFormRoutingModule,
+    SharedModule,
     FcSharedModule,
     Shared2223Module,
     ReactiveFormsModule,
     FormsModule,
     WebFormModule,
     AccordionModule.forRoot(),
+    MatTooltipModule,
+    MatIconModule,
+    AccordionModule.forRoot(),
+    CollapseModule.forRoot(),
+    AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
   ]
 })
 export class StateFormModule { }

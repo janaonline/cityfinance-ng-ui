@@ -251,9 +251,9 @@ export class UlbFiscalNewComponent implements OnInit {
 
       childControls.forEach((child) => {
         child.valueChanges.subscribe(updated => {
-          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => year.value));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col})) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
@@ -282,10 +282,16 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getColumnWiseSum(arr: number[][]): number[] {
+    // console.log('aaaarrr', arr);
     return arr[0]?.map((_, colIndex) => {
-      return arr.reduce((acc, curr) => {
-        return acc + curr[colIndex];
+      let retNull:boolean = true;
+      let sum = arr.reduce((acc, curr) => {
+        if(!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")){
+          retNull = false;
+        }
+        return acc + (curr[colIndex]*1 || 0);
       }, 0);
+      return retNull ? null : sum;
     });
   }
 
@@ -324,7 +330,7 @@ export class UlbFiscalNewComponent implements OnInit {
     if (!file) return;
     let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>? \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
        return;
     }
     const fileExtension = file.name.split('.').pop();

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { DurService } from './dur.service';
   templateUrl: './dur.component.html',
   styleUrls: ['./dur.component.scss']
 })
-export class DurComponent implements OnInit {
+export class DurComponent implements OnInit, OnDestroy {
   @ViewChild('webForm') webForm;
 
   successErrorMessage: string;
@@ -29,19 +29,39 @@ export class DurComponent implements OnInit {
    Alternatively, you can save as draft for now and submit it later.`
 
   userData = JSON.parse(localStorage.getItem("userData"));
-
+  
   questionresponse;
-
+  isButtonAvail : boolean = false;
+  // nextRouter:string = '';
+  // backRouter:string = '';
+  formId:number = null;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  isFormFinalSubmit : boolean = false;
+  canTakeAction:boolean = false;
+  leftMenuSubs:any;
+  statusShow:string = '';
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
     private router: Router
-  ) { }
+  ) { 
+    this.getNextPreUrl();
+  }
+
 
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
   }
 
@@ -51,18 +71,24 @@ export class DurComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if(this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
+
   }
 
   loadData(loadProjects = false) {
-    this.isLoaded = false;
     this.loaderService.showLoader();
     this.durService.getForm(this.ulbId, this.design_year).subscribe((res: any) => {
       console.log('loadData::', res);
       this.loaderService.stopLoader();
       console.log(res);
-      this.isLoaded = true;
+      this.isLoaded = false;
+      setInterval(() => this.isLoaded = true);
       this.questionresponse = res;
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.statusShow = res?.data[0]?.status;
+      // this.getActionRes();
+      this.formDisable(res?.data[0]);
       if(loadProjects) {
         this.getProjects();
       }
@@ -165,7 +191,7 @@ export class DurComponent implements OnInit {
     // console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
     let previewData = {
-      status: "",
+      status: this.statusShow,
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -285,8 +311,10 @@ export class DurComponent implements OnInit {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
+      this.isFormFinalSubmit = true;
       if(!isDraft) {
         this.loadData(true);
+        
       }
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
@@ -300,10 +328,8 @@ export class DurComponent implements OnInit {
     })
   }
   nextPreBtn(e) {
-    // temporay basic setting url
-    let url = e?.type == 'pre' ? 'pfms_acc' : 'annual_acc'
-    this.router.navigate([`/ulb-form/${url}`]);
-
+    let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
   }
   updateInParent(item) {
     Object.entries(item).forEach(([key, value]) => {
@@ -312,4 +338,30 @@ export class DurComponent implements OnInit {
       console.log(this.isLastDeleted);
     });
   }
+  actionFormChangeDetect(res){
+    if(res == true){
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData(true);
+    }
+  }
+
+  getNextPreUrl(){
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == "dur") {
+          this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+          this.formId = ele?.formId;
+        }
+      });
+    }
+  }
+  formDisable(res){
+    if(!res) return;
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+ }
+ ngOnDestroy(): void {
+  this.leftMenuSubs.unsubscribe();
+}
+  
 }

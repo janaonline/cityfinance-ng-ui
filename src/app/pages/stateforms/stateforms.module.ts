@@ -47,7 +47,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
-import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
+// import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MpfcListComponent } from './state-dashboard/mpfc-list/mpfc-list.component';
@@ -58,7 +58,7 @@ import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/g
 import { DatePipe } from '@angular/common';
 @NgModule({
   entryComponents: [OverallListComponent],
-  providers: [CircleProgressOptions, DatePipe],
+  providers: [DatePipe],
   declarations: [StateformsComponent,
     GTCertificateComponent,
     StateDashboardComponent,
@@ -118,7 +118,7 @@ import { DatePipe } from '@angular/common';
     ChartsModule,
     MatButtonModule,
     ButtonsModule.forRoot(),
-    NgCircleProgressModule,
+    // NgCircleProgressModule,
     MatCardModule,
     MatSelectModule,
     MatChipsModule

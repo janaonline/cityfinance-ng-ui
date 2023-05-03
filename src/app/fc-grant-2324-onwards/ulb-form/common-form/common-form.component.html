@@ -3,22 +3,16 @@
   [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
   (nextPreBtn)="nextPreBtn($event)" [isButtonDisplay]="isButtonAvail" [isFormDisable]="isFormDisable"></app-web-form>
 </div>
-<!-- <div class="" *ngIf="isApiComplete">
-  <app-web-form [formName]="formName" [viewFormTemplate]="'commonFormCf'"
-  [questionresponse]="respon2" (submitQuestion)="resData($event)"
-  [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
-  (nextPreBtn)="nextPreBtn($event)"></app-web-form>
-</div> -->
+
 <div class="loader" *ngIf="!isApiComplete">
 <app-form-loader></app-form-loader>
 </div>
-<div class="" *ngIf="actionData && isApiComplete">
-  <app-form-common-action [canTakeAction]="canTakeAction" [actionData]="actionData" [viewMode]="actionViewMode" 
-  (formChangeEventEmit)="formChangeDetect($event)" [isActionSubmitted]="isActionSubmitted" [errorInAction]="errorInAction"
-  [actBtnDis]="actBtnDis"></app-form-common-action>
- <div class="container-fluid">
+<div class="" *ngIf="isApiComplete">
+  <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+  (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+  [formId]="getQuery.formId" [isButtonAvail]="isButtonAvail" [formName]="formName"></app-form-common-action>
+ <!-- <div class="container-fluid">
   <div class="row mt-3 mb-3">
-    <!-- save, draft, pre and next button --> 
     <div class="col-sm-6">
         
         <button class="btn btn-pre" (click)="nextPreBtn({type: 'pre',formName: ''})" *ngIf="isButtonAvail == false">
@@ -30,13 +24,6 @@
                 Submit
             </button>
         </div>
-        <div class="d-inline-flex mr1">
-            <!-- <button class="btn btn-save text-uppercase"
-                [disabled]="isImageUploading || (questionresponse?.data[0]?.language[0].isDraft == false)"
-                (click)="beforeSubmitPrepareResponse()" *ngIf="!pdfbuttonhide">
-                {{buttonText}}
-            </button> -->
-        </div>
         <div class="d-inline-flex " *ngIf="isButtonAvail == false">
             <button class="btn btn-next text-uppercase" (click)="nextPreBtn({type: 'next',formName: ''})">
                 Next Form ->
@@ -44,7 +31,7 @@
         </div>
     </div>
     </div>
- </div>
+ </div> -->
  
 </div>
 

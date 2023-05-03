@@ -1,15 +1,18 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);" src="../../../../assets/form-icon/close_black_24dp.svg"></a>
+            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);"
+                    src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
+            <span style="display: block;">Details of Property Tax and User Charges</span>
             <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
-    <div class="row" style="margin-top: 1rem;">
-        <div class="col-sm-12 text-end pdf-hide">
+    <div class="row align-items-center" style="margin-top: 1rem;">
+        <div class="col-sm-6">Status: {{ data?.additionalData?.statusText }}</div>
+        
+        <div class="col-sm-6 text-end pdf-hide">
             <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as
                 PDF</button>
         </div>
@@ -19,78 +22,61 @@
         <div class="col-sm-12">
             <div class="card mb-3" *ngFor="let tab of data?.showData; let rowIndex =index">
                 <div class="card-body" *ngIf="tab?.id">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-sm-12 m-hed text-center">{{tab?.label}}</div>
-                    </div>
+                    </div> -->
 
                     <table class="table mt-3" *ngIf="tab?.id == 's3'">
-                        <thead>
-                            <tr>
-                                <th class="th" *ngFor="let year of yearList">{{ year }}</th>
-                            </tr>
-                        </thead>
 
                         <tbody>
-                            <tr *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
-                                <th class="th" scope="row" width="50%">{{ tabData?.value?.label }}</th>
-                                <td class="td" width="10%" *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                    <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                    <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
-                                            target="_blank">{{elem?.file?.name}}</a></span>
-                                    <span>{{
-                                        elem?.formFieldType == 'number'
-                                        ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
-                                        : elem?.value
-                                        }}</span>
-                                </td>
-                            </tr>
+                            <ng-container *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
+                                <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + tabData?.value?.position)  ? 'table-gray' : 'table-main-heading'"
+                                    *ngIf="data.specialHeaders[tabData?.value?.position]">
+                                    <th colspan="7" class="th">{{ data.specialHeaders[tabData?.value?.position].label }}</th>
+                                </tr>
+
+                                <tr class="table-gray"
+                                    *ngIf="data.financialYearTableHeader[tabData?.value?.position]?.length > 0">
+                                    <th class="th"
+                                        *ngFor="let year of data.financialYearTableHeader[tabData?.value?.position]; let  i = index;">
+                                        {{ year.label }}</th>
+                                </tr>
+                                <tr>
+                                    <th class="th" scope="row" width="5%">{{ tabData?.value?.position }}</th>
+                                    <th class="th" scope="row" width="45%">{{ tabData?.value?.label }}</th>
+                                    <td class="td" width="10%"
+                                        *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
+                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                        <span class="file-link" *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                                target="_blank">{{elem?.file?.name}}</a></span>
+                                        <span>{{
+                                            elem?.isRupee
+                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            : elem?.value
+                                            }}</span>
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let child of tabData?.value?.child; let r_i=index">
+                                    <th class="th" scope="row" width="5%">{{ child.position }}.{{ child?.replicaNumber }}</th>
+                                    <th class="th" scope="row" width="45%">
+                                        <div>{{ child.label }} ({{ child?.replicaNumber }})</div>
+                                        <div>{{ child.value }}</div>
+                                    </th>
+                                    <td class="td" width="10%"
+                                        *ngFor="let elem of child.yearData; let y_i=index">
+                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                                target="_blank">{{elem?.file?.name}}</a></span>
+                                        <span>{{
+                                            elem?.isRupee
+                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            : elem?.value
+                                            }}</span>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
-
-
-                    <ng-container *ngFor="let tabData of tab?.data| keyvalue; let y_i=index">
-                        <div class="div" *ngIf="tab?.id === 's1' || tab?.id === 's2'">
-                            <div class="row mb-1 bg-amt pd-r">
-                                <div class="col-sm-6 yr-l">{{tabData?.value?.label}}</div>
-                                <div class="col-sm-6 yr-ans">{{tabData?.value?.value }}</div>
-                            </div>
-                        </div>
-
-                        <div *ngIf="tab?.id == 's4' && tabData?.value?.key != 'guidanceNotes'">
-                            <div class="row">
-                                <div class="col-sm-12 f-label mb-2">{{tabData?.value?.label }}</div>
-                            </div>
-                            <div class="div">
-                                <div class="row mb-1 bg-amt pd-r"
-                                    *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                    <div class="col-sm-6 yr-l">{{elem?.label}}</div>
-                                    <div class="col-sm-6 yr-ans" *ngIf="elem?.value">
-                                        {{elem?.value | currency:"INR":"symbol"}}
-                                    </div>
-                                    <div class="col-sm-6 yr-ans" *ngIf="elem?.file">
-                                        <div *ngIf="elem?.file?.url">
-                                            <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
-                                        </div>
-                                        <div *ngIf="!elem?.file?.url && elem?.readonly == true">
-                                            Already uploaded on Cityfinance.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <div *ngIf="tab?.id == 's4'">
-                        <div class="row">
-                            <div class="col-sm-6 f-label mb-2">Any other information that you would like to provide
-                                us?</div>
-                            <div class="col-sm-6 f-label yr-ans mb-2">
-                                <div *ngIf="data?.additionalData?.otherFile?.url">
-                                    <a href="{{data?.additionalData?.otherFile?.url}}"
-                                        target="_blank">{{data?.additionalData?.otherFile?.name}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
