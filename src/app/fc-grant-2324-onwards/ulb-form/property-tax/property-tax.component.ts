@@ -75,10 +75,10 @@ export class PropertyTaxComponent implements OnInit {
   formId: string;
   // isDraft: boolean;
   ulbName: string;
-  statusText: string;
+  status: string;
   userTypes = USER_TYPE;
   form: FormArray;
-  currentFormStatus: number;
+  statusId: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
@@ -138,8 +138,8 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
-      this.statusText = res?.data?.statusText;
-      this.currentFormStatus = res?.data?.currentFormStatus;
+      this.status = res?.data?.status;
+      this.statusId = res?.data?.statusId;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -156,7 +156,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.currentFormStatus);
+    return ![1, 2, 5, 7].includes(this.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -182,6 +182,7 @@ export class PropertyTaxComponent implements OnInit {
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
             canShow: [{ value: item.canShow !== undefined ? item.canShow : true, disabled: true }],
+            downloadLink: [{ value: item.downloadLink, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
             ...(item.child && {
@@ -220,7 +221,6 @@ export class PropertyTaxComponent implements OnInit {
       replicaNumber: replicaCount,
       modelName: [{ value: item.modelName, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
-      downloadLink: [{ value: item.downloadLink, disabled: true }],
       decimalLimit: [{ value: item.decimalLimit, disabled: true }],
       options: [{ value: item.options, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -335,7 +335,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   onPreview() {
-    if(!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
+    if (!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
     const date = new Date();
     console.log(this.form.getRawValue());
     const rowValues = this.form.getRawValue();
@@ -347,7 +347,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
-          statusText: this.statusText,
+          statusText: this.status,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           // otherFile: this.otherUploadControl?.value
         }

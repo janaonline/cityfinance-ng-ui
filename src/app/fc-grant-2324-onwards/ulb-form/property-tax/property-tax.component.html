@@ -36,8 +36,6 @@
                     option?.label}}</option>
             </select>
 
-            <a class="btn btn-primary w-100" [href]="yearItem?.controls?.downloadLink?.value" target="_blank"
-                *ngIf="yearItem?.controls?.formFieldType?.value == 'link'">Download</a>
 
 
 
@@ -45,9 +43,9 @@
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                 [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                 <div class="d-flex w-100 px-2 justify-content-between">
-                    <input matInput formControlName="date" style="pointer-events: none;" [matDatepicker]="r_i"
-                        [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate" placeholder="Choose a date"
-                        [attr.id]="  + r_i" />
+                    <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
+                        [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate"
+                        placeholder="Choose a date" [attr.id]="  + r_i" />
                     <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
                     </mat-datepicker-toggle>
                 </div>
@@ -146,10 +144,15 @@
                             <td>{{ item?.value?.controls?.position?.value }}</td>
                             <th scope="row"
                                 [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                                {{item?.value?.controls?.label.value}}
-                                <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
-                                <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
-                                    [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                <p class="mb-0">{{item?.value?.controls?.label.value}}
+                                    <span *ngIf="item?.value?.controls?.required.value" style="color: red">*</span>
+                                    <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
+                                        [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                </p>
+
+                                <a [href]="item?.value?.controls?.downloadLink?.value"
+                                    target="_blank"
+                                    *ngIf="item?.value?.controls?.downloadLink?.value">Download</a>
                             </th>
                             <td style="width: 12%;"
                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
