@@ -31,7 +31,7 @@
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value"
+                formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value"
                 [readonly]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
@@ -156,8 +156,12 @@
                                     item?.value?.controls?.child |
                                     formError }}</small>
 
-                                <a [href]="item?.value?.controls?.downloadLink?.value" target="_blank"
-                                    *ngIf="item?.value?.controls?.downloadLink?.value">Download</a>
+                                <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
+                                        class="mb-0 text-small fst-italic" style="word-break: break-all;"
+                                        [href]="item?.value?.controls?.downloadLink?.value" target="_blank">
+                                        <mat-icon>cloud_download
+                                        </mat-icon>
+                                    </a></p>
                             </th>
                             <td style="width: 12%;"
                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
