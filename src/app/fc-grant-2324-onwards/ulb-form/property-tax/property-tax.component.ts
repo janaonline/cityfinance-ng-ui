@@ -75,15 +75,24 @@ export class PropertyTaxComponent implements OnInit {
   formId: string;
   // isDraft: boolean;
   ulbName: string;
-  statusText: string;
+  status: string;
   userTypes = USER_TYPE;
   form: FormArray;
-  currentFormStatus: number;
+  statusId: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
   validators = {};
 
+  isButtonAvail : boolean = false;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  isFormFinalSubmit : boolean = false;
+  canTakeAction:boolean = false;
+  leftMenuSubs:any;
   constructor(
     private fb: FormBuilder,
     private dataEntryService: DataEntryService,
@@ -96,10 +105,15 @@ export class PropertyTaxComponent implements OnInit {
     private commonServices: CommonServicesService,
   ) {
     this.dateAdapter.setLocale('en-GB');
+    this.getNextPreUrl();
   }
 
   ngOnInit(): void {
-
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
   }
 
@@ -113,7 +127,8 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if(this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
   }
 
 
@@ -123,8 +138,8 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
-      this.statusText = res?.data?.statusText;
-      this.currentFormStatus = res?.data?.currentFormStatus;
+      this.status = res?.data?.status;
+      this.statusId = res?.data?.statusId;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -132,6 +147,8 @@ export class PropertyTaxComponent implements OnInit {
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.isLoader = false;
+      this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.formDisable(res?.data[0]);
       console.log('form', this.form);
     }, err => {
       this.loaderService.stopLoader();
@@ -139,7 +156,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.currentFormStatus);
+    return ![1, 2, 5, 7].includes(this.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -330,7 +347,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
-          statusText: this.statusText,
+          statusText: this.status,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           // otherFile: this.otherUploadControl?.value
         }
@@ -540,5 +557,33 @@ export class PropertyTaxComponent implements OnInit {
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
+
+  actionFormChangeDetect(res){
+    if(res == true){
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
+    }
+  }
+
+  getNextPreUrl(){
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == "pto") {
+          this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
+          this.formId = ele?.formId;
+        }
+      });
+    }
+  }
+
+formDisable(res){
+    if(!res) return;
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+ }
+
+ ngOnDestroy(): void {
+  this.leftMenuSubs.unsubscribe();
+}
 
 }

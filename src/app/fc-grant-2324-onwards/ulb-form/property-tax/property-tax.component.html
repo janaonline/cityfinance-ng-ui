@@ -205,11 +205,15 @@
             </tbody>
         </table>
     </div>
+<!---------- review process for State and Mohua ----------------->
+<div class="">
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
+</div>
 
 
-
-
-    <div class="d-flex justify-content-end my-2">
+    <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
         <div class="row w-100">
             <div class="col-sm-6">
                 <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
@@ -232,7 +236,7 @@
                         Next Form -&gt;
                     </button>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 </div>
