@@ -75,11 +75,11 @@ export class CommonServicesService {
   formDisable(res, userData){
     if(userData?.role != 'ULB'){
       return false;
-    }else if(userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+    }else if(userData?.role == 'ULB' && res?.statusId != 5 && res?.statusId != 7){
       return false;
     }else if(userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
       return true;
-    }else if(userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+    }else if(userData?.role == 'ULB' && res?.statusId == 3){
       return false;
     }
     else {
