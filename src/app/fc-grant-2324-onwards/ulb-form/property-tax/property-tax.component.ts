@@ -147,8 +147,8 @@ export class PropertyTaxComponent implements OnInit {
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.isLoader = false;
-      this.canTakeAction =  res?.data[0]?.canTakeAction;
-      this.formDisable(res?.data[0]);
+      this.canTakeAction =  res?.data?.canTakeAction;
+      this.formDisable(res?.data);
       console.log('form', this.form);
     }, err => {
       this.loaderService.stopLoader();
