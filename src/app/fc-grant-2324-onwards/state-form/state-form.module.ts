@@ -26,18 +26,16 @@ import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
-@NgModule({
-  declarations: [StateFormComponent, ReviewUlbTableComponent, DashbordComponent, GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent],
-
 
 @NgModule({
   declarations: [
     StateFormComponent,
-    ReviewUlbTableComponent, 
+    ReviewUlbTableComponent,
     DashbordComponent,
-    ProjectsWssComponent, 
-    ProjectsWaterRejComponent, ActionPlanSliComponent
-    ],
+    ProjectsWssComponent,
+    ProjectsWaterRejComponent, ActionPlanSliComponent,
+    GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent
+  ],
   imports: [
     CommonModule,
     StateFormRoutingModule,
