@@ -72,4 +72,18 @@ export class CommonServicesService {
     const end = input?.selectionEnd || input?.selectionStart;
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
+  formDisable(res, userData){
+    if(userData?.role != 'ULB'){
+      return false;
+    }else if(userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
+      return false;
+    }else if(userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
+      return true;
+    }else if(userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
+      return false;
+    }
+    else {
+      return true;
+    }
+ }
 }
