@@ -75,10 +75,10 @@ export class PropertyTaxComponent implements OnInit {
   formId: string;
   // isDraft: boolean;
   ulbName: string;
-  statusText: string;
+  status: string;
   userTypes = USER_TYPE;
   form: FormArray;
-  currentFormStatus: number;
+  statusId: number;
   currentDate = new Date();
   formSubmitted = false;
   specialHeaders: { [key: number]: string[] } = {};
@@ -123,8 +123,8 @@ export class PropertyTaxComponent implements OnInit {
       this.loaderService.stopLoader();
       console.log('response', res);
       this.tabs = res?.data?.tabs;
-      this.statusText = res?.data?.statusText;
-      this.currentFormStatus = res?.data?.currentFormStatus;
+      this.status = res?.data?.statusText;
+      this.statusId = res?.data?.currentFormStatus;
       this.skipLogicDependencies = res?.data?.skipLogicDependencies;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.specialHeaders = res?.data?.specialHeaders;
@@ -139,7 +139,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.currentFormStatus);
+    return ![1, 2, 5, 7].includes(this.statusId);
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -330,7 +330,7 @@ export class PropertyTaxComponent implements OnInit {
         specialHeaders: this.specialHeaders,
         additionalData: {
           pristine: this.form.pristine,
-          statusText: this.statusText,
+          statusText: this.status,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           // otherFile: this.otherUploadControl?.value
         }
