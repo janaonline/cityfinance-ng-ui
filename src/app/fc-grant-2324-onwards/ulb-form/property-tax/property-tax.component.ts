@@ -156,7 +156,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    return ![1, 2, 5, 7].includes(this.statusId);
+    return ![1, 2, 5, 7].includes(this.statusId) || this.userData.role != USER_TYPE.ULB;
   }
 
   getTabFormGroup(tab: Tab): any {
@@ -580,6 +580,8 @@ export class PropertyTaxComponent implements OnInit {
 formDisable(res){
     if(!res) return;
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    console.log('acfystkdghask', this.isButtonAvail);
+    
  }
 
  ngOnDestroy(): void {
