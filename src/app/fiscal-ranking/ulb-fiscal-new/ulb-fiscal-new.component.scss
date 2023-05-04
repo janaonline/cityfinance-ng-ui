@@ -301,9 +301,16 @@
     border: 2px solid red;
 }
 
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline,
-.mat-input-element:disabled {
-    color: #d3d3d3 !important;
+::ng-deep .disable {
+    .mat-form-field-label .com-style {
+        color: #000;
+    }
+    .mat-form-field-outline {
+        background-color: #dddddd;
+    }
+    input {
+        color: #2f2f2f;
+    }
 }
 
 ::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style {
