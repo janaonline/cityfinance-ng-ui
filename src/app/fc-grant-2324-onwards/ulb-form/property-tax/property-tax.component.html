@@ -31,7 +31,7 @@
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value"
+                formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
                 [readonly]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
