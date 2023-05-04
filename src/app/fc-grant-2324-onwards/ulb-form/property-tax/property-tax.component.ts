@@ -307,7 +307,7 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  toggleValidations(control: AbstractControl, selector: string, canShow: boolean, isArray: boolean) {
+  toggleValidations(control: FormGroup | FormArray | FormControl, selector: string, canShow: boolean, isArray: boolean) {
     if (control) {
       if (!this.validators[selector]) {
         this.validators[selector] = control.validator;
@@ -315,6 +315,7 @@ export class PropertyTaxComponent implements OnInit {
       if (!canShow) {
         if(isArray) {
           (control as FormArray).clear();
+          control?.parent?.get('replicaCount')?.patchValue(0);
         } else {
           control?.patchValue('');
         }
@@ -496,8 +497,10 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    console.log(value);
     if (!value) return;
+    if((childrens?.value as any[])?.some(item => item.value == value)) {
+      return  swal('Warning', `${value} already exists`, 'warning');
+    }
 
     replicaCount++;
     item.patchValue({
