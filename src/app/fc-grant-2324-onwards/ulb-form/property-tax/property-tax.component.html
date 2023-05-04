@@ -8,6 +8,7 @@
     <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                onwheel="this.blur()"
                 [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
                 class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
                 [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
