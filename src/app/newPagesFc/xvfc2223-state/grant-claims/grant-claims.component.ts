@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class GrantClaimsComponent implements OnInit {
   years = JSON.parse(localStorage.getItem("Years"));
-
+  userData = JSON.parse(localStorage.getItem("userData"));
   financial_year = this.years['2022-23'];
   curr_finance_year = true;
   other_finance_year = false;
@@ -120,7 +120,7 @@ export class GrantClaimsComponent implements OnInit {
     private router: Router
   ) {
     // this.financial_year = JSON.parse(localStorage.getItem('Years'));
-    this.stateId = sessionStorage.getItem("state_id");
+    this.stateId = this.userData?.state ? this.userData?.state : sessionStorage.getItem("state_id");
       if (!this.stateId) {
         this.stateId = localStorage.getItem("state_id");
       }
