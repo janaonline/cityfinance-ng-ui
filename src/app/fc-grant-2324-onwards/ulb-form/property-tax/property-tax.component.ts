@@ -156,7 +156,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get buttonDissabled() {
-    if(this.userData?.role != USER_TYPE.ULB) return true;
+    if (this.userData?.role != USER_TYPE.ULB) return true;
     return ![1, 2, 5, 7].includes(this.statusId);
   }
 
@@ -291,20 +291,15 @@ export class PropertyTaxComponent implements OnInit {
           s3Control.patchValue({ data: { [skippable]: { canShow } } });
           const childSelectorString = `data.${skippable}.child`;
           const childControl = s3Control.get(childSelectorString);
-          this.toggleValidations(childControl, childSelectorString, canShow);
+          this.toggleValidations(childControl, childSelectorString, canShow, true);
           config.years?.forEach(yearIndex => {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
-            const valueControl = updatableControl.get('value');
-            const nameControl = updatableControl.get('file.name');
-            const urlControl = updatableControl.get('file.url');
-            [nameControl, urlControl].forEach(fileControl => {
-              fileControl?.setValidators(canShow ? [Validators.required] : [])
-              fileControl?.updateValueAndValidity({ emitEvent: true });
+            ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+              const control  = updatableControl.get(innerSelectorString)
+              this.toggleValidations(control, selectorString+innerSelectorString, canShow, false);
             });
-
-            this.toggleValidations(valueControl, selectorString, canShow);
           })
         });
         control.updateValueAndValidity({ emitEvent: true });
@@ -312,10 +307,18 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  toggleValidations(control: AbstractControl, selector: string, canShow: boolean) {
+  toggleValidations(control: FormGroup | FormArray | AbstractControl | FormControl, selector: string, canShow: boolean, isArray: boolean) {
     if (control) {
       if (!this.validators[selector]) {
         this.validators[selector] = control.validator;
+      }
+      if (!canShow) {
+        if(isArray) {
+          (control as FormArray).clear();
+          control?.parent?.get('replicaCount')?.patchValue(0);
+        } else {
+          control?.patchValue('');
+        }
       }
       control?.setValidators(canShow ? this.validators[selector] : []);
       control?.updateValueAndValidity({ emitEvent: true });
@@ -494,8 +497,10 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    console.log(value);
     if (!value) return;
+    if((childrens?.value as any[])?.some(item => item.value == value)) {
+      return  swal('Warning', `${value} already exists`, 'warning');
+    }
 
     replicaCount++;
     item.patchValue({

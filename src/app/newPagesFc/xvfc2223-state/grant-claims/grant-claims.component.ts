@@ -119,11 +119,10 @@ export class GrantClaimsComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router
   ) {
-    // this.financial_year = JSON.parse(localStorage.getItem('Years'));
     this.stateId = this.userData?.state ? this.userData?.state : sessionStorage.getItem("state_id");
-      if (!this.stateId) {
-        this.stateId = localStorage.getItem("state_id");
-      }
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");  
+    }
 
   }
 
@@ -393,7 +392,7 @@ export class GrantClaimsComponent implements OnInit {
           break;
       }
     });
-  //  this.openDialog(template)
+    //  this.openDialog(template)
 
   }
   body = {
@@ -404,7 +403,7 @@ export class GrantClaimsComponent implements OnInit {
     "type": "",
   };
   onSubmit() {
-   // this.alertClose();
+    // this.alertClose();
     this.grantClaimsService.claimGrantCreate(this.body).subscribe(
       (res) => {
         swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
@@ -689,7 +688,7 @@ export class GrantClaimsComponent implements OnInit {
         if (element?.url == "grant-claims") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
-         // this.formId = element?._id;
+          // this.formId = element?._id;
 
         }
       });

@@ -98,11 +98,11 @@ const response = {
                         "file": "",
                         "options": [
                            {
-                              "id": "ulb",
+                              "id": "ULB",
                               "label": "ULB"
                            },
                            {
-                              "id": "state",
+                              "id": "State",
                               "label": "State"
                            }
                         ],
@@ -10447,7 +10447,7 @@ const response = {
          ],
          '5.5': [
             { label: '', info: '' },
-            { label: 'Water Charges Demand and Collection Details', info: '' },
+            { label: 'Water Charges Demand and Collection Details (Amount in INR lakhs)', info: '' },
             { label: '2018-19', info: '' },
             { label: '2019-20', info: '' },
             { label: '2020-21', info: '' },
@@ -10535,7 +10535,7 @@ const response = {
          '6.5': [
             { label: '', info: '' },
             {
-               label: 'Sewerage Charges Demand and Collection Details',
+               label: 'Sewerage Charges Demand and Collection Details (Amount in INR lakhs)',
                info: ''
             },
             { label: '2018-19', info: '' },
