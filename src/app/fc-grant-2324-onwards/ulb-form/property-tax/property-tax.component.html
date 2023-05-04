@@ -215,14 +215,13 @@
         </table>
     </div>
     <!---------- review process for State and Mohua ----------------->
-    <!-- <div class="">
+    <div class="" *ngIf="statusId && statusId != 1 && statusId != 2">
     <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
     (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
     [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
-</div> -->
+    </div>
 
-
-    <div class="d-flex justify-content-end my-2">
+    <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
         <div class="row w-100">
             <div class="col-sm-6">
                 <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">

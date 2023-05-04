@@ -135,8 +135,6 @@ export class GrantClaimsComponent implements OnInit {
 
   }
 
-
-
   findDisplay() {
     return new Promise<void>((resolve, reject) => {
       this.gTCertificateService.getCondition(this.stateId).subscribe((res) => {
