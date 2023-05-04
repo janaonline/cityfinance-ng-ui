@@ -296,9 +296,9 @@ export class PropertyTaxComponent implements OnInit {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
-            ['value', 'file.name', 'file.url'].forEach(selectorString => {
-              const control  = updatableControl.get(selectorString)
-              this.toggleValidations(control, selectorString, canShow, false);
+            ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+              const control  = updatableControl.get(innerSelectorString)
+              this.toggleValidations(control, selectorString+innerSelectorString, canShow, false);
             });
           })
         });
@@ -307,7 +307,7 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  toggleValidations(control: AbstractControl, selector: string, canShow: boolean, isArray: boolean) {
+  toggleValidations(control: FormGroup | FormArray | AbstractControl | FormControl, selector: string, canShow: boolean, isArray: boolean) {
     if (control) {
       if (!this.validators[selector]) {
         this.validators[selector] = control.validator;
@@ -315,6 +315,7 @@ export class PropertyTaxComponent implements OnInit {
       if (!canShow) {
         if(isArray) {
           (control as FormArray).clear();
+          control?.parent?.get('replicaCount')?.patchValue(0);
         } else {
           control?.patchValue('');
         }
@@ -496,8 +497,10 @@ export class PropertyTaxComponent implements OnInit {
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Add',
     })
-    console.log(value);
     if (!value) return;
+    if((childrens?.value as any[])?.some(item => item.value == value)) {
+      return  swal('Warning', `${value} already exists`, 'warning');
+    }
 
     replicaCount++;
     item.patchValue({
