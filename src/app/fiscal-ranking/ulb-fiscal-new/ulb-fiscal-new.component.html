@@ -30,7 +30,8 @@
                                     <mat-form-field appearance="outline"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
-                                        <input class="com-style" [readonly]="item?.value?.controls?.readonly?.value"
+                                        <input onwheel="this.blur()" class="com-style"
+                                            [readonly]="item?.value?.controls?.readonly?.value"
                                             [type]="item?.value?.controls?.formFieldType?.value" matInput
                                             placeholder="{{ item.value.controls?.label?.value }}"
                                             formControlName="value">
@@ -89,7 +90,7 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <input
+                                                    <input onwheel="this.blur()"
                                                         *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                                                         formControlName="value" class="form-control"
                                                         [type]="yearItem?.controls?.formFieldType?.value"
@@ -114,7 +115,7 @@
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                                                         [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                         <div class="d-flex w-100 px-2">
-                                                            <input matInput formControlName="date"
+                                                            <input onwheel="this.blur()" matInput formControlName="date"
                                                                 style="pointer-events: none;" [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 [max]="currentDate" placeholder="Choose a date"
@@ -130,9 +131,9 @@
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
                                                         provide a valid date</small>
                                                     <ng-container
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'" >
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
                                                         <div class="col-sm-12 mb-3"
-                                                            *ngIf="yearItem?.controls?.readonly?.value == false" 
+                                                            *ngIf="yearItem?.controls?.readonly?.value == false"
                                                             [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                             <button (click)="bs_pdf1.click()"
                                                                 class="btn form-btn com-style w-100"
@@ -155,7 +156,8 @@
                                                         <div class="col-sm-12 com-style f-w mt-1"
                                                             *ngIf="yearItem?.value?.file?.url">
                                                             <a class="w-90" href="{{yearItem?.value?.file?.url}}"
-                                                                target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download</mat-icon></a>
+                                                                target="_blank">{{yearItem?.value?.file?.name}}
+                                                                <mat-icon>cloud_download</mat-icon></a>
                                                             <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                 (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                 class="w-10" [ngClass]="{'pe-none': isDisabled}">
@@ -220,7 +222,8 @@
                                                                         <!-- [disabled]="yearItem?.readonly" -->
                                                                         <!-- id="{{yearItem?.key}}" -->
                                                                         <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
-                                                                        <input formControlName="value" type="number"
+                                                                        <input onwheel="this.blur()"
+                                                                            formControlName="value" type="number"
                                                                             class="form-control com-style yrformCon form-ic"
                                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}">
                                                                     </div>
@@ -258,14 +261,16 @@
                                                                     <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
                                                                     <div class="col-sm-12 mb-3 "
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
-                                                                        <div class="al-up font-size-smaller">Already Uploaded on
+                                                                        <div class="al-up font-size-smaller">Already
+                                                                            Uploaded on
                                                                             Cityfinance</div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
-                                                                            target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download</mat-icon></a>
+                                                                            target="_blank">{{yearItem?.value?.file?.name}}
+                                                                            <mat-icon>cloud_download</mat-icon></a>
                                                                         <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                             (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                             class="w-10"
@@ -306,14 +311,14 @@
                                     </ng-container>
                                     <ng-container *ngIf="tab?.value?.id === 's4' && otherUploadControl">
                                         <p class="px-3">Any other information that you would like to provide us?</p>
-    
+
                                         <div class="col-sm-3 px-3 com-style mt-3 ">
-                                            <button class="btn w-100 form-btn" style="font-size: smaller; font-weight: normal;" (click)="bs_pdf_up.click()"
-                                                [disabled]="isDisabled">
+                                            <button class="btn w-100 form-btn"
+                                                style="font-size: smaller; font-weight: normal;"
+                                                (click)="bs_pdf_up.click()" [disabled]="isDisabled">
                                                 Upload File
                                                 <img class="u-i ms-3"
-                                                    src="../../../assets/circle/cloud_upload_black_24dp.svg"
-                                                    alt="">
+                                                    src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
                                             </button>
                                             <input #bs_pdf_up style="display: none;"
                                                 (change)="uploadFile($event, 'pdf', otherUploadControl)"
@@ -322,13 +327,14 @@
                                         <app-loader class="col-sm-3"
                                             [show]="otherUploadControl.controls?.uploading?.value">
                                         </app-loader>
-                                        <div class="mt-2 px-3"
-                                            *ngIf="otherUploadControl?.controls?.url?.value">
+                                        <div class="mt-2 px-3" *ngIf="otherUploadControl?.controls?.url?.value">
                                             <a href="{{otherUploadControl?.controls?.url?.value}}"
-                                                target="_blank">{{otherUploadControl?.controls?.name?.value}} <mat-icon>cloud_download</mat-icon></a>
+                                                target="_blank">{{otherUploadControl?.controls?.name?.value}} <mat-icon>
+                                                    cloud_download</mat-icon></a>
                                         </div>
-    
-                                        <small *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
+
+                                        <small
+                                            *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
                                             class="text-danger text-center">Please upload a file</small>
                                     </ng-container>
 
@@ -390,7 +396,8 @@
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
                                                     <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
-                                                        target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}} <mat-icon>cloud_download</mat-icon></a>
+                                                        target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}
+                                                        <mat-icon>cloud_download</mat-icon></a>
                                                 </div>
 
                                                 <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
