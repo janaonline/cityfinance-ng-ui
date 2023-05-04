@@ -120,7 +120,6 @@ export class GrantClaimsComponent implements OnInit {
     private router: Router
   ) {
     this.stateId = this.userData?.state ? this.userData?.state : sessionStorage.getItem("state_id");
-
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");  
     }

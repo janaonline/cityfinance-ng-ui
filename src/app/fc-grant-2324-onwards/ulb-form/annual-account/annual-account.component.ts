@@ -167,8 +167,8 @@ export class AnnualAccountComponent implements OnInit {
           this.webForm.hasUnsavedChanges = false;
           this.commonServices.setFormStatusUlb.next(true);
           this.isApiComplete = false;
+          this.actionResFile = {};
           this.onload();
-
           swal(
             "Saved",
             `Data saved ${draft ? "as draft" : ""} successfully`,
