@@ -298,7 +298,7 @@ export class PropertyTaxComponent implements OnInit {
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
               const control  = updatableControl.get(innerSelectorString)
-              this.toggleValidations(control, selectorString+innerSelectorString, canShow, false);
+              this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });
           })
         });
@@ -323,6 +323,7 @@ export class PropertyTaxComponent implements OnInit {
       control?.setValidators(canShow ? this.validators[selector] : []);
       control?.updateValueAndValidity({ emitEvent: true });
     }
+    console.log(this.validators);
   }
 
   uploadFile(event: { target: HTMLInputElement }, control: FormControl, reset: boolean = false, allowedFileTypes = []) {
