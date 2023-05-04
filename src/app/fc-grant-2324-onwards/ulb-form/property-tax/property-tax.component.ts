@@ -296,9 +296,9 @@ export class PropertyTaxComponent implements OnInit {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
-            ['value', 'file.name', 'file.url'].forEach(selectorString => {
-              const control  = updatableControl.get(selectorString)
-              this.toggleValidations(control, selectorString, canShow, false);
+            ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+              const control  = updatableControl.get(innerSelectorString)
+              this.toggleValidations(control, selectorString+innerSelectorString, canShow, false);
             });
           })
         });
@@ -307,7 +307,7 @@ export class PropertyTaxComponent implements OnInit {
     });
   }
 
-  toggleValidations(control: FormGroup | FormArray | FormControl, selector: string, canShow: boolean, isArray: boolean) {
+  toggleValidations(control: FormGroup | FormArray | AbstractControl | FormControl, selector: string, canShow: boolean, isArray: boolean) {
     if (control) {
       if (!this.validators[selector]) {
         this.validators[selector] = control.validator;
