@@ -29,7 +29,10 @@
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
-                                        <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
+                                        <mat-label class="com-style">{{ item.value.controls?.label?.value }} <mat-icon
+                                                style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
+                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                        </mat-label>
                                         <input onwheel="this.blur()" class="com-style"
                                             [appDecimalLimit]="item?.value?.controls?.formFieldType?.value != 'number' ? null : item?.value?.controls?.decimalLimit?.value || 0"
                                             [readonly]="item?.value?.controls?.readonly?.value"
@@ -40,7 +43,9 @@
                                     <div class="col-sm-12 mt-1 row"
                                         *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
                                         <div class="col-sm-8">
-                                            {{ item.value.controls?.label?.value }}
+                                            {{ item.value.controls?.label?.value }} <mat-icon style="font-size: 18px;"
+                                                *ngIf="item?.value?.controls?.info?.value"
+                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </div>
                                         <div class="col-sm-4">
                                             <mat-radio-group aria-label="Select an option" formControlName="value"

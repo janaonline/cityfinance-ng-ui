@@ -194,6 +194,7 @@ export class UlbFiscalNewComponent implements OnInit {
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
+      info: [{ value: item.info, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true }],
       position: [{ value: item.postion, disabled: true }],
