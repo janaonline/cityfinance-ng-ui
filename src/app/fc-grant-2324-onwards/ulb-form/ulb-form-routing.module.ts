@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UlbGaurdsGuard } from '../fc-shared/gaurds/ulb-gaurds.guard';
 import { AnnualAccountComponent } from './annual-account/annual-account.component';
 import { DurComponent } from './dur/dur.component';
 import { CommonFormComponent } from './common-form/common-form.component';
@@ -11,12 +10,14 @@ import { ResourceComponent } from './resource/resource.component';
 import { ConfirmationGuard } from './guards/confirmation.guard';
 import { PropertyTaxComponent } from './property-tax/property-tax.component';
 import { PfmsComponent } from './pfms/pfms.component';
+import { FourSlbComponent } from './four-slb/four-slb.component';
+import { Ulb2223Guard } from 'src/app/shared2223/common-gaurds/ulb/ulb2223.guard';
 
 const routes: Routes = [
   {
     path: "",
     component: UlbFormComponent,
-    canActivate: [UlbGaurdsGuard],
+    canActivate: [Ulb2223Guard],
     children: [
       {
         path: "annual_acc",
@@ -46,7 +47,10 @@ const routes: Routes = [
       {
         path: "ptax",
         component: PropertyTaxComponent,
-        // canDeactivate: [ConfirmationGuard]
+        canDeactivate: [ConfirmationGuard],
+        data: {
+          'formType': 'custom-form'
+        },
       },
       {
         path: "28SLBsForm",
@@ -55,7 +59,7 @@ const routes: Routes = [
       },
       {
         path: "slbs",
-        component: CommonFormComponent,
+        component: FourSlbComponent,
         canDeactivate: [ConfirmationGuard]
       },
       {

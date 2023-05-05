@@ -15,9 +15,7 @@ export class ConfirmationGuard implements CanDeactivate<any> {
     currentState: RouterStateSnapshot,
     nextState: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    // console.log('hasUnsavedChanges', component.webForm.hasUnsavedChanges)
-    console.log(nextState.url);
-    if (nextState.url != '/rankings/home' && component?.webForm?.hasUnsavedChanges) {
+    if (nextState.url != '/rankings/home' && this.checkHasUnsavedChanges(component, !!route?.data?.formType)) {
       return swal(
         "Unsaved Changes!",
         `You have some unsaved changes on this page. Do you wish to save your data as draft?`,
@@ -39,5 +37,9 @@ export class ConfirmationGuard implements CanDeactivate<any> {
       );
     }
     return true;
+  }
+
+  checkHasUnsavedChanges(component, isCustomForm = false) {
+    return isCustomForm ? !component?.form.pristine : component?.webForm?.hasUnsavedChanges;
   }
 }

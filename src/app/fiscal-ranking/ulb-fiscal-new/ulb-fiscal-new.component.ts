@@ -251,9 +251,9 @@ export class UlbFiscalNewComponent implements OnInit {
 
       childControls.forEach((child) => {
         child.valueChanges.subscribe(updated => {
-          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => +year.value || 0));
+          const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => year.value));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col || '' })) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col})) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
@@ -282,10 +282,16 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getColumnWiseSum(arr: number[][]): number[] {
+    // console.log('aaaarrr', arr);
     return arr[0]?.map((_, colIndex) => {
-      return arr.reduce((acc, curr) => {
-        return acc + curr[colIndex];
+      let retNull:boolean = true;
+      let sum = arr.reduce((acc, curr) => {
+        if(!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")){
+          retNull = false;
+        }
+        return acc + (curr[colIndex]*1 || 0);
       }, 0);
+      return retNull ? null : sum;
     });
   }
 
@@ -322,12 +328,16 @@ export class UlbFiscalNewComponent implements OnInit {
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     const fileExtension = file.name.split('.').pop();
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
-
     control.patchValue({ uploading: true });
     this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
       const { url, file_url } = s3Response.data[0];

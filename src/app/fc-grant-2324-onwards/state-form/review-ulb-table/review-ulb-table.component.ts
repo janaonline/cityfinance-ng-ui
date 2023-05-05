@@ -22,7 +22,7 @@ export class ReviewUlbTableComponent implements OnInit {
     design_year = '';
 
   //formId = "62aa1b04729673217e5ca3aa";
-  formId = "63ff31d63ae39326f4b2f466";
+  formId = "1";
   formUrl = "";
   data;
   title = "";
@@ -42,7 +42,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.onLoad();
     this.getFormId();
     if (this.data?.length > 0)
-    this.formId = this.data[0]["_id"];
+    this.formId = this.data[0]["formId"];
   }
 
   onLoad() {

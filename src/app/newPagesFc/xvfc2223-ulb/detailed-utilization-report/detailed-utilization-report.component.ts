@@ -859,17 +859,14 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   numberLimitV(e, input) {
     // console.log("sss", e, input);
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
-
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
     }
-
     const keyValue = +e.key;
     if (isNaN(keyValue)) {
       e.preventDefault();
       return;
     }
-
     const hasSelection =
       input?.selectionStart !== input?.selectionEnd &&
       input?.selectionStart !== null;

@@ -1,13 +1,13 @@
-::ng-deep .mat-radio-container {
+.mat-radio-container {
   display: none !important;
 }
 
-::ng-deep .mat-radio-checked {
+.mat-radio-checked {
   background-color: #ffc500 !important;
   color: white;
 }
 
-::ng-deep .mat-radio-button {
+.mat-radio-button {
   // width: 72px;
   background-color: #CFCFCF;
   padding: 0.5rem 0.85rem 0rem 0.5rem !important;

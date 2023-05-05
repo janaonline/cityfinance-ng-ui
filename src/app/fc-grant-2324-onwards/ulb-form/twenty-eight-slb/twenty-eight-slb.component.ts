@@ -1,14 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 const swal: SweetAlert = require("sweetalert");
 
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { TwentyEightSlbPreviewComponent } from './twenty-eight-slb-preview/twenty-eight-slb-preview.component';
 
 // import { DurPreviewComponent } from './dur-preview/dur-preview.component';
 import { TwentyEightSlbService } from './twenty-eight-slb.service';
+import { Router } from '@angular/router';
 
 
 
@@ -17,7 +19,7 @@ import { TwentyEightSlbService } from './twenty-eight-slb.service';
   templateUrl: './twenty-eight-slb.component.html',
   styleUrls: ['./twenty-eight-slb.component.scss']
 })
-export class TwentyEightSlbComponent implements OnInit {
+export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   @ViewChild('webForm') webForm;
 
   oppositeComparisionKeys: string[] = [
@@ -33,20 +35,38 @@ export class TwentyEightSlbComponent implements OnInit {
   isProjectLoaded: boolean = false;
   successErrorMessage: string;
   formId = '6';
+  status: string;
 
   userData = JSON.parse(localStorage.getItem("userData"));
 
   questionresponse;
-
+  slbFormURL:string = ''
   constructor(
     private dialog: MatDialog,
     private twentyEightSlbService: TwentyEightSlbService,
-    private loaderService: GlobalLoaderService
+    private loaderService: GlobalLoaderService,
+    private commonServices: CommonServicesService,
+    private router: Router
   ) { }
-
+  isButtonAvail: boolean = false;
+  nextPreUrl = {
+    nextBtnRouter: '',
+    backBtnRouter: ''
+  }
+  sideMenuItem: object | any;
+  isFormFinalSubmit: boolean = false;
+  canTakeAction: boolean = false;
+  leftMenuSubs: any;
   ngOnInit(): void {
     // this.isLoaded = true;
+    this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe((res) => {
+      if (res == true) {
+        this.getNextPreUrl();
+      }
+    });
     this.loadData();
+    this.slbFormURL = `/ulbform/overview/${this.ulbId}`;
+    sessionStorage.setItem("ulb_id", this.ulbId);
   }
 
   get design_year() {
@@ -55,7 +75,8 @@ export class TwentyEightSlbComponent implements OnInit {
   }
 
   get ulbId() {
-    return this.userData?.ulb;
+    if (this.userData?.role == 'ULB') return this.userData?.ulb;
+    return localStorage.getItem("ulb_id");
   }
 
 
@@ -75,9 +96,14 @@ export class TwentyEightSlbComponent implements OnInit {
         this.successErrorMessage = res?.message;
         return;
       }
-      this.isLoaded = true;
+
+      this.isLoaded = false;
+      setInterval(() => this.isLoaded = true);
       console.log(res);
       this.questionresponse = res;
+      this.canTakeAction = res?.data[0]?.canTakeAction;
+      this.formDisable(res?.data[0]);
+      this.status = res?.data[0].status;
     }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
@@ -101,13 +127,12 @@ export class TwentyEightSlbComponent implements OnInit {
             target_1: {
               value: questionsData.find(question => question.shortKey?.endsWith("_targetIndicator"))?.modelValue
             },
-            unit: "%"
+            unit: questionsData.find(question => question.shortKey?.endsWith("_unit"))?.modelValue
           }))
         }), {}),
-        isDraft: true,
       },
       ulbId: this.ulbId,
-      isDraft: true,
+      status: this.status
       // saveDataJson: this.slbData
     };
     const dialogRef = this.dialog.open(TwentyEightSlbPreviewComponent, {
@@ -173,23 +198,24 @@ export class TwentyEightSlbComponent implements OnInit {
           return false;
         }
 
-        if (!actualValue || !targetValue) continue;
+        // if (!actualValue || !targetValue) continue;
 
-        if (this.oppositeComparisionKeys.includes(lineItemValue)) {
-          if (actualValue < targetValue) {
-            return false;
-          }
-        } else {
-          if (actualValue > targetValue) {
-            return false;
-          }
-        }
+        // if (this.oppositeComparisionKeys.includes(lineItemValue)) {
+        //   if (actualValue < targetValue) {
+        //     return false;
+        //   }
+        // } else {
+        //   if (actualValue > targetValue) {
+        //     return false;
+        //   }
+        // }
       }
     }
     return true;
   }
 
   async onSubmit(data) {
+    console.log('submit', data);
 
     let isDraft = data.isSaveAsDraft;
     if (isDraft == false) {
@@ -239,10 +265,13 @@ export class TwentyEightSlbComponent implements OnInit {
     }).subscribe(res => {
       this.webForm.hasUnsavedChanges = false;
       this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
+      this.isFormFinalSubmit = true;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success')
-        .then(() => {
-          if (!isDraft) location.reload();
-        });
+      // .then(() => {
+      //   if (!isDraft) location.reload();
+      // });
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();
@@ -252,5 +281,55 @@ export class TwentyEightSlbComponent implements OnInit {
       swal('Error', error?.message ?? 'Something went wrong', 'error');
       console.log('error occured');
     })
+  }
+
+  nextPreBtn(e) {
+    let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
+    this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
+  }
+  actionFormChangeDetect(res) {
+    if (res == true) {
+      this.commonServices.setFormStatusUlb.next(true);
+      this.loadData();
+    }
+  }
+
+  getNextPreUrl() {
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
+    for (const key in this.sideMenuItem) {
+      this.sideMenuItem[key].forEach((ele) => {
+        if (ele?.folderName == '28slb') {
+          this.nextPreUrl = { nextBtnRouter: ele?.nextUrl, backBtnRouter: ele?.prevUrl }
+          this.formId = ele?.formId;
+        }
+      });
+    }
+  }
+  formDisable(res) {
+    if (!res) return;
+    if (this.userData?.role != 'ULB') {
+      // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    } else if (this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7) {
+      // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    } else if (this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)) {
+      //  this.isFormDisable = false;
+      this.isButtonAvail = true;
+      return;
+    } else if (this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false) {
+      // this.isFormDisable = true;
+      this.isButtonAvail = false;
+      return;
+    }
+    else {
+      // this.isFormDisable = false;
+      this.isButtonAvail = true;
+    }
+  }
+  ngOnDestroy() {
+    this.leftMenuSubs.unsubscribe();
   }
 }

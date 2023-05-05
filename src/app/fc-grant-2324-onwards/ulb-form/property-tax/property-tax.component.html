@@ -1,7 +1,104 @@
 <div class="d-flex justify-content-between align-items-center">
-    <h5 class="mx-3 my-4">Property Tax</h5>
+    <h5 class="mx-3 my-4">Details of Property Tax and User Charges</h5>
     <button class="btn btn-primary" (click)="onPreview()">Preview</button>
 </div>
+<small class="text-danger">All questions with * are mandatory</small>
+
+<ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
+    <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+        <div class="form-group">
+            <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                onwheel="this.blur()"
+                [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
+                class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
+                [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
+                [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
+                placeholder="{{yearItem?.controls?.placeholder?.value}}" />
+            <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+
+            <small class="focus-warning" *ngIf="yearItem?.controls?.formFieldType?.value == 'number' &&
+                yearItem?.controls?.value?.value == '0'">
+                contains "0" do you still want to continue?
+            </small>
+            <small class="focus-warning" *ngIf="yearItem._parent | yearComparision: yearIndex">Prior
+                year amount is
+                greater</small>
+            <mat-radio-group aria-label="Select an option" formControlName="value"
+                *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
+                [disabled]="yearItem?.controls?.readonly?.value">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
+            </mat-radio-group>
+
+            <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
+                [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
+                formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
+                [readonly]="yearItem?.controls?.readonly?.value">
+                <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
+                    option?.label}}</option>
+            </select>
+
+
+
+
+            <div class="input-group" style="background-color: white;"
+                *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+                [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                <div class="d-flex w-100 px-2 justify-content-between">
+                    <input matInput class="mat-date" formControlName="date" style="pointer-events: none;"
+                        [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value" [max]="currentDate"
+                        placeholder="Choose a date" [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle matSuffix [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
+            <small class="text-danger"
+                *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
+                provide a valid date</small>
+            <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
+                <div class="col-sm-12 mb-3" *ngIf="yearItem?.controls?.readonly?.value == false"
+                    [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                    <button (click)="bs_pdf1.click()" class="btn form-btn com-style w-100" [disabled]="isDisabled">
+                        <div class="row">
+                            <div class="col-sm-6 file-text ">
+                                File
+                            </div>
+                            <div class="col-sm-6 text-end">
+                                <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                            </div>
+                        </div>
+                    </button>
+                    <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                        (change)="uploadFile($event, yearItem?.controls?.file, false, yearItem?.controls?.allowedFileTypes?.value)"
+                        type="file" [accept]="yearItem?.controls?.allowedFileTypes?.value | allowedFileTypes" #file>
+                </div>
+                <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
+                    <a class="w-90" style="word-break: break-all;" href="{{yearItem?.value?.file?.url}}"
+                        target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
+                        </mat-icon></a>
+                    <a *ngIf="!yearItem?.controls?.readonly?.value"
+                        (click)="uploadFile($event, yearItem?.controls?.file, true)" class="w-10"
+                        [ngClass]="{'pe-none': isDisabled}">
+                        <img src="../../../assets/form-icon/close_black_24dp.svg">
+                    </a>
+                </div>
+                <div class="col-sm-12 text-center w-70">
+                    <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
+                    </app-loader>
+                </div>
+                <small class="text-danger"
+                    *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File is
+                    required</small>
+            </ng-container>
+            <div class="invalid-feedback" *ngIf="
+                yearItem.controls?.value?.invalid 
+                && 
+                (yearItem.controls?.value?.dirty || yearItem.controls?.value?.touched)">{{ yearItem.controls?.value |
+                formError }}</div>
+        </div>
+    </div>
+</ng-template>
 
 <div *ngIf="form">
     <div *ngFor="let tab of form.controls; index as i;">
@@ -10,137 +107,145 @@
             <tbody style="border-top: none;">
                 <ng-container
                     *ngFor="let item of tab?.controls?.data?.controls | keyvalue: sortPosition;let rowIndex_rev=index">
-                    <tr [ngClass]="item?.value?.controls?.position?.value == '27.1' ? 'table-gray' : 'table-main-heading'"
-                        *ngIf="specialHeaders[item?.value?.controls?.position?.value]">
-                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value] }}</th>
+                    <tr [ngClass]="['2.5', '5.13', '6.13'].includes('' + item?.value?.controls?.position?.value)  ? 'table-gray' : 'table-main-heading'"
+                        *ngIf="specialHeaders[item?.value?.controls?.position?.value] && canShowHeader(item?.value?.controls?.position?.value)">
+                        <th colspan="7">{{ specialHeaders[item?.value?.controls?.position?.value].label }}
+                            <mat-icon style="font-size: 18px;"
+                                *ngIf="specialHeaders[item?.value?.controls?.position?.value]?.info"
+                                [matTooltip]="specialHeaders[item?.value?.controls?.position?.value]?.info">info
+                            </mat-icon>
+                        </th>
                     </tr>
                     <tr class="table-gray"
-                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0 && canShowHeader(item?.value?.controls?.position?.value)">
                         <th
-                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
-                            {{ heading }}{{ i > 1 ? ' (in ₹)' : ''}}</th>
-                    </tr>
-                    <tr *ngIf="item?.value?.controls?.canShow?.value">
-                        <td>{{ item?.value?.controls?.position?.value }}</td>
-                        <th scope="row"
-                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
-                                *ngIf="item?.value?.controls?.info?.value"
-                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                            *ngFor="let year of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
+                            {{ year.label }} <mat-icon style="font-size: 18px;" *ngIf="year.info"
+                                [matTooltip]="year.info">info</mat-icon>
                         </th>
-                        <td *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                            <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
-                                <div class="form-group">
-                                    <input
-                                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                                        formControlName="value" class="form-control"
-                                        [type]="yearItem?.controls?.formFieldType?.value"
-                                        [readonly]="yearItem?.controls?.readonly?.value"
-                                        [disabled]="yearItem?.controls?.readonly?.value"
-                                        [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
-                                        placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-                                    <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
-                                    <small class="text-danger"
-                                        *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
-                                        be equal to {{ yearItem.value.originalValue }}</small>
-                                    <mat-radio-group aria-label="Select an option" formControlName="value"
-                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
-                                        [disabled]="yearItem?.controls?.readonly?.value">
-                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
-                                    </mat-radio-group>
+                    </tr>
 
-
-                                    <div class="input-group border" style="width: 100px;"
-                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
-                                        [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
-                                        <div class="d-flex w-100 px-2 justify-content-between">
-                                            <input matInput formControlName="date" style="pointer-events: none;"
-                                                [matDatepicker]="r_i" [disabled]="yearItem?.controls?.readonly?.value"
-                                                [max]="currentDate" placeholder="Choose a date" [attr.id]="  + r_i" />
-                                            <mat-datepicker-toggle matSuffix
-                                                [disabled]="yearItem?.controls?.readonly?.value" [for]="r_i">
-                                            </mat-datepicker-toggle>
-                                        </div>
-                                        <mat-datepicker #r_i></mat-datepicker>
-                                    </div>
-                                    <small style="color: red"
-                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
-                                        provide a valid date</small>
-                                    <ng-container *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
-                                        <div class="col-sm-12 mb-3" *ngIf="yearItem?.controls?.readonly?.value == false"
-                                            [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
-                                            <button (click)="bs_pdf1.click()" class="btn form-btn com-style w-100"
-                                                [disabled]="isDisabled">
-                                                <div class="row">
-                                                    <div class="col-sm-6 file-text ">
-                                                        File
-                                                    </div>
-                                                    <div class="col-sm-6 text-end">
-                                                        <img src="../../../assets/circle/cloud_upload_black_24dp.svg">
-                                                    </div>
-                                                </div>
-                                            </button>
-                                            <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
-                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
-                                                type="file" accept=".pdf" #file>
-                                        </div>
-                                        <div class="col-sm-12 com-style f-w mt-1" *ngIf="yearItem?.value?.file?.url">
-                                            <a class="w-90" href="{{yearItem?.value?.file?.url}}"
-                                                target="_blank">{{yearItem?.value?.file?.name}} <mat-icon>cloud_download
-                                                </mat-icon></a>
-                                            <a *ngIf="!yearItem?.controls?.readonly?.value"
-                                                (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
-                                                class="w-10" [ngClass]="{'pe-none': isDisabled}">
-                                                <img src="../../../assets/form-icon/close_black_24dp.svg">
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-12 text-center w-70">
-                                            <app-loader [show]="yearItem?.controls?.file?.controls?.uploading?.value">
-                                            </app-loader>
-                                        </div>
-                                    </ng-container>
-                                    <div class="invalid-feedback">Please provide a valid input.</div>
-                                </div>
+                    <tr *ngIf="item?.value?.controls?.position?.value == '7.1'">
+                        <td colspan="7">
+                            <div>
+                                <p><b>Note: Please read the following instructions and upload the document:</b></p>
+                                <p>1. Once all data is submitted please Preview and Download the form as PDF.</p>
+                                <p>2. Print the downloaded PDF and provide signature and seal of Commissioner/Executive
+                                    Officer of Urban Local
+                                    Body</p>
+                                <p>3. File size of the single document should not exceed 5 MB. If it exceeds 5 MB then
+                                    compress the file size
+                                    using <a href="https://pdfcompressor.com"
+                                        target="_blank">https://pdfcompressor.com</a></p>
+                                <button class="btn btn-primary" (click)="onPreview()">Preview & Download PDF</button>
                             </div>
                         </td>
                     </tr>
+                    <ng-container *ngIf="item?.value?.controls?.canShow?.value">
+                        <tr>
+                            <td>{{ item?.value?.controls?.position?.value }}</td>
+                            <th scope="row"
+                                [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
+                                <p class="mb-0">{{item?.value?.controls?.label.value}}
+                                    <span *ngIf="item?.value?.controls?.required.value" class="text-danger">*</span>
+                                    <mat-icon style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
+                                        [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                </p>
+
+                                <small class="text-danger"
+                                    *ngIf="item?.value?.controls?.child?.invalid && (item?.value?.controls?.child?.dirty || item?.value?.controls?.child?.touched)">{{
+                                    item?.value?.controls?.child |
+                                    formError }}</small>
+
+                                <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
+                                        class="mb-0 text-small fst-italic" style="word-break: break-all;"
+                                        [href]="item?.value?.controls?.downloadLink?.value" target="_blank">
+                                        <mat-icon>cloud_download
+                                        </mat-icon>
+                                    </a></p>
+                            </th>
+                            <td style="width: 12%;"
+                                *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                        yearItem: yearItem,
+                                        yearIndex: r_i
+                                    }">
+                                </ng-container>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let child of item?.value?.controls?.child?.controls; let r_i=index">
+                            <td>{{ child.controls?.position?.value }}.{{ child?.controls?.replicaNumber?.value }}</td>
+                            <td>
+                                <p *ngIf="item?.value?.controls?.copyChildFrom?.value?.length > 1">{{
+                                    child?.controls?.label?.value }} ({{ child?.controls?.replicaNumber?.value }})</p>
+                                <div style="position: relative;">
+                                    <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                            yearItem: child,
+                                            hideErrors: true
+                                        }">
+                                    </ng-container>
+                                    <button [disabled]="buttonDissabled"
+                                        (click)="editChildQuestions(item?.value, child.controls?.replicaNumber.value, child?.controls?.value?.value)"
+                                        class="btn btn-primary edit-button">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                            <td *ngFor="let yearItem of child?.controls?.yearData?.controls; let r_i=index">
+                                <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ 
+                                        yearItem: yearItem,
+                                        yearIndex: r_i
+                                    }">
+                                </ng-container>
+                            </td>
+                        </tr>
+                        <tr *ngIf="item?.value?.controls?.child?.value">
+                            <td colspan="7">
+                                <button [disabled]="buttonDissabled" class="btn btn-primary"
+                                    (click)="addChildQuestions(item?.value)">Add
+                                    more</button>
+                                <button [disabled]="buttonDissabled"
+                                    *ngIf="item?.value?.controls?.child?.value.length > 0" class="btn btn-danger ms-2"
+                                    (click)="removeLastQuestion(item?.value)">Delete
+                                    Last</button>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </ng-container>
             </tbody>
         </table>
     </div>
-
-    <div>
-        <p><b>Note: Please read the following instructions and upload the document:</b></p>
-        <p>1. Once all data is submitted please Preview and Download the form as PDF.</p>
-        <p>2. Print the downloaded PDF and provide signature and seal of Commissioner/Executive Officer of Urban Local Body</p>
-        <p>3. File size of the single document should not exceed 5 MB. If it exceeds 5 MB the compress the file size using <a href="https://pdfcompressor.com" target="_blank">https://pdfcompressor.com</a></p>
-    </div>
+    <!---------- review process for State and Mohua ----------------->
+    <!-- <div class="">
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
+</div> -->
 
 
     <div class="d-flex justify-content-end my-2">
         <div class="row w-100">
             <div class="col-sm-6">
-                <button class="btn btn-pre" routerLink="/ulb-form/annual_acc">
+                <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">
                     &lt;- Previous Form </button>
             </div>
             <div class="col-sm-6 d-flex justify-content-end">
                 <div class="d-inline-flex mr-1">
-                    <button [disabled]="isDraft == false" class="btn btn-save text-uppercase" (click)="submit()">
+                    <button [disabled]="buttonDissabled" class="btn btn-save text-uppercase" (click)="submit()">
                         Save as Draft
                     </button>
                 </div>
                 <div class="d-inline-flex mr-1">
-                    <button [disabled]="isDraft == false" class="btn btn-save text-uppercase"
+                    <button [disabled]="buttonDissabled" class="btn btn-save text-uppercase"
                         (click)="finalSubmitConfirmation()">
-                        Save
+                        Submit
                     </button>
                 </div>
-                <!-- <div class="d-inline-flex ">
-                    <button routerLink="ulb-form/28SLBsForm" class="btn btn-next text-uppercase">
+                <div class="d-inline-flex ">
+                    <button [routerLink]="nextPreUrl?.nextBtnRouter" class="btn btn-next text-uppercase">
                         Next Form -&gt;
                     </button>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>

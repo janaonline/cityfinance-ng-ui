@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card mt-2" *ngIf="canTakeAction == true">
-                <div class="card-body">
+                <div class="card-body" >
                     <div class="action-form">
                         <form *ngIf="statusForm" [formGroup]="statusForm">
                             <div class="row">
@@ -12,11 +12,11 @@
                                 <div class="col-sm-7">
                                     <div class="form-group mb-2">
                                         <div class="btn-group" btnRadioGroup formControlName="status">
-                                            <label btnRadio="{{statusIdForApprove}}" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
-                                            <label btnRadio="{{statusIdForReject}}" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
+                                            <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                                            <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
                                         </div>
                                     </div>
-                                    <div class="text-danger" *ngIf="isActionSubmitted && (!actionData.status)">
+                                    <div class="text-danger" *ngIf="isActionSubmitted && (!formValue?.status)">
                                         This is the required field.
                                        </div>
                                 </div>
@@ -25,8 +25,9 @@
                                 <div class="col-sm-5">
                                     Remarks/Reject Reason* :
                                 </div>
-                                <div class="col-sm-7">
-                                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="rejectReason" [disabled]="actBtnDis" placeholder="Type here ..."></textarea>
+                                <div class="col-sm-7" [ngClass]="{'disCls' : actBtnDis}">
+                                    <textarea name="reason" id="reason" cols="33" rows="2" 
+                                    formControlName="rejectReason" disabled="{{actBtnDis}}" placeholder="Type here ..."></textarea>
                                     <div class="text-danger" *ngIf="errorInAction">
                                      This is the required field.
                                     </div>
@@ -48,7 +49,7 @@
                                           <a href="{{responceFile?.url}}" target="_blank">
                                             {{responceFile?.name}}
                                           </a>
-                                          <span class="ms-3">
+                                          <span class="ms-3" [ngClass]="{'disCls' : actBtnDis}">
                                             <span class="material-icons file-icon-cross"
                                             matTooltip="Remove the upload file"
                                             (click)="removeUploadedFile()">cancel</span>
@@ -59,12 +60,92 @@
                             </div>
                         </form>
                     </div>
-                    <!-- <div class="action-view-form">
-                        
-                    </div> -->
-                </div>
+                </div>  
+            </div>
+            <div class="card mt-2" *ngIf="!canTakeAction && viewMode">
+                <div class="card-body">
+                    <div class="final-status" *ngIf="finalStatus">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Review Status:
+                            </div>
+                            <div class="col-sm-6">
+                                {{finalStatus}}
+                            </div>
+                        </div> 
+                        <hr>
+                    </div>
+                    <div class="action-view-form" *ngIf="state_action?.status">
+                        <!-- <div class="row">
+                            <div class="col-sm-6">
+                                State Review Status:
+                            </div>
+                            <div class="col-sm-6">
+                                {{state_action?.status}}
+                            </div>
+                        </div>   -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                State Remarks/Reject Reason:
+                            </div>
+                            <div class="col-sm-6">
+                                {{state_action?.rejectReason}}
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Supporting Document :
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{state_action?.responceFile?.url}}" target="_blank" *ngIf="state_action?.responceFile?.url">
+                                    {{state_action?.responceFile?.name}}
+                                </a>
+                            </div>
+                        </div> 
+                    </div>
+                    
+                    <div class="action-view-form" *ngIf="mohua_action?.status"> 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                MoHUA Remarks/Reject Reason:
+                            </div>
+                            <div class="col-sm-6">
+                                {{mohua_action?.rejectReason}}
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Supporting Document :
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{mohua_action?.responceFile?.url}}" target="_blank" *ngIf="mohua_action?.responceFile?.url">
+                                    {{mohua_action?.responceFile?.name}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
+    <div class="row mt-3 mb-3">
+          <!-- save, draft, pre and next button --> 
+        <div class="col-sm-6">
+              <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter" *ngIf="isButtonAvail == false">
+                  <- Previous Form </button>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+        <div class="d-inline-flex mr1" *ngIf="canTakeAction && userData?.role != 'ULB'">
+             <button class="btn btn-save text-uppercase" (click)="saveAction()" [disabled]="actBtnDis">
+                  Submit
+             </button>
+        </div>
+        <div class="d-inline-flex " *ngIf="isButtonAvail == false">
+            <button class="btn btn-next text-uppercase" [routerLink]="nextPreUrl?.nextBtnRouter">
+                 Next Form ->
+            </button>
+        </div>
+        </div>
+          </div>
 </div>
 

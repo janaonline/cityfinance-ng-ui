@@ -31,8 +31,6 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./table.component.scss"],
 })
 export class TableComponent implements OnInit, OnChanges, OnDestroy {
-  // @ViewChild(MatPaginator ) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
   constructor(
     private commonService: NewCommonService,
     private _commonService: CommonService,
@@ -40,16 +38,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     public dialog: MatDialog,
     private stateServices: State2223Service
   ) {
+    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeFilterForm();
     this.initializeListFetchParams();
     this.fetchStateList();
     this.getDesignYear();
-    this.userData = JSON.parse(localStorage.getItem("userData"));
     this.dropdownChanges();
   }
   userData;
-  public keepOriginalOrder = (a, b) => a.key;
-  // dataSource: MatTableDataSource<UserData>;
   title = "";
   total = 0;
 
@@ -58,7 +54,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   listType: USER_TYPE;
   filterForm: FormGroup;
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
-
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -71,14 +66,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
-  //  data: UserData[] = [];
   @Input() formId;
   @Input() designYear;
   @Input() dropdownData;
   @Input() state_id_i;
   @Input() tableName;
   @Input() formBaseUrl:string = '';
-  @Input() endPoint:string = ''
+  @Input() endPoint:string = '';
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+ // @HostListener('window:scroll', ['$event'])
   formUrl = "";
   selectedId: any = [];
   checkedStatus;
@@ -93,19 +89,85 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     formId: "",
   };
   formRouterLink;
-  formStateRouterLink;
+ // formStateRouterLink;
   isLoader = false;
   formName;
   elementPosition: any;
-  // MatPaginator Inputs
-  length = 100;
-  pageSize = 10;
+  // length = 100;
+  // pageSize = 10;
   pageSizeOptions: number[] = [];
-
-  // MatPaginator Output
   pageEvent: PageEvent;
-  @ViewChild('stickyMenu') menuElement: ElementRef;
-  @HostListener('window:scroll', ['$event'])
+  filterFormValue;
+  reviewSubs;
+  isApiInProgress;
+  reviewEntity = "ULB";
+  stateList;
+  statesByID;
+  pageName = 'Get All Data'
+  noHistorydataFound = false
+  historyData;
+ 
+  ngOnInit(): void {
+    this.updatedTableData();
+    this.setParams();
+    this.tableDefaultOptions.itemPerPage = 10;
+    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
+  }
+  ngAfterViewInit() {
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("formId from Table Component", this.formId);
+    this.params["formId"] = this.formId;
+    this.params["design_year"] = this.designYear;
+    if (this.userData?.role !== "STATE") {
+      this.params["state"] = this.state_id_i ? this.state_id_i : null;
+    }
+    this.initializeListFetchParams();
+    let skValue = sessionStorage.getItem('skipValue')
+    let sesParams = JSON.parse(sessionStorage.getItem("params"));
+    console.log('default pages', this.tableDefaultOptions);
+
+    if (skValue) {
+      this.params = sesParams;
+      if (sesParams) {
+        this.filterForm.patchValue({
+          ulb_name_s: sesParams?.ulbName ? sesParams?.ulbName : '',
+          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : (sesParams?.censusCode ? sesParams?.censusCode : ''),
+          ulbType_s: sesParams?.ulbType ? sesParams?.ulbType : '',
+          population_type_s: sesParams?.populationType ? sesParams?.populationType : '',
+          ua_name_s: sesParams?.UA ? sesParams?.UA : '',
+          status_s: sesParams?.status ? sesParams?.status : '',
+          filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
+          filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
+          state_name_s: sesParams?.state ? sesParams?.state : ''
+        })
+      }
+      this.params["skip"] = Number(skValue);
+      let page = Math.round(Number(skValue) / 10);
+      this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
+    } else {
+    }
+    this.callAPI();
+    let formData;
+    if(this.designYear == '606aafc14dff55e6c075d3ec'){
+      formData = this.dropdownData?.find(({ formId }) => {
+        return formId == this.formId;
+      });
+    }else{
+       formData = this.dropdownData?.find(({ _id }) => {
+        return _id == this.formId;
+      });
+    }
+    this.formUrl = formData?.url;
+    this.formName = formData?.folderName;
+   // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
+    this.formRouterLink = `../../${this.formBaseUrl}/` + this.formUrl;
+    console.log("form data url", formData);
+  //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
+    
+  }
+
   handleScroll(event) {
     const threshold = 50;
     if(event.target.offsetHeight + event.target.scrollTop >= (event.target.scrollHeight - threshold)) {
@@ -154,64 +216,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
     this.callAPI();
   }
-  
 
-  ngOnInit(): void {
-    this.updatedTableData();
-    this.setParams();
-    this.tableDefaultOptions.itemPerPage = 10;
-    this.params["limit"] = this.tableDefaultOptions.itemPerPage;
-  }
-  ngAfterViewInit() {
-    this.elementPosition = this.menuElement.nativeElement.offsetTop;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("formId from Table Component", this.formId);
-    this.params["formId"] = this.formId;
-    this.params["design_year"] = this.designYear;
-    if (this.userData?.role !== "STATE") {
-      this.params["state"] = this.state_id_i ? this.state_id_i : null;
-    }
-    this.initializeListFetchParams();
-    let skValue = sessionStorage.getItem('skipValue')
-    let sesParams = JSON.parse(sessionStorage.getItem("params"));
-    console.log('default pages', this.tableDefaultOptions);
-
-    if (skValue) {
-      this.params = sesParams;
-      if (sesParams) {
-        this.filterForm.patchValue({
-          ulb_name_s: sesParams?.ulbName ? sesParams?.ulbName : '',
-          ulb_code_s: sesParams?.ulbCode ? sesParams?.ulbCode : (sesParams?.censusCode ? sesParams?.censusCode : ''),
-          ulbType_s: sesParams?.ulbType ? sesParams?.ulbType : '',
-          population_type_s: sesParams?.populationType ? sesParams?.populationType : '',
-          ua_name_s: sesParams?.UA ? sesParams?.UA : '',
-          status_s: sesParams?.status ? sesParams?.status : '',
-          filled_1: sesParams?.filled1 ? sesParams?.filled1 : '',
-          filled_2: sesParams?.filled2 ? sesParams?.filled2 : '',
-          state_name_s: sesParams?.state ? sesParams?.state : ''
-        })
-      }
-      this.params["skip"] = Number(skValue);
-      let page = Math.round(Number(skValue) / 10);
-      this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
-    } else {
-    }
-    this.callAPI();
-    let formData = this.dropdownData?.find(({ _id }) => {
-      return _id === this.formId;
-    });
-    //debugger
-    this.formUrl = formData?.url;
-    this.formName = formData?.folderName;
-   // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
-    this.formRouterLink = `../../${this.formBaseUrl}/` + this.formUrl;
-    console.log("form data url", formData);
-  //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
-    
-  }
-  filterFormValue;
-  reviewSubs;
   updatedTableData() {
     this.reviewSubs = this.commonService.reviewStatus.subscribe((result) => {
       console.log("review Status ===>", result);
@@ -246,23 +251,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
           this.pageSizeOptions = [5, 10, 20, this.total];
         }
 
-        (this.ulbType =
-          Object.keys(res["ulbType"]).length > 0
-            ? Object.values(res["ulbType"])
-            : null),
-          (this.statusList =
-            Object.keys(res["statusList"]).length > 0
-              ? Object.values(res["statusList"])
-              : null);
-        this.populationType =
-          Object.keys(res["populationType"]).length > 0
-            ? Object.values(res["populationType"])
-            : null;
+      if(!this.ulbType) this.ulbType = Object.keys(res["ulbType"]).length > 0 ? Object.values(res["ulbType"]): null;
+      if(!this.statusList)  this.statusList = Object.keys(res["statusList"]).length > 0 ? Object.values(res["statusList"]) : null;
+      if(!this.populationType) this.populationType = Object.keys(res["populationType"]).length > 0 ? Object.values(res["populationType"]) : null;
         console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
-
-
         if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
           setTimeout(() => {
             const table = document.querySelector('.table-responsive') as HTMLElement;
@@ -368,8 +362,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.fetchList({ ...(<any>this.listFetchOption) });
   }
 
-  isApiInProgress;
-
   private fetchList(
     body: {
       filter: { [key: string]: string };
@@ -384,7 +376,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     Object.assign(this.params, body);
     this.callAPI();
   }
-  reviewEntity = "ULB";
+
   private initializeFilterForm() {
     switch (this.reviewEntity) {
       case USER_TYPE.ULB:
@@ -420,8 +412,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       limit: this.tableDefaultOptions.itemPerPage,
     };
   }
-  stateList;
-  statesByID;
+
   private fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
@@ -444,14 +435,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         this.selectedId.splice(selectedIndex, 1);
       }
     }
-
-    // let selectedIndex = this.selectedId.findIndex((item) => item == id);
-    // if (selectedIndex > -1) {
-    //   this.selectedId.splice(selectedIndex, 1);
-    //   this.selectedId.splice();
-    // } else {
-    //   this.selectedId.push(id);
-    // }
     console.log(this.selectedId);
   }
   openDialog(type) {
@@ -460,7 +443,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       selectedId: this.selectedId,
       type: type,
       formId: this.formId,
-      tableName: this.title
+      tableName: this.title,
+      designYear : this.designYear,
+      reviewType: this.designYear == '606aafc14dff55e6c075d3ec' ? 'new_review' : 'old_review'
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -553,6 +538,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   resetFilter() {
     this.filterForm.reset();
+    this.initializeULBFilterForm();
+    //this.resetInfinite();
+    this.data = [];
     this.setParams();
     this.callAPI();
   }
@@ -586,7 +574,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["skip"] = 0;
 
   }
-  pageName = 'Get All Data'
+  
   getAllData(type) {
     this.params['limit'] = 461;
     this.callAPI();
@@ -599,12 +587,39 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
+  
+  viewHistory(template, formId, ulbId) {
+    if(this.designYear == '606aafc14dff55e6c075d3ec') return;
+    this.noHistorydataFound = false
+    this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
+      (res) => {
+        this.historyData = res['data']
+        this.historyData.reverse()
+        if (!this.historyData.length) {
+          this.noHistorydataFound = true;
+        }
+        this.openStatus(template)
+      },
+      (err) => {
+        console.log(err.message);
+        swal('Error', "No history found!", 'error')
+      })
+  }
+
+  alertClose() {
+    this.dialog.closeAll();
+  }
+
+  openStatus(template) {
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+ keepOriginalOrder = (a, b) => b.key - a.key;
 
 }
-
-// export interface UserData {
-//   ulbName: string;
-//   censusCode: string;
-//   ulbType: string;
-//   stateName: string;
-// }

@@ -85,7 +85,7 @@ export class DataEntryService {
       JSON.stringify([
         {
           folder: folderName,
-          file_name: fileName,
+          file_name: fileName.replace(/[~`!#$%^&*+=\[\]\\';,/{}|\\":<>?@]/g, '_'),
           mime_type: fileType,
         },
       ]),
@@ -174,7 +174,7 @@ export class DataEntryService {
   checkSpcialCharInFileName(files){
     let file = files[0];
     let name = ((file.name).split('.'))[0];
-    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?";
+    let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?@";
     for (let i = 0; i < name.length; i++) {
        if (iChars.indexOf(name.charAt(i)) != -1) {
            return false;
