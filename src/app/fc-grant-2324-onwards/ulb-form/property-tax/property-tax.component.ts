@@ -272,7 +272,6 @@ export class PropertyTaxComponent implements OnInit {
     const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(this.skipLogicDependencies).forEach(([selector, skipLogicDependency]) => {
       (skipLogicDependency as any)?.updatables?.forEach(updatable => {
-        console.log({ updatable });
         const control = s3Control.get(selector);
         control.valueChanges.subscribe(({ value }) => {
           const updatableControl = s3Control?.get(updatable.target) as FormGroup;
@@ -298,7 +297,7 @@ export class PropertyTaxComponent implements OnInit {
             if (!updatableControl) return;
             ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
               const control  = updatableControl.get(innerSelectorString)
-              this.toggleValidations(control, selectorString+innerSelectorString, canShow, false);
+              this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });
           })
         });
