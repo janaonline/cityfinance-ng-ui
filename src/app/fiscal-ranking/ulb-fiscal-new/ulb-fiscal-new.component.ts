@@ -163,7 +163,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             key: item.key,
             position: [{ value: +item.displayPriority || 1, disabled: true }],
-            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
+            isHeading: [{ value: this.isHeading(item.displayPriority), disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
@@ -176,6 +176,12 @@ export class UlbFiscalNewComponent implements OnInit {
         return obj;
       }, {}))
     })
+  }
+
+  isHeading(displayPriority): boolean {
+    if(['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
+    if(['24','25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
+    return Number.isInteger(+displayPriority);
   }
 
   getInnerFormGroup(item, parent?) {
