@@ -197,18 +197,19 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     } else {
       if (!asDraft) {
         this.errmsg = "";
-        let msg1 = this.errorFieldIDs.length
-          ? `<br>- Target Values are greater than Actual Figures for these questions :
-  <b>${this.errorFieldIDs}<b>`
-          : ``;
-        let msg2 = this.errorFieldIDs_decrease.length
-          ? `<br>- Target Values are Less than Actual Figures for these questions :
-  <b>${this.errorFieldIDs_decrease}<b>`
-          : ``;
+  //       let msg1 = this.errorFieldIDs.length
+  //         ? `<br>- Target Values are greater than Actual Figures for these questions :
+  // <b>${this.errorFieldIDs}<b>`
+  //         : ``;
+  //       let msg2 = this.errorFieldIDs_decrease.length
+  //         ? `<br>- Target Values are Less than Actual Figures for these questions :
+  // <b>${this.errorFieldIDs_decrease}<b>`
+      //    : ``;
         let msg3 = this.counter
           ? `<br>- ${this.counter} Fields are Blank.`
           : ``;
-        this.errmsg = msg1 + msg2 + msg3;
+        // this.errmsg = msg1 + msg2 + msg3;
+        this.errmsg = msg3;
 
         console.log(this.errmsg);
 
@@ -269,45 +270,45 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       if (el["target_1"]["value"] === 0) {
         el["target_1"]["value"] = '0';
       }
-      if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
-        if (
-          el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
-          el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b540"
-        ) {
+      // if (el["actual"]["value"] != null && el["target_1"]["value"] != null) {
+      //   if (
+      //     el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b516" &&
+      //     el["indicatorLineItem"]?.toString() != "6284d6f65da0fa64b423b540"
+      //   ) {
 
-          if (+el["actual"]["value"] > +el["target_1"]["value"]) {
-         //   debugger
-            this.errorFieldIDs?.push(el["question"]);
-            this.errorFieldLineItems?.push(el["indicatorLineItem"]);
-            this.error = 1;
-          } else {
-           // debugger
-            var index = this.errorFieldIDs.indexOf(el["question"]);
-           if (index !== -1) {
-           //  this.errorFieldIDs.splice(index, 1);
-           }
-           let indexForLineItem = this.errorFieldLineItems.indexOf(el["indicatorLineItem"]);
-           if (indexForLineItem !== -1) {
-            this.errorFieldLineItems.splice(index, 1);
-          }
-          }
-        } else {
-          if (+el["actual"]["value"] < +el["target_1"]["value"]) {
-            this.errorFieldIDs_decrease.push(el["question"]);
-            this.errorFieldLineItemsDec.push(el["indicatorLineItem"]);
-            this.error = 1;
-          } else {
-            var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
-           if (index !== -1) {
-             // this.errorFieldIDs_decrease.splice(index, 1);
-           }
-           let indexForLineItemD = this.errorFieldLineItemsDec.indexOf(el["indicatorLineItem"]);
-           if (indexForLineItemD !== -1) {
-            this.errorFieldLineItemsDec.splice(index, 1);
-           }
-          }
-        }
-      }
+      //     if (+el["actual"]["value"] > +el["target_1"]["value"]) {
+      //    //   debugger
+      //       this.errorFieldIDs?.push(el["question"]);
+      //       this.errorFieldLineItems?.push(el["indicatorLineItem"]);
+      //       this.error = 1;
+      //     } else {
+      //      // debugger
+      //       var index = this.errorFieldIDs.indexOf(el["question"]);
+      //      if (index !== -1) {
+      //      //  this.errorFieldIDs.splice(index, 1);
+      //      }
+      //      let indexForLineItem = this.errorFieldLineItems.indexOf(el["indicatorLineItem"]);
+      //      if (indexForLineItem !== -1) {
+      //       this.errorFieldLineItems.splice(index, 1);
+      //     }
+      //     }
+      //   } else {
+      //     if (+el["actual"]["value"] < +el["target_1"]["value"]) {
+      //       this.errorFieldIDs_decrease.push(el["question"]);
+      //       this.errorFieldLineItemsDec.push(el["indicatorLineItem"]);
+      //       this.error = 1;
+      //     } else {
+      //       var index = this.errorFieldIDs_decrease.indexOf(el["question"]);
+      //      if (index !== -1) {
+      //        // this.errorFieldIDs_decrease.splice(index, 1);
+      //      }
+      //      let indexForLineItemD = this.errorFieldLineItemsDec.indexOf(el["indicatorLineItem"]);
+      //      if (indexForLineItemD !== -1) {
+      //       this.errorFieldLineItemsDec.splice(index, 1);
+      //      }
+      //     }
+      //   }
+      // }
 
       if (!el["actual"]["value"] || !el["target_1"]["value"]) {
         this.counter++;
