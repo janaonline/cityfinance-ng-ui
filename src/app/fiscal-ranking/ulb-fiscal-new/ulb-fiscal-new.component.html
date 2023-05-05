@@ -175,6 +175,10 @@
                                                                 [show]="yearItem?.controls?.file?.controls?.uploading?.value">
                                                             </app-loader>
                                                         </div>
+                                                        <small class="text-danger"
+                                                            *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File
+                                                            is
+                                                            required</small>
                                                     </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                 </div>
@@ -236,7 +240,6 @@
                                                                 </div>
                                                                 <!-- file sction -->
                                                                 <ng-container *ngIf="yearItem?.controls?.file">
-
                                                                     <div class="col-sm-12 mb-3"
                                                                         *ngIf="yearItem?.controls?.readonly?.value == false">
                                                                         <button (click)="bs_pdf1.click()"
@@ -285,17 +288,17 @@
                                                                                 src="../../../assets/form-icon/close_black_24dp.svg">
                                                                         </a>
                                                                     </div>
+                                                                    <small class="text-danger"
+                                                                        *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File
+                                                                        is
+                                                                        required</small>
                                                                 </ng-container>
-
 
                                                                 <div class="col-sm-12 bot-text mt-2">
                                                                     <span class="f-w">
                                                                         {{ yearItem?.controls?.value?.value | toword }}
                                                                     </span> {{ yearItem?.controls?.bottomText?.value }}
                                                                 </div>
-                                                                <small
-                                                                    *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)"
-                                                                    class="text-danger">Please upload a file</small>
                                                                 <div class="col-sm-12 bot-text mt-2"
                                                                     *ngIf="r_i > 0 && ['s3', 's4'].includes(tab?.value?.id)">
                                                                     <span class="f-w"

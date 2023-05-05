@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
@@ -53,6 +53,7 @@ export class UlbFiscalNewComponent implements OnInit {
   isDraft: boolean;
   userData: any;
   ulbName: string;
+  validators = {};
   userTypes = USER_TYPE;
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
@@ -153,7 +154,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name,  item.required ? Validators.required : null],
+            name: [item.name, item.required ? Validators.required : null],
             status: item.status,
             url: [item.url, item.required ? Validators.required : null],
           })
@@ -230,16 +231,34 @@ export class UlbFiscalNewComponent implements OnInit {
       control.valueChanges.subscribe(({ value }) => {
         const canShow = value == 'Yes';
         s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const updatableControl = s3Control.get(`data.${updatedable}.yearData.0`) as FormGroup;
-        const nameControl = updatableControl.get('file.name');
-        const urlControl = updatableControl.get('file.url');
-        [nameControl, urlControl].forEach(fileControl => {
-          fileControl?.setValidators(canShow ? [Validators.required] : [])
-          fileControl?.updateValueAndValidity({ emitEvent: true });
-        }) 
+        const selectorString  = `data.${updatedable}.yearData.0`;
+        const updatableControl = s3Control.get(selectorString) as FormGroup;
+        if (!updatableControl) return;
+        ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+          const control = updatableControl.get(innerSelectorString)
+          this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
+        });
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
+  }
+
+  toggleValidations(control: FormGroup | FormArray | AbstractControl | FormControl, selector: string, canShow: boolean, isArray: boolean) {
+    if (control) {
+      if (!this.validators[selector]) {
+        this.validators[selector] = control.validator;
+      }
+      if (!canShow) {
+        if (isArray) {
+          (control as FormArray).clear();
+          control?.parent?.get('replicaCount')?.patchValue(0);
+        } else {
+          control?.patchValue('');
+        }
+      }
+      control?.setValidators(canShow ? this.validators[selector] : []);
+      control?.updateValueAndValidity({ emitEvent: true });
+    }
   }
 
   addSumLogics() {
@@ -253,7 +272,7 @@ export class UlbFiscalNewComponent implements OnInit {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => year.value));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col})) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col })) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
@@ -284,12 +303,12 @@ export class UlbFiscalNewComponent implements OnInit {
   getColumnWiseSum(arr: number[][]): number[] {
     // console.log('aaaarrr', arr);
     return arr[0]?.map((_, colIndex) => {
-      let retNull:boolean = true;
+      let retNull: boolean = true;
       let sum = arr.reduce((acc, curr) => {
-        if(!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")){
+        if (!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")) {
           retNull = false;
         }
-        return acc + (curr[colIndex]*1 || 0);
+        return acc + (curr[colIndex] * 1 || 0);
       }, 0);
       return retNull ? null : sum;
     });
@@ -328,10 +347,10 @@ export class UlbFiscalNewComponent implements OnInit {
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
 
@@ -429,7 +448,7 @@ export class UlbFiscalNewComponent implements OnInit {
   navigationCheck() {
     this._router.events.subscribe((event: any) => {
       console.log(event?.url);
-      if(event?.url == '/rankings/home') return this.form.markAsPristine();
+      if (event?.url == '/rankings/home') return this.form.markAsPristine();
       if (event instanceof NavigationStart && !this.form.pristine) {
         swal("Unsaved Changes", {
           buttons: {
@@ -464,7 +483,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, ({error}) => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
