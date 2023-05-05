@@ -57,7 +57,7 @@
                         </div>
 
                         <table class="table table-striped caption-top" *ngIf="tab?.value?.id === 's3'">
-                            <caption>SUMMARY OF INFORMATION FROM ANNUAL FINANCIAL STATEMENTS <br>
+                            <caption class="text-center">SUMMARY OF INFORMATION FROM ANNUAL FINANCIAL STATEMENTS <br>
                                 FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022 <br>
                                 all figures in Rs.
                             </caption>
@@ -99,6 +99,10 @@
                                                         [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                         placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+                                                    <small class="focus-warning"
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0'">
+                                                        contains "0" do you still want to continue?
+                                                    </small>
                                                     <small class="text-danger"
                                                         *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">Should
                                                         be equal to {{ yearItem.value.originalValue }}</small>
@@ -157,7 +161,8 @@
                                                             *ngIf="yearItem?.value?.file?.url">
                                                             <a class="w-90" href="{{yearItem?.value?.file?.url}}"
                                                                 target="_blank">{{yearItem?.value?.file?.name}}
-                                                                <mat-icon>cloud_download</mat-icon></a>
+                                                                <mat-icon>cloud_download</mat-icon>
+                                                            </a>
                                                             <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                 (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                 class="w-10" [ngClass]="{'pe-none': isDisabled}">
@@ -270,7 +275,8 @@
                                                                         <a class="w-90"
                                                                             href="{{yearItem?.value?.file?.url}}"
                                                                             target="_blank">{{yearItem?.value?.file?.name}}
-                                                                            <mat-icon>cloud_download</mat-icon></a>
+                                                                            <mat-icon>cloud_download</mat-icon>
+                                                                        </a>
                                                                         <a *ngIf="!yearItem?.controls?.readonly?.value"
                                                                             (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                             class="w-10"
@@ -397,7 +403,8 @@
                                                     *ngIf="tab?.value?.data?.signedCopyOfFile?.url">
                                                     <a href="{{tab?.value?.data?.signedCopyOfFile?.url}}"
                                                         target="_blank">{{tab?.value?.data?.signedCopyOfFile?.name}}
-                                                        <mat-icon>cloud_download</mat-icon></a>
+                                                        <mat-icon>cloud_download</mat-icon>
+                                                    </a>
                                                 </div>
 
                                                 <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
