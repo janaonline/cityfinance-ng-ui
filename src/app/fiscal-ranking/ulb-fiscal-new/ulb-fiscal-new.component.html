@@ -8,9 +8,9 @@
     <div class="row" *ngIf="!formSubmitted">
         <div class="col-sm-12">
             <app-loader class="p-3" [show]="isLoader" [dots]="4"></app-loader>
-            <mat-horizontal-stepper *ngIf="!isLoader && fiscalForm" linear="true" labelPosition="bottom" id="stepper"
+            <mat-horizontal-stepper *ngIf="!isLoader && form" linear="true" labelPosition="bottom" id="stepper"
                 #stepper>
-                <mat-step state="state" *ngFor="let tab of fiscalForm.controls; index as i;">
+                <mat-step state="state" *ngFor="let tab of form.controls; index as i;">
                     <ng-template matStepLabel>
                         <span class="st-title com-style" [title]="tab?.value?.label">{{((tab?.value?.label).split('
                             '))[0]}}

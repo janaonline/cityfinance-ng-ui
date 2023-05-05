@@ -54,7 +54,7 @@ export class UlbFiscalNewComponent implements OnInit {
   userData: any;
   ulbName: string;
   userTypes = USER_TYPE;
-  fiscalForm: FormArray;
+  form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   currentDate = new Date();
   formSubmitted = false;
@@ -117,7 +117,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get otherUploadControl() {
-    return this.fiscalForm.get('4.data.otherUpload');
+    return this.form.get('4.data.otherUpload');
   }
 
   onLoad() {
@@ -128,7 +128,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
-      this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
+      this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.addSumLogics();
       this.addSubtractLogics();
@@ -224,7 +224,7 @@ export class UlbFiscalNewComponent implements OnInit {
       'data.registerGis.yearData.0': 'registerGisProof',
       'data.accountStwre.yearData.0': 'accountStwreProof'
     }
-    const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
       const control = s3Control.get(selector)
       control.valueChanges.subscribe(({ value }) => {
@@ -243,7 +243,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   addSumLogics() {
-    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const s3DataControl = Object.values((this.form.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
     sumAbleContrls?.forEach(parentControl => {
       const childControls = s3DataControl
@@ -265,7 +265,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   addSubtractLogics() {
-    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const s3DataControl = Object.values((this.form.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const subtractControls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value?.startsWith('subtract')) as FormGroup[];
     subtractControls?.forEach(parentControl => {
       const childControls = s3DataControl
@@ -309,7 +309,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   stepperContinue(item) {
-    console.log(this.fiscalForm);
+    console.log(this.form);
     this.stepper.next();
   }
   stepperContinueSave(item) {
@@ -349,9 +349,10 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   onPreview() {
+    if (!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
     const date = new Date();
-    console.log(this.fiscalForm.getRawValue());
-    const rowValues = this.fiscalForm.getRawValue();
+    console.log(this.form.getRawValue());
+    const rowValues = this.form.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       id: 'UlbFisPreviewComponent',
       data: {
@@ -360,7 +361,7 @@ export class UlbFiscalNewComponent implements OnInit {
         expenditureSectionBelowKey: this.expenditureSectionBelowKey,
         financialYearTableHeader: this.financialYearTableHeader,
         additionalData: {
-          pristine: this.fiscalForm.pristine,
+          pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
@@ -380,10 +381,10 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   validateErrors() {
-    this.fiscalForm.markAllAsTouched();
-    if (this.fiscalForm.status === 'INVALID') {
-      console.log(this.fiscalForm);
-      const invalidIndex = this.fiscalForm.controls.findIndex(control => control.status === 'INVALID');
+    this.form.markAllAsTouched();
+    if (this.form.status === 'INVALID') {
+      console.log(this.form);
+      const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
       console.log(invalidIndex);
       if (invalidIndex >= 0) {
         this.stepper.selectedIndex = invalidIndex;
@@ -428,8 +429,8 @@ export class UlbFiscalNewComponent implements OnInit {
   navigationCheck() {
     this._router.events.subscribe((event: any) => {
       console.log(event?.url);
-      if(event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
-      if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
+      if(event?.url == '/rankings/home') return this.form.markAsPristine();
+      if (event instanceof NavigationStart && !this.form.pristine) {
         swal("Unsaved Changes", {
           buttons: {
             Draft: {
@@ -443,7 +444,7 @@ export class UlbFiscalNewComponent implements OnInit {
           },
         }).then((value) => {
           if (value == 'draft') this.submit();
-          else this.fiscalForm.markAsPristine();
+          else this.form.markAsPristine();
         });
       }
     });
@@ -455,11 +456,11 @@ export class UlbFiscalNewComponent implements OnInit {
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      actions: this.fiscalForm.getRawValue()
+      actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
-      this.fiscalForm.markAsPristine();
+      this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');

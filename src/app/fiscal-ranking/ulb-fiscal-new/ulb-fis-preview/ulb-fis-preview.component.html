@@ -151,28 +151,3 @@
         </div>
     </div>
 </div>
-<ng-template #templateSave>
-    <div class="modal-body text-center alert">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-
-        <p style="margin-top: 8px;">
-            You have some unsaved changes on this page. Do you wish to save your data as draft?
-        </p>
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
-                <button type="button" class="btn btn-success "
-                    style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="saveAsDraft()">
-                    Save & Proceed</button>
-            </div>
-
-        </div>
-    </div>
-</ng-template>

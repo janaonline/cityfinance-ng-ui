@@ -123,7 +123,6 @@ export class UlbFisPreviewComponent implements OnInit {
   }
 
   clickedDownloadAsPDF() {
-    if (!this.data?.additionalData?.pristine) return this.openDialog(this.saveTemplate);
     this.downloadAsPdf();
   }
   downloadAsPdf() {
@@ -141,11 +140,7 @@ export class UlbFisPreviewComponent implements OnInit {
     //   this.showLoader = false;
     this.dialog.open(DialogComponent, { data: option });
   }
-
-  openDialog(template) {
-    const dialogConfig = new MatDialogConfig();
-    this.dialogRef = this.dialog.open(template, dialogConfig);
-  }
+  
   alertClose() {
     this.dialogRef.close();
   }
