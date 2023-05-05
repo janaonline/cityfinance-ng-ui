@@ -562,8 +562,8 @@ export class PropertyTaxComponent implements OnInit {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
-      this.isFormFinalSubmit = true;
       this.loadData();
+      this.isFormFinalSubmit = true;
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
     }, ({ error }) => {
