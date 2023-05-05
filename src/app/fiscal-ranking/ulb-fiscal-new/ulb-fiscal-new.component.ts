@@ -356,6 +356,9 @@ export class UlbFiscalNewComponent implements OnInit {
       id: 'UlbFisPreviewComponent',
       data: {
         showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        incomeSectionBelowKey: this.incomeSectionBelowKey,
+        expenditureSectionBelowKey: this.expenditureSectionBelowKey,
+        financialYearTableHeader: this.financialYearTableHeader,
         additionalData: {
           pristine: this.fiscalForm.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,

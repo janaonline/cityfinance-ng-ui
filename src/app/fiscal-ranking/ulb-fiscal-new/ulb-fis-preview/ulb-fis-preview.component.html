@@ -1,7 +1,8 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);" src="../../../../assets/form-icon/close_black_24dp.svg"></a>
+            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);"
+                    src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
@@ -24,26 +25,39 @@
                     </div>
 
                     <table class="table mt-3" *ngIf="tab?.id == 's3'">
-                        <thead>
-                            <tr>
-                                <th class="th" *ngFor="let year of yearList">{{ year }}</th>
-                            </tr>
-                        </thead>
-
                         <tbody>
-                            <tr *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
-                                <th class="th" scope="row" width="40%">{{ tabData?.value?.label }}</th>
-                                <td class="td" width="15%" *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                    <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                    <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
-                                            target="_blank">{{elem?.file?.name}}</a></span>
-                                    <span>{{
-                                        elem?.formFieldType == 'number'
-                                        ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
-                                        : elem?.value
-                                        }}</span>
-                                </td>
-                            </tr>
+                            <ng-container *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
+
+                                <tr class="table-gray"
+                                    *ngIf="data.financialYearTableHeader[tabData?.value?.position]?.length > 0">
+                                    <th class="th"
+                                        *ngFor="let year of data.financialYearTableHeader[tabData?.value?.position]; let  i = index;">
+                                        {{ year }}</th>
+                                </tr>
+                                <tr *ngIf="tabData?.value?.position == data?.incomeSectionBelowKey"
+                                    class="table-info">
+                                    <th colspan="6" class="th">REVENUE RECEIPTS (ACTUAL) </th>
+                                </tr>
+                                <tr *ngIf="tabData?.value?.position == data?.expenditureSectionBelowKey"
+                                    class="table-danger">
+                                    <th colspan="6" class="th">REVENUE EXPENDITURE (ACTUAL) </th>
+                                </tr>
+                                <tr>
+                                    <th class="th" scope="row" width="5%">{{ tabData?.value?.position }}</th>
+                                    <th class="th" scope="row" width="35%">{{ tabData?.value?.label }}</th>
+                                    <td class="td" width="15%"
+                                        *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
+                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                                target="_blank">{{elem?.file?.name}}</a></span>
+                                        <span>{{
+                                            elem?.formFieldType == 'number'
+                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            : elem?.value
+                                            }}</span>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
 
