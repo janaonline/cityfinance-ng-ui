@@ -31,6 +31,7 @@
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
                                         <mat-label class="com-style">{{ item.value.controls?.label?.value }}</mat-label>
                                         <input onwheel="this.blur()" class="com-style"
+                                            [appDecimalLimit]="item?.value?.controls?.formFieldType?.value != 'number' ? null : item?.value?.controls?.decimalLimit?.value || 0"
                                             [readonly]="item?.value?.controls?.readonly?.value"
                                             [type]="item?.value?.controls?.formFieldType?.value" matInput
                                             placeholder="{{ item.value.controls?.label?.value }}"
@@ -92,6 +93,7 @@
                                                 <div class="form-group">
                                                     <input onwheel="this.blur()"
                                                         *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                                        [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                         formControlName="value" class="form-control"
                                                         [type]="yearItem?.controls?.formFieldType?.value"
                                                         [readonly]="yearItem?.controls?.readonly?.value"
@@ -232,6 +234,7 @@
                                                                         <!-- id="{{yearItem?.key}}" -->
                                                                         <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
                                                                         <input onwheel="this.blur()"
+                                                                            [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                                             formControlName="value" type="number"
                                                                             class="form-control com-style yrformCon form-ic"
                                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}">
