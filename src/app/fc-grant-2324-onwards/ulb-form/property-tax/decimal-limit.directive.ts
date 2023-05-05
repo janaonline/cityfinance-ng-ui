@@ -13,6 +13,7 @@ export class DecimalLimitDirective {
 
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
     console.log(event.key);
+    if(this.appDecimalLimit == null) return;
     if(this.appDecimalLimit == 0 && event.key == '.') {
       swal('Warning', 'Deciamls are not allow', 'warning');
       return event.preventDefault();
