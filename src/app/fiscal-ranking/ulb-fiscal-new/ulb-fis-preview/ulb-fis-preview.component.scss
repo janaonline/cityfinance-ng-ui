@@ -21,6 +21,7 @@
     font-size: 18px;
     font-family: 'Manrope';
     font-style: normal;
+    margin-top: .5rem;
 }
 
 .m-hed {
@@ -59,4 +60,7 @@
     background-color: #F8D7DA;
     color: black;
     text-align: center;
+}
+.invert {
+    filter: invert(1);
 }

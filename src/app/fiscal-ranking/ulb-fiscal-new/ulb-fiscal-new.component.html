@@ -179,7 +179,7 @@
                                                                         </div>
                                                                         <div class="col-sm-6 text-end">
                                                                             <img
-                                                                                src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                                src="assets/circle/cloud_upload_black_24dp.svg">
                                                                         </div>
                                                                     </div>
                                                                 </button>
@@ -198,7 +198,7 @@
                                                                     (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
                                                                     class="w-10" [ngClass]="{'pe-none': isDisabled}">
                                                                     <img
-                                                                        src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                        src="assets/form-icon/close_black_24dp.svg">
                                                                 </a>
                                                             </div>
                                                             <div class="col-sm-12 text-center w-70">
@@ -285,7 +285,7 @@
                                                                                     </div>
                                                                                     <div class="col-sm-6 text-end">
                                                                                         <img
-                                                                                            src="../../../assets/circle/cloud_upload_black_24dp.svg">
+                                                                                            src="assets/circle/cloud_upload_black_24dp.svg">
                                                                                     </div>
                                                                                 </div>
                                                                             </button>
@@ -306,7 +306,7 @@
                                                                             <div class="al-up font-size-smaller">Already
                                                                                 Uploaded on
                                                                                 Cityfinance - <a target="_blank"
-                                                                                    href="https://cityfinance.in/resources-dashboard/data-sets/income_statement">View
+                                                                                    [href]="alreadyUploadedUrl">View
                                                                                     here</a></div>
                                                                         </div>
                                                                         <div class="col-sm-12 com-style f-w mt-1"
@@ -321,7 +321,7 @@
                                                                                 class="w-10"
                                                                                 [ngClass]="{'pe-none': isDisabled}">
                                                                                 <img
-                                                                                    src="../../../assets/form-icon/close_black_24dp.svg">
+                                                                                    src="assets/form-icon/close_black_24dp.svg">
                                                                             </a>
                                                                         </div>
                                                                         <small class="text-danger"
@@ -364,7 +364,7 @@
                                                     (click)="bs_pdf_up.click()" [disabled]="isDisabled">
                                                     Upload File
                                                     <img class="u-i ms-3"
-                                                        src="../../../assets/circle/cloud_upload_black_24dp.svg" alt="">
+                                                        src="assets/circle/cloud_upload_black_24dp.svg" alt="">
                                                 </button>
                                                 <input #bs_pdf_up style="display: none;"
                                                     (change)="uploadFile($event, 'pdf', otherUploadControl)"
@@ -403,7 +403,7 @@
                                                     <div class="col-sm-12 com-style text-center mt-3">
                                                         <button class="btn btn-d-org" (click)="onPreview()">
                                                             <img class="u-i me-3"
-                                                                src="../../../assets/circle/cloud_download_black_24dp.svg"
+                                                                src="assets/circle/cloud_download_black_24dp.svg"
                                                                 alt="">
                                                             Download File
                                                         </button>
@@ -425,7 +425,7 @@
                                                             [disabled]="isDisabled">
                                                             Upload File
                                                             <img class="u-i ms-3"
-                                                                src="../../../assets/circle/cloud_upload_black_24dp.svg"
+                                                                src="assets/circle/cloud_upload_black_24dp.svg"
                                                                 alt="">
                                                         </button>
                                                         <input #bs_pdf_up style="display: none;"
@@ -502,7 +502,7 @@
                     <div class="card-body">
                         <div class="row mx-auto mb-3">
                             <div class="col-sm-12 text-center mt-3">
-                                <img src="../../../assets/circle/gifCheck.gif" class="w-80">
+                                <img src="assets/circle/gifCheck.gif" class="w-80">
                             </div>
                             <div class="col-sm-12 text-center mt-3 h-label com-style">Form Submitted Successfully!</div>
                             <div class="col-sm-12 text-center mt-3">
