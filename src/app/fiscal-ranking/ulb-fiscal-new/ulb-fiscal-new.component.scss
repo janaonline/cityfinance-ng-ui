@@ -75,9 +75,8 @@
 }
 
 .btn-f-next {
-    background: #E67E15;
-    border-radius: 8px;
-    color: #FFFFFF;
+    border: none;
+    color: #E67E15;
 }
 
 .btn {
@@ -87,8 +86,9 @@
 }
 
 .btn-f-c {
-    border: none;
-    color: #E67E15;
+    background: #E67E15;
+    border-radius: 8px;
+    color: #FFFFFF;
 }
 
 .card-form {

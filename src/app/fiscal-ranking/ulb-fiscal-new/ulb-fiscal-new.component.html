@@ -35,7 +35,8 @@
                                                 class="text-danger">*</span>
                                             <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
-                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                                [matTooltip]="item?.value?.controls?.info?.value">info_outline
+                                            </mat-icon>
                                         </mat-label>
                                         <input onwheel="this.blur()" class="com-style" appNoUpDown
                                             [appDecimalLimit]="item?.value?.controls?.formFieldType?.value != 'number' ? null : item?.value?.controls?.decimalLimit?.value || 0"
@@ -52,7 +53,7 @@
                                                 class="text-danger">*</span>
                                             <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
-                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                                [matTooltip]="item?.value?.controls?.info?.value">info_outline</mat-icon>
                                         </div>
                                         <div class="col-sm-4">
                                             <mat-radio-group aria-label="Select an option" formControlName="value"
@@ -101,7 +102,7 @@
                                                 class="text-danger">*</span>
                                             <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
-                                                [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
+                                                [matTooltip]="item?.value?.controls?.info?.value">info_outline</mat-icon>
                                         </th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
@@ -421,6 +422,7 @@
                                                         (change)="uploadFile($event, 'pdf', tab?.controls?.data?.controls?.signedCopyOfFile)"
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
+                                                <small class="text-center">Maximum Size 5MB (pdf files only)</small>
 
                                                 <div class="invalid-feedback">Please provide a valid input.</div>
                                                 <div class="col-sm-12">
@@ -457,14 +459,18 @@
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
-                                <button class="btn btn-f-next com-style" (click)="stepperContinue(tab)"
+                                <button class="btn com-style"
+                                    [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
+                                    (click)="stepperContinue(tab)"
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
-                                <button class="btn btn-f-next com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                <button class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                    [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
                                     (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn btn-f-c com-style"
+                                <button class="btn com-style"
+                                    [ngClass]="tab?.value?.id == selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
                                     (click)="stepperContinueSave(tab)">Save & Continue Later</button>
                             </div>
