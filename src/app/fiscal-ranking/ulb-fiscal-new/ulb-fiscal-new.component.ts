@@ -57,7 +57,6 @@ export class UlbFiscalNewComponent implements OnInit {
   userTypes = USER_TYPE;
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
-  currentDate = new Date();
   formSubmitted = false;
 
   constructor(
@@ -195,6 +194,8 @@ export class UlbFiscalNewComponent implements OnInit {
       modelName: [{ value: item.modelName, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
+      min: [{ value: new Date(item?.min), disabled: true}],
+      max: [{ value: new Date(item?.max), disabled: true}],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,

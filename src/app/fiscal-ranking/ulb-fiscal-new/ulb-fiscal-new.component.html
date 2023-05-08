@@ -130,7 +130,9 @@
                                                             <input onwheel="this.blur()" matInput formControlName="date"
                                                                 style="pointer-events: none;" [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
-                                                                [max]="currentDate" placeholder="Choose a date"
+                                                                [min]="yearItem?.controls?.min?.value"
+                                                                [max]="yearItem?.controls?.max?.value" 
+                                                                placeholder="Choose a date"
                                                                 [attr.id]="  + r_i" />
                                                             <mat-datepicker-toggle matSuffix
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
