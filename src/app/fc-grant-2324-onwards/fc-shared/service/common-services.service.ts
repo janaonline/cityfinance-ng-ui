@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -72,4 +73,8 @@ export class CommonServicesService {
     const end = input?.selectionEnd || input?.selectionStart;
     return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
   }
+  formDisable(res, userData){
+    if(userData?.role != USER_TYPE.ULB) return false;
+    return [1, 2, 5, 7].includes(res?.statusId);
+ }
 }

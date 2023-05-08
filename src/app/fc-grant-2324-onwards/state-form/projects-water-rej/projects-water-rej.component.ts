@@ -367,7 +367,7 @@ waterRejRes = {
           info: '',
           width: ''
         },
-      ]
+      ],
     }
   ]
 }
@@ -423,17 +423,13 @@ costMaxVal: number = 999999999999999;
       }),
     });
 
-    this.patchSimValue();
   // this.changesDetection();
-
-
-
   }
-  patchSimValue() {
-    // this.waterRejenuvation?.controls?.declaration.patchValue({
-    //   url: this.wData?.declaration?.url,
-    //   name: this.wData?.declaration?.name,
-    // })
+  patchSimValue(data) {
+    this.waterRejenuvation?.controls?.declaration.patchValue({
+      url: data?.declaration?.url,
+      name: data.declaration?.name,
+    })
   }
 
   get Uas() {
@@ -467,7 +463,7 @@ costMaxVal: number = 999999999999999;
     return this.data.map((data) =>
       this.fb.group({
         ua: data.ua,
-        status: data?.status ?? "PENDING",
+        status: data?.status ?? 2,
         rejectReason: data?.rejectReason ?? null,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
@@ -539,6 +535,7 @@ costMaxVal: number = 999999999999999;
         this.isApiInProgress = false;
         this.data = res["data"]["uaData"];
         this.isDraft = res["data"].isDraft;
+        this.patchSimValue(res["data"]);
       //  this.storeData(res["data"]);
         this.showLoader = false;
         console.log("water rej data", this.data);
@@ -767,6 +764,7 @@ costMaxVal: number = 999999999999999;
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation)
    }
   submit() {
+
     console.log('form status..........', this.waterRejenuvation);
     if (this.waterRejenuvation?.status == "INVALID") {
       swal("Missing Data !", `${this.errorMsg}`, "error");
@@ -797,10 +795,10 @@ costMaxVal: number = 999999999999999;
       ).then((value) => {
         switch (value) {
           case "submit":
-            this.finalSubmit();
+            this.finalSubmit(false);
             break;
           case "draft":
-           // this.onDraft();
+            this.finalSubmit(true);
             break;
           case "cancel":
             break;
@@ -810,10 +808,12 @@ costMaxVal: number = 999999999999999;
 
   }
 
-  finalSubmit() {
-    let postBody = { ...this.waterRejenuvation.value, isDraft: false }
+  finalSubmit(draft) {
+    let postBody;
+    if(draft == false){ postBody = { ...this.waterRejenuvation.value, isDraft: false }}
+    if(draft == true) postBody = { ...this.waterRejenuvation.value, isDraft: true }
+    postBody["status"] = (draft == false) ? 3 : 2;
     if (this.userData?.role === "STATE") {
-      // this.waterRejenuvation.controls.isDraft.patchValue(false);
       console.log(this.waterRejenuvation.controls);
       this.waterRejenuvationService
         .postWaterRejeData(postBody)
@@ -929,9 +929,10 @@ costMaxVal: number = 999999999999999;
     }
   }
 
-  saveButtonClicked() {
+  saveButtonClicked(draft) {
     this.submitted = true
-    this.submit();
+    if(draft == false) this.submit();
+    if(draft == true ) this.finalSubmit(draft);
   }
   onPreview() {
   //  let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
@@ -986,7 +987,6 @@ costMaxVal: number = 999999999999999;
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
          // this.formId = element?._id;
-
         }
       });
     }
@@ -1064,8 +1064,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
         this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
           if (res.type !== HttpEventType.Response) return;
           if(uploadType == 'img') this.photosArray.push({ url: file_url, name: fileName });
-          // this.formControl.responseFile.patchValue({ name: file.name, url: file_url });
-          // this.responceFile = { name: file.name, url: file_url };
+          if(uploadType == 'pdf')  this.waterRejenuvation.get('declaration').patchValue({ url: file_url, name: file.name})
           this._snackBar.dismiss();
           // console.log('form', this.formControl?.responseFile?.value?.name);
           resolve();
@@ -1086,8 +1085,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
    
   }
   removeUploadedFile(){
-  //  this.formControl.responseFile.patchValue({ name: '', url: '' });
-   //  this.responceFile = { name: '', url: ''};
+    this.waterRejenuvation.get('declaration').patchValue({ url: '', name: ''})
   }
 
   getIndicatorLineItem(){
