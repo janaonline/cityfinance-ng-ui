@@ -35,6 +35,8 @@ import { TowordPipe } from './pipes/toword.pipe';
 import { PercentprogressPipe } from './pipes/percentprogress.pipe';
 import { YearInfoPipe } from './pipes/year-info.pipe';
 import { DisplayPositionPipe } from './pipes/display-position.pipe';
+import { DecimalLimitDirective } from './ulb-fiscal-new/decimal-limit.directive';
+import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { DisplayPositionPipe } from './pipes/display-position.pipe';
     PercentprogressPipe,
     YearInfoPipe,
     DisplayPositionPipe,
+    DecimalLimitDirective,
+    NoUpDownDirective,
   ],
   imports: [
     CommonModule,
