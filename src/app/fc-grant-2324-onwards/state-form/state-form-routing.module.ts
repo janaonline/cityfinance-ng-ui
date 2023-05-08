@@ -7,6 +7,8 @@ import { StateFormComponent } from './state-form.component';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
 import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
+import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
+import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,15 @@ const routes: Routes = [
         path: "action-plan",
         component: ActionPlanSliComponent,
       },
+      {
+        path: "fc-formation",
+        component: StateFinanceCnComponent,
+      },
+      {
+        path: "grant-claims",
+        component: SubmitClaimsGrantsComponent,
+      },
+      
       
       
     ],
