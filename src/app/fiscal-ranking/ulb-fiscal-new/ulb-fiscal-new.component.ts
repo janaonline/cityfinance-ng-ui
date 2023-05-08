@@ -58,6 +58,7 @@ export class UlbFiscalNewComponent implements OnInit {
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
+  alreadyUploadedUrl = 'https://cityfinance.in/resources-dashboard/data-sets/income_statement';
 
   constructor(
     private fb: FormBuilder,
@@ -391,6 +392,7 @@ export class UlbFiscalNewComponent implements OnInit {
         incomeSectionBelowKey: this.incomeSectionBelowKey,
         expenditureSectionBelowKey: this.expenditureSectionBelowKey,
         financialYearTableHeader: this.financialYearTableHeader,
+        alreadyUploadedUrl: this.alreadyUploadedUrl,
         additionalData: {
           pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
