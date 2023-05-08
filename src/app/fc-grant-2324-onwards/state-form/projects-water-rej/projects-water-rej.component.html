@@ -266,10 +266,16 @@
                                            (keydown)="setMinMaxValidations($event, stpWr, 0, 1000, '')" #stpWr>
                                       </td>
                                       <td>
-                                          <input formControlName="treatmentPlant" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter Number' : null" type="number">
+                                          <input formControlName="treatmentPlant" matTooltipPosition="above" 
+                                          [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'value 0 upto 3 digis' : null" 
+                                          type="number" (keydown)="setMinMaxValidations($event, tretWr, 0, 1000, '')" #tretWr>
                                       </td>
                                       <td>
-                                          <input formControlName="targetCust" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'targetCust')}" [matTooltip]="checkErrorState(projectRow,'targetCust') ? 'Enter Text' : null" type="text">
+                                          <input formControlName="targetCust" matTooltipPosition="above" 
+                                          [ngClass]="{'falseVal': checkErrorState(projectRow,'targetCust')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'targetCust') ? 'value 0 upto 7 digis' : null" 
+                                          type="number" (keydown)="setMinMaxValidations($event, tartgetWr, 0, 9999999, '')" #tartgetWr>
                                       </td>
                                       <td class=" rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
