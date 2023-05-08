@@ -45,13 +45,18 @@
     // color: red;
     padding-right: 0.3em !important;
 }
-
-// .bg-amt:nth-child(odd) {
-//     background: #FFFFFF
-// }
-// .bg-amt:nth-child(even) {
-//     background: #CCC
-// }
-// .pd-r {
-//     padding: 5px 2px;
-// }
+.table-gray {
+    background-color: #c3c3c3;
+    color: black;
+    text-align: center;
+}
+.table-info {
+    background-color: #D7F5FE;
+    color: black;
+    text-align: center;
+}
+.table-danger {
+    background-color: #F8D7DA;
+    color: black;
+    text-align: center;
+}

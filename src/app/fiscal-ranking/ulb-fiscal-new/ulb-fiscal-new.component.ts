@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
@@ -53,10 +53,10 @@ export class UlbFiscalNewComponent implements OnInit {
   isDraft: boolean;
   userData: any;
   ulbName: string;
+  validators = {};
   userTypes = USER_TYPE;
-  fiscalForm: FormArray;
+  form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
-  currentDate = new Date();
   formSubmitted = false;
 
   constructor(
@@ -117,7 +117,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get otherUploadControl() {
-    return this.fiscalForm.get('4.data.otherUpload');
+    return this.form.get('4.data.otherUpload');
   }
 
   onLoad() {
@@ -128,11 +128,12 @@ export class UlbFiscalNewComponent implements OnInit {
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
-      this.fiscalForm = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
+      this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
       this.addSumLogics();
       this.addSubtractLogics();
       this.navigationCheck();
+      this.form.markAsPristine();
       this.isLoader = false;
     });
   }
@@ -153,7 +154,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name,  item.required ? Validators.required : null],
+            name: [item.name, item.required ? Validators.required : null],
             status: item.status,
             url: [item.url, item.required ? Validators.required : null],
           })
@@ -162,7 +163,8 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             key: item.key,
             position: [{ value: +item.displayPriority || 1, disabled: true }],
-            isHeading: [{ value: Number.isInteger(+item.displayPriority), disabled: true }],
+            isHeading: [{ value: this.isHeading(item.displayPriority), disabled: true }],
+            required: [{ value: item.required, disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],
@@ -177,6 +179,12 @@ export class UlbFiscalNewComponent implements OnInit {
     })
   }
 
+  isHeading(displayPriority): boolean {
+    if(['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
+    if(['24','25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
+    return Number.isInteger(+displayPriority);
+  }
+
   getInnerFormGroup(item, parent?) {
     return this.fb.group({
       key: item.key,
@@ -186,13 +194,18 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      required: [{ value: item.required, disabled: true }],
+      isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
+      min: [{ value: new Date(item?.min), disabled: true}],
+      max: [{ value: new Date(item?.max), disabled: true}],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item.status,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
+      info: [{ value: item.info, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
       desc: [{ value: item.desc, disabled: true }],
       position: [{ value: item.postion, disabled: true }],
@@ -224,26 +237,44 @@ export class UlbFiscalNewComponent implements OnInit {
       'data.registerGis.yearData.0': 'registerGisProof',
       'data.accountStwre.yearData.0': 'accountStwreProof'
     }
-    const s3Control = this.fiscalForm.controls.find(control => control.value?.id == 's3') as FormGroup;
+    const s3Control = this.form.controls.find(control => control.value?.id == 's3') as FormGroup;
     Object.entries(dependencies).forEach(([selector, updatedable]) => {
       const control = s3Control.get(selector)
       control.valueChanges.subscribe(({ value }) => {
         const canShow = value == 'Yes';
         s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const updatableControl = s3Control.get(`data.${updatedable}.yearData.0`) as FormGroup;
-        const nameControl = updatableControl.get('file.name');
-        const urlControl = updatableControl.get('file.url');
-        [nameControl, urlControl].forEach(fileControl => {
-          fileControl?.setValidators(canShow ? [Validators.required] : [])
-          fileControl?.updateValueAndValidity({ emitEvent: true });
-        }) 
+        const selectorString  = `data.${updatedable}.yearData.0`;
+        const updatableControl = s3Control.get(selectorString) as FormGroup;
+        if (!updatableControl) return;
+        ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+          const control = updatableControl.get(innerSelectorString)
+          this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
+        });
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
   }
 
+  toggleValidations(control: FormGroup | FormArray | AbstractControl | FormControl, selector: string, canShow: boolean, isArray: boolean) {
+    if (control) {
+      if (!this.validators[selector]) {
+        this.validators[selector] = control.validator;
+      }
+      if (!canShow) {
+        if (isArray) {
+          (control as FormArray).clear();
+          control?.parent?.get('replicaCount')?.patchValue(0);
+        } else {
+          control?.patchValue('');
+        }
+      }
+      control?.setValidators(canShow ? this.validators[selector] : []);
+      control?.updateValueAndValidity({ emitEvent: true });
+    }
+  }
+
   addSumLogics() {
-    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const s3DataControl = Object.values((this.form.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const sumAbleContrls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value == 'sum') as FormGroup[];
     sumAbleContrls?.forEach(parentControl => {
       const childControls = s3DataControl
@@ -253,19 +284,19 @@ export class UlbFiscalNewComponent implements OnInit {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => year.value));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col})) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col })) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
           })
         })
-        // child.patchValue({});
+        child.updateValueAndValidity({ emitEvent: true });
       });
     });
   }
 
   addSubtractLogics() {
-    const s3DataControl = Object.values((this.fiscalForm.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
+    const s3DataControl = Object.values((this.form.controls.find(control => control.value?.id == 's3') as any).controls?.data?.controls);
     const subtractControls = s3DataControl?.filter((value: FormGroup) => value?.controls?.logic?.value?.startsWith('subtract')) as FormGroup[];
     subtractControls?.forEach(parentControl => {
       const childControls = s3DataControl
@@ -284,12 +315,12 @@ export class UlbFiscalNewComponent implements OnInit {
   getColumnWiseSum(arr: number[][]): number[] {
     // console.log('aaaarrr', arr);
     return arr[0]?.map((_, colIndex) => {
-      let retNull:boolean = true;
+      let retNull: boolean = true;
       let sum = arr.reduce((acc, curr) => {
-        if(!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")){
+        if (!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")) {
           retNull = false;
         }
-        return acc + (curr[colIndex]*1 || 0);
+        return acc + (curr[colIndex] * 1 || 0);
       }, 0);
       return retNull ? null : sum;
     });
@@ -309,7 +340,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   stepperContinue(item) {
-    console.log(this.fiscalForm);
+    console.log(this.form);
     this.stepper.next();
   }
   stepperContinueSave(item) {
@@ -328,10 +359,10 @@ export class UlbFiscalNewComponent implements OnInit {
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
 
@@ -349,15 +380,19 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   onPreview() {
+    if (!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
     const date = new Date();
-    console.log(this.fiscalForm.getRawValue());
-    const rowValues = this.fiscalForm.getRawValue();
+    console.log(this.form.getRawValue());
+    const rowValues = this.form.getRawValue();
     const dialogRef = this.dialog.open(UlbFisPreviewComponent, {
       id: 'UlbFisPreviewComponent',
       data: {
         showData: rowValues.filter(item => item.id !== this.selfDeclarationTabId),
+        incomeSectionBelowKey: this.incomeSectionBelowKey,
+        expenditureSectionBelowKey: this.expenditureSectionBelowKey,
+        financialYearTableHeader: this.financialYearTableHeader,
         additionalData: {
-          pristine: this.fiscalForm.pristine,
+          pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
           nameCmsnr: rowValues.find(row => row.id == 's1')?.data?.nameCmsnr?.value,
           auditorName: rowValues.find(row => row.id == 's1')?.data?.auditorName?.value,
@@ -377,10 +412,10 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   validateErrors() {
-    this.fiscalForm.markAllAsTouched();
-    if (this.fiscalForm.status === 'INVALID') {
-      console.log(this.fiscalForm);
-      const invalidIndex = this.fiscalForm.controls.findIndex(control => control.status === 'INVALID');
+    this.form.markAllAsTouched();
+    if (this.form.status === 'INVALID') {
+      console.log(this.form);
+      const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
       console.log(invalidIndex);
       if (invalidIndex >= 0) {
         this.stepper.selectedIndex = invalidIndex;
@@ -425,8 +460,8 @@ export class UlbFiscalNewComponent implements OnInit {
   navigationCheck() {
     this._router.events.subscribe((event: any) => {
       console.log(event?.url);
-      if(event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
-      if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
+      if (event?.url == '/rankings/home') return this.form.markAsPristine();
+      if (event instanceof NavigationStart && !this.form.pristine) {
         swal("Unsaved Changes", {
           buttons: {
             Draft: {
@@ -440,7 +475,7 @@ export class UlbFiscalNewComponent implements OnInit {
           },
         }).then((value) => {
           if (value == 'draft') this.submit();
-          else this.fiscalForm.markAsPristine();
+          else this.form.markAsPristine();
         });
       }
     });
@@ -452,15 +487,15 @@ export class UlbFiscalNewComponent implements OnInit {
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
-      actions: this.fiscalForm.getRawValue()
+      actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
     this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
-      this.fiscalForm.markAsPristine();
+      this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, ({error}) => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
