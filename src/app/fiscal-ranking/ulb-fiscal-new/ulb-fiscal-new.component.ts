@@ -194,6 +194,7 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      required: [{ value: item.required, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       min: [{ value: new Date(item?.min), disabled: true}],

@@ -37,7 +37,7 @@
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </mat-label>
-                                        <input onwheel="this.blur()" class="com-style"
+                                        <input onwheel="this.blur()" class="com-style" appNoUpDown
                                             [appDecimalLimit]="item?.value?.controls?.formFieldType?.value != 'number' ? null : item?.value?.controls?.decimalLimit?.value || 0"
                                             [readonly]="item?.value?.controls?.readonly?.value"
                                             [type]="item?.value?.controls?.formFieldType?.value" matInput
@@ -48,7 +48,9 @@
                                         *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
                                         <div class="col-sm-8">
                                             {{ item?.value?.controls?.label?.value }}
-                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span> <mat-icon style="font-size: 18px;"
+                                            <span *ngIf="item?.value?.controls?.required?.value"
+                                                class="text-danger">*</span>
+                                            <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </div>
@@ -95,7 +97,9 @@
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
                                             {{item?.value?.controls?.label.value}}
-                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span> <mat-icon style="font-size: 18px;"
+                                            <span *ngIf="item?.value?.controls?.required?.value"
+                                                class="text-danger">*</span>
+                                            <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </th>
@@ -103,7 +107,7 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <input onwheel="this.blur()"
+                                                    <input onwheel="this.blur()" appNoUpDown
                                                         *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                                                         [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                         formControlName="value" class="form-control"
@@ -133,8 +137,9 @@
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
                                                         [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                         <div class="d-flex w-100 px-2">
-                                                            <input onwheel="this.blur()" matInput formControlName="date"
-                                                                style="pointer-events: none;" [matDatepicker]="r_i"
+                                                            <input onwheel="this.blur()" appNoUpDown matInput
+                                                                formControlName="date" style="pointer-events: none;"
+                                                                [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 [min]="yearItem?.controls?.min?.value"
                                                                 [max]="yearItem?.controls?.max?.value"
@@ -217,7 +222,8 @@
                                                     <div class="row">
                                                         <div class="col-sm-12 h-label mb-3 com-style">
                                                             {{item?.value?.controls?.label.value}}
-                                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span>
+                                                            <span *ngIf="item?.value?.controls?.required?.value"
+                                                                class="text-danger">*</span>
                                                         </div>
                                                     </div>
                                                     <div class="row" *ngIf="item?.key == guidanceNotesKey">
@@ -247,7 +253,7 @@
                                                                         <!-- [disabled]="yearItem?.readonly" -->
                                                                         <!-- id="{{yearItem?.key}}" -->
                                                                         <!-- [ngClass]="{'is-invalid': yearItem.error}" -->
-                                                                        <input onwheel="this.blur()"
+                                                                        <input onwheel="this.blur()" appNoUpDown
                                                                             [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                                             formControlName="value" type="number"
                                                                             class="form-control com-style yrformCon form-ic"
