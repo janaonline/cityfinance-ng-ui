@@ -108,16 +108,26 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <input onwheel="this.blur()" appNoUpDown
-                                                        *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                                                        [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
-                                                        formControlName="value" class="form-control"
-                                                        [type]="yearItem?.controls?.formFieldType?.value"
-                                                        [readonly]="yearItem?.controls?.readonly?.value"
-                                                        [disabled]="yearItem?.controls?.readonly?.value"
-                                                        [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
-                                                        placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-                                                    <!-- <p>{{ yearItem?.controls?.value?.errors | json }}</p> -->
+                                                    <div class="d-flex">
+                                                        <span 
+                                                            *ngIf="yearItem.controls?.isRupee?.value"
+                                                            class="input-group-text br-a" 
+                                                            id="basic-addon1">₹</span>
+                                                        <input onwheel="this.blur()" appNoUpDown
+                                                        
+                                                            *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                                            [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
+                                                            formControlName="value" class="form-control"
+                                                            [type]="yearItem?.controls?.formFieldType?.value"
+                                                            [readonly]="yearItem?.controls?.readonly?.value"
+                                                            [disabled]="yearItem?.controls?.readonly?.value"
+                                                            [ngClass]="{
+                                                                'left-0-radius': yearItem.controls?.isRupee?.value,
+                                                                'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
+                                                            placeholder="{{yearItem?.controls?.placeholder?.value}}" />
+                                                    </div>
+
+                                                    
                                                     <small class="focus-warning"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0'">
                                                         contains "0" do you still want to continue?
