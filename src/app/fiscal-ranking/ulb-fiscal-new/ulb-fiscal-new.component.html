@@ -282,7 +282,10 @@
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
                                                                         <div class="al-up font-size-smaller">Already
                                                                             Uploaded on
-                                                                            Cityfinance</div>
+                                                                            Cityfinance - <a 
+                                                                            target="_blank"
+                                                                            href="https://cityfinance.in/resources-dashboard/data-sets/income_statement"
+                                                                            >View here</a></div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
@@ -305,7 +308,7 @@
                                                                         required</small>
                                                                 </ng-container>
 
-                                                                <div class="col-sm-12 bot-text mt-2">
+                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value)">
                                                                     <span class="f-w">
                                                                         {{ yearItem?.controls?.value?.value | toword }}
                                                                     </span> {{ yearItem?.controls?.bottomText?.value }}

@@ -133,6 +133,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.addSumLogics();
       this.addSubtractLogics();
       this.navigationCheck();
+      this.form.markAsPristine();
       this.isLoader = false;
     });
   }
