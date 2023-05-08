@@ -20,6 +20,8 @@ import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
+import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 
 
 @NgModule({
@@ -28,7 +30,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     ReviewUlbTableComponent, 
     DashbordComponent,
     ProjectsWssComponent, 
-    ProjectsWaterRejComponent, ActionPlanSliComponent
+    ProjectsWaterRejComponent, ActionPlanSliComponent, StateFinanceCnComponent, SubmitClaimsGrantsComponent
     ],
   imports: [
     CommonModule,

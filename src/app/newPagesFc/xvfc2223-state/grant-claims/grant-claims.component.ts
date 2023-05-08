@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class GrantClaimsComponent implements OnInit {
   years = JSON.parse(localStorage.getItem("Years"));
-
+  userData = JSON.parse(localStorage.getItem("userData"));
   financial_year = this.years['2022-23'];
   curr_finance_year = true;
   other_finance_year = false;
@@ -119,11 +119,10 @@ export class GrantClaimsComponent implements OnInit {
     private datePipe: DatePipe,
     private router: Router
   ) {
-    // this.financial_year = JSON.parse(localStorage.getItem('Years'));
-    this.stateId = sessionStorage.getItem("state_id");
-      if (!this.stateId) {
-        this.stateId = localStorage.getItem("state_id");
-      }
+    this.stateId = this.userData?.state ? this.userData?.state : sessionStorage.getItem("state_id");
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");  
+    }
 
   }
 
@@ -135,8 +134,6 @@ export class GrantClaimsComponent implements OnInit {
     this.fetchData(this.years['2022-23']);
 
   }
-
-
 
   findDisplay() {
     return new Promise<void>((resolve, reject) => {
@@ -393,7 +390,7 @@ export class GrantClaimsComponent implements OnInit {
           break;
       }
     });
-  //  this.openDialog(template)
+    //  this.openDialog(template)
 
   }
   body = {
@@ -404,7 +401,7 @@ export class GrantClaimsComponent implements OnInit {
     "type": "",
   };
   onSubmit() {
-   // this.alertClose();
+    // this.alertClose();
     this.grantClaimsService.claimGrantCreate(this.body).subscribe(
       (res) => {
         swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
@@ -689,7 +686,7 @@ export class GrantClaimsComponent implements OnInit {
         if (element?.url == "grant-claims") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
-         // this.formId = element?._id;
+          // this.formId = element?._id;
 
         }
       });
