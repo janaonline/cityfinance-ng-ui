@@ -164,6 +164,7 @@ export class UlbFiscalNewComponent implements OnInit {
             key: item.key,
             position: [{ value: +item.displayPriority || 1, disabled: true }],
             isHeading: [{ value: this.isHeading(item.displayPriority), disabled: true }],
+            required: [{ value: item.required, disabled: true }],
             modelName: [{ value: item.modelName, disabled: true }],
             calculatedFrom: [{ value: item.calculatedFrom, disabled: true }],
             logic: [{ value: item.logic, disabled: true }],

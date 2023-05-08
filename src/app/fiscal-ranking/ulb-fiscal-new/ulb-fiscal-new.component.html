@@ -24,13 +24,17 @@
 
                         <!-- tab 1, 2 -->
                         <div class="form" *ngIf="tab?.value?.id == 's1' || tab?.value?.id == 's2'">
-                            <div class="" [ngClass]="{'disable': isDisabled}"
+                            <div class="" [ngClass]="{'disable': item?.value?.controls?.readonly?.value}"
                                 *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition">
                                 <div class="row mt-4" [formGroup]="item.value">
                                     <mat-form-field appearance="outline"
+                                        [disabled]="item?.value?.controls?.readonly?.value"
                                         *ngIf="textualFormFiledTypes.includes(item?.value?.controls?.formFieldType?.value)">
-                                        <mat-label class="com-style">{{ item.value.controls?.label?.value }} <mat-icon
-                                                style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
+                                        <mat-label class="com-style">{{ item?.value?.controls?.label?.value }}
+                                            <span *ngIf="item?.value?.controls?.required?.value"
+                                                class="text-danger">*</span>
+                                            <mat-icon style="font-size: 18px;"
+                                                *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </mat-label>
                                         <input onwheel="this.blur()" class="com-style"
@@ -43,7 +47,8 @@
                                     <div class="col-sm-12 mt-1 row"
                                         *ngIf="item?.value?.controls?.formFieldType?.value == 'radio-toggle'">
                                         <div class="col-sm-8">
-                                            {{ item.value.controls?.label?.value }} <mat-icon style="font-size: 18px;"
+                                            {{ item?.value?.controls?.label?.value }}
+                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span> <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </div>
@@ -89,7 +94,8 @@
                                         <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                                            {{item?.value?.controls?.label.value}} <mat-icon style="font-size: 18px;"
+                                            {{item?.value?.controls?.label.value}}
+                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span> <mat-icon style="font-size: 18px;"
                                                 *ngIf="item?.value?.controls?.info?.value"
                                                 [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                         </th>
@@ -131,9 +137,8 @@
                                                                 style="pointer-events: none;" [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 [min]="yearItem?.controls?.min?.value"
-                                                                [max]="yearItem?.controls?.max?.value" 
-                                                                placeholder="Choose a date"
-                                                                [attr.id]="  + r_i" />
+                                                                [max]="yearItem?.controls?.max?.value"
+                                                                placeholder="Choose a date" [attr.id]="  + r_i" />
                                                             <mat-datepicker-toggle matSuffix
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
                                                                 [for]="r_i">
@@ -212,6 +217,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-12 h-label mb-3 com-style">
                                                             {{item?.value?.controls?.label.value}}
+                                                            <span *ngIf="item?.value?.controls?.required?.value" class="text-danger">*</span>
                                                         </div>
                                                     </div>
                                                     <div class="row" *ngIf="item?.key == guidanceNotesKey">
@@ -282,10 +288,9 @@
                                                                         *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
                                                                         <div class="al-up font-size-smaller">Already
                                                                             Uploaded on
-                                                                            Cityfinance - <a 
-                                                                            target="_blank"
-                                                                            href="https://cityfinance.in/resources-dashboard/data-sets/income_statement"
-                                                                            >View here</a></div>
+                                                                            Cityfinance - <a target="_blank"
+                                                                                href="https://cityfinance.in/resources-dashboard/data-sets/income_statement">View
+                                                                                here</a></div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
@@ -308,7 +313,8 @@
                                                                         required</small>
                                                                 </ng-container>
 
-                                                                <div class="col-sm-12 bot-text mt-2" *ngIf="!(yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value)">
+                                                                <div class="col-sm-12 bot-text mt-2"
+                                                                    *ngIf="!(yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value)">
                                                                     <span class="f-w">
                                                                         {{ yearItem?.controls?.value?.value | toword }}
                                                                     </span> {{ yearItem?.controls?.bottomText?.value }}
