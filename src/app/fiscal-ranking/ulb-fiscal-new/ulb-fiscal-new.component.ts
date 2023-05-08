@@ -286,7 +286,7 @@ export class UlbFiscalNewComponent implements OnInit {
             parentYearItemControl.markAsDirty();
           })
         })
-        // child.patchValue({});
+        child.updateValueAndValidity({ emitEvent: true });
       });
     });
   }
