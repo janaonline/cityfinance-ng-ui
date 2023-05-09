@@ -331,7 +331,7 @@ export class PropertyTaxComponent implements OnInit {
     const file: File = event.target.files[0];
     if (!file) return;
     const fileExtension = file.name.split('.').pop();
-    if (!allowedFileTypes.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes.join(', ')}`, "error");
+    if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
 
@@ -345,8 +345,34 @@ export class PropertyTaxComponent implements OnInit {
     }, err => console.log(err));
   }
 
-  onPreview() {
-    if (!this.form.pristine) return swal('Unsaved changes', 'Please save form before preview', 'warning');
+  async onPreview() {
+    if (!this.form.pristine) {
+      const confirmed = await swal(
+        "Unsaved Changes!",
+        `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
+        "warning"
+        , {
+          buttons: {
+            Leave: {
+              text: "Cancel",
+              className: 'btn-danger',
+              value: false,
+            },
+            Stay: {
+              text: "Save",
+              className: 'btn-success',
+              value: true,
+            },
+          },
+        }
+      );
+      console.log({ confirmed });
+      if(!confirmed) return
+      else {
+        await this.submit();
+      }
+
+    }
     const date = new Date();
     console.log(this.form.getRawValue());
     const rowValues = this.form.getRawValue();
@@ -558,17 +584,21 @@ export class PropertyTaxComponent implements OnInit {
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
-    this.propertyTaxService.postData(payload).subscribe(res => {
-      this.form.markAsPristine();
-      this.loaderService.stopLoader();
-      this.commonServices.setFormStatusUlb.next(true);
-      this.loadData();
-      this.isFormFinalSubmit = true;
-      this.formSubmitted = !isDraft;
-      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, ({ error }) => {
-      this.loaderService.stopLoader();
-      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    return new Promise((resolve, reject) => {
+      this.propertyTaxService.postData(payload).subscribe(res => {
+       this.form.markAsPristine();
+       this.loaderService.stopLoader();
+       this.commonServices.setFormStatusUlb.next(true);
+       this.loadData();
+       this.isFormFinalSubmit = true;
+       this.formSubmitted = !isDraft;
+       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+       resolve(true);
+     }, ({ error }) => {
+       this.loaderService.stopLoader();
+       swal('Error', error?.message ?? 'Something went wrong', 'error');
+       reject();
+     })
     })
   }
 

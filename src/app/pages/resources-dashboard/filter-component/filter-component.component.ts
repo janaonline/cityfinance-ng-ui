@@ -19,6 +19,7 @@ import {
 } from "@angular/material/dialog";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
@@ -57,6 +58,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private _commonServices: CommonService,
     public dialog: MatDialog,
+    private route: ActivatedRoute,
     private _resourcesDashboardService: ResourcesDashboardService
   ) {
     this.filterData("", "");
@@ -94,6 +96,8 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     });
   }
 
+  selectedValue: String = "2020-21";
+  selectedType: String = "Raw Data PDF";
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
     this.filterForm = this.fb.group({
@@ -106,9 +110,26 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       category: this.category,
     });
     this.loadData();
+
+    setTimeout(() => {
+      const year = this.route.snapshot.queryParamMap.get('year');
+      const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
+      console.log({ year, stateCode });
+      if (year) {
+        this.filterForm.patchValue({
+          year: year,
+        })
+        this.selectedValue = year;
+        this.onChange({ target: { value: year } });
+      }
+      if (stateCode) {
+        const state = this.stateList?.find(st => st?.code == stateCode);
+        this.state.patchValue([state]);
+        this.onStateChange(state);
+      }
+    }, 1000)
   }
-  selectedValue: String = "2020-21";
-  selectedType: String = "Raw Data PDF";
+
   onChange(event) {
     this.selectedValue = event.target.value;
     console.log("eve", event);
@@ -251,8 +272,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
 
   onStateChange(state) {
-    console.log(state);
-    this.filterForm.patchValue({state: state._id})
+    this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
   }
 }
