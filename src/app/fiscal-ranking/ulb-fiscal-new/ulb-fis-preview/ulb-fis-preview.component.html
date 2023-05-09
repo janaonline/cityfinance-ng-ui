@@ -1,12 +1,12 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);"
-                    src="../../../../assets/form-icon/close_black_24dp.svg"></a>
+            <a (click)="closeMat()" class="pull-right"><img class="invert"
+                    src="assets/form-icon/close_black_24dp.svg"></a>
         </div>
         <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
-            <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
+            <span class="d-block">Submissions for Fiscal Rankings for FY 2022-23</span>
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
@@ -86,7 +86,7 @@
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
                                             Already uploaded on Cityfinance - <a target="_blank"
-                                                href="https://cityfinance.in/resources-dashboard/data-sets/income_statement">View
+                                                [href]="data?.alreadyUploadedUrl">View
                                                 here</a>
                                         </div>
                                     </div>
