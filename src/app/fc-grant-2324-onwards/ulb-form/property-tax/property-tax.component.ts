@@ -349,7 +349,7 @@ export class PropertyTaxComponent implements OnInit {
     if (!this.form.pristine) {
       const confirmed = await swal(
         "Unsaved Changes!",
-        `You have some unsaved changes on this page. Save if you want to see preview`,
+        `You have some unsaved changes on this page. Please save the changes if you want to view the preview.`,
         "warning"
         , {
           buttons: {
