@@ -26,7 +26,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 }
 
 
-url = "http://192.168.200.76:8080/api/v1/"
+url = "http://localhost:8080/api/v1/"
 
 // url = "https://staging.cityfinance.in/api/v1/";
 // url = "https://cityfinance.in/api/v1/";
