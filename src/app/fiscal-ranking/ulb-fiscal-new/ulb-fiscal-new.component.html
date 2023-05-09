@@ -252,7 +252,7 @@
                                                                 <div class="row" *ngIf="yearItem?.value?.key"
                                                                     [formGroup]="yearItem">
                                                                     <div class="col-sm-12 mb-3">
-                                                                        {{yearItem?.controls?.label.value}}*
+                                                                        {{yearItem?.controls?.label.value}}
                                                                     </div>
     
                                                                     <div class="col-sm-12 "
@@ -306,7 +306,7 @@
                                                                             <div class="al-up font-size-smaller">Already
                                                                                 Uploaded on
                                                                                 Cityfinance - <a target="_blank"
-                                                                                    [href]="alreadyUploadedUrl">View
+                                                                                    [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode">View
                                                                                     here</a></div>
                                                                         </div>
                                                                         <div class="col-sm-12 com-style f-w mt-1"

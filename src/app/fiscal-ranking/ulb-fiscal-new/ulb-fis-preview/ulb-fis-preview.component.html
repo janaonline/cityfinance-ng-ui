@@ -86,7 +86,7 @@
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
                                             Already uploaded on Cityfinance - <a target="_blank"
-                                                [href]="data?.alreadyUploadedUrl">View
+                                                [href]="elem?.label | alreadyUpdatedUrl : data?.stateCode">View
                                                 here</a>
                                         </div>
                                     </div>
