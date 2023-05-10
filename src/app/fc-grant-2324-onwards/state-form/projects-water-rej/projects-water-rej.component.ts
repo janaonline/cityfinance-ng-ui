@@ -31,7 +31,7 @@ export class ProjectsWaterRejComponent implements OnInit {
   photosArray = [];
   errorPhotosArray = [];
   isDraft = null;
-  submitted = false
+  submitted = false;
   UANames = [];
   uasList
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -253,12 +253,6 @@ waterRejRes = {
           width: ''
         },
         {
-          key: 'projectName',
-          displayName: 'Project Name',
-          info: '',
-          width: ''
-        },
-        {
           key: 'location',
           displayName: 'Location of Water Treatment Plant',
           info: '',
@@ -372,6 +366,7 @@ waterRejRes = {
   ]
 }
 costMaxVal: number = 999999999999999;
+errorOnload:boolean = false;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -533,13 +528,14 @@ costMaxVal: number = 999999999999999;
       (res) => {
         this.isPreYear = true;
         this.isApiInProgress = false;
+        this.errorOnload = true;
         this.data = res["data"]["uaData"];
         this.isDraft = res["data"].isDraft;
+        this.initializeReport();
         this.patchSimValue(res["data"]);
       //  this.storeData(res["data"]);
         this.showLoader = false;
-        console.log("water rej data", this.data);
-        this.initializeReport();
+        console.log("water rej data", this.data); 
         this.setSkipLogic(this.data);
         // resolve("ss");
       },
@@ -629,7 +625,8 @@ costMaxVal: number = 999999999999999;
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
-      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+      isDisable: this.fb.control(data?.isDisable, []),
+      bypassValidation: this.fb.control(data?.bypassValidation ? data?.bypassValidation : false, []),
     })
   }
   waterReuseFormElem(data){
@@ -643,7 +640,7 @@ costMaxVal: number = 999999999999999;
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
-      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+      isDisable: this.fb.control(data?.isDisable, []),
     })
   }
   addRow(index, tableIndex, controlName) {
@@ -819,21 +816,12 @@ costMaxVal: number = 999999999999999;
         .postWaterRejeData(postBody)
         .subscribe(
           (res: any) => {
-            if (res && res.status) {
-              console.log('latest post data water rej --->', res)
-              swal({
-                title: "Submitted",
-                text: res?.message,
-                icon: "success",
-              });
+            swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
-              this.waterRejenuvation.disable();
-              this.isDisabled = true;
-            //  this.newCommonService.setStateFormStatus2223.next(true);
-              sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-            } else {
-              swal("Error", res?.message ? res?.message : "Error", "error");
-            }
+           if(draft == false){
+            this.waterRejenuvation.disable();
+            this.isDisabled = true;
+           }
           },
           (err) => {
             swal("Error", "Error", "error");
@@ -930,7 +918,7 @@ costMaxVal: number = 999999999999999;
   }
 
   saveButtonClicked(draft) {
-    this.submitted = true
+    this.submitted = draft ? false : true;
     if(draft == false) this.submit();
     if(draft == true ) this.finalSubmit(draft);
   }
@@ -953,9 +941,9 @@ costMaxVal: number = 999999999999999;
   }
 
   checkErrorState(projectRow, val) {
-    // if (this.errorOnload) {
-    //   return projectRow.controls[val]?.invalid;
-    // }
+    if (this.errorOnload) {
+      return projectRow.controls[val]?.invalid;
+    }
     return (
       projectRow.controls[val]?.invalid &&
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
