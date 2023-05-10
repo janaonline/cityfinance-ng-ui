@@ -37,6 +37,7 @@ import { YearInfoPipe } from './pipes/year-info.pipe';
 import { DisplayPositionPipe } from './pipes/display-position.pipe';
 import { DecimalLimitDirective } from './ulb-fiscal-new/decimal-limit.directive';
 import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
+import { AlreadyUpdatedUrlPipe } from './pipes/already-updated-url.pipe';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
     DisplayPositionPipe,
     DecimalLimitDirective,
     NoUpDownDirective,
+    AlreadyUpdatedUrlPipe,
   ],
   imports: [
     CommonModule,
