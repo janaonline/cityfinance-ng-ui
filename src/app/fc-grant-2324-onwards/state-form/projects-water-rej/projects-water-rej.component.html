@@ -218,7 +218,8 @@
 
                           </div>
                           <div class="addMoreDiv text-right mb-2">
-                            <button type="button" class="btn" (click)="addRow(projectIndex, 0, 'waterBodies')" id="addmoreBtn" [disabled]="waterRejRes?.tables[0]?.addProjectAvailable">
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 0, 'waterBodies')" id="addmoreBtn" 
+                            [disabled]="waterRejRes?.tables[0]?.addProjectAvailable || isDisabled">
                                 <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
                                 Add more
                             </button>
@@ -310,7 +311,7 @@
                           </table>
                           </div>
                           <div class="addMoreDiv text-right mb-2">
-                            <button type="button" class="btn" (click)="addRow(projectIndex, 1, 'reuseWater')" id="addmoreBtn" [disabled]="waterRejRes?.tables[1]?.addProjectAvailable">
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 1, 'reuseWater')" id="addmoreBtn" [disabled]="waterRejRes?.tables[1]?.addProjectAvailable || isDisabled">
                                 <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
                                 Add more
                             </button>
@@ -407,7 +408,7 @@
 
                           </div>
                           <div class="addMoreDiv text-right mb-2">
-                            <button type="button" class="btn" (click)="addRow(projectIndex, 2, 'serviceLevelIndicators')" id="addmoreBtn" [disabled]="waterRejRes?.tables[2]?.addProjectAvailable">
+                            <button type="button" class="btn" (click)="addRow(projectIndex, 2, 'serviceLevelIndicators')" id="addmoreBtn" [disabled]="waterRejRes?.tables[2]?.addProjectAvailable || isDisabled">
                                 <span class="material-icons" style="font-size: 12px; margin-right: 3px;"> add_circle_outline</span>
                                 Add more
                             </button>

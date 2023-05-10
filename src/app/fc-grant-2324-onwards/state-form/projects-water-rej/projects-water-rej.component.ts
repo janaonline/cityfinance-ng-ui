@@ -533,11 +533,11 @@ errorOnload:boolean = false;
         this.isDraft = res["data"].isDraft;
         this.initializeReport();
         this.patchSimValue(res["data"]);
-      //  this.storeData(res["data"]);
         this.showLoader = false;
         console.log("water rej data", this.data); 
         this.setSkipLogic(this.data);
-        // resolve("ss");
+        this.isDisabled = this.setDisableForm(res["data"]);
+        if(this.isDisabled) this.waterRejenuvation.disable();
       },
       (err) => {
         this.showLoader = false;
@@ -809,7 +809,7 @@ errorOnload:boolean = false;
     let postBody;
     if(draft == false){ postBody = { ...this.waterRejenuvation.value, isDraft: false }}
     if(draft == true) postBody = { ...this.waterRejenuvation.value, isDraft: true }
-    postBody["status"] = (draft == false) ? 3 : 2;
+    postBody["status"] = (draft == false) ? 4 : 2;
     if (this.userData?.role === "STATE") {
       console.log(this.waterRejenuvation.controls);
       this.waterRejenuvationService
@@ -1102,6 +1102,12 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
 
    return this.commonServices.minMaxValidation(e, input, min, max);
     
+  }
+  setDisableForm(data){
+    
+    if((this.userData?.role == 'ADMIN') || (this.userData?.role == 'STATE' && (data.statusId == 4 || data.statusId == 6))) return true;
+    if(this.userData?.role == 'MoHUA' && data.statusId == 4) return true;
+    return false;
   }
 }
 
