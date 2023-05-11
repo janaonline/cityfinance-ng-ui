@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-services/state2223.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -14,7 +14,7 @@ export class ReviewUlbTableComponent implements OnInit {
   formId = "63d8eabeee320e56e357b34e";
   data;
   columnNames
-  state = '5dcf9d7216a06aed41c748e2';
+  // state = '5dcf9d7216a06aed41c748e2';
   stateList = [];
   statusList = [];
   populationTypesList = [];
@@ -26,6 +26,7 @@ export class ReviewUlbTableComponent implements OnInit {
   filterForm: FormGroup;
   isLoader: boolean = false;
   max = Math.max;
+  csvType = 'csvFROverall';
 
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -45,16 +46,16 @@ export class ReviewUlbTableComponent implements OnInit {
   constructor(
     private commonService: NewCommonService,
     private _fb: FormBuilder,
+    private router:Router,
     private _commonService: CommonService) {
   }
   ngOnInit(): void {
     this.filterForm = this._fb.group({
       ulbName: [""],
       stateName: [""],
+      censusCode: [""],
+      populationCategory: [""],
       ulbCode: [""],
-      ulbType: [""],
-      populationType: [""],
-      UA: [""],
       status: [""],
       filled1: [""],
     });
@@ -83,14 +84,21 @@ export class ReviewUlbTableComponent implements OnInit {
       this.tableDefaultOptions.currentPage = pageNumber;
       this.listFetchOption.skip = (pageNumber - 1) * this.tableDefaultOptions.itemPerPage;
     }
-    const payload = {
+    Object.values(this.filterForm.getRawValue()).map((e:any) => e.trim())
+    let filteredObj:any = {};
+    for(const key in this.filterForm.getRawValue()){
+      if(this.filterForm.getRawValue()[key]){
+        filteredObj[key] = this.filterForm.getRawValue()[key].trim();
+      }
+    }
+    let payload = {
       formId: this.formId,
-      state: this.state,
+      // state: this.state,
       design_year: this.design_year,
-      ...this.filterForm.getRawValue(),
+      ...filteredObj,
       ...this.listFetchOption
     };
-    console.log(payload)
+
     this.isLoader = true;
     this.commonService.getFrUlbs(payload).subscribe(res => {
       this.isLoader = false;
@@ -147,17 +155,28 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   download() {
+    Object.values(this.filterForm.getRawValue()).map((e:any) => e.trim())
+    let filteredObj:any = {};
+    for(const key in this.filterForm.getRawValue()){
+      if(this.filterForm.getRawValue()[key]){
+        filteredObj[key] = this.filterForm.getRawValue()[key].trim();
+      }
+    }
     console.log('downloading');
     const payload = {
       formId: this.formId,
-      state: this.state,
+      // state: this.state,
       design_year: this.design_year,
-      token: this.getToken(),
-      ...this.filterForm.getRawValue(),
+      ...filteredObj,
       ...this.listFetchOption
     };
-    const endPoint = "review";
-    this._commonService.openWindowToDownloadCsv(payload, endPoint);
+    this.isLoader = true;
+    this._commonService.downloadCsvApi(this.csvType,payload).subscribe((res)=>{
+      this.isLoader = false;
+      this._commonService.createCsv(res,this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
+    },(err) => {this.isLoader = false;})
+    // const endPoint = "review";
+    // this._commonService.openWindowToDownloadCsv(payload, endPoint);
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -179,5 +198,25 @@ export class ReviewUlbTableComponent implements OnInit {
     this.data = [];
     this.loadData(1);
   }
+
+  getTransformedValue(populationCategory:any){
+     if(parseInt(populationCategory) > 4000000){
+      return '4M+';
+     } else if(parseInt(populationCategory) < 4000000 && parseInt(populationCategory) >= 1000000){
+      return '1M to 4M';
+     }else if(parseInt(populationCategory) < 1000000 && parseInt(populationCategory) >= 100000) {
+      return '100K to 1M';
+     }else if(parseInt(populationCategory) < 100000 && parseInt(populationCategory) >= 0) {
+      return '<100K';
+     }else{
+      return 'NA'
+     }
+  }
+
+  navigateTo(path,id,action){
+    this.router.navigate([path,id],{ queryParams: {cantakeAction: action}});
+  }
+
+  // columnNamesTemp = ["S No.","ULB Name","State Name","Census Code","Population Category","Status","Action"];
 }
 
