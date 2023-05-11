@@ -39,7 +39,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  updateValue(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
+  updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if(this.readonly) return;
     this.status = value;
     this.onChange(value);

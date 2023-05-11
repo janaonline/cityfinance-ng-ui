@@ -3,11 +3,11 @@
         <i class="fa fa-lg text-success" [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o'" aria-hidden="true"></i>
     </button>
     <button class="btn btn-outline-primary" (click)="updateStatus('REJECTED')">
-        <i class="fa fa-lg text-warning" [ngClass]="status === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
+        <i class="fa fa-lg text-danger" [ngClass]="status === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
     </button>
 </div>
-<p>{{ rejectReason }}</p>
-<input type="text" *ngIf="status === 'REJECTED'" [value]="rejectReason" (input)="rejectReasonChange($event)" />
+<input class="my-1" type="text" *ngIf="canShow && status === 'REJECTED'" [value]="rejectReason" (input)="rejectReasonChange($event)" />
 <p *ngIf="canShow" class="m-0">
     status: {{ status }}
 </p>
+<small class="d-block text-danger" *ngIf="canShow && status === 'REJECTED' && !rejectReason">Reject reason is required</small>

@@ -173,6 +173,11 @@
                                                         </div>
                                                     </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
+                                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        formControlName="status"
+                                                        [rejectReason]="yearItem?.value?.rejectReason"
+                                                        (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                    </app-common-action-radio>
                                                 </div>
                                             </div>
                                         </td>
@@ -298,11 +303,12 @@
                                                                         yearItem?._parent | percentprogress: r_i :
                                                                         'text' }}</span>
                                                                 </div>
-                                                                <!-- <app-common-action-radio *ngIf="canSeeActions"
-                                                                    formControlName="feedback"></app-common-action-radio> -->
+                                                                <app-common-action-radio class="mt-2"
+                                                                    *ngIf="canSeeActions" formControlName="status"
+                                                                    [rejectReason]="yearItem?.value?.rejectReason"
+                                                                    (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                                </app-common-action-radio>
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>

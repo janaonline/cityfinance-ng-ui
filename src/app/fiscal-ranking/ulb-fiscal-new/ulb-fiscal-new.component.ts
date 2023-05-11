@@ -142,11 +142,11 @@ export class UlbFiscalNewComponent implements OnInit {
     const { data, feedback, ...rest } = tab;
     return this.fb.group({
       ...rest,
-      feedback: this.fb.group({
-        comment: [feedback.comment,],
-        status: feedback.status,
-        _id: feedback._id,
-      }),
+      // feedback: this.fb.group({
+      //   comment: [feedback.comment,],
+      //   status: feedback.status,
+      //   _id: feedback._id,
+      // }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
         if (this.linearTabs.includes(tab.id)) {
           obj[key] = this.getInnerFormGroup({ ...item, key })
@@ -191,8 +191,8 @@ export class UlbFiscalNewComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: 'REJECTED',
-      rejectReason: ['rejectReason',],
+      status: item?.status,
+      rejectReason: item?.rejectReason,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
@@ -399,7 +399,8 @@ export class UlbFiscalNewComponent implements OnInit {
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
-      `Are you sure you want to submit this form? Once submitted,
+      this.loggedInUserType == this.userTypes.MoHUA ? 'Are you sure you want to submit this form?' :
+        `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
       "warning",
@@ -461,7 +462,7 @@ export class UlbFiscalNewComponent implements OnInit {
       actions: this.fiscalForm.getRawValue()
     }
     this.loaderService.showLoader();
-    this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+    this.fiscalService?.[this.loggedInUserType == this.userTypes.MoHUA ? 'actionByMohua' : 'postFiscalRankingData'](payload).subscribe(res => {
       this.fiscalForm.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
