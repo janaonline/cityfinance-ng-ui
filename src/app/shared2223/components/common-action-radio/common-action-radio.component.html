@@ -1,11 +1,29 @@
-<div class="mt-2" *ngIf="canShow"[ngClass]="{'pe-none': readonly}" >
-    <button class="btn btn-outline-primary mr-1" for="APPROVED" (click)="updateValue('APPROVED')">
-        <i class="fa fa-lg text-success" [ngClass]="value === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o'" aria-hidden="true"></i>
+<div class="mt-2" *ngIf="canShow">
+    <button class="btn mr-1" [disabled]="disabled" [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
+        (click)="updateStatus('APPROVED')">
+        <i class="fa fa-lg"  [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o text-success'"
+            aria-hidden="true"></i>
     </button>
-    <button class="btn btn-outline-primary" (click)="updateValue('REJECTED')">
-        <i class="fa fa-lg text-warning" [ngClass]="value === 'REJECTED' ? 'fa-times-circle' : 'fa-times-circle-o'" aria-hidden="true"></i>
+    <button class="btn" [disabled]="disabled" [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'"
+        (click)="updateStatus('REJECTED')" [mdePopoverTriggerFor]="appPopover">
+        <i class="fa fa-lg"
+            [ngClass]="status === 'REJECTED' ? 'fa-times-circle text-light' : 'fa-times-circle-o text-danger'"
+            aria-hidden="true"></i>
     </button>
+    <p *ngIf="disabled">{{ rejectReason }}</p>
 </div>
+
+
+<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
+    [mdePopoverPositionX]="'after'">
+    <div *ngIf="canShow && status === 'REJECTED'" class="p-2 bg-light border border-dark rounded">
+        <input placeholder="Please enter reason" class="my-1" type="text" *ngIf="canShow && status === 'REJECTED'"
+            [value]="rejectReason" (input)="rejectReasonChange($event)" />
+    </div>
+</mde-popover>
+
+<small class="d-block text-danger" *ngIf="canShow && status === 'REJECTED' && !rejectReason">Reject reason is
+    required</small>
 <p *ngIf="canShow" class="m-0">
-    status: {{ value }}
+    status: {{ status }}
 </p>
