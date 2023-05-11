@@ -131,8 +131,8 @@
                         {{resData.populationType}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        <!-- (click)="viewHistory(template, formId, resData?.ulbId)" style="color: blue;" -->
-                      <a > {{resData.formStatus}} </a>  
+                        <!--  -->
+                      <a (click)="viewHistory(template, formId, resData?.ulbId)" class="bl-ln"> {{resData.formStatus}} </a>  
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>
@@ -222,9 +222,8 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- {{resData.formStatus}} -->
                         <!-- (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;" -->
-                        <a > {{resData.formStatus}} </a> 
+                        <a (click)="viewHistory(template, formId, resData['_id'])" class="bl-ln"> {{resData.formStatus}} </a> 
                     </td>
-
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
                         [routerLink]="formRouterLink">

@@ -417,7 +417,7 @@
             <div class="card">
                 <div class="card-body">
                   <div class="row" >
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 head-l">
                         Declaration Upload
                     </div>
                     <div class="col-sm-6">
@@ -427,20 +427,22 @@
                             <button (click)="bs_pdf1.click()" class="btn btn-primary" 
                             [disabled]="actBtnDis">Upload PDF</button>
                           </div>
-                         
+                          <div *ngIf="submitted && f?.declaration?.status == 'INVALID'" class="customDate text-danger">
+                            File is required*.
+                        </div>
                     </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="mt-3" *ngIf="true">
-                                <a href="#" target="_blank">
-                                    <!-- {{activeTab?.responseFile?.name}} -->
+                            <div class="mt-3" *ngIf="waterRejenuvation?.value?.declaration?.url">
+                                <a href="{{waterRejenuvation?.value?.declaration?.url}}" target="_blank">
+                                    {{waterRejenuvation?.value?.declaration.name}}
                                 </a>
-                                <!-- <span class="ms-3">
+                                <span class="ms-3">
                                     <span class="material-icons file-icon-cross"
                                         matTooltip="Remove the upload file"
-                                        (click)="removeUploadedFile( '', '' )">cancel</span>
-                                </span> -->
+                                        (click)="removeUploadedFile('', '' )">cancel</span>
+                                </span>
                                 </div> 
                                                                             
                         </div>
@@ -456,10 +458,10 @@
             </button>
                 </div>
                 <div class="col-sm-7 text-end">
-                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="onDraft()" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(true)" type="button" [disabled]="isDisabled">
                 Save as Draft
               </button>
-                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(false)" type="button" [disabled]="isDisabled">
                 Submit
               </button>
                     <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->

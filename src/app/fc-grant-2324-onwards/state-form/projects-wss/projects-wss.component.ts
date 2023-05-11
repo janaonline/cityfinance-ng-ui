@@ -225,7 +225,6 @@ tableRes = {
         ],
         "rows": [
           {
-
             "ulbType": {
               value: 4,
               type: "text",
@@ -336,34 +335,6 @@ tableRes = {
                 max: 10
               },
             },
-            // {
-            //     "ulbType": "1 Million - 4 Million",
-            //     "numberOfULBs": 42,
-            //     "ulbsWithData": 14,
-            //     "DataAvailPercentage": "33 %",
-            //     "urbanPopulationPercentage": "1 %"
-            // },
-            // {
-            //     "ulbType": "500 Thousand - 1 Million",
-            //     "numberOfULBs": 55,
-            //     "ulbsWithData": 21,
-            //     "DataAvailPercentage": "38 %",
-            //     "urbanPopulationPercentage": "1 %"
-            // },
-            // {
-            //     "ulbType": "100 Thousand - 500 Thousand",
-            //     "numberOfULBs": 392,
-            //     "ulbsWithData": 117,
-            //     "DataAvailPercentage": "30 %",
-            //     "urbanPopulationPercentage": "8 %"
-            // },
-            // {
-            //     "ulbType": "< 100 Thousand",
-            //     "numberOfULBs": 4380,
-            //     "ulbsWithData": 0,
-            //     "DataAvailPercentage": "0 %",
-            //     "urbanPopulationPercentage": "90 %"
-            // }
         ]
       }
       }
@@ -379,6 +350,128 @@ uasList;
 waterRejenuvation: FormGroup;
 data;
 showLoader=true;
+rows: [
+  {
+    key: 'sNo',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  }, 
+  {
+    key: 'projectName',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+  {
+    key: 'physicalComponents',
+    info: 'such as no. of tap connections, length of water pipeline to be laid, capacity of water treatment plan to be set up',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    width: '',
+  },
+  {
+    key: 'indicator',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+  {
+    key: 'existing',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+  {
+    key: 'after',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+  {
+    key: 'estimatedCost',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+  {
+    key: 'preparationofDPR',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '10%',
+  },
+  {
+    key: 'tenderingProcess',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '10%',
+  },
+  {
+    key: 'workCompletion',
+    formControlName: '',
+    inputType: '',
+    range: '',
+    class: '',
+    error: '',
+    disable: false,
+    requried: true,
+    info: '',
+    width: '',
+  },
+]
   ngOnInit(): void {
     this.stateId = this.userData?.state;
     if (!this.stateId) {

@@ -128,7 +128,7 @@ export class PreviewComponent implements OnInit {
   }
   downloadAsPdf() {
     this._questionnaireService.downloadPDF({ html: this.styleForPDF + this._html.nativeElement.outerHTML }).subscribe(res => {
-      this.propertyService.downloadFile(res.slice(0), "pdf", "fiscalRanking_2022-23.pdf");
+      this.propertyService.downloadFile(res.slice(0), "pdf", "property_tax.pdf");
     }, err => {
       this.onGettingError(' "Failed to download PDF. Please try after sometime."');
     }
