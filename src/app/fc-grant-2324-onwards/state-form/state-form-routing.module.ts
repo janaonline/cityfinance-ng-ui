@@ -9,6 +9,7 @@ import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-r
 import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
 import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
+import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,11 @@ const routes: Routes = [
         path: "grant-claims",
         component: SubmitClaimsGrantsComponent,
       },
+      {
+        path: "edit-ulb-profile",
+        component: EditUlbComponent,
+      },
+      
       
       
       
