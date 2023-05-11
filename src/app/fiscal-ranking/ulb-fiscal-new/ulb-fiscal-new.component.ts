@@ -98,11 +98,12 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
+    if (this.loggedInUserType == this.userTypes.ULB) return false;
     return true;
-    if (this.status == '' || this.status === 'APPROVED') return false;
-    if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
-    if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
-    return true;
+  }
+
+  get canTakeAction() {
+    return this.loggedInUserType == this.userTypes.MoHUA;
   }
 
   get isDisabled() {

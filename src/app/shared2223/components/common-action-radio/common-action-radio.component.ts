@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CommonActionRadioComponent implements ControlValueAccessor {
   @Output() onRejectReasonChange = new EventEmitter<any>();
-  @Input() readonly: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() rejectReason: string;
 
   private onChange: (value: any) => void;
@@ -40,7 +40,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   }
 
   updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
-    if(this.readonly) return;
+    if(this.disabled) return;
     this.status = value;
     this.onChange(value);
     this.onTouched();

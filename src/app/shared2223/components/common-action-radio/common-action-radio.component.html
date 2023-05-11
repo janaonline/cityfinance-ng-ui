@@ -1,15 +1,16 @@
-<div class="mt-2" *ngIf="canShow" [ngClass]="{'pe-none': readonly}">
-    <button class="btn mr-1" [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
+<div class="mt-2" *ngIf="canShow">
+    <button class="btn mr-1" [disabled]="disabled" [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
         (click)="updateStatus('APPROVED')">
-        <i class="fa fa-lg" [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o text-success'"
+        <i class="fa fa-lg"  [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o text-success'"
             aria-hidden="true"></i>
     </button>
-    <button class="btn" [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'"
+    <button class="btn" [disabled]="disabled" [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'"
         (click)="updateStatus('REJECTED')" [mdePopoverTriggerFor]="appPopover">
         <i class="fa fa-lg"
             [ngClass]="status === 'REJECTED' ? 'fa-times-circle text-light' : 'fa-times-circle-o text-danger'"
             aria-hidden="true"></i>
     </button>
+    <p *ngIf="disabled">{{ rejectReason }}</p>
 </div>
 
 
