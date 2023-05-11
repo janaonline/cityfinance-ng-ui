@@ -156,6 +156,7 @@ export class UlbFiscalNewComponent implements OnInit {
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
             status: item.status,
+            rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
           })
         }
@@ -321,6 +322,17 @@ export class UlbFiscalNewComponent implements OnInit {
 
   updateControl(control: FormControl, value) {
     control.patchValue(value);
+  }
+
+  rowReview(controls: FormGroup[], status: 'PENDING' | 'APPROVED' | 'REJECTED') {
+    controls.forEach(control => {
+      control.patchValue({
+        status,
+        ...(status == 'REJECTED' && {
+          rejectReason: ''
+        })
+      });
+    });
   }
 
   canShowFormSection() {

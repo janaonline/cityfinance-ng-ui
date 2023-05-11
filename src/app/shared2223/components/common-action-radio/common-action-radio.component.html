@@ -18,11 +18,11 @@
     <div *ngIf="canShow && status === 'REJECTED'" class="p-2 bg-light border border-dark rounded">
         <input placeholder="Please enter reason" class="my-1" type="text" *ngIf="canShow && status === 'REJECTED'"
             [value]="rejectReason" (input)="rejectReasonChange($event)" />
-        <small class="d-block text-danger" *ngIf="canShow && status === 'REJECTED' && !rejectReason">Reject reason is
-            required</small>
     </div>
 </mde-popover>
 
+<small class="d-block text-danger" *ngIf="canShow && status === 'REJECTED' && !rejectReason">Reject reason is
+    required</small>
 <p *ngIf="canShow" class="m-0">
     status: {{ status }}
 </p>
