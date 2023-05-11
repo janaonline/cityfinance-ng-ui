@@ -466,12 +466,18 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
+  getCurrentFormStatus(isDraft: boolean) {
+    if(this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
+    if(this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 :  9;
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
+      currentFormStatus: this.getCurrentFormStatus(isDraft),
       actions: this.fiscalForm.getRawValue()
     }
     this.loaderService.showLoader();
