@@ -16,6 +16,7 @@ export class CommonServicesService {
   setFormStatusUlb: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   ulbLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   stateLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setFormStatusState: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   formPostMethod(body: any, endPoints:string) {
     return this.http.post(
       `${environment.api.url}${endPoints}`,

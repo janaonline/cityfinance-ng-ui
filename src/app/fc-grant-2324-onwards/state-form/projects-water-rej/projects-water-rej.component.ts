@@ -816,11 +816,13 @@ errorOnload:boolean = false;
         .postWaterRejeData(postBody)
         .subscribe(
           (res: any) => {
+
             swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
            if(draft == false){
             this.waterRejenuvation.disable();
             this.isDisabled = true;
+            this.commonServices.setFormStatusState.next(true);
            }
           },
           (err) => {
@@ -1106,7 +1108,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
   setDisableForm(data){
     
     if((this.userData?.role == 'ADMIN') || (this.userData?.role == 'STATE' && (data.statusId == 4 || data.statusId == 6))) return true;
-    if(this.userData?.role == 'MoHUA' && data.statusId == 4) return true;
+    if(this.userData?.role == 'MoHUA' && data.statusId != 4) return true;
     return false;
   }
 }
