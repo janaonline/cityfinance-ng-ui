@@ -50,7 +50,7 @@
                                     </div>
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
                                         [rejectReason]="item?.value?.controls?.rejectReason?.value"
-                                        [disabled]="canTakeAction"
+                                        [disabled]="!canTakeAction"
                                         (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
                                     </app-common-action-radio>
                                 </div>
@@ -88,7 +88,7 @@
                                                     style="font-size: 18px;" *ngIf="item?.value?.controls?.info?.value"
                                                     [matTooltip]="item?.value?.controls?.info?.value">info</mat-icon>
                                             </p>
-                                            <div *ngIf="!canTakeAction">
+                                            <div *ngIf="canTakeAction">
                                                 <button class="btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
@@ -186,7 +186,7 @@
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                         formControlName="status"
-                                                        [disabled]="canTakeAction"
+                                                        [disabled]="!canTakeAction"
                                                         [rejectReason]="yearItem?.value?.rejectReason"
                                                         (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
                                                     </app-common-action-radio>
@@ -317,7 +317,7 @@
                                                                 </div>
                                                                 <app-common-action-radio class="mt-2"
                                                                     *ngIf="canSeeActions" formControlName="status"
-                                                                    [disabled]="canTakeAction"
+                                                                    [disabled]="!canTakeAction"
                                                                     [rejectReason]="yearItem?.value?.rejectReason"
                                                                     (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
                                                                 </app-common-action-radio>
@@ -361,7 +361,7 @@
                                             [formGroup]="otherUploadControl">
                                             <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                 formControlName="status"
-                                                [disabled]="canTakeAction"
+                                                [disabled]="!canTakeAction"
                                                 [rejectReason]="otherUploadControl?.value?.rejectReason"
                                                 (onRejectReasonChange)="updateControl(otherUploadControl?.controls?.rejectReason, $event)">
                                             </app-common-action-radio>
@@ -438,7 +438,7 @@
                                                     [formGroup]="tab?.controls?.data?.controls?.signedCopyOfFile">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                         formControlName="status"
-                                                        [disabled]="canTakeAction"
+                                                        [disabled]="!canTakeAction"
                                                         [rejectReason]="tab?.controls?.data?.controls?.signedCopyOfFile?.value?.rejectReason"
                                                         (onRejectReasonChange)="updateControl(tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason, $event)">
                                                     </app-common-action-radio>
