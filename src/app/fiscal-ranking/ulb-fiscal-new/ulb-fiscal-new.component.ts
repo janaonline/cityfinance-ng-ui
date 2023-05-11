@@ -98,6 +98,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
+    return true;
     if (this.status == '' || this.status === 'APPROVED') return false;
     if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
     if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
@@ -153,7 +154,7 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name,  item.required ? Validators.required : null],
+            name: [item.name, item.required ? Validators.required : null],
             status: item.status,
             url: [item.url, item.required ? Validators.required : null],
           })
@@ -190,7 +191,8 @@ export class UlbFiscalNewComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: item.status,
+      status: 'REJECTED',
+      rejectReason: ['rejectReason',],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       placeholder: [{ value: item.placeholder, disabled: true }],
@@ -236,7 +238,7 @@ export class UlbFiscalNewComponent implements OnInit {
         [nameControl, urlControl].forEach(fileControl => {
           fileControl?.setValidators(canShow ? [Validators.required] : [])
           fileControl?.updateValueAndValidity({ emitEvent: true });
-        }) 
+        })
       });
       control.updateValueAndValidity({ emitEvent: true });
     });
@@ -253,7 +255,7 @@ export class UlbFiscalNewComponent implements OnInit {
         child.valueChanges.subscribe(updated => {
           const yearWiseAmount = childControls.map((innerChild) => innerChild.value.yearData.map(year => year.value));
           const columnWiseSum = this.getColumnWiseSum(yearWiseAmount);
-          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col})) });
+          parentControl.patchValue({ yearData: columnWiseSum.map(col => ({ value: col })) });
           (parentControl.get('yearData') as any)?.controls.forEach(parentYearItemControl => {
             parentYearItemControl.markAllAsTouched();
             parentYearItemControl.markAsDirty();
@@ -284,12 +286,12 @@ export class UlbFiscalNewComponent implements OnInit {
   getColumnWiseSum(arr: number[][]): number[] {
     // console.log('aaaarrr', arr);
     return arr[0]?.map((_, colIndex) => {
-      let retNull:boolean = true;
+      let retNull: boolean = true;
       let sum = arr.reduce((acc, curr) => {
-        if(!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")){
+        if (!isNaN(Number(curr[colIndex])) && (curr[colIndex]?.toString()?.trim() != "")) {
           retNull = false;
         }
-        return acc + (curr[colIndex]*1 || 0);
+        return acc + (curr[colIndex] * 1 || 0);
       }, 0);
       return retNull ? null : sum;
     });
@@ -317,6 +319,10 @@ export class UlbFiscalNewComponent implements OnInit {
     this.submit();
   }
 
+  updateControl(control: FormControl, value) {
+    control.patchValue(value);
+  }
+
   canShowFormSection() {
     return true;
   }
@@ -328,10 +334,10 @@ export class UlbFiscalNewComponent implements OnInit {
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     const fileExtension = file.name.split('.').pop();
 
@@ -425,7 +431,7 @@ export class UlbFiscalNewComponent implements OnInit {
   navigationCheck() {
     this._router.events.subscribe((event: any) => {
       console.log(event?.url);
-      if(event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
+      if (event?.url == '/rankings/home') return this.fiscalForm.markAsPristine();
       if (event instanceof NavigationStart && !this.fiscalForm.pristine) {
         swal("Unsaved Changes", {
           buttons: {
@@ -460,7 +466,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-    }, ({error}) => {
+    }, ({ error }) => {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })

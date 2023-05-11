@@ -12,20 +12,23 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   }]
 })
 export class CommonActionRadioComponent implements ControlValueAccessor {
+  @Output() onRejectReasonChange = new EventEmitter<any>();
   @Input() readonly: boolean = false;
+  @Input() rejectReason: string;
+
   private onChange: (value: any) => void;
   private onTouched: () => void;
 
   constructor() { }
 
-  value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
+  status: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
 
   get canShow() {
-    return !!this.value;
+    return !!this.status;
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.status = value;
   }
 
   registerOnChange(fn: (value: any) => void): void {
@@ -38,9 +41,14 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
 
   updateValue(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if(this.readonly) return;
-    this.value = value;
+    this.status = value;
     this.onChange(value);
     this.onTouched();
+  }
+
+  rejectReasonChange({ target: { value }}) {
+    console.log(value);
+    this.onRejectReasonChange.emit(value);
   }
 
 }
