@@ -48,6 +48,7 @@ export class UlbFiscalNewComponent implements OnInit {
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
   cantakeAction: boolean = true;
+  currentFormStatus: number;
   formId: string;
   ulbId: string;
   isDraft: boolean;
@@ -127,6 +128,7 @@ export class UlbFiscalNewComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
+      this.currentFormStatus = res?.data?.currentFormStatus;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
