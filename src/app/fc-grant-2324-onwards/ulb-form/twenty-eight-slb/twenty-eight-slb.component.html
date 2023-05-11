@@ -4,7 +4,7 @@
 <div class="my-3" *ngIf="isLoaded">
     <app-web-form #webForm [viewFormTemplate]="'dur'" [questionresponse]="questionresponse"
         [isProjectLoaded]="isProjectLoaded" (submitQuestion)="onSubmit($event)" (onPreviewDUR)="onPreview()" 
-        [isButtonDisplay]="isButtonAvail" (nextPreBtn)="nextPreBtn($event)">
+        [isButtonDisplay]="isButtonAvail" (nextPreBtn)="nextPreBtn($event)" [slbFormURL]="slbFormURL">
     </app-web-form>
     <div class="">
         <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"

@@ -6,12 +6,16 @@ import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.com
 import { StateFormComponent } from './state-form.component';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
+import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.component';
+import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
+import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
+import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 
 const routes: Routes = [
   {
     path: "",
     component: StateFormComponent,
-    canActivate: [State2223Guard],
+   canActivate: [State2223Guard],
     children: [
       {
         path: "dashboard",
@@ -29,6 +33,25 @@ const routes: Routes = [
         path: "water-rejenuvation-new",
         component: ProjectsWssComponent,
       },
+      {
+        path: "action-plan",
+        component: ActionPlanSliComponent,
+      },
+      {
+        path: "fc-formation",
+        component: StateFinanceCnComponent,
+      },
+      {
+        path: "grant-claims",
+        component: SubmitClaimsGrantsComponent,
+      },
+      {
+        path: "edit-ulb-profile",
+        component: EditUlbComponent,
+      },
+      
+      
+      
       
     ],
   },

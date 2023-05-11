@@ -9,7 +9,6 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { UserUtility } from "src/app/util/user/user";
 import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
-import { I } from "@angular/cdk/keycodes";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",
@@ -1037,6 +1036,24 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   backRouter;
   overAllFormDis = true;
   isApiInProgress = true;
+  action = "";
+  url = "";
+  canTakeAction = false;
+  formData;
+  finalSubmitInit = false;
+  actionBtnDis = false;
+  actionValidation = true;
+  isAudActionVal = true;
+  isUnAudActionVal = true;
+  tab1dis = false;
+  tab2dis = false;
+  formSubs = null;
+  stateReview = false;
+  mohuaReview = false;
+  state_status_aud = '';
+  mohua_status_aud = '';
+  state_status_unAud = '';
+  mohua_status_unAud = '';
   ngOnInit(): void {
     sessionStorage.setItem("changeInAnnualAcc", "false");
     this.setRouter();
@@ -1107,18 +1124,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this._router.navigate([this.routerNavigate.url]);
       return;
     }
-    // if (this.routerNavigate && !this.clickedBack) {
-    //  await this.saveStateActionData();
-    //   sessionStorage.setItem("changeInAnnual", "false");
-    //   this._router.navigate([this.routerNavigate.url]);
-    //   return;
-    // }
-    // if (this.clickedBack && this.actionTaken) {
-    //   await this.saveStateActionData();
-    //   sessionStorage.setItem("changeInAnnual", "false");
-    //   this._router.navigate(['/ulbform/utilisation-report']);
-    //   return;
-    // }
     await this.formSave("draft");
     return this._router.navigate(["ulbform2223/slbs"]);
   }
@@ -1133,10 +1138,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
   alertClose() {
     this.stay();
   }
-  action = "";
-  url = "";
-  canTakeAction = false;
-  formData;
+  
   onLoad() {
     this.isApiInProgress = true;
     this.newCommonService
@@ -1235,42 +1237,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       this.tab1dis = true;
       this.tab2dis = true;
     }
-    // if(isDraft && actionTakenByRole == "ULB"){
-    //   if(loggedInUser == "ULB"){
-    //     return false;
-    //   }else{
-    //     return true;
-    //   }
-    // } else if(!isDraft && actionTakenByRole == "ULB"){
-    //   if(loggedInUser == "STATE"){
-    //     return false;
-    //   }else{
-    //     return true;
-    //   }
-    // } else if(!isDraft && actionTakenByRole == "STATE" && status == "APPROVED"){
-    //   if(loggedInUser == "MoHUA"){
-    //     return false;
-    //   }else{
-    //     return true;
-    //   }
-    // }  else if(!isDraft && actionTakenByRole == "STATE" && status == "REJECTED"){
-    //   if(loggedInUser == "ULB"){
-    //     return false;
-    //   }else{
-    //     return true;
-    //   }
-    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "APPROVED"){
-    //  return true;
-    // }   else if(!isDraft && actionTakenByRole == "MoHUA" && status == "REJECTED"){
-    //   if(loggedInUser == "ULB"){
-    //     return false;
-    //   }else{
-    //     return true;
-    //   }
-    // } else{
-    //   return true;
-    // }
-
+ 
   }
   auditedActionResponse = {
     status: null,
@@ -2090,7 +2057,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  finalSubmitInit = false;
+
   postApiForSubmit() {
 
     if (this.data.audited.status != 'APPROVED') {
@@ -2173,6 +2140,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     unAudited: null
 
   };
+  
   actionBtnClick(actType, fileType, item, quesIndex, value) {
     console.log('action parts', actType, fileType, item, quesIndex, value);
     let actRes = '';
@@ -2329,10 +2297,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     console.log('this. data for action', this.data);
 
   }
-  actionBtnDis = false;
-  actionValidation = true;
-  isAudActionVal = true;
-  isUnAudActionVal = true;
+
   checkAudActValidation() {
     let rejectRes = '';
     if (this.userData?.role == 'STATE') {
@@ -2458,22 +2423,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     console.log('audited', this.auditQues);
     console.log('unAuditQues', this.unAuditQues);
 
-    // this.unAuditQues.forEach((el) => {
-    //   if (el?.actError == true) {
-    //     this.actionValidation = false;
-    //     return;
-    //   } else {
-    //     this.actionValidation = true;
-    //   }
-    // })
-    // this.auditQues.forEach((el) => {
-    //   if (el?.actError == true) {
-    //     this.actionValidation = false;
-    //     return;
-    //   } else {
-    //     this.actionValidation = true;
-    //   }
-    // })
+
 
   }
   saveAction() {
@@ -2590,8 +2540,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     this.setDisableField();
 
   }
-  tab1dis = false;
-  tab2dis = false;
+
   setDisableField() {
     //audit disable
     console.log('data action.....', this.data);
@@ -2649,7 +2598,6 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     console.log('unA rejected case', this.unAuditQues);
   }
 
-  formSubs = null;
   setFormIdRouter() {
     this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -2668,12 +2616,7 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
     }
     console.log('data...', this.data);
   }
-  stateReview = false;
-  mohuaReview = false;
-  state_status_aud = '';
-  mohua_status_aud = '';
-  state_status_unAud = '';
-  mohua_status_unAud = '';
+ 
   setTabWiseStatusInputs(type) {
     //audited status set........
     if (type == 'auditQues') {
@@ -2854,58 +2797,5 @@ export class AnnualAccountsComponent implements OnInit, OnDestroy {
 
     }
   }
-  // setActionStatus(): void {
-  //   if (this.canTakeAction == true && this.formData?.actionTakenByRole == "ULB") {
-  //     this.stateReview = true;
-  //   }
-  //   //audited status set........
-  //   //unAudited status set.......
-  //   if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == false) {
-  //     if (
-  //       this.formData?.status == "APPROVED" &&
-  //       this.formData?.actionTakenByRole == "STATE"
-  //     ) {
-  //       this.finalStatus = "Under Review by MoHUA";
-  //       this.state_status_aud = 'APPROVED';
-  //       this.state_status_unAud = 'APPROVED';
-
-  //     } else if (
-  //       this.formData?.status == "REJECTED" &&
-  //       this.formData?.actionTakenByRole == "STATE"
-  //     ) {
-  //       this.finalStatus = "Returned by State";
-  //       this.state_status_aud = this.formData?.audited?.status;
-  //       this.state_status_unAud = this.formData?.unAudited?.status;
-  //     } else if (
-  //       this.formData?.status == "APPROVED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Approved by MoHUA";
-  //       this.mohuaReview = true;
-  //       this.state_status_aud = 'APPROVED';
-  //       this.state_status_unAud = 'APPROVED';
-  //       this.mohua_status_aud = 'APPROVED';
-  //       this.mohua_status_unAud = 'APPROVED';
-
-  //     }
-  //     else if (
-  //       this.formData?.status == "REJECTED" &&
-  //       this.formData?.actionTakenByRole == "MoHUA"
-  //     ) {
-  //       this.finalStatus = "Returned by MoHUA";
-  //       this.mohuaReview = true;
-  //       this.state_status_aud = 'APPROVED';
-  //       this.state_status_unAud = 'APPROVED';
-  //       this.mohua_status_aud = this.formData?.audited?.status;
-  //       this.mohua_status_unAud = this.formData?.unAudited?.status;
-  //     }
-  //   } else if (this.formData?.audited?.submit_annual_accounts == false && this.formData?.unAudited?.submit_annual_accounts == true) {
-
-  //   } else if (this.formData?.unAudited?.submit_annual_accounts == false && this.formData?.audited?.submit_annual_accounts == true) {
-
-  //   } else if (this.formData?.unAudited?.submit_annual_accounts == true && this.formData?.audited?.submit_annual_accounts == true) {
-
-  //   }
-
-  // }
+ 
 }

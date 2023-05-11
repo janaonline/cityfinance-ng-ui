@@ -13,7 +13,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
-import { log } from 'console';
+
 
 
 @Component({
@@ -60,10 +60,11 @@ export class ActionPlanComponent implements OnInit {
   isApiInProgress = true;
   sideMenuItem;
   finalActionData;
+  designYear = '';
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
-    private dialog: MatDialog,
+   // private dialog: MatDialog,
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
     public stateService: State2223Service,
@@ -76,7 +77,7 @@ export class ActionPlanComponent implements OnInit {
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
     }
-
+    this.designYear = this.Year['2022-23'];
   }
 
 
@@ -124,7 +125,7 @@ export class ActionPlanComponent implements OnInit {
 
   load() {
     console.log('state id', this.stateId);
-    let year = this.Year["2022-23"];
+    let year = this.designYear;
     this.isApiInProgress = true;
     this.stateService.getFormDataAction(this.stateId, year).subscribe(
       (res: any) => {
@@ -140,7 +141,7 @@ export class ActionPlanComponent implements OnInit {
         }
         this.data = {
           state: res["data"]?.state,
-          design_year: this.Year["2022-23"],
+          design_year: this.designYear,
           uaData: res["data"]?.uaData,
           status: res["data"]?.status ?? "PENDING",
           isDraft: res["data"]?.isDraft,
@@ -220,7 +221,7 @@ export class ActionPlanComponent implements OnInit {
   onFail() {
     this.data = {
       state: this.stateId,
-      design_year: this.Year["2022-23"],
+      design_year: this.designYear,
       uaData: [],
       status: null,
       isDraft: null,

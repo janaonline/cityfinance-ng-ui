@@ -151,11 +151,12 @@ this.castSubs?.unsubscribe();
     if (searchFilter.length) {
       this.crossIcon = true;
       this.search = false;
+      this.router.navigate(["/resources-dashboard/learning-center/toolkits"], {
+        queryParams: { search: searchFilter },
+      });
     }
-
-    this.router.navigate(["/resources-dashboard/learning-center/toolkits"], {
-      queryParams: { search: searchFilter },
-    });
+    console.log('searchFilter', searchFilter);
+   
   }
   crossButton() {
     this.searchValue = "";

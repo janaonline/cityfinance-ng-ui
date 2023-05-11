@@ -43,6 +43,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isFormFinalSubmit : boolean = false;
   canTakeAction:boolean = false;
   leftMenuSubs:any;
+  statusShow:string = '';
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
@@ -85,6 +86,7 @@ export class DurComponent implements OnInit, OnDestroy {
       setInterval(() => this.isLoaded = true);
       this.questionresponse = res;
       this.canTakeAction =  res?.data[0]?.canTakeAction;
+      this.statusShow = res?.data[0]?.status;
       // this.getActionRes();
       this.formDisable(res?.data[0]);
       if(loadProjects) {
@@ -189,7 +191,7 @@ export class DurComponent implements OnInit, OnDestroy {
     // console.log({ tiedGrant, child: tiedGrant.childQuestionData, grantPosition, waterManagement, categoryWiseData_wm });
 
     let previewData = {
-      status: "",
+      status: this.statusShow,
       isDraft: true,
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
@@ -356,27 +358,10 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   formDisable(res){
     if(!res) return;
-    if(this.userData?.role != 'ULB'){
-     // this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
-     // this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
-    //  this.isFormDisable = false;
-      this.isButtonAvail = true;
-      return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
-     // this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }
-    else {
-     // this.isFormDisable = false;
-      this.isButtonAvail = true;
-    }
+  //  let resR = { ...res, statusId: 6} for testing only
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    console.log(this.isButtonAvail, 'this.isButtonAvail');
+    
  }
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();

@@ -205,15 +205,6 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       ],
       "responses": [
        this.statusForm.value
-    //       {
-    //       "shortKey": "form_level",
-    //       "status": 4,
-    //       "rejectReason": 'ABCD',
-    //       "responseFile": {
-    //           "url":"a",
-    //           "name": "google.in"
-    //       }
-    //  }
       ],
       "multi": true,
       "shortKeys": [
@@ -228,7 +219,28 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       swal('Error', "Reject reason is mandatory", "error");
       return
     }
-    
+    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+      buttons: {
+        Submit: {
+          text: "Submit",
+          value: "submit",
+        },
+        Cancel: {
+          text: "Cancel",
+          value: "cancel",
+        },
+      },
+    }).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalSubmitAction();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+  }
+  finalSubmitAction(){
     this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res:any)=>{
       console.log('ressssss action', res);
       this.actBtnDis = true;
@@ -244,9 +256,6 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     }
     )
   }
-  // nextPreBtn(e){
-
-  // }
 
   getActionRes(){
     this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{

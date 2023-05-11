@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,7 +15,8 @@ export class CommonServicesService {
   ) { }
   setFormStatusUlb: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   ulbLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
-  
+  stateLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setFormStatusState: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   formPostMethod(body: any, endPoints:string) {
     return this.http.post(
       `${environment.api.url}${endPoints}`,
@@ -34,4 +36,46 @@ export class CommonServicesService {
        }
     );
   }
+  minMaxValidation(e, input, minV, maxV) {
+    const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
+    if (functionalKeys.indexOf(e.key) !== -1) {
+      return;
+    }
+
+    const keyValue = +e.key;
+    if (isNaN(keyValue)) {
+      e.preventDefault();
+      return;
+    }
+
+    const hasSelection =
+      input?.selectionStart !== input?.selectionEnd &&
+      input?.selectionStart !== null;
+    let newValue;
+    if (hasSelection) {
+      newValue = this.replaceSelection(input, e.key);
+    } else {
+      newValue = input?.value + keyValue?.toString();
+    }
+
+    if (
+      +newValue > maxV ||
+      newValue.length > maxV?.length ||
+      +newValue < minV ||
+      e.key == " "
+    ) {
+      e.preventDefault();
+    }
+  }
+
+  private replaceSelection(input, key) {
+    const inputValue = input?.value;
+    const start = input?.selectionStart;
+    const end = input?.selectionEnd || input?.selectionStart;
+    return inputValue.substring(0, start) + key + inputValue.substring(end + 1);
+  }
+  formDisable(res, userData){
+    if(userData?.role != USER_TYPE.ULB) return false;
+    return [1, 2, 5, 7].includes(res?.statusId);
+ }
 }

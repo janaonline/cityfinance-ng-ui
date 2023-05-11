@@ -80,11 +80,11 @@
                     <th class="filter">
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()" *ngIf="designYear == '606aafb14dff55e6c075d3ae'">
                             <option selected value="">Status</option>
-                            <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                            <option *ngFor="let item of statusList" [value]="item" [selected]="item == params.status">{{item}}</option>
                         </select>
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()" *ngIf="designYear != '606aafb14dff55e6c075d3ae'">
-                            <option selected value="">Status</option>
-                            <option *ngFor="let item of statusList" [value]="item?.statusId">{{item?.status}}</option>
+                            <option value="">Status</option>
+                            <option *ngFor="let item of statusList" [value]="item?.statusId" [selected]="item?.statusId == params?.status">{{item?.status}}</option>
                         </select>
                     </th>
                     <th class="filter">
@@ -131,7 +131,8 @@
                         {{resData.populationType}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                      <a (click)="viewHistory(template, formId, resData?.ulbId)" style="color: blue;"> {{resData.formStatus}} </a>  
+                        <!--  -->
+                      <a (click)="viewHistory(template, formId, resData?.ulbId)" class="bl-ln"> {{resData.formStatus}} </a>  
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>
@@ -220,9 +221,9 @@
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- {{resData.formStatus}} -->
-                        <a (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;"> {{resData.formStatus}} </a> 
+                        <!-- (click)="viewHistory(template, formId, resData['_id'])" style="color: blue;" -->
+                        <a (click)="viewHistory(template, formId, resData['_id'])" class="bl-ln"> {{resData.formStatus}} </a> 
                     </td>
-
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
                         [routerLink]="formRouterLink">

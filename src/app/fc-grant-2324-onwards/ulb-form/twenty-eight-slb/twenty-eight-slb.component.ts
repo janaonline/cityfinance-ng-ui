@@ -40,7 +40,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   userData = JSON.parse(localStorage.getItem("userData"));
 
   questionresponse;
-
+  slbFormURL:string = ''
   constructor(
     private dialog: MatDialog,
     private twentyEightSlbService: TwentyEightSlbService,
@@ -65,6 +65,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       }
     });
     this.loadData();
+    this.slbFormURL = `/ulbform/overview/${this.ulbId}`;
+    sessionStorage.setItem("ulb_id", this.ulbId);
   }
 
   get design_year() {
