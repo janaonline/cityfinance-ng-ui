@@ -13,7 +13,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-fiscal-login',
@@ -99,6 +100,7 @@ export class FiscalLoginComponent implements OnInit {
       this.router.navigate(["/rankings/home"]);
       return;
     }
+    this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -396,6 +398,11 @@ export class FiscalLoginComponent implements OnInit {
     item.selected = true;
     this.onSelectingUserType(item);
     this.loginError = null;
+  }
+  alertForload(){
+    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in 
+   
+    THE DEADLINE FOR SUBMISSION OF FORM IS 31st MAY 2023.`, 'warning')
   }
 }
 

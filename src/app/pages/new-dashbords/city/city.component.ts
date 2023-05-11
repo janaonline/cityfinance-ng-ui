@@ -44,7 +44,7 @@ export class CityComponent implements OnInit {
   yearListForDropDown;
 
   cords: any;
-
+  ulbDenotifiedMessage:string = '';
   @HostListener("window:scroll", ["$event"])
   doSomething(event) {
     this.cords = window.pageYOffset;
@@ -124,6 +124,7 @@ export class CityComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.isUA = res["data"]["isUA"];
+          this.ulbDenotifiedMessage = res?.message;
          this.dashboardDataCall();
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
