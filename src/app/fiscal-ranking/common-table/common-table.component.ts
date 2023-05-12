@@ -8,9 +8,20 @@ export interface TableResponse {
   name: string;
   getEndpoint?: string;
   postEndpoint?: string;
-  data?: any[] | null;
+  data?: TableDataEntity[] | null;
   total?: number;
-  columns?: any[] | null;
+  columns?: TableColumnsEntity[] | null;
+}
+
+export interface TableDataEntity {
+  [key: string]: number | string;
+}
+
+export interface TableColumnsEntity {
+  label: string;
+  key: string;
+  sort?: 0 | 1 | -1;
+  query?: string;
 }
 
 @Component({
