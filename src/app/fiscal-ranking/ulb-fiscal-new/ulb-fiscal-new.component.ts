@@ -102,11 +102,13 @@ export class UlbFiscalNewComponent implements OnInit {
 
   get canSeeActions() {
     if (this.loggedInUserType == this.userTypes.ULB) return false;
-    return true;
+    if (this.loggedInUserType == this.userTypes.STATE) return true;
+    if(this.loggedInUserType == this.userTypes.MoHUA) return true;
+    return false;
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA;
+    return this.loggedInUserType == this.userTypes.MoHUA && [4].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
@@ -187,8 +189,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   isHeading(displayPriority): boolean {
-    if(['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
-    if(['24','25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
+    if (['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
+    if (['24', '25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
     return Number.isInteger(+displayPriority);
   }
 
@@ -205,8 +207,8 @@ export class UlbFiscalNewComponent implements OnInit {
       isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
-      min: [{ value: new Date(item?.min), disabled: true}],
-      max: [{ value: new Date(item?.max), disabled: true}],
+      min: [{ value: new Date(item?.min), disabled: true }],
+      max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item?.status,
@@ -251,7 +253,7 @@ export class UlbFiscalNewComponent implements OnInit {
       control.valueChanges.subscribe(({ value }) => {
         const canShow = value == 'Yes';
         s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const selectorString  = `data.${updatedable}.yearData.0`;
+        const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
         ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
@@ -507,8 +509,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if(this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
-    if(this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 :  9;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
+    if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 9;
   }
 
   submit(isDraft = true) {
