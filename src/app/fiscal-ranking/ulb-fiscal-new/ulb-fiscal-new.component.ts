@@ -47,7 +47,6 @@ export class UlbFiscalNewComponent implements OnInit {
   twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
-  cantakeAction: boolean = true;
   currentFormStatus: number;
   formId: string;
   ulbId: string;
@@ -80,9 +79,6 @@ export class UlbFiscalNewComponent implements OnInit {
     }
     else if (this.loggedInUserType != 'ULB') {
       this.ulbId = this.activatedRoute.snapshot.params.ulbId;
-      if (this.activatedRoute.snapshot.queryParams.cantakeAction) {
-        this.cantakeAction = true;
-      }
       if (!this.ulbId) {
         this._router.navigateByUrl('rankings/home')
       }
@@ -101,9 +97,9 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.ULB) return false;
-    if (this.loggedInUserType == this.userTypes.STATE) return true;
-    if(this.loggedInUserType == this.userTypes.MoHUA) return true;
+    if (this.loggedInUserType == this.userTypes.ULB) return  ![1].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.STATE) return ![1].includes(this.currentFormStatus);
+    if(this.loggedInUserType == this.userTypes.MoHUA) return ![1].includes(this.currentFormStatus);
     return false;
   }
 
