@@ -48,6 +48,7 @@ export class UlbFiscalNewComponent implements OnInit {
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
   cantakeAction: boolean = true;
+  currentFormStatus: number;
   formId: string;
   ulbId: string;
   stateCode: string;
@@ -100,10 +101,12 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.status == '' || this.status === 'APPROVED') return false;
-    if (this.loggedInUserType == this.userTypes.ULB && this.status === 'PENDING') return false;
-    if (this.loggedInUserType == this.userTypes.STATE && this.status === 'PENDING') return false;
+    if (this.loggedInUserType == this.userTypes.ULB) return false;
     return true;
+  }
+
+  get canTakeAction() {
+    return this.loggedInUserType == this.userTypes.MoHUA;
   }
 
   get isDisabled() {
@@ -127,6 +130,7 @@ export class UlbFiscalNewComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
+      this.currentFormStatus = res?.data?.currentFormStatus;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
 
@@ -144,11 +148,11 @@ export class UlbFiscalNewComponent implements OnInit {
     const { data, feedback, ...rest } = tab;
     return this.fb.group({
       ...rest,
-      feedback: this.fb.group({
-        comment: [feedback.comment,],
-        status: feedback.status,
-        _id: feedback._id,
-      }),
+      // feedback: this.fb.group({
+      //   comment: [feedback.comment,],
+      //   status: feedback.status,
+      //   _id: feedback._id,
+      // }),
       data: this.fb.group(Object.entries(data).reduce((obj, [key, item]: any) => {
         if (this.linearTabs.includes(tab.id)) {
           obj[key] = this.getInnerFormGroup({ ...item, key })
@@ -158,6 +162,7 @@ export class UlbFiscalNewComponent implements OnInit {
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
             status: item.status,
+            rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
           })
         }
@@ -204,7 +209,8 @@ export class UlbFiscalNewComponent implements OnInit {
       max: [{ value: new Date(item?.max), disabled: true}],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: item.status,
+      status: item?.status,
+      rejectReason: item?.rejectReason,
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       info: [{ value: item.info, disabled: true }],
@@ -350,6 +356,21 @@ export class UlbFiscalNewComponent implements OnInit {
     this.submit();
   }
 
+  updateControl(control: FormControl, value) {
+    control.patchValue(value);
+  }
+
+  rowReview(controls: FormGroup[], status: 'PENDING' | 'APPROVED' | 'REJECTED') {
+    controls.forEach(control => {
+      control.patchValue({
+        status,
+        ...(status == 'REJECTED' && {
+          rejectReason: ''
+        })
+      });
+    });
+  }
+
   canShowFormSection() {
     return true;
   }
@@ -431,7 +452,8 @@ export class UlbFiscalNewComponent implements OnInit {
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
-      `Are you sure you want to submit this form? Once submitted,
+      this.loggedInUserType == this.userTypes.MoHUA ? 'Are you sure you want to submit this form?' :
+        `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
       "warning",
@@ -484,12 +506,18 @@ export class UlbFiscalNewComponent implements OnInit {
     });
   }
 
+  getCurrentFormStatus(isDraft: boolean) {
+    if(this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
+    if(this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 :  9;
+  }
+
   submit(isDraft = true) {
     const payload = {
       ulbId: this.ulbId,
       formId: this.formId,
       design_year: this.design_year,
       isDraft: isDraft,
+      currentFormStatus: this.getCurrentFormStatus(isDraft),
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
