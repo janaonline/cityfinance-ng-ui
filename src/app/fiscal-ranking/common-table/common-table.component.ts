@@ -36,7 +36,7 @@ export class CommonTableComponent implements OnInit {
   @Input() page: number = 0;
   @Input() limit: number = 10;
 
-  @Output() update: EventEmitter<TableResponse> = new EventEmitter<TableResponse>();
+  @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
   constructor() { }
@@ -62,13 +62,17 @@ export class CommonTableComponent implements OnInit {
   updateSorting(column) {
     column.sort++;
     if (column.sort > 1) { column.sort = -1; }
-    this.update.emit(this.response);
+    this.loadData();
   }
 
   pageChange({ pageIndex, pageSize }) {
     this.page = pageIndex;
     this.limit = pageSize;
-    this.update.emit(this.response);
+    this.loadData();
+  }
+
+  loadData() {
+    this.update.emit({queryParams: this.queryParams, response: this.response});
   }
 
   // loadData() {

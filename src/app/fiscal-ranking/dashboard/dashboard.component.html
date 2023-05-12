@@ -1,4 +1,4 @@
 <div class="container mt-2">
     <p>...map sections</p>
-    <app-common-table [response]="tableResponse" *ngFor="let tableResponse of tableResponses"></app-common-table>
+    <app-common-table *ngFor="let table of tables" [response]="table?.response" (update)="onUpdate(table, $event)"></app-common-table>
 </div>

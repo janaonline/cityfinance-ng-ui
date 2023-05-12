@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TableResponse } from '../common-table/common-table.component';
+import { FiscalRankingService } from '../fiscal-ranking.service';
+
+interface Table {
+  endpoint: string;
+  response: TableResponse
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -8,85 +14,44 @@ import { TableResponse } from '../common-table/common-table.component';
 })
 export class DashboardComponent implements OnInit {
 
-  tableResponses: TableResponse[] = [
+  tables: Table[] = [
     {
-      name: 'Overview of ULB activities',
-      getEndpoint: '',
-      postEndpoint: '',
-      columns: [
-        {
-          key: 'hello',
-          label: "Hello",
-          sort: 1,
-          query: ''
-        },
-        {
-          key: 'world',
-          label: "world",
-          sort: 1
-        },
-        {
-          key: 'third',
-          label: "third",
-          sort: 1,
-          query: ''
-        }
-      ],
-      data: [
-        {
-          'hello': 'hello',
-          'world': 'word'
-        },
-        {
-          'hello': 'hello',
-          'world': 'word'
-        },
-        {
-          'hello': 'hello',
-          'world': 'word'
-        },
-        {
-          'hello': 'hello',
-          'world': 'word'
-        },
-        {
-          'third': 'wow third'
-        }
-      ],
-      total: 1000
+      endpoint: '/UA/get-projects',
+      response: null,
     },
     {
-      name: 'Overview of ULB activities',
-      getEndpoint: '',
-      postEndpoint: '',
-      columns: [
-        {
-          label: 'Label 1',
-          key: 'key1'
-        },
-        {
-          label: 'Label 2',
-          key: 'key2'
-        },
-        {
-          label: 'Label 3',
-          key: 'key3'
-        },
-      ],
-      data: []
+      endpoint: '/UA/get-projects',
+      response: null,
     },
     {
-      name: 'Overview of population-wise data',
-      getEndpoint: '',
-      postEndpoint: '',
-      columns: [],
-      data: []
-    }
+      endpoint: '/UA/get-projects',
+      response: null,
+    },
   ]
 
-  constructor() { }
+  constructor(
+    private fiscalRankingService: FiscalRankingService
+  ) { }
 
   ngOnInit(): void {
+
+    this.tables.forEach(table => {
+      this.loadTableData(table);
+      console.log(this.tables);
+    })
+  }
+
+  onUpdate(table, event) {
+    console.log({
+      table, event
+    })
+    this.loadTableData(table)
+  }
+
+  loadTableData(table: Table) {
+    this.fiscalRankingService.getTableResponse(table.endpoint, '', table?.response?.columns).subscribe(res => {
+      table.response = res;
+    })
   }
 
 }
