@@ -97,14 +97,12 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.ULB) return  ![1].includes(this.currentFormStatus);
-    if (this.loggedInUserType == this.userTypes.STATE) return ![1].includes(this.currentFormStatus);
-    if(this.loggedInUserType == this.userTypes.MoHUA) return ![1].includes(this.currentFormStatus);
-    return false;
+    if(this.userData.role == this.userTypes.MoHUA && this.currentFormStatus == 8) return true;
+    return [2, 9, 10, 11].includes(this.currentFormStatus);
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA && [4].includes(this.currentFormStatus);
+    return this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
@@ -208,7 +206,7 @@ export class UlbFiscalNewComponent implements OnInit {
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: item?.status,
-      rejectReason: item?.rejectReason,
+      rejectReason: [item?.rejectReason],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       info: [{ value: item.info, disabled: true }],
@@ -505,8 +503,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
-    if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 9;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 8;
+    if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
   submit(isDraft = true) {
