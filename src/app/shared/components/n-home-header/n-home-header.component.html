@@ -75,7 +75,7 @@
                     <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
-                    <li class="nav-item" *ngIf="isLoggedIn && (user?.role == 'ULB' || user?.role == 'MoHUA')">
+                    <li class="nav-item" *ngIf="isLoggedIn">
                         <a class="nav-link" routerLinkActive="active" [routerLink]=" user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">Rankings</a>
                     </li>
                     <li class="nav-item">
