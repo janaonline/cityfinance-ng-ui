@@ -97,7 +97,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if(this.userData.role == this.userTypes.MoHUA && this.currentFormStatus == 8) return true;
+    if (this.userData.role == this.userTypes.MoHUA && this.currentFormStatus == 8) return true;
     return [2, 9, 10, 11].includes(this.currentFormStatus);
   }
 
@@ -505,6 +505,10 @@ export class UlbFiscalNewComponent implements OnInit {
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 8;
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
+  }
+
+  yearDataLength(items: any[]) { 
+    return items?.filter(item => item.key)?.length;
   }
 
   submit(isDraft = true) {

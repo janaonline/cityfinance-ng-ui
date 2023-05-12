@@ -24,8 +24,8 @@
     <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
         [mdePopoverPositionX]="'after'">
         <div *ngIf="status === 'REJECTED'" class="p-2 bg-light border border-dark rounded">
-            <input placeholder="Please enter reason" class="my-1" type="text" *ngIf="status === 'REJECTED'"
-                [value]="rejectReason" (input)="rejectReasonChange($event)" />
+            <textarea cols="30" rows="6" placeholder="Please enter reason" class="my-1" type="text" *ngIf="status === 'REJECTED'"
+                [value]="rejectReason" (input)="rejectReasonChange($event)" ></textarea>
         </div>
     </mde-popover>
 

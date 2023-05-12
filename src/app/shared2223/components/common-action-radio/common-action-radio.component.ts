@@ -48,7 +48,6 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   }
 
   rejectReasonChange({ target: { value }}) {
-    console.log(value);
     this.onRejectReasonChange.emit(value);
   }
 
