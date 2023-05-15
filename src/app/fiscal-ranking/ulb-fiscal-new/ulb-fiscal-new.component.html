@@ -500,13 +500,13 @@
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
                                 <button class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
-                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
+                                    [disabled]="isDisabled"
                                     (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn com-style"
                                     [ngClass]="tab?.value?.id == selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
-                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
+                                    [disabled]="isDisabled"
                                     (click)="stepperContinueSave(tab)">Save & Continue Later</button>
                             </div>
                         </div>
