@@ -162,7 +162,8 @@ export class UlbFiscalNewComponent implements OnInit {
             status: item.status,
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
-          })
+          });
+          this.attactRequiredReasonToggler(obj[key]);
         }
         else {
           obj[key] = this.fb.group({
@@ -191,7 +192,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getInnerFormGroup(item, parent?) {
-    return this.fb.group({
+     const innerFormGroup = this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
       originalValue: item.value,
@@ -225,6 +226,18 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
+    this.attactRequiredReasonToggler(innerFormGroup);
+    return innerFormGroup;
+  }
+  
+  attactRequiredReasonToggler(innerFormGroup: FormGroup) {
+    const statusControl = innerFormGroup.get('status');
+    statusControl?.valueChanges.subscribe(status => {
+      const rejectReasonControl = innerFormGroup.get('rejectReason');
+      rejectReasonControl?.setValidators(status == 'REJECTED' ? Validators.required : []);
+      rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
+    });
+    statusControl?.updateValueAndValidity({ emitEvent: true });
   }
 
   getValidators(item, canApplyRequired = false, parent?) {
@@ -435,6 +448,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   validateErrors() {
     this.form.markAllAsTouched();
+    console.log(this.form);
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
