@@ -70,7 +70,16 @@ export class AnnualAccountComponent implements OnInit {
   actionPayLoad = [];
   canTakeAction: boolean = false;
   reviewShortKeyArray = [];
-  actionResFile = {};
+  actionResFile = {
+    tab_audited:{
+      responseFile: {url: '', name :''},
+      responseFile_mohua: {url: '', name :''}
+    },
+    tab_unAudited:{
+      responseFile: {url: '', name :''},
+      responseFile_mohua: {url: '', name :''}
+    }
+  };
   ngOnInit(): void {
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe(
       (res) => {
@@ -167,7 +176,7 @@ export class AnnualAccountComponent implements OnInit {
           this.webForm.hasUnsavedChanges = false;
           this.commonServices.setFormStatusUlb.next(true);
           this.isApiComplete = false;
-          this.actionResFile = {};
+          this.resetActionFile();
           this.onload();
           swal(
             "Saved",
@@ -221,19 +230,21 @@ export class AnnualAccountComponent implements OnInit {
           this.isApiComplete = true;
           if(res?.data["STATE"]){
             for (let el of res.data["STATE"]) {
-              if (
-                el.shortKey == "tab_audited" ||
-                el.shortKey == "audited.bal_sheet"
-              ) {
-                if (el?.responseFile?.url)
-                  this.actionResFile["tab_audited"] = el.responseFile;
+              if ((el.shortKey == "tab_audited" || el.shortKey == "audited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_audited"]['responseFile'] = el.responseFile;
               }
-              if (
-                el.shortKey == "tab_unAudited" ||
-                el.shortKey == "unAudited.bal_sheet"
-              ) {
-                if (el?.responseFile?.url)
-                  this.actionResFile["tab_unAudited"] = el.responseFile;
+              if ((el.shortKey == "tab_unAudited" || el.shortKey == "unAudited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_unAudited"]["responseFile"] = el.responseFile;
+                }
+            }
+          }
+          if(res?.data["MoHUA"]){
+            for (let el of res.data["MoHUA"]) {
+              if ( (el.shortKey == "tab_audited" || el.shortKey == "audited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_audited"]["responseFile_mohua"] = el.responseFile;
+              }
+              if ((el.shortKey == "tab_unAudited" || el.shortKey == "unAudited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_unAudited"]["responseFile_mohua"] = el.responseFile;
               }
             }
           }
@@ -326,5 +337,17 @@ export class AnnualAccountComponent implements OnInit {
     };
 
     this.actionPayLoad.push(actionObj);
+  }
+  resetActionFile(){
+    this.actionResFile = {
+      tab_audited:{
+        responseFile: {url: '', name :''},
+        responseFile_mohua: {url: '', name :''}
+      },
+      tab_unAudited:{
+        responseFile: {url: '', name :''},
+        responseFile_mohua: {url: '', name :''}
+      }
+    };
   }
 }
