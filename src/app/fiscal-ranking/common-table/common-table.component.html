@@ -15,8 +15,12 @@
                             'fa-sort-asc': column.sort == 1
                         }" aria-hidden="true"></i>
                     </div>
-                    <input type="text" *ngIf="column.hasOwnProperty('query')" placeholder="Search"
-                        class="form-control p-1 my-2" [(ngModel)]="column.query" (keyup.enter)="loadData()"
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" *ngFor="let column of response.columns" class="border-0 table-secondary">
+                    <input type="text" *ngIf="column.hasOwnProperty('query')" [placeholder]="'Search ' + column?.label"
+                        class="form-control p-1" [(ngModel)]="column.query" (keyup.enter)="loadData()"
                         (blur)="loadData()">
                 </th>
             </tr>
