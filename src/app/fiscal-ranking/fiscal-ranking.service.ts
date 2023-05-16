@@ -6,6 +6,8 @@ import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { KeyValue } from "@angular/common";
 import { FormGroup } from "@angular/forms";
+import { TableResponse } from "./common-table/common-table.component";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +78,24 @@ export class FiscalRankingService {
     a.download = filename;
     a.click();
     return url;
+  }
+
+  getTableResponse(endpoint: string, queryParams: string, columns) {
+    return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
+      map((response) => {
+        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
+        response.columns = columns || response.columns.map(column => ({
+          ...column,
+          sort: 0,
+          ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
+        }));
+        response.data = response.data.map(item => ({
+          ...item,
+          ulbShare: (item.ulbShare as number / 100).toFixed(2),
+          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
+        }))
+        return response;
+      })
+    );
   }
 }

@@ -64,8 +64,10 @@
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
-                                        formControlName="status">
+                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
+                                        [rejectReason]="item?.value?.controls?.rejectReason?.value"
+                                        [disabled]="!canTakeAction"
+                                        (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
                                     </app-common-action-radio>
                                 </div>
                             </div>
@@ -98,13 +100,24 @@
                                         <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
                                         <th scope="row"
                                             [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                                            {{item?.value?.controls?.label.value}}
-                                            <span *ngIf="item?.value?.controls?.required?.value"
-                                                class="text-danger">*</span>
-                                            <mat-icon style="font-size: 18px;"
-                                                *ngIf="item?.value?.controls?.info?.value"
-                                                [matTooltip]="item?.value?.controls?.info?.value">info_outline
-                                            </mat-icon>
+                                            <p class="m-0">
+                                                {{item?.value?.controls?.label.value}}
+                                                <span *ngIf="item?.value?.controls?.required?.value"
+                                                    class="text-danger">*</span>
+                                                <mat-icon style="font-size: 18px;"
+                                                    *ngIf="item?.value?.controls?.info?.value"
+                                                    [matTooltip]="item?.value?.controls?.info?.value">info_outline
+                                                </mat-icon>
+                                            </p>
+                                            <div class="mt-4"
+                                                *ngIf="canTakeAction && yearDataLength(item?.value?.controls?.yearData?.value) > 1">
+                                                <button class="btn btn-sm btn-success mr-1"
+                                                    (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
+                                                    All</button>
+                                                <button class="btn btn-sm btn-danger"
+                                                    (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
+                                                    All</button>
+                                            </div>
                                         </th>
                                         <td
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
@@ -213,6 +226,11 @@
                                                             required</small>
                                                     </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
+                                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        formControlName="status" [disabled]="!canTakeAction"
+                                                        [rejectReason]="yearItem?.value?.rejectReason"
+                                                        (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                    </app-common-action-radio>
                                                 </div>
                                             </div>
                                         </td>
@@ -344,11 +362,13 @@
                                                                         yearItem?._parent | percentprogress: r_i :
                                                                         'text' }}</span>
                                                                 </div>
-                                                                <app-common-action-radio *ngIf="canSeeActions"
-                                                                    formControlName="status"></app-common-action-radio>
+                                                                <app-common-action-radio class="mt-2"
+                                                                    *ngIf="canSeeActions" formControlName="status"
+                                                                    [disabled]="!canTakeAction"
+                                                                    [rejectReason]="yearItem?.value?.rejectReason"
+                                                                    (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                                </app-common-action-radio>
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -383,6 +403,14 @@
                                         <small
                                             *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
                                             class="text-danger text-center">Please upload a file</small>
+
+                                        <div [formGroup]="otherUploadControl">
+                                            <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                formControlName="status" [disabled]="!canTakeAction"
+                                                [rejectReason]="otherUploadControl?.value?.rejectReason"
+                                                (onRejectReasonChange)="updateControl(otherUploadControl?.controls?.rejectReason, $event)">
+                                            </app-common-action-radio>
+                                        </div>
                                     </ng-container>
 
                                 </div>
@@ -450,21 +478,20 @@
                                                 <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
                                                     class="text-danger text-center">Please upload a file</small>
 
-                                                <app-common-action-radio *ngIf="canSeeActions" formControlName="status">
-                                                </app-common-action-radio>
+                                                <div class="text-center"
+                                                    [formGroup]="tab?.controls?.data?.controls?.signedCopyOfFile">
+                                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        formControlName="status" [disabled]="!canTakeAction"
+                                                        [rejectReason]="tab?.controls?.data?.controls?.signedCopyOfFile?.value?.rejectReason"
+                                                        (onRejectReasonChange)="updateControl(tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason, $event)">
+                                                    </app-common-action-radio>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group my-2" *ngIf="canSeeActions" formGroupName="feedback">
-                            <label [for]="'comment' + stepper?.id">Comment</label>
-                            <textarea required [disabled]="!canEditComment" type="email" rows="6"
-                                formControlName="comment" class="form-control comment"
-                                [id]="'comment' + stepper?.id"></textarea>
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
@@ -474,14 +501,13 @@
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
                                 <button class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
-                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
-                                    (click)="finalSubmitConfirmation()">Submit</button>
+                                    [disabled]="isDisabled" (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
                                 <button class="btn com-style"
                                     [ngClass]="tab?.value?.id == selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
-                                    [disabled]="isDisabled && loggedInUserType !== userTypes.MoHUA"
-                                    (click)="stepperContinueSave(tab)">Save & Continue Later</button>
+                                    [disabled]="isDisabled" (click)="stepperContinueSave(tab)">Save & Continue
+                                    Later</button>
                             </div>
                         </div>
 
