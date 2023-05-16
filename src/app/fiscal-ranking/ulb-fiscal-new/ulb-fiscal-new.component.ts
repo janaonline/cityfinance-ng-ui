@@ -234,7 +234,11 @@ export class UlbFiscalNewComponent implements OnInit {
     const statusControl = innerFormGroup.get('status');
     statusControl?.valueChanges.subscribe(status => {
       const rejectReasonControl = innerFormGroup.get('rejectReason');
-      rejectReasonControl?.setValidators(status == 'REJECTED' ? Validators.required : []);
+      rejectReasonControl?.setValidators(status == 'REJECTED' ? [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ] : []);
       rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
     });
     statusControl?.updateValueAndValidity({ emitEvent: true });
@@ -519,7 +523,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 8;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : 8;
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 

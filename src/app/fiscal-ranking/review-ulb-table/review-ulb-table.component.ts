@@ -46,7 +46,7 @@ export class ReviewUlbTableComponent implements OnInit {
   constructor(
     private commonService: NewCommonService,
     private _fb: FormBuilder,
-    private router:Router,
+    private router: Router,
     private _commonService: CommonService) {
   }
   ngOnInit(): void {
@@ -84,10 +84,10 @@ export class ReviewUlbTableComponent implements OnInit {
       this.tableDefaultOptions.currentPage = pageNumber;
       this.listFetchOption.skip = (pageNumber - 1) * this.tableDefaultOptions.itemPerPage;
     }
-    Object.values(this.filterForm.getRawValue()).map((e:any) => e && e.trim())
-    let filteredObj:any = {};
-    for(const key in this.filterForm.getRawValue()){
-      if(this.filterForm.getRawValue()[key]){
+    Object.values(this.filterForm.getRawValue()).map((e: any) => e && e.trim())
+    let filteredObj: any = {};
+    for (const key in this.filterForm.getRawValue()) {
+      if (this.filterForm.getRawValue()[key]) {
         filteredObj[key] = this.filterForm.getRawValue()[key].trim();
       }
     }
@@ -107,10 +107,10 @@ export class ReviewUlbTableComponent implements OnInit {
       this.title = res["title"];
       this.tableDefaultOptions.totalCount = res["total"];
       console.log(this.data)
-      if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
+      if (this.isInfiniteScroll && this.listFetchOption.skip == 0) {
         setTimeout(() => {
           const table = document.querySelector('.table-responsive') as HTMLElement;
-          if(table) {
+          if (table) {
             table.style.height = `${table.clientHeight - 20}px`;
           }
         }, 100)
@@ -155,10 +155,10 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   download() {
-    Object.values(this.filterForm.getRawValue()).map((e:any) => e.trim())
-    let filteredObj:any = {};
-    for(const key in this.filterForm.getRawValue()){
-      if(this.filterForm.getRawValue()[key]){
+    Object.values(this.filterForm.getRawValue()).map((e: any) => e.trim())
+    let filteredObj: any = {};
+    for (const key in this.filterForm.getRawValue()) {
+      if (this.filterForm.getRawValue()[key]) {
         filteredObj[key] = this.filterForm.getRawValue()[key].trim();
       }
     }
@@ -171,10 +171,10 @@ export class ReviewUlbTableComponent implements OnInit {
       ...this.listFetchOption
     };
     // this.isLoader = true;
-    this._commonService.downloadCsvApi(this.csvType,payload).subscribe((res)=>{
+    this._commonService.downloadCsvApi(this.csvType, payload).subscribe((res) => {
       // this.isLoader = false;
-      this._commonService.createCsv(res,this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
-    },(err) => {this.isLoader = false;})
+      this._commonService.createCsv(res, this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
+    }, (err) => { this.isLoader = false; })
     // const endPoint = "review";
     // this._commonService.openWindowToDownloadCsv(payload, endPoint);
   }
@@ -199,59 +199,47 @@ export class ReviewUlbTableComponent implements OnInit {
     this.loadData(1);
   }
 
-  populationCategories = [{_id:'1',name:'4M+'},{_id:'2',name:'1M to 4M'},{_id:'3',name:'100K to 1M'},{_id:'4',name:'<100K'}];
-  getTransformedValue(populationCategory:any){
-     if(parseInt(populationCategory) > 4000000){
-      return '4M+';
-     } else if(parseInt(populationCategory) < 4000000 && parseInt(populationCategory) >= 1000000){
-      return '1M to 4M';
-     }else if(parseInt(populationCategory) < 1000000 && parseInt(populationCategory) >= 100000) {
-      return '100K to 1M';
-     }else if(parseInt(populationCategory) < 100000 && parseInt(populationCategory) >= 0) {
-      return '<100K';
-     }else{
-      return 'NA'
-     }
-  }
+  populationCategories = [{ _id: '1', name: '4M+' }, { _id: '2', name: '1M to 4M' }, { _id: '3', name: '100K to 1M' }, { _id: '4', name: '<100K' }];
 
-  navigateTo(path,id,action){
-    this.router.navigate([path,id],{ queryParams: {cantakeAction: action}});
+
+  navigateTo(path, id, action) {
+    this.router.navigate([path, id]);
   }
-  sortedItem:any = {};
-  sortTableData(item,sortBy) {
+  sortedItem: any = {};
+  sortTableData(item, sortBy) {
     item.sort = sortBy;
-    this.sortedItem = {...item};
+    this.sortedItem = { ...item };
     this.modifiedColumns.map(el => el.sort && el.key !== item.key ? delete el.sort : el);
     this.listFetchOption.sort = `${item.key}_${sortBy}`
     this.loadData()
   }
-  getSortIcon(item){
-    return ["ULB Name","State Name"].includes(item.value);
+  getSortIcon(item) {
+    return ["ULB Name", "State Name"].includes(item.value);
   }
 
   get modifiedColumns() {
     let columnsData = [];
     this.columnNamesList.forEach(element => {
-      for(let key in this.columnNames){
-         if(this.columnNames[key] === element){
-            columnsData.push({
-              key:key,
-              value:this.columnNames[key]
-            })
-         }
+      for (let key in this.columnNames) {
+        if (this.columnNames[key] === element) {
+          columnsData.push({
+            key: key,
+            value: this.columnNames[key]
+          })
+        }
       }
     });
     columnsData.map(e => e.key === this.sortedItem?.key ? e.sort = this.sortedItem.sort : e);
     return columnsData;
   }
   statusFilterList = [
-    {_id:"11" ,name:"Submission Acknowledged by PMU"},
-    {_id:'1',name:'Not Started'},
-    {_id:"2",name:"In Progress"},
-    {_id:"8",name:"Verification Not Started"},
-    {_id:"9",name:"Verification In Progress"},
-    {_id:"10",name:"Returned by PMU"}
+    { _id: "11", name: "Submission Acknowledged by PMU" },
+    { _id: '1', name: 'Not Started' },
+    { _id: "2", name: "In Progress" },
+    { _id: "8", name: "Verification Not Started" },
+    { _id: "9", name: "Verification In Progress" },
+    { _id: "10", name: "Returned by PMU" }
   ];
-  columnNamesList = ["S No.","ULB Name","State Name","Census/SB Code","Population Category","Status","Action"];
+  columnNamesList = ["S No.", "ULB Name", "State Name", "Census/SB Code", "Population Category", "Status", "Action"];
 }
 
