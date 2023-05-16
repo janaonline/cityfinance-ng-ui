@@ -523,7 +523,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : 8;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : (this.currentFormStatus == 10 ? 9 : 8);
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
