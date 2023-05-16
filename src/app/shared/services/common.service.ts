@@ -733,6 +733,25 @@ export class CommonService {
     }
   }
 
+  downloadCsvApi(csvType,payload) {
+    const params = this.httpUtil.convertToHttpParams(payload);
+    return this.http.get(`${environment.api.url}fiscal-ranking/${csvType}`,{ params: params as any,responseType: 'blob' })
+  }
+
+  createCsv(result, fileName) {
+    let blob:Blob = new Blob([result], { type: 'text/csv;charset=utf-8;' });
+    let url:string = URL.createObjectURL(blob);
+    this.autoDownload(url, fileName);
+  }
+
+  autoDownload(url:string, file:string) {
+    let element:HTMLAnchorElement = document.createElement('a');
+    element.href = url;
+    element.target = '_blank';
+    element.download = file;
+    element.click();
+  }
+
   sortDataSource(dataset: any, sortKey: string) {
     let sortedData: any = [];
     // sortedData = dataset.sort((a, b) => a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1);
