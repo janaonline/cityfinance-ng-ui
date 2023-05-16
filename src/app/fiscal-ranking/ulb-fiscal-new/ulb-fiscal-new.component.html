@@ -135,7 +135,7 @@
                                                             [disabled]="yearItem?.controls?.readonly?.value"
                                                             [ngClass]="{
                                                                     'left-0-radius': yearItem.controls?.isRupee?.value,
-                                                                    'is-invalid': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
+                                                                    'is-invalid': yearItem?.controls?.value?.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     </div>
 
