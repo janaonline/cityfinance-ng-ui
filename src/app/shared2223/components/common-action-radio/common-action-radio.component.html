@@ -14,7 +14,8 @@
                 [ngClass]="status === 'REJECTED' ? 'fa-times-circle text-light' : 'fa-times-circle-o text-danger'"
                 aria-hidden="true"></i>
         </button>
-        <p *ngIf="disabled && status === 'REJECTED'"><span class="text-danger">Reject Reason:</span> {{ rejectReason }}</p>
+        <p *ngIf="disabled && status === 'REJECTED'"><span class="text-danger">Reject Reason:</span> {{
+            rejectReason?.value }}</p>
     </div>
     <!-- <p class="m-0">
         status: {{ status }}
@@ -24,12 +25,14 @@
     <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
         [mdePopoverPositionX]="'after'">
         <div *ngIf="status === 'REJECTED'" class="p-2 bg-light border border-dark rounded">
-            <textarea cols="30" rows="6" placeholder="Please enter reason" class="my-1" type="text" *ngIf="status === 'REJECTED'"
-                [value]="rejectReason" (input)="rejectReasonChange($event)" ></textarea>
+            <small class="d-block text-danger text-center">Reason should be 10 to 500 characters long</small>
+            <textarea cols="30" rows="6" placeholder="Please enter reason" class="my-1" type="text"
+                *ngIf="status === 'REJECTED'" [value]="rejectReason?.value"
+                (input)="rejectReasonChange($event)"></textarea>
         </div>
     </mde-popover>
 
-    <small class="d-block text-danger" *ngIf="!disabled && status === 'REJECTED' && !rejectReason">Reject
-        reason is
-        required</small>
+    <small 
+        class="d-block text-danger" 
+        *ngIf="!disabled && status === 'REJECTED' && !rejectReason?.valid">Enter valid reject reason</small>
 </ng-container>
