@@ -243,7 +243,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   selectedYear: any = "2020-21";
-  selectedCategory: any = 1;
+  selectedCategory: any = '';
   selectFinancialYear(event) {
     this.selectedYear = event.target.value;
     this.nationalInput.financialYear = this.selectedYear;
@@ -740,7 +740,6 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   selectedState(stateId:string){
-    console.log(super.stateDataFromHeatComponent,'this.stateDataFromHeatComponent')
     const state = this.stateDataForNation.find(e => e._id === stateId);
     
   }
@@ -750,7 +749,6 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     const body = { year: this.yearSelected || [] };
     this._commonService.getStateUlbCovered(body).subscribe(res => {
       this.stateDataForNation = [...res?.data]
-      console.log(res.data,'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
     })
   }
 

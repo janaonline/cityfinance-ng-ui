@@ -67,6 +67,7 @@
             id="years"
             (change)="selectFinancialYear($event)"
           >
+            <option selected value="">All Categories</option>
             <option *ngFor="let item of populationCategories" value="{{ item._id }}">
               {{ item.name }}
             </option>
