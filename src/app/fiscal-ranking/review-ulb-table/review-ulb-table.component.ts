@@ -170,9 +170,9 @@ export class ReviewUlbTableComponent implements OnInit {
       ...filteredObj,
       ...this.listFetchOption
     };
-    this.isLoader = true;
+    // this.isLoader = true;
     this._commonService.downloadCsvApi(this.csvType,payload).subscribe((res)=>{
-      this.isLoader = false;
+      // this.isLoader = false;
       this._commonService.createCsv(res,this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
     },(err) => {this.isLoader = false;})
     // const endPoint = "review";

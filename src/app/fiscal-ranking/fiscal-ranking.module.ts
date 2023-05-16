@@ -40,6 +40,8 @@ import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
 import { AlreadyUpdatedUrlPipe } from './pipes/already-updated-url.pipe';
 import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CommonTableComponent } from './common-table/common-table.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     DecimalLimitDirective,
     NoUpDownDirective,
     AlreadyUpdatedUrlPipe,
-    MapcomponentComponent
+    MapcomponentComponent,
+    DashboardComponent,
+    CommonTableComponent,
   ],
   imports: [
     CommonModule,

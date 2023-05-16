@@ -47,7 +47,6 @@ export class UlbFiscalNewComponent implements OnInit {
   twoDTabs: string[] = ['s4', 's5', 's6'];
   textualFormFiledTypes: string[] = ['text', 'url', 'email', 'number'];
   tabs: Tab[];
-  cantakeAction: boolean = true;
   currentFormStatus: number;
   formId: string;
   ulbId: string;
@@ -80,9 +79,6 @@ export class UlbFiscalNewComponent implements OnInit {
     }
     else if (this.loggedInUserType != 'ULB') {
       this.ulbId = this.activatedRoute.snapshot.params.ulbId;
-      if (this.activatedRoute.snapshot.queryParams.cantakeAction) {
-        this.cantakeAction = true;
-      }
       if (!this.ulbId) {
         this._router.navigateByUrl('rankings/home')
       }
@@ -101,16 +97,18 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.ULB) return false;
-    return true;
+    if (this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus)) return true;
+    return [2, 10, 11].includes(this.currentFormStatus);
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA;
+    return this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
-    return this.isDraft == false;
+    if (this.loggedInUserType == this.userTypes.ULB) return ![1, 2, 10].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA) return ![8, 9].includes(this.currentFormStatus);
+    return true;
   }
 
   get uploadFolderName() {
@@ -164,7 +162,8 @@ export class UlbFiscalNewComponent implements OnInit {
             status: item.status,
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
-          })
+          });
+          this.attactRequiredReasonToggler(obj[key]);
         }
         else {
           obj[key] = this.fb.group({
@@ -187,13 +186,13 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   isHeading(displayPriority): boolean {
-    if(['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
-    if(['24','25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
+    if (['5.1', '5.2', '7.1', '7.2'].includes(displayPriority)) return true;
+    if (['24', '25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(displayPriority)) return false;
     return Number.isInteger(+displayPriority);
   }
 
   getInnerFormGroup(item, parent?) {
-    return this.fb.group({
+    const innerFormGroup = this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
       originalValue: item.value,
@@ -205,12 +204,12 @@ export class UlbFiscalNewComponent implements OnInit {
       isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
-      min: [{ value: new Date(item?.min), disabled: true}],
-      max: [{ value: new Date(item?.max), disabled: true}],
+      min: [{ value: new Date(item?.min), disabled: true }],
+      max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: item?.status,
-      rejectReason: item?.rejectReason,
+      status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+      rejectReason: [item?.rejectReason],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       info: [{ value: item.info, disabled: true }],
@@ -227,6 +226,18 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
+    this.attactRequiredReasonToggler(innerFormGroup);
+    return innerFormGroup;
+  }
+
+  attactRequiredReasonToggler(innerFormGroup: FormGroup) {
+    const statusControl = innerFormGroup.get('status');
+    statusControl?.valueChanges.subscribe(status => {
+      const rejectReasonControl = innerFormGroup.get('rejectReason');
+      rejectReasonControl?.setValidators(status == 'REJECTED' ? Validators.required : []);
+      rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
+    });
+    statusControl?.updateValueAndValidity({ emitEvent: true });
   }
 
   getValidators(item, canApplyRequired = false, parent?) {
@@ -251,7 +262,7 @@ export class UlbFiscalNewComponent implements OnInit {
       control.valueChanges.subscribe(({ value }) => {
         const canShow = value == 'Yes';
         s3Control.patchValue({ data: { [updatedable]: { canShow } } });
-        const selectorString  = `data.${updatedable}.yearData.0`;
+        const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
         ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
@@ -298,7 +309,7 @@ export class UlbFiscalNewComponent implements OnInit {
             parentYearItemControl.markAsDirty();
           })
         })
-        child.updateValueAndValidity({ emitEvent: true });
+        // child.updateValueAndValidity({ emitEvent: true });
       });
     });
   }
@@ -437,6 +448,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   validateErrors() {
     this.form.markAllAsTouched();
+    console.log(this.form);
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
@@ -507,8 +519,12 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if(this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 4;
-    if(this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 :  9;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 8;
+    if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
+  }
+
+  yearDataLength(items: any[]) {
+    return items?.filter(item => item.key)?.length;
   }
 
   submit(isDraft = true) {
@@ -521,7 +537,7 @@ export class UlbFiscalNewComponent implements OnInit {
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
-    this.fiscalService.postFiscalRankingData(payload).subscribe(res => {
+    this.fiscalService[this.userData.role == this.userTypes.MoHUA ? 'actionByMohua' : 'postFiscalRankingData'](payload).subscribe(res => {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;

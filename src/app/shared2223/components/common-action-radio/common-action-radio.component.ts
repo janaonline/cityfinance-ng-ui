@@ -24,6 +24,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   status: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
 
   get canShow() {
+    if(this.disabled) return ['APPROVED', 'REJECTED'].includes(this.status)
     return !!this.status;
   }
 
@@ -47,7 +48,6 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   }
 
   rejectReasonChange({ target: { value }}) {
-    console.log(value);
     this.onRejectReasonChange.emit(value);
   }
 
