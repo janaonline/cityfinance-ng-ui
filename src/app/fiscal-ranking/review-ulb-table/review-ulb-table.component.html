@@ -52,7 +52,7 @@
                                     <!-- <i class="fa fa-sort-asc" (click)="sortTableData(item,'asc');item.sort = '1';" aria-hidden="true"></i>
                                     <i class="fa fa-sort-desc" (click)="sortTableData(item,'desc');item.sort = '-1';" aria-hidden="true"></i> -->
                                 </th>
-                                <th></th>
+                                <!-- <th></th> -->
                             </tr>
                             <tr class="filter">
                                 <th class="filter"></th>
@@ -126,7 +126,7 @@
                                         <option value="No">No</option>
                                     </select>
                                 </th> -->
-                                <th class="filter text-center">
+                                <th class="filter">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
                                 <!-- <th class="filter"></th> -->
@@ -151,10 +151,10 @@
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
                                 <!-- <p>{{ item | json }}</p> -->
                                 <td *ngIf="!item?.cantakeAction">
-                                    <button type="button" class="btn btn-primary ms-2" (click)="navigateTo('/rankings/ulb-form',item.ulbId,false)" >View</button>
+                                    <button type="button" class="btn btn-primary" (click)="navigateTo('/rankings/ulb-form',item.ulbId,false)" >View</button>
                                 </td>
                                 <td *ngIf="item?.cantakeAction">
-                                    <button type="button" class="btn btn-primary ms-2" (click)="navigateTo('/rankings/ulb-form',item.ulbId,true)">Review</button>
+                                    <button type="button" class="btn btn-primary" (click)="navigateTo('/rankings/ulb-form',item.ulbId,true)">Review</button>
                                 </td>
                                 <!-- <td>
                                     <div class="form-check"
