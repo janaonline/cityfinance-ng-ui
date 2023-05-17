@@ -103,7 +103,7 @@
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
                                         </span> -->
-                                        <select class="form-select ms-2" style="line-height: 1.1rem;" formControlName="populationCategory" (change)="loadData()">
+                                        <select class="form-select ms-2" style="line-height: 1.1rem;" formControlName="populationType" (change)="loadData()">
                                             <option selected value="" class="s-pl">All</option>
                                             <option *ngFor="let item of populationCategories" [value]="item._id">{{item.name}}</option>
                                         </select>

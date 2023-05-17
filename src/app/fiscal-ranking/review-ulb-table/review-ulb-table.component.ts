@@ -54,7 +54,7 @@ export class ReviewUlbTableComponent implements OnInit {
       ulbName: [""],
       stateName: [""],
       censusCode: [""],
-      populationCategory: [""],
+      populationType: [""],
       ulbCode: [""],
       status: [""],
       filled1: [""],
