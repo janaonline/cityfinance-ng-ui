@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { log } from 'console';
 import { BehaviorSubject } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
@@ -36,7 +37,7 @@ export class CommonServicesService {
        }
     );
   }
-  minMaxValidation(e, input, minV, maxV) {
+  minMaxValidation(e, input, minV, maxV, type?:string) {
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
@@ -57,10 +58,16 @@ export class CommonServicesService {
     } else {
       newValue = input?.value + keyValue?.toString();
     }
-
-    if (
+    console.log('log..', maxV);
+    const numToStringLen = (maxV.toString()).length;
+    
+    console.log('maxV?.length', maxV?.length, 'newValue.length', newValue.length, numToStringLen);
+    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")){
+      e.preventDefault();
+    }
+    else if(
       +newValue > maxV ||
-      newValue.length > maxV?.length ||
+      newValue.length > numToStringLen-1 ||
       +newValue < minV ||
       e.key == " "
     ) {

@@ -10,9 +10,9 @@ import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/
 import { StateformsService } from 'src/app/pages/stateforms/stateforms.service';
 import { ImagePreviewComponent } from 'src/app/pages/ulbform/utilisation-report/image-preview/image-preview.component';
 import { MapDialogComponent } from 'src/app/shared/components/map-dialog/map-dialog.component';
-// import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import {minMaxValue} from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/minMaxNumber'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-projects-water-rej',
@@ -366,6 +366,7 @@ waterRejRes = {
   ]
 }
 costMaxVal: number = 999999999999999;
+maxNumVaditaion:number;
 errorOnload:boolean = false;
   constructor(
     private fb: FormBuilder,
@@ -388,6 +389,7 @@ errorOnload:boolean = false;
     this.setRouter();
     this.design_year = this.Year["2023-22"];
     this.setUaList();
+    this.maxNumVaditaion = minMaxValue;
   }
 
   indicatorSet(event, index, rowIndex) {
@@ -596,16 +598,16 @@ errorOnload:boolean = false;
       lat: this.fb.control(data?.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
       long: this.fb.control(data?.long, [Validators.required, Validators.pattern(this.latLongRegex)]),
       photos: this.fb.array(this.getPhotos(data?.photos), [Validators.required]),
-      bod: this.fb.control(data?.bod, [Validators.required,Validators.min(1)]),
-      cod: this.fb.control(data?.cod, [Validators.required,Validators.min(1)]),
-      do: this.fb.control(data?.do, [Validators.required, Validators.min(1)]),
-      tds: this.fb.control(data?.tds, [ Validators.required,Validators.min(1)]),
-      turbidity: this.fb.control(data?.turbidity, [Validators.required,Validators.min(1)]),
-      bod_expected: this.fb.control(data?.bod_expected, [Validators.required,Validators.min(1)]),
-      cod_expected: this.fb.control(data.cod_expected, [Validators.required,Validators.min(1)]),
-      do_expected: this.fb.control(data?.do_expected, [Validators.required, Validators.min(1)]),
-      tds_expected: this.fb.control(data?.tds_expected, [Validators.required,Validators.min(1)]),
-      turbidity_expected: this.fb.control(data?.turbidity_expected, [Validators.required,Validators.min(1)]),
+      bod: this.fb.control(data?.bod, [Validators.required,Validators.min(0)]),
+      cod: this.fb.control(data?.cod, [Validators.required,Validators.min(0)]),
+      do: this.fb.control(data?.do, [Validators.required, Validators.min(0)]),
+      tds: this.fb.control(data?.tds, [ Validators.required,Validators.min(0)]),
+      turbidity: this.fb.control(data?.turbidity, [Validators.required,Validators.min(0)]),
+      bod_expected: this.fb.control(data?.bod_expected, [Validators.required,Validators.min(0)]),
+      cod_expected: this.fb.control(data.cod_expected, [Validators.required,Validators.min(0)]),
+      do_expected: this.fb.control(data?.do_expected, [Validators.required, Validators.min(0)]),
+      tds_expected: this.fb.control(data?.tds_expected, [Validators.required,Validators.min(0)]),
+      turbidity_expected: this.fb.control(data?.turbidity_expected, [Validators.required,Validators.min(0)]),
       details: this.fb.control(data?.details, [Validators.required,Validators.maxLength(200)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
@@ -620,8 +622,8 @@ errorOnload:boolean = false;
       component: this.fb.control(data.component, [ Validators.required,Validators.maxLength(200)]),
       indicator: this.fb.control(data.indicator, [ Validators.required]),
       existing: this.fb.control(data.existing, [ Validators.required ]),
-      after: this.fb.control(data.after, [ Validators.required, Validators.min(1)]),
-      cost: this.fb.control(data.cost, [Validators.required, Validators.min(1)]),
+      after: this.fb.control(data.after, [ Validators.required, Validators.min(0)]),
+      cost: this.fb.control(data.cost, [Validators.required, Validators.min(0)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
@@ -982,9 +984,8 @@ errorOnload:boolean = false;
     }
   }
 warningForAmount(val){
-  if(val < 40){
-    swal('Alert !', `Project progress does not meet with conditions from operations guidelines para 9.2
-     but ULB can still submit.`, 'warning');
+  if(val && val < 40){
+    swal('Alert !', `As per the Operational Guidelines, the condition for receiving grants for ULBs will be 40% of work completion of mandatory projects by June 2023.`, 'warning');
   }
   }
 
@@ -1093,7 +1094,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
     )
   //  BASE_URL/indicatorLineItem
   }
-  setMinMaxValidations(e, input, min, max, value){
+  setMinMaxValidations(e, input, min, max, value, type?:string){
     console.log('indicator value..', value);
     let indicatorDetails = this.waterIndicators.find(({lineItemId})=> value == lineItemId);
     console.log('indicator value.. 54321', indicatorDetails);
@@ -1102,7 +1103,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
       max = indicatorDetails?.range?.split("-")[1];
     }
 
-   return this.commonServices.minMaxValidation(e, input, min, max);
+   return this.commonServices.minMaxValidation(e, input, min, max, type);
     
   }
   setDisableForm(data){
