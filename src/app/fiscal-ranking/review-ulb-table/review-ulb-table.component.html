@@ -56,7 +56,7 @@
                                     <!-- <i class="fa fa-sort-asc" (click)="sortTableData(item,'asc');item.sort = '1';" aria-hidden="true"></i>
                                     <i class="fa fa-sort-desc" (click)="sortTableData(item,'desc');item.sort = '-1';" aria-hidden="true"></i> -->
                                 </th>
-                                <th></th>
+                                <!-- <th></th> -->
                             </tr>
                             <tr class="filter">
                                 <th class="filter"></th>
@@ -130,7 +130,7 @@
                                         <option value="No">No</option>
                                     </select>
                                 </th> -->
-                                <th class="filter text-center">
+                                <th class="filter">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
                                 <!-- <th class="filter"></th> -->
@@ -150,30 +150,16 @@
                                 <td>{{item.ulbName}}</td>
                                 <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.censusCode}}</td>
-                                <td>{{getTransformedValue(item.populationCategory)}}</td>
+                                <td>{{item.populationType}}</td>
                                 <td>{{item.formStatus}}</td>
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
-                                <td *ngIf="item.cantakeAction == false">
-                                    <!-- <a [ngClass]='{"notClick" : actBtn}'
-                                        [routerLink]="['/rankings/ulb-form', item.ulbId]">
-                                        <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
-                                        </mat-icon>
-                                    </a> -->
-                                    <button type="button" class="btn btn-primary ms-2" (click)="navigateTo('/rankings/ulb-form',item.ulbId,false)" >View</button>
+                                <!-- <p>{{ item | json }}</p> -->
+                                <td *ngIf="!item?.cantakeAction">
+                                    <button type="button" class="btn btn-primary" (click)="navigateTo('/rankings/ulb-form',item.ulbId,false)" >View</button>
                                 </td>
-                                <td *ngIf="item.cantakeAction == true">
-                                    <!-- <a [ngClass]='{"notClick" : actBtn}'
-                                        [routerLink]="['/rankings/ulb-form', item.ulbId]">
-                                        <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
-                                        </mat-icon>
-                                    </a> -->
-                                    <button type="button" class="btn btn-primary ms-2" (click)="navigateTo('/rankings/ulb-form',item.ulbId,true)">Review</button>
+                                <td *ngIf="item?.cantakeAction">
+                                    <button type="button" class="btn btn-primary" (click)="navigateTo('/rankings/ulb-form',item.ulbId,true)">Review</button>
                                 </td>
-                                <!-- <td class="btn-td" *ngIf="item.cantakeAction == true">
-                                    <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
-                                    [routerLink]="['/rankings/ulb-form', item.ulbId]"  [queryParams]="{cantakeAction: true}">Take Action
-                                    </a>
-                                </td> -->
                                 <!-- <td>
                                     <div class="form-check"
                                         [matTooltip]="item?.cantakeAction == false ? 'Not eligible to take action' : ''">
