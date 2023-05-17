@@ -37,7 +37,7 @@ export class CommonServicesService {
        }
     );
   }
-  minMaxValidation(e, input, minV, maxV) {
+  minMaxValidation(e, input, minV, maxV, type?:string) {
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
@@ -62,7 +62,10 @@ export class CommonServicesService {
     const numToStringLen = (maxV.toString()).length;
     
     console.log('maxV?.length', maxV?.length, 'newValue.length', newValue.length, numToStringLen);
-    if (
+    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")){
+      e.preventDefault();
+    }
+    else if(
       +newValue > maxV ||
       newValue.length > numToStringLen-1 ||
       +newValue < minV ||
