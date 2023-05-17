@@ -233,13 +233,13 @@ export class ReviewUlbTableComponent implements OnInit {
     return columnsData;
   }
   statusFilterList = [
-    { _id: "11", name: "Submission Acknowledged by PMU" },
     { _id: '1', name: 'Not Started' },
     { _id: "2", name: "In Progress" },
     { _id: "8", name: "Verification Not Started" },
     { _id: "9", name: "Verification In Progress" },
-    { _id: "10", name: "Returned by PMU" }
+    { _id: "10", name: "Returned by PMU" },
+    { _id: "11", name: "Submission Acknowledged by PMU" }
   ];
-  columnNamesList = ["S No.", "ULB Name", "State Name", "Census Code", "Population Category", "Status", "Action"];
+  columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "Status", "Action"];
 }
 

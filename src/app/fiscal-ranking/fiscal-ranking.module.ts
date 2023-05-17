@@ -38,6 +38,8 @@ import { DisplayPositionPipe } from './pipes/display-position.pipe';
 import { DecimalLimitDirective } from './ulb-fiscal-new/decimal-limit.directive';
 import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
 import { AlreadyUpdatedUrlPipe } from './pipes/already-updated-url.pipe';
+import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonTableComponent } from './common-table/common-table.component';
 
@@ -58,6 +60,7 @@ import { CommonTableComponent } from './common-table/common-table.component';
     DecimalLimitDirective,
     NoUpDownDirective,
     AlreadyUpdatedUrlPipe,
+    MapcomponentComponent,
     DashboardComponent,
     CommonTableComponent,
   ],
@@ -91,7 +94,8 @@ import { CommonTableComponent } from './common-table/common-table.component';
     MatNativeDateModule,
     MatDatepickerModule,
     NgxPaginationModule,
-    Shared2223Module
+    Shared2223Module,
+    AngularMultiSelectModule
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
