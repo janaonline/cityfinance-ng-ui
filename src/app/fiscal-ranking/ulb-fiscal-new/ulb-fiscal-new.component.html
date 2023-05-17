@@ -65,8 +65,7 @@
                                         </div>
                                     </div>
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
-                                        [rejectReason]="item?.value?.controls?.rejectReason"
-                                        [disabled]="!canTakeAction"
+                                        [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
                                         (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
                                     </app-common-action-radio>
                                 </div>
@@ -123,7 +122,7 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <div class="d-flex">
+                                                    <div class="d-flex custom-input-group">
                                                         <span *ngIf="yearItem.controls?.isRupee?.value"
                                                             class="input-group-text br-a" id="basic-addon1">₹</span>
                                                         <input onwheel="this.blur()" appNoUpDown
@@ -138,12 +137,11 @@
                                                                     'is-invalid': yearItem?.controls?.value?.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     </div>
-
-
                                                     <small class="focus-warning"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0'">
                                                         contains "0" do you still want to continue?
                                                     </small>
+
                                                     <small class="text-danger"
                                                         *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
                                                         As per financial data submitted for 15th FC grants, total value
