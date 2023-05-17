@@ -240,6 +240,6 @@ export class ReviewUlbTableComponent implements OnInit {
     { _id: "9", name: "Verification In Progress" },
     { _id: "10", name: "Returned by PMU" }
   ];
-  columnNamesList = ["S No.", "ULB Name", "State Name", "Census/SB Code", "Population Category", "Status", "Action"];
+  columnNamesList = ["S No.", "ULB Name", "State Name", "Census Code", "Population Category", "Status", "Action"];
 }
 
