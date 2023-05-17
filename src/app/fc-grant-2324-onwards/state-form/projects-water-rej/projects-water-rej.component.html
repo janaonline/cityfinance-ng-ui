@@ -59,7 +59,7 @@
                                           [matTooltip]="checkErrorState(projectRow,'area') ? 'Area 0 upto 5 digis' : null" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" 
                                           formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$" 
-                                          (keydown)="setMinMaxValidations($event, areaW, 0, 99999, '')" #areaW>
+                                          (keydown)="setMinMaxValidations($event, areaW, 0, maxNumVaditaion?.FiveDigit, '')" #areaW>
                                       </td>
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
@@ -102,14 +102,14 @@
                                               [matTooltip]="checkErrorState(projectRow,'bod') ? 'BOD 0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}" 
                                               formControlName="bod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, bodW, 0, 999, '')" #bodW>
+                                              (keydown)="setMinMaxValidations($event, bodW, 0, maxNumVaditaion?.ThreeDigit, '')" #bodW>
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'bod_expected') ? 'BOD expected 0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'bod_expected')}" 
                                               formControlName="bod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                            type="number" (keydown)="setMinMaxValidations($event, bod_expectedW, 0, 999, '')" #bod_expectedW>
+                                            type="number" (keydown)="setMinMaxValidations($event, bod_expectedW, 0, maxNumVaditaion?.ThreeDigit, '')" #bod_expectedW>
                                           </div>
                                       </td>
 
@@ -119,13 +119,13 @@
                                               [matTooltip]="checkErrorState(projectRow,'cod') ? 'COD  0 upto 4 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}" 
                                               formControlName="cod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, codW, 0, 9999, '')" #codW>
+                                              (keydown)="setMinMaxValidations($event, codW, 0, maxNumVaditaion?.FourDigit, '')" #codW>
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'cod_expected') ? 'COD expected 0 upto 4 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'cod_expected')}" formControlName="cod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, cod_expectedW, 0, 9999, '')" #cod_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, cod_expectedW, 0, maxNumVaditaion?.FourDigit, '')" #cod_expectedW>
                                           </div>
                                       </td>
 
@@ -135,14 +135,14 @@
                                               [matTooltip]="checkErrorState(projectRow,'do') ? 'DO  0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}" 
                                               formControlName="do" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, doW, 0, 999, '')" #doW>
+                                              (keydown)="setMinMaxValidations($event, doW, 0, maxNumVaditaion?.ThreeDigit, '')" #doW>
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'do_expected') ? 'DO expected 0 upto 3 digits'  : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'do_expected')}" 
                                               formControlName="do_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, do_expectedW, 0, 999, '')" #do_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, do_expectedW, 0, maxNumVaditaion?.ThreeDigit, '')" #do_expectedW>
                                           </div>
                                       </td>
 
@@ -152,14 +152,14 @@
                                               [matTooltip]="checkErrorState(projectRow,'tds') ? 'TDS 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}" formControlName="tds" 
                                               pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, tdsW, 0, 99999, '')" #tdsW>
+                                              (keydown)="setMinMaxValidations($event, tdsW, 0, maxNumVaditaion?.FiveDigit, '')" #tdsW>
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'tds_expected') ? 'TDS expected 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'tds_expected')}" 
                                               formControlName="tds_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, tds_expectedW, 0, 99999, '')" #tds_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, tds_expectedW, 0, maxNumVaditaion?.FiveDigit, '')" #tds_expectedW>
                                           </div>
                                       </td>
 
@@ -169,14 +169,14 @@
                                               [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Turbidity 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" 
                                               formControlName="turbidity" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, turbidityW, 0, 9999, '')" #turbidityW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, turbidityW, 0, maxNumVaditaion?.FiveDigit, '')" #turbidityW>
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'turbidity_expected') ? 'Turbidity expected 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity_expected')}" 
                                               formControlName="turbidity_expected"
-                                            pattern="^\d*(\.\d{0,6})?$" type="number" (keydown)="setMinMaxValidations($event, turbidityExpW, 0, 9999, '')" #turbidityExpW>
+                                            pattern="^\d*(\.\d{0,6})?$" type="number" (keydown)="setMinMaxValidations($event, turbidityExpW, 0, maxNumVaditaion?.FiveDigit, '')" #turbidityExpW>
                                           </div>
                                       </td>
                                       <td>
@@ -201,7 +201,7 @@
                                           <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.waterBodies[waterBodiesIndex]?.dprCompletion == 'Yes'">
                                               <input matTooltipPosition="above" class="workCompletion" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion" type="number"
-                                                   (change)="warningForAmount($event.target.value)" (keydown)="setMinMaxValidations($event, wrWb, 0, 100, '')" #wrWb>
+                                                   (change)="warningForAmount($event.target.value)">
                                           </div>
                                       </td>
 
@@ -247,7 +247,8 @@
                                           <span>{{1+reuseWaterIndex}}</span>
                                       </td>
                                       <td>
-                                          <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
+                                          <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" [tabindex]="" />
                                       </td>
                                       <td class="latLong">
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}" formControlName="lat" (blur)="latLong($event.target.value,projectRow,'lat')" pattern="^\d*(\.\d{0,6})?$"
@@ -264,19 +265,19 @@
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'value 0 upto 3 digis' : null"
                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" 
                                            formControlName="stp" type="number" pattern="^\d*(\.\d{0,6})?$"
-                                           (keydown)="setMinMaxValidations($event, stpWr, 0, 1000, '')" #stpWr>
+                                           (keydown)="setMinMaxValidations($event, stpWr, 0, maxNumVaditaion?.ThreeDigit, '')" #stpWr>
                                       </td>
                                       <td>
                                           <input formControlName="treatmentPlant" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" 
                                           [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'value 0 upto 3 digis' : null" 
-                                          type="number" (keydown)="setMinMaxValidations($event, tretWr, 0, 1000, '')" #tretWr>
+                                          type="number" (keydown)="setMinMaxValidations($event, tretWr, 0, maxNumVaditaion?.ThreeDigit, '')" #tretWr>
                                       </td>
                                       <td>
                                           <input formControlName="targetCust" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'targetCust')}" 
                                           [matTooltip]="checkErrorState(projectRow,'targetCust') ? 'value 0 upto 7 digis' : null" 
-                                          type="number" (keydown)="setMinMaxValidations($event, tartgetWr, 0, 9999999, '')" #tartgetWr>
+                                          type="number" (keydown)="setMinMaxValidations($event, tartgetWr, 0, maxNumVaditaion?.SevenDigit, '')" #tartgetWr>
                                       </td>
                                       <td class=" rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
@@ -296,7 +297,7 @@
                                           <div class="mb-2" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.reuseWater[reuseWaterIndex]?.dprCompletion == 'Yes'">
                                               <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion"
-                                                type="number" (change)="warningForAmount($event.target.value)" (keydown)="setMinMaxValidations($event, wrRw, 0, 100, '')" #wrRw>
+                                                type="number" (change)="warningForAmount($event.target.value)">
                                           </div>
                                       </td>
                                       <td class="iconSliAndReuse">
@@ -367,7 +368,7 @@
                                       </td>
                                       <td>
                                           <input formControlName="cost" matTooltipPosition="above" [matTooltip]="'cost 0 upto 15 digits'" type="number" 
-                                           pattern="^\d*(\.\d{0,6})?$" (keydown)="setMinMaxValidations($event, costSli, 0, costMaxVal, '')" #costSli>
+                                           pattern="^\d*(\.\d{0,6})?$" (keydown)="setMinMaxValidations($event, costSli, 0, maxNumVaditaion?.fifteenDigit, '')" #costSli>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
@@ -389,7 +390,7 @@
                                               [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}"
                                                formControlName="workCompletion" type="number" (change)="warningForAmount($event.target.value)"
-                                               (keydown)="setMinMaxValidations($event, wrCSli, 0, 100, '')" #wrCSli>
+                                               >
                                           </div>
                                           <p>
                                           </p>

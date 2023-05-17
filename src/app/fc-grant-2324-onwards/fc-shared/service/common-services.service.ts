@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { log } from 'console';
 import { BehaviorSubject } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
@@ -57,10 +58,13 @@ export class CommonServicesService {
     } else {
       newValue = input?.value + keyValue?.toString();
     }
-
+    console.log('log..', maxV);
+    const numToStringLen = (maxV.toString()).length;
+    
+    console.log('maxV?.length', maxV?.length, 'newValue.length', newValue.length, numToStringLen);
     if (
       +newValue > maxV ||
-      newValue.length > maxV?.length ||
+      newValue.length > numToStringLen-1 ||
       +newValue < minV ||
       e.key == " "
     ) {
