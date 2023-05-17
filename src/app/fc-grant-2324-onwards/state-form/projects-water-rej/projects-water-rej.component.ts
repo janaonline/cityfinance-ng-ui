@@ -821,10 +821,10 @@ errorOnload:boolean = false;
 
             swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
+              this.commonServices.setFormStatusState.next(true);
            if(draft == false){
             this.waterRejenuvation.disable();
-            this.isDisabled = true;
-            this.commonServices.setFormStatusState.next(true);
+            this.isDisabled = true; 
            }
           },
           (err) => {
