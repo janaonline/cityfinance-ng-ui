@@ -10,9 +10,9 @@ import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/
 import { StateformsService } from 'src/app/pages/stateforms/stateforms.service';
 import { ImagePreviewComponent } from 'src/app/pages/ulbform/utilisation-report/image-preview/image-preview.component';
 import { MapDialogComponent } from 'src/app/shared/components/map-dialog/map-dialog.component';
-// import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import {minMaxValue} from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/minMaxNumber'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-projects-water-rej',
@@ -366,6 +366,7 @@ waterRejRes = {
   ]
 }
 costMaxVal: number = 999999999999999;
+maxNumVaditaion:number;
 errorOnload:boolean = false;
   constructor(
     private fb: FormBuilder,
@@ -388,6 +389,7 @@ errorOnload:boolean = false;
     this.setRouter();
     this.design_year = this.Year["2023-22"];
     this.setUaList();
+    this.maxNumVaditaion = minMaxValue;
   }
 
   indicatorSet(event, index, rowIndex) {
