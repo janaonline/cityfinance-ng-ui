@@ -361,12 +361,7 @@ table {
         font-weight: 400;
     }
     
-    input:focus+.focus-warning {
-        color: #c9880f;
-        display: block;
-    }
-
     .focus-warning {
-        display: none;
+        color: #c9880f;
     }
 }
