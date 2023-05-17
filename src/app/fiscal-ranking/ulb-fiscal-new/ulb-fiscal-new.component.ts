@@ -503,8 +503,12 @@ export class UlbFiscalNewComponent implements OnInit {
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
-  yearDataLength(items: any[]) {
-    return items?.filter(item => item.key)?.length;
+  canSeeAllActionButtons(items: any[]) {
+    
+    if (this.canTakeAction && items?.filter(item => item.key)?.length > 1){
+      return items?.every(item => item.status != "")
+    }
+    return false
   }
 
   submit(isDraft = true) {

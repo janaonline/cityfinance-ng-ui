@@ -109,7 +109,7 @@
                                                 </mat-icon>
                                             </p>
                                             <div class="mt-4"
-                                                *ngIf="canTakeAction && yearDataLength(item?.value?.controls?.yearData?.value) > 1">
+                                                *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
                                                 <button class="btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
