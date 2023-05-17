@@ -136,7 +136,6 @@ export class UlbFiscalNewComponent implements OnInit {
       this.addSkipLogics();
       this.addSumLogics();
       this.addSubtractLogics();
-      this.navigationCheck();
       this.form.markAsPristine();
       this.isLoader = false;
     });
@@ -498,29 +497,6 @@ export class UlbFiscalNewComponent implements OnInit {
     })
   }
 
-  navigationCheck() {
-    this._router.events.subscribe((event: any) => {
-      console.log(event?.url);
-      if (event?.url == '/rankings/home') return this.form.markAsPristine();
-      if (event instanceof NavigationStart && !this.form.pristine) {
-        swal("Unsaved Changes", {
-          buttons: {
-            Draft: {
-              text: "Save as draft",
-              value: "draft",
-            },
-            Cancel: {
-              text: "Cancel",
-              value: "cancel",
-            },
-          },
-        }).then((value) => {
-          if (value == 'draft') this.submit();
-          else this.form.markAsPristine();
-        });
-      }
-    });
-  }
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : (this.currentFormStatus == 10 ? 9 : 8);
