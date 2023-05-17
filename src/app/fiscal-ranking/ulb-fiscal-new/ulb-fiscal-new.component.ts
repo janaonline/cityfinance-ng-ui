@@ -106,8 +106,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get isDisabled() {
-    if(this.loggedInUserType == this.userTypes.ULB) return ![1, 2, 10].includes(this.currentFormStatus);
-    if(this.loggedInUserType == this.userTypes.MoHUA) return ![8, 9].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.ULB) return ![1, 2, 10].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA) return ![8, 9].includes(this.currentFormStatus);
     return true;
   }
 
@@ -192,7 +192,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getInnerFormGroup(item, parent?) {
-     const innerFormGroup = this.fb.group({
+    const innerFormGroup = this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
       originalValue: item.value,
@@ -208,7 +208,7 @@ export class UlbFiscalNewComponent implements OnInit {
       max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: item?.status,
+      status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -229,12 +229,16 @@ export class UlbFiscalNewComponent implements OnInit {
     this.attactRequiredReasonToggler(innerFormGroup);
     return innerFormGroup;
   }
-  
+
   attactRequiredReasonToggler(innerFormGroup: FormGroup) {
     const statusControl = innerFormGroup.get('status');
     statusControl?.valueChanges.subscribe(status => {
       const rejectReasonControl = innerFormGroup.get('rejectReason');
-      rejectReasonControl?.setValidators(status == 'REJECTED' ? Validators.required : []);
+      rejectReasonControl?.setValidators(status == 'REJECTED' ? [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ] : []);
       rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
     });
     statusControl?.updateValueAndValidity({ emitEvent: true });
@@ -309,7 +313,7 @@ export class UlbFiscalNewComponent implements OnInit {
             parentYearItemControl.markAsDirty();
           })
         })
-        child.updateValueAndValidity({ emitEvent: true });
+        // child.updateValueAndValidity({ emitEvent: true });
       });
     });
   }
@@ -519,7 +523,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? 2 : 8;
+    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : (this.currentFormStatus == 10 ? 9 : 8);
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
@@ -539,12 +543,12 @@ export class UlbFiscalNewComponent implements OnInit {
     this.loaderService.showLoader();
     this.fiscalService[this.userData.role == this.userTypes.MoHUA ? 'actionByMohua' : 'postFiscalRankingData'](payload).subscribe(res => {
       this.form.markAsPristine();
-    this.loaderService.stopLoader();
-    this.formSubmitted = !isDraft;
-    swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
-  }, ({ error }) => {
-    this.loaderService.stopLoader();
-    swal('Error', error?.message ?? 'Something went wrong', 'error');
-  })
+      this.loaderService.stopLoader();
+      this.formSubmitted = !isDraft;
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+    }, ({ error }) => {
+      this.loaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
   }
 }
