@@ -1,12 +1,23 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right"><img class="invert"
-                    src="assets/form-icon/close_black_24dp.svg"></a>
         </div>
-        <div class="col-sm-12 text-center heading-p">
-            <span class="d-block">Submissions for Fiscal Rankings for FY 2022-23</span>
-            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        <div class="row text-center">
+            <div class="col-2 d-flex align-items-center">
+                <img class="w-100" src="/assets/M FIGMA/city-finance-ranking.png" alt="">
+            </div>
+            <div class="col-9 text-light">
+                <h2 class="mt-2 ulb-name">{{ulbName}}</h2>
+                <p class="mb-0 ulb-info">
+                    SUMMARY OF INFORMATION FROM ANNUAL FINANCIAL STATEMENTS<br />
+                    FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br />
+                    figures in Rs.
+                </p>
+            </div>
+            <div class="col-1">
+                <a (click)="closeMat()" class="pull-right"><img class="invert"
+                        src="assets/form-icon/close_black_24dp.svg"></a>
+            </div>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
