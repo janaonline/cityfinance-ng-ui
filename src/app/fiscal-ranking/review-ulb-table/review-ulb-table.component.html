@@ -103,7 +103,7 @@
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
                                         </span> -->
-                                        <select class="form-select ms-2" style="line-height: 1.1rem;" formControlName="populationCategory" (change)="loadData()">
+                                        <select class="form-select ms-2" style="line-height: 1.1rem;" formControlName="populationType" (change)="loadData()">
                                             <option selected value="" class="s-pl">All</option>
                                             <option *ngFor="let item of populationCategories" [value]="item._id">{{item.name}}</option>
                                         </select>
@@ -141,12 +141,12 @@
                                 currentPage: tableDefaultOptions.currentPage,
                                 totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
                               }; let tabelIndex=index">
-                                <td style="width: 1%;">{{isInfiniteScroll ? tabelIndex+1 :
+                                <td style="width: 5%;">{{isInfiniteScroll ? tabelIndex+1 :
                                     (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                     tabelIndex+1)}}</td>
                                 <td>{{item.ulbName}}</td>
-                                <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.censusCode}}</td>
+                                <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.populationType}}</td>
                                 <td>{{item.formStatus}}</td>
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
