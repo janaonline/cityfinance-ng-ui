@@ -484,10 +484,10 @@
             </button>
                 </div>
                 <div class="col-sm-7 text-end">
-                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(true)" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(true)" type="button" [disabled]="isDisabled || isCompleteUploading">
                 Save as Draft
               </button>
-                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(false)" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(false)" type="button" [disabled]="isDisabled || isCompleteUploading">
                 Submit
               </button>
                     <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->

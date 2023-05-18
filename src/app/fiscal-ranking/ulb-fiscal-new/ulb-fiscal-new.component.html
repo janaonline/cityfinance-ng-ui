@@ -73,8 +73,8 @@
                         </div>
 
                         <p class="text-center" *ngIf="tab?.value?.id === 's3'">
-                            SUMMARY OF INFORMATION FROM ANNUAL FINANCIAL STATEMENTS <br>
-                            FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022 <br>
+                            SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br>
+                            FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
                             all figures in Rs.
                         </p>
                         <table class="table table-striped" *ngIf="tab?.value?.id === 's3'">
@@ -109,7 +109,7 @@
                                                 </mat-icon>
                                             </p>
                                             <div class="mt-4"
-                                                *ngIf="canTakeAction && yearDataLength(item?.value?.controls?.yearData?.value) > 1">
+                                                *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
                                                 <button class="btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>

@@ -29,7 +29,7 @@ export class ProjectsWaterRejComponent implements OnInit {
   waterRejenuvation: FormGroup;
   maxPhotos = 5;
   photosArray = [];
-  errorPhotosArray = [];
+  isCompleteUploading:boolean = false;
   isDraft = null;
   submitted = false;
   UANames = [];
@@ -365,7 +365,6 @@ waterRejRes = {
     }
   ]
 }
-costMaxVal: number = 999999999999999;
 maxNumVaditaion:number;
 errorOnload:boolean = false;
   constructor(
@@ -821,10 +820,10 @@ errorOnload:boolean = false;
 
             swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
+              this.commonServices.setFormStatusState.next(true);
            if(draft == false){
             this.waterRejenuvation.disable();
-            this.isDisabled = true;
-            this.commonServices.setFormStatusState.next(true);
+            this.isDisabled = true; 
            }
           },
           (err) => {
@@ -851,9 +850,9 @@ errorOnload:boolean = false;
     }
     let dialogRef = this.dialog.open(ImagePreviewComponent, {
       data: imgData,
-      height: "400px",
-      width: "500px",
-      panelClass: "no-padding-dialog",
+      height: "450px",
+      width: "550px",
+      panelClass: ["no-padding-dialog", "custom-dialog-container"],
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
@@ -1002,12 +1001,14 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
     }
     let folderName = `${this.userData?.role}/2023-24/projects_wss/${this.userData?.stateCode}`
     const fileExtension = file.name.split('.').pop();
-    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} MB file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     if (fileType === 'img' && !imgFileExtensions.includes(fileExtension)) return swal('Error', 'Only "PNG" or "JPG", or "JPEG" file can be Uploaded', 'error');
     this._snackBar.open("Uploaing File...",'', {"duration": 10000});
+    this.isCompleteUploading = true;
     if(uploadType == 'img'){
+    this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
     let title = "Success";
@@ -1028,7 +1029,7 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
     for (const key in files) {
       if (key == "length") break;
       if (size == 0) {
-        msg = `First ${files.length - leftNum} uploaded successfully`;
+        msg = `First ${leftNum} uploaded successfully`;
         title = `Max ${this.maxPhotos} photos are allowed`;
         status = "warning";
         break;
@@ -1057,12 +1058,14 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
           if(uploadType == 'img') this.photosArray.push({ url: file_url, name: fileName });
           if(uploadType == 'pdf')  this.waterRejenuvation.get('declaration').patchValue({ url: file_url, name: file.name})
           this._snackBar.dismiss();
+          this.isCompleteUploading = false;
           // console.log('form', this.formControl?.responseFile?.value?.name);
           resolve();
         },
         (err)=>{
           this._snackBar.dismiss();
-          resolve()
+          this.isCompleteUploading = false;
+          resolve();
         }
         );
       }, 
@@ -1070,6 +1073,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
           console.log(err);
           this._snackBar.open("Unable to save the file..",'', {"duration": 2000});
           this._snackBar.dismiss();
+          this.isCompleteUploading = false;
           resolve();
       });
     })
