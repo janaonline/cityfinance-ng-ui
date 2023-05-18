@@ -1,0 +1,15 @@
+.img-c {
+    overflow: auto;
+    height: 22rem;
+}
+.card {
+    display: inline-block;
+     width: 230px; 
+     height: 210px;
+}
+::ng-deep .custom-dialog-container { 
+ .mat-dialog-container {
+        overflow: hidden !important;
+    }
+    
+}

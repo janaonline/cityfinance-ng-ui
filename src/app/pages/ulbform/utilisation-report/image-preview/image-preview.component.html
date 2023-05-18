@@ -1,19 +1,18 @@
-<div class="container-fluid" style="margin-bottom: 2pc;">
-    <div class="text-end ">
+<div class="container-fluid mb-4">
+    <div class="text-end mb-2">
         <a mat-dialog-close>
             <mat-icon aria-hidden="false">
                 <img src="../../../../../assets/form-icon/close-red-icon.png" style="color: red;">
             </mat-icon>
         </a>
     </div>
-    <div class="card m-2" *ngFor="let imgUrl
-    of data" style="display: inline-block; width: 200px; height: 210px;">
-        <div class="card-body ">
-            <img class="ml-2" [src]="imgUrl.url" alt="" width="180px" height="180px">
+    <div class="img-c">
+        <div class="card m-2" *ngFor="let imgUrl of data">
+            <div class="card-body ">
+                <img class="ml-2" [src]="imgUrl.url" alt="" width="200px" height="180px">
+            </div>
         </div>
     </div>
-    <!-- <div style="display: block; margin-top: 15px;">
-        <button mat-dialog-close>Close</button>
-    </div> -->
+
 
 </div>
