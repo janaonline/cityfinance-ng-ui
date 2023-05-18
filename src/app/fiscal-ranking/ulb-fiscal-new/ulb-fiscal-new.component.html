@@ -159,7 +159,7 @@
 
                                                     <div class="input-group border"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
-                                                        [ngClass]="{'border-danger': yearItem?.controls?.date == 'INVALID' == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)}">
+                                                        [ngClass]="{'border-danger': yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)}">
                                                         <div class="d-flex w-100 px-2">
                                                             <input onwheel="this.blur()" appNoUpDown matInput
                                                                 formControlName="date" style="pointer-events: none;"
@@ -176,7 +176,7 @@
                                                         <mat-datepicker #r_i></mat-datepicker>
                                                     </div>
                                                     <small style="color: red"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem?.controls?.date == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)">Please
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)">Please
                                                         provide a valid date</small>
                                                     <ng-container
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
