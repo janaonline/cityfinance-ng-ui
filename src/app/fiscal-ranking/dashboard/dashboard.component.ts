@@ -16,15 +16,15 @@ export class DashboardComponent implements OnInit {
 
   tables: Table[] = [
     {
-      endpoint: '/UA/get-projects',
+      endpoint: 'fiscal-ranking/overview/UlbActivities',
       response: null,
     },
     {
-      endpoint: '/UA/get-projects',
+      endpoint: 'fiscal-ranking/overview/PMUActivities',
       response: null,
     },
     {
-      endpoint: '/UA/get-projects',
+      endpoint: 'fiscal-ranking/overview/populationWise',
       response: null,
     },
   ]

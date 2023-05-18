@@ -1,9 +1,11 @@
 <div class="container">
-    <h4 class="my-3" *ngIf="response">{{ response?.name }}</h4>
-    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
-        (page)="pageChange($event)" aria-label="Select page">
-    </mat-paginator>
-    <table class="table table-striped mt-4 p-2">
+    <div class="d-flex justify-content-between">
+        <h4 class="my-3" *ngIf="response">{{ response?.name }}</h4>
+        <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
+            (page)="pageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+    <table class="table table-striped p-2">
         <thead *ngIf="response && response?.columns?.length > 0">
             <tr>
                 <th scope="col" *ngFor="let column of response.columns" class="border-0 table-primary">
