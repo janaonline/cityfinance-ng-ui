@@ -83,17 +83,10 @@ export class FiscalRankingService {
   getTableResponse(endpoint: string, queryParams: string, columns) {
     return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
       map((response) => {
-        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
         response.columns = columns || response.columns.map(column => ({
           ...column,
           sort: 0,
-          ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
         }));
-        response.data = response.data.map(item => ({
-          ...item,
-          ulbShare: (item.ulbShare as number / 100).toFixed(2),
-          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
-        }))
         return response;
       })
     );
