@@ -170,7 +170,11 @@
                                 </td> -->
                             </tr>
                         </tbody>
+                        
                     </table>
+                    <div style="text-align: center;padding-bottom: 20px;" *ngIf="!data.length">
+                        {{notFoundMessage}}
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
                     <div class="spinner-grow text-success" role="status">

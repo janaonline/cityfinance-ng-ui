@@ -27,7 +27,7 @@ export class ReviewUlbTableComponent implements OnInit {
   isLoader: boolean = false;
   max = Math.max;
   csvType = 'csvFROverall';
-
+  notFoundMessage:String = 'No Data Found ...'
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
