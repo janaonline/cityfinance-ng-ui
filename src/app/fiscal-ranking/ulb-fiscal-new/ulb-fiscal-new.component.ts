@@ -199,6 +199,7 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      focused: [{ value: false, disabled: true}],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -501,8 +502,7 @@ export class UlbFiscalNewComponent implements OnInit {
       else if (value == 'draft') this.submit();
     })
   }
-
-
+  
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft 
       ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 
@@ -516,6 +516,10 @@ export class UlbFiscalNewComponent implements OnInit {
       return items?.every(item => item.status != "")
     }
     return false
+  }
+
+  onFocusChange(control: FormGroup, focused: boolean) {
+    control.patchValue({ focused });
   }
 
   submit(isDraft = true) {

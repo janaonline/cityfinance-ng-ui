@@ -126,6 +126,8 @@
                                                         <span *ngIf="yearItem.controls?.isRupee?.value"
                                                             class="input-group-text br-a" id="basic-addon1">₹</span>
                                                         <input onwheel="this.blur()" appNoUpDown
+                                                            (focus)="onFocusChange(yearItem, true)"
+                                                            (blur)="onFocusChange(yearItem, false)"
                                                             *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                                                             [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                             formControlName="value" class="form-control"
@@ -137,8 +139,9 @@
                                                                     'is-invalid': yearItem?.controls?.value?.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     </div>
+
                                                     <small class="focus-warning"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0'">
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0' && yearItem?.controls?.focused?.value">
                                                         contains "0" do you still want to continue?
                                                     </small>
 
