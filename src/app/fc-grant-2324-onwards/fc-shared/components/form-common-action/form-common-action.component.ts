@@ -247,7 +247,11 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.isActionSubmitted = false;
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
-      if((this.formId == 4 || this.formId == 6) && (this.statusForm?.value?.status == 5 || this.statusForm?.value?.status == 7)) this.sequncialReview();
+      if((this.formId == 4 || this.formId == 6) &&
+       (this.statusForm?.value?.status == 7) && 
+       this.userData?.role == 'MoHUA'){
+        this.sequentialReview();
+       } 
       swal('Saved', "Action submitted successfully", "success");
     },
     (error)=>{
@@ -278,7 +282,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     })
   }
 
-  sequncialReview() {
+  sequentialReview() {
     let body = {
       ulbs: [this.ulbId],
       design_year: this.Years["2023-24"],
