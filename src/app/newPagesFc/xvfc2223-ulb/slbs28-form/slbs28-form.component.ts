@@ -34,6 +34,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       this.ulbId = localStorage.getItem("ulb_id");
     }
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.Years = JSON.parse(localStorage.getItem("Years"));
     this.navigationCheck();
   }
   ulbData;
@@ -51,6 +52,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   isDisabled = false;
   previewData;
   isApiInProgress = true;
+  Years: object | any;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -644,6 +646,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
         this.newCommonService.setFormStatus2223.next(true);
+        if(actionBody?.status == 'REJECTED') this.sequncialReview();
         swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
@@ -685,5 +688,22 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.formSubs?.unsubscribe();
+  }
+  sequncialReview() {
+    let body = {
+      ulbs: [this.ulbId],
+      design_year: this.Years["2022-23"],
+      status: "REJECTED",
+      formId: 6,
+      multi: false,
+    };
+    this.newCommonService.postSeqReview(body).subscribe(
+      (res) => {
+        console.log("Sequential review", res);
+      },
+      (error) => {
+        swal("Error", "Sequential review field.", "error");
+      }
+    );
   }
 }
