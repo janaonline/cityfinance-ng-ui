@@ -123,6 +123,10 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.form.get('4.data.otherUpload');
   }
 
+  get signedCopyOfFileControl() {
+    return this.form.get('4.data.signedCopyOfFile');
+  }
+
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
@@ -158,7 +162,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
-            status: item.status,
+            status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
           });
@@ -269,9 +273,9 @@ export class UlbFiscalNewComponent implements OnInit {
         const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
-        if (canShow && control?.get('status')?.value == 'REJECTED' && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == StatusType.returnedByPMU) {
+        if (canShow && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == StatusType.returnedByPMU) {
           updatableControl.patchValue({
-            readonly: false
+            readonly: control?.get('status')?.value == 'APPROVED'
           });
         }
         ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
@@ -502,7 +506,7 @@ export class UlbFiscalNewComponent implements OnInit {
       else if (value == 'draft') this.submit();
     })
   }
-  
+
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft 
       ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 

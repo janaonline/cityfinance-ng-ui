@@ -34,5 +34,8 @@
 
     <small 
         class="d-block text-danger" 
+        *ngIf="isInvalid">Please Approve or Reject</small>
+    <small 
+        class="d-block text-danger" 
         *ngIf="!disabled && status === 'REJECTED' && !rejectReason?.valid">Enter valid reject reason</small>
 </ng-container>

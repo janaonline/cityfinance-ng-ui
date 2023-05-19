@@ -65,6 +65,7 @@
                                         </div>
                                     </div>
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
+                                        [isInvalid]="item?.value?.controls?.status?.status == 'INVALID' && (item?.value?.controls?.status?.touched || item?.value?.controls?.status?.dirty)"
                                         [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
                                         (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
                                     </app-common-action-radio>
@@ -228,6 +229,7 @@
                                                     </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
                                                         [rejectReason]="yearItem?.controls?.rejectReason"
                                                         (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
@@ -365,6 +367,7 @@
                                                                 </div>
                                                                 <app-common-action-radio class="mt-2"
                                                                     *ngIf="canSeeActions" formControlName="status"
+                                                                    [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                                     [disabled]="!canTakeAction"
                                                                     [rejectReason]="yearItem?.controls?.rejectReason"
                                                                     (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
@@ -408,6 +411,7 @@
                                         <div [formGroup]="otherUploadControl">
                                             <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                 formControlName="status" [disabled]="!canTakeAction"
+                                                [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
                                                 (onRejectReasonChange)="updateControl(otherUploadControl?.controls?.rejectReason, $event)">
                                             </app-common-action-radio>
@@ -457,7 +461,7 @@
                                                             src="assets/circle/cloud_upload_black_24dp.svg" alt="">
                                                     </button>
                                                     <input #bs_pdf_up style="display: none;"
-                                                        (change)="uploadFile($event, 'pdf', tab?.controls?.data?.controls?.signedCopyOfFile)"
+                                                        (change)="uploadFile($event, 'pdf', signedCopyOfFileControl)"
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
                                                 <small class="text-center">Maximum Size 5MB (pdf files only)</small>
@@ -465,7 +469,7 @@
                                                 <div class="invalid-feedback">Please provide a valid input.</div>
                                                 <div class="col-sm-12">
                                                     <app-loader
-                                                        [show]="tab?.controls?.data?.controls?.signedCopyOfFile.controls?.uploading?.value">
+                                                        [show]="signedCopyOfFileControl.controls?.uploading?.value">
                                                     </app-loader>
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
@@ -476,15 +480,16 @@
                                                     </a>
                                                 </div>
 
-                                                <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
+                                                <small
+                                                    *ngIf="signedCopyOfFileControl?.controls?.url?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.url?.dirty || signedCopyOfFileControl?.controls?.url?.touched)"
                                                     class="text-danger text-center">Please upload a file</small>
 
-                                                <div class="text-center"
-                                                    [formGroup]="tab?.controls?.data?.controls?.signedCopyOfFile">
+                                                <div class="text-center" [formGroup]="signedCopyOfFileControl">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
-                                                        [rejectReason]="tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason"
-                                                        (onRejectReasonChange)="updateControl(tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason, $event)">
+                                                        [rejectReason]="signedCopyOfFileControl?.controls?.rejectReason"
+                                                        (onRejectReasonChange)="updateControl(signedCopyOfFileControl?.controls?.rejectReason, $event)">
                                                     </app-common-action-radio>
                                                 </div>
                                             </div>
