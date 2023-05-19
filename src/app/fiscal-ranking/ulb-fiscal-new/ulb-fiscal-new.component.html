@@ -405,7 +405,7 @@
                                         </div>
 
                                         <small
-                                            *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
+                                            *ngIf="otherUploadControl?.controls?.url?.status == 'INVALID' && (otherUploadControl?.controls?.url?.dirty || otherUploadControl?.controls?.url?.touched)"
                                             class="text-danger text-center">Please upload a file</small>
 
                                         <div [formGroup]="otherUploadControl">
