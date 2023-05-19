@@ -268,6 +268,11 @@ export class UlbFiscalNewComponent implements OnInit {
         const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
+        if (canShow && control?.get('status')?.value == 'REJECTED' && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == 10) {
+          updatableControl.patchValue({
+            readonly: false
+          });
+        }
         ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
           const control = updatableControl.get(innerSelectorString)
           this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
@@ -504,8 +509,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   canSeeAllActionButtons(items: any[]) {
-    
-    if (this.canTakeAction && items?.filter(item => item.key)?.length > 1){
+
+    if (this.canTakeAction && items?.filter(item => item.key)?.length > 1) {
       return items?.every(item => item.status != "")
     }
     return false
