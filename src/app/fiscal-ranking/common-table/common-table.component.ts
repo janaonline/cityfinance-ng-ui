@@ -55,8 +55,7 @@ export class CommonTableComponent implements OnInit {
 
     const sortQuery = this.response?.columns?.filter(column => column.sort !== 0)
       .reduce((result, item) => result + `&sortBy=${item.key}&order=${item.sort}`, '');
-    const defaultSortQuery = '&sortBy=stateName&order=1&sortBy=ulbName&order=1'
-    return new URLSearchParams(params).toString() + (sortQuery || defaultSortQuery);
+    return new URLSearchParams(params).toString() + (sortQuery);
   }
 
   updateSorting(column) {
@@ -74,16 +73,4 @@ export class CommonTableComponent implements OnInit {
   loadData() {
     this.update.emit({queryParams: this.queryParams, response: this.response});
   }
-
-  // loadData() {
-  //   this.loaderService.showLoader();
-  //   this.municipalBondsSerivce.getProjects(this.queryParams, this.response?.columns).subscribe(res => {
-  //     this.response = res;
-  //     console.log({ res });
-  //     this.loaderService.stopLoader();
-  //   }, error => {
-  //     swal("Error", error?.message || "Something went worng", "error");
-  //     this.loaderService.stopLoader();
-  //   })
-  // }
 }
