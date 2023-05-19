@@ -622,7 +622,7 @@ export class UlbformComponent implements OnInit {
           this.ulbformService.disableAllFormsAfterStateReview.next(true);
           console.log("State final action", res);
         }
-      if(actionStatus = "REJECTED") this.sequncialReview(actionBody); // for sequncial rejection
+      if(actionStatus = "REJECTED") this.sequentialReview(actionBody); // for sequncial rejection
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);
         setTimeout(() => {
@@ -659,7 +659,7 @@ export class UlbformComponent implements OnInit {
     }
   }
 
-  sequncialReview(actionBody){
+  sequentialReview(actionBody){
    const totalForm = [{id: 4}, {id: 6}];
    let body ={
     "ulbs":[this.ulbId],

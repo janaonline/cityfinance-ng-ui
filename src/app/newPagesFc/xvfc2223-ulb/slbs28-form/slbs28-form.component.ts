@@ -646,7 +646,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
         this.newCommonService.setFormStatus2223.next(true);
-        if(actionBody?.status == 'REJECTED') this.sequncialReview();
+        if(actionBody?.status == 'REJECTED') this.sequentialReview();
         swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
@@ -689,7 +689,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.formSubs?.unsubscribe();
   }
-  sequncialReview() {
+  sequentialReview() {
     let body = {
       ulbs: [this.ulbId],
       design_year: this.Years["2022-23"],
