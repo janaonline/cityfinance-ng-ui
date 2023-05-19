@@ -14,7 +14,14 @@ const routes: Routes = [
   { path: "home", component: FiscalHomeComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
-  { path: "ulb-form/:ulbId", component: UlbFiscalNewComponent },
+  { 
+    path: "ulb-form/:ulbId", 
+    component: UlbFiscalNewComponent,
+    canDeactivate: [ConfirmationGuard],
+    data: {
+      'formType': 'custom-form'
+    },
+  },
   {
     path: "ulb-form",
     component: UlbFiscalNewComponent,
