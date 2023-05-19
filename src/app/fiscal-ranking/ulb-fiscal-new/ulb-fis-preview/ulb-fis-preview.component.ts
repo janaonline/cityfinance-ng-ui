@@ -112,6 +112,14 @@ export class UlbFisPreviewComponent implements OnInit {
         color: black;
         text-align: center;
     }
+    .ulb-name {
+      font-size: 15px;
+      color: white;
+    }
+    .ulb-info {
+      font-size: 12px;
+      color: white;
+    }
   </style>`;
   ngOnInit(): void {
     //preview data

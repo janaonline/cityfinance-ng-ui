@@ -65,8 +65,8 @@
                                         </div>
                                     </div>
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
-                                        [rejectReason]="item?.value?.controls?.rejectReason"
-                                        [disabled]="!canTakeAction"
+                                        [isInvalid]="item?.value?.controls?.status?.status == 'INVALID' && (item?.value?.controls?.status?.touched || item?.value?.controls?.status?.dirty)"
+                                        [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
                                         (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
                                     </app-common-action-radio>
                                 </div>
@@ -74,8 +74,8 @@
                         </div>
 
                         <p class="text-center" *ngIf="tab?.value?.id === 's3'">
-                            SUMMARY OF INFORMATION FROM ANNUAL FINANCIAL STATEMENTS <br>
-                            FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022 <br>
+                            SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br>
+                            FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
                             all figures in Rs.
                         </p>
                         <table class="table table-striped" *ngIf="tab?.value?.id === 's3'">
@@ -110,7 +110,7 @@
                                                 </mat-icon>
                                             </p>
                                             <div class="mt-4"
-                                                *ngIf="canTakeAction && yearDataLength(item?.value?.controls?.yearData?.value) > 1">
+                                                *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
                                                 <button class="btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
@@ -123,10 +123,12 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <div class="d-flex">
+                                                    <div class="d-flex custom-input-group">
                                                         <span *ngIf="yearItem.controls?.isRupee?.value"
                                                             class="input-group-text br-a" id="basic-addon1">₹</span>
                                                         <input onwheel="this.blur()" appNoUpDown
+                                                            (focus)="onFocusChange(yearItem, true)"
+                                                            (blur)="onFocusChange(yearItem, false)"
                                                             *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                                                             [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
                                                             formControlName="value" class="form-control"
@@ -139,11 +141,11 @@
                                                             placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                     </div>
 
-
                                                     <small class="focus-warning"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0'">
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0' && yearItem?.controls?.focused?.value">
                                                         contains "0" do you still want to continue?
                                                     </small>
+
                                                     <small class="text-danger"
                                                         *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
                                                         As per financial data submitted for 15th FC grants, total value
@@ -161,7 +163,7 @@
 
                                                     <div class="input-group border"
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
-                                                        [ngClass]="{'border-danger': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                                                        [ngClass]="{'border-danger': yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)}">
                                                         <div class="d-flex w-100 px-2">
                                                             <input onwheel="this.blur()" appNoUpDown matInput
                                                                 formControlName="date" style="pointer-events: none;"
@@ -178,7 +180,7 @@
                                                         <mat-datepicker #r_i></mat-datepicker>
                                                     </div>
                                                     <small style="color: red"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">Please
+                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)">Please
                                                         provide a valid date</small>
                                                     <ng-container
                                                         *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
@@ -227,6 +229,7 @@
                                                     </ng-container>
                                                     <div class="invalid-feedback">Please provide a valid input.</div>
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
                                                         [rejectReason]="yearItem?.controls?.rejectReason"
                                                         (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
@@ -325,7 +328,7 @@
                                                                         <div class="al-up font-size-smaller">Already
                                                                             Uploaded on
                                                                             Cityfinance - <a target="_blank"
-                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode">View
+                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : userData?.name">View
                                                                                 here</a></div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
@@ -364,6 +367,7 @@
                                                                 </div>
                                                                 <app-common-action-radio class="mt-2"
                                                                     *ngIf="canSeeActions" formControlName="status"
+                                                                    [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                                     [disabled]="!canTakeAction"
                                                                     [rejectReason]="yearItem?.controls?.rejectReason"
                                                                     (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
@@ -407,6 +411,7 @@
                                         <div [formGroup]="otherUploadControl">
                                             <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                 formControlName="status" [disabled]="!canTakeAction"
+                                                [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
                                                 (onRejectReasonChange)="updateControl(otherUploadControl?.controls?.rejectReason, $event)">
                                             </app-common-action-radio>
@@ -456,7 +461,7 @@
                                                             src="assets/circle/cloud_upload_black_24dp.svg" alt="">
                                                     </button>
                                                     <input #bs_pdf_up style="display: none;"
-                                                        (change)="uploadFile($event, 'pdf', tab?.controls?.data?.controls?.signedCopyOfFile)"
+                                                        (change)="uploadFile($event, 'pdf', signedCopyOfFileControl)"
                                                         onclick="this.value=null;" type="file" accept=".pdf" #file>
                                                 </div>
                                                 <small class="text-center">Maximum Size 5MB (pdf files only)</small>
@@ -464,7 +469,7 @@
                                                 <div class="invalid-feedback">Please provide a valid input.</div>
                                                 <div class="col-sm-12">
                                                     <app-loader
-                                                        [show]="tab?.controls?.data?.controls?.signedCopyOfFile.controls?.uploading?.value">
+                                                        [show]="signedCopyOfFileControl.controls?.uploading?.value">
                                                     </app-loader>
                                                 </div>
                                                 <div class="col-sm-12 com-style mt-3 text-center f-w"
@@ -475,15 +480,16 @@
                                                     </a>
                                                 </div>
 
-                                                <small *ngIf="tab?.status == 'INVALID' && (tab?.dirty || tab?.touched)"
+                                                <small
+                                                    *ngIf="signedCopyOfFileControl?.controls?.url?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.url?.dirty || signedCopyOfFileControl?.controls?.url?.touched)"
                                                     class="text-danger text-center">Please upload a file</small>
 
-                                                <div class="text-center"
-                                                    [formGroup]="tab?.controls?.data?.controls?.signedCopyOfFile">
+                                                <div class="text-center" [formGroup]="signedCopyOfFileControl">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
-                                                        [rejectReason]="tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason"
-                                                        (onRejectReasonChange)="updateControl(tab?.controls?.data?.controls?.signedCopyOfFile?.controls?.rejectReason, $event)">
+                                                        [rejectReason]="signedCopyOfFileControl?.controls?.rejectReason"
+                                                        (onRejectReasonChange)="updateControl(signedCopyOfFileControl?.controls?.rejectReason, $event)">
                                                     </app-common-action-radio>
                                                 </div>
                                             </div>

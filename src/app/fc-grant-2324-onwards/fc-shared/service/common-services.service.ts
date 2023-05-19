@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { log } from 'console';
 import { BehaviorSubject } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';
@@ -36,7 +37,7 @@ export class CommonServicesService {
        }
     );
   }
-  minMaxValidation(e, input, minV, maxV) {
+  minMaxValidation(e, input, minV, maxV, type?:string) {
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
@@ -47,7 +48,6 @@ export class CommonServicesService {
       e.preventDefault();
       return;
     }
-
     const hasSelection =
       input?.selectionStart !== input?.selectionEnd &&
       input?.selectionStart !== null;
@@ -55,17 +55,18 @@ export class CommonServicesService {
     if (hasSelection) {
       newValue = this.replaceSelection(input, e.key);
     } else {
-      newValue = input?.value + keyValue?.toString();
+      let arr = input?.value.toString().split("")
+      newValue = arr.slice(0,input?.selectionStart).join("")+e.key+arr.slice(input?.selectionEnd,arr.length).join("");
     }
-
-    if (
-      +newValue > maxV ||
-      newValue.length > maxV?.length ||
-      +newValue < minV ||
-      e.key == " "
-    ) {
+    console.log('log..', maxV);
+    const numToStringLen = (maxV.toString()).length;
+    if(Number(input?.value) == 0 && e.key == 0){
       e.preventDefault();
+      input.value = 0; 
     }
+    console.log('maxV?.length', maxV?.length, 'newValue.length', newValue, numToStringLen);
+    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")) e.preventDefault();
+    if((type != 'exactNum') && (+newValue >= maxV || newValue.length > numToStringLen-1 || +newValue < minV || e.key == " " )) e.preventDefault();
   }
 
   private replaceSelection(input, key) {

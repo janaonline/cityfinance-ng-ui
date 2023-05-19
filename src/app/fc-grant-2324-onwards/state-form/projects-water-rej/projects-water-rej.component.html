@@ -47,19 +47,21 @@
                                           <span class="h-4" >{{1+waterBodiesIndex}}</span>
                                       </td>
                                       <td>
-                                          <input class="h-4" formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
+                                          <input class="h-4" formControlName="name" matTooltipPosition="above" 
+                                          [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" [tabindex]="getDisableRow(projectRow) ? -1 : 0"/>
                                       </td>
                                       <td>
                                           <input class="h-4" formControlName="nameOfBody" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" 
-                                          [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text"/>
+                                          [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-50 Characters' : null" type="text" [tabindex]="getDisableRow(projectRow) ? -1 : 0"/>
                                       </td>
                                       <td>
                                           <input class="h-4" matTooltipPosition="above" 
                                           [matTooltip]="checkErrorState(projectRow,'area') ? 'Area 0 upto 5 digis' : null" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" 
                                           formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$" 
-                                          (keydown)="setMinMaxValidations($event, areaW, 0, 99999, '')" #areaW>
+                                          (keydown)="setMinMaxValidations($event, areaW, 0, maxNumVaditaion?.FiveDigit, '')" #areaW [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
@@ -69,24 +71,24 @@
                                               <input style="display: none;" onclick="value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 
                                               [ngClass]="{'disableInputs': isDisabled }"
                                                accept=".png,.jpg,.jpeg" (change)="uploadFile($event, 'img', waterBodiesIndex, projectIndex, 'img')" required
-                                                  multiple />
+                                                  multiple [tabindex]="getDisableRow(projectRow) ? -1 : 0"/>
                                           </div>
-                                          <a style="pointer-events: all;" class="ms-2" (click)="imgPreview(waterBodiesIndex,projectIndex)">
+                                          <a style="pointer-events: all;" class="ms-2" (click)="imgPreview(waterBodiesIndex,projectIndex)" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <span class="material-icons file p-icon">
                                               collections
                                           </span>
                                           </a>
-                                          <a style="" class="ms-2" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'disableInputs': isDisabled }">
+                                          <a style="" class="ms-2" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'disableInputs': isDisabled }" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <span class="material-icons file p-icon text-danger">
                                               delete_forever
                                           </span></a>
                                       </td>
                                       <td style="display: flex;" class="rdDiv">
                                           <input class="h-4" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat') }" (blur)="latLong($event.target.value,projectRow,'lat')" formControlName="lat"
-                                              pattern="^\d*(\.\d{0,6})?$" type="number" min="1">
+                                              pattern="^\d*(\.\d{0,6})?$" type="number" min="1" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" (blur)="latLong($event.target.value,projectRow,'long')" formControlName="long"
-                                              class="ms-2 h-4" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
-                                          <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
+                                              class="ms-2 h-4" type="text" min="1" pattern="^\d*(\.\d{0,6})?$" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                          <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')" class="d-i" [ngClass]="{'disableInputs': isDisabled }" [tabindex]="getDisableRow(projectRow) ? -1 : 0"> 
                                               <mat-icon class="file" aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
@@ -102,14 +104,16 @@
                                               [matTooltip]="checkErrorState(projectRow,'bod') ? 'BOD 0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}" 
                                               formControlName="bod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, bodW, 0, 999, '')" #bodW>
+                                              (keydown)="setMinMaxValidations($event, bodW, 0, maxNumVaditaion?.ThreeDigit, '')" #bodW
+                                              [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'bod_expected') ? 'BOD expected 0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'bod_expected')}" 
                                               formControlName="bod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                            type="number" (keydown)="setMinMaxValidations($event, bod_expectedW, 0, 999, '')" #bod_expectedW>
+                                            type="number" (keydown)="setMinMaxValidations($event, bod_expectedW, 0, maxNumVaditaion?.ThreeDigit, '')" #bod_expectedW
+                                            [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
 
@@ -119,13 +123,15 @@
                                               [matTooltip]="checkErrorState(projectRow,'cod') ? 'COD  0 upto 4 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}" 
                                               formControlName="cod" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, codW, 0, 9999, '')" #codW>
+                                              (keydown)="setMinMaxValidations($event, codW, 0, maxNumVaditaion?.FourDigit, '')" #codW
+                                              [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'cod_expected') ? 'COD expected 0 upto 4 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'cod_expected')}" formControlName="cod_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, cod_expectedW, 0, 9999, '')" #cod_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, cod_expectedW, 0, maxNumVaditaion?.FourDigit, '')" #cod_expectedW
+                                                  [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
 
@@ -135,14 +141,16 @@
                                               [matTooltip]="checkErrorState(projectRow,'do') ? 'DO  0 upto 3 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}" 
                                               formControlName="do" pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, doW, 0, 999, '')" #doW>
+                                              (keydown)="setMinMaxValidations($event, doW, 0, maxNumVaditaion?.ThreeDigit, '')" #doW
+                                              [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'do_expected') ? 'DO expected 0 upto 3 digits'  : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'do_expected')}" 
                                               formControlName="do_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, do_expectedW, 0, 999, '')" #do_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, do_expectedW, 0, maxNumVaditaion?.ThreeDigit, '')" #do_expectedW
+                                                  [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
 
@@ -152,14 +160,16 @@
                                               [matTooltip]="checkErrorState(projectRow,'tds') ? 'TDS 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}" formControlName="tds" 
                                               pattern="^\d*(\.\d{0,6})?$" type="number"
-                                              (keydown)="setMinMaxValidations($event, tdsW, 0, 99999, '')" #tdsW>
+                                              (keydown)="setMinMaxValidations($event, tdsW, 0, maxNumVaditaion?.FiveDigit, '')" #tdsW
+                                              [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'tds_expected') ? 'TDS expected 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'tds_expected')}" 
                                               formControlName="tds_expected" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, tds_expectedW, 0, 99999, '')" #tds_expectedW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, tds_expectedW, 0, maxNumVaditaion?.FiveDigit, '')" #tds_expectedW
+                                                  [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
 
@@ -169,30 +179,33 @@
                                               [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Turbidity 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" 
                                               formControlName="turbidity" pattern="^\d*(\.\d{0,6})?$"
-                                                  type="number" (keydown)="setMinMaxValidations($event, turbidityW, 0, 9999, '')" #turbidityW>
+                                                  type="number" (keydown)="setMinMaxValidations($event, turbidityW, 0, maxNumVaditaion?.FiveDigit, '')" #turbidityW
+                                                  [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <div>
                                               <input matTooltipPosition="above" placeholder="Expected" 
                                               [matTooltip]="checkErrorState(projectRow,'turbidity_expected') ? 'Turbidity expected 0 upto 5 digits' : null" 
                                               [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity_expected')}" 
                                               formControlName="turbidity_expected"
-                                            pattern="^\d*(\.\d{0,6})?$" type="number" (keydown)="setMinMaxValidations($event, turbidityExpW, 0, 9999, '')" #turbidityExpW>
+                                            pattern="^\d*(\.\d{0,6})?$" type="number" (keydown)="setMinMaxValidations($event, turbidityExpW, 0, maxNumVaditaion?.FiveDigit, '')" #turbidityExpW
+                                            [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
                                       <td>
-                                          <input class="h-4" formControlName="details" [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null" type="text" />
+                                          <input class="h-4" formControlName="details" [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null" type="text" 
+                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0"/>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprPreparation') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, waterBodiesIndex, 'waterB', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprPreparation') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">No</label>
+                                          <label class="custom-control-label" for="dprPreparation1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprPreparation') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}" [tabindex]="getDisableRow(projectRow) ? -1 : 0">No</label>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                         <div *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.waterBodies[waterBodiesIndex]?.dprPreparation == 'Yes'">
-                                          <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterBCom', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                          <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterBCom', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
-                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterBCom', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
+                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, waterBodiesIndex, 'waterBCom', projectIndex)" type="radio" class="rdBtn" value="No" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion1{{waterBodiesIndex}}" [matTooltip]="checkErrorState(projectRow,'dprCompletion') ? 'Select yes or No' : null" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
                                         </div>
 
@@ -201,12 +214,12 @@
                                           <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.waterBodies[waterBodiesIndex]?.dprCompletion == 'Yes'">
                                               <input matTooltipPosition="above" class="workCompletion" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion" type="number"
-                                                   (change)="warningForAmount($event.target.value)" (keydown)="setMinMaxValidations($event, wrWb, 0, 100, '')" #wrWb>
+                                                   (change)="warningForAmount($event.target.value)" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
 
                                       <td class="icon">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, waterBodiesIndex, 0, 'waterBodies')" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, waterBodiesIndex, 0, 'waterBodies')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -247,14 +260,15 @@
                                           <span>{{1+reuseWaterIndex}}</span>
                                       </td>
                                       <td>
-                                          <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" />
+                                          <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" 
+                                          [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" [tabindex]="getDisableRow(projectRow) ? -1 : 0" />
                                       </td>
                                       <td class="latLong">
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}" formControlName="lat" (blur)="latLong($event.target.value,projectRow,'lat')" pattern="^\d*(\.\d{0,6})?$"
-                                              type="number" min="1">
+                                              type="number" min="1" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" formControlName="long" (blur)="latLong($event.target.value,projectRow,'long')"
-                                              class="ms-2" type="text" min="1" pattern="^\d*(\.\d{0,6})?$">
-                                          <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')" class="d-i" [ngClass]="{'disableInputs': isDisabled }">
+                                              class="ms-2" type="text" min="1" pattern="^\d*(\.\d{0,6})?$" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                          <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')" class="d-i" [ngClass]="{'disableInputs': isDisabled }" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                               </mat-icon>
@@ -264,31 +278,31 @@
                                           <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'value 0 upto 3 digis' : null"
                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" 
                                            formControlName="stp" type="number" pattern="^\d*(\.\d{0,6})?$"
-                                           (keydown)="setMinMaxValidations($event, stpWr, 0, 1000, '')" #stpWr>
+                                           (keydown)="setMinMaxValidations($event, stpWr, 0, maxNumVaditaion?.ThreeDigit, '')" #stpWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
                                           <input formControlName="treatmentPlant" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" 
                                           [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'value 0 upto 3 digis' : null" 
-                                          type="number" (keydown)="setMinMaxValidations($event, tretWr, 0, 1000, '')" #tretWr>
+                                          type="number" (keydown)="setMinMaxValidations($event, tretWr, 0, maxNumVaditaion?.ThreeDigit, '')" #tretWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
                                           <input formControlName="targetCust" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'targetCust')}" 
                                           [matTooltip]="checkErrorState(projectRow,'targetCust') ? 'value 0 upto 7 digis' : null" 
-                                          type="number" (keydown)="setMinMaxValidations($event, tartgetWr, 0, 9999999, '')" #tartgetWr>
+                                          type="number" (keydown)="setMinMaxValidations($event, tartgetWr, 0, maxNumVaditaion?.SevenDigit, '')" #tartgetWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td class=" rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, reuseWaterIndex, 'rWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
-                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">No</label>
+                                          <label class="custom-control-label" for="dprPreparation2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}" [tabindex]="getDisableRow(projectRow) ? -1 : 0">No</label>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                         <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.reuseWater[reuseWaterIndex]?.dprPreparation == 'Yes'">
-                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
-                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
+                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, reuseWaterIndex, 'rWaterCom', projectIndex)" type="radio" class="rdBtn" value="No" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion2{{reuseWaterIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
                                         </div>
                                     </td>
@@ -296,11 +310,11 @@
                                           <div class="mb-2" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.reuseWater[reuseWaterIndex]?.dprCompletion == 'Yes'">
                                               <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}" formControlName="workCompletion"
-                                                type="number" (change)="warningForAmount($event.target.value)" (keydown)="setMinMaxValidations($event, wrRw, 0, 100, '')" #wrRw>
+                                                type="number" (change)="warningForAmount($event.target.value)" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                       </td>
                                       <td class="iconSliAndReuse">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}"  (click)="deleteRow(projectIndex, reuseWaterIndex, 1, 'reuseWater')" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}"  (click)="deleteRow(projectIndex, reuseWaterIndex, 1, 'reuseWater')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -341,15 +355,16 @@
                                       <td>
                                           <input formControlName="name" type="text" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
                                            [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null"
-                                          />
+                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0"/>
                                       </td>
                                       <td>
                                           <input formControlName="component" type="text" 
                                           matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}" 
-                                          [matTooltip]="checkErrorState(projectRow,'component') ? 'Enter 1-200 Characters' : null">
+                                          [matTooltip]="checkErrorState(projectRow,'component') ? 'Enter 1-200 Characters' : null"
+                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
-                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)">
+                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                              <option value="">--Select Indicator--</option>
                                                 <option
                                                     [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
@@ -359,27 +374,30 @@
                                       </td>
                                       <td>
                                           <input formControlName="existing" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
-                                           (keydown)="setMinMaxValidations($event, existing, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #existing>
+                                           (keydown)="setMinMaxValidations($event, existing, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'], 'exactNum')" #existing
+                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
                                           <input formControlName="after" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
-                                          (keydown)="setMinMaxValidations($event, above, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'])" #above>
+                                          (keydown)="setMinMaxValidations($event, above, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'], 'exactNum')" #above
+                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
                                           <input formControlName="cost" matTooltipPosition="above" [matTooltip]="'cost 0 upto 15 digits'" type="number" 
-                                           pattern="^\d*(\.\d{0,6})?$" (keydown)="setMinMaxValidations($event, costSli, 0, costMaxVal, '')" #costSli>
+                                           pattern="^\d*(\.\d{0,6})?$" (keydown)="setMinMaxValidations($event, costSli, 0, maxNumVaditaion?.fifteenDigit, '')" #costSli
+                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
-                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">Yes</label>&nbsp;&nbsp;
-                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
+                                          <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="No" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                           <label class="custom-control-label" for="dprPreparation3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprPreparation')}">No</label>
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                         <div class="" *ngIf="waterRejenuvation?.value?.uaData[projectIndex]?.serviceLevelIndicators[sliIndex]?.dprPreparation == 'Yes'">
-                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes">&nbsp;
+                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">Yes</label>&nbsp;&nbsp;
-                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="No">&nbsp;
+                                        <input formControlName="dprCompletion" (change)="onChange($event.target.value, sliIndex, 'sWaterCom', projectIndex)" type="radio" class="rdBtn" value="No" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
                                         <label class="custom-control-label" for="dprCompletion3{{sliIndex}}" [ngClass]="{'ph-error-sp': checkErrorState(projectRow,'dprCompletion')}">No</label>
                                         </div>
                                     </td>
@@ -389,14 +407,14 @@
                                               [matTooltip]="checkErrorState(projectRow,'workCompletion') ? 'Min value 0 and Max 100' : null"
                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'workCompletion')}"
                                                formControlName="workCompletion" type="number" (change)="warningForAmount($event.target.value)"
-                                               (keydown)="setMinMaxValidations($event, wrCSli, 0, 100, '')" #wrCSli>
+                                               [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                           </div>
                                           <p>
                                           </p>
                                       </td>
                                       <!-- *ngIf="1+sliIndex>1" -->
                                       <td class="iconSliAndReuse">
-                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, sliIndex, 2, 'serviceLevelIndicators')" class="d-i">
+                                          <a [ngClass]="{'anDisable': getDisableRow(projectRow), 'disableInputs': isDisabled}" (click)="deleteRow(projectIndex, sliIndex, 2, 'serviceLevelIndicators')" class="d-i" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                               <mat-icon aria-hidden="false">
                                                   <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                               </mat-icon>
@@ -466,10 +484,10 @@
             </button>
                 </div>
                 <div class="col-sm-7 text-end">
-                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(true)" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(true)" type="button" [disabled]="isDisabled || isCompleteUploading">
                 Save as Draft
               </button>
-                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(false)" type="button" [disabled]="isDisabled">
+                    <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked(false)" type="button" [disabled]="isDisabled || isCompleteUploading">
                 Submit
               </button>
                     <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
