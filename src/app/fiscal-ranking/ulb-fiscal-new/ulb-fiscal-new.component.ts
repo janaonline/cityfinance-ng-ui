@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, StatusType } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -97,17 +97,17 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus)) return true;
-    return [2, 10, 11].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus)) return true;
+    return [StatusType.inProgress, StatusType.returnedByPMU, StatusType.ackByPMU].includes(this.currentFormStatus);
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus);
+    return this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
-    if (this.loggedInUserType == this.userTypes.ULB) return ![1, 2, 10].includes(this.currentFormStatus);
-    if (this.loggedInUserType == this.userTypes.MoHUA) return ![8, 9].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.ULB) return ![StatusType.notStarted, StatusType.inProgress, StatusType.returnedByPMU].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA) return ![StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
     return true;
   }
 
@@ -268,7 +268,7 @@ export class UlbFiscalNewComponent implements OnInit {
         const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
-        if (canShow && control?.get('status')?.value == 'REJECTED' && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == 10) {
+        if (canShow && control?.get('status')?.value == 'REJECTED' && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == StatusType.returnedByPMU) {
           updatableControl.patchValue({
             readonly: false
           });
@@ -504,7 +504,9 @@ export class UlbFiscalNewComponent implements OnInit {
 
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : (this.currentFormStatus == 10 ? 9 : 8);
+    if (this.userData.role == this.userTypes.ULB) return isDraft 
+      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 
+      : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 

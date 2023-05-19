@@ -7,7 +7,17 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { KeyValue } from "@angular/common";
 import { FormGroup } from "@angular/forms";
 import { TableResponse } from "./common-table/common-table.component";
+
 import { map } from "rxjs/operators";
+
+export enum StatusType {
+  "notStarted" = 1,
+  "inProgress" = 2,
+  "verificationNotStarted" = 8,
+  "verificationInProgress" = 9,
+  "returnedByPMU" = 10,
+  "ackByPMU" = 11
+}
 
 @Injectable({
   providedIn: 'root'
