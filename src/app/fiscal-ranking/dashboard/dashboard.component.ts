@@ -19,14 +19,14 @@ export class DashboardComponent implements OnInit {
       endpoint: 'fiscal-ranking/overview/UlbActivities',
       response: null,
     },
-    {
-      endpoint: 'fiscal-ranking/overview/PMUActivities',
-      response: null,
-    },
-    {
-      endpoint: 'fiscal-ranking/overview/populationWise',
-      response: null,
-    },
+    // {
+    //   endpoint: 'fiscal-ranking/overview/PMUActivities',
+    //   response: null,
+    // },
+    // {
+    //   endpoint: 'fiscal-ranking/overview/populationWise',
+    //   response: null,
+    // },
   ]
 
   constructor(
@@ -45,11 +45,11 @@ export class DashboardComponent implements OnInit {
     console.log({
       table, event
     })
-    this.loadTableData(table)
+    this.loadTableData(table, event?.queryParams)
   }
 
-  loadTableData(table: Table) {
-    this.fiscalRankingService.getTableResponse(table.endpoint, '', table?.response?.columns).subscribe(res => {
+  loadTableData(table: Table, queryParams: string = '') {
+    this.fiscalRankingService.getTableResponse(table.endpoint, queryParams, table?.response?.columns).subscribe(res => {
       table.response = res;
     })
   }

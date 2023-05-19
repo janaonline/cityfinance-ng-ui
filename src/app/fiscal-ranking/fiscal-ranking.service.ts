@@ -7,7 +7,17 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { KeyValue } from "@angular/common";
 import { FormGroup } from "@angular/forms";
 import { TableResponse } from "./common-table/common-table.component";
+
 import { map } from "rxjs/operators";
+
+export enum StatusType {
+  "notStarted" = 1,
+  "inProgress" = 2,
+  "verificationNotStarted" = 8,
+  "verificationInProgress" = 9,
+  "returnedByPMU" = 10,
+  "ackByPMU" = 11
+}
 
 @Injectable({
   providedIn: 'root'
@@ -83,17 +93,10 @@ export class FiscalRankingService {
   getTableResponse(endpoint: string, queryParams: string, columns) {
     return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
       map((response) => {
-        const searchableAndDefaultSortColumn = ['stateName', 'ulbName'];
         response.columns = columns || response.columns.map(column => ({
           ...column,
           sort: 0,
-          ...(searchableAndDefaultSortColumn.includes(column.key) && { query: '' })
         }));
-        response.data = response.data.map(item => ({
-          ...item,
-          ulbShare: (item.ulbShare as number / 100).toFixed(2),
-          totalProjectCost: (item.totalProjectCost as number / 100).toFixed(2),
-        }))
         return response;
       })
     );
