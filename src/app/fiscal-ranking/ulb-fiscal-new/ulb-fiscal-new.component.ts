@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, StatusType } from '../fiscal-ranking.service';
 import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -97,17 +97,17 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus)) return true;
-    return [2, 10, 11].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus)) return true;
+    return [StatusType.inProgress, StatusType.returnedByPMU, StatusType.ackByPMU].includes(this.currentFormStatus);
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA && [8, 9].includes(this.currentFormStatus);
+    return this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
-    if (this.loggedInUserType == this.userTypes.ULB) return ![1, 2, 10].includes(this.currentFormStatus);
-    if (this.loggedInUserType == this.userTypes.MoHUA) return ![8, 9].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.ULB) return ![StatusType.notStarted, StatusType.inProgress, StatusType.returnedByPMU].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.MoHUA) return ![StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
     return true;
   }
 
@@ -121,6 +121,10 @@ export class UlbFiscalNewComponent implements OnInit {
 
   get otherUploadControl() {
     return this.form.get('4.data.otherUpload');
+  }
+
+  get signedCopyOfFileControl() {
+    return this.form.get('4.data.signedCopyOfFile');
   }
 
   onLoad() {
@@ -158,7 +162,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
-            status: item.status,
+            status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
           });
@@ -199,6 +203,7 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      focused: [{ value: false, disabled: true}],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -268,6 +273,11 @@ export class UlbFiscalNewComponent implements OnInit {
         const selectorString = `data.${updatedable}.yearData.0`;
         const updatableControl = s3Control.get(selectorString) as FormGroup;
         if (!updatableControl) return;
+        if (canShow && this.userData?.role == this.userTypes.ULB && this.currentFormStatus == StatusType.returnedByPMU) {
+          updatableControl.patchValue({
+            readonly: control?.get('status')?.value == 'APPROVED'
+          });
+        }
         ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
           const control = updatableControl.get(innerSelectorString)
           this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
@@ -497,18 +507,23 @@ export class UlbFiscalNewComponent implements OnInit {
     })
   }
 
-
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft ? (this.currentFormStatus == 10 ? 10 : 2) : (this.currentFormStatus == 10 ? 9 : 8);
+    if (this.userData.role == this.userTypes.ULB) return isDraft 
+      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 
+      : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
     if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
   canSeeAllActionButtons(items: any[]) {
-    
-    if (this.canTakeAction && items?.filter(item => item.key)?.length > 1){
+
+    if (this.canTakeAction && items?.filter(item => item.key)?.length > 1) {
       return items?.every(item => item.status != "")
     }
     return false
+  }
+
+  onFocusChange(control: FormGroup, focused: boolean) {
+    control.patchValue({ focused });
   }
 
   submit(isDraft = true) {
