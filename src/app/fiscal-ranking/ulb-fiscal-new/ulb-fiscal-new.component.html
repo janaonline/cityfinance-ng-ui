@@ -347,9 +347,9 @@
                                                                         </a>
                                                                     </div>
                                                                     <small class="text-danger"
-                                                                        *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File
-                                                                        is
-                                                                        required</small>
+                                                                        *ngIf="
+                                                                            yearItem?.controls?.file?.controls?.url?.status == 'INVALID' && 
+                                                                            (yearItem?.controls?.file?.controls?.url?.dirty || yearItem?.controls?.file?.controls?.url?.touched)">File is required</small>
                                                                 </ng-container>
 
                                                                 <div class="col-sm-12 bot-text mt-2"
@@ -405,7 +405,7 @@
                                         </div>
 
                                         <small
-                                            *ngIf="otherUploadControl?.status == 'INVALID' && (otherUploadControl?.dirty || otherUploadControl?.touched)"
+                                            *ngIf="otherUploadControl?.controls?.url?.status == 'INVALID' && (otherUploadControl?.controls?.url?.dirty || otherUploadControl?.controls?.url?.touched)"
                                             class="text-danger text-center">Please upload a file</small>
 
                                         <div [formGroup]="otherUploadControl">
