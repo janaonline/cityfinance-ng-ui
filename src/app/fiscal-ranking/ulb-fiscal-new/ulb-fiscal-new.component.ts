@@ -85,9 +85,7 @@ export class UlbFiscalNewComponent implements OnInit {
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role == "ULB") {
-      this.ulbName = this.userData?.name;
       this.ulbId = this.userData?.ulb;
-      this.stateCode = this.userData?.stateCode
     }
   }
 
@@ -132,6 +130,8 @@ export class UlbFiscalNewComponent implements OnInit {
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
+      this.ulbName = res?.data?.ulbName;
+      this.stateCode = res?.data?.stateCode;
       this.currentFormStatus = res?.data?.currentFormStatus;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
