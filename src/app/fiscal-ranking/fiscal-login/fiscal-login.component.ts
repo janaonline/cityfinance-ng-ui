@@ -58,6 +58,13 @@ export class FiscalLoginComponent implements OnInit {
       loginValidation: "emailValidation",
       selected: false,
     },
+    {
+      role: "PMU",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
+      loginValidation: "emailValidation",
+      selected: false,
+    },
   ];
 
   countDown: Subscription;

@@ -20,7 +20,7 @@ export class FcHomePageComponent extends BaseComponent implements OnInit {
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
       case USER_TYPE.STATE:
-      case USER_TYPE.PARTNER:
+      case USER_TYPE.PMU:
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
         this._router.navigate(["/fc-home-page"]);
