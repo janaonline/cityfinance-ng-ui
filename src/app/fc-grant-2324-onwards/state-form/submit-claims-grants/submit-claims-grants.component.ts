@@ -1,15 +1,34 @@
-import { KeyValue } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 
+import { SweetAlert } from "sweetalert/typings/core";
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+const swal: SweetAlert = require("sweetalert");
+
+export interface postBody  {
+  financialYear: string;
+  state: string;
+  installment: string;
+  amountClaimed: string;
+  type: string;
+}
 @Component({
   selector: 'app-submit-claims-grants',
   templateUrl: './submit-claims-grants.component.html',
   styleUrls: ['./submit-claims-grants.component.scss']
 })
+
 export class SubmitClaimsGrantsComponent implements OnInit {
 
-  constructor() {
+ 
+  constructor(
+    private commonServices: CommonServicesService
+    ){
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+    this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
    }
   nextRouter;
   backRouter;
@@ -269,11 +288,20 @@ export class SubmitClaimsGrantsComponent implements OnInit {
     } 
     }   
 isCollapsed:boolean = true;
-isApiInProgress:boolean = false;
+isApiInProgress:boolean = true;
+postData:postBody;
+userData = JSON.parse(localStorage.getItem("userData"));
+Year = JSON.parse(localStorage.getItem("Years"));
+stateId:string='';
   ngOnInit(): void {
     this.setRouter();
+    this.onLoad();
   }
 
+  onLoad(){
+    this.isApiInProgress = false;
+
+  }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
     for (const key in this.sideMenuItem) {
@@ -285,6 +313,55 @@ isApiInProgress:boolean = false;
       });
     }
   }
+  
   keepOriginalOrder = (a, b) => b.key - a.key;
 
+  finalConfirm(grantItem, inst) {
+
+    this.postData['financialYear'] = this.Year['2022-23']
+    this.postData['amountClaimed'] = inst?.amount;
+    this.postData['installment'] = inst?.installment;
+    this.postData['type'] = inst?.type;
+    this.postData['state'] = this.stateId;
+    swal(
+      "Confirmation !",
+      `Are you sure you want to claim this grant?`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.onSubmit();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+    
+
+  }
+ 
+  onSubmit() {
+  //  this.alertClose();
+    this.commonServices.formPostMethod(this.postData, '').subscribe(
+      (res) => {
+        swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
+        this.onLoad();
+      },
+      (err) => {
+        swal('Error', `Claim Request could not be created successfully. Please try again later.`, 'error');
+      })
+
+  }
 }
