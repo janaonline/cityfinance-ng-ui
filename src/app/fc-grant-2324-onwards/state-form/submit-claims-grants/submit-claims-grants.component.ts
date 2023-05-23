@@ -1,6 +1,10 @@
-import { KeyValue } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
-import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+
+import { SweetAlert } from "sweetalert/typings/core";
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+const swal: SweetAlert = require("sweetalert");
+
 export interface postBody  {
   financialYear: string;
   state: string;
@@ -18,9 +22,13 @@ export class SubmitClaimsGrantsComponent implements OnInit {
 
  
   constructor(
-    private newCommonService: NewCommonService 
+    private commonServices: CommonServicesService
     ){
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+    this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+    }
    }
   nextRouter;
   backRouter;
@@ -282,6 +290,9 @@ export class SubmitClaimsGrantsComponent implements OnInit {
 isCollapsed:boolean = true;
 isApiInProgress:boolean = true;
 postData:postBody;
+userData = JSON.parse(localStorage.getItem("userData"));
+Year = JSON.parse(localStorage.getItem("Years"));
+stateId:string='';
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
@@ -304,52 +315,53 @@ postData:postBody;
   }
   
   keepOriginalOrder = (a, b) => b.key - a.key;
-  finalConfirm(item) {
-    // this.postData['financialYear'] = this.years['2022-23']
-    // this.postData['amountClaimed'] = grantAmount;
-    // this.postData['installment'] = ins;
-    // this.postData['type'] = type
-    // this.postData['state'] = this.stateId;
-    // swal(
-    //   "Confirmation !",
-    //   `Are you sure you want to claim this grant?`,
-    //   "warning",
-    //   {
-    //     buttons: {
-    //       Submit: {
-    //         text: "Submit",
-    //         value: "submit",
-    //       },
-    //       Cancel: {
-    //         text: "Cancel",
-    //         value: "cancel",
-    //       },
-    //     },
-    //   }
-    // ).then((value) => {
-    //   switch (value) {
-    //     case "submit":
-    //       this.onSubmit();
-    //       break;
-    //     case "cancel":
-    //       break;
-    //   }
-    // });
+
+  finalConfirm(grantItem, inst) {
+
+    this.postData['financialYear'] = this.Year['2022-23']
+    this.postData['amountClaimed'] = inst?.amount;
+    this.postData['installment'] = inst?.installment;
+    this.postData['type'] = inst?.type;
+    this.postData['state'] = this.stateId;
+    swal(
+      "Confirmation !",
+      `Are you sure you want to claim this grant?`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.onSubmit();
+          break;
+        case "cancel":
+          break;
+      }
+    });
     
 
   }
  
   onSubmit() {
-    // this.alertClose();
-    // this.newCommonService.claimGrantCreate(this.body).subscribe(
-    //   (res) => {
-    //     swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
-    //     this.onLoad();
-    //   },
-    //   (err) => {
-    //     swal('Error', `Claim Request could not be created successfully. Please try again later.`, 'error');
-    //   })
-
+  //  this.alertClose();
+    this.commonServices.formPostMethod(this.postData, '').subscribe(
+      (res) => {
+        swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
+        this.onLoad();
+      },
+      (err) => {
+        swal('Error', `Claim Request could not be created successfully. Please try again later.`, 'error');
+      })
 
   }
 }
