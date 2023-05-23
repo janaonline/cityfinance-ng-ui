@@ -1,9 +1,30 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-services/state2223.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { Table } from '../fiscal-ranking.service';
+
+const tables: Table[] = [
+  {
+    id: "UlbActivities",
+    endpoint: 'fiscal-ranking/overview/UlbActivities',
+    response: null,
+  },
+  {
+    id: 'PMUActivities',
+    endpoint: 'fiscal-ranking/overview/PMUActivities',
+    response: null,
+  },
+  {
+    id: 'populationWise',
+    endpoint: 'fiscal-ranking/overview/populationWise',
+    response: null,
+  },
+]
 
 @Component({
   selector: 'app-review-ulb-table',
@@ -48,6 +69,7 @@ export class ReviewUlbTableComponent implements OnInit {
     private commonService: NewCommonService,
     private _fb: FormBuilder,
     private router: Router,
+    private dialog: MatDialog,
     private _commonService: CommonService) {
   }
   ngOnInit(): void {
@@ -222,8 +244,16 @@ export class ReviewUlbTableComponent implements OnInit {
     return ["ULB Name", "State Name"].includes(item.value);
   }
 
-  onCardClick(type) {
-    console.log({ type })
+  onCardClick(id) {
+    console.log(id);
+    this.dialog.open(DashboardComponent, {
+      id: 'DashboardComponent',
+      autoFocus: false,
+      maxHeight: '90vh',
+      data: {
+        table: tables.find(table => table.id == id)
+      }
+    });
   }
 
   get modifiedColumns() {

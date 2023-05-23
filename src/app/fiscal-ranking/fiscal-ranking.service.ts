@@ -18,6 +18,11 @@ export enum StatusType {
   "returnedByPMU" = 10,
   "ackByPMU" = 11
 }
+export interface Table {
+  id: string;
+  endpoint: string;
+  response: TableResponse;
+}
 
 @Injectable({
   providedIn: 'root'
