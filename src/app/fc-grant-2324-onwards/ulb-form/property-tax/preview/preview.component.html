@@ -51,7 +51,7 @@
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
                                             elem?.isRupee
-                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            ? '₹' + elem?.value
                                             : elem?.value
                                             }}</span>
                                     </td>
@@ -69,7 +69,7 @@
                                                 target="_blank">{{elem?.file?.name}}</a></span>
                                         <span>{{
                                             elem?.isRupee
-                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            ? '₹' + elem?.value
                                             : elem?.value
                                             }}</span>
                                     </td>
