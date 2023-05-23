@@ -42,6 +42,7 @@ import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonTableComponent } from './common-table/common-table.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { CommonTableComponent } from './common-table/common-table.component';
     MatDatepickerModule,
     NgxPaginationModule,
     Shared2223Module,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }

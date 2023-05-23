@@ -21,6 +21,7 @@ export class ReviewUlbTableComponent implements OnInit {
   ulbTypesList = [];
   userData;
   title = '';
+  isDownloadStart: boolean = false;
 
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
   filterForm: FormGroup;
@@ -171,10 +172,14 @@ export class ReviewUlbTableComponent implements OnInit {
       ...this.listFetchOption
     };
     // this.isLoader = true;
+    this.isDownloadStart = true;
     this._commonService.downloadCsvApi(this.csvType, payload).subscribe((res) => {
       // this.isLoader = false;
-      this._commonService.createCsv(res, this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
-    }, (err) => { this.isLoader = false; })
+      setTimeout(() => {
+        this.isDownloadStart = false;
+        this._commonService.createCsv(res, this.csvType === 'csvFROverall' ? 'ULB_Ranking_Overall_Data' : 'ULB_Ranking_Financial_Data')
+      }, 1000);
+    }, (err) => { this.isDownloadStart = false; })
     // const endPoint = "review";
     // this._commonService.openWindowToDownloadCsv(payload, endPoint);
   }
