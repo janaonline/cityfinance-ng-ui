@@ -222,6 +222,10 @@ export class ReviewUlbTableComponent implements OnInit {
     return ["ULB Name", "State Name"].includes(item.value);
   }
 
+  onCardClick(type) {
+    console.log({ type })
+  }
+
   get modifiedColumns() {
     let columnsData = [];
     this.columnNamesList.forEach(element => {

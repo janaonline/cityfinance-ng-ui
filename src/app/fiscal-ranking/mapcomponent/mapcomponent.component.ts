@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -29,7 +29,7 @@ const districtJson = require("../../../assets/jsonFile/state_boundries.json");
   styleUrls: ['./mapcomponent.component.scss']
 })
 export class MapcomponentComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
-
+  @Output() onCardClick = new EventEmitter();
   randomNumber = 0;
   constructor(
     protected _commonService: CommonService,
@@ -750,6 +750,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     this._commonService.getStateUlbCovered(body).subscribe(res => {
       this.stateDataForNation = [...res?.data]
     })
+  }
+
+  cardClick(type: string) {
+    this.onCardClick.emit(type);
   }
 
   public data1Percentage = '30';
