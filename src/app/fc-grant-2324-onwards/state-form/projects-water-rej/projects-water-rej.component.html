@@ -275,16 +275,16 @@
                                           </a>
                                       </td>
                                       <td>
-                                          <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'value 0 upto 3 digis' : null"
+                                          <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'min 0 max 1000 allowed' : null"
                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" 
                                            formControlName="stp"  
-                                           (keydown)="setMinMaxValidations($event, stpWr, 0, maxNumVaditaion?.ThreeDigit, '')" #stpWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                           (keydown)="setMinMaxValidations($event, stpWr, 0, 1000, '', 'exactNum')" #stpWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
                                           <input formControlName="treatmentPlant" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" 
-                                          [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'value 0 upto 3 digis' : null" 
-                                           (keydown)="setMinMaxValidations($event, tretWr, 0, maxNumVaditaion?.ThreeDigit, '')"
+                                          [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'min 0 max 1000 allowed' : null" 
+                                           (keydown)="setMinMaxValidations($event, tretWr, 0, 1000, '', 'exactNum')"
                                            #tretWr [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
