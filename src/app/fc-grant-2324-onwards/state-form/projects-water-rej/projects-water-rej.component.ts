@@ -1106,7 +1106,8 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
       min = indicatorDetails?.range?.split("-")[0];
       max = indicatorDetails?.range?.split("-")[1];
     }
-
+    console.log('indicator value.. returned', this.commonServices.minMaxValidation(e, input, min, max, type));
+    
    return this.commonServices.minMaxValidation(e, input, min, max, type);
     
   }
