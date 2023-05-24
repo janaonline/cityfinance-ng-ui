@@ -19,6 +19,7 @@ import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-h
 import { NationalMapSectionService } from 'src/app/pages/new-dashbords/national/national-map-section/national-map-section.service';
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import * as fileSaver from "file-saver";
+import { MapData } from '../fiscal-ranking.service';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../assets/jsonFile/state_boundries.json");
@@ -30,34 +31,9 @@ const districtJson = require("../../../assets/jsonFile/state_boundries.json");
 })
 export class MapcomponentComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onCardClick = new EventEmitter();
+  @Input() mapData: MapData;
   randomNumber = 0;
-  constructor(
-    protected _commonService: CommonService,
-    protected _snackbar: MatSnackBar,
-    protected _geoService: GeographicalService,
-    protected _activateRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private _ngZone: NgZone,
-    private assetService: AssetsService,
-    private router: Router,
-    private nationalMapService: NationalMapSectionService,
-
-    private _loaderService: GlobalLoaderService
-  ) {
-    super(_commonService, _snackbar, _geoService, _activateRoute);
-    setTimeout(() => {
-      this.ngOnChanges({
-        yearSelected: {
-          currentValue: ["2016-17"],
-          previousValue: null,
-          firstChange: true,
-          isFirstChange: () => true,
-        },
-      });
-    }, 1000);
-    this.initializeform();
-    this.fetchStateList();
-  }
+  
 
   @Input() populationCategories:any = [];
   nationalLevelMap: any;
@@ -154,6 +130,34 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
+
+  constructor(
+    protected _commonService: CommonService,
+    protected _snackbar: MatSnackBar,
+    protected _geoService: GeographicalService,
+    protected _activateRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private _ngZone: NgZone,
+    private assetService: AssetsService,
+    private router: Router,
+    private nationalMapService: NationalMapSectionService,
+
+    private _loaderService: GlobalLoaderService
+  ) {
+    super(_commonService, _snackbar, _geoService, _activateRoute);
+    setTimeout(() => {
+      this.ngOnChanges({
+        yearSelected: {
+          currentValue: ["2016-17"],
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
+    }, 1000);
+    this.initializeform();
+    this.fetchStateList();
+  }
 
   ngOnInit(): void {
     this.getNationalLevelMapData("2020-21");

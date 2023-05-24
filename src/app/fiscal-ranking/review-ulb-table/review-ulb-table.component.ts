@@ -6,7 +6,7 @@ import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-servic
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { Table } from '../fiscal-ranking.service';
+import { FiscalRankingService, FormWiseData, MapData, Table } from '../fiscal-ranking.service';
 
 const tables: Table[] = [
   {
@@ -43,6 +43,7 @@ export class ReviewUlbTableComponent implements OnInit {
   userData;
   title = '';
   isDownloadStart: boolean = false;
+  mapData: MapData;
 
   perPage: '10' | '25' | '50' | '100' | 'all' = '10';
   filterForm: FormGroup;
@@ -70,6 +71,7 @@ export class ReviewUlbTableComponent implements OnInit {
     private _fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
+    private fiscalRankingService: FiscalRankingService,
     private _commonService: CommonService) {
   }
   ngOnInit(): void {
@@ -85,6 +87,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.loadData();
+    this.loadMapData();
   }
 
   get design_year() {
@@ -100,6 +103,13 @@ export class ReviewUlbTableComponent implements OnInit {
   get showableColumns() {
     const hiddenStateNames = ['stateName', 'filled_audited', 'filled_provisional'];
     return this.objectWithoutProperties(this.columnNames, hiddenStateNames);
+  }
+
+  loadMapData() {
+    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      console.log('map', res);
+      this.mapData = res?.data;
+    })
   }
 
   loadData(pageNumber?: number) {

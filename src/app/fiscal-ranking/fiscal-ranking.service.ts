@@ -24,6 +24,35 @@ export interface Table {
   response: TableResponse;
 }
 
+
+export interface MapData {
+  _id: string;
+  heatMap: HeatMap;
+  ulbWiseData: UlbWiseData;
+  formWiseData: FormWiseData;
+  stateName: string;
+  totalUlbs: number;
+}
+export interface HeatMap {
+  _id: string;
+  stateId: string;
+  code: string;
+  percentage: number;
+}
+export interface UlbWiseData {
+  totalUlbs: number;
+  inProgress: number;
+  submitted: number;
+}
+export interface FormWiseData {
+  totalForms: number;
+  verificationInProgress: number;
+  approved: number;
+  rejected: number;
+}
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -105,5 +134,9 @@ export class FiscalRankingService {
         return response;
       })
     );
+  }
+
+  getStateWiseForm() {
+    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?state=all`);
   }
 }
