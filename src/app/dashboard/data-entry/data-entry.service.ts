@@ -85,7 +85,7 @@ export class DataEntryService {
       JSON.stringify([
         {
           folder: folderName,
-          file_name: fileName.replace(/[~`!#$%^&*+=\[\]\\';,/{}|\\":<>?@]/g, '_'),
+          file_name: fileName,
           mime_type: fileType,
         },
       ]),
