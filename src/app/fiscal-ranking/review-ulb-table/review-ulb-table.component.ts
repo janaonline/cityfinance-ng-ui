@@ -87,7 +87,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.loadData();
-    this.loadMapData();
+    // this.loadMapData();
   }
 
   get design_year() {
