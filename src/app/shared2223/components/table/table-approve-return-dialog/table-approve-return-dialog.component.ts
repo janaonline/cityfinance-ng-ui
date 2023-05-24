@@ -279,7 +279,9 @@ export class TableApproveReturnDialogComponent implements OnInit {
   }
   
   onSubmit(type) {
+    let tempFormId = null;
     if(this.data?.reviewType == 'old_review'){
+      tempFormId = this.data?.formId == '62aa1c96c9a98b2254632a8a' ? 4 : 6;
       if (this.data.type == "Approve") {
         this.actionPayload = {
           ...this.approveReturnForm.value,
@@ -292,6 +294,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         };
       }
     }else{
+      tempFormId = this.data?.formId;
       console.log(this.approveReturnForm);
       let statusId = null;
       if(this.data.type == "Approve" && this.userData?.role == 'STATE') statusId = 4;
@@ -325,6 +328,11 @@ export class TableApproveReturnDialogComponent implements OnInit {
         console.log("post successful", res);
         swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
+        if((this.data?.formId == 4 || this.data?.formId == 6 ||
+           this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
+           this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
+            this.sequentialReview(tempFormId);
+          }
         this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);
       },
@@ -336,5 +344,23 @@ export class TableApproveReturnDialogComponent implements OnInit {
   }
   close() {
     this._matDialog.closeAll();
+  }
+  
+  sequentialReview(tempFormId) {
+    let body = {
+      design_year: this.data?.designYear,
+      status: "REJECTED",
+      formId : tempFormId,
+      ulbs : this.data?.selectedId,
+      multi: true,
+    };
+    this.newCommonService.postSeqReview(body).subscribe(
+      (res) => {
+        console.log("Sequential review", res);
+      },
+      (error) => {
+        swal("Error", "Sequential review field.", "error");
+      }
+    );
   }
 }

@@ -32,6 +32,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     this.navigationCheck();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuRes"));
+    this.Years = JSON.parse(localStorage.getItem("Years"));
     this.ulbId = this.userData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
@@ -88,6 +89,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     "One or more required fields are empty or contains invalid data. Please check your input.";
   @ViewChild("changeTemplate") template;
   isApiInProgress = true;
+  Years: object | any;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
     if (this.userData?.role != "ULB") {
@@ -283,12 +285,12 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
 
         sessionStorage.setItem("changeInUti", "false");
         if (this.userData?.role !== "ULB") {
-          let action = 'false';
+          let action = "false";
           if (this.utiData?.canTakeAction) {
-            action = 'true';
+            action = "true";
             this.canTakeAction = true;
           } else {
-            action = 'false';
+            action = "false";
           }
           sessionStorage.setItem("canTakeAction", action);
         }
@@ -329,7 +331,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
               break;
           }
         });
-      //  swal('Error', "Slow internet connection, please refresh and try again", "error");
+        //  swal('Error', "Slow internet connection, please refresh and try again", "error");
         this.isloadingComplte = false;
       }
     );
@@ -344,15 +346,21 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr
           ? Number(data?.grantPosition?.unUtilizedPrevYr).toFixed(2)
           : 0,
-        receivedDuringYr: (data?.grantPosition?.receivedDuringYr || data?.grantPosition?.receivedDuringYr === 0)
-          ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
-          : null,
-        expDuringYr: (data?.grantPosition?.expDuringYr || data?.grantPosition?.expDuringYr === 0)
-          ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
-          : null,
-        closingBal: (data?.grantPosition?.closingBal || data?.grantPosition?.closingBal === 0)
-          ? Number(data?.grantPosition?.closingBal).toFixed(2)
-          : null,
+        receivedDuringYr:
+          data?.grantPosition?.receivedDuringYr ||
+          data?.grantPosition?.receivedDuringYr === 0
+            ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
+            : null,
+        expDuringYr:
+          data?.grantPosition?.expDuringYr ||
+          data?.grantPosition?.expDuringYr === 0
+            ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
+            : null,
+        closingBal:
+          data?.grantPosition?.closingBal ||
+          data?.grantPosition?.closingBal === 0
+            ? Number(data?.grantPosition?.closingBal).toFixed(2)
+            : null,
       },
       status: data?.status,
     });
@@ -588,12 +596,15 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.wmTotalProjectCost = 0;
         this.wmTotalProjectNum = 0;
         el?.forEach((item) => {
-          this.wmTotalTiedGrantUti =
-            (Number(this.wmTotalTiedGrantUti) + Number(item?.grantUtilised)).toFixed(2);
-          this.wmTotalProjectCost =
-            (Number(this.wmTotalProjectCost) + Number(item?.numberOfProjects)).toFixed(2);
-          this.wmTotalProjectNum =
-            (Number(this.wmTotalProjectNum) + Number(item?.totalProjectCost)).toFixed(2);
+          this.wmTotalTiedGrantUti = (
+            Number(this.wmTotalTiedGrantUti) + Number(item?.grantUtilised)
+          ).toFixed(2);
+          this.wmTotalProjectCost = (
+            Number(this.wmTotalProjectCost) + Number(item?.numberOfProjects)
+          ).toFixed(2);
+          this.wmTotalProjectNum = (
+            Number(this.wmTotalProjectNum) + Number(item?.totalProjectCost)
+          ).toFixed(2);
         });
       }
     );
@@ -606,12 +617,15 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.swmTotalProjectCost = 0;
         this.swmTotalProjectNum = 0;
         el?.forEach((item) => {
-          this.swmTotalTiedGrantUti =
-            (Number(this.swmTotalTiedGrantUti) + Number(item?.grantUtilised)).toFixed(2);
-          this.swmTotalProjectCost =
-            (Number(this.swmTotalProjectCost) + Number(item?.numberOfProjects)).toFixed(2);
-          this.swmTotalProjectNum =
-            (Number(this.swmTotalProjectNum) + Number(item?.totalProjectCost)).toFixed(2);
+          this.swmTotalTiedGrantUti = (
+            Number(this.swmTotalTiedGrantUti) + Number(item?.grantUtilised)
+          ).toFixed(2);
+          this.swmTotalProjectCost = (
+            Number(this.swmTotalProjectCost) + Number(item?.numberOfProjects)
+          ).toFixed(2);
+          this.swmTotalProjectNum = (
+            Number(this.swmTotalProjectNum) + Number(item?.totalProjectCost)
+          ).toFixed(2);
         });
       }
     );
@@ -623,9 +637,15 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.totalProjectCost = 0;
         this.totalProjectExp = 0;
         el?.forEach((item) => {
-          this.totalProjectCost = Number((Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2));
-         // (Number(Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2));
-          this.totalProjectExp = Number((Number(this.totalProjectExp) + Number(item?.expenditure)).toFixed(2));
+          this.totalProjectCost = Number(
+            (Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2)
+          );
+          // (Number(Number(this.totalProjectCost) + Number(item?.cost)).toFixed(2));
+          this.totalProjectExp = Number(
+            (Number(this.totalProjectExp) + Number(item?.expenditure)).toFixed(
+              2
+            )
+          );
         });
       }
     );
@@ -633,7 +653,10 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
 
   changeInTotalPExp() {
     console.log("expDuringYear", this.expDuringYear);
-    if ((((Number(this.expDuringYear)).toFixed(2))) != (Number(this.totalProjectExp)).toFixed(2)) {
+    if (
+      Number(this.expDuringYear).toFixed(2) !=
+      Number(this.totalProjectExp).toFixed(2)
+    ) {
       // swal(
       //   "Alert",
       //   `Sum of all project wise expenditure amount does not match total expenditure amount provided in the XVFC summary section. Kindly recheck the amounts.`,
@@ -655,7 +678,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       console.log("expe error", grantsExp);
       let totalUtilised =
         Number(this.wmTotalTiedGrantUti) + Number(this.swmTotalTiedGrantUti);
-        totalUtilised  = +(totalUtilised.toFixed(2));
+      totalUtilised = +totalUtilised.toFixed(2);
       console.log("to", totalUtilised, grantsExp);
       if (totalUtilised != grantsExp && grantsExp != "") {
         // swal(
@@ -688,7 +711,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     this.utilizationReportForm["controls"]["grantPosition"]["controls"][
       "closingBal"
     ].patchValue(Number(Number(this.closingBal).toFixed(2)));
-    this.utilizationReportForm.value.status = 'PENDING';
+    this.utilizationReportForm.value.status = "PENDING";
     this.postBody = {
       // status: "PENDING",
       isDraft: true,
@@ -709,8 +732,8 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
           console.log("post uti mess", res);
           sessionStorage.setItem("changeInUti", "false");
           this.isSubmitted = false;
-          this.utiData['status'] = "PENDING";
-          this.utiData['isDraft'] = true;
+          this.utiData["status"] = "PENDING";
+          this.utiData["isDraft"] = true;
           this.newCommonService.setFormStatus2223.next(true);
         },
         (error) => {
@@ -802,8 +825,8 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.isSubmitted = false;
         sessionStorage.setItem("changeInUti", "false");
         this.newCommonService.setFormStatus2223.next(true);
-        this.utiData['status'] = "PENDING";
-        this.utiData['isDraft'] = false;
+        this.utiData["status"] = "PENDING";
+        this.utiData["isDraft"] = false;
       },
       (error) => {
         console.log("error", error);
@@ -917,12 +940,19 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         name: this.actionRes?.document?.name,
       },
     };
-    if(actionBody?.rejectReason == "" &&  actionBody?.status == "REJECTED"){
-       swal("Alert!", "Return reason is mandatory in case of Returned a file", "error");
+    if (actionBody?.rejectReason == "" && actionBody?.status == "REJECTED") {
+      swal(
+        "Alert!",
+        "Return reason is mandatory in case of Returned a file",
+        "error"
+      );
       this.actionError = true;
-       return;
-    }
-    else if (actionBody?.status == "" || actionBody?.status == null || actionBody?.status == undefined) {
+      return;
+    } else if (
+      actionBody?.status == "" ||
+      actionBody?.status == null ||
+      actionBody?.status == undefined
+    ) {
       swal("Alert!", "Action is mandatory", "error");
       this.actionError = true;
       return;
@@ -954,14 +984,13 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
           break;
       }
     });
-
   }
-  finalActionSave(actionBody){
+  finalActionSave(actionBody) {
     this.newCommonService.postCommonAction(actionBody).subscribe(
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
-
+        if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA') this.sequentialReview();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },
@@ -981,5 +1010,22 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.formSubs?.unsubscribe();
+  }
+  sequentialReview() {
+    let body = {
+      ulbs: [this.ulbId],
+      design_year: this.Years["2022-23"],
+      status: "REJECTED",
+      formId: 4,
+      multi: false,
+    };
+    this.newCommonService.postSeqReview(body).subscribe(
+      (res) => {
+        console.log("Sequential review", res);
+      },
+      (error) => {
+        swal("Error", "Sequential review field.", "error");
+      }
+    );
   }
 }

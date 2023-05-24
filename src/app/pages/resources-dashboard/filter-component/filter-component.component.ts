@@ -61,7 +61,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private _resourcesDashboardService: ResourcesDashboardService
   ) {
-    this.filterData("", "");
+    // this.filterData("", "");
   }
 
   stateList;
@@ -100,34 +100,36 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   selectedType: String = "Raw Data PDF";
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
+    const year = this.route.snapshot.queryParamMap.get('year');
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
     this.filterForm = this.fb.group({
       state: [""],
-      ulb: [""],
+      ulb: [ulbName ? ulbName : ""],
       ulbId: [""],
       contentType: [""],
       sortBy: [""],
-      year: [""],
+      year: [year ? year :""],
       category: this.category,
     });
-    this.loadData();
+    this.selectedValue = year ? year : "";
+    if (year) {
+      this.filterForm.patchValue({
+        year: year,
+      })
+      this.selectedValue = year;
+      this.onChange({ target: { value: year } });
+    }
 
+    if(ulbName){
+      this.filterForm.patchValue({
+        ulb: ulbName,
+      })
+      // this.loadData()
+    }
     setTimeout(() => {
-      const year = this.route.snapshot.queryParamMap.get('year');
-      const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
-      console.log({ year, stateCode });
-      if (year) {
-        this.filterForm.patchValue({
-          year: year,
-        })
-        this.selectedValue = year;
-        this.onChange({ target: { value: year } });
-      }
-      if (stateCode) {
-        const state = this.stateList?.find(st => st?.code == stateCode);
-        this.state.patchValue([state]);
-        this.onStateChange(state);
-      }
-    }, 1000)
+      this.getStatesList()
+    },1000)
+
   }
 
   onChange(event) {
@@ -139,27 +141,34 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.selectedType = event.target.value;
     this.filterData("type", "");
   }
-  loadData() {
+
+  getStatesList(){
+    const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         console.log("res", res);
         this.stateList = this._commonServices.sortDataSource(res, "name");
+        if (stateCode) {
+          const state = this.stateList?.find(st => st?.code == stateCode);
+          this.state.patchValue([state]);
+          this.onStateChange(state);
+        }
+        this.loadData();
       },
       (error) => {
         console.log(error);
       }
     );
-
-    console.log("formmm", this.filterForm);
-    this.filterForm?.controls?.category?.valueChanges.subscribe((val) => {
-      console.log(this.filterForm);
-    });
+  }
+  loadData() {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
-        this._commonServices
-          .postGlobalSearchData(value, "ulb", this.filterForm.value.state)
+        if((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined) 
+        && (this.filterForm.value.hasOwnProperty('ulb') && this.filterForm.value.state != undefined) 
+        ){
+          this._commonServices
+          .postGlobalSearchData(this.filterForm.value, "ulb", this.filterForm.value.state)
           .subscribe((res: any) => {
-            console.log(res?.data);
             let emptyArr: any = [];
             this.filteredOptions = emptyArr;
             if (res?.data.length > 0) {
@@ -171,7 +180,18 @@ export class FilterComponentComponent implements OnInit, OnChanges {
               // this.noDataFound = true;
               console.log("no data found");
             }
+            const obj = res?.data.find(e => e.ulbName == this.filterForm?.value?.ulb)
+           if(obj && (!this.filterForm.value['ulbId'] || this.filterForm.value['ulbId'] != obj._id)){
+            this.filterForm.patchValue({
+              ulb:obj?.name,
+              ulbId:obj?._id
+            })
+            this.filterData('ulb', obj);
+           }
+
           });
+     }
+        
       } else {
         return null;
       }
@@ -214,15 +234,17 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     console.log("filter form", this.filterForm);
     if (param == "ulb") {
       console.log(val);
+      const ulbName = val?.name || '';
       this.filterForm.patchValue({
         state: val.state._id,
         ulbId: val._id,
+        ulb: ulbName ? ulbName : '',
       });
     } else if (param == "state") {
       let emptyArr: any = [];
       this.filteredOptions = emptyArr;
       this.filterForm.patchValue({
-        ulb: "",
+        ulbId: val._id,
       });
     }
     this.filterFormData.emit(this.filterForm);

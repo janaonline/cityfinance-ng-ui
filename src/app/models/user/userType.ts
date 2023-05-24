@@ -4,5 +4,6 @@ export enum USER_TYPE {
   "ADMIN" = "ADMIN",
   "MoHUA" = "MoHUA",
   "STATE" = "STATE",
-  "PARTNER" = "PARTNER"
+  "PARTNER" = "PARTNER",
+  "PMU" = "PMU"
 }
