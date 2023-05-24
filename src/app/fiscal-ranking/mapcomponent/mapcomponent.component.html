@@ -4,7 +4,7 @@
     <div class="col-md-5 mt-1 mb-3">
       <h2 class="my-2">Dashboard</h2>
       <div role="button" (click)="cardClick('UlbActivities')" class="row my-5" style="border: 1px solid gray; border-style: solid;padding: 1rem;">
-        <h3>Number of ULBs : 4500</h3>
+        <h3>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h3>
         <div style="display: flex; height: 20px; width: 100%;">
             <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%] = 'data1Percentage' ></div>
             <div style="background-color: #193369 ;height: 20px !important;" [style.width.%] = 'data2Percentage'></div>
@@ -13,16 +13,16 @@
         
         <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
             <div class="circular-div" style="background-color: #e67e15;"></div>
-            <span class="markerText">Application Not Started</span>
+            <span class="markerText">Not yet started: {{ mapData?.formWiseData?.notStarted}}</span>
             <div class="circular-div" style="background-color: #193369;"></div>
-            <span class="markerText">In Progress 200</span>
+            <span class="markerText">In progress: {{ mapData?.ulbWiseData?.inProgress }}</span>
             <div  class="circular-div" style="background-color: #38cdfa;"></div>
-            <span class="markerText">Submitted 1000</span>
+            <span class="markerText">Submitted: {{ mapData?.ulbWiseData?.submitted }}</span>
         </div>
       </div>
 
       <div role="button" (click)="cardClick('PMUActivities')" class="row my-3" style="border: 1px solid gray; border-style: solid;padding: 1rem;">
-        <h3>Submitted Apllications : 4500</h3>
+        <h3>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h3>
         <div style="display: flex; height: 20px; width: 100%;">
             <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%] = 'data11Percentage' ></div>
             <div style="background-color: #193369 ;height: 20px !important;" [style.width.%] = 'data12Percentage'></div>
@@ -32,13 +32,13 @@
         
         <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
             <div class="circular-div" style="background-color: #e67e15;"></div>
-            <span class="markerText">Application Not Started</span>
+            <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
             <div class="circular-div" style="background-color: #193369;"></div>
-            <span class="markerText">In Progress 200</span>
+            <span class="markerText">Verification in progress: {{ mapData?.formWiseData?.verificationInProgress }}</span>
             <div  class="circular-div" style="background-color: #38cdfa;"></div>
-            <span class="markerText">Submitted 1000</span>
+            <span class="markerText">Approved: {{ mapData?.formWiseData?.approved }}</span>
             <div  class="circular-div" style="background-color: gray;"></div>
-            <span class="markerText">Submitted 100</span>
+            <span class="markerText">Rejected: {{ mapData?.formWiseData?.rejected }}</span>
         </div>
       </div>
     </div>

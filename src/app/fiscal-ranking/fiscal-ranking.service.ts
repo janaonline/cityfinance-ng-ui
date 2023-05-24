@@ -40,11 +40,13 @@ export interface HeatMap {
   percentage: number;
 }
 export interface UlbWiseData {
+  notStarted: number;
   totalUlbs: number;
   inProgress: number;
   submitted: number;
 }
 export interface FormWiseData {
+  verificationNotStarted: number;
   totalForms: number;
   verificationInProgress: number;
   approved: number;
