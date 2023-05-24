@@ -365,7 +365,8 @@
                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                       </td>
                                       <td>
-                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)" [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                          <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex, sliIndex)" [ngClass]="{'falseVal': checkErrorState(projectRow,'indicator')}"
+                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0">
                                              <option value="">--Select Indicator--</option>
                                                 <option
                                                     [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
@@ -376,17 +377,17 @@
                                       <td>
                                           <input formControlName="existing" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
                                            (keydown)="setMinMaxValidations($event, existing, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'], 'exactNum')" #existing
-                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0" [ngClass]="{'falseVal': checkErrorState(projectRow,'existing')}">
                                       </td>
                                       <td>
                                           <input formControlName="after" matTooltipPosition="above" [matTooltip]="'Range should be acc. to selected indicator'"
                                           (keydown)="setMinMaxValidations($event, above, '', '', Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'], 'exactNum')" #above
-                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                          [tabindex]="getDisableRow(projectRow) ? -1 : 0" [ngClass]="{'falseVal': checkErrorState(projectRow,'after')}">
                                       </td>
                                       <td>
                                           <input formControlName="cost" matTooltipPosition="above" [matTooltip]="'cost 0 upto 15 digits'" 
                                            (keydown)="setMinMaxValidations($event, costSli, 0, maxNumVaditaion?.fifteenDigit, '')" #costSli
-                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0">
+                                           [tabindex]="getDisableRow(projectRow) ? -1 : 0" [ngClass]="{'falseVal': checkErrorState(projectRow,'cost')}">
                                       </td>
                                       <td class="rdDiv" [ngClass]="{'disableInputs': isDisabled, 'enableInputs': !isDisabled}">
                                           <input formControlName="dprPreparation" (change)="onChange($event.target.value, sliIndex, 'sWater', projectIndex)" type="radio" class="rdBtn" value="Yes" [tabindex]="getDisableRow(projectRow) ? -1 : 0">&nbsp;
