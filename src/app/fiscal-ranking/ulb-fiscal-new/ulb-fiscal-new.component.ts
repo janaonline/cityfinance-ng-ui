@@ -77,7 +77,7 @@ export class UlbFiscalNewComponent implements OnInit {
     if (!this.loggedInUserType) {
       this._router.navigateByUrl('fiscal/login')
     }
-    else if (this.loggedInUserType != 'ULB') {
+    else if (this.loggedInUserType != this.userTypes.ULB) {
       this.ulbId = this.activatedRoute.snapshot.params.ulbId;
       if (!this.ulbId) {
         this._router.navigateByUrl('rankings/home')
@@ -95,17 +95,17 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get canSeeActions() {
-    if (this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus)) return true;
+    if (this.loggedInUserType == this.userTypes.PMU && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus)) return true;
     return [StatusType.inProgress, StatusType.returnedByPMU, StatusType.ackByPMU].includes(this.currentFormStatus);
   }
 
   get canTakeAction() {
-    return this.loggedInUserType == this.userTypes.MoHUA && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
+    return this.loggedInUserType == this.userTypes.PMU && [StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
   }
 
   get isDisabled() {
     if (this.loggedInUserType == this.userTypes.ULB) return ![StatusType.notStarted, StatusType.inProgress, StatusType.returnedByPMU].includes(this.currentFormStatus);
-    if (this.loggedInUserType == this.userTypes.MoHUA) return ![StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
+    if (this.loggedInUserType == this.userTypes.PMU) return ![StatusType.verificationNotStarted, StatusType.verificationInProgress].includes(this.currentFormStatus);
     return true;
   }
 
@@ -162,7 +162,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
-            status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+            status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
           });
@@ -212,7 +212,7 @@ export class UlbFiscalNewComponent implements OnInit {
       max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: [item?.status, this.loggedInUserType == this.userTypes.MoHUA && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+      status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
@@ -472,7 +472,7 @@ export class UlbFiscalNewComponent implements OnInit {
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
-      this.loggedInUserType == this.userTypes.MoHUA ? 'Are you sure you want to submit this form?' :
+      this.loggedInUserType == this.userTypes.PMU ? 'Are you sure you want to submit this form?' :
         `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
@@ -506,7 +506,7 @@ export class UlbFiscalNewComponent implements OnInit {
     if (this.userData.role == this.userTypes.ULB) return isDraft 
       ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 
       : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
-    if (this.userData.role == this.userTypes.MoHUA) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
+    if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
   canSeeAllActionButtons(items: any[]) {
@@ -531,7 +531,7 @@ export class UlbFiscalNewComponent implements OnInit {
       actions: this.form.getRawValue()
     }
     this.loaderService.showLoader();
-    this.fiscalService[this.userData.role == this.userTypes.MoHUA ? 'actionByMohua' : 'postFiscalRankingData'](payload).subscribe(res => {
+    this.fiscalService[this.userData.role == this.userTypes.PMU ? 'actionByMohua' : 'postFiscalRankingData'](payload).subscribe(res => {
       this.form.markAsPristine();
       this.loaderService.stopLoader();
       this.formSubmitted = !isDraft;

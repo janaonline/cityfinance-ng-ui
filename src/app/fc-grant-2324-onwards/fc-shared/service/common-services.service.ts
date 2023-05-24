@@ -58,15 +58,18 @@ export class CommonServicesService {
       let arr = input?.value.toString().split("")
       newValue = arr.slice(0,input?.selectionStart).join("")+e.key+arr.slice(input?.selectionEnd,arr.length).join("");
     }
-    console.log('log..', maxV);
+    
     const numToStringLen = (maxV.toString()).length;
-    if(Number(input?.value) == 0 && e.key == 0){
+    // if(Number(input?.value) == 0 && e.key == 0){
+    // //  e.preventDefault();
+    // //  input.value = 0;
+    // }
+    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")) {
       e.preventDefault();
-      input.value = 0; 
     }
-    console.log('maxV?.length', maxV?.length, 'newValue.length', newValue, numToStringLen);
-    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")) e.preventDefault();
-    if((type != 'exactNum') && (+newValue >= maxV || newValue.length > numToStringLen-1 || +newValue < minV || e.key == " " )) e.preventDefault();
+    if((type != 'exactNum') && (+newValue >= maxV || newValue.length > numToStringLen-1 || +newValue < minV || e.key == " " )) {
+      e.preventDefault();
+    }
   }
 
   private replaceSelection(input, key) {

@@ -5,9 +5,11 @@
         </div>
     </div>
     <!-- <div class="row">
-        <app-mapcomponent [populationCategories]="populationCategories"></app-mapcomponent>
+        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+        </app-mapcomponent>
         <hr class="my-3">
     </div> -->
+    
     <div class="row mt-2">
         <div class="col-sm-3">
             <!-- <label for="form" class="l-l">Select State:</label>
@@ -36,7 +38,8 @@
                 <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
                     (click)="openDialog('Return')">Return all</button> -->
                 <button type="button" class="btn btn-danger ms-2" style="display: flex;" (click)="download()"
-                    [disabled]="isDownloadStart">Download &nbsp;<mat-spinner [diameter]="20" [hidden]="!isDownloadStart">
+                    [disabled]="isDownloadStart">Download &nbsp;<mat-spinner [diameter]="20"
+                        [hidden]="!isDownloadStart">
                     </mat-spinner></button>
             </div>
         </div>

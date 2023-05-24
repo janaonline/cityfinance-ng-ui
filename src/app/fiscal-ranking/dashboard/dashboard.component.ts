@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from 'src/app/shared/components/share-dialog/share-dialog.component';
 import { TableResponse } from '../common-table/common-table.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 
-interface Table {
-  endpoint: string;
-  response: TableResponse
-}
+
 
 @Component({
   selector: 'app-dashboard',
@@ -14,31 +13,21 @@ interface Table {
 })
 export class DashboardComponent implements OnInit {
 
-  tables: Table[] = [
-    {
-      endpoint: 'fiscal-ranking/overview/UlbActivities',
-      response: null,
-    },
-    // {
-    //   endpoint: 'fiscal-ranking/overview/PMUActivities',
-    //   response: null,
-    // },
-    // {
-    //   endpoint: 'fiscal-ranking/overview/populationWise',
-    //   response: null,
-    // },
-  ]
+  table: Table = {
+    id: "",
+    endpoint: '',
+    response: null,
+  };
 
   constructor(
-    private fiscalRankingService: FiscalRankingService
+    private fiscalRankingService: FiscalRankingService,
+    @Inject(MAT_DIALOG_DATA) public data: { table: Table },
   ) { }
 
   ngOnInit(): void {
-
-    this.tables.forEach(table => {
-      this.loadTableData(table);
-      console.log(this.tables);
-    })
+    this.table = this.data.table;
+    console.log({ table: this.table });
+    this.loadTableData(this.data.table);
   }
 
   onUpdate(table, event) {

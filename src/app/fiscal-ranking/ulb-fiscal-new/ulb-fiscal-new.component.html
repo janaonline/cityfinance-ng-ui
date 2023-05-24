@@ -86,7 +86,7 @@
                                         *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
                                         <th
                                             *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
-                                            {{ heading }}{{ i > 1 ? ' (in ₹)' : ''}}</th>
+                                            {{ heading }}{{ heading && i > 1 ? ' (in ₹)' : ''}}</th>
                                     </tr>
                                     <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey"
                                         class="table-info">
