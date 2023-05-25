@@ -259,6 +259,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       console.log('ressssss action', error);
       this.formChangeEventEmit.emit(false);
       this.isActionSubmitted = false;
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     }
     )
   }
