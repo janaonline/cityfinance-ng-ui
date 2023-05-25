@@ -27,13 +27,14 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const queryParams = new URLSearchParams({...this.route.snapshot.params, ...this.route.snapshot.queryParams} as any).toString();
     if(this.data?.table) {
       this.table = this.data.table;
     }
     else if(this.route.snapshot.data.table) {
       this.table = this.route.snapshot.data.table;
     }
-    this.loadTableData(this.table);
+    this.loadTableData(this.table, queryParams);
   }
 
   onUpdate(table, event) {
