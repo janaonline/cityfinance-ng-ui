@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive table-con">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        *ngFor="let column of data?.columns"
+                        class="{{ column?.key }}">
+                        <div class="" [innerHtml]="column?.display_name "></div>
+                        <!-- {{ column?.display_name }} -->
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of data?.rows">
+                      <td
+                        *ngFor="let column of data?.columns"
+                        class="{{ column?.key }}"
+                      >
+                        {{ row[column.key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+</div>
