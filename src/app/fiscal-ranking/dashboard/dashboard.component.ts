@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { DialogData } from 'src/app/shared/components/share-dialog/share-dialog.component';
 import { TableResponse } from '../common-table/common-table.component';
 import { FiscalRankingService, Table } from '../fiscal-ranking.service';
@@ -9,7 +10,7 @@ import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
 
@@ -21,13 +22,18 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private fiscalRankingService: FiscalRankingService,
-    @Inject(MAT_DIALOG_DATA) public data: { table: Table },
+    private route: ActivatedRoute,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { table: Table },
   ) { }
 
   ngOnInit(): void {
-    this.table = this.data.table;
-    console.log({ table: this.table });
-    this.loadTableData(this.data.table);
+    if(this.data?.table) {
+      this.table = this.data.table;
+    }
+    else if(this.route.snapshot.data.table) {
+      this.table = this.route.snapshot.data.table;
+    }
+    this.loadTableData(this.table);
   }
 
   onUpdate(table, event) {
