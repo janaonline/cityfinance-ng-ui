@@ -592,7 +592,7 @@ errorOnload:boolean = false;
   waterBodiesFormElem(data) {
     return  this.fb.group({
       name: this.fb.control(data?.name, [Validators.required, Validators.maxLength(50)]),
-      area: this.fb.control(data?.area, [Validators.required,Validators.min(1)]),
+      area: this.fb.control(data?.area, [Validators.required,Validators.min(0)]),
       nameOfBody: this.fb.control(data?.nameOfBody, [Validators.required, Validators.maxLength(50)]),
       lat: this.fb.control(data?.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
       long: this.fb.control(data?.long, [Validators.required, Validators.pattern(this.latLongRegex)]),
@@ -637,7 +637,7 @@ errorOnload:boolean = false;
       targetCust: this.fb.control(data.targetCust, [Validators.required,Validators.maxLength(300)]),
       lat: this.fb.control(data.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
       long: this.fb.control(data.long, [Validators.required,Validators.pattern(this.latLongRegex)]),
-      stp: this.fb.control(data.stp, [Validators.required,Validators.min(1)]),
+      stp: this.fb.control(data.stp, [Validators.required,Validators.min(0)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
@@ -1099,14 +1099,15 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
   //  BASE_URL/indicatorLineItem
   }
   setMinMaxValidations(e, input, min, max, value, type?:string){
-    console.log('indicator value..', value);
+    console.log('indicator value..', value, type);
     let indicatorDetails = this.waterIndicators.find(({lineItemId})=> value == lineItemId);
     console.log('indicator value.. 54321', indicatorDetails);
     if(!min && !max){
       min = indicatorDetails?.range?.split("-")[0];
       max = indicatorDetails?.range?.split("-")[1];
     }
-
+    console.log('indicator value.. returned', this.commonServices.minMaxValidation(e, input, min, max, type));
+    
    return this.commonServices.minMaxValidation(e, input, min, max, type);
     
   }

@@ -390,7 +390,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     },
       (error) => {
         console.log('post error', error);
-
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
       }
     )
   }

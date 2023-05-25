@@ -247,17 +247,19 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.isActionSubmitted = false;
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
-      if((this.formId == 4 || this.formId == 6) &&
-       (this.statusForm?.value?.status == 7) && 
-       this.userData?.role == 'MoHUA'){
-        this.sequentialReview();
-       } 
+      //temp commented for Production
+      // if((this.formId == 4 || this.formId == 6) &&
+      //  (this.statusForm?.value?.status == 7) && 
+      //  this.userData?.role == 'MoHUA'){
+      //   this.sequentialReview();
+      //  } 
       swal('Saved', "Action submitted successfully", "success");
     },
     (error)=>{
       console.log('ressssss action', error);
       this.formChangeEventEmit.emit(false);
       this.isActionSubmitted = false;
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     }
     )
   }
