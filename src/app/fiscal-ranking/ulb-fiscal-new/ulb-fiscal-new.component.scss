@@ -75,9 +75,8 @@
 }
 
 .btn-f-next {
-    background: #E67E15;
-    border-radius: 8px;
-    color: #FFFFFF;
+    border: none;
+    color: #E67E15;
 }
 
 .btn {
@@ -87,8 +86,9 @@
 }
 
 .btn-f-c {
-    border: none;
-    color: #E67E15;
+    background: #E67E15;
+    border-radius: 8px;
+    color: #FFFFFF;
 }
 
 .card-form {
@@ -211,7 +211,12 @@
 
 .br-a {
     background: #fff;
-    border-right-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.left-0-radius { 
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .mat-mdc-radio-button~.mat-mdc-radio-button {
@@ -251,7 +256,7 @@
 .al-up {
     border: 1px solid #C6C6C6;
     border-radius: 5px;
-    height: 40px;
+    min-height: 40px;
     padding: 0.65rem 0.75rem;
     font-size: smaller;
     width: 100%;
@@ -283,15 +288,6 @@
     display: inline-block;
 }
 
-// ::ng-deep .mat-input-element:disabled {
-//     color: #000;
-// }
-
-// ::ng-deep .mat-form-field-disabled {
-//     .mat-form-field-outline {
-//         background-color: #ccc;
-//     }
-// }
 
 .pe-none {
     pointer-events: none;
@@ -301,9 +297,16 @@
     border: 2px solid red;
 }
 
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline,
-.mat-input-element:disabled {
-    color: #d3d3d3 !important;
+::ng-deep .disable {
+    .mat-form-field-label .com-style {
+        color: #000;
+    }
+    .mat-form-field-outline {
+        background-color: #dddddd;
+    }
+    input {
+        color: #2f2f2f;
+    }
 }
 
 ::ng-deep .mat-form-field-disabled .mat-form-field-label .com-style {
@@ -316,12 +319,12 @@
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none !important;
+    margin: 0 !important;
 }
 
 input[type=number] {
-    -moz-appearance: textfield;
+    -moz-appearance: textfield !important;
 }
 
 table {
@@ -356,5 +359,9 @@ table {
     .float-number {
         font-size: 15px;
         font-weight: 400;
+    }
+    
+    .focus-warning {
+        color: #c9880f;
     }
 }

@@ -6,6 +6,54 @@ import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { KeyValue } from "@angular/common";
 import { FormGroup } from "@angular/forms";
+import { TableResponse } from "./common-table/common-table.component";
+
+import { map } from "rxjs/operators";
+
+export enum StatusType {
+  "notStarted" = 1,
+  "inProgress" = 2,
+  "verificationNotStarted" = 8,
+  "verificationInProgress" = 9,
+  "returnedByPMU" = 10,
+  "ackByPMU" = 11
+}
+export interface Table {
+  id: string;
+  endpoint: string;
+  response: TableResponse;
+}
+
+
+export interface MapData {
+  _id: string;
+  heatMap: HeatMap;
+  ulbWiseData: UlbWiseData;
+  formWiseData: FormWiseData;
+  stateName: string;
+  totalUlbs: number;
+}
+export interface HeatMap {
+  _id: string;
+  stateId: string;
+  code: string;
+  percentage: number;
+}
+export interface UlbWiseData {
+  notStarted: number;
+  totalUlbs: number;
+  inProgress: number;
+  submitted: number;
+}
+export interface FormWiseData {
+  verificationNotStarted: number;
+  totalForms: number;
+  verificationInProgress: number;
+  approved: number;
+  rejected: number;
+}
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +124,21 @@ export class FiscalRankingService {
     a.download = filename;
     a.click();
     return url;
+  }
+
+  getTableResponse(endpoint: string, queryParams: string, columns) {
+    return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
+      map((response) => {
+        response.columns = columns || response.columns.map(column => ({
+          ...column,
+          sort: 0,
+        }));
+        return response;
+      })
+    );
+  }
+
+  getStateWiseForm() {
+    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?state=all`);
   }
 }

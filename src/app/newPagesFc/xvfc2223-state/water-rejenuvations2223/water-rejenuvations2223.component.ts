@@ -1461,7 +1461,6 @@ nextRouter = '';
       );
       return;
     }
-
     let size = leftNum;
     for (const key in files) {
       if (key == "length") break;

@@ -58,4 +58,10 @@ export class UlbformService {
   postStateSlbActionSlb(data) {
     return this.http.post(`${environment.api.url}xv-fc-form/newAction`, data);
   }
+  postSeqReview(body) {
+    return this.http.post(
+      `${environment.api.url}common-action/sequentialReview`,
+      body
+    );
+  }
 }

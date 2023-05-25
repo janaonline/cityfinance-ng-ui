@@ -22,7 +22,7 @@ export class UlbFisPreviewComponent implements OnInit {
   stateName: string = '';
   ulbId: string = "";
   dialogRef;
-  yearList: string[] = ['#', '2021-22', '2020-21', '2019-20', '2018-19'];
+  yearList: string[] = ['#', '', '2021-22', '2020-21', '2019-20', '2018-19'];
   yearWiseTabs: string[] = ['s3', 's4', 's5', 's6'];
 
   constructor(
@@ -97,6 +97,29 @@ export class UlbFisPreviewComponent implements OnInit {
       font-size: 6px;
       text-align: left;
     }
+    .table-gray {
+      background-color: #c3c3c3;
+      color: black;
+      text-align: center;
+    }
+    .table-info {
+      background-color: #D7F5FE;
+      color: black;
+      text-align: center;
+    }
+    .table-danger {
+        background-color: #F8D7DA;
+        color: black;
+        text-align: center;
+    }
+    .ulb-name {
+      font-size: 15px;
+      color: white;
+    }
+    .ulb-info {
+      font-size: 12px;
+      color: white;
+    }
   </style>`;
   ngOnInit(): void {
     //preview data
@@ -108,7 +131,6 @@ export class UlbFisPreviewComponent implements OnInit {
   }
 
   clickedDownloadAsPDF() {
-    if (!this.data?.additionalData?.pristine) return this.openDialog(this.saveTemplate);
     this.downloadAsPdf();
   }
   downloadAsPdf() {
@@ -126,11 +148,7 @@ export class UlbFisPreviewComponent implements OnInit {
     //   this.showLoader = false;
     this.dialog.open(DialogComponent, { data: option });
   }
-
-  openDialog(template) {
-    const dialogConfig = new MatDialogConfig();
-    this.dialogRef = this.dialog.open(template, dialogConfig);
-  }
+  
   alertClose() {
     this.dialogRef.close();
   }

@@ -827,8 +827,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const ulbsWithCoordinates = this.ulbsOfSelectedState.filter(
       (ulb) =>
         ulb.location &&
-        parseFloat(ulb.location.lat) !== NaN &&
-        parseFloat(ulb.location.lng) !== NaN
+        !Number.isNaN(parseFloat(ulb.location.lat)) &&
+        !Number.isNaN(parseFloat(ulb.location.lng))
     );
 
     const filteredDistricts = this.DistrictsJSONForMapCreation.features.filter(

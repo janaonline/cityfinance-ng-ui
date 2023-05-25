@@ -16,6 +16,7 @@ export class CommonServicesService {
   setFormStatusUlb: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   ulbLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   stateLeftMenuComplete: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  setFormStatusState: BehaviorSubject<any> = new BehaviorSubject<any>(false);
   formPostMethod(body: any, endPoints:string) {
     return this.http.post(
       `${environment.api.url}${endPoints}`,
@@ -35,7 +36,7 @@ export class CommonServicesService {
        }
     );
   }
-  minMaxValidation(e, input, minV, maxV) {
+  minMaxValidation(e, input, minV, maxV, type?:string) {
     const functionalKeys = ["Backspace", "ArrowRight", "ArrowLeft", "Tab"];
     if (functionalKeys.indexOf(e.key) !== -1) {
       return;
@@ -46,7 +47,6 @@ export class CommonServicesService {
       e.preventDefault();
       return;
     }
-
     const hasSelection =
       input?.selectionStart !== input?.selectionEnd &&
       input?.selectionStart !== null;
@@ -54,15 +54,19 @@ export class CommonServicesService {
     if (hasSelection) {
       newValue = this.replaceSelection(input, e.key);
     } else {
-      newValue = input?.value + keyValue?.toString();
+      let arr = input?.value.toString().split("")
+      newValue = arr.slice(0,input?.selectionStart).join("")+e.key+arr.slice(input?.selectionEnd,arr.length).join("");
     }
-
-    if (
-      +newValue > maxV ||
-      newValue.length > maxV?.length ||
-      +newValue < minV ||
-      e.key == " "
-    ) {
+    
+    const numToStringLen = (maxV.toString()).length;
+    // if(Number(input?.value) == 0 && e.key == 0){
+    // //  e.preventDefault();
+    // //  input.value = 0;
+    // }
+    if(type == 'exactNum' && (+newValue > maxV ||  +newValue < minV || e.key == " ")) {
+      e.preventDefault();
+    }
+    if((type != 'exactNum') && (+newValue >= maxV || newValue.length > numToStringLen-1 || +newValue < minV || e.key == " " )) {
       e.preventDefault();
     }
   }

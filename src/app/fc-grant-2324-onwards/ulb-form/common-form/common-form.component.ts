@@ -313,37 +313,27 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     });
   }
   checkRouterForApi() {
-  this.routerSubs = this.router.events.subscribe((event) => {
-      let urlArray;
+    this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        urlArray = event.url.split("/");
-        console.log('url....', event)
+        const urlArray = event.url.split("/");
         this.isApiComplete = false;
-        console.log('url.......', urlArray);
         this.questionResponse.data[0] = [];
         if (urlArray.includes("odf")) {
-          this.endPoints = 'gfc-odf-form-collection';
-          this.getQuery.isGfc = false;
-          this.formName = 'odf';
-        //  this.getQuery.formId = 1;
-         this.getNextPreUrl('odf');
-          this.getScroing('odf', this.getQuery.design_year);
-        // this.callGetApi(this.endPoints, this.getQuery);
+          this.handleUrlForForm('odf');
         } else if (urlArray.includes("gfc")) {
-          this.endPoints = 'gfc-odf-form-collection';
-          this.getQuery.isGfc = true;
-          this.formName = 'gfc';
-       //   this.getQuery.formId = 2;
-          this.getNextPreUrl('gfc');
-          this.getScroing('gfc', this.getQuery.design_year);
-     //   this.callGetApi(this.endPoints, this.getQuery);
-         }
-        else {
-
+          this.handleUrlForForm('gfc');
         }
-        this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`
+  
+        this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
       }
     });
+  }
+  handleUrlForForm(formName: string) {
+    this.endPoints = 'gfc-odf-form-collection';
+    this.getQuery.isGfc = formName === 'gfc';
+    this.formName = formName;
+    this.getNextPreUrl(formName);
+    this.getScoring(formName, this.getQuery.design_year);
   }
   callGetApi(endPoints: string, queryParams: {}) {
     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res: any) => {
@@ -369,7 +359,7 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     console.log('ResData..................', e);
     let finalData = e?.finalData;
     if (e?.isSaveAsDraft == false) {
-      this.alertForFianlSubmit(finalData, e?.isSaveAsDraft)
+      this.alertForFinalSubmit(finalData, e?.isSaveAsDraft)
     } else {
       this.onSave(finalData, e?.isSaveAsDraft);
     }
@@ -400,19 +390,19 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     },
       (error) => {
         console.log('post error', error);
-
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
       }
     )
   }
 
-  getScroing(formName, designYear) {
+  getScoring(formName, designYear) {
     this.commonServices.getScroing(formName, designYear).subscribe((res: any) => {
       console.log('scoring.........', res);
       this.ratingMarksArray = res?.data;
     })
   }
-
-  alertForFianlSubmit(finalData, draft) {
+ 
+  alertForFinalSubmit(finalData, draft) {
     swal(
       "Confirmation !",
       `${this.finalSubmitMsg}`,
@@ -448,103 +438,13 @@ export class CommonFormComponent implements OnInit, OnDestroy {
   }
 
 
-  // nextPreBtn(e){
-  //   // temporay basic setting url
-  //   console.log('eeee next pre btn', e);
-  //   if(this.formName == 'odf'){
-  //     let url = e?.type == 'pre' ? 'annual_acc' : 'gfc'
-  //     console.log('routes url', this.router.navigate([url]), url)
-  //     this.router.navigate([ `/ulb-form/${url}`]);
-  //   }else if(this.formName == 'gfc'){
-  //     let url = e?.type == 'pre' ? 'odf' : 'annual_acc'
-  //     console.log('routes url', url)
-  //     this.router.navigate([ `/ulb-form/${url}`]);
-  //   }
-
-  // }
  formDisable(res){
     if(!res) return;
-    if(this.userData?.role != 'ULB'){
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }else if(this.userData?.role == 'ULB' && res?.language[0]?.isDraft == false && res?.statusId != 5 && res?.statusId != 7){
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }else if(this.userData?.role == 'ULB' && (res?.statusId == 5 || res?.statusId == 7)){
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-      return;
-    }else if(this.userData?.role == 'ULB' && res?.statusId == 3 && res?.language[0]?.isDraft == false){
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    }
-    else {
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-    }
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    this.isFormDisable = !this.isButtonAvail;
  }
 
 
-// saveAction(){
-//   this.isActionSubmitted = true;
-//   this.actionPayload = {
-//     "form_level": 1,
-//     "design_year" : this.designYearArray["2023-24"],
-//     "formId": this.getQuery?.formId,
-//     "ulbs": [
-//         this.ulbId
-//     ],
-//     "responses": [
-//       this.currentActionData
-
-//     ],
-//     "multi": true,
-//     "shortKeys": [
-//         "form_level"
-//     ]
-//   }
-//   if(!this.currentActionData?.status){
-//     swal('Error', "Status is mandatory", "error");
-//     return
-//   }
-//   if(this.errorInAction){
-//     swal('Error', "Reject reason is mandatory", "error");
-//     return
-//   }
-//   this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res)=>{
-//     console.log('ressssss action', res);
-//     this.actBtnDis = true;
-//     this.commonServices.setFormStatusUlb.next(true);
-//     this.isApiComplete = false;
-//     this.callGetApi(this.endPoints, this.getQuery);
-//     swal('Saved', "Action submitted successfully", "success");
-//   },
-//   (error)=>{
-//     console.log('ressssss action', error);
-//     this.isActionSubmitted = false;
-//   }
-//   )
-// }
-// getActionRes(){
-//   this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
-//     console.log('action get res', res);
-//     this.actionData = res?.data;
-//     if(!this.actionData && !this.actionData.length ){
-//       this.actionViewMode = false;
-//     }else if( this.actionData[0]?.statusId == 1 || this.actionData[0]?.statusId == 2 || this.actionData[0]?.statusId == false){
-//       this.actionViewMode = false;
-//     }else{
-//       this.actionViewMode = true;
-//     }
-
-//   },
-//   (err)=>{
-//     console.log('err action get')
-//   })
-// }
 nextPreBtn(e) {
   let url = e?.type == 'pre' ? this.nextPreUrl?.backBtnRouter : this.nextPreUrl?.nextBtnRouter
   this.router.navigate([`/ulb-form/${url.split('/')[1]}`]);
@@ -563,7 +463,7 @@ getNextPreUrl(form){
       if (ele?.folderName == form) {
         this.nextPreUrl = {nextBtnRouter : ele?.nextUrl, backBtnRouter : ele?.prevUrl}
         this.getQuery.formId = ele?.formId;
-      this.callGetApi(this.endPoints, this.getQuery);
+        this.callGetApi(this.endPoints, this.getQuery);
       }
     });
   }

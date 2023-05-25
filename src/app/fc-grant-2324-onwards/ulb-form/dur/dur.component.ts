@@ -358,7 +358,10 @@ export class DurComponent implements OnInit, OnDestroy {
   }
   formDisable(res){
     if(!res) return;
+  //  let resR = { ...res, statusId: 6} for testing only
     this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    console.log(this.isButtonAvail, 'this.isButtonAvail');
+    
  }
  ngOnDestroy(): void {
   this.leftMenuSubs.unsubscribe();

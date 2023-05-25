@@ -295,7 +295,7 @@ export class PropertyTaxComponent implements OnInit {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
-            ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+            ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
               const control  = updatableControl.get(innerSelectorString)
               this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });

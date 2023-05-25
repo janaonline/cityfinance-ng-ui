@@ -29,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
 import { CommonActionRadioComponent } from './components/common-action-radio/common-action-radio.component';
+import { MdePopoverModule } from "@material-extended/mde";
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CommonActionRadioComponent } from './components/common-action-radio/com
     MatCheckboxModule,
     MatPaginatorModule,
     InfiniteScrollModule,
+    MdePopoverModule
   ],
   exports: [
     OdfFormComponent,

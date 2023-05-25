@@ -165,4 +165,11 @@ export class NewCommonService {
   //  console.log(`${environment.api.url}common-history?formId?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`)
     return this.http.get(`${environment.api.url}common-history?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`);
   }
+
+  postSeqReview(body) {
+    return this.http.post(
+      `${environment.api.url}common-action/sequentialReview`,
+      body
+    );
+  }
 }

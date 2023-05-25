@@ -187,6 +187,7 @@ export class AnnualAccountComponent implements OnInit {
         },
         (error) => {
           console.log("post error", error);
+          swal('Error', error?.message ?? 'Something went wrong', 'error');
         }
       );
   }
@@ -258,39 +259,9 @@ export class AnnualAccountComponent implements OnInit {
       );
   }
   formDisable(res) {
-    if (!res) return;
-    if (this.userData?.role != "ULB") {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      res?.language[0]?.isDraft == false &&
-      res?.statusId != 5 &&
-      res?.statusId != 7
-    ) {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      (res?.statusId == 5 || res?.statusId == 7)
-    ) {
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      res?.statusId == 3 &&
-      res?.language[0]?.isDraft == false
-    ) {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else {
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-    }
+    if(!res) return;
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    this.isFormDisable = !this.isButtonAvail;
   }
   saveAction(data) {
     if (data == true) {
