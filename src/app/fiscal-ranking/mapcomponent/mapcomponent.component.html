@@ -1,0 +1,96 @@
+<div class="row mb-3 mt-2" style="display: flex;justify-content: space-evenly;flex-wrap: wrap;">
+    
+    
+    <div class="col-md-5 mt-1 mb-3">
+      <h2 class="my-2">Dashboard</h2>
+      <div role="button" (click)="cardClick('populationWise')" class="row my-5" style="border: 1px solid gray; border-style: solid;padding: 1rem;">
+        <h3>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h3>
+        <div style="display: flex; height: 20px; width: 100%;">
+            <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%] = 'data1Percentage' ></div>
+            <div style="background-color: #193369 ;height: 20px !important;" [style.width.%] = 'data2Percentage'></div>
+            <div style="background-color:#38cdfa ;height: 20px !important;" [style.width.%] = 'data3Percentage'></div>
+          </div>
+        
+        <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
+            <div class="circular-div" style="background-color: #e67e15;"></div>
+            <span class="markerText">Not yet started: {{ mapData?.formWiseData?.notStarted}}</span>
+            <div class="circular-div" style="background-color: #193369;"></div>
+            <span class="markerText">In progress: {{ mapData?.ulbWiseData?.inProgress }}</span>
+            <div  class="circular-div" style="background-color: #38cdfa;"></div>
+            <span class="markerText">Submitted: {{ mapData?.ulbWiseData?.submitted }}</span>
+        </div>
+      </div>
+
+      <div role="button" (click)="cardClick('PMUActivities')" class="row my-3" style="border: 1px solid gray; border-style: solid;padding: 1rem;">
+        <h3>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h3>
+        <div style="display: flex; height: 20px; width: 100%;">
+            <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%] = 'data11Percentage' ></div>
+            <div style="background-color: #193369 ;height: 20px !important;" [style.width.%] = 'data12Percentage'></div>
+            <div style="background-color: #38cdfa ;height: 20px !important;" [style.width.%] = 'data13Percentage'></div>
+            <div style="background-color: gray ;height: 20px !important;" [style.width.%] = 'data14Percentage'></div>
+          </div>
+        
+        <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
+            <div class="circular-div" style="background-color: #e67e15;"></div>
+            <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
+            <div class="circular-div" style="background-color: #193369;"></div>
+            <span class="markerText">Verification in progress: {{ mapData?.formWiseData?.verificationInProgress }}</span>
+            <div  class="circular-div" style="background-color: #38cdfa;"></div>
+            <span class="markerText">Approved: {{ mapData?.formWiseData?.approved }}</span>
+            <div  class="circular-div" style="background-color: gray;"></div>
+            <span class="markerText">Rejected: {{ mapData?.formWiseData?.rejected }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 mt-3">
+      <div class="row d-flex" style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="form-group col-md-4">
+            <div class="input-group inp-grp">
+              <form [formGroup]="myForm" class="w-100">
+                <angular2-multiselect
+                  class="expo-drp-in"
+                  [data]="stateList"
+                  formControlName="stateId"
+                  [settings]="dropdownSettings"
+                  (onSelect)="onSelectingStateFromDropDown($event)"
+                  (onDeSelect)="onSelectingStateFromDropDown(null)"
+                >
+                </angular2-multiselect>
+              </form>
+            </div>
+            
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 ps-3">
+          <select
+            [(ngModel)]="selectedCategory"
+            class="form-select"
+            id="years"
+            (change)="selectFinancialYear($event)"
+          >
+            <option selected value="">All Categories</option>
+            <option *ngFor="let item of populationCategories" value="{{ item._id }}">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-4 col-sm-4 col-md-4 ps-3">
+          <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
+        </div>
+      </div>
+      <div class="row stateMapContainer">
+        <div *ngIf="nationalLevelMap" style="z-index: 1000 !important; opacity: 1"
+          class="spinner container-fluid d-flex justify-content-center align-items-center">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div class="col-sm-12" id="districtMapContainer"
+          [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
+        </div>
+    
+        <!-- National map starts here -->
+        <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="
+                  background-image: url('../../../../assets/Layer\ 1.png') !important;
+                ">
+        </div>
+      </div>
+    </div>
+</div>

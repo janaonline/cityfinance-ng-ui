@@ -7,8 +7,6 @@ import { FormGroup } from '@angular/forms';
 export class YearInfoPipe implements PipeTransform {
 
   transform(years: FormGroup[], ...args: unknown[]): unknown {
-    
-    console.log();
 
     const yearInfos = years.filter((year: any) => year?.controls?.label?.value).map((year: any) => year.controls.label.value + ' ' + year?.controls?.bottomText?.value);
 

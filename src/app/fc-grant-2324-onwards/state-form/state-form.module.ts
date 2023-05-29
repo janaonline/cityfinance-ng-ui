@@ -22,6 +22,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
+import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 
 
 @NgModule({
@@ -30,14 +31,18 @@ import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claim
     ReviewUlbTableComponent, 
     DashbordComponent,
     ProjectsWssComponent, 
-    ProjectsWaterRejComponent, ActionPlanSliComponent, StateFinanceCnComponent, SubmitClaimsGrantsComponent
+    ProjectsWaterRejComponent,
+    ActionPlanSliComponent,
+    StateFinanceCnComponent, 
+    SubmitClaimsGrantsComponent,
+    EditUlbComponent
     ],
   imports: [
     CommonModule,
     StateFormRoutingModule,
     SharedModule,
-    FcSharedModule,
     Shared2223Module,
+    FcSharedModule,
     ReactiveFormsModule,
     FormsModule,
     MatTooltipModule,

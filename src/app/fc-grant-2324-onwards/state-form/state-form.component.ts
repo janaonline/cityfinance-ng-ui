@@ -37,10 +37,16 @@ export class StateFormComponent implements OnInit {
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
-    }
+    };
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
+    this.getLeftMenu();
+    this.statusSubs = this.commonServices.setFormStatusState.subscribe((res) => {
+      if (res == true) {
+        console.log("form status 2223", res);
+        this.getLeftMenu();
+      }
+    });
   
-  this.getLeftMenu();
     
   }
   leftMenu = {};
@@ -71,7 +77,7 @@ export class StateFormComponent implements OnInit {
       this.leftMenu = res?.data;
       localStorage.setItem("leftMenuState", JSON.stringify(res?.data));
       this.commonServices.stateLeftMenuComplete.next(true);
-      this.isApiComplete = true
+      this.isApiComplete = true;
     },
     (error)=>{
       console.log('left menu responces', error)
@@ -79,7 +85,7 @@ export class StateFormComponent implements OnInit {
     );
   }
   ngOnDestroy() {
-  //  this.statusSubs.unsubscribe();
+    this.statusSubs.unsubscribe();
   }
 
   private initializeUserType() {

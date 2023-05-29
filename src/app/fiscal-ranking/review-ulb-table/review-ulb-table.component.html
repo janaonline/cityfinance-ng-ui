@@ -1,32 +1,46 @@
-<div class="container-fluid pd-c">
+<div class="container-fluid pd-c" style="overflow-x: hidden;">
     <div class="row mb-3 mt-3">
         <div class="col-sm-12 header2">
             {{ title }}
         </div>
     </div>
+    <!-- <div class="row">
+        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+        </app-mapcomponent>
+        <hr class="my-3">
+    </div> -->
+    
     <div class="row mt-2">
-        <div class="col-sm-4">
-            <label for="form" class="l-l">Select State:</label>
+        <div class="col-sm-3">
+            <!-- <label for="form" class="l-l">Select State:</label>
             <select class="form-select ms-1" [(ngModel)]="state" (change)="loadData()"
                 *ngIf="userData?.role != 'STATE'">
                 <option selected value="" class="s-pl">All</option>
                 <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
-            </select>
+            </select> -->
         </div>
-        <div class="col-sm-4 offset-sm-4 text-end">
-            <div class="col-12">
-                <select class="form-select ms-2 d-inline-block" [(ngModel)]="perPage" (change)="onPerPageChange()">
+        <div class="col-sm-5 offset-sm-4 text-end">
+            <div class="col-12 d-flex justify-content-end">
+                <select class="form-select ms-2 d-inline-block" style="max-width: 5rem !important;"
+                    [(ngModel)]="perPage" (change)="onPerPageChange()">
                     <option class="s-pl" value="10">10</option>
                     <option class="s-pl" value="25">25</option>
                     <option class="s-pl" value="50">50</option>
                     <option class="s-pl" value="all">All</option>
                 </select>
-
+                <select class="form-select ms-2 d-inline-block" style="max-width: 16rem !important;"
+                    [(ngModel)]="csvType">
+                    <option class="s-pl" value="csvFROverall">ULB Ranking Overall Data</option>
+                    <!-- <option class="s-pl" value="csvFRUlb">ULB Ranking Financial Data</option> -->
+                </select>
                 <!-- <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
                     (click)="openDialog('Approve')">Approve all</button>
                 <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
                     (click)="openDialog('Return')">Return all</button> -->
-                <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
+                <button type="button" class="btn btn-danger ms-2" style="display: flex;" (click)="download()"
+                    [disabled]="isDownloadStart">Download &nbsp;<mat-spinner [diameter]="20"
+                        [hidden]="!isDownloadStart">
+                    </mat-spinner></button>
             </div>
         </div>
     </div>
@@ -39,17 +53,28 @@
                     <table class="table table-striped ulb-table">
                         <thead>
                             <tr style="background-color: #047474; color: #FFFFFF;">
-                                <th *ngFor="let item of showableColumns | keyvalue:keepOriginalOrder">
+                                <th style="width: 17rem;max-width: 17rem;" *ngFor="let item of modifiedColumns">
                                     {{item.value}}
+                                    <span *ngIf="getSortIcon(item)">
+                                        <i *ngIf="!item.sort" class="fa fa-sort"
+                                            (click)="sortTableData(item,1);item.sort = -1" aria-hidden="true"></i>
+                                        <i *ngIf="item.sort === 1" class="fa fa-sort-asc"
+                                            (click)="sortTableData(item,-1);item.sort = -1" aria-hidden="true"></i>
+                                        <i *ngIf="item.sort === -1" class="fa fa-sort-desc"
+                                            (click)="sortTableData(item,1);item.sort = 1" aria-hidden="true"></i>
+                                    </span>
+                                    <!-- <i class="fa fa-sort-asc" (click)="sortTableData(item,'asc');item.sort = '1';" aria-hidden="true"></i>
+                                    <i class="fa fa-sort-desc" (click)="sortTableData(item,'desc');item.sort = '-1';" aria-hidden="true"></i> -->
                                 </th>
-                                <th></th>
+                                <!-- <th></th> -->
                             </tr>
                             <tr class="filter">
                                 <th class="filter"></th>
                                 <th class="filter">
                                     <div class="input-group">
-                                        <input type="text" formControlName="ulbName" class="form-control in-se-s"
-                                            (change)="loadData()" aria-label="Ulb name" placeholder="Ulb Name">
+                                        <input type="text" style="width: 40%;" formControlName="ulbName"
+                                            class="form-control in-se-s" (keyup.enter)="loadData()"
+                                            aria-label="Ulb name" placeholder="Ulb Name">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
                                         </span>
@@ -57,8 +82,8 @@
                                 </th>
                                 <th class="filter">
                                     <div class="input-group">
-                                        <input type="text" formControlName="stateName" class="form-control in-se-s"
-                                            style="width: 40%;" (change)="loadData()" aria-label="State Name"
+                                        <input type="text" formControlName="censusCode" class="form-control in-se-s"
+                                            style="width: 40%;" (keyup.enter)="loadData()" aria-label="censusCode"
                                             placeholder="Ulb Code">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
@@ -67,41 +92,62 @@
 
                                 </th>
                                 <th class="filter">
-                                    <!-- <select class="form-select in-sel" formControlName="ulbType" (change)="loadData()">
-                                        <option selected value="">ULB Type</option>
-                                        <option *ngFor="let item of ulbTypesList" [value]="item">{{item}}</option>
-                                    </select> -->
-                                </th>
-                                <th class="filter">
-                                    <!-- <select class="form-select in-sel" formControlName="populationType" (change)="loadData()">
-                                        <option selected value="">Population Type</option>
-                                        <option *ngFor="let item of populationTypesList" [value]="item">{{item}}</option>
-                                    </select> -->
-                                </th>
-                                <th class="filter">
                                     <div class="input-group">
-                                        <input type="text" formControlName="UA" class="form-control in-se-s"
-                                            (change)="loadData()" aria-label="UA name" placeholder="UA Name">
+                                        <!-- <input type="text" formControlName="stateName" class="form-control in-se-s"
+                                            style="width: 40%;" (keyup.enter)="loadData()" aria-label="stateName"
+                                            placeholder="State Name"> -->
+                                        <select class="form-select ms-1" style="line-height: 1.1rem;"
+                                            formControlName="stateName" (change)="loadData()"
+                                            *ngIf="userData?.role != 'STATE'">
+                                            <option selected value="" class="s-pl">All</option>
+                                            <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}
+                                            </option>
+                                        </select>
+                                        <!-- <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span> -->
                                     </div>
                                 </th>
                                 <th class="filter">
-                                    <!-- <select class="form-select in-sel" formControlName="status" (change)="loadData()">
-                                        <option selected value="">Status</option>
-                                        <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
-                                    </select> -->
+                                    <div class="input-group">
+                                        <!-- <input type="text" formControlName="populationCategory" class="form-control in-se-s"
+                                            style="width: 40%;" (keyup.enter)="loadData()" aria-label="populationCategory"
+                                            placeholder="Population Category">
+                                        <span class="input-group-text">
+                                            <span class="fa fa-search form-control-feedback"></span>
+                                        </span> -->
+                                        <select class="form-select ms-2" style="line-height: 1.1rem;"
+                                            formControlName="populationType" (change)="loadData()">
+                                            <option selected value="" class="s-pl">All</option>
+                                            <option *ngFor="let item of populationCategories" [value]="item._id">
+                                                {{item.name}}</option>
+                                        </select>
+                                    </div>
                                 </th>
                                 <th class="filter">
+                                    <div class="input-group">
+                                        <!-- <input type="text" formControlName="status" class="form-control in-se-s"
+                                        (keyup.enter)="loadData()" aria-label="Status" placeholder="Status"> -->
+                                        <select class="form-select ms-2" style="line-height: 1.1rem;"
+                                            formControlName="status" (change)="loadData()">
+                                            <option selected value="" class="s-pl">All</option>
+                                            <option *ngFor="let item of statusFilterList" [value]="item._id">
+                                                {{item.name}}</option>
+                                        </select>
+                                    </div>
+                                </th>
+                                <!-- <th class="filter">
                                     <select class="form-select in-sel" style="width: 71px;" formControlName="filled1"
                                         (change)="loadData()">
                                         <option selected value="">Search</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
                                     </select>
-                                </th>
-                                <th class="filter text-center">
+                                </th> -->
+                                <th class="filter">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
-                                <th class="filter"></th>
+                                <!-- <th class="filter"></th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -112,30 +158,25 @@
                                 currentPage: tableDefaultOptions.currentPage,
                                 totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
                               }; let tabelIndex=index">
-                                <td style="width: 1%;">{{isInfiniteScroll ? tabelIndex+1 :
+                                <td style="width: 5%;">{{isInfiniteScroll ? tabelIndex+1 :
                                     (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                     tabelIndex+1)}}</td>
                                 <td>{{item.ulbName}}</td>
-                                <td style="width: 11%;">{{item.censusCode || item.sbCode }}</td>
-                                <td>{{item.ulbType}}</td>
+                                <td>{{item.censusCode}}</td>
+                                <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.populationType}}</td>
-                                <td>{{item.UA}}</td>
                                 <td>{{item.formStatus}}</td>
-                                <td>{{item.filled ? item.filled : item.filled_audited }}</td>
-                                <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td>
-                                <td *ngIf="item.cantakeAction == false">
-                                    <a [ngClass]='{"notClick" : actBtn}'
-                                        [routerLink]="['/rankings/ulb-form', item.ulbId]">
-                                        <mat-icon aria-hidden="false"><img src="../../../../assets/ulbform/eye.png">
-                                        </mat-icon>
-                                    </a>
+                                <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
+                                <!-- <p>{{ item | json }}</p> -->
+                                <td *ngIf="!item?.cantakeAction">
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="navigateTo('/rankings/ulb-form',item.ulbId,false)">View</button>
                                 </td>
-                                <td class="btn-td" *ngIf="item.cantakeAction == true">
-                                    <a class="btn btn-a btn-primary" [ngClass]='{"notClick" : actBtn}'
-                                    [routerLink]="['/rankings/ulb-form', item.ulbId]"  [queryParams]="{cantakeAction: true}">Take Action
-                                    </a>
+                                <td *ngIf="item?.cantakeAction">
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="navigateTo('/rankings/ulb-form',item.ulbId,true)">Review</button>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <div class="form-check"
                                         [matTooltip]="item?.cantakeAction == false ? 'Not eligible to take action' : ''">
                                         <mat-checkbox class=''
@@ -145,10 +186,14 @@
                                             [(ngModel)]="item.isChecked" [ngModelOptions]="{standalone: true}">
                                         </mat-checkbox>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
+                        
                     </table>
+                    <div style="text-align: center;padding-bottom: 20px;" *ngIf="!data.length">
+                        {{notFoundMessage}}
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center p-3" *ngIf="isLoader">
                     <div class="spinner-grow text-success" role="status">

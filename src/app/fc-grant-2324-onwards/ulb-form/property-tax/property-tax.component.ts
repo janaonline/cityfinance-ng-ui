@@ -118,7 +118,7 @@ export class PropertyTaxComponent implements OnInit {
   }
 
   get uploadFolderName() {
-    return `${this.userData?.role}/2023-24/property-tax/${this.userData?.ulbCode}`
+    return `${this.userData?.role}/2023-24/pto/${this.userData?.ulbCode}`
   }
 
   get design_year() {
@@ -295,7 +295,7 @@ export class PropertyTaxComponent implements OnInit {
             const selectorString = `data.${skippable}.yearData.${yearIndex}`;
             const updatableControl = s3Control?.get(selectorString) as FormGroup;
             if (!updatableControl) return;
-            ['value', 'file.name', 'file.url'].forEach(innerSelectorString => {
+            ['value', 'file.name', 'file.url', 'date'].forEach(innerSelectorString => {
               const control  = updatableControl.get(innerSelectorString)
               this.toggleValidations(control, selectorString + '.' + innerSelectorString, canShow, false);
             });
@@ -330,6 +330,11 @@ export class PropertyTaxComponent implements OnInit {
     const maxFileSize = 5;
     const file: File = event.target.files[0];
     if (!file) return;
+    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if(isfileValid == false){
+      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+       return;
+    }
     const fileExtension = file.name.split('.').pop();
     if (!allowedFileTypes?.includes(fileExtension)) return swal("Error", `Allowed file extensions: ${allowedFileTypes?.join(', ')}`, "error");
 

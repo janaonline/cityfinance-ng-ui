@@ -247,12 +247,19 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.isActionSubmitted = false;
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
+      //temp commented for Production
+      // if((this.formId == 4 || this.formId == 6) &&
+      //  (this.statusForm?.value?.status == 7) && 
+      //  this.userData?.role == 'MoHUA'){
+      //   this.sequentialReview();
+      //  } 
       swal('Saved', "Action submitted successfully", "success");
     },
     (error)=>{
       console.log('ressssss action', error);
       this.formChangeEventEmit.emit(false);
       this.isActionSubmitted = false;
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     }
     )
   }
@@ -275,5 +282,23 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       console.log('err action get');
 
     })
+  }
+
+  sequentialReview() {
+    let body = {
+      ulbs: [this.ulbId],
+      design_year: this.Years["2023-24"],
+      status: "REJECTED",
+      formId: this.formId,
+      multi: false,
+    };
+    this.commonServices.formPostMethod(body, 'common-action/sequentialReview').subscribe(
+      (res) => {
+        console.log("Sequential review", res);
+      },
+      (error) => {
+        swal("Error", "Sequential review field.", "error");
+      }
+    );
   }
 }
