@@ -3,16 +3,15 @@
 
   <div class="col-md-5 mt-1 mb-3">
     <h2 class="my-2">Dashboard</h2>
-    <div role="button" (click)="cardClick('UlbActivities')" class="row my-5"
-      style="border: 1px solid gray; border-style: solid;padding: 1rem;">
-      <h3>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h3>
+    <div role="button" (click)="cardClick('UlbActivities')" class="row mt-5 border p-4 rounded">
+      <h4>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h4>
       <div style="display: flex; height: 20px; width: 100%;">
         <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.notStarted'></div>
         <div style="background-color: #193369 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.inProgress'></div>
         <div style="background-color:#38cdfa ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.submitted'></div>
       </div>
 
-      <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
+      <div class="row mx-1 my-2 py-1 d-flex w-100 align-items-center">
         <div class="circular-div" style="background-color: #e67e15;"></div>
         <span class="markerText">Not yet started: {{ mapData?.ulbWiseData?.notStarted}}</span>
         <div class="circular-div" style="background-color: #193369;"></div>
@@ -22,9 +21,8 @@
       </div>
     </div>
 
-    <div role="button" (click)="cardClick('PMUActivities')" class="row my-3"
-      style="border: 1px solid gray; border-style: solid;padding: 1rem;">
-      <h3>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h3>
+    <div role="button" (click)="cardClick('PMUActivities')" class="row mt-5 border p-4 rounded">
+      <h4>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h4>
       <div style="display: flex; height: 20px; width: 100%;">
         <div style="background-color: #e67e15 ;height: 20px !important;"
           [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.verificationNotStarted'>
@@ -40,7 +38,7 @@
         </div>
       </div>
 
-      <div class="row mx-2 py-1" style="display: flex; width: 100%; align-items: center;">
+      <div class="row mx-1 my-2 py-1 d-flex w-100 align-items-center">
         <div class="circular-div" style="background-color: #e67e15;"></div>
         <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
         <div class="circular-div" style="background-color: #193369;"></div>
