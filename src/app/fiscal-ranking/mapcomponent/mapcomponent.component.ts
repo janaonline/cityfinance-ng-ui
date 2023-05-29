@@ -19,7 +19,7 @@ import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-h
 import { NationalMapSectionService } from 'src/app/pages/new-dashbords/national/national-map-section/national-map-section.service';
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import * as fileSaver from "file-saver";
-import { MapData } from '../fiscal-ranking.service';
+import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../assets/jsonFile/state_boundries.json");
@@ -141,7 +141,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     private assetService: AssetsService,
     private router: Router,
     private nationalMapService: NationalMapSectionService,
-
+    private fiscalRankingService: FiscalRankingService,
     private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
@@ -160,7 +160,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   ngOnInit(): void {
-    this.getNationalLevelMapData("2020-21");
+    this.getStateWiseForm();
+    // this.getNationalLevelMapData("2020-21");
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
@@ -215,6 +216,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     return Promise.all(prmsArr);
   }
 
+  getStateWiseForm() {
+    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      console.log('state wise response', res);
+
+      this.colorCoding = res?.data.heatMaps;
+
+        this.initializeNationalLevelMapLayer(this.stateLayers);
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          this.currentId
+        );
+    });
+  }
+
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
       if (res) {
@@ -256,8 +271,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     //   data: event.target.value,
     // });
     MapUtil.destroy(this.nationalLevelMap);
-
-    this.getNationalLevelMapData(event.target.value);
+    this.getStateWiseForm();
+    // this.getNationalLevelMapData(event.target.value);
   }
 
   ngAfterViewInit(): void {
@@ -574,7 +589,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     this.selectedYear = "2020-21";
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
-    this.getNationalLevelMapData(this.selectedYear);
+    // this.getNationalLevelMapData(this.selectedYear);
+    this.getStateWiseForm();
     this.nationalMapService.setCurrentSelectYear({
       data: this.selectedYear,
     });
