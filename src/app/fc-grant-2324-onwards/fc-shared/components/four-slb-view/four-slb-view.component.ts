@@ -57,6 +57,10 @@ export class FourSlbViewComponent implements OnInit {
   //   { key: "2425", name: "Target<br> 2024-25" },
   // ];
   data = {
+    formName: '',
+    formId: '',
+    status: '',
+    title: '',
     "rows": [
       {
         serviceLevelIndicators: 'Water supplied in litre per capita per day(lpcd)',
