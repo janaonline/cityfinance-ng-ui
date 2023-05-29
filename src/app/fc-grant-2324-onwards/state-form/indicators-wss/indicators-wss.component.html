@@ -1,1 +1,267 @@
-<app-four-slb-view></app-four-slb-view>
+<!-- <app-four-slb-view></app-four-slb-view> -->
+<!-- <div class="container-fluid" *ngIf="!isApiInProgress">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="form-header">
+                {{response?.formName}}
+            </div>
+        </div>
+        <div class="col-sm-2 text-end">
+            <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{response?.info}}
+        </div>
+    </div>
+    <div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index">
+        <div class="row p-2">
+            <div class="col-9">
+                <h5>UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</h5>
+            </div>
+            <div class="col-3 text-right">
+                <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': isCollapsed[i]}" (click)="foldCard(i,uaDetails._id)">Select</button>
+            </div>
+        </div>
+        <div class="col-sm-12" *ngIf="isCollapsed[i]">
+            <div>
+                <div class="card">
+                    <div class="row text-center mt-3">
+                        <h5 class="indicators">Indicators for Water Supply and Sanitation(A)</h5>
+                    </div>
+                    <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                            Total Number of ULBs in UA</h6><br>
+                                        <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                        </h6><br>
+                                        <a (click)="openDialog(template, getData?.fourSLB?.approved?.ulbs)">
+                                            <h6 style="display: inline-flex; color: #337AB7;">
+                                                {{getData?.fourSLB?.approved?.count ? getData?.fourSLB?.approved?.count : 0}}
+                                            </h6>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                                        <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval</h6><br>
+                                        <a (click)="openDialog(template, getData?.fourSLB?.pending?.ulbs)">
+                                            <h6 style="display: inline-flex; color: #337AB7;">{{getData?.fourSLB?.pending?.count ? getData?.fourSLB?.pending?.count : 0}}
+                                            </h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow table-responsive" *ngIf="!noDataFound">
+                        <app-four-slb-view></app-four-slb-view>
+                    </div>
+                    <div class="row ms-1" *ngIf="!noDataFound">
+                        <h5 class="indicatorsSummary">Total UA Score for Water Supply and Sanitation : {{totalWeightedScore}}(out of maximum 60)
+                        </h5>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="row text-center mt-5">
+                        <h5 class="indicators">Indicators for Solid Waste Management(B)</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <h5>GFC</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                                    Total Number of ULBs in UA</h6>
+                                                <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.gfc?.approved?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">
+                                                        {{getData?.gfc?.approved?.count ? getData?.gfc?.approved?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.gfc?.pending?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">{{getData?.gfc?.pending?.count ? getData?.gfc?.pending?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-6">
+                                                <input type="text" placeholder="GFC Rating" class="pointerEvent" disabled>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" placeholder="{{gfcScoreRoundOff ? gfcScoreRoundOff : 0}}" class="pointerEvent" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row" style="margin-top: 10px; margin-left: 2px; margin-right: 0px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <h5>ODF</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                                    Total Number of ULBs in UA</h6>
+                                                <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.odf?.approved?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">
+                                                        {{getData?.odf?.approved?.count ? getData?.odf?.approved?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                                                </h6>
+                                                <br>
+                                                <a (click)="openDialog(template, getData?.odf?.pending?.ulbs)">
+                                                    <h6 style="display: inline-flex; color: #337AB7;">{{getData?.odf?.pending?.count ? getData?.odf?.pending?.count : 0}}
+                                                    </h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-2 solidWasteSummary ms-1 card" *ngIf="!noDataFound">
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-6">
+                                                <input type="text" placeholder="ODF Rating" class="pointerEvent" disabled>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" placeholder="{{odfScoreRoundOff ? odfScoreRoundOff : 0}}" class="pointerEvent" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="hrClass" *ngIf="!noDataFound">
+                    <div class="row ms-2 mt-2" *ngIf="!noDataFound">
+                        <h5 class="indicatorsSummary">Total UA Score for Solid Waste Management : {{odfGfcTotalScore}} (out of maximum 40 marks)
+                        </h5>
+                    </div>
+                </div>
+                <div class="card mt-3" *ngIf="!noDataFound">
+                    <div class="row text-center mt-5">
+                        <h5 class="indicators">Performance Assessment</h5>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <h5 class="indicatorsTableSummary">On the basis of the total marks obtained by UA, proportionate grants shall be recommended by MOH&UA as per the table given below:</h5>
+                        <table id="vertical-1" class="tableBorder">
+                            <tr>
+                                <th>Marks</th>
+                                <td class="highlighted">
+                                    < 30</td>
+                                        <td class="highlighted">
+                                            < 30 and <=45</td>
+                                                <td class="highlighted">> 45 and
+                                                    <=6 0</td>
+                                                        <td class="highlighted">> 60 and
+                                                            <=8 0 </td>
+                                                                <td class="highlighted">> 80</td>
+                            </tr>
+                            <tr>
+                                <th>% of Recommended tied grant</th>
+                                <td>0 %</td>
+                                <td>60 %</td>
+                                <td>75 %</td>
+                                <td>90 %</td>
+                                <td>100 %</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row mt-2">
+                        <h5 class="tableDataSummary ms-4">Total UA Score : {{totalAplusB}}(out of maximum 100 marks) <br>% of Recommended tied grant : {{recommendedData}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!getData" style="color: red; padding-top: 15px; padding-left: 15px;">No Data Found</div>
+        </div>
+    </div>
+    <div class="row mt-4 mb-3" style="">
+        <div class="col-sm-6 " style="">
+
+            <button type="button " class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-right" style="padding: 0;text-align: end;">
+            <button type="button " class="btn btn-c-next" [routerLink]="nextRouter">NEXT Form -></button>
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="row">
+        <div class="col-12 text-end">
+            <i class="fa fa-close closeIcon" (click)="closeDialog()"></i>
+        </div>
+    </div>
+    <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> APPROVED BY STATE
+    </div>
+    <div class="table-responsive tracking-history-table " style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+        <table class="table ">
+            <thead>
+                <tr style="background-color: white">
+                    <th scope="col" style="width:10%">S.No</th>
+                    <th scope="col" style="width:45%">ULB Name </th>
+                    <th scope="col" style="width:45%">ULB Census Code/ ULB Code </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resData of templateData; let tabelIndex=index">
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                    </td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{resData['ulbName']}}
+                    </td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode']}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center alert" style="color: red;" *ngIf="templateData.length == 0">No Data Found!
+        </div>
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</ng-template>
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div> -->
