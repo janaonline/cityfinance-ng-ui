@@ -261,7 +261,7 @@ export class ReviewUlbTableComponent implements OnInit {
       autoFocus: false,
       maxHeight: '90vh',
       data: {
-        table: tables.find(table => table.id == id)
+        table:  {...tables?.find(table => table.id == id)}
       }
     });
   }
