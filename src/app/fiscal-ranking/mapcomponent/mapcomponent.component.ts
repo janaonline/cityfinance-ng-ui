@@ -181,11 +181,11 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#12a6dd", text: "81%-100%" },
-      { color: "#4a6ccb", text: "61%-80%" },
-      { color: "#fcda4a", text: "26%-60%" },
-      { color: "#fc5e03", text: "1%-25%" },
-      { color: "#a6b9b4", text: "0%" },
+      { color: "#216278", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
@@ -246,20 +246,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     });
   }
 
-  getColor(d) {
-    let color;
-    if (d > 80) {
-      color = "#12a6dd";
-    } else if (d > 60 && d < 81) {
-      color = "#4a6ccb";
-    } else if (d > 25 && d < 61) {
-      color = "#fcda4a";
-    } else if (d > 0 && d < 26) {
-      color = "#fc5e03";
-    } else if (d == 0) {
-      color = "#a6b9b4";
+  getColor(value: number) {
+    if (value > 75) {
+      return "#216278";
     }
-    return color;
+    if (value > 50) {
+      return "#059b9a";
+    }
+    if (value > 25) {
+      return "#8BD2F0";
+    }
+    if (value > 0) {
+      return `#D0EDF9`;
+    }
+    return "#E5E5E5";
   }
 
   selectedYear: any = "2020-21";
