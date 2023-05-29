@@ -31,6 +31,7 @@ const districtJson = require("../../../assets/jsonFile/state_boundries.json");
 })
 export class MapcomponentComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onCardClick = new EventEmitter();
+  @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
   randomNumber = 0;
   
@@ -600,6 +601,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   onSelectingStateFromDropDown(state: any | null) {
+    this.onStateChange.emit(state?._id)
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });

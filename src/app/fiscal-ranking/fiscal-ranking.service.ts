@@ -138,7 +138,7 @@ export class FiscalRankingService {
     );
   }
 
-  getStateWiseForm() {
-    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm`);
+  getStateWiseForm(stateId?) {
+    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm` + (stateId ? `?state=${stateId}` : ''));
   }
 }

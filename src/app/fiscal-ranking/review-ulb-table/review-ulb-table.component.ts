@@ -105,8 +105,9 @@ export class ReviewUlbTableComponent implements OnInit {
     return this.objectWithoutProperties(this.columnNames, hiddenStateNames);
   }
 
-  loadMapData() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+  loadMapData(stateId?) {
+    console.log('loadMapdta', stateId)
+    this.fiscalRankingService.getStateWiseForm(stateId).subscribe(res => {
       console.log('map', res);
       this.mapData = res?.data;
     })
@@ -264,6 +265,10 @@ export class ReviewUlbTableComponent implements OnInit {
         table:  {...tables?.find(table => table.id == id)}
       }
     });
+  }
+
+  onStateChange(stateId) {
+    this.loadMapData(stateId);
   }
 
   get modifiedColumns() {
