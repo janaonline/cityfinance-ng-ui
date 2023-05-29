@@ -187,6 +187,7 @@ export class AnnualAccountComponent implements OnInit {
         },
         (error) => {
           console.log("post error", error);
+          swal('Error', error?.message ?? 'Something went wrong', 'error');
         }
       );
   }

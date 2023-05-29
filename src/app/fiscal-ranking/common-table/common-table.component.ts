@@ -9,6 +9,7 @@ export interface TableResponse {
   getEndpoint?: string;
   postEndpoint?: string;
   data?: TableDataEntity[] | null;
+  lastRow: string[];
   total?: number;
   columns?: TableColumnsEntity[] | null;
 }
@@ -21,6 +22,7 @@ export interface TableColumnsEntity {
   label: string;
   key: string;
   sort?: 0 | 1 | -1;
+  sortbale?: boolean;
   query?: string;
 }
 
