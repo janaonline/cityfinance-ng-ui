@@ -587,6 +587,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   resetFilter() {
+    this.selectedCategory = '';
     this.selectedYear = "2020-21";
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
