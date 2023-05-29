@@ -64,7 +64,7 @@
 
       </div>
       <div class="col-4 col-sm-4 col-md-4 ps-3">
-        <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="selectFinancialYear($event)">
+        <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="onCategoryChange()">
           <option selected value="">All Categories</option>
           <option *ngFor="let item of populationCategories" value="{{ item._id }}">
             {{ item.name }}

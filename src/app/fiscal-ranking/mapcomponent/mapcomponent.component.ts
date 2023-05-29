@@ -600,13 +600,18 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     // this.getNationalTableData();
   }
 
+  onCategoryChange() {
+    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory });
+  }
+
   onSelectingStateFromDropDown(state: any | null) {
-    this.onStateChange.emit(state?._id)
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-
+    
     this.currentStateId = state?._id;
+
+    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory })
     this.AvailabilityTitle = state?.name;
     if (state) {
       this.nationalInput.stateId = state._id;
