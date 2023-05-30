@@ -12,6 +12,9 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class GtcComponent implements OnInit {
 
+  finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
+  it will become uneditable and will be sent to State for Review.
+   Alternatively, you can save as draft for now and submit it later.`
   baseForm: any[];
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -26,7 +29,7 @@ export class GtcComponent implements OnInit {
   }
 
   get stateId() {
-    if(this.userData?.role == 'STATE') return this.userData?.state;
+    if (this.userData?.role == 'STATE') return this.userData?.state;
     return localStorage.getItem("state");
 
   }
@@ -59,7 +62,12 @@ export class GtcComponent implements OnInit {
     });
   }
 
-  onSubmit(data, question) {
+
+  isFormValid(data) {
+    return true;
+  }
+
+  async onSubmit(data, question) {
     const payload = {
       installment: question.installment,
       year: question.year,
@@ -73,7 +81,39 @@ export class GtcComponent implements OnInit {
       data: data.finalData,
     }
 
-    console.log(payload);
+    let isDraft = false;
+    if (isDraft == false) {
+      const userAction = await swal(
+        "Confirmation !",
+        `${this.finalSubmitMsg}`,
+        "warning",
+        {
+          buttons: {
+            Submit: {
+              text: "Submit",
+              value: "submit",
+            },
+            Draft: {
+              text: "Save as Draft",
+              value: "draft",
+            },
+            Cancel: {
+              text: "Cancel",
+              value: "cancel",
+            },
+          },
+        }
+      );
+      if (userAction == 'draft') {
+        isDraft = true;
+      }
+      if (userAction == 'cancel') return;
+    }
+
+
+    if (isDraft == false) {
+      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
+    }
 
     this.gtcService.postForm(payload).subscribe(res => {
       // this.webForm.hasUnsavedChanges = false;
