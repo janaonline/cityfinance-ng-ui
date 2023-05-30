@@ -5,7 +5,7 @@
 <small class="text-danger">All questions with * are mandatory</small>
 
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
-    <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+    <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
                 onwheel="this.blur()"
