@@ -1,4 +1,4 @@
-<!-- <app-four-slb-view></app-four-slb-view> -->
+<app-four-slb-view [data]="performanceAssesmentTable"></app-four-slb-view>
 <!-- <div class="container-fluid" *ngIf="!isApiInProgress">
     <div class="row">
         <div class="col-sm-10">
@@ -34,12 +34,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                    <div class="col-12 col-md-4" style="border-right: 2px solid #70707030">
                                         <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
                                             Total Number of ULBs in UA</h6><br>
                                         <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                    <div class="col-12 col-md-4" style="border-right: 2px solid #70707030">
                                         <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
                                         </h6><br>
                                         <a (click)="openDialog(template, getData?.fourSLB?.approved?.ulbs)">
@@ -48,7 +48,7 @@
                                             </h6>
                                         </a>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                                    <div class="col-12 col-md-4">
                                         <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval</h6><br>
                                         <a (click)="openDialog(template, getData?.fourSLB?.pending?.ulbs)">
                                             <h6 style="display: inline-flex; color: #337AB7;">{{getData?.fourSLB?.pending?.count ? getData?.fourSLB?.pending?.count : 0}}
@@ -80,12 +80,12 @@
                                             <h5>GFC</h5>
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                            <div class="col-12 col-md-4" style="border-right: 2px solid #70707030">
                                                 <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
                                                     Total Number of ULBs in UA</h6>
                                                 <h6 style="display: inline-flex;">{{getData?.totalUlbs ? getData?.totalUlbs : 0}}</h6>
                                             </div>
-                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                                            <div class="col-12 col-md-4" style="border-right: 2px solid #70707030">
                                                 <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State
                                                 </h6>
                                                 <br>
@@ -95,7 +95,7 @@
                                                     </h6>
                                                 </a>
                                             </div>
-                                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                                            <div class="col-12 col-md-4">
 
                                                 <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
                                                 </h6>
@@ -184,15 +184,11 @@
                         <table id="vertical-1" class="tableBorder">
                             <tr>
                                 <th>Marks</th>
-                                <td class="highlighted">
-                                    < 30</td>
-                                        <td class="highlighted">
-                                            < 30 and <=45</td>
-                                                <td class="highlighted">> 45 and
-                                                    <=6 0</td>
-                                                        <td class="highlighted">> 60 and
-                                                            <=8 0 </td>
-                                                                <td class="highlighted">> 80</td>
+                                <td class="highlighted">< 30</td>
+                                <td class="highlighted">< 30 and <=45</td>
+                                <td class="highlighted">> 45 and <=60</td>
+                                <td class="highlighted">> 60 and <=80 </td>
+                                <td class="highlighted">> 80</td>
                             </tr>
                             <tr>
                                 <th>% of Recommended tied grant</th>
@@ -221,8 +217,8 @@
             <button type="button " class="btn btn-c-next" [routerLink]="nextRouter">NEXT Form -></button>
         </div>
     </div>
-</div>
-
+</div> -->
+<!-- 
 <ng-template #template>
     <div class="row">
         <div class="col-12 text-end">
@@ -260,8 +256,8 @@
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>
-</ng-template>
+</ng-template> -->
 
-<div class="text-center p-4" *ngIf="isApiInProgress">
+<!-- <div class="text-center p-4" *ngIf="isApiInProgress">
     <app-pre-loader-new></app-pre-loader-new>
-</div> -->
+</div>  -->

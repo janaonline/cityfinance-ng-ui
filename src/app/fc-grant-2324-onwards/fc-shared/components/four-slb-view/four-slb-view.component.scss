@@ -1,22 +1,47 @@
-thead {
-    tr {
-        background-color: #047474; 
-        color: #FFFFFF;
+.four-slb { 
+    thead {
+        tr {
+            background-color: #047474; 
+            color: #FFFFFF;
+            text-align: center;
+            
+        }
+        th:first-child{
+            width: 20%;
+        }
+        th{
+            vertical-align: middle;
+        }
+    }
+    tbody{
+        td:nth-child(2) {
+            text-align: center;
+        }
+        td :first-child{
+            border-top: none !important;
+        }
+    }
+}
+.lineItem-highlited {
+    thead, tbody, tfoot, tr, td, th {
+        border-color: inherit;
+        border-style: solid;
+         border-width: 2px; 
+    }
+    th {
+        color: #047474;
         text-align: center;
+        vertical-align: middle;
         
     }
-    th:first-child{
-        width: 20%;
-    }
-    th{
-        vertical-align: middle;
-    }
-}
-tbody{
-    td:nth-child(2) {
+    .marks{
+            color: #047474 !important; 
+            font-weight: bold;
+         }
+    td {
         text-align: center;
     }
-    td :first-child{
-        border-top: none !important;
-    }
+   
+
 }
+

@@ -19,7 +19,7 @@ import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-h
 import { NationalMapSectionService } from 'src/app/pages/new-dashbords/national/national-map-section/national-map-section.service';
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import * as fileSaver from "file-saver";
-import { MapData } from '../fiscal-ranking.service';
+import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../assets/jsonFile/state_boundries.json");
@@ -31,6 +31,7 @@ const districtJson = require("../../../assets/jsonFile/state_boundries.json");
 })
 export class MapcomponentComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onCardClick = new EventEmitter();
+  @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
   randomNumber = 0;
   
@@ -141,7 +142,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     private assetService: AssetsService,
     private router: Router,
     private nationalMapService: NationalMapSectionService,
-
+    private fiscalRankingService: FiscalRankingService,
     private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
@@ -160,7 +161,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   ngOnInit(): void {
-    this.getNationalLevelMapData("2020-21");
+    this.getStateWiseForm();
+    // this.getNationalLevelMapData("2020-21");
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
@@ -179,11 +181,11 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#12a6dd", text: "81%-100%" },
-      { color: "#4a6ccb", text: "61%-80%" },
-      { color: "#fcda4a", text: "26%-60%" },
-      { color: "#fc5e03", text: "1%-25%" },
-      { color: "#a6b9b4", text: "0%" },
+      { color: "#216278", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
@@ -215,6 +217,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     return Promise.all(prmsArr);
   }
 
+  getStateWiseForm() {
+    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      console.log('state wise response', res);
+
+      this.colorCoding = res?.data.heatMaps;
+
+        this.initializeNationalLevelMapLayer(this.stateLayers);
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          this.currentId
+        );
+    });
+  }
+
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
       if (res) {
@@ -230,20 +246,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     });
   }
 
-  getColor(d) {
-    let color;
-    if (d > 80) {
-      color = "#12a6dd";
-    } else if (d > 60 && d < 81) {
-      color = "#4a6ccb";
-    } else if (d > 25 && d < 61) {
-      color = "#fcda4a";
-    } else if (d > 0 && d < 26) {
-      color = "#fc5e03";
-    } else if (d == 0) {
-      color = "#a6b9b4";
+  getColor(value: number) {
+    if (value > 75) {
+      return "#216278";
     }
-    return color;
+    if (value > 50) {
+      return "#059b9a";
+    }
+    if (value > 25) {
+      return "#8BD2F0";
+    }
+    if (value > 0) {
+      return `#D0EDF9`;
+    }
+    return "#E5E5E5";
   }
 
   selectedYear: any = "2020-21";
@@ -256,8 +272,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     //   data: event.target.value,
     // });
     MapUtil.destroy(this.nationalLevelMap);
-
-    this.getNationalLevelMapData(event.target.value);
+    this.getStateWiseForm();
+    // this.getNationalLevelMapData(event.target.value);
   }
 
   ngAfterViewInit(): void {
@@ -571,10 +587,12 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   resetFilter() {
+    this.selectedCategory = '';
     this.selectedYear = "2020-21";
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
-    this.getNationalLevelMapData(this.selectedYear);
+    // this.getNationalLevelMapData(this.selectedYear);
+    this.getStateWiseForm();
     this.nationalMapService.setCurrentSelectYear({
       data: this.selectedYear,
     });
@@ -583,12 +601,18 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     // this.getNationalTableData();
   }
 
+  onCategoryChange() {
+    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory });
+  }
+
   onSelectingStateFromDropDown(state: any | null) {
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-
+    
     this.currentStateId = state?._id;
+
+    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory })
     this.AvailabilityTitle = state?.name;
     if (state) {
       this.nationalInput.stateId = state._id;
