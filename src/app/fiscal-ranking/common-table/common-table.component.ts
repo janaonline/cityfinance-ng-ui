@@ -12,6 +12,7 @@ export interface TableResponse {
   lastRow: string[];
   total?: number;
   columns?: TableColumnsEntity[] | null;
+  multipleSort?: boolean;
 }
 
 export interface TableDataEntity {
@@ -22,7 +23,7 @@ export interface TableColumnsEntity {
   label: string;
   key: string;
   sort?: 0 | 1 | -1;
-  sortbale?: boolean;
+  sortable?: boolean;
   query?: string;
 }
 
@@ -60,7 +61,15 @@ export class CommonTableComponent implements OnInit {
     return new URLSearchParams(params).toString() + (sortQuery);
   }
 
-  updateSorting(column) {
+  updateSorting(column: TableColumnsEntity) {
+    if(!column?.sortable) return;
+    if(!this.response.multipleSort) {
+      this.response.columns.forEach(col => {
+        if(col.sortable && column.key != col.key) {
+          col.sort = 0;
+        }
+      });
+    }
     column.sort++;
     if (column.sort > 1) { column.sort = -1; }
     this.loadData();
