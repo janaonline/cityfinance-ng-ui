@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 export class AlreadyUpdatedUrlPipe implements PipeTransform {
 
   transform(year: string, stateCode: string,ulbName:string): unknown {
-    return `/resources-dashboard/data-sets/income_statement?ulbName=${ulbName}&stateCode=${stateCode}&year=${year?.split(' ')?.[1]}`;
+    return `/resources-dashboard/data-sets/balanceSheet?ulbName=${ulbName}&stateCode=${stateCode}&year=${year?.split(' ')?.[1]}`;
   }
 
 }
