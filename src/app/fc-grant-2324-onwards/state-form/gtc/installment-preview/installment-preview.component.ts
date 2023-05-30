@@ -23,7 +23,8 @@ export class InstallmentPreviewComponent implements OnInit {
     recomAvail: '',
     grantDistribute: '',
     receiptDate: '',
-    recAmount: ''
+    recAmount: '',
+    transrantdetail_tableview_addbutton: []
   };
 
   constructor() { }
@@ -34,15 +35,30 @@ export class InstallmentPreviewComponent implements OnInit {
 
     console.log(parentQuestions);
     parentQuestions.forEach(parentQuestion => {
-      parentQuestion.childQuestionData[0].forEach(question => {
-        if(this.formData.hasOwnProperty(question.shortKey)) {
-          if(question.input_type == '2' || question.input_type == '14') {
-            this.formData[question.shortKey] = question.modelValue;
+      if (parentQuestion?.shortKey === 'transrantdetail_tableview_addbutton') {
+        console.log('special case');
+        this.formData.transrantdetail_tableview_addbutton = parentQuestion?.childQuestionData
+          ?.map(childQuestion => (childQuestion?.reduce((obj, question) => {
+            if (question.input_type == '2' || question.input_type == '14') {
+              obj[question.shortKey] = question.modelValue;
+            }
+            else if (question.input_type == '3' || question.input_type == '5') {
+              obj[question.shortKey] = question.selectedValue?.[0].label;
+            }
+            return obj;
+          }, {})));
+      }
+      parentQuestion.childQuestionData?.forEach(childQuestion => {
+        childQuestion.forEach(question => {
+          if (this.formData.hasOwnProperty(question.shortKey)) {
+            if (question.input_type == '2' || question.input_type == '14') {
+              this.formData[question.shortKey] = question.modelValue;
+            }
+            else if (question.input_type == '3' || question.input_type == '5') {
+              this.formData[question.shortKey] = question.selectedValue[0].label;
+            }
           }
-          else if(question.input_type == '3' || question.input_type == '5') {
-            this.formData[question.shortKey] = question.selectedValue[0].label;
-          }
-        }
+        });
       })
     })
 

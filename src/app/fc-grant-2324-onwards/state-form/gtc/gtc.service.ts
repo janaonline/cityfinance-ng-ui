@@ -9,6 +9,7 @@ const staticResponse = {
     {
       "_id": "64339cc47135c256abbe9555",
       "formId": "4",
+      "isQuestionDisabled": false,
       "language": [
         {
           "_id": "643d240f778e1e02c7ee75e9",
@@ -3161,7 +3162,7 @@ export class GtcService {
     return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7316a06aed41c748e8`)
       .pipe(
         map((res: any) => {
-          return res;
+          return baseForm;
         })
       );
   }
