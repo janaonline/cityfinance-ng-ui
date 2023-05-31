@@ -404,3 +404,20 @@ table {
         display: none;
     }
 }
+.for-radio {
+
+    ::ng-deep .mat-radio-container {
+        display: none !important;
+      }
+      ::ng-deep .mat-radio-checked {
+        background-color: #ffc500 !important;
+        color: white;
+      }
+      ::ng-deep .mat-radio-button {
+        background-color: #CFCFCF;
+        padding: 0.5rem 0.85rem 0rem 0.5rem !important;
+      }
+      ::ng-deep .mat-radio-label-content {
+        padding: 0 0 7px 5px;
+      }
+}
