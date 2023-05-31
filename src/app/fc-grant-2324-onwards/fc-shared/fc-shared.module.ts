@@ -18,9 +18,18 @@ import { AgGridComponent } from './components/ag-grid/ag-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { ActionPlanSliComponent } from '../state-form/action-plan-sli/action-plan-sli.component';
 import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { FourSlbViewComponent } from './components/four-slb-view/four-slb-view.component';
 
 @NgModule({
-  declarations: [AnnualAccountTemplateComponent, DurTemplateComponent, LeftMenuTemplateComponent, FormLoaderComponent, FormCommonActionComponent, AgGridComponent],
+  declarations: [
+    AnnualAccountTemplateComponent, 
+    DurTemplateComponent, 
+    LeftMenuTemplateComponent, 
+    FormLoaderComponent, 
+    FormCommonActionComponent, 
+    AgGridComponent, 
+    FourSlbViewComponent
+  ],
   imports: [
     CommonModule,
     MatIconModule,
@@ -39,7 +48,8 @@ import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom
     LeftMenuTemplateComponent,
     FormLoaderComponent,
     FormCommonActionComponent,
-    AgGridComponent
+    AgGridComponent,
+    FourSlbViewComponent
   ]
 })
 export class FcSharedModule { }

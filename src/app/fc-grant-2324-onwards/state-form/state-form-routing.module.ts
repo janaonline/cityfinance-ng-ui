@@ -10,6 +10,7 @@ import { ActionPlanSliComponent } from './action-plan-sli/action-plan-sli.compon
 import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
+import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 
 const routes: Routes = [
   {
@@ -49,10 +50,10 @@ const routes: Routes = [
         path: "edit-ulb-profile",
         component: EditUlbComponent,
       },
-      
-      
-      
-      
+      {
+        path: "water-supply",
+        component: IndicatorsWssComponent,
+      },  
     ],
   },
 ];
