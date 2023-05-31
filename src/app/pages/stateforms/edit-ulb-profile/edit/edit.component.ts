@@ -88,7 +88,7 @@ export class EditComponent implements OnInit, OnChanges {
     this.initializeLogginUserType();
 
   })
-
+ // if()
   }
   close() {
     this.dialogBox.closeAll();
@@ -290,7 +290,8 @@ export class EditComponent implements OnInit, OnChanges {
         name: this.profileData.ulb.name,
         state: this.profileData.ulb.state.name,
       });
-
+      console.log('profile form...', this.profileData);
+      console.log('profile form...', this.profile);
       if (this.profileData.status !== "APPROVED") {
         this.canSubmitForm = false;
       } else {
@@ -303,9 +304,7 @@ export class EditComponent implements OnInit, OnChanges {
         this.profile.disable({ emitEvent: false, onlySelf: true });
       }
 
-      this.disableNonEditableFields(
-        this.editable && this.loggedInUserType === USER_TYPE.ULB
-      );
+      this.disableNonEditableFields(this.editable);
     }
   }
 
@@ -329,11 +328,14 @@ export class EditComponent implements OnInit, OnChanges {
   private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
 
-    if (this.loggedInUserType === USER_TYPE.ULB || all) {
+    if (this.loggedInUserType === USER_TYPE.ULB || this.loggedInUserType === USER_TYPE.STATE ||  all) {
       (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.name.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.wards.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.area.disable();
+      (<FormGroup>this.profile.controls.ulb).controls.population.disable();
       return;
     }
   }
