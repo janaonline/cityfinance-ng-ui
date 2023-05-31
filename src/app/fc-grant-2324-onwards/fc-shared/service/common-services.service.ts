@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { log } from 'console';
 import { BehaviorSubject } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { environment } from 'src/environments/environment';

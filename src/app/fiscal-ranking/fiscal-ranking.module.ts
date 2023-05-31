@@ -43,6 +43,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonTableComponent } from './common-table/common-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MapcomponentComponent,
     DashboardComponent,
     CommonTableComponent,
+    TableRowCalculatorPipe,
   ],
   imports: [
     CommonModule,

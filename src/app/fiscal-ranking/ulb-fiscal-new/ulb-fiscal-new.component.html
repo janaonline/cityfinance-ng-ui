@@ -134,7 +134,7 @@
                                                             formControlName="value" class="form-control"
                                                             [type]="yearItem?.controls?.formFieldType?.value"
                                                             [readonly]="yearItem?.controls?.readonly?.value"
-                                                            [disabled]="yearItem?.controls?.readonly?.value"
+                                                            [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
                                                             [ngClass]="{
                                                                     'left-0-radius': yearItem.controls?.isRupee?.value,
                                                                     'is-invalid': yearItem?.controls?.value?.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
@@ -328,7 +328,7 @@
                                                                         <div class="al-up font-size-smaller">Already
                                                                             Uploaded on
                                                                             Cityfinance - <a target="_blank"
-                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : userData?.name">View
+                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : ulbName">View
                                                                                 here</a></div>
                                                                     </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"

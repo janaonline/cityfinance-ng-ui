@@ -239,16 +239,15 @@ export class EditUlbTableComponent extends BaseComponent implements OnInit {
         censusCode: this.ulb_code_s.value
           ? this.ulb_code_s.value.trim()
           : "",
-        nodalOfName: this.nodal_of_name.value
+        accountantName: this.nodal_of_name.value
           ? this.nodal_of_name.value.trim()
           : "",
-        nodalOfEmail: this.nodal_of_email.value
+        accountantEmail: this.nodal_of_email.value
           ? this.nodal_of_email.value.trim()
           : "",
-        nodalOfPhone: this.nodal_of_phn.value
+        accountantConatactNumber: this.nodal_of_phn.value
           ? this.nodal_of_phn.value.trim()
           : "",
-
 
       }
 

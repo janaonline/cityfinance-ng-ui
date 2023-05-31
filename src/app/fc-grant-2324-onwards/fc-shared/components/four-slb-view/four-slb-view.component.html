@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive table-con">
+              <!-- table type is basically used for UI coloring and some styles -->
+                <table class="table" [ngClass]="data?.tableType" *ngFor="let table of data?.tables">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        *ngFor="let column of table.columns"
+                        class="{{ column?.key }}">
+                        <div class="" [innerHtml]="column?.display_name"></div>
+                        <!-- {{ column?.display_name }} -->
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of table?.rows">
+                      <td
+                        *ngFor="let column of table?.columns"
+                        class="{{ column?.key }}"
+                      >
+                        {{ row[column.key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+</div>

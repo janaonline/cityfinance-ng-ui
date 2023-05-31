@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: "home", component: FiscalHomeComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
-  { 
-    path: "ulb-form/:ulbId", 
+  {
+    path: "ulb-form/:ulbId",
     component: UlbFiscalNewComponent,
     canDeactivate: [ConfirmationGuard],
     data: {
@@ -31,7 +31,18 @@ const routes: Routes = [
     },
   },
   { path: "review-rankings-ulbform", component: ReviewUlbTableComponent },
-  { path :'test',component:MapcomponentComponent}
+  { path: 'test', component: MapcomponentComponent },
+  {
+    path: "populationWise/:stateId",
+    component: DashboardComponent,
+    data: {
+      table: {
+        id: 'populationWise',
+        endpoint: 'fiscal-ranking/overview/populationWise',
+        response: null,
+      }
+    }
+  },
 ];
 
 @NgModule({
