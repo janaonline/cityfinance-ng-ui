@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 
 
@@ -34,6 +35,7 @@ export interface TableColumnsEntity {
 })
 export class CommonTableComponent implements OnInit {
   @Input() response: TableResponse;
+  @Input() isDialog: boolean;
   @Input() pageSizeOptions = [10, 20, 50, 100];
   @Input() order: 1 | -1 = 1;
   @Input() page: number = 0;
@@ -42,10 +44,16 @@ export class CommonTableComponent implements OnInit {
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     // this.loadData();
+  }
+
+  closeDialog() {
+    this.dialog.closeAll();
   }
 
   get queryParams() {
