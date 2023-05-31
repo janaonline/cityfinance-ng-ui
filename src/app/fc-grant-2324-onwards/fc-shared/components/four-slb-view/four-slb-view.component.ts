@@ -8,54 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FourSlbViewComponent implements OnInit {
 
   constructor() { }
-  //   const services: {
-  //     key: keyof WaterManagement;
-  //     name: string;
-  //     benchmark: string;
-  //     customValidator?: (control: AbstractControl) => any;
-  //   }[] = [
-  //       {
-  //         key: "waterSuppliedPerDay",
-  //         name: "Water supplied in litre per capita per day(lpcd)",
-  //         benchmark: "135 LPCD",
-  //       },
-  //       {
-  //         key: "reduction",
-  //         name: "% of Non-revenue water",
-  //         benchmark: "20%",
-  //         customValidator: maxValidator,
-  //       },
-  //       {
-  //         key: "houseHoldCoveredWithSewerage",
-  //         name: "% of households covered with sewerage/septage services",
-  //         benchmark: "100%",
-  //         customValidator: maxValidator,
-  //       },
-  //       {
-  //         key: "houseHoldCoveredPipedSupply",
-  //         name: "% of households covered with piped water supply",
-  //         benchmark: "100%",
-  //         customValidator: maxValidator,
-  //       },
-  //     ];
-  //     <thead>
-  //     <th scope="col">Service Level Indicators</th>
-  //     <th scope="col">Benchmark</th>
-  //     <th scope="col">
-  //         Actual Indicator<br /> 2020-21
-  //     </th>
-
-  //     <th *ngFor="let column of targets" scope="col">
-  //         <span [innerHTML]="column.name"></span>
-  //     </th>
-  // </thead>
-
-  // const targets = [
-  //   { key: "2122", name: "Target <br> 2021-22" },
-  //   { key: "2223", name: "Target <br> 2022-23" },
-  //   { key: "2324", name: "Target <br> 2023-24" },
-  //   { key: "2425", name: "Target<br> 2024-25" },
-  // ];
+  
   @Input() data = {
     formName: '',
     formId: '',
