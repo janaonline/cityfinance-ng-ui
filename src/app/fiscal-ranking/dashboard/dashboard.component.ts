@@ -37,6 +37,10 @@ export class DashboardComponent implements OnInit {
     this.loadTableData(this.table, queryParams);
   }
 
+  get isDialog() {
+    return !!this.data?.table;
+  }
+
   onUpdate(table, event) {
     console.log({
       table, event

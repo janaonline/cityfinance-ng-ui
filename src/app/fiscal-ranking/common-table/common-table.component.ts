@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProjectsResponse } from 'src/app/credit-rating/municipal-bond/models/ulbsResponse';
 
 
@@ -12,6 +13,7 @@ export interface TableResponse {
   lastRow: string[];
   total?: number;
   columns?: TableColumnsEntity[] | null;
+  multipleSort?: boolean;
 }
 
 export interface TableDataEntity {
@@ -22,7 +24,7 @@ export interface TableColumnsEntity {
   label: string;
   key: string;
   sort?: 0 | 1 | -1;
-  sortbale?: boolean;
+  sortable?: boolean;
   query?: string;
 }
 
@@ -33,6 +35,7 @@ export interface TableColumnsEntity {
 })
 export class CommonTableComponent implements OnInit {
   @Input() response: TableResponse;
+  @Input() isDialog: boolean;
   @Input() pageSizeOptions = [10, 20, 50, 100];
   @Input() order: 1 | -1 = 1;
   @Input() page: number = 0;
@@ -41,10 +44,16 @@ export class CommonTableComponent implements OnInit {
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     // this.loadData();
+  }
+
+  closeDialog() {
+    this.dialog.closeAll();
   }
 
   get queryParams() {
@@ -60,7 +69,15 @@ export class CommonTableComponent implements OnInit {
     return new URLSearchParams(params).toString() + (sortQuery);
   }
 
-  updateSorting(column) {
+  updateSorting(column: TableColumnsEntity) {
+    if(!column?.sortable) return;
+    if(!this.response.multipleSort) {
+      this.response.columns.forEach(col => {
+        if(col.sortable && column.key != col.key) {
+          col.sort = 0;
+        }
+      });
+    }
     column.sort++;
     if (column.sort > 1) { column.sort = -1; }
     this.loadData();

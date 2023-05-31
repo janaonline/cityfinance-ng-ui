@@ -181,11 +181,12 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#216278", text: "76%-100%" },
-      { color: "#059b9a", text: "51%-75%" },
-      { color: "#8BD2F0", text: "26%-50%" },
-      { color: "#D0EDF9", text: "1%-25%" },
-      { color: "#E5E5E5", text: "0%" },
+      { color: "#194d5e", text: "100%" },
+      { color: "#216278", text: "<100% to 75%" },
+      { color: "#059b9a", text: "<75% to 50%" },
+      { color: "#8BD2F0", text: "<50% to 25%" },
+      { color: "#D0EDF9", text: "<25% to 1%" },
+      { color: "#E5E5E5", text: "<1%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
@@ -197,7 +198,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
       div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 75%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
         );
       });
       div.innerHTML = labels.join(``);
@@ -247,6 +248,9 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   getColor(value: number) {
+    if (value == 100) {
+      return "#194d5e";
+    }
     if (value > 75) {
       return "#216278";
     }
@@ -256,7 +260,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     if (value > 25) {
       return "#8BD2F0";
     }
-    if (value > 0) {
+    if (value > 1) {
       return `#D0EDF9`;
     }
     return "#E5E5E5";

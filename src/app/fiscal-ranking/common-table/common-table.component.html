@@ -1,14 +1,15 @@
 <app-loader [show]="!response" ></app-loader>
 
-<div class="container">
-    <div class="d-flex justify-content-between">
-        <h4 class="my-3" *ngIf="response">{{ response?.name }}</h4>
+<div class="container" *ngIf="response">
+    <div class="d-flex justify-content-between" >
+        <h4 class="my-3">{{ response?.name }}</h4>
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
             (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator>
+        <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
     <table class="table table-striped p-2">
-        <thead *ngIf="response && response?.columns?.length > 0">
+        <thead *ngIf="response?.columns?.length > 0">
             <tr>
                 <th scope="col" *ngFor="let column of response.columns" class="border-0 table-primary">
                     <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
@@ -29,17 +30,17 @@
                 </th>
             </tr>
         </thead>
-        <tbody *ngIf="response && response?.data?.length > 0">
+        <tbody *ngIf="response?.data?.length > 0">
             <tr *ngFor="let row of response.data" class="py-1 border-0">
-                <td *ngFor="let column of response.columns" class="border-0">
+                <td *ngFor="let column of response.columns; let i = index;" class="border-0" [ngClass]="{'text-center': i != 0}">
                     <a [href]="row[column.key + 'Link']" target="_blank" *ngIf="row[column.key + 'Link']; else text;">{{ row[column.key] }}</a>
                     <ng-template #text>{{ row[column.key] }}</ng-template>
                 </td>
             </tr>
             <tr *ngIf="response.lastRow">
-                <th *ngFor="let item of response.lastRow; let i = index;">{{ item | tableRowCalculator : response?.columns[i]?.key :  response.data }}</th>
+                <th *ngFor="let item of response.lastRow; let i = index;"  [ngClass]="{'text-center': i != 0}">{{ item | tableRowCalculator : response?.columns[i]?.key :  response.data }}</th>
             </tr>
         </tbody>
     </table>
-    <h2 *ngIf="response && response?.data?.length == 0" class="text-center p-5">No data found</h2>
+    <h2 *ngIf="response?.data?.length == 0" class="text-center p-5">No data found</h2>
 </div>
