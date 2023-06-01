@@ -102,10 +102,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     console.log("daaaaa", this.filterInputData);
     const year = this.route.snapshot.queryParamMap.get('year');
     const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
+    const ulbId = this.route.snapshot.queryParamMap.get('ulbId');
     this.filterForm = this.fb.group({
       state: [""],
       ulb: [ulbName ? ulbName : ""],
-      ulbId: [""],
+      ulbId: [ulbId ? ulbId : ""],
       contentType: [""],
       sortBy: [""],
       year: [year ? year :""],
@@ -120,9 +121,10 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       this.onChange({ target: { value: year } });
     }
 
-    if(ulbName){
+    if(ulbName && ulbId){
       this.filterForm.patchValue({
         ulb: ulbName,
+        ulbId,
       })
       // this.loadData()
     }
@@ -162,12 +164,13 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
   loadData() {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
+      console.log(value, this.filterForm.value);
       if (value?.length >= 1) {
         if((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined) 
         && (this.filterForm.value.hasOwnProperty('ulb') && this.filterForm.value.state != undefined) 
         ){
           this._commonServices
-          .postGlobalSearchData(this.filterForm.value, "ulb", this.filterForm.value.state)
+          .postGlobalSearchData({...this.filterForm.value, ulb: value}, "ulb", this.filterForm.value.state)
           .subscribe((res: any) => {
             let emptyArr: any = [];
             this.filteredOptions = emptyArr;
