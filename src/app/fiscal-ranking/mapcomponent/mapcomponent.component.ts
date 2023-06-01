@@ -20,6 +20,7 @@ import { NationalMapSectionService } from 'src/app/pages/new-dashbords/national/
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import * as fileSaver from "file-saver";
 import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../assets/jsonFile/state_boundries.json");
@@ -34,9 +35,9 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
   randomNumber = 0;
-  
 
-  @Input() populationCategories:any = [];
+
+  @Input() populationCategories: any = [];
   nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
@@ -224,11 +225,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
       this.colorCoding = res?.data.heatMaps;
 
-        this.initializeNationalLevelMapLayer(this.stateLayers);
-        this.createNationalLevelMap(
-          this.StatesJSONForMapCreation,
-          this.currentId
-        );
+      this.initializeNationalLevelMapLayer(this.stateLayers);
+      this.createNationalLevelMap(
+        this.StatesJSONForMapCreation,
+        this.currentId
+      );
+
+      if (this.userUtil.getUserType() == USER_TYPE.STATE) {
+        const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
+        if (preSelectedState) {
+          this.myForm.patchValue({
+            stateId: [preSelectedState]
+          });
+        }
+      }
     });
   }
 
@@ -281,7 +291,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   ngAfterViewInit(): void {
-    console.log(this.populationCategories,'this.populationCategoriesthis.populationCategories')
+    console.log(this.populationCategories, 'this.populationCategoriesthis.populationCategories')
   }
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
@@ -356,8 +366,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     >,
     containerId: string
   ) {
+
+
     console.log("get-statewise-data-availability", containerId);
-    console.log(this.stateLayers,'this.stateLayers,this.stateLayers,this.stateLayers')
+    console.log(this.stateLayers, 'this.stateLayers,this.stateLayers,this.stateLayers')
     this.currentId = containerId;
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
@@ -557,13 +569,21 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
       (res: any) => {
         // this.stateList = res;
         this.stateList = this._commonService.sortDataSource(res, "name");
+        if (this.userUtil.getUserType() == USER_TYPE.STATE) {
+          const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
+          if (preSelectedState) {
+            this.myForm.patchValue({
+              stateId: [preSelectedState]
+            });
+          }
+        }
       },
       (error) => {
         console.log(error);
       }
     );
     this._commonService.state_name_data.subscribe((res) => {
-      console.log(res,'JJJJJJJJJJJJJJJJJJJJJJJJJJ')
+      console.log(res, 'JJJJJJJJJJJJJJJJJJJJJJJJJJ')
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
@@ -586,7 +606,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   getFinancialYearList() {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
-      console.log(this.financialYearList,'this.financialYearListthis.financialYearList')
+      console.log(this.financialYearList, 'this.financialYearListthis.financialYearList')
     });
   }
 
@@ -606,17 +626,18 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   onCategoryChange() {
-    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory });
+    this.onStateChange.emit({ state: this.currentStateId, category: this.selectedCategory });
   }
 
   onSelectingStateFromDropDown(state: any | null) {
+    console.log('state', state);
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-    
+
     this.currentStateId = state?._id;
 
-    this.onStateChange.emit({state: this.currentStateId, category: this.selectedCategory })
+    this.onStateChange.emit({ state: this.currentStateId, category: this.selectedCategory })
     this.AvailabilityTitle = state?.name;
     if (state) {
       this.nationalInput.stateId = state._id;
@@ -771,13 +792,13 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     this.updateDropdownStateSelection(obj);
   }
 
-  selectedState(stateId:string){
+  selectedState(stateId: string) {
     const state = this.stateDataForNation.find(e => e._id === stateId);
-    
+
   }
 
   stateDataForNation = [];
-  getStateUlbCovered(){
+  getStateUlbCovered() {
     const body = { year: this.yearSelected || [] };
     this._commonService.getStateUlbCovered(body).subscribe(res => {
       this.stateDataForNation = [...res?.data]
