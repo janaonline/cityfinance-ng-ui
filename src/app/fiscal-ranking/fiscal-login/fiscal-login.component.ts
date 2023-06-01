@@ -407,9 +407,7 @@ export class FiscalLoginComponent implements OnInit {
     this.loginError = null;
   }
   alertForload(){
-    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in 
-   
-    THE DEADLINE FOR SUBMISSION OF FORM IS 31st MAY 2023.`, 'warning')
+    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
   }
 }
 
