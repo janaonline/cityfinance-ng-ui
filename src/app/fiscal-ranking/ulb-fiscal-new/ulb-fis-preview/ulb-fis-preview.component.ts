@@ -32,12 +32,9 @@ export class UlbFisPreviewComponent implements OnInit {
     public fiscalService: FiscalRankingService,
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    console.log({ html: this._html });
-    if (this.userData?.role == "ULB") {
-      this.ulbName = this.userData?.name;
-      this.ulbId = this.userData?.ulb;
-    }
-    this.stateName = this.userData?.stateName;
+    this.ulbName = this.data?.ulbName;
+    this.ulbId = this.data?.ulbId;
+    this.stateName = this.data?.stateName;
   }
 
   styleForPDF = `<style>
