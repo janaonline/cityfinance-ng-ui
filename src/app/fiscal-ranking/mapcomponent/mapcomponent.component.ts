@@ -231,14 +231,6 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
         this.currentId
       );
 
-      if (this.userUtil.getUserType() == USER_TYPE.STATE) {
-        const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
-        if (preSelectedState) {
-          this.myForm.patchValue({
-            stateId: [preSelectedState]
-          });
-        }
-      }
     });
   }
 
@@ -366,6 +358,15 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     >,
     containerId: string
   ) {
+
+    if(containerId) {
+      if (this.userUtil.getUserType() == USER_TYPE.STATE) {
+        const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
+        if(preSelectedState) {
+          this.onSelectingStateFromDropDown(preSelectedState);
+        }
+      }
+    }
 
 
     console.log("get-statewise-data-availability", containerId);
@@ -569,14 +570,6 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
       (res: any) => {
         // this.stateList = res;
         this.stateList = this._commonService.sortDataSource(res, "name");
-        if (this.userUtil.getUserType() == USER_TYPE.STATE) {
-          const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
-          if (preSelectedState) {
-            this.myForm.patchValue({
-              stateId: [preSelectedState]
-            });
-          }
-        }
       },
       (error) => {
         console.log(error);
