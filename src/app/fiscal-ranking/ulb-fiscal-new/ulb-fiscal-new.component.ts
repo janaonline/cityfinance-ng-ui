@@ -156,6 +156,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
+            readonly: [{ value: item.readonly, disabled: true}],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
