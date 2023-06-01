@@ -383,10 +383,10 @@
                                     <ng-container *ngIf="tab?.value?.id === 's4' && otherUploadControl">
                                         <p class="px-3">Any other information that you would like to provide us?</p>
 
-                                        <div class="col-sm-3 px-3 com-style mt-3 ">
+                                        <div class="col-sm-3 px-3 com-style mt-3 " *ngIf="otherUploadControl?.controls?.readonly?.value == false">
                                             <button class="btn w-100 form-btn"
                                                 style="font-size: smaller; font-weight: normal;"
-                                                (click)="bs_pdf_up.click()" [disabled]="isDisabled">
+                                                (click)="bs_pdf_up.click()">
                                                 Upload File
                                                 <img class="u-i ms-3" src="assets/circle/cloud_upload_black_24dp.svg"
                                                     alt="">
@@ -453,9 +453,8 @@
                                                 <div class="col-sm-12 c-head com-style">Upload Signed Copy</div>
                                                 <div class="col-sm-12 c-sub-h com-style mt-3">Please upload the signed
                                                     copy.</div>
-                                                <div class="col-sm-12 com-style text-center mt-3 ">
-                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()"
-                                                        [disabled]="isDisabled">
+                                                <div class="col-sm-12 com-style text-center mt-3 " *ngIf="signedCopyOfFileControl?.controls?.readonly?.value == false">
+                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()">
                                                         Upload File
                                                         <img class="u-i ms-3"
                                                             src="assets/circle/cloud_upload_black_24dp.svg" alt="">
