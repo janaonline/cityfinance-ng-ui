@@ -519,8 +519,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft
-      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
-      : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
+      ? StatusType.inProgress
+      : StatusType.verificationInProgress; // TODO: by backend set 8 if any field already approved
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
