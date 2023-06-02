@@ -11,9 +11,9 @@ if (environment.production) {
 }
 
 if (window) {
-  // window.console.log = () => {};
-  // window.console.error = () => {};
-  // window.console.warn = () => {};
+  window.console.log = () => {};
+  window.console.error = () => {};
+  window.console.warn = () => {};
 }
 
 platformBrowserDynamic()
