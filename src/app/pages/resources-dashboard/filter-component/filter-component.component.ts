@@ -54,6 +54,10 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     classes: "filter-component",
   };
 
+
+  selectedValue: String = "2020-21";
+  selectedType: String = "Raw Data PDF";
+
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
@@ -62,6 +66,26 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     private _resourcesDashboardService: ResourcesDashboardService
   ) {
     // this.filterData("", "");
+
+    const year = this.route.snapshot.queryParamMap.get('year') || this.selectedValue;
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || '';
+    const ulbId = this.route.snapshot.queryParamMap.get('ulbId') || '';
+    this.filterForm = this.fb.group({
+      state: [""],
+      ulb: [""],
+      ulbId: [""],
+      contentType: [""],
+      sortBy: [""],
+      year: [""],
+      category: this.category,
+    });
+    this.selectedValue = year ? year : "";
+    this.filterForm.patchValue({
+      year: this.selectedValue,
+      ulb: ulbName,
+      ulbId,
+      contentType: this.selectedType,
+    });
   }
 
   stateList;
@@ -96,40 +120,9 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     });
   }
 
-  selectedValue: String = "2020-21";
-  selectedType: String = "Raw Data PDF";
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
-    const year = this.route.snapshot.queryParamMap.get('year');
-    const ulbName = this.route.snapshot.queryParamMap.get('ulbName');
-    this.filterForm = this.fb.group({
-      state: [""],
-      ulb: [ulbName ? ulbName : ""],
-      ulbId: [""],
-      contentType: [""],
-      sortBy: [""],
-      year: [year ? year :""],
-      category: this.category,
-    });
-    this.selectedValue = year ? year : "";
-    if (year) {
-      this.filterForm.patchValue({
-        year: year,
-      })
-      this.selectedValue = year;
-      this.onChange({ target: { value: year } });
-    }
-
-    if(ulbName){
-      this.filterForm.patchValue({
-        ulb: ulbName,
-      })
-      // this.loadData()
-    }
-    setTimeout(() => {
-      this.getStatesList()
-    },1000)
-
+    this.getStatesList();
   }
 
   onChange(event) {
@@ -142,7 +135,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterData("type", "");
   }
 
-  getStatesList(){
+  getStatesList() {
     const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
@@ -162,36 +155,38 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
   loadData() {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
+
+      console.log(value, this.filterForm.value);
       if (value?.length >= 1) {
-        if((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined) 
-        && (this.filterForm.value.hasOwnProperty('ulb') && this.filterForm.value.state != undefined) 
-        ){
+        if ((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined)
+          && (this.filterForm.value.hasOwnProperty('ulb') && this.filterForm.value.state != undefined)
+        ) {
           this._commonServices
-          .postGlobalSearchData(this.filterForm.value, "ulb", this.filterForm.value.state)
-          .subscribe((res: any) => {
-            let emptyArr: any = [];
-            this.filteredOptions = emptyArr;
-            if (res?.data.length > 0) {
-              this.filteredOptions = res?.data;
-              //this.noDataFound = false;
-            } else {
+            .postGlobalSearchData({ ...this.filterForm.value, ulb: value }, "ulb", this.filterForm.value.state)
+            .subscribe((res: any) => {
               let emptyArr: any = [];
               this.filteredOptions = emptyArr;
-              // this.noDataFound = true;
-              console.log("no data found");
-            }
-            const obj = res?.data.find(e => e.ulbName == this.filterForm?.value?.ulb)
-           if(obj && (!this.filterForm.value['ulbId'] || this.filterForm.value['ulbId'] != obj._id)){
-            this.filterForm.patchValue({
-              ulb:obj?.name,
-              ulbId:obj?._id
-            })
-            this.filterData('ulb', obj);
-           }
+              if (res?.data.length > 0) {
+                this.filteredOptions = res?.data;
+                //this.noDataFound = false;
+              } else {
+                let emptyArr: any = [];
+                this.filteredOptions = emptyArr;
+                // this.noDataFound = true;
+                console.log("no data found");
+              }
+              const obj = res?.data.find(e => e.ulbName == this.filterForm?.value?.ulb)
+              if (obj && (!this.filterForm.value['ulbId'] || this.filterForm.value['ulbId'] != obj._id)) {
+                this.filterForm.patchValue({
+                  ulb: obj?.name,
+                  ulbId: obj?._id
+                })
+                this.filterData('ulb', obj);
+              }
 
-          });
-     }
-        
+            });
+        }
+
       } else {
         return null;
       }

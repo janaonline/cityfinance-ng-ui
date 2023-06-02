@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-services/state2223.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
@@ -87,7 +88,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.fetchStateList();
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.loadData();
-    // this.loadMapData();
+    this.loadMapData();
   }
 
   get design_year() {
@@ -105,8 +106,14 @@ export class ReviewUlbTableComponent implements OnInit {
     return this.objectWithoutProperties(this.columnNames, hiddenStateNames);
   }
 
-  loadMapData() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+  loadMapData(params = {}) {
+    console.log('loadMapdta', params)
+    if(this.userData?.role == USER_TYPE.STATE) {
+      params['state'] = this.userData?.state
+    }
+
+
+    this.fiscalRankingService.getStateWiseForm(params).subscribe(res => {
       console.log('map', res);
       this.mapData = res?.data;
     })
@@ -261,9 +268,13 @@ export class ReviewUlbTableComponent implements OnInit {
       autoFocus: false,
       maxHeight: '90vh',
       data: {
-        table: tables.find(table => table.id == id)
+        table:  {...tables?.find(table => table.id == id)}
       }
     });
+  }
+
+  onStateChange({state, category}) {
+    this.loadMapData({ state, category});
   }
 
   get modifiedColumns() {
