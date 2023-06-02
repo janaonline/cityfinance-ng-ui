@@ -75,6 +75,7 @@ export class FiscalLoginComponent implements OnInit {
   noCodeError = false;
   otpCreads: any = {};
   loginSet: any = {};
+  userUtil = new UserUtility();
   ulbCode = "";
   perFillUser;
   public isOtpLogin = false;
@@ -94,7 +95,7 @@ export class FiscalLoginComponent implements OnInit {
   };
   public hide = true;
   directLogin = false;
-  loginInfo :string = 'Please use the same login details as used for 15th FC Grants Module.'
+  loginInfo: string = 'Please use the same login details as used for 15th FC Grants Module.'
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -135,7 +136,7 @@ export class FiscalLoginComponent implements OnInit {
     // if (this.perFillUser !== null) {
     //   this.onSelectingUserType(this.perFillUser);
     // }
-   // this.onSelectingUserType(this.loginTabs[0]);
+    // this.onSelectingUserType(this.loginTabs[0]);
     this.tabChanged(this.loginTabs[0])
   }
 
@@ -153,7 +154,7 @@ export class FiscalLoginComponent implements OnInit {
     console.log('login form....', this.loginForm);
 
     if (this.loginForm.valid) {
-      const body = { ...this.loginForm.value, type:'fiscalRankings' };
+      const body = { ...this.loginForm.value, type: 'fiscalRankings' };
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
@@ -195,8 +196,12 @@ export class FiscalLoginComponent implements OnInit {
    * NOTE: This method must be called only post login.
    */
   routeToProperLocation() {
-    const rawPostLoginRoute =
+    let rawPostLoginRoute =
       sessionStorage.getItem("postLoginNavigation") || "rankings/ulb-form";
+    console.log(this.userUtil.getLoggedInUserDetails());
+    if (this.userUtil.getLoggedInUserDetails().role != USER_TYPE.ULB) {
+      rawPostLoginRoute = "rankings/review-rankings-ulbform";
+    }
     const formattedUrl = this.formatURL(rawPostLoginRoute);
     if (typeof formattedUrl === "string") {
       this.router.navigate([formattedUrl]);
@@ -406,10 +411,8 @@ export class FiscalLoginComponent implements OnInit {
     this.onSelectingUserType(item);
     this.loginError = null;
   }
-  alertForload(){
-    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in 
-   
-    THE DEADLINE FOR SUBMISSION OF FORM IS 31st MAY 2023.`, 'warning')
+  alertForload() {
+    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
   }
 }
 
