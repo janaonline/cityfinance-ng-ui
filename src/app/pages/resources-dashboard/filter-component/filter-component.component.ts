@@ -122,6 +122,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
+    this.getStatesList();
   }
 
   onChange(event) {
@@ -154,6 +155,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
   loadData() {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
+
       console.log(value, this.filterForm.value);
       if (value?.length >= 1) {
         if ((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined)
