@@ -156,7 +156,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
-            readonly: [{ value: item.readonly, disabled: true}],
+            readonly: [{ value: item.readonly, disabled: true }],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
@@ -471,7 +471,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       console.log({ control, sumable, yearValues, sumableYearValues });
     })
-    
+
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
@@ -519,8 +519,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft
-      ? StatusType.inProgress
-      : StatusType.verificationInProgress; // TODO: by backend set 8 if any field already approved
+      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
+      : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
