@@ -188,7 +188,7 @@
                                                             [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                             <button (click)="bs_pdf1.click()"
                                                                 class="btn form-btn com-style w-100"
-                                                                [disabled]="isDisabled">
+                                                                [disabled]="!(yearItem?.controls?.readonly?.value == false)">
                                                                 <div class="row">
                                                                     <div class="col-sm-6 file-text ">
                                                                         File
@@ -296,26 +296,36 @@
                                                                 </div>
                                                                 <!-- file sction -->
                                                                 <ng-container *ngIf="yearItem?.controls?.file">
-                                                                    <div class="col-sm-12 mb-3">
-                                                                        <button (click)="bs_pdf1.click()"
-                                                                            class="btn form-btn com-style w-100"
-                                                                            [disabled]="isDisabled">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-6 file-text ">
-                                                                                    Select File
-                                                                                </div>
-                                                                                <div class="col-sm-6 text-end">
-                                                                                    <img
-                                                                                        src="assets/circle/cloud_upload_black_24dp.svg">
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <input #bs_pdf1 style="display: none;"
-                                                                            onclick="this.value=null;"
-                                                                            [disabled]="!(yearItem?.controls?.readonly?.value == false)"
-                                                                            (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
-                                                                            type="file" accept=".pdf" #file>
+                                                                    <div class="col-sm-12 mb-3 "
+                                                                        *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value; else uploadOption;">
+                                                                        <div class="al-up font-size-smaller">Already
+                                                                            Uploaded on
+                                                                            Cityfinance - <a target="_blank"
+                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : ulbName : ulbId">View
+                                                                                here</a></div>
                                                                     </div>
+                                                                    <ng-template #uploadOption>
+                                                                        <div class="col-sm-12 mb-3">
+                                                                            <button (click)="bs_pdf1.click()"
+                                                                                class="btn form-btn com-style w-100"
+                                                                                [disabled]="!(yearItem?.controls?.readonly?.value == false)">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6 file-text ">
+                                                                                        Select File
+                                                                                    </div>
+                                                                                    <div class="col-sm-6 text-end">
+                                                                                        <img
+                                                                                            src="assets/circle/cloud_upload_black_24dp.svg">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </button>
+                                                                            <input #bs_pdf1 style="display: none;"
+                                                                                onclick="this.value=null;"
+                                                                                [disabled]="!(yearItem?.controls?.readonly?.value == false)"
+                                                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                                                type="file" accept=".pdf" #file>
+                                                                        </div>
+                                                                    </ng-template>
                                                                     <div class="col-sm-12 text-center w-70">
                                                                         <app-loader
                                                                             [show]="yearItem?.controls?.file?.controls?.uploading?.value">
@@ -323,14 +333,6 @@
                                                                     </div>
 
                                                                     <!-- <p>{{ {a: yearItem?.controls?.readonly?.value == true, b: yearItem?.controls?.modelName?.value} | json}}</p> -->
-                                                                    <div class="col-sm-12 mb-3 "
-                                                                        *ngIf="yearItem?.controls?.readonly?.value == true && yearItem?.controls?.modelName?.value">
-                                                                        <div class="al-up font-size-smaller">Already
-                                                                            Uploaded on
-                                                                            Cityfinance - <a target="_blank"
-                                                                                [href]="yearItem?.controls?.label.value | alreadyUpdatedUrl : stateCode : ulbName : ulbId">View
-                                                                                here</a></div>
-                                                                    </div>
                                                                     <div class="col-sm-12 com-style f-w mt-1"
                                                                         *ngIf="yearItem?.value?.file?.url">
                                                                         <a class="w-90"
@@ -387,6 +389,7 @@
                                         <div class="col-sm-3 px-3 com-style mt-3 ">
                                             <button class="btn w-100 form-btn"
                                                 style="font-size: smaller; font-weight: normal;"
+                                                [disabled]="!(otherUploadControl?.controls?.readonly?.value == false)"
                                                 (click)="bs_pdf_up.click()">
                                                 Upload File
                                                 <img class="u-i ms-3" src="assets/circle/cloud_upload_black_24dp.svg"
@@ -456,7 +459,8 @@
                                                 <div class="col-sm-12 c-sub-h com-style mt-3">Please upload the signed
                                                     copy.</div>
                                                 <div class="col-sm-12 com-style text-center mt-3 ">
-                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()">
+                                                    <button class="btn btn-up-org" (click)="bs_pdf_up.click()"
+                                                        [disabled]="!(signedCopyOfFileControl?.controls?.readonly?.value == false)">
                                                         Upload File
                                                         <img class="u-i ms-3"
                                                             src="assets/circle/cloud_upload_black_24dp.svg" alt="">
