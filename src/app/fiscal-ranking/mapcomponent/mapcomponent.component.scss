@@ -26,9 +26,11 @@
   max-height: 100%;
   transition: all 0.8s;
   padding-top: 2%;
+
   @media screen and (max-width: 768px) {
     width: 99vw;
   }
+
   // border-left: inherit;
 }
 
@@ -36,10 +38,12 @@
   padding: 0px;
   position: relative;
   min-height: 530px;
+
   @media (max-width: 600px) {
     min-height: 550px;
     //  margin-left: 10px;
   }
+
   // border: 1px solid rgb(212, 212, 212);
   border-radius: 5px;
   padding-top: 1%;
@@ -76,10 +80,12 @@ div.miniMap {
   // margin-top: 1%;
   position: absolute;
   top: 0%;
+
   @media (max-width: 768px) {
     margin-top: 0%;
     height: 100%;
   }
+
   // position: absolute;
   border-radius: inherit;
   border-left: inherit;
@@ -134,7 +140,8 @@ div.miniMap {
 .ulbDetails {
   transform: scale(0.8);
   margin-top: -10%;
-  & > span {
+
+  &>span {
     display: block;
   }
 }
@@ -150,6 +157,7 @@ div.miniMap {
   width: 100%;
   top: 0;
   left: 0;
+
   @media screen and (max-width: 768px) {
     margin-top: 0.5rem;
   }
@@ -159,7 +167,7 @@ div.miniMap {
   font-weight: 600;
 }
 
-#details > p {
+#details>p {
   background: white;
 }
 
@@ -207,7 +215,7 @@ div.miniMap {
   left: 0;
 }
 
-.progress > span {
+.progress>span {
   width: 50%;
   height: 100%;
   overflow: hidden;
@@ -300,15 +308,18 @@ div.miniMap {
     width: 155px;
     font-size: 0.7vw;
   }
+
   .leaflet-control {
     width: fit-content;
     transform: scale(1.6) translateY(-50%);
     position: absolute;
     bottom: 0px;
     background: transparent;
+
     @media screen and (max-width: 1024px) and (min-width: 560px) {
       font-size: $font-size-base * 0.75;
     }
+
     @media screen and (max-width: 551px) {
       font-size: $font-size-base * 0.625;
       width: 100%;
@@ -317,14 +328,17 @@ div.miniMap {
       padding: 0;
       margin-left: 0 !important;
     }
+
     @media screen and (min-width: 410px) and (max-width: 415px) {
       width: 65%;
       left: -40px;
     }
+
     @media screen and (max-width: 405px) and (min-width: 320px) {
       font-size: $font-size-base * 0.75;
       width: 51%;
     }
+
     @media screen and (max-width: 319px) {
       display: none;
     }
@@ -335,6 +349,7 @@ div.miniMap {
   .leaflet-control-attribution {
     display: none;
   }
+
   // .mat-form-field-flex {
   //   border: 1.2px solid #3a3939;
   //   border-radius: 0px;
@@ -343,24 +358,29 @@ div.miniMap {
     position: relative;
     margin-top: -2px;
   }
+
   .map-click-guide {
     position: absolute;
     bottom: 3vh;
   }
+
   .national-map-click-guide {
     margin-left: 13%;
     width: fit-content;
     margin-top: 2%;
     bottom: 1px;
     font-size: 1vw;
+
     @media screen and (max-width: 1024px) and (min-width: 560px) {
       font-size: $font-size-base * 0.75;
     }
+
     @media screen and (max-width: 551px) {
       font-size: $font-size-base * 0.75;
       margin: auto;
     }
   }
+
   .state-map-click-guide {
     text-align: center;
     left: 18%;
@@ -368,10 +388,12 @@ div.miniMap {
     position: absolute;
     bottom: 1px;
     font-size: 0.8vw;
+
     @media screen and (max-width: 768px) {
       font-size: 2.8vw;
     }
   }
+
   .map-click-guide {
     right: 5vw;
   }
@@ -411,16 +433,13 @@ div.miniMap {
   }
 }
 
-::ng-deep .leaflet-pane > svg path.leaflet-interactive {
+::ng-deep .leaflet-pane>svg path.leaflet-interactive {
   stroke: #ffffff !important;
   stroke-width: 2px;
 }
 
-::ng-deep #districtMapId .leaflet-pane > svg path.leaflet-interactive {
-  filter: drop-shadow(0px 1px 0px #1e3571) drop-shadow(0px 2px 0px #1e3571)
-    drop-shadow(0px 3px 0px #1e3571) drop-shadow(0px 4px 0px #1e3571)
-    drop-shadow(0px 5px 0px #1e3571) drop-shadow(0px 6px 0px #1e3571)
-    drop-shadow(0px 7px 0px #1e3571);
+::ng-deep #districtMapId .leaflet-pane>svg path.leaflet-interactive {
+  filter: drop-shadow(0px 1px 0px #1e3571) drop-shadow(0px 2px 0px #1e3571) drop-shadow(0px 3px 0px #1e3571) drop-shadow(0px 4px 0px #1e3571) drop-shadow(0px 5px 0px #1e3571) drop-shadow(0px 6px 0px #1e3571) drop-shadow(0px 7px 0px #1e3571);
   stroke-width: 0 !important;
 }
 
@@ -483,8 +502,8 @@ div.miniMap {
   border-bottom-right-radius: 8px;
 }
 
-li > a.active,
-li > a.active:active {
+li>a.active,
+li>a.active:active {
   background-color: #e67e15 !important;
   color: #fff;
 }
@@ -500,7 +519,7 @@ li > a.active:active {
   border-radius: inherit;
 }
 
-.nav > li > a {
+.nav>li>a {
   padding: 0.8rem 2.5rem;
 }
 
@@ -510,11 +529,11 @@ li > a.active:active {
   border-radius: 5px 5px 0px 0px;
 }
 
-.table > :not(:first-child) {
+.table> :not(:first-child) {
   border-top: none;
 }
 
-thead > tr > th {
+thead>tr>th {
   border-right: 1px solid #e4e4e4;
   background: #f7f9ff 0% 0% no-repeat padding-box;
   font: normal normal 600 14px/14px "Archivo";
@@ -522,7 +541,7 @@ thead > tr > th {
   color: #0f1f40;
 }
 
-.table > tbody > tr:first-child {
+.table>tbody>tr:first-child {
   border-right: 1px solid #e4e4e4;
   // border-bottom: 1px solid #e4e4e4;
   background: #ffffff;
@@ -531,7 +550,7 @@ thead > tr > th {
   color: #0f1f40;
 }
 
-.table > tbody > tr > td {
+.table>tbody>tr>td {
   border: none;
   border-right: 1px solid #e4e4e4;
   font: normal normal 500 14px/15px "Archivo";
@@ -545,8 +564,9 @@ td {
 }
 
 @media screen and (max-width: 428px) {
-  .table-con > .table > thead > tr > th:first-child,
-  .table-con > .table > tbody > tr > td:first-child {
+
+  .table-con>.table>thead>tr>th:first-child,
+  .table-con>.table>tbody>tr>td:first-child {
     position: sticky;
     left: 0;
     z-index: 99;
@@ -574,6 +594,7 @@ td {
 }
 
 @media screen and (max-width: 428px) {
+
   //   .heading {
   //     //   text-align: center;
   //   }
@@ -582,10 +603,12 @@ td {
     width: auto;
   }
 }
+
 @media screen and (max-width: 800px) {
   .dataAvailability {
     margin-top: 8%;
   }
+
   .downloadData {
     margin-top: 7%;
   }
@@ -614,13 +637,14 @@ td {
 }
 
 .circular-div {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: red;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: red;
 }
 
 .markerText {
-    font-size: 12px !important;
-    width: max-content;
+  margin-left: 10px;
+  font-size: 14px !important;
+  width: max-content;
 }

@@ -11,13 +11,19 @@
         <div style="background-color:#38cdfa ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.submitted'></div>
       </div>
 
-      <div class="row mx-1 my-2 py-1 d-flex w-100 align-items-center">
-        <div class="circular-div" style="background-color: #e67e15;"></div>
-        <span class="markerText">Not yet started: {{ mapData?.ulbWiseData?.notStarted}}</span>
-        <div class="circular-div" style="background-color: #193369;"></div>
-        <span class="markerText">In progress: {{ mapData?.ulbWiseData?.inProgress }}</span>
-        <div class="circular-div" style="background-color: #38cdfa;"></div>
-        <span class="markerText">Submitted: {{ mapData?.ulbWiseData?.submitted }}</span>
+      <div class="row">
+        <div class="col-4 d-flex mt-2">
+          <div class="circular-div" style="background-color: #e67e15;"></div>
+          <span class="markerText">Not yet started: {{ mapData?.ulbWiseData?.notStarted}}</span>
+        </div>
+        <div class="col-4 d-flex mt-2">
+          <div class="circular-div" style="background-color: #193369;"></div>
+          <span class="markerText">In progress: {{ mapData?.ulbWiseData?.inProgress }}</span>
+        </div>
+        <div class="col-4 d-flex mt-2">
+          <div class="circular-div" style="background-color: #38cdfa;"></div>
+          <span class="markerText">Submitted: {{ mapData?.ulbWiseData?.submitted }}</span>
+        </div>
       </div>
     </div>
 
@@ -38,15 +44,23 @@
         </div>
       </div>
 
-      <div class="row mx-1 my-2 py-1 d-flex w-100 align-items-center">
-        <div class="circular-div" style="background-color: #e67e15;"></div>
-        <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
-        <div class="circular-div" style="background-color: #193369;"></div>
-        <span class="markerText">Verification in progress: {{ mapData?.formWiseData?.verificationInProgress }}</span>
-        <div class="circular-div" style="background-color: #38cdfa;"></div>
-        <span class="markerText">Approved: {{ mapData?.formWiseData?.approved }}</span>
-        <div class="circular-div" style="background-color: gray;"></div>
-        <span class="markerText">Rejected: {{ mapData?.formWiseData?.rejected }}</span>
+      <div class="row">
+        <div class="col-6 d-flex mt-2">
+          <div class="circular-div" style="background-color: #e67e15;"></div>
+          <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
+        </div>
+        <div class="col-6 d-flex mt-2">
+          <div class="circular-div" style="background-color: #193369;"></div>
+          <span class="markerText">Verification in progress: {{ mapData?.formWiseData?.verificationInProgress }}</span>
+        </div>
+        <div class="col-6 d-flex mt-2">
+          <div class="circular-div" style="background-color: #38cdfa;"></div>
+          <span class="markerText">Approved: {{ mapData?.formWiseData?.approved }}</span>
+        </div>
+        <div class="col-6 d-flex mt-2">
+          <div class="circular-div" style="background-color: gray;"></div>
+          <span class="markerText">Rejected: {{ mapData?.formWiseData?.rejected }}</span>
+        </div>
       </div>
     </div>
   </div>

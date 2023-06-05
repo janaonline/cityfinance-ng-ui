@@ -2,25 +2,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FiscalRankingService, StatusType } from '../fiscal-ranking.service';
-import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import {
   customEmailValidator,
-  mobileNoValidator,
   urlValidator,
-  validateOnlyText
 } from "src/app/util/reactiveFormValidators";
 import { UserUtility } from 'src/app/util/user/user';
-import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
 import { Tab } from '../models';
-import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
@@ -162,6 +156,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
+            readonly: [{ value: item.readonly, disabled: true}],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
@@ -203,7 +198,7 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
-      focused: [{ value: false, disabled: true}],
+      focused: [{ value: false, disabled: true }],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
       code: [{ value: item.code, disabled: true }],
@@ -406,9 +401,9 @@ export class UlbFiscalNewComponent implements OnInit {
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
     if (!file) return;
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-    swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
       return;
     }
     const fileExtension = file.name.split('.').pop();
@@ -438,6 +433,8 @@ export class UlbFiscalNewComponent implements OnInit {
         expenditureSectionBelowKey: this.expenditureSectionBelowKey,
         financialYearTableHeader: this.financialYearTableHeader,
         stateCode: this.stateCode,
+        ulbName: this.ulbName,
+        ulbId: this.ulbId,
         additionalData: {
           pristine: this.form.pristine,
           date: `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`,
@@ -460,7 +457,21 @@ export class UlbFiscalNewComponent implements OnInit {
 
   validateErrors() {
     this.form.markAllAsTouched();
+    const ledgerValueControls = ['fixedAsset', 'CaptlExp'].map(key => this.form.get(`2.data.${key}`));
     console.log(this.form);
+
+    ledgerValueControls.forEach(control => {
+      const yearValues = control.value.yearData?.map(yearData => yearData.value);
+      const sumable = control.get('calculatedFrom').value;
+
+      const sumableControls = Object?.values((this.form.get('2.data') as FormGroup)?.controls)
+        .filter(control => sumable?.includes('' + (control as FormGroup)?.controls?.position?.value))
+
+      const sumableYearValues = sumableControls.map(control => control.value?.yearData?.reduce((sum, year) => sum + (+year.value || 0), 0))
+
+      console.log({ control, sumable, yearValues, sumableYearValues });
+    })
+    
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
@@ -507,8 +518,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getCurrentFormStatus(isDraft: boolean) {
-    if (this.userData.role == this.userTypes.ULB) return isDraft 
-      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress) 
+    if (this.userData.role == this.userTypes.ULB) return isDraft
+      ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
       : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
