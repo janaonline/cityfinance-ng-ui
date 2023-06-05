@@ -134,18 +134,12 @@ export class ActionPlanComponent implements OnInit {
         this.showLoader = false;
         this.isApiInProgress = false;
         console.log(res["data"], "sss");
-        if (this.loggedInUserType !== "STATE") {
-          this.isDisabled = true
-        } else if (res?.data?.isDraft == false && this.loggedInUserType === "STATE") {
-          this.isDisabled = true
-        } else {
-          this.isDisabled = false;
-        }
+        this.getDisabledLogic(res);
         this.data = {
           state: res["data"]?.state,
           design_year: this.designYear,
           uaData: res["data"]?.uaData,
-          status: res["data"]?.status ?? this.pendingStatus,
+          status: this.getStatus(res),
           isDraft: res["data"]?.isDraft,
           canTakeAction : res["data"]?.canTakeAction,
         };
@@ -270,6 +264,7 @@ export class ActionPlanComponent implements OnInit {
       if (type == 'isDraft') {
         this.reqBody = this.makeApiData(true);
         this.reqBody.isDraft = true;
+        this.reqBody.status = 2;
         this.postData();
       } else {
         // this.reqBody.isDraft = false;
@@ -363,7 +358,7 @@ export class ActionPlanComponent implements OnInit {
     if(type == 'save'){
       let len = this.data.uaData.length;
       for(let i=0; i < len; i++){
-        this.foldCard(i);
+        if(this.data.uaData[i].fold == false) this.foldCard(i);
       }
     }
   }
@@ -587,7 +582,39 @@ export class ActionPlanComponent implements OnInit {
       });
     }
   }
-
+  
+    getDisabledLogic(res) {
+      if (this.loggedInUserType !== "STATE") {
+        this.isDisabled = true;
+        return;
+      }
+    
+      switch (this.yearCode) {
+        case '2023-24':
+          if ([4, 6].includes(res?.data.statusId)) {
+            this.isDisabled = true;
+            return;
+          }
+          break;
+        default:
+          if (res?.data?.isDraft === false) {
+            this.isDisabled = true;
+            return;
+          }
+          break;
+      }
+    
+      this.isDisabled = false;
+    }
+  getStatus(res){
+    if(this.yearCode == '2022-23'){
+      return res["data"]?.status ?? this.pendingStatus;
+    }
+    if(this.yearCode == '2023-24'){
+      return res["data"]?.statusId ?? this.pendingStatus;
+    }
+  }
+  
 }
 
 const input = {
