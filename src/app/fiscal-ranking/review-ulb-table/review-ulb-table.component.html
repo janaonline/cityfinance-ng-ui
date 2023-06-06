@@ -1,13 +1,14 @@
 <div class="container-fluid pd-c" style="overflow-x: hidden;">
-    <div class="row mb-3 mt-3">
-        <div class="col-sm-12 header2">
-            {{ title }}
-        </div>
-    </div>
     <div class="row">
         <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
         </app-mapcomponent>
         <hr class="my-3">
+    </div>
+    
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-12 header2">
+            {{ title }}
+        </div>
     </div>
     
     <div class="row mt-2">
