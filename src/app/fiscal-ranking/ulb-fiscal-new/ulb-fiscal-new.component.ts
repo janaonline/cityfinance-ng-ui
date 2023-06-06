@@ -53,7 +53,7 @@ export class UlbFiscalNewComponent implements OnInit {
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
-
+  msgForLedgerUpdate: string[] = [];
   constructor(
     private fb: FormBuilder,
     public fiscalService: FiscalRankingService,
@@ -136,6 +136,11 @@ export class UlbFiscalNewComponent implements OnInit {
       this.addSubtractLogics();
       this.form.markAsPristine();
       this.isLoader = false;
+      this.msgForLedgerUpdate = res?.data?.messages;
+      if(this.msgForLedgerUpdate) {
+       let msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
+       swal("Confirmation !", `${msg}`,"warning")
+      }
     });
   }
 
@@ -485,9 +490,11 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
+    let msg = '';
+    if(this.msgForLedgerUpdate) msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);  
     swal(
       "Confirmation !",
-      this.loggedInUserType == this.userTypes.PMU ? 'Are you sure you want to submit this form?' :
+      this.loggedInUserType == this.userTypes.PMU ? `${msg}, Are you sure you want to submit this form?` :
         `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
@@ -519,8 +526,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft
-      ? StatusType.inProgress
-      : StatusType.verificationInProgress; // TODO: by backend set 8 if any field already approved
+    ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
+    : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
@@ -555,5 +562,12 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
+  }
+  viewAlertForLedgerDataUpdate(messages){
+    let allMsg = '';
+    for(let msg of messages){
+      allMsg = allMsg + ', ' + msg;
+    }
+    return allMsg;
   }
 }
