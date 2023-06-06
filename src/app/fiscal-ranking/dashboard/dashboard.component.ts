@@ -23,11 +23,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     private fiscalRankingService: FiscalRankingService,
     private route: ActivatedRoute,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { table: Table },
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { table: Table, queryParams: any },
   ) { }
 
   ngOnInit(): void {
-    const queryParams = new URLSearchParams({...this.route.snapshot.params, ...this.route.snapshot.queryParams} as any).toString();
+    const queryParams = new URLSearchParams({...this.route.snapshot.params, ...this.route.snapshot.queryParams, ...this?.data?.queryParams} as any).toString();
     if(this.data?.table) {
       this.table = this.data.table;
     }
