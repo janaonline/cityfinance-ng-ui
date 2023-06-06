@@ -1,14 +1,21 @@
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-sm-12 mb-3">
+        <div class="card p-3">
+            <a routerLink="/ulbform/overview">Click to view SLBs for Water Supply and Sanitation of Financial Year 2021-22</a>
+        </div>
+    </div>
+</div>
+<!-- <div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-sm-12 mb-3" *ngIf="response?.formName">
             <div class="form-header">
-                {{response?.formName}}
+                {{response.formName}}
             </div>
         </div>
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <!-- <a routerLink="/ulbform/overview">Click to view SLBs for Water Supply and Sanitation of Financial Year 2021-22</a> -->
+
                     <app-four-slb-view [data]="response"></app-four-slb-view>
                 </div>
             </div>
@@ -26,4 +33,4 @@
             
 
     </div>
-</div>
+</div> -->
