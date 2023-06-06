@@ -798,8 +798,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     })
   }
 
-  cardClick(type: string) {
-    this.onCardClick.emit(type);
+  cardClick(id: string) {
+    this.onCardClick.emit({id, selectedState: this.stateselected?._id});
   }
 
   public data1Percentage = '30';

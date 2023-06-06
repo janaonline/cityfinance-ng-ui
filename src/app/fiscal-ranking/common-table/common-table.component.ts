@@ -17,7 +17,7 @@ export interface TableResponse {
 }
 
 export interface TableDataEntity {
-  [key: string]: number | string;
+  [key: string]: number | string | boolean;
 }
 
 export interface TableColumnsEntity {

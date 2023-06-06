@@ -261,14 +261,14 @@ export class ReviewUlbTableComponent implements OnInit {
     return ["ULB Name", "State Name"].includes(item.value);
   }
 
-  onCardClick(id) {
-    console.log(id);
+  onCardClick({id, selectedState}) {
     this.dialog.open(DashboardComponent, {
       id: 'DashboardComponent',
       autoFocus: false,
-      maxHeight: '90vh',
+      // maxHeight: '90vh',
       data: {
-        table:  {...tables?.find(table => table.id == id)}
+        table:  {...tables?.find(table => table.id == id)},
+        queryParams: selectedState ? { selectedState } : {}
       }
     });
   }

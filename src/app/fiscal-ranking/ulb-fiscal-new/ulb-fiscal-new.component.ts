@@ -53,7 +53,7 @@ export class UlbFiscalNewComponent implements OnInit {
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
-
+  msgForLedgerUpdate: string[] = [];
   constructor(
     private fb: FormBuilder,
     public fiscalService: FiscalRankingService,
@@ -136,6 +136,8 @@ export class UlbFiscalNewComponent implements OnInit {
       this.addSubtractLogics();
       this.form.markAsPristine();
       this.isLoader = false;
+      this.msgForLedgerUpdate = res?.data?.messages;
+      if(this.msgForLedgerUpdate) this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
     });
   }
 
@@ -156,7 +158,7 @@ export class UlbFiscalNewComponent implements OnInit {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
             name: [item.name, item.required ? Validators.required : null],
-            readonly: [{ value: item.readonly, disabled: true}],
+            readonly: [{ value: item.readonly, disabled: true }],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
             url: [item.url, item.required ? Validators.required : null],
@@ -471,7 +473,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       console.log({ control, sumable, yearValues, sumableYearValues });
     })
-    
+
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
@@ -485,6 +487,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
+    if(this.msgForLedgerUpdate) this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
     swal(
       "Confirmation !",
       this.loggedInUserType == this.userTypes.PMU ? 'Are you sure you want to submit this form?' :
@@ -555,5 +558,15 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
+  }
+  viewAlertForLedgerDataUpdate(messages){
+    let allMsg = '';
+    for(let msg of messages){
+      allMsg = allMsg + ', ' + msg;
+    }
+     swal(
+      "Confirmation !",
+      `${allMsg}`,
+      "warning",)
   }
 }
