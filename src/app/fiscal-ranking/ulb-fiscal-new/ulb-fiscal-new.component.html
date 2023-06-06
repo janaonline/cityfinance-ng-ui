@@ -187,7 +187,7 @@
                                                         <div class="col-sm-12 mb-3"
                                                             [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
                                                             <button (click)="bs_pdf1.click()"
-                                                                class="btn form-btn com-style w-100"
+                                                                class="btn form-btn com-style w-100 test-city"
                                                                 [disabled]="!(yearItem?.controls?.readonly?.value == false)">
                                                                 <div class="row">
                                                                     <div class="col-sm-6 file-text ">
@@ -307,7 +307,7 @@
                                                                     <ng-template #uploadOption>
                                                                         <div class="col-sm-12 mb-3">
                                                                             <button (click)="bs_pdf1.click()"
-                                                                                class="btn form-btn com-style w-100"
+                                                                                class="btn form-btn com-style w-100 test-city"
                                                                                 [disabled]="!(yearItem?.controls?.readonly?.value == false)">
                                                                                 <div class="row">
                                                                                     <div class="col-sm-6 file-text ">
