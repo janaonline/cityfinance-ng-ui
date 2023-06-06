@@ -348,6 +348,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     //  this.changeInStateOrCity.emit(e);
   }
 
+  get isState() {
+    return this.userUtil.getUserType() == USER_TYPE.STATE;
+  }
+
   currentId: any;
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -801,13 +805,4 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   cardClick(id: string) {
     this.onCardClick.emit({id, selectedState: this.stateselected?._id});
   }
-
-  public data1Percentage = '30';
-  public data2Percentage = '40';
-  public data3Percentage = '30';
-
-  public data11Percentage = '30';
-  public data12Percentage = '40';
-  public data13Percentage = '20';
-  public data14Percentage = '10';
 }
