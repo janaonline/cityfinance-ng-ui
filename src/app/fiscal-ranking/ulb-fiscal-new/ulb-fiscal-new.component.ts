@@ -137,7 +137,10 @@ export class UlbFiscalNewComponent implements OnInit {
       this.form.markAsPristine();
       this.isLoader = false;
       this.msgForLedgerUpdate = res?.data?.messages;
-      if(this.msgForLedgerUpdate) this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
+      if(this.msgForLedgerUpdate) {
+       let msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
+       swal("Confirmation !", `${msg}`,"warning")
+      }
     });
   }
 
@@ -487,10 +490,11 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
-    if(this.msgForLedgerUpdate) this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
+    let msg = '';
+    if(this.msgForLedgerUpdate) msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);  
     swal(
       "Confirmation !",
-      this.loggedInUserType == this.userTypes.PMU ? 'Are you sure you want to submit this form?' :
+      this.loggedInUserType == this.userTypes.PMU ? `${msg}, Are you sure you want to submit this form?` :
         `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
@@ -564,9 +568,6 @@ export class UlbFiscalNewComponent implements OnInit {
     for(let msg of messages){
       allMsg = allMsg + ', ' + msg;
     }
-     swal(
-      "Confirmation !",
-      `${allMsg}`,
-      "warning",)
+    return allMsg;
   }
 }
