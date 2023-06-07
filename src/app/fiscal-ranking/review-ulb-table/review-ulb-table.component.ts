@@ -51,7 +51,7 @@ export class ReviewUlbTableComponent implements OnInit {
   isLoader: boolean = false;
   max = Math.max;
   csvType = 'csvFROverall';
-  notFoundMessage:String = 'No Data Found ...'
+  notFoundMessage: String = 'No Data Found ...'
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -108,7 +108,7 @@ export class ReviewUlbTableComponent implements OnInit {
 
   loadMapData(params = {}) {
     console.log('loadMapdta', params)
-    if(this.userData?.role == USER_TYPE.STATE) {
+    if (this.userData?.role == USER_TYPE.STATE) {
       params['state'] = this.userData?.state
     }
 
@@ -258,23 +258,26 @@ export class ReviewUlbTableComponent implements OnInit {
     this.loadData()
   }
   getSortIcon(item) {
-    return ["ULB Name", "State Name","ULB Data Submitted (%)", "PMU Verification Progress",].includes(item.value);
+    return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress",].includes(item.value);
   }
 
-  onCardClick({id, selectedState}) {
+  onCardClick({ id, selectedState, selectedCategory }) {
     this.dialog.open(DashboardComponent, {
       id: 'DashboardComponent',
       autoFocus: false,
       // maxHeight: '90vh',
       data: {
-        table:  {...tables?.find(table => table.id == id)},
-        queryParams: selectedState ? { selectedState } : {}
+        table: { ...tables?.find(table => table.id == id) },
+        queryParams: {
+          ...(selectedState && { selectedState }),
+          ...(selectedCategory && { selectedCategory }),
+        }
       }
     });
   }
 
-  onStateChange({state, category}) {
-    this.loadMapData({ state, category});
+  onStateChange({ state, category }) {
+    this.loadMapData({ state, category });
   }
 
   get modifiedColumns() {

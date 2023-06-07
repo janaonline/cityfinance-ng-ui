@@ -799,6 +799,6 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   cardClick(id: string) {
-    this.onCardClick.emit({id, selectedState: this.stateselected?._id});
+    this.onCardClick.emit({id, selectedState: this.stateselected?._id, selectedCategory: this.selectedCategory});
   }
 }
