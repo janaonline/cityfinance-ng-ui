@@ -172,4 +172,12 @@ export class NewCommonService {
       body
     );
   }
+  formGetMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
 }

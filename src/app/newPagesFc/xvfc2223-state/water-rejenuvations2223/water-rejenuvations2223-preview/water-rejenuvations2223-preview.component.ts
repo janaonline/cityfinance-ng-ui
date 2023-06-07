@@ -327,4 +327,8 @@ width: 25%
       this.status = "Completed but Not Submitted";
     }
   }
+  getLineItem(id){
+    //console.log('aaaa',this.data?.waterIndicators?.find(x => x.lineItemId == id));
+   return (this.data?.waterIndicators?.find(x => x.lineItemId == id))?.name;
+  }
 }
