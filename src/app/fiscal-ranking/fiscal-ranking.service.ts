@@ -132,7 +132,7 @@ export class FiscalRankingService {
       map((response) => {
         response.columns = columns || response.columns.map(column => ({
           ...column,
-          sort: 0,
+          sort: column.sort || 0,
         }));
         return response;
       })

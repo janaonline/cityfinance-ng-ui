@@ -1,14 +1,17 @@
 <div class="container-fluid pd-c" style="overflow-x: hidden;">
-    <div class="row mt-3">
-        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+    <div class="row">
+        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)"
+            (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
         </app-mapcomponent>
         <hr class="my-3">
     </div>
+
     <div class="row mb-3 mt-3">
         <div class="col-sm-12 header2">
             {{ title }}
         </div>
     </div>
+
     <div class="row mt-2">
         <div class="col-sm-3">
             <!-- <label for="form" class="l-l">Select State:</label>
@@ -46,7 +49,6 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
-
                 <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
                     *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
                     <table class="table table-striped ulb-table">
@@ -143,6 +145,8 @@
                                         <option value="No">No</option>
                                     </select>
                                 </th> -->
+                                <th></th>
+                                <th></th>
                                 <th class="filter">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
@@ -152,11 +156,11 @@
                         <tbody>
                             <tr *ngFor="let item of data | paginate
                             : {
-                              id: 'foo',
+                                id: 'foo',
                                 itemsPerPage: tableDefaultOptions.itemPerPage,
                                 currentPage: tableDefaultOptions.currentPage,
                                 totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
-                              }; let tabelIndex=index">
+                            }; let tabelIndex=index">
                                 <td style="width: 5%;">{{isInfiniteScroll ? tabelIndex+1 :
                                     (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                     tabelIndex+1)}}</td>
@@ -164,6 +168,8 @@
                                 <td>{{item.censusCode}}</td>
                                 <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.populationType}}</td>
+                                <td>{{item.ulbDataSubmitted}}%</td>
+                                <td>{{item.pmuVerificationProgress}}%</td>
                                 <td>{{item.formStatus}}</td>
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
                                 <!-- <p>{{ item | json }}</p> -->
