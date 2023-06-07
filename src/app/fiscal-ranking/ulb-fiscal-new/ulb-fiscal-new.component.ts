@@ -137,10 +137,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.form.markAsPristine();
       this.isLoader = false;
       this.msgForLedgerUpdate = res?.data?.messages;
-      if(this.msgForLedgerUpdate) {
-       let msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);
-       swal("Confirmation !", `${msg}`,"warning")
-      }
+      if (this.msgForLedgerUpdate) swal("Confirmation !", `${this.msgForLedgerUpdate?.join(', ')}`, "warning")
     });
   }
 
@@ -490,11 +487,9 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   finalSubmitConfirmation() {
-    let msg = '';
-    if(this.msgForLedgerUpdate) msg = this.viewAlertForLedgerDataUpdate(this.msgForLedgerUpdate);  
     swal(
       "Confirmation !",
-      this.loggedInUserType == this.userTypes.PMU ? `${msg}, Are you sure you want to submit this form?` :
+      this.loggedInUserType == this.userTypes.PMU ? `${this.msgForLedgerUpdate?.join(', ')}, Are you sure you want to submit this form?` :
         `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
@@ -526,8 +521,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft
-    ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
-    : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
+      ? StatusType.inProgress
+      : StatusType.verificationInProgress;
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 
@@ -562,12 +557,5 @@ export class UlbFiscalNewComponent implements OnInit {
       this.loaderService.stopLoader();
       swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
-  }
-  viewAlertForLedgerDataUpdate(messages){
-    let allMsg = '';
-    for(let msg of messages){
-      allMsg = allMsg + ', ' + msg;
-    }
-    return allMsg;
   }
 }
