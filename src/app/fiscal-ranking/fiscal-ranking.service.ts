@@ -27,7 +27,7 @@ export interface Table {
 
 export interface MapData {
   _id: string;
-  heatMap: HeatMap;
+  heatMaps: HeatMap[];
   ulbWiseData: UlbWiseData;
   formWiseData: FormWiseData;
   stateName: string;
@@ -53,6 +53,7 @@ export interface FormWiseData {
   rejected: number;
 }
 
+const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
 @Injectable({
@@ -138,7 +139,8 @@ export class FiscalRankingService {
     );
   }
 
-  getStateWiseForm() {
-    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?state=all`);
+  getStateWiseForm(params = {}) {
+    const queryParams = new URLSearchParams(removeFalsy(params)).toString()
+    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
   }
 }

@@ -5,7 +5,7 @@
         </div>
     </div>
     <!-- <div class="row">
-        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
         </app-mapcomponent>
         <hr class="my-3">
     </div> -->
@@ -191,7 +191,7 @@
                         </tbody>
                         
                     </table>
-                    <div style="text-align: center;padding-bottom: 20px;" *ngIf="!data.length">
+                    <div style="text-align: center;padding-bottom: 20px;" *ngIf="!data?.length">
                         {{notFoundMessage}}
                     </div>
                 </div>

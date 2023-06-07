@@ -358,9 +358,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
   alertForload(){
-    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in
-     
-    THE DEADLINE FOR SUBMISSION OF PROPERTY TAX FORM IS 25th MAY 2023.`, 'warning')
+    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in.`, 'warning')
   }
 }
 
