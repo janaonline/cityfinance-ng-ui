@@ -157,11 +157,11 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name, item.required ? Validators.required : null],
+            name: [item.name, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
             readonly: [{ value: item.readonly, disabled: true }],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
-            url: [item.url, item.required ? Validators.required : null],
+            url: [item.url, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
           });
           this.attactRequiredReasonToggler(obj[key]);
         }
@@ -207,7 +207,7 @@ export class UlbFiscalNewComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       min: [{ value: new Date(item?.min), disabled: true }],
       max: [{ value: new Date(item?.max), disabled: true }],
-      date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
+      date: [item.date, this.userData?.role == USER_TYPE.ULB && item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
@@ -222,8 +222,8 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
-          name: [item.file.name, item.required ? [Validators.required] : []],
-          url: [item.file.url, item.required ? [Validators.required] : []]
+          name: [item.file.name, this.userData?.role == USER_TYPE.ULB && item.required ? [Validators.required] : []],
+          url: [item.file.url, this.userData?.role == USER_TYPE.ULB && item.required ? [Validators.required] : []]
         })
       })
     });
@@ -246,6 +246,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getValidators(item, canApplyRequired = false, parent?) {
+    if (this.userData?.role != USER_TYPE.ULB) return [];
     return [
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
