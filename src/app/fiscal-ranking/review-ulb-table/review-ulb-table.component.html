@@ -1,16 +1,17 @@
 <div class="container-fluid pd-c" style="overflow-x: hidden;">
-    <!-- <div class="row">
-        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)" (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+    <div class="row">
+        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)"
+            (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
         </app-mapcomponent>
         <hr class="my-3">
-    </div>  -->
-    
+    </div>
+
     <div class="row mb-3 mt-3">
         <div class="col-sm-12 header2">
             {{ title }}
         </div>
     </div>
-    
+
     <div class="row mt-2">
         <div class="col-sm-3">
             <!-- <label for="form" class="l-l">Select State:</label>
@@ -48,7 +49,6 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="mat-elevation-z8 mt-1" [formGroup]="filterForm" #scrollBar>
-
                 <div class="table-responsive" [ngClass]="{'paginated-table': isInfiniteScroll}"
                     *ngIf="isInfiniteScroll || !isLoader" (scroll)="handleScroll($event)">
                     <table class="table table-striped ulb-table">
@@ -74,7 +74,7 @@
                                 <th class="filter">
                                     <div class="input-group">
                                         <input type="text" style="width: 40%;" formControlName="ulbName"
-                                            class="form-control in-se-s" (keyup.enter)="loadData()"
+                                            class="form-control in-se-s" (keyup.enter)="loadData('', 'search')"
                                             aria-label="Ulb name" placeholder="Ulb Name">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
@@ -84,7 +84,7 @@
                                 <th class="filter">
                                     <div class="input-group">
                                         <input type="text" formControlName="censusCode" class="form-control in-se-s"
-                                            style="width: 40%;" (keyup.enter)="loadData()" aria-label="censusCode"
+                                            style="width: 40%;" (keyup.enter)="loadData('', 'search')" aria-label="censusCode"
                                             placeholder="Ulb Code">
                                         <span class="input-group-text">
                                             <span class="fa fa-search form-control-feedback"></span>
@@ -98,7 +98,7 @@
                                             style="width: 40%;" (keyup.enter)="loadData()" aria-label="stateName"
                                             placeholder="State Name"> -->
                                         <select class="form-select ms-1" style="line-height: 1.1rem;"
-                                            formControlName="stateName" (change)="loadData()"
+                                            formControlName="stateName" (change)="loadData('', 'search')"
                                             *ngIf="userData?.role != 'STATE'">
                                             <option selected value="" class="s-pl">All</option>
                                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}
@@ -118,7 +118,7 @@
                                             <span class="fa fa-search form-control-feedback"></span>
                                         </span> -->
                                         <select class="form-select ms-2" style="line-height: 1.1rem;"
-                                            formControlName="populationType" (change)="loadData()">
+                                            formControlName="populationType" (change)="loadData('', 'search')">
                                             <option selected value="" class="s-pl">All</option>
                                             <option *ngFor="let item of populationCategories" [value]="item._id">
                                                 {{item.name}}</option>
@@ -130,7 +130,7 @@
                                         <!-- <input type="text" formControlName="status" class="form-control in-se-s"
                                         (keyup.enter)="loadData()" aria-label="Status" placeholder="Status"> -->
                                         <select class="form-select ms-2" style="line-height: 1.1rem;"
-                                            formControlName="status" (change)="loadData()">
+                                            formControlName="status" (change)="loadData('', 'search')">
                                             <option selected value="" class="s-pl">All</option>
                                             <option *ngFor="let item of statusFilterList" [value]="item._id">
                                                 {{item.name}}</option>
@@ -145,6 +145,8 @@
                                         <option value="No">No</option>
                                     </select>
                                 </th> -->
+                                <th></th>
+                                <th></th>
                                 <th class="filter">
                                     <button class="btn btn-primary" (click)="resetFilter()">Reset</button>
                                 </th>
@@ -154,11 +156,11 @@
                         <tbody>
                             <tr *ngFor="let item of data | paginate
                             : {
-                              id: 'foo',
+                                id: 'foo',
                                 itemsPerPage: tableDefaultOptions.itemPerPage,
                                 currentPage: tableDefaultOptions.currentPage,
                                 totalItems: max(tableDefaultOptions.totalCount, this.listFetchOption.skip + this.tableDefaultOptions.itemPerPage)
-                              }; let tabelIndex=index">
+                            }; let tabelIndex=index">
                                 <td style="width: 5%;">{{isInfiniteScroll ? tabelIndex+1 :
                                     (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                     tabelIndex+1)}}</td>
@@ -166,6 +168,8 @@
                                 <td>{{item.censusCode}}</td>
                                 <td style="width: 11%;">{{item.stateName}}</td>
                                 <td>{{item.populationType}}</td>
+                                <td>{{item.ulbDataSubmitted}}%</td>
+                                <td>{{item.pmuVerificationProgress}}%</td>
                                 <td>{{item.formStatus}}</td>
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
                                 <!-- <p>{{ item | json }}</p> -->

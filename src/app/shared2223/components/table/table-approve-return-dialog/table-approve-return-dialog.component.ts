@@ -328,12 +328,12 @@ export class TableApproveReturnDialogComponent implements OnInit {
         console.log("post successful", res);
         swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
-        //temp commented for Prods
-        // if((this.data?.formId == 4 || this.data?.formId == 6 ||
-        //    this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
-        //    this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
-        //     this.sequentialReview(tempFormId);
-        //   }
+       // temp commented for Prods
+        if((this.data?.formId == 4 || this.data?.formId == 6 ||
+           this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
+           this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
+            this.sequentialReview(tempFormId);
+          }
         this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);
       },

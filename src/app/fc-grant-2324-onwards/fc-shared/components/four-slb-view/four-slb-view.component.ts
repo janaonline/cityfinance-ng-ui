@@ -1,20 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-four-slb',
-  templateUrl: './four-slb.component.html',
-  styleUrls: ['./four-slb.component.scss']
+  selector: 'app-four-slb-view',
+  templateUrl: './four-slb-view.component.html',
+  styleUrls: ['./four-slb-view.component.scss']
 })
-export class FourSlbComponent implements OnInit {
+export class FourSlbViewComponent implements OnInit {
 
-  constructor() {
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
-   }
-  nextRouter;
-  backRouter;
-  sideMenuItem;
-  response  = {
-    formName: 'SLBs for Water Supply and Sanitation',
+  constructor() { }
+  
+  @Input() data = {
+    formName: '',
     formId: '',
     status: '',
     title: '',
@@ -80,12 +76,20 @@ export class FourSlbComponent implements OnInit {
             "display_name": "Benchmark"
           },
           {
-            "key": "target2122",
-            "display_name": "Target <br> 2021-22"
+            "key": "achieved2122",
+            "display_name": "Achieved <br> 2021-22"
           },
           {
             "key": "target2223",
             "display_name": "Target <br> 2022-23"
+          },
+          {
+            "key": "achieved2223",
+            "display_name": "Achieved <br> 2022-23"
+          },
+          {
+            "key": "target2122",
+            "display_name": "Target <br> 2021-22"
           },
           {
             "key": "target2324",
@@ -96,23 +100,6 @@ export class FourSlbComponent implements OnInit {
             "display_name": "Target <br> 2024-25"
           },
           {
-            "key": "achieved2122",
-            "display_name": "Achieved <br> 2020-21"
-          },
-       
-          {
-            "key": "achieved2223",
-            "display_name": "Achieved <br> 2021-22"
-          },
-          {
-            "key": "actual2223",
-            "display_name": "Actual Indicator <br> 2022-23"
-          },
-          {
-            "key": "mou",
-            "display_name": "View MoU"
-          },
-          {
             "key": "wghtd_score",
             "display_name": "Weighted Score"
           },
@@ -121,20 +108,8 @@ export class FourSlbComponent implements OnInit {
       }
     ]
   }
-  ngOnInit(): void {
-    this.setRouter();
-  }
 
-  setRouter() {
-    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuULB"));
-    for (const key in this.sideMenuItem) {
-      this.sideMenuItem[key].forEach((element) => {
-        if (element?.name == "SLBs for Water Supply and Sanitation") {
-          this.nextRouter = element?.nextUrl;
-          this.backRouter = element?.prevUrl;
-        }
-      });
-    }
+  ngOnInit(): void {
   }
 
 }

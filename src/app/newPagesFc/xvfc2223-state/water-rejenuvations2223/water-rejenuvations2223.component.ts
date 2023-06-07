@@ -1643,7 +1643,7 @@ nextRouter = '';
     for (let index = 0; index < data?.uaData?.length; index++) {
       data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
-    data = {...data, waterIndicators : this.waterIndicators}
+    data = {...data, previewYear: '2022-23', waterIndicators : this.waterIndicators}
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,
       height: "80%",

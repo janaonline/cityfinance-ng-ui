@@ -61,6 +61,8 @@ export class ActionPlanComponent implements OnInit {
   sideMenuItem;
   finalActionData;
   designYear = '';
+  pendingStatus:string = "PENDING";
+  
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -132,18 +134,12 @@ export class ActionPlanComponent implements OnInit {
         this.showLoader = false;
         this.isApiInProgress = false;
         console.log(res["data"], "sss");
-        if (this.loggedInUserType !== "STATE") {
-          this.isDisabled = true
-        } else if (res?.data?.isDraft == false && this.loggedInUserType === "STATE") {
-          this.isDisabled = true
-        } else {
-          this.isDisabled = false;
-        }
+        this.getDisabledLogic(res);
         this.data = {
           state: res["data"]?.state,
           design_year: this.designYear,
           uaData: res["data"]?.uaData,
-          status: res["data"]?.status ?? "PENDING",
+          status: this.getStatus(res),
           isDraft: res["data"]?.isDraft,
           canTakeAction : res["data"]?.canTakeAction,
         };
@@ -268,6 +264,7 @@ export class ActionPlanComponent implements OnInit {
       if (type == 'isDraft') {
         this.reqBody = this.makeApiData(true);
         this.reqBody.isDraft = true;
+        this.reqBody.status = 2;
         this.postData();
       } else {
         // this.reqBody.isDraft = false;
@@ -277,7 +274,6 @@ export class ActionPlanComponent implements OnInit {
           swal("Missing Data !", `${this.errorMsg}`, "error");
           return;
         } else {
-          this.reqBody.isDraft = false;
           swal(
             "Confirmation !",
             `Are you sure you want to submit this form? Once submitted,
@@ -303,10 +299,13 @@ export class ActionPlanComponent implements OnInit {
           ).then((value) => {
             switch (value) {
               case "submit":
+                this.reqBody.isDraft = false;
+                this.reqBody.status = this.yearCode == '2022-23' ? this.pendingStatus : 4
                 this.postData();
                 break;
               case "draft":
                 this.reqBody.isDraft = true;
+                this.reqBody.status = this.yearCode == '2022-23' ? this.pendingStatus : 2
                 this.postData();
                 break;
               case "cancel":
@@ -336,8 +335,8 @@ export class ActionPlanComponent implements OnInit {
 
         this.newCommonService.setStateFormStatus2223.next(true);
         form.steps.actionPlans.isSubmit = !this.data.isDraft;
-        form.steps.actionPlans.status = "PENDING";
-        form.actionTakenByRole = "STATE";
+        // form.steps.actionPlans.status = "PENDING";
+        // form.actionTakenByRole = "STATE";
         //  this.stateformsService.allStatusStateForms.next(form);
       },
       (err) => {
@@ -359,7 +358,7 @@ export class ActionPlanComponent implements OnInit {
     if(type == 'save'){
       let len = this.data.uaData.length;
       for(let i=0; i < len; i++){
-        this.foldCard(i);
+        if(this.data.uaData[i].fold == false) this.foldCard(i);
       }
     }
   }
@@ -402,8 +401,8 @@ export class ActionPlanComponent implements OnInit {
       Uas.rejectReason = element?.rejectReason?.value ?? ''
       if (fromSave) {
         if (element.status === "REJECTED") {
-          Uas.status = "PENDING";
-          this.data.status = "PENDING";
+          Uas.status = this.pendingStatus;
+          this.data.status = this.pendingStatus;
         }
       }
       newUaData.push(Uas);
@@ -583,7 +582,39 @@ export class ActionPlanComponent implements OnInit {
       });
     }
   }
-
+  
+    getDisabledLogic(res) {
+      if (this.loggedInUserType !== "STATE") {
+        this.isDisabled = true;
+        return;
+      }
+    
+      switch (this.yearCode) {
+        case '2023-24':
+          if ([4, 6].includes(res?.data.statusId)) {
+            this.isDisabled = true;
+            return;
+          }
+          break;
+        default:
+          if (res?.data?.isDraft === false) {
+            this.isDisabled = true;
+            return;
+          }
+          break;
+      }
+    
+      this.isDisabled = false;
+    }
+  getStatus(res){
+    if(this.yearCode == '2022-23'){
+      return res["data"]?.status ?? this.pendingStatus;
+    }
+    if(this.yearCode == '2023-24'){
+      return res["data"]?.statusId ?? this.pendingStatus;
+    }
+  }
+  
 }
 
 const input = {
