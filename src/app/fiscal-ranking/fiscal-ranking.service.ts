@@ -53,7 +53,7 @@ export interface FormWiseData {
   rejected: number;
 }
 
-const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
+export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
 @Injectable({

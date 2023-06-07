@@ -359,10 +359,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     containerId: string
   ) {
 
-    if(containerId) {
+    if (containerId) {
       if (this.userUtil.getUserType() == USER_TYPE.STATE) {
         const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
-        if(preSelectedState) {
+        if (preSelectedState) {
           this.onSelectingStateFromDropDown(preSelectedState);
         }
       }
@@ -701,6 +701,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   private selectStateOnMap(state?: IState) {
+    console.log(state);
     if (this.previousStateLayer) {
       // this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;
@@ -798,7 +799,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     })
   }
 
+  loadStatePopup() {
+    setTimeout(() => {
+      if (this.stateselected) {
+        this.onCardClick.emit({
+          id: 'populationWise',
+          stateId: this.stateselected?._id,
+          stateName: this.stateselected?.name,
+          selectedCategory: this.selectedCategory
+        });
+      }
+    }, 500);
+  }
+
   cardClick(id: string) {
-    this.onCardClick.emit({id, selectedState: this.stateselected?._id, selectedCategory: this.selectedCategory});
+    this.onCardClick.emit({ id, selectedState: this.stateselected?._id, selectedCategory: this.selectedCategory });
   }
 }

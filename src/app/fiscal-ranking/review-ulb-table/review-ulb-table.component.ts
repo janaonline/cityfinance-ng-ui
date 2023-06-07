@@ -7,7 +7,7 @@ import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-servic
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FiscalRankingService, FormWiseData, MapData, Table } from '../fiscal-ranking.service';
+import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
 
 const tables: Table[] = [
   {
@@ -261,17 +261,15 @@ export class ReviewUlbTableComponent implements OnInit {
     return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress",].includes(item.value);
   }
 
-  onCardClick({ id, selectedState, selectedCategory }) {
+  onCardClick({ id, ...rest}) {
+    console.log('id,rest', id, rest);
     this.dialog.open(DashboardComponent, {
       id: 'DashboardComponent',
       autoFocus: false,
       // maxHeight: '90vh',
       data: {
         table: { ...tables?.find(table => table.id == id) },
-        queryParams: {
-          ...(selectedState && { selectedState }),
-          ...(selectedCategory && { selectedCategory }),
-        }
+        queryParams: removeFalsy(rest) || {}
       }
     });
   }
