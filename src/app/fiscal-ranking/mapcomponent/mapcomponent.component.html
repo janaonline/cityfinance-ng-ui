@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <a *ngIf="!isState" href="/rankings/populationWise?stateName=India" target="_blank" role="button" class="row mt-5 border p-4 rounded">
+    <a *ngIf="!isState" [href]="'/rankings/populationWise?stateName=India' + (selectedCategory ? '&selectedCategory=' + selectedCategory : '')" target="_blank" role="button" class="row mt-5 border p-4 rounded">
       See National level data
     </a>
   </div>
