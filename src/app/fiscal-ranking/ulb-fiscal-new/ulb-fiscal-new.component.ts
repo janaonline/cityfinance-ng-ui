@@ -137,7 +137,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.form.markAsPristine();
       this.isLoader = false;
       this.msgForLedgerUpdate = res?.data?.messages;
-      if (this.msgForLedgerUpdate) swal("Confirmation !", `${this.msgForLedgerUpdate?.join(', ')}`, "warning")
+      if (this.msgForLedgerUpdate?.length) swal("Confirmation !", `${this.msgForLedgerUpdate?.join(', ')}`, "warning")
     });
   }
 
