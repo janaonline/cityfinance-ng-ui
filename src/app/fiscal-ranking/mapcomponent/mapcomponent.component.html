@@ -76,7 +76,7 @@
       <div class="form-group col-md-4">
         <div class="input-group inp-grp">
           <form [formGroup]="myForm" class="w-100">
-            <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId"
+            <angular2-multiselect [ngClass]="{'pe-none': isState}" class="expo-drp-in" [data]="stateList" formControlName="stateId"
               [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)"
               (onDeSelect)="onSelectingStateFromDropDown(null)">
             </angular2-multiselect>
