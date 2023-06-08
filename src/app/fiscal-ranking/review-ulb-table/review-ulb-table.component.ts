@@ -107,12 +107,6 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   loadMapData(params = {}) {
-    console.log('loadMapdta', params)
-    if (this.userData?.role == USER_TYPE.STATE) {
-      params['state'] = this.userData?.state
-    }
-
-
     this.fiscalRankingService.getStateWiseForm(params).subscribe(res => {
       console.log('map', res);
       this.mapData = res?.data;
@@ -262,7 +256,7 @@ export class ReviewUlbTableComponent implements OnInit {
     this.loadData()
   }
   getSortIcon(item) {
-    return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress",].includes(item.value);
+    return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)",].includes(item.value);
   }
 
   onCardClick({ id, ...rest}) {
@@ -305,6 +299,6 @@ export class ReviewUlbTableComponent implements OnInit {
     { _id: "10", name: "Returned by PMU" },
     { _id: "11", name: "Submission Acknowledged by PMU" }
   ];
-  columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress", "Status", "Action"];
+  columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)", "Status", "Action"];
 }
 
