@@ -268,9 +268,9 @@ export class ReviewUlbTableComponent implements OnInit {
   onCardClick({ id, ...rest}) {
     console.log('id,rest', id, rest);
     this.dialog.open(DashboardComponent, {
-      id: 'DashboardComponent',
+      id: 'DashboardComponentModal',
       autoFocus: false,
-      // maxHeight: '90vh',
+      panelClass: 'table-dialog-container',
       data: {
         table: { ...tables?.find(table => table.id == id) },
         queryParams: removeFalsy(rest) || {}
