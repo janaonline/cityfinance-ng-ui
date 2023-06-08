@@ -2,7 +2,7 @@
 
 <div class="common-table container px-0" *ngIf="response">
     <div class="d-flex justify-content-between mt-4" style="background: white; position: sticky; top: 0;">
-        <h4 class="my-3">{{ response?.name }}</h4>
+        <h4 class="my-3">{{ response?.name }} <a [href]="response?.headerLink?.link" target="_blank" *ngIf="response?.headerLink"> - {{response?.headerLink?.label}}</a> </h4>
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
             [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator>
