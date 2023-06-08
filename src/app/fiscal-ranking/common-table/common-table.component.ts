@@ -7,6 +7,10 @@ export interface TableResponse {
   success?: boolean;
   message?: string;
   name: string;
+  headerLink: {
+    label: string;
+    link: string;
+  }
   getEndpoint?: string;
   postEndpoint?: string;
   data?: TableDataEntity[] | null;
