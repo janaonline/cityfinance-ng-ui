@@ -107,12 +107,6 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   loadMapData(params = {}) {
-    console.log('loadMapdta', params)
-    if (this.userData?.role == USER_TYPE.STATE) {
-      params['state'] = this.userData?.state
-    }
-
-
     this.fiscalRankingService.getStateWiseForm(params).subscribe(res => {
       console.log('map', res);
       this.mapData = res?.data;
