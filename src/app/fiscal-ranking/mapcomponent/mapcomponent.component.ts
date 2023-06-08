@@ -569,7 +569,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
         // this.stateList = res;
-        this.stateList = this._commonService.sortDataSource(res, "name");
+        this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
       },
       (error) => {
         console.log(error);
@@ -606,7 +606,9 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   resetFilter() {
     this.selectedCategory = '';
     this.selectedYear = "2020-21";
-    this.onSelectingStateFromDropDown("");
+    if(!this.isState) {
+      this.onSelectingStateFromDropDown({ _id: "", name: "India" });
+    }
     this.nationalInput = this.nationalInput;
     // this.getNationalLevelMapData(this.selectedYear);
     this.getStateWiseForm();
