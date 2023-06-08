@@ -5,7 +5,7 @@
     <h2 class="my-2">Dashboard</h2>
     <div role="button" (click)="cardClick('UlbActivities')" class="row mt-5 border p-4 rounded">
       <h4>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h4>
-      <div style="display: flex; height: 20px; width: 100%;">
+      <div class="d-flex w-100 p-0 rounded overflow-hidden" style="height: 20px;">
         <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.notStarted'></div>
         <div style="background-color: #193369 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.inProgress'></div>
         <div style="background-color:#38cdfa ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.submitted'></div>
@@ -29,7 +29,7 @@
 
     <div role="button" (click)="cardClick('PMUActivities')" class="row mt-5 border p-4 rounded">
       <h4>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h4>
-      <div style="display: flex; height: 20px; width: 100%;">
+      <div class="d-flex w-100 p-0 rounded overflow-hidden" style="height: 20px;">
         <div style="background-color: #e67e15 ;height: 20px !important;"
           [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.verificationNotStarted'>
         </div>
