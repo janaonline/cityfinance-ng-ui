@@ -684,7 +684,10 @@ export class AgGridComponent implements OnInit {
       suppressMovable: true,
     },
   ];
-
+  gridOptions = {
+    singleClickEdit: true,
+    stopEditingWhenGridLosesFocus: true,
+  }
   ngOnInit(): void {
     if (this.isDisabled) {
       this.project.forEach((element) => {
@@ -1013,6 +1016,9 @@ export class AgGridComponent implements OnInit {
     console.log('last', this.rowData);
     this.gridData.emit(this.rowData);
   }
+ 
+  
+
 }
 
 const fundAutoFill = ["XV_FC", "Other"];

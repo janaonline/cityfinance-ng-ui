@@ -326,8 +326,8 @@ export class ActionPlanComponent implements OnInit {
         } else {
           swal("Saved", "Data saved successfully.", "success");
           this.isDisabled = true;
-          this.getUlbNames();
         }
+        this.getUlbNames();
         sessionStorage.setItem("changeInActionPlans", "false");
         const form = JSON.parse(
           sessionStorage.getItem("allStatusStateForms")
