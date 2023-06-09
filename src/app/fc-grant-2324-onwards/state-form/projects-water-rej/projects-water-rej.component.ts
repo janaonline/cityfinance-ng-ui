@@ -129,7 +129,7 @@ export class ProjectsWaterRejComponent implements OnInit {
 waterRejRes = {
  formId: '',
  status: '',
- formName: 'Projects for Water and Sanitation',
+ formName: 'Projects for Water Supply and Sanitation',
  tables: [
     {
       tableName:'Fill Details of Project for Rejuvenation of Water Bodies',
