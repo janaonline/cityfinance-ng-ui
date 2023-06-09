@@ -7,6 +7,10 @@ export interface TableResponse {
   success?: boolean;
   message?: string;
   name: string;
+  headerLink: {
+    label: string;
+    link: string;
+  }
   getEndpoint?: string;
   postEndpoint?: string;
   data?: TableDataEntity[] | null;
@@ -17,7 +21,7 @@ export interface TableResponse {
 }
 
 export interface TableDataEntity {
-  [key: string]: number | string;
+  [key: string]: number | string | boolean;
 }
 
 export interface TableColumnsEntity {

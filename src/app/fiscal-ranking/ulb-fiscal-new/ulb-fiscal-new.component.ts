@@ -53,7 +53,7 @@ export class UlbFiscalNewComponent implements OnInit {
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
-
+  msgForLedgerUpdate: string[] = [];
   constructor(
     private fb: FormBuilder,
     public fiscalService: FiscalRankingService,
@@ -136,6 +136,8 @@ export class UlbFiscalNewComponent implements OnInit {
       this.addSubtractLogics();
       this.form.markAsPristine();
       this.isLoader = false;
+      this.msgForLedgerUpdate = res?.data?.messages;
+      if (this.msgForLedgerUpdate?.length) swal("Confirmation !", `${this.msgForLedgerUpdate?.join(', ')}`, "warning")
     });
   }
 
@@ -155,11 +157,11 @@ export class UlbFiscalNewComponent implements OnInit {
         else if (tab.id == this.selfDeclarationTabId) {
           obj[key] = this.fb.group({
             uploading: [{ value: false, disabled: true }],
-            name: [item.name, item.required ? Validators.required : null],
-            readonly: [{ value: item.readonly, disabled: true}],
+            name: [item.name, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
+            readonly: [{ value: item.readonly, disabled: true }],
             status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
             rejectReason: item?.rejectReason,
-            url: [item.url, item.required ? Validators.required : null],
+            url: [item.url, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
           });
           this.attactRequiredReasonToggler(obj[key]);
         }
@@ -205,7 +207,7 @@ export class UlbFiscalNewComponent implements OnInit {
       previousYearCodes: [{ value: item.previousYearCodes, disabled: true }],
       min: [{ value: new Date(item?.min), disabled: true }],
       max: [{ value: new Date(item?.max), disabled: true }],
-      date: [item.date, item.formFieldType == 'date' && item.required ? [Validators.required] : []],
+      date: [item.date, this.userData?.role == USER_TYPE.ULB && item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
@@ -220,8 +222,8 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(item.file && {
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
-          name: [item.file.name, item.required ? [Validators.required] : []],
-          url: [item.file.url, item.required ? [Validators.required] : []]
+          name: [item.file.name, this.userData?.role == USER_TYPE.ULB && item.required ? [Validators.required] : []],
+          url: [item.file.url, this.userData?.role == USER_TYPE.ULB && item.required ? [Validators.required] : []]
         })
       })
     });
@@ -244,6 +246,7 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   getValidators(item, canApplyRequired = false, parent?) {
+    if (this.userData?.role != USER_TYPE.ULB) return [];
     return [
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
@@ -471,7 +474,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       console.log({ control, sumable, yearValues, sumableYearValues });
     })
-    
+
     if (this.form.status === 'INVALID') {
       console.log(this.form);
       const invalidIndex = this.form.controls.findIndex(control => control.status === 'INVALID');
@@ -487,7 +490,7 @@ export class UlbFiscalNewComponent implements OnInit {
   finalSubmitConfirmation() {
     swal(
       "Confirmation !",
-      this.loggedInUserType == this.userTypes.PMU ? 'Are you sure you want to submit this form?' :
+      this.loggedInUserType == this.userTypes.PMU ? `${this.msgForLedgerUpdate?.join(', ')}, Are you sure you want to submit this form?` :
         `Are you sure you want to submit this form? Once submitted,
      it will become uneditable and will be sent to MoHUA for Review.
       Alternatively, you can save as draft for now and submit it later.`,
@@ -519,8 +522,8 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getCurrentFormStatus(isDraft: boolean) {
     if (this.userData.role == this.userTypes.ULB) return isDraft
-    ? (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.returnedByPMU : StatusType.inProgress)
-    : (this.currentFormStatus == StatusType.returnedByPMU ? StatusType.verificationInProgress : StatusType.verificationNotStarted);
+      ? StatusType.inProgress
+      : StatusType.verificationInProgress;
     if (this.userData.role == this.userTypes.PMU) return isDraft ? 9 : 11; // TODO: by backend set status 10 if rejected
   }
 

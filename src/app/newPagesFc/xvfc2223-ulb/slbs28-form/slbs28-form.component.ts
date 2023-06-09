@@ -646,7 +646,8 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
         this.newCommonService.setFormStatus2223.next(true);
-      //  if(actionBody?.status == 'REJECTED' && this.ulbData?.role == 'MoHUA') this.sequentialReview();
+     //   commented for prods
+    //    if(actionBody?.status == 'REJECTED' && this.ulbData?.role == 'MoHUA') this.sequentialReview();
         swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {

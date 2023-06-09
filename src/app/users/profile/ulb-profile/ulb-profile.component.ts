@@ -304,7 +304,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       }
 
       this.disableNonEditableFields(
-        this.editable && this.loggedInUserType === USER_TYPE.ULB
+        this.editable && (this.loggedInUserType === USER_TYPE.ULB || this.loggedInUserType === USER_TYPE.STATE)
       );
     }
   }
@@ -329,7 +329,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   private disableNonEditableFields(all = true) {
     this.profile.controls.state.disable();
 
-    if (this.loggedInUserType === USER_TYPE.ULB || all) {
+    if (this.loggedInUserType === USER_TYPE.ULB || all || this.loggedInUserType === USER_TYPE.STATE) {
       (<FormGroup>this.profile.controls.ulb).controls.censusCode.disable();
       (<FormGroup>this.profile.controls.ulb).controls.ulbType.disable();
       (<FormGroup>this.profile.controls.ulb).controls.sbCode.disable();

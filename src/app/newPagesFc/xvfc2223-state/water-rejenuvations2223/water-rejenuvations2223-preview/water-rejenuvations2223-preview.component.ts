@@ -101,11 +101,11 @@ export class WaterRejenuvations2223PreviewComponent implements OnInit, OnDestroy
     }
 
     table thead th {
-      font-size: .5rem
+      font-size: .4rem
     }
 
     table tbody td, li {
-      font-size: .5rem
+      font-size: .4rem
     }
 
     .td-width {
@@ -183,6 +183,9 @@ width: 25%
 .u-a-a {
   display: inline-block;
   width: 75%
+  }
+  .m-t {
+    margin-top : .5rem !important;
   }
   </style>`;
   @ViewChild("waterRe") _html: ElementRef;
@@ -326,5 +329,9 @@ width: 25%
     } else if (!this.data.isDraft) {
       this.status = "Completed but Not Submitted";
     }
+  }
+  getLineItem(id){
+    //console.log('aaaa',this.data?.waterIndicators?.find(x => x.lineItemId == id));
+   return (this.data?.waterIndicators?.find(x => x.lineItemId == id))?.name;
   }
 }

@@ -43,6 +43,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
    this.getUAList();
    this.setRouter();
+   this.pendingStatus = '2'
   }
   
 

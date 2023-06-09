@@ -20,6 +20,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
 import { ButtonRendererComponent } from "src/app/newPagesFc/xvfc2223-state/action-plan/delete-btn";
 
+
 @Component({
   selector: 'app-ag-grid',
   templateUrl: './ag-grid.component.html',
@@ -67,7 +68,7 @@ export class AgGridComponent implements OnInit {
         params.data["index"].value != null ? params.data["index"].value : "",
       headerName: "S No",
       pinned: true,
-      width: 50,
+      width: 70,
       field: "index",
       rowDrag: false,
     },
@@ -683,7 +684,7 @@ export class AgGridComponent implements OnInit {
       suppressMovable: true,
     },
   ];
-
+  gridOptions: object;
   ngOnInit(): void {
     if (this.isDisabled) {
       this.project.forEach((element) => {
@@ -695,7 +696,7 @@ export class AgGridComponent implements OnInit {
       this.year.forEach((element) => {
         element.editable = false;
       });
-
+      
     }
     this.rowData.projectExecute.forEach((element) => {
       if (element.Executing_Agency.value == "Parastatal Agency") {
@@ -728,6 +729,11 @@ export class AgGridComponent implements OnInit {
       customTooltip: CustomTooltipComponent,
       btnCellRenderer: ButtonRendererComponent
     };
+
+    this.gridOptions = {
+      singleClickEdit: true,
+      stopEditingWhenGridLosesFocus: true,
+    }
   }
 
   cellValueChanged(e) {
@@ -776,6 +782,7 @@ export class AgGridComponent implements OnInit {
 
   onGridReady(params) {
     // params.api.sizeColumnsToFit();
+   
   }
 
   fundValueChanges(e) {
@@ -838,27 +845,32 @@ export class AgGridComponent implements OnInit {
   }
 
   autoSetNames(e, fromFund = null) {
+    console.log('eee', e);
+    console.log('eee fff', fromFund);
     if (fromFund) {
       this.rowData.yearOutlay[e.rowIndex]["Amount"].value = e.value;
-      if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value == "") {
+      if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value === "") {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
-        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
-          100
-        ).toPrecision(2);
+        let cost = +(this.rowData.yearOutlay[e.rowIndex]["Cost"].value);
+        let value = +(e.value);
+      
+        let percentFund = ((value / cost) * 100).toPrecision(2);
+        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = Number(percentFund);
+      
         if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
-          this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
-            (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
-            100
-          ).toPrecision(2);
+          this.rowData.yearOutlay[e.rowIndex]["Funding"].value = Number(percentFund);
         }
       }
       this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
     } else {
       this.rowData.sourceFund[e.rowIndex][e.colDef.field].value = e.value;
+      if(e?.newValue != e?.oldValue)  this.rowData.sourceFund[e.rowIndex]["Total"].lastValidation = this.rowData.sourceFund[e.rowIndex]["Total"].value;
+      this.agGrid2.api.refreshCells({ columns: ["Total"] });
+      this.gridData.emit(this.rowData);
       this.agGrid2.api.applyTransaction({ update: this.rowData.sourceFund });
       this.rowData.yearOutlay[e.rowIndex][e.colDef.field].value = e.value;
+     // if(e?.newValue != e?.oldValue) this.rowData.sourceFund[e.rowIndex].Total.lastValidation = false;
       this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
     }
   }
@@ -1006,6 +1018,9 @@ export class AgGridComponent implements OnInit {
     console.log('last', this.rowData);
     this.gridData.emit(this.rowData);
   }
+ 
+  
+
 }
 
 const fundAutoFill = ["XV_FC", "Other"];
@@ -1091,7 +1106,7 @@ const name = (x) => {
 
 const number = (x, params) => {
   x = Number(parseFloat(x).toFixed(3));
-  if (!isNaN(x) && x >= 0 && x < 999999999) {
+  if (!isNaN(x) && x >= 0 && x < 1000000000) {
     if (params.colDef.field == "Cost") return true;
     return x / 100 <= params.data.Cost.value;
   }

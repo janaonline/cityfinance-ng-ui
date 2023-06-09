@@ -1,6 +1,6 @@
 <div class="container-fluid mb-3" style="" *ngIf="!isApiInProgress">
     <!-- heading and drop down -->
-    <div class="row mt-2">
+    <div class="row mt-2" *ngIf="claimsGrantJson?.formName">
         <div class="col-sm-12 form-header">
             {{claimsGrantJson?.formName}}
         </div>

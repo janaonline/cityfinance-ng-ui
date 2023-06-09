@@ -41,3 +41,8 @@
         }
     }
 }
+
+::ng-deep #DashboardComponentModal {
+    max-height: 80vh;
+    padding-top: 0;
+}
