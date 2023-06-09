@@ -3,7 +3,7 @@
         <div class="col-sm-12"> -->
             <div class="table-responsive table-con">
               <!-- table type is basically used for UI coloring and some styles -->
-                <table class="table" [ngClass]="data?.tableType" *ngFor="let table of data?.tables">
+                <table class="table" [ngClass]="table?.tableType" *ngFor="let table of data?.tables">
                   <thead>
                     <tr>
                       <th
