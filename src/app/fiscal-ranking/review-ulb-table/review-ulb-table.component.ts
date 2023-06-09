@@ -7,7 +7,7 @@ import { State2223Service } from 'src/app/newPagesFc/xvfc2223-state/state-servic
 import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { FiscalRankingService, FormWiseData, MapData, Table } from '../fiscal-ranking.service';
+import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
 
 const tables: Table[] = [
   {
@@ -51,7 +51,7 @@ export class ReviewUlbTableComponent implements OnInit {
   isLoader: boolean = false;
   max = Math.max;
   csvType = 'csvFROverall';
-  notFoundMessage:String = 'No Data Found ...'
+  notFoundMessage: String = 'No Data Found ...'
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -107,12 +107,6 @@ export class ReviewUlbTableComponent implements OnInit {
   }
 
   loadMapData(params = {}) {
-    console.log('loadMapdta', params)
-    if(this.userData?.role == USER_TYPE.STATE) {
-      params['state'] = this.userData?.state
-    }
-
-
     this.fiscalRankingService.getStateWiseForm(params).subscribe(res => {
       console.log('map', res);
       this.mapData = res?.data;
@@ -262,23 +256,24 @@ export class ReviewUlbTableComponent implements OnInit {
     this.loadData()
   }
   getSortIcon(item) {
-    return ["ULB Name", "State Name","ULB Data Submitted (%)", "PMU Verification Progress",].includes(item.value);
+    return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)",].includes(item.value);
   }
 
-  onCardClick({id, selectedState}) {
+  onCardClick({ id, ...rest}) {
+    console.log('id,rest', id, rest);
     this.dialog.open(DashboardComponent, {
-      id: 'DashboardComponent',
+      id: 'DashboardComponentModal',
       autoFocus: false,
-      // maxHeight: '90vh',
+      panelClass: 'table-dialog-container',
       data: {
-        table:  {...tables?.find(table => table.id == id)},
-        queryParams: selectedState ? { selectedState } : {}
+        table: { ...tables?.find(table => table.id == id) },
+        queryParams: removeFalsy(rest) || {}
       }
     });
   }
 
-  onStateChange({state, category}) {
-    this.loadMapData({ state, category});
+  onStateChange({ state, category }) {
+    this.loadMapData({ state, category });
   }
 
   get modifiedColumns() {
@@ -304,6 +299,6 @@ export class ReviewUlbTableComponent implements OnInit {
     { _id: "10", name: "Returned by PMU" },
     { _id: "11", name: "Submission Acknowledged by PMU" }
   ];
-  columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress", "Status", "Action"];
+  columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)", "Status", "Action"];
 }
 
