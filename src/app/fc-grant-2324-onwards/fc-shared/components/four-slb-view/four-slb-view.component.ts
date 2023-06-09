@@ -14,9 +14,9 @@ export class FourSlbViewComponent implements OnInit {
     formId: '',
     status: '',
     title: '',
-    tableType: 'four-slb',
     tables: [
       {
+        tableType: 'four-slb',
         "rows": [
           {
             serviceLevelIndicators: 'Water supplied in litre per capita per day(lpcd)',
@@ -110,6 +110,7 @@ export class FourSlbViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('table data..', this.data);
   }
 
 }
