@@ -25,7 +25,7 @@ export class IndicatorsWssComponent implements OnInit {
     statusId: '',
     info: 'The below tables denotes the aggregate indicators and targets of ULBs in respective UA',
     previousYrMsg: '',
-    data: {
+   data: {
       indicators_wss : {
         title: 'Indicators for Water Supply and Sanitation(A)',
         key: 'indicators_wss',
@@ -292,7 +292,7 @@ export class IndicatorsWssComponent implements OnInit {
            value: '100'
         }
       }
-    }
+   }
   }
 
   performanceAssesmentTable = {
@@ -344,6 +344,7 @@ export class IndicatorsWssComponent implements OnInit {
   stateId:string='';
   uasList: any;
   isCollapsed: boolean[] = [];
+  noDataFound:boolean = false;
   userData = JSON.parse(localStorage.getItem("userData"));
   Year = JSON.parse(localStorage.getItem("Years"));
   ngOnInit(): void {
@@ -376,44 +377,22 @@ export class IndicatorsWssComponent implements OnInit {
     console.log(ua_id)
     let params = {
       ua: ua_id,
-      design_year: this.Year["2022-23"]
+      design_year: this.Year["2023-24"]
     }
-//  //   this.commonServices.getWaterSupplyData(params).subscribe(
-//   //    (res: any) => {
-//         // this.getData = res['data']
-//         // this.gfcScoreRoundOff = parseFloat(this.getData?.gfc?.score).toFixed(2)
-//         // this.odfScoreRoundOff = parseFloat(this.getData?.odf?.score).toFixed(2)
-//         // this.combinedActualTarget = this.targetActual
-//         // this.getTotalWeightedScore();
-//         // this.setRowData();
-//         // this.odfGfcTotalScore = this.getData?.odf.score + this.getData?.gfc.score
-//         // this.odfGfcTotalScore = parseFloat(this.odfGfcTotalScore).toFixed(2)
-//         // this.checkScore();
-//         // this.parseWeightedScore();
-//         // this.totalAplusB =parseFloat(this.totalWeightedScore) + parseFloat(this.odfGfcTotalScore)
-//         // res?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false
-//         // if(this.noDataFound){
-//         //   swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
-//         // }
-//   //    },
-//   //    (err) => {
-//        // this.getData = null;  // this.getData = res['data']
-//         // this.gfcScoreRoundOff = parseFloat(this.getData?.gfc?.score).toFixed(2)
-//         // this.odfScoreRoundOff = parseFloat(this.getData?.odf?.score).toFixed(2)
-//         // this.combinedActualTarget = this.targetActual
-//         // this.getTotalWeightedScore();
-//         // this.setRowData();
-//         // this.odfGfcTotalScore = this.getData?.odf.score + this.getData?.gfc.score
-//         // this.odfGfcTotalScore = parseFloat(this.odfGfcTotalScore).toFixed(2)
-//         // this.checkScore();
-//         // this.parseWeightedScore();
-//         // this.totalAplusB =parseFloat(this.totalWeightedScore) + parseFloat(this.odfGfcTotalScore)
-//         // res?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false
-//         // if(this.noDataFound){
-//         //   swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
-//         // }
-//       }
-//     )
+   this.commonServices.formGetMethod('UA/get2223', params).subscribe(
+     (res: any) => {
+      console.log('aaaaa', res);
+     // this.noDataFound = false;
+      this.response.data = res?.data?.data;
+     },
+     (err) => {
+      console.log('aaaaa', err);
+      err?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false;
+        if(this.noDataFound){
+        //  swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
+        }
+      }
+    )
     this.isCollapsed[index] = !this.isCollapsed[index];
     console.log(this.isCollapsed.length, this.uasList);
 
