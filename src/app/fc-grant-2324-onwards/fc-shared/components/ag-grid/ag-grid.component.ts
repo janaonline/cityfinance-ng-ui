@@ -684,10 +684,7 @@ export class AgGridComponent implements OnInit {
       suppressMovable: true,
     },
   ];
-  gridOptions = {
-    singleClickEdit: true,
-    stopEditingWhenGridLosesFocus: true,
-  }
+  gridOptions: object;
   ngOnInit(): void {
     if (this.isDisabled) {
       this.project.forEach((element) => {
@@ -699,7 +696,7 @@ export class AgGridComponent implements OnInit {
       this.year.forEach((element) => {
         element.editable = false;
       });
-
+      
     }
     this.rowData.projectExecute.forEach((element) => {
       if (element.Executing_Agency.value == "Parastatal Agency") {
@@ -732,6 +729,11 @@ export class AgGridComponent implements OnInit {
       customTooltip: CustomTooltipComponent,
       btnCellRenderer: ButtonRendererComponent
     };
+
+    this.gridOptions = {
+      singleClickEdit: true,
+      stopEditingWhenGridLosesFocus: true,
+    }
   }
 
   cellValueChanged(e) {
@@ -780,6 +782,7 @@ export class AgGridComponent implements OnInit {
 
   onGridReady(params) {
     // params.api.sizeColumnsToFit();
+   
   }
 
   fundValueChanges(e) {
@@ -846,18 +849,17 @@ export class AgGridComponent implements OnInit {
     console.log('eee fff', fromFund);
     if (fromFund) {
       this.rowData.yearOutlay[e.rowIndex]["Amount"].value = e.value;
-      if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value == "") {
+      if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value === "") {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
-        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
-          100
-        ).toPrecision(2);
+        let cost = +(this.rowData.yearOutlay[e.rowIndex]["Cost"].value);
+        let value = +(e.value);
+      
+        let percentFund = ((value / cost) * 100).toPrecision(2);
+        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = Number(percentFund);
+      
         if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
-          this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
-            (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
-            100
-          ).toPrecision(2);
+          this.rowData.yearOutlay[e.rowIndex]["Funding"].value = Number(percentFund);
         }
       }
       this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
