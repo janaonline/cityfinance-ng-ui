@@ -1,5 +1,8 @@
+import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
 import { GtcService } from './gtc.service';
@@ -21,6 +24,8 @@ export class GtcComponent implements OnInit {
   constructor(
     private gtcService: GtcService,
     private dialog: MatDialog,
+    private loaderService: GlobalLoaderService,
+    private dataEntryService: DataEntryService,
   ) { }
 
   get design_year() {
@@ -34,15 +39,65 @@ export class GtcComponent implements OnInit {
 
   }
 
+  get uploadFolderName() {
+    return `${this.userData?.role}/2023-24/gtc/${this.userData?.state}`
+  }
+
   ngOnInit(): void {
     this.getBaseForm();
   }
 
   getBaseForm() {
+    this.loaderService.showLoader();
     this.gtcService.getBaseForm(this.stateId, this.design_year).subscribe((res: any) => {
       console.log(res);
       this.baseForm = res.data;
+      this.loaderService.stopLoader();
+    }, err => {
+      this.loaderService.stopLoader();
     })
+  }
+
+
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, question: any, reset: boolean = false) {
+    console.log({ event, fileType })
+    if (reset) {
+      question.file = {
+        name: '',
+        url: ''
+      };
+      return;
+    } 
+    const maxFileSize = 5;
+    const excelFileExtensions = ['xls', 'xlsx'];
+    const file: File = event.target.files[0];
+    if (!file) return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
+    }
+    const fileExtension = file.name.split('.').pop();
+
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
+    if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
+    this.loaderService.showLoader();
+    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
+      const { url, file_url } = s3Response.data[0];
+      this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
+        if (res.type !== HttpEventType.Response) return;
+        question.file = {
+          name: file.name,
+          url: file_url
+        };
+        console.log(question);
+        this.loaderService.stopLoader();
+      });
+    }, err => {
+      this.loaderService.stopLoader();
+      console.log(err)
+    });
   }
 
   onPreview() {
@@ -115,9 +170,10 @@ export class GtcComponent implements OnInit {
       if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
     }
 
+    this.loaderService.showLoader();
     this.gtcService.postForm(payload).subscribe(res => {
       // this.webForm.hasUnsavedChanges = false;
-      // this.loaderService.stopLoader();
+      this.loaderService.stopLoader();
       // this.commonServices.setFormStatusUlb.next(true);
       // this.isFormFinalSubmit = true;
       // if (!isDraft) {
@@ -126,7 +182,7 @@ export class GtcComponent implements OnInit {
       // swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
-      // this.loaderService.stopLoader();
+      this.loaderService.stopLoader();
       if (Array.isArray(error?.message)) {
         error.message = error.message.join('\n\n');
       }

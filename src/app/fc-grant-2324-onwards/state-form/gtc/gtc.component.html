@@ -31,11 +31,37 @@
                                 {{question?.instlText}}
                             </div>
                             <div class="row mt-2">
-                                <div class="col-sm-7 q-h">
+                                <div class="col-sm-10 q-h">
                                     {{question?.question}}
                                 </div>
-
+                                <div class="col-sm-2">
+                                    <div class="col-sm-12 mb-3">
+                                        <button (click)="bs_pdf1.click()" class="btn border w-100">
+                                            <div class="row">
+                                                <div class="col-sm-6 file-text ">
+                                                    File
+                                                </div>
+                                                <div class="col-sm-6 text-end">
+                                                    <img src="/assets/circle/cloud_upload_black_24dp.svg">
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                                            (change)="uploadFile($event, 'pdf', question)" type="file" accept=".pdf"
+                                            #file>
+                                    </div>
+                                    <div class="col-sm-12 com-style f-w mt-1" *ngIf="question?.file?.url">
+                                        <a class="w-90" href="{{question?.file?.url}}"
+                                            target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
+                                            </mat-icon></a>
+                                        <a href="{{question?.file?.url}}" target="_blank"
+                                            (click)="uploadFile($event, 'pdf', question, true)" class="w-10">
+                                            <img src="/assets/form-icon/close_black_24dp.svg">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
+
                             <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'dur'"
                                 (submitQuestion)="onSubmit($event, question)" [isButtonDisplay]="true"
                                 *ngIf="question.questionresponse" [questionresponse]="question.questionresponse">
