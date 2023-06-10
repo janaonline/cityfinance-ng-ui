@@ -12,7 +12,7 @@ const staticResponse = {
       "isQuestionDisabled": false,
       "language": [
         {
-          "_id": "643d240f778e1e02c7ee75e9",
+          "_id": "648426f6d0de6828e7c54186",
           "lng": "en",
           "question": [
             {
@@ -28,12 +28,17 @@ const staticResponse = {
                 }
               ],
               "title": "GTC Digitalization Form (For each of the 5 tabs of 2023-24)",
+              "hint": "",
+              "resource_urls": [],
+              "label": "1",
+              "shortKey": "basic",
+              "viewSequence": "1",
               "childQuestionData": [
                 [
                   {
                     "information": "",
-                    "_id": "643f8e66c93c81645b9fbe2f",
-                    "order": "1.005",
+                    "_id": "64842637d0de6828e7c540aa",
+                    "order": "1.008",
                     "answer_option": [
                       {
                         "name": "2022-23",
@@ -58,15 +63,19 @@ const staticResponse = {
                     "parent": [],
                     "validation": [
                       {
-                        "error_msg": "",
-                        "_id": "1"
+                        "_id": "3",
+                        "error_msg": ""
+                      },
+                      {
+                        "_id": "184",
+                        "error_msg": ""
                       }
                     ],
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": true,
-                    "value": "1",
+                    "isQuestionDisabled": false,
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -80,28 +89,17 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "1",
-                    "isSelectValue": true,
-                    "previousValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "2022-23",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": "2022-23",
+                          "label": "",
                           "textValue": "",
-                          "value": "1"
+                          "value": ""
                         }
                       ],
                       "input_type": "3",
                       "nestedAnswer": [],
-                      "order": "1.005",
+                      "order": "1.008",
                       "shortKey": "year"
                     }
                   },
@@ -140,8 +138,8 @@ const staticResponse = {
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": true,
-                    "value": "1",
+                    "isQuestionDisabled": false,
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -155,23 +153,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "1",
-                    "isSelectValue": true,
-                    "previousValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "MPC",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": "MPC",
+                          "label": "",
                           "textValue": "",
-                          "value": "1"
+                          "value": ""
                         }
                       ],
                       "input_type": "3",
@@ -215,8 +202,8 @@ const staticResponse = {
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": true,
-                    "value": "1",
+                    "isQuestionDisabled": false,
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -230,23 +217,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "1",
-                    "isSelectValue": true,
-                    "previousValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": " Tied",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": " Tied",
+                          "label": "",
                           "textValue": "",
-                          "value": "1"
+                          "value": ""
                         }
                       ],
                       "input_type": "3",
@@ -257,8 +233,8 @@ const staticResponse = {
                   },
                   {
                     "information": "",
-                    "_id": "643f8faff8e5d564560e8c17",
-                    "order": "1.004",
+                    "_id": "648426bcd8374d28f31b6486",
+                    "order": "1.009",
                     "answer_option": [
                       {
                         "name": "1st Installment",
@@ -273,25 +249,29 @@ const staticResponse = {
                         "_id": "2"
                       }
                     ],
-                    "title": "Installment Type",
+                    "title": "Installment type",
                     "hint": "",
                     "resource_urls": [],
                     "label": "",
-                    "shortKey": "installment_type",
+                    "shortKey": "installmenttype",
                     "viewSequence": "5",
                     "child": [],
                     "parent": [],
                     "validation": [
                       {
-                        "error_msg": "",
-                        "_id": "1"
+                        "_id": "184",
+                        "error_msg": ""
+                      },
+                      {
+                        "_id": "1",
+                        "error_msg": ""
                       }
                     ],
                     "restrictions": [],
                     "input_type": "3",
                     "weightage": [],
-                    "isQuestionDisabled": true,
-                    "value": "2",
+                    "isQuestionDisabled": false,
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "3",
@@ -305,47 +285,22 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "2",
-                    "isSelectValue": true,
-                    "previousValue": "2",
-                    "selectedValue": [
-                      {
-                        "label": "2nd Installment",
-                        "textValue": "",
-                        "value": "2"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
-                          "label": "2nd Installment",
+                          "label": "",
                           "textValue": "",
-                          "value": "2"
+                          "value": ""
                         }
                       ],
                       "input_type": "3",
                       "nestedAnswer": [],
-                      "order": "1.004",
-                      "shortKey": "installment_type"
+                      "order": "1.009",
+                      "shortKey": "installmenttype"
                     }
                   }
                 ]
               ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
-              ],
-              "hint": "",
-              "resource_urls": [],
-              "label": "1",
-              "shortKey": "basic",
-              "viewSequence": "1",
               "child": [],
               "parent": [],
               "validation": [],
@@ -373,7 +328,6 @@ const staticResponse = {
                 }
               ],
               "title": "Type of ULB",
-
               "hint": "",
               "resource_urls": [],
               "label": "2",
@@ -429,44 +383,8 @@ const staticResponse = {
             },
             {
               "information": "",
-              "_id": "643f8faff8e5d564560e8c17",
-              "order": "1.004",
-              "answer_option": [
-                {
-                  "name": "1st Installment",
-                  "did": [],
-                  "viewSequence": "1",
-                  "_id": "1"
-                },
-                {
-                  "name": "2nd Installment",
-                  "did": [],
-                  "viewSequence": "2",
-                  "_id": "2"
-                }
-              ],
-              "title": "Installment Type",
-              "hint": "",
-              "resource_urls": [],
-              "label": "",
-              "shortKey": "installment_type",
-              "viewSequence": "5",
-              "child": [],
-              "parent": [],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "input_type": "3",
-              "weightage": []
-            },
-            {
-              "information": "",
-              "_id": "643f8e66c93c81645b9fbe2f",
-              "order": "1.005",
+              "_id": "64842637d0de6828e7c540aa",
+              "order": "1.008",
               "answer_option": [
                 {
                   "name": "2022-23",
@@ -491,8 +409,52 @@ const staticResponse = {
               "parent": [],
               "validation": [
                 {
-                  "error_msg": "",
+                  "_id": "3",
+                  "error_msg": ""
+                },
+                {
+                  "_id": "184",
+                  "error_msg": ""
+                }
+              ],
+              "restrictions": [],
+              "input_type": "3",
+              "weightage": []
+            },
+            {
+              "information": "",
+              "_id": "648426bcd8374d28f31b6486",
+              "order": "1.009",
+              "answer_option": [
+                {
+                  "name": "1st Installment",
+                  "did": [],
+                  "viewSequence": "1",
                   "_id": "1"
+                },
+                {
+                  "name": "2nd Installment",
+                  "did": [],
+                  "viewSequence": "2",
+                  "_id": "2"
+                }
+              ],
+              "title": "Installment type",
+              "hint": "",
+              "resource_urls": [],
+              "label": "",
+              "shortKey": "installmenttype",
+              "viewSequence": "5",
+              "child": [],
+              "parent": [],
+              "validation": [
+                {
+                  "_id": "184",
+                  "error_msg": ""
+                },
+                {
+                  "_id": "1",
+                  "error_msg": ""
                 }
               ],
               "restrictions": [],
@@ -540,12 +502,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 1000,
+                    "min": 1,
+                    "max": 4,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "985",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -559,23 +523,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "985",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "985"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "985"
+                          "value": ""
                         }
                       ],
                       "input_type": "2",
@@ -611,12 +564,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 1000,
+                    "min": 1,
+                    "max": 4,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "55",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -630,23 +585,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "55",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "55"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "55"
+                          "value": ""
                         }
                       ],
                       "input_type": "2",
@@ -682,12 +626,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 1000,
+                    "min": 1,
+                    "max": 4,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "23",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -701,23 +647,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "23",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "23"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "23"
+                          "value": ""
                         }
                       ],
                       "input_type": "2",
@@ -753,12 +688,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 1000,
+                    "min": 1,
+                    "max": 4,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "78",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -772,23 +709,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "78",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "78"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "78"
+                          "value": ""
                         }
                       ],
                       "input_type": "2",
@@ -799,15 +725,6 @@ const staticResponse = {
                     }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
@@ -833,7 +750,6 @@ const staticResponse = {
               "order": "2.001",
               "answer_option": [],
               "title": "Total No: Of MPCs",
-
               "hint": "",
               "resource_urls": [],
               "label": "1",
@@ -854,6 +770,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 1000,
+              "min": 1,
+              "max": 4,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
               "input_type": "2",
               "weightage": [],
@@ -885,6 +803,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 1000,
+              "min": 1,
+              "max": 4,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
               "input_type": "2",
               "weightage": [],
@@ -916,6 +836,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 1000,
+              "min": 1,
+              "max": 4,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
               "input_type": "2",
               "weightage": [],
@@ -947,6 +869,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 1000,
+              "min": 1,
+              "max": 4,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
               "input_type": "2",
               "weightage": [],
@@ -993,12 +917,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 1,
                     "maxRange": 999999,
+                    "min": 1,
+                    "max": 6,
                     "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "88",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1012,23 +938,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "88",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "88"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "88"
+                          "value": ""
                         }
                       ],
                       "input_type": "2",
@@ -1066,7 +981,7 @@ const staticResponse = {
                     "input_type": "14",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": "2023-04-18",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "14",
@@ -1080,23 +995,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "modelValue": "2023-04-18",
-                    "isSelectValue": false,
-                    "previousValue": "2023-04-18",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "2023-04-18",
-                        "value": ""
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": "2023-04-18"
+                          "value": ""
                         }
                       ],
                       "input_type": "14",
@@ -1106,15 +1010,6 @@ const staticResponse = {
                     }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
@@ -1160,6 +1055,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 1,
               "maxRange": 999999,
+              "min": 1,
+              "max": 6,
               "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
               "input_type": "2",
               "weightage": [],
@@ -1234,12 +1131,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 1,
                     "maxRange": 999999,
+                    "min": 1,
+                    "max": 6,
                     "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "40",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1253,17 +1152,20 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "40",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "40"
-                      }
-                    ],
-                    "errorMessage": ""
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "4.001",
+                      "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
+                      "shortKey": "transAmount"
+                    }
                   },
                   {
                     "information": "",
@@ -1306,7 +1208,20 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "14",
+                      "nestedAnswer": [],
+                      "order": "4.002",
+                      "shortKey": "transDate"
+                    }
                   },
                   {
                     "information": "",
@@ -1357,7 +1272,20 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1
+                    "forParentValue": 1,
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "4.003",
+                      "shortKey": "transDelay"
+                    }
                   },
                   {
                     "information": "",
@@ -1385,12 +1313,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 999,
+                    "min": 1,
+                    "max": 3,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "30",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1404,17 +1334,20 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "30",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "30"
-                      }
-                    ],
-                    "errorMessage": ""
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "4.004",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
+                      "shortKey": "daysDelay"
+                    }
                   },
                   {
                     "information": "",
@@ -1442,12 +1375,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 100,
+                    "min": 1,
+                    "max": 3,
                     "pattern": "^((?:[0-9]|[1-9][0-9]|100))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "80",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1461,17 +1396,20 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "80",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "80"
-                      }
-                    ],
-                    "errorMessage": ""
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "4.005",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]|100))$",
+                      "shortKey": "interest"
+                    }
                   },
                   {
                     "information": "",
@@ -1479,7 +1417,7 @@ const staticResponse = {
                     "order": "4.006",
                     "answer_option": [],
                     "title": "Amount of interest transferred, If there's any delay (in lakhs)",
-                    "hint": "",
+                    "hint": "Numeric - Amount",
                     "resource_urls": [],
                     "label": "6",
                     "shortKey": "intTransfer",
@@ -1499,12 +1437,14 @@ const staticResponse = {
                     "restrictions": [],
                     "minRange": 0,
                     "maxRange": 9999,
+                    "min": 1,
+                    "max": 4,
                     "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
                     "input_type": "2",
                     "weightage": [],
                     "valueHolder": "",
                     "isQuestionDisabled": false,
-                    "value": "40",
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
@@ -1518,112 +1458,22 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "40",
-                    "selectedValue": [
-                      {
-                        "label": "",
-                        "textValue": "",
-                        "value": "40"
-                      }
-                    ],
-                    "errorMessage": ""
-                  },
-                  {
-                    "information": "",
-                    "_id": "6438034510d7a646562ea77b",
-                    "order": "4.007",
-                    "answer_option": [],
-                    "title": "Total Amount Transferred, excluding interest (In lakhs)",
-                    "hint": "",
-                    "resource_urls": [],
-                    "label": "7",
-                    "shortKey": "totalTransAmount",
-                    "viewSequence": "21",
-                    "child": [],
-                    "parent": [],
-                    "validation": [
-                      {
-                        "error_msg": "",
-                        "_id": "1"
-                      }
-                    ],
-                    "restrictions": [],
-                    "minRange": 0,
-                    "maxRange": 9999,
-                    "pattern": "",
-                    "input_type": "2",
-                    "weightage": [],
-                    "valueHolder": "",
-                    "isQuestionDisabled": false,
-                    "value": "",
-                    "acceptableType": "",
-                    "acceptableFileType": "",
-                    "type": "2",
-                    "visibility": true,
-                    "nestedConfig": {
-                      "parentOrder": "4",
-                      "index": 6,
-                      "loopIndex": 0
-                    },
-                    "selectedAnswerOption": {
-                      "name": " 1"
-                    },
-                    "forParentValue": 1
-                  },
-                  {
-                    "information": "",
-                    "_id": "643803941a51164651cac913",
-                    "order": "4.008",
-                    "answer_option": [],
-                    "title": "Total Amount of Interest Transferred (In lakhs)",
-                    "hint": "",
-                    "resource_urls": [],
-                    "label": "8",
-                    "shortKey": "totalIntTransfer",
-                    "viewSequence": "22",
-                    "child": [],
-                    "parent": [],
-                    "validation": [
-                      {
-                        "error_msg": "",
-                        "_id": "1"
-                      }
-                    ],
-                    "restrictions": [],
-                    "minRange": 0,
-                    "maxRange": 9999,
-                    "pattern": "",
-                    "input_type": "2",
-                    "weightage": [],
-                    "valueHolder": "",
-                    "isQuestionDisabled": false,
-                    "value": "",
-                    "acceptableType": "",
-                    "acceptableFileType": "",
-                    "type": "2",
-                    "visibility": true,
-                    "nestedConfig": {
-                      "parentOrder": "4",
-                      "index": 7,
-                      "loopIndex": 0
-                    },
-                    "selectedAnswerOption": {
-                      "name": " 1"
-                    },
-                    "forParentValue": 1
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "2",
+                      "nestedAnswer": [],
+                      "order": "4.006",
+                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
+                      "shortKey": "intTransfer"
+                    }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
@@ -1647,13 +1497,7 @@ const staticResponse = {
                 },
                 {
                   "label": "Amount of interest transferred, If there's any delay (in lakhs)"
-                },
-                {
-                  "label": "Total Amount Transferred, excluding interest (In lakhs)"
-                },
-                {
-                  "label": "Total Amount of Interest Transferred (In lakhs)"
-                },
+                }, 
               ],
               "viewSequence": "14",
               "child": [],
@@ -1695,6 +1539,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 1,
               "maxRange": 999999,
+              "min": 1,
+              "max": 6,
               "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
               "input_type": "2",
               "weightage": [],
@@ -1790,6 +1636,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 999,
+              "min": 1,
+              "max": 3,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
               "input_type": "2",
               "weightage": [],
@@ -1821,6 +1669,8 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 100,
+              "min": 1,
+              "max": 3,
               "pattern": "^((?:[0-9]|[1-9][0-9]|100))$",
               "input_type": "2",
               "weightage": [],
@@ -1832,7 +1682,7 @@ const staticResponse = {
               "order": "4.006",
               "answer_option": [],
               "title": "Amount of interest transferred, If there's any delay (in lakhs)",
-              "hint": "",
+              "hint": "Numeric - Amount",
               "resource_urls": [],
               "label": "6",
               "shortKey": "intTransfer",
@@ -1852,61 +1702,9 @@ const staticResponse = {
               "restrictions": [],
               "minRange": 0,
               "maxRange": 9999,
+              "min": 1,
+              "max": 4,
               "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
-              "input_type": "2",
-              "weightage": [],
-              "valueHolder": ""
-            },
-            {
-              "information": "",
-              "_id": "6438034510d7a646562ea77b",
-              "order": "4.007",
-              "answer_option": [],
-              "title": "Total Amount Transferred, excluding interest (In lakhs)",
-              "hint": "",
-              "resource_urls": [],
-              "label": "7",
-              "shortKey": "totalTransAmount",
-              "viewSequence": "21",
-              "child": [],
-              "parent": [],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "minRange": null,
-              "maxRange": null,
-              "pattern": "",
-              "input_type": "2",
-              "weightage": [],
-              "valueHolder": ""
-            },
-            {
-              "information": "",
-              "_id": "643803941a51164651cac913",
-              "order": "4.008",
-              "answer_option": [],
-              "title": "Total Amount of Interest Transferred (In lakhs)",
-              "hint": "",
-              "resource_urls": [],
-              "label": "8",
-              "shortKey": "totalIntTransfer",
-              "viewSequence": "22",
-              "child": [],
-              "parent": [],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "minRange": null,
-              "maxRange": null,
-              "pattern": "",
               "input_type": "2",
               "weightage": [],
               "valueHolder": ""
@@ -1949,7 +1747,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "1",
                     "shortKey": "recomAvail",
-                    "viewSequence": "24",
+                    "viewSequence": "22",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -1962,9 +1760,7 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "1"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -1978,25 +1774,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "Yes",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": {
-                            "value": "1"
-                          }
+                          "value": ""
                         }
                       ],
                       "input_type": "5",
@@ -2028,7 +1811,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "2",
                     "shortKey": "grantDistribute",
-                    "viewSequence": "25",
+                    "viewSequence": "23",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2041,9 +1824,7 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "1"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2057,25 +1838,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": " As per Census 2011",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": {
-                            "value": "1"
-                          }
+                          "value": ""
                         }
                       ],
                       "input_type": "5",
@@ -2107,7 +1875,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "3",
                     "shortKey": "sfcNotification",
-                    "viewSequence": "26",
+                    "viewSequence": "24",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2120,9 +1888,7 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "1"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2136,25 +1902,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "Yes",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": {
-                            "value": "1"
-                          }
+                          "value": ""
                         }
                       ],
                       "input_type": "5",
@@ -2173,7 +1926,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "4",
                     "shortKey": "sfcNotificationCopy",
-                    "viewSequence": "27",
+                    "viewSequence": "25",
                     "child": [],
                     "parent": [],
                     "min": null,
@@ -2237,25 +1990,15 @@ const staticResponse = {
                       "order": "5.004",
                       "pattern": "",
                       "shortKey": "sfcNotificationCopy"
-                    },
-                    "errorMessage": "This is a required field"
+                    }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
               "label": "5",
               "shortKey": "sfcDetail",
-              "viewSequence": "23",
+              "viewSequence": "21",
               "child": [],
               "parent": [],
               "validation": [],
@@ -2287,7 +2030,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "1",
               "shortKey": "recomAvail",
-              "viewSequence": "24",
+              "viewSequence": "22",
               "child": [],
               "parent": [],
               "validation": [
@@ -2323,7 +2066,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "2",
               "shortKey": "grantDistribute",
-              "viewSequence": "25",
+              "viewSequence": "23",
               "child": [],
               "parent": [],
               "validation": [
@@ -2359,7 +2102,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "3",
               "shortKey": "sfcNotification",
-              "viewSequence": "26",
+              "viewSequence": "24",
               "child": [],
               "parent": [],
               "validation": [
@@ -2382,7 +2125,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "4",
               "shortKey": "sfcNotificationCopy",
-              "viewSequence": "27",
+              "viewSequence": "25",
               "child": [],
               "parent": [],
               "min": null,
@@ -2438,8 +2181,8 @@ const staticResponse = {
                 [
                   {
                     "information": "",
-                    "_id": "643806ccbae92b46491920ae",
-                    "order": "8.001",
+                    "_id": "643805b610d7a646562ea84e",
+                    "order": "6.001",
                     "answer_option": [
                       {
                         "name": "Yes",
@@ -2454,12 +2197,12 @@ const staticResponse = {
                         "_id": "2"
                       }
                     ],
-                    "title": "Whether ULB account for 15th FC Grants linked to PFMS for all transactions",
+                    "title": "Whether Project works undertaken are uploaded on the website",
                     "hint": "",
                     "resource_urls": [],
                     "label": "1",
-                    "shortKey": "accountLinked",
-                    "viewSequence": "34",
+                    "shortKey": "projectUndtkn",
+                    "viewSequence": "27",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2472,15 +2215,13 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "1"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
                     "visibility": true,
                     "nestedConfig": {
-                      "parentOrder": "8",
+                      "parentOrder": "6",
                       "index": 0,
                       "loopIndex": 0
                     },
@@ -2488,34 +2229,27 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "Yes",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": ""
+                    "answer": {
+                      "answer": [
+                        {
+                          "label": "",
+                          "textValue": "",
+                          "value": ""
+                        }
+                      ],
+                      "input_type": "5",
+                      "nestedAnswer": [],
+                      "order": "6.001",
+                      "shortKey": "projectUndtkn"
+                    }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
               "label": "6",
               "shortKey": "projectDetail",
-              "viewSequence": "28",
+              "viewSequence": "26",
               "child": [],
               "parent": [],
               "validation": [
@@ -2552,7 +2286,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "1",
               "shortKey": "projectUndtkn",
-              "viewSequence": "29",
+              "viewSequence": "27",
               "child": [],
               "parent": [],
               "validation": [
@@ -2609,7 +2343,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "1",
                     "shortKey": "propertyTaxNotif",
-                    "viewSequence": "31",
+                    "viewSequence": "29",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2622,9 +2356,7 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "2"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2638,25 +2370,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "2",
-                    "selectedValue": [
-                      {
-                        "label": "No",
-                        "textValue": "",
-                        "value": "2"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": {
-                            "value": "2"
-                          }
+                          "value": ""
                         }
                       ],
                       "input_type": "5",
@@ -2675,7 +2394,7 @@ const staticResponse = {
                     "resource_urls": [],
                     "label": "2",
                     "shortKey": "propertyTaxNotifCopy",
-                    "viewSequence": "32",
+                    "viewSequence": "30",
                     "child": [],
                     "parent": [],
                     "min": null,
@@ -2739,25 +2458,15 @@ const staticResponse = {
                       "order": "7.002",
                       "pattern": "",
                       "shortKey": "propertyTaxNotifCopy"
-                    },
-                    "errorMessage": "This is a required field"
+                    }
                   }
                 ]
-              ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
               ],
               "hint": "",
               "resource_urls": [],
               "label": "7",
               "shortKey": "propertyTaxDetails",
-              "viewSequence": "30",
+              "viewSequence": "28",
               "child": [],
               "parent": [],
               "validation": [
@@ -2794,7 +2503,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "1",
               "shortKey": "propertyTaxNotif",
-              "viewSequence": "31",
+              "viewSequence": "29",
               "child": [],
               "parent": [],
               "validation": [
@@ -2817,7 +2526,7 @@ const staticResponse = {
               "resource_urls": [],
               "label": "2",
               "shortKey": "propertyTaxNotifCopy",
-              "viewSequence": "32",
+              "viewSequence": "30",
               "child": [],
               "parent": [],
               "min": null,
@@ -2889,12 +2598,12 @@ const staticResponse = {
                         "_id": "2"
                       }
                     ],
-                    "title": "Whether ULB account for 15th FC Grants linked to PFMS for all transactions",
+                    "title": "\"Whether ULB account for 15th FC Grants linked to PFMS for all transactions \"",
                     "hint": "",
                     "resource_urls": [],
                     "label": "1",
                     "shortKey": "accountLinked",
-                    "viewSequence": "34",
+                    "viewSequence": "32",
                     "child": [],
                     "parent": [],
                     "validation": [
@@ -2907,9 +2616,7 @@ const staticResponse = {
                     "input_type": "5",
                     "weightage": [],
                     "isQuestionDisabled": false,
-                    "value": {
-                      "value": "1"
-                    },
+                    "value": "",
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "5",
@@ -2923,25 +2630,12 @@ const staticResponse = {
                       "name": " 1"
                     },
                     "forParentValue": 1,
-                    "isSelectValue": false,
-                    "previousValue": "",
-                    "modelValue": "1",
-                    "selectedValue": [
-                      {
-                        "label": "Yes",
-                        "textValue": "",
-                        "value": "1"
-                      }
-                    ],
-                    "errorMessage": "",
                     "answer": {
                       "answer": [
                         {
                           "label": "",
                           "textValue": "",
-                          "value": {
-                            "value": "1"
-                          }
+                          "value": ""
                         }
                       ],
                       "input_type": "5",
@@ -2952,20 +2646,11 @@ const staticResponse = {
                   }
                 ]
               ],
-              "modelValue": "1",
-              "value": "1",
-              "selectedValue": [
-                {
-                  "label": "1",
-                  "textValue": "",
-                  "value": "1"
-                }
-              ],
               "hint": "",
               "resource_urls": [],
               "label": "8",
               "shortKey": "pfmsDetails",
-              "viewSequence": "33",
+              "viewSequence": "31",
               "child": [],
               "parent": [],
               "validation": [
@@ -2997,12 +2682,12 @@ const staticResponse = {
                   "_id": "2"
                 }
               ],
-              "title": "Whether ULB account for 15th FC Grants linked to PFMS for all transactions",
+              "title": "\"Whether ULB account for 15th FC Grants linked to PFMS for all transactions \"",
               "hint": "",
               "resource_urls": [],
               "label": "1",
               "shortKey": "accountLinked",
-              "viewSequence": "34",
+              "viewSequence": "32",
               "child": [],
               "parent": [],
               "validation": [
@@ -3030,122 +2715,122 @@ const staticResponse = {
 
 const baseForm = {
   data: [
-      {
-        label: "1. GTCs for Non-Million Plus Cities Tied Grants",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        questions: [
-          {
-            installment: 1,
-            year: '606aadac4dff55e6c075c507',
-            type: "nonmillion_tied",
-            instlText: "1st Installment (2023-24)",
-            quesText: "Upload Signed Grant Transfer Certificate",
-            isDisableQues: false,
-            disableMsg: "",
-            key: "nonmillion_tied_2021-22_2",
-            question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2022-23)",
-            questionresponse: staticResponse,
-            qusType: "",
-            isDraft: null,
-            status: null,
-            rejectReason_mohua: null,
-            canTakeAction: false
+    {
+      label: "1. GTCs for Non-Million Plus Cities Tied Grants",
+      isDisabled: false,
+      error: false,
+      icon: "",
+      questions: [
+        {
+          installment: 1,
+          year: '606aadac4dff55e6c075c507',
+          type: "nonmillion_tied",
+          instlText: "1st Installment (2023-24)",
+          quesText: "Upload Signed Grant Transfer Certificate",
+          isDisableQues: false,
+          disableMsg: "",
+          key: "nonmillion_tied_2021-22_2",
+          question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2022-23)",
+          questionresponse: staticResponse,
+          qusType: "",
+          isDraft: null,
+          status: null,
+          rejectReason_mohua: null,
+          canTakeAction: false
+        },
+        {
+          installment: 2,
+          year: '606aafb14dff55e6c075d3ae',
+          type: "nonmillion_tied",
+          instlText: "2nd Installment (2023-24)",
+          quesText: "Upload Signed Grant Transfer Certificate",
+          isDisableQues: true,
+          disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
+          question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
+          questionresponse: staticResponse,
+          key: "nonmillion_tied_2022-23_1",
+          qusType: "",
+          isDraft: null,
+          status: null,
+          rejectReason_mohua: null,
+          canTakeAction: false
+        }
+      ],
+    },
+    {
+      label: "2. GTCs for Non-Million Plus Cities Untied Grants",
+      isDisabled: false,
+      error: false,
+      icon: "",
+      questions: [
+        {
+          installment: 1,
+          year: '606aafc14dff55e6c075d3ec',
+          type: "nonmillion_untied",
+          instlText: "1st Installment (2023-24)",
+          quesText: "Upload Signed Grant Transfer Certificate",
+          isDisableQues: false,
+          disableMsg: "",
+          question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2023-24)",
+          questionresponse: staticResponse,
+          key: "nonmillion_untied_2021-22_2",
+          qusType: "",
+          isDraft: null,
+          status: null,
+          rejectReason_mohua: null,
+          canTakeAction: false
+        },
+        {
+          installment: 2,
+          year: '606aafb14dff55e6c075d3ae',
+          type: "nonmillion_untied",
+          instlText: "2nd Installment (2023-24)",
+          quesText: "Upload Signed Grant Transfer Certificate",
+          isDisableQues: true,
+          disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
+          question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
+          questionresponse: staticResponse,
+          key: "nonmillion_untied_2022-23_1",
+          qusType: "",
+          isDraft: null,
+          status: null,
+          rejectReason_mohua: null,
+          responseFile_mohua: {
+            name: '',
+            url: '',
+            progress: null
           },
-          {
-            installment: 2,
-            year: '606aafb14dff55e6c075d3ae',
-            type: "nonmillion_tied",
-            instlText: "2nd Installment (2023-24)",
-            quesText: "Upload Signed Grant Transfer Certificate",
-            isDisableQues: true,
-            disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
-            question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
-            questionresponse: staticResponse,
-            key: "nonmillion_tied_2022-23_1",
-            qusType: "",
-            isDraft: null,
-            status: null,
-            rejectReason_mohua: null,
-            canTakeAction: false
-          }
-        ],
-      },
-      {
-        label: "2. GTCs for Non-Million Plus Cities Untied Grants",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        questions: [
-          {
-            installment: 1,
-            year: '606aafc14dff55e6c075d3ec',
-            type: "nonmillion_untied",
-            instlText: "1st Installment (2023-24)",
-            quesText: "Upload Signed Grant Transfer Certificate",
-            isDisableQues: false,
-            disableMsg: "",
-            question: "(A) Upload Signed Grant Transfer Certificate - 1st Installment (2023-24)",
-            questionresponse: staticResponse,
-            key: "nonmillion_untied_2021-22_2",
-            qusType: "",
-            isDraft: null,
-            status: null,
-            rejectReason_mohua: null,
-            canTakeAction: false
-          },
-          {
-            installment: 2,
-            year: '606aafb14dff55e6c075d3ae',
-            type: "nonmillion_untied",
-            instlText: "2nd Installment (2023-24)",
-            quesText: "Upload Signed Grant Transfer Certificate",
-            isDisableQues: true,
-            disableMsg: `1st Installment (2023-24) GTC has to be uploaded first before uploading 2nd Installment (2023-24) GTC`,
-            question: "(B) Upload Signed Grant Transfer Certificate - 2nd Installment (2023-24)",
-            questionresponse: staticResponse,
-            key: "nonmillion_untied_2022-23_1",
-            qusType: "",
-            isDraft: null,
-            status: null,
-            rejectReason_mohua: null,
-            responseFile_mohua: {
-              name: '',
-              url: '',
-              progress: null
-            },
-            canTakeAction: false
-          }
-        ],
-      },
-      {
-        label: "3. GTC for Million Plus Cities Tied Grants for Water Supply and SWM",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        questions: [
-          {
-            installment: 1,
-            year: '606aaf854dff55e6c075d219',
-            type: "million_tied",
-            instlText: "FY 2023-24",
-            isDisableQues: false,
-            quesText:
-              "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
-            question:
-              "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM - FY ( 2021-22)",
-            questionresponse: staticResponse,
-            key: "million_tied_2021-22_1",
-            qusType: "",
-            isDraft: null,
-            status: null,
-            rejectReason_mohua: null,
-            canTakeAction: false
-          }
-        ],
-      },
-    ]
+          canTakeAction: false
+        }
+      ],
+    },
+    {
+      label: "3. GTC for Million Plus Cities Tied Grants for Water Supply and SWM",
+      isDisabled: false,
+      error: false,
+      icon: "",
+      questions: [
+        {
+          installment: 1,
+          year: '606aaf854dff55e6c075d219',
+          type: "million_tied",
+          instlText: "FY 2023-24",
+          isDisableQues: false,
+          quesText:
+            "Upload Signed Grant Transfer Certificate for Water Supply and SWM",
+          question:
+            "(A) Upload Signed Grant Transfer Certificate for Water Supply and SWM - FY ( 2021-22)",
+          questionresponse: staticResponse,
+          key: "million_tied_2021-22_1",
+          qusType: "",
+          isDraft: null,
+          status: null,
+          rejectReason_mohua: null,
+          canTakeAction: false
+        }
+      ],
+    },
+  ]
 }
 
 
@@ -3162,7 +2847,7 @@ export class GtcService {
     return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=${design_year}&state=${state}`)
       .pipe(
         map((res: any) => {
-          return res;
+          // return res;
           return baseForm;
         })
       );

@@ -75,7 +75,7 @@ export class GtcComponent implements OnInit {
       isDraft: true,
       status: 2,
       financialYear: this.design_year,
-      designYear: this.design_year,
+      design_year: this.design_year,
       state: this.stateId,
       formId: '4',
       data: data.finalData,
