@@ -33,6 +33,14 @@ const staticResponse = {
               "label": "1",
               "shortKey": "basic",
               "viewSequence": "1",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -474,6 +482,14 @@ const staticResponse = {
                 }
               ],
               "title": "State Details",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -889,6 +905,14 @@ const staticResponse = {
                 }
               ],
               "title": "Details of Grant (Tied/Untied) Received",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -1103,6 +1127,14 @@ const staticResponse = {
                 }
               ],
               "title": "Details of Grant (Tied/Untied) Transferred",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -1722,6 +1754,14 @@ const staticResponse = {
                 }
               ],
               "title": "SFC Details",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -2177,6 +2217,14 @@ const staticResponse = {
                 }
               ],
               "title": "Project Details",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -2318,6 +2366,14 @@ const staticResponse = {
                 }
               ],
               "title": "Property Tax Notification Details",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
@@ -2578,6 +2634,14 @@ const staticResponse = {
                 }
               ],
               "title": "Linking to PFMS Details",
+              "modelValue": "1",
+              "selectedValue": [
+                {
+                  "label": "1",
+                  "textValue": "",
+                  "value": "1"
+                }
+              ],
               "childQuestionData": [
                 [
                   {
