@@ -11,13 +11,13 @@
     <div class="row mt-3">
         <div class="col-sm-12">
             <accordion>
-                <accordion-group class="mb-3" *ngFor="let formItem of baseForm; let cIndex = index">
+                <accordion-group [isDisabled]="formItem?.isDisabled" class="mb-3" *ngFor="let formItem of baseForm; let cIndex = index">
                     <div class="row al-c" style="" accordion-heading>
                         <div class="col-md-10">
                             <h6 class="uplod_label">{{formItem?.label}}</h6>
                         </div>
                         <div class="col-md-2" style="text-align: right;">
-                            <button type="button" class="btn btn-primary">Select</button>
+                            <button [disabled]="formItem?.isDisabled" type="button" class="btn btn-primary">Select</button>
                         </div>
                     </div>
 
