@@ -39,7 +39,7 @@ export class GtcComponent implements OnInit {
   }
 
   getBaseForm() {
-    this.gtcService.getBaseForm().subscribe((res: any) => {
+    this.gtcService.getBaseForm(this.stateId, this.design_year).subscribe((res: any) => {
       console.log(res);
       this.baseForm = res.data;
     })

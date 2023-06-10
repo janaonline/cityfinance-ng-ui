@@ -3158,10 +3158,11 @@ export class GtcService {
     private http: HttpClient
   ) { }
 
-  getBaseForm() {
-    return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7316a06aed41c748e8`)
+  getBaseForm(state: string, design_year: string) {
+    return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=${design_year}&state=${state}`)
       .pipe(
         map((res: any) => {
+          return res;
           return baseForm;
         })
       );
