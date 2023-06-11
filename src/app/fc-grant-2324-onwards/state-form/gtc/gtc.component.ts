@@ -123,12 +123,15 @@ export class GtcComponent implements OnInit {
   }
 
   async onSubmit(data, question) {
+    let isDraft = data.isSaveAsDraft;
     const payload = {
       installment: question.installment,
       year: question.year,
       type: question.type,
-      isDraft: true,
-      status: 2,
+      isDraft,
+      file: question.file,
+      status: isDraft ? 2 : 4,
+      statusId: isDraft ? 2 : 4, // 2 for save as draft, 4 for final submit
       financialYear: this.design_year,
       design_year: this.design_year,
       state: this.stateId,
@@ -136,7 +139,6 @@ export class GtcComponent implements OnInit {
       data: data.finalData,
     }
 
-    let isDraft = false;
     if (isDraft == false) {
       const userAction = await swal(
         "Confirmation !",
