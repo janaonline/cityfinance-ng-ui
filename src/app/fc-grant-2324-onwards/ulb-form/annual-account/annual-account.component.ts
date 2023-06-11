@@ -70,7 +70,16 @@ export class AnnualAccountComponent implements OnInit {
   actionPayLoad = [];
   canTakeAction: boolean = false;
   reviewShortKeyArray = [];
-  actionResFile = {};
+  actionResFile = {
+    tab_audited:{
+      responseFile: {url: '', name :''},
+      responseFile_mohua: {url: '', name :''}
+    },
+    tab_unAudited:{
+      responseFile: {url: '', name :''},
+      responseFile_mohua: {url: '', name :''}
+    }
+  };
   ngOnInit(): void {
     this.leftMenuSubs = this.commonServices.ulbLeftMenuComplete.subscribe(
       (res) => {
@@ -167,8 +176,8 @@ export class AnnualAccountComponent implements OnInit {
           this.webForm.hasUnsavedChanges = false;
           this.commonServices.setFormStatusUlb.next(true);
           this.isApiComplete = false;
+          this.resetActionFile();
           this.onload();
-
           swal(
             "Saved",
             `Data saved ${draft ? "as draft" : ""} successfully`,
@@ -178,6 +187,7 @@ export class AnnualAccountComponent implements OnInit {
         },
         (error) => {
           console.log("post error", error);
+          swal('Error', error?.message ?? 'Something went wrong', 'error');
         }
       );
   }
@@ -221,19 +231,21 @@ export class AnnualAccountComponent implements OnInit {
           this.isApiComplete = true;
           if(res?.data["STATE"]){
             for (let el of res.data["STATE"]) {
-              if (
-                el.shortKey == "tab_audited" ||
-                el.shortKey == "audited.bal_sheet"
-              ) {
-                if (el?.responseFile?.url)
-                  this.actionResFile["tab_audited"] = el.responseFile;
+              if ((el.shortKey == "tab_audited" || el.shortKey == "audited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_audited"]['responseFile'] = el.responseFile;
               }
-              if (
-                el.shortKey == "tab_unAudited" ||
-                el.shortKey == "unAudited.bal_sheet"
-              ) {
-                if (el?.responseFile?.url)
-                  this.actionResFile["tab_unAudited"] = el.responseFile;
+              if ((el.shortKey == "tab_unAudited" || el.shortKey == "unAudited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_unAudited"]["responseFile"] = el.responseFile;
+                }
+            }
+          }
+          if(res?.data["MoHUA"]){
+            for (let el of res.data["MoHUA"]) {
+              if ( (el.shortKey == "tab_audited" || el.shortKey == "audited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_audited"]["responseFile_mohua"] = el.responseFile;
+              }
+              if ((el.shortKey == "tab_unAudited" || el.shortKey == "unAudited.bal_sheet") && el?.responseFile?.url) {
+                  this.actionResFile["tab_unAudited"]["responseFile_mohua"] = el.responseFile;
               }
             }
           }
@@ -247,39 +259,9 @@ export class AnnualAccountComponent implements OnInit {
       );
   }
   formDisable(res) {
-    if (!res) return;
-    if (this.userData?.role != "ULB") {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      res?.language[0]?.isDraft == false &&
-      res?.statusId != 5 &&
-      res?.statusId != 7
-    ) {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      (res?.statusId == 5 || res?.statusId == 7)
-    ) {
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-      return;
-    } else if (
-      this.userData?.role == "ULB" &&
-      res?.statusId == 3 &&
-      res?.language[0]?.isDraft == false
-    ) {
-      this.isFormDisable = true;
-      this.isButtonAvail = false;
-      return;
-    } else {
-      this.isFormDisable = false;
-      this.isButtonAvail = true;
-    }
+    if(!res) return;
+    this.isButtonAvail = this.commonServices.formDisable(res, this.userData);
+    this.isFormDisable = !this.isButtonAvail;
   }
   saveAction(data) {
     if (data == true) {
@@ -326,5 +308,17 @@ export class AnnualAccountComponent implements OnInit {
     };
 
     this.actionPayLoad.push(actionObj);
+  }
+  resetActionFile(){
+    this.actionResFile = {
+      tab_audited:{
+        responseFile: {url: '', name :''},
+        responseFile_mohua: {url: '', name :''}
+      },
+      tab_unAudited:{
+        responseFile: {url: '', name :''},
+        responseFile_mohua: {url: '', name :''}
+      }
+    };
   }
 }

@@ -10,9 +10,9 @@ import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/
 import { StateformsService } from 'src/app/pages/stateforms/stateforms.service';
 import { ImagePreviewComponent } from 'src/app/pages/ulbform/utilisation-report/image-preview/image-preview.component';
 import { MapDialogComponent } from 'src/app/shared/components/map-dialog/map-dialog.component';
-// import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
+import {minMaxValue} from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/minMaxNumber'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-projects-water-rej',
@@ -29,9 +29,9 @@ export class ProjectsWaterRejComponent implements OnInit {
   waterRejenuvation: FormGroup;
   maxPhotos = 5;
   photosArray = [];
-  errorPhotosArray = [];
+  isCompleteUploading:boolean = false;
   isDraft = null;
-  submitted = false
+  submitted = false;
   UANames = [];
   uasList
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -129,7 +129,7 @@ export class ProjectsWaterRejComponent implements OnInit {
 waterRejRes = {
  formId: '',
  status: '',
- formName: 'Projects for Water and Sanitation',
+ formName: 'Projects for Water Supply and Sanitation',
  tables: [
     {
       tableName:'Fill Details of Project for Rejuvenation of Water Bodies',
@@ -253,12 +253,6 @@ waterRejRes = {
           width: ''
         },
         {
-          key: 'projectName',
-          displayName: 'Project Name',
-          info: '',
-          width: ''
-        },
-        {
           key: 'location',
           displayName: 'Location of Water Treatment Plant',
           info: '',
@@ -371,7 +365,8 @@ waterRejRes = {
     }
   ]
 }
-costMaxVal: number = 999999999999999;
+maxNumVaditaion:number;
+errorOnload:boolean = false;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -393,6 +388,7 @@ costMaxVal: number = 999999999999999;
     this.setRouter();
     this.design_year = this.Year["2023-22"];
     this.setUaList();
+    this.maxNumVaditaion = minMaxValue;
   }
 
   indicatorSet(event, index, rowIndex) {
@@ -423,17 +419,13 @@ costMaxVal: number = 999999999999999;
       }),
     });
 
-    this.patchSimValue();
   // this.changesDetection();
-
-
-
   }
-  patchSimValue() {
-    // this.waterRejenuvation?.controls?.declaration.patchValue({
-    //   url: this.wData?.declaration?.url,
-    //   name: this.wData?.declaration?.name,
-    // })
+  patchSimValue(data) {
+    this.waterRejenuvation?.controls?.declaration.patchValue({
+      url: data?.declaration?.url,
+      name: data.declaration?.name,
+    })
   }
 
   get Uas() {
@@ -467,7 +459,7 @@ costMaxVal: number = 999999999999999;
     return this.data.map((data) =>
       this.fb.group({
         ua: data.ua,
-        status: data?.status ?? "PENDING",
+        status: data?.status ?? 2,
         rejectReason: data?.rejectReason ?? null,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
@@ -537,14 +529,16 @@ costMaxVal: number = 999999999999999;
       (res) => {
         this.isPreYear = true;
         this.isApiInProgress = false;
+        this.errorOnload = true;
         this.data = res["data"]["uaData"];
         this.isDraft = res["data"].isDraft;
-      //  this.storeData(res["data"]);
-        this.showLoader = false;
-        console.log("water rej data", this.data);
         this.initializeReport();
+        this.patchSimValue(res["data"]);
+        this.showLoader = false;
+        console.log("water rej data", this.data); 
         this.setSkipLogic(this.data);
-        // resolve("ss");
+        this.isDisabled = this.setDisableForm(res["data"]);
+        if(this.isDisabled) this.waterRejenuvation.disable();
       },
       (err) => {
         this.showLoader = false;
@@ -598,21 +592,21 @@ costMaxVal: number = 999999999999999;
   waterBodiesFormElem(data) {
     return  this.fb.group({
       name: this.fb.control(data?.name, [Validators.required, Validators.maxLength(50)]),
-      area: this.fb.control(data?.area, [Validators.required,Validators.min(1)]),
+      area: this.fb.control(data?.area, [Validators.required,Validators.min(0)]),
       nameOfBody: this.fb.control(data?.nameOfBody, [Validators.required, Validators.maxLength(50)]),
       lat: this.fb.control(data?.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
       long: this.fb.control(data?.long, [Validators.required, Validators.pattern(this.latLongRegex)]),
       photos: this.fb.array(this.getPhotos(data?.photos), [Validators.required]),
-      bod: this.fb.control(data?.bod, [Validators.required,Validators.min(1)]),
-      cod: this.fb.control(data?.cod, [Validators.required,Validators.min(1)]),
-      do: this.fb.control(data?.do, [Validators.required, Validators.min(1)]),
-      tds: this.fb.control(data?.tds, [ Validators.required,Validators.min(1)]),
-      turbidity: this.fb.control(data?.turbidity, [Validators.required,Validators.min(1)]),
-      bod_expected: this.fb.control(data?.bod_expected, [Validators.required,Validators.min(1)]),
-      cod_expected: this.fb.control(data.cod_expected, [Validators.required,Validators.min(1)]),
-      do_expected: this.fb.control(data?.do_expected, [Validators.required, Validators.min(1)]),
-      tds_expected: this.fb.control(data?.tds_expected, [Validators.required,Validators.min(1)]),
-      turbidity_expected: this.fb.control(data?.turbidity_expected, [Validators.required,Validators.min(1)]),
+      bod: this.fb.control(data?.bod, [Validators.required,Validators.min(0)]),
+      cod: this.fb.control(data?.cod, [Validators.required,Validators.min(0)]),
+      do: this.fb.control(data?.do, [Validators.required, Validators.min(0)]),
+      tds: this.fb.control(data?.tds, [ Validators.required,Validators.min(0)]),
+      turbidity: this.fb.control(data?.turbidity, [Validators.required,Validators.min(0)]),
+      bod_expected: this.fb.control(data?.bod_expected, [Validators.required,Validators.min(0)]),
+      cod_expected: this.fb.control(data.cod_expected, [Validators.required,Validators.min(0)]),
+      do_expected: this.fb.control(data?.do_expected, [Validators.required, Validators.min(0)]),
+      tds_expected: this.fb.control(data?.tds_expected, [Validators.required,Validators.min(0)]),
+      turbidity_expected: this.fb.control(data?.turbidity_expected, [Validators.required,Validators.min(0)]),
       details: this.fb.control(data?.details, [Validators.required,Validators.maxLength(200)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
@@ -627,12 +621,13 @@ costMaxVal: number = 999999999999999;
       component: this.fb.control(data.component, [ Validators.required,Validators.maxLength(200)]),
       indicator: this.fb.control(data.indicator, [ Validators.required]),
       existing: this.fb.control(data.existing, [ Validators.required ]),
-      after: this.fb.control(data.after, [ Validators.required, Validators.min(1)]),
-      cost: this.fb.control(data.cost, [Validators.required, Validators.min(1)]),
+      after: this.fb.control(data.after, [ Validators.required, Validators.min(0)]),
+      cost: this.fb.control(data.cost, [Validators.required, Validators.min(0)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
-      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+      isDisable: this.fb.control(data?.isDisable, []),
+      bypassValidation: this.fb.control(data?.bypassValidation ? data?.bypassValidation : false, []),
     })
   }
   waterReuseFormElem(data){
@@ -642,11 +637,11 @@ costMaxVal: number = 999999999999999;
       targetCust: this.fb.control(data.targetCust, [Validators.required,Validators.maxLength(300)]),
       lat: this.fb.control(data.lat, [Validators.required,Validators.pattern(this.latLongRegex)]),
       long: this.fb.control(data.long, [Validators.required,Validators.pattern(this.latLongRegex)]),
-      stp: this.fb.control(data.stp, [Validators.required,Validators.min(1)]),
+      stp: this.fb.control(data.stp, [Validators.required,Validators.min(0)]),
       dprPreparation: this.fb.control((data?.dprPreparation ? data?.dprPreparation : ""), [Validators.required]),
       dprCompletion: this.fb.control((data?.dprCompletion ? data?.dprCompletion : ""), []),
       workCompletion: this.fb.control((data?.workCompletion ? data?.workCompletion : ""), []),
-      isDisable: this.fb.control(data?.isDisable, [Validators.required]),
+      isDisable: this.fb.control(data?.isDisable, []),
     })
   }
   addRow(index, tableIndex, controlName) {
@@ -767,6 +762,7 @@ costMaxVal: number = 999999999999999;
     console.log('formvalue after selesadasdasctse', this.waterRejenuvation)
    }
   submit() {
+
     console.log('form status..........', this.waterRejenuvation);
     if (this.waterRejenuvation?.status == "INVALID") {
       swal("Missing Data !", `${this.errorMsg}`, "error");
@@ -797,10 +793,10 @@ costMaxVal: number = 999999999999999;
       ).then((value) => {
         switch (value) {
           case "submit":
-            this.finalSubmit();
+            this.finalSubmit(false);
             break;
           case "draft":
-           // this.onDraft();
+            this.finalSubmit(true);
             break;
           case "cancel":
             break;
@@ -810,30 +806,25 @@ costMaxVal: number = 999999999999999;
 
   }
 
-  finalSubmit() {
-    let postBody = { ...this.waterRejenuvation.value, isDraft: false }
+  finalSubmit(draft) {
+    let postBody;
+    if(draft == false){ postBody = { ...this.waterRejenuvation.value, isDraft: false }}
+    if(draft == true) postBody = { ...this.waterRejenuvation.value, isDraft: true }
+    postBody["status"] = (draft == false) ? 4 : 2;
     if (this.userData?.role === "STATE") {
-      // this.waterRejenuvation.controls.isDraft.patchValue(false);
       console.log(this.waterRejenuvation.controls);
       this.waterRejenuvationService
         .postWaterRejeData(postBody)
         .subscribe(
           (res: any) => {
-            if (res && res.status) {
-              console.log('latest post data water rej --->', res)
-              swal({
-                title: "Submitted",
-                text: res?.message,
-                icon: "success",
-              });
+
+            swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
-              this.waterRejenuvation.disable();
-              this.isDisabled = true;
-            //  this.newCommonService.setStateFormStatus2223.next(true);
-              sessionStorage.setItem("changeInWaterRejenuvation2223", "false");
-            } else {
-              swal("Error", res?.message ? res?.message : "Error", "error");
-            }
+              this.commonServices.setFormStatusState.next(true);
+           if(draft == false){
+            this.waterRejenuvation.disable();
+            this.isDisabled = true; 
+           }
           },
           (err) => {
             swal("Error", "Error", "error");
@@ -859,9 +850,9 @@ costMaxVal: number = 999999999999999;
     }
     let dialogRef = this.dialog.open(ImagePreviewComponent, {
       data: imgData,
-      height: "400px",
-      width: "500px",
-      panelClass: "no-padding-dialog",
+      height: "450px",
+      width: "550px",
+      panelClass: ["no-padding-dialog", "custom-dialog-container"],
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
@@ -929,9 +920,10 @@ costMaxVal: number = 999999999999999;
     }
   }
 
-  saveButtonClicked() {
-    this.submitted = true
-    this.submit();
+  saveButtonClicked(draft) {
+    this.submitted = draft ? false : true;
+    if(draft == false) this.submit();
+    if(draft == true ) this.finalSubmit(draft);
   }
   onPreview() {
   //  let change = sessionStorage.getItem("changeInWaterRejenuvation2223");
@@ -942,6 +934,7 @@ costMaxVal: number = 999999999999999;
     for (let index = 0; index < data?.uaData?.length; index++) {
       data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
+    data = {...data, previewYear: '2023-24',  waterIndicators : this.waterIndicators}
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,
       height: "80%",
@@ -952,9 +945,9 @@ costMaxVal: number = 999999999999999;
   }
 
   checkErrorState(projectRow, val) {
-    // if (this.errorOnload) {
-    //   return projectRow.controls[val]?.invalid;
-    // }
+    if (this.errorOnload) {
+      return projectRow.controls[val]?.invalid;
+    }
     return (
       projectRow.controls[val]?.invalid &&
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
@@ -986,15 +979,13 @@ costMaxVal: number = 999999999999999;
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
          // this.formId = element?._id;
-
         }
       });
     }
   }
 warningForAmount(val){
-  if(val < 40){
-    swal('Alert !', `Project progress does not meet with conditions from operations guidelines para 9.2
-     but ULB can still submit.`, 'warning');
+  if(val && val < 40){
+    swal('Alert !', `As per the Operational Guidelines, the condition for receiving grants for ULBs will be 40% of work completion of mandatory projects by June 2023.`, 'warning');
   }
   }
 
@@ -1011,12 +1002,14 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
     }
     let folderName = `${this.userData?.role}/2023-24/projects_wss/${this.userData?.stateCode}`
     const fileExtension = file.name.split('.').pop();
-    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} MB file can be allowed.`, "error");
     if (fileType === 'excel' && !excelFileExtensions.includes(fileExtension)) return swal("Error", "Only Excel File can be Uploaded.", "error");
     if (fileType === 'pdf' && fileExtension !== 'pdf') return swal("Error", "Only PDF File can be Uploaded.", "error");
     if (fileType === 'img' && !imgFileExtensions.includes(fileExtension)) return swal('Error', 'Only "PNG" or "JPG", or "JPEG" file can be Uploaded', 'error');
     this._snackBar.open("Uploaing File...",'', {"duration": 10000});
+    this.isCompleteUploading = true;
     if(uploadType == 'img'){
+    this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
     let title = "Success";
@@ -1037,7 +1030,7 @@ async uploadFile(event: { target: HTMLInputElement },  fileType: string, waterIn
     for (const key in files) {
       if (key == "length") break;
       if (size == 0) {
-        msg = `First ${files.length - leftNum} uploaded successfully`;
+        msg = `First ${leftNum} uploaded successfully`;
         title = `Max ${this.maxPhotos} photos are allowed`;
         status = "warning";
         break;
@@ -1064,15 +1057,16 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
         this.dataEntryService.newUploadFileToS3(file, url).subscribe((res) => {
           if (res.type !== HttpEventType.Response) return;
           if(uploadType == 'img') this.photosArray.push({ url: file_url, name: fileName });
-          // this.formControl.responseFile.patchValue({ name: file.name, url: file_url });
-          // this.responceFile = { name: file.name, url: file_url };
+          if(uploadType == 'pdf')  this.waterRejenuvation.get('declaration').patchValue({ url: file_url, name: file.name})
           this._snackBar.dismiss();
+          this.isCompleteUploading = false;
           // console.log('form', this.formControl?.responseFile?.value?.name);
           resolve();
         },
         (err)=>{
           this._snackBar.dismiss();
-          resolve()
+          this.isCompleteUploading = false;
+          resolve();
         }
         );
       }, 
@@ -1080,14 +1074,14 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
           console.log(err);
           this._snackBar.open("Unable to save the file..",'', {"duration": 2000});
           this._snackBar.dismiss();
+          this.isCompleteUploading = false;
           resolve();
       });
     })
    
   }
   removeUploadedFile(){
-  //  this.formControl.responseFile.patchValue({ name: '', url: '' });
-   //  this.responceFile = { name: '', url: ''};
+    this.waterRejenuvation.get('declaration').patchValue({ url: '', name: ''})
   }
 
   getIndicatorLineItem(){
@@ -1105,17 +1099,24 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
     )
   //  BASE_URL/indicatorLineItem
   }
-  setMinMaxValidations(e, input, min, max, value){
-    console.log('indicator value..', value);
+  setMinMaxValidations(e, input, min, max, value, type?:string){
+    console.log('indicator value..', value, type);
     let indicatorDetails = this.waterIndicators.find(({lineItemId})=> value == lineItemId);
     console.log('indicator value.. 54321', indicatorDetails);
     if(!min && !max){
       min = indicatorDetails?.range?.split("-")[0];
       max = indicatorDetails?.range?.split("-")[1];
     }
-
-   return this.commonServices.minMaxValidation(e, input, min, max);
+    console.log('indicator value.. returned', this.commonServices.minMaxValidation(e, input, min, max, type));
     
+   return this.commonServices.minMaxValidation(e, input, min, max, type);
+    
+  }
+  setDisableForm(data){
+    
+    if((this.userData?.role == 'ADMIN') || (this.userData?.role == 'STATE' && (data.statusId == 4 || data.statusId == 6))) return true;
+    if(this.userData?.role == 'MoHUA' && data.statusId != 4) return true;
+    return false;
   }
 }
 

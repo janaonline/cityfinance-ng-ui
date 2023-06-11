@@ -10,7 +10,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
-
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-login",
@@ -72,6 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(["/home"]);
       return;
     }
+    this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -354,6 +356,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       localStorage.setItem("MohuaLeftMenu", JSON.stringify(res?.data));
       //  this.leftMenu = res;
     });
+  }
+  alertForload(){
+    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in.`, 'warning')
   }
 }
 

@@ -5,10 +5,11 @@
 <small class="text-danger">All questions with * are mandatory</small>
 
 <ng-template #treeNode let-yearItem="yearItem" let-yearIndex="yearIndex" let-hideErrors="hideErrors">
-    <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
+    <div class="col-sm-12 for-radio" *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
         <div class="form-group">
             <input *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                [appDecimalLimit]="yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
+                onwheel="this.blur()"
+                [appDecimalLimit]="yearItem?.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0" formControlName="value"
                 class="form-control" [type]="yearItem?.controls?.formFieldType?.value"
                 [readonly]="yearItem?.controls?.readonly?.value" [disabled]="yearItem?.controls?.readonly?.value"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
@@ -24,14 +25,14 @@
                 greater</small>
             <mat-radio-group aria-label="Select an option" formControlName="value"
                 *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
-                [disabled]="yearItem?.controls?.readonly?.value">
+                [disabled]="yearItem?.controls?.readonly?.value" class="d-flex">
                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                 <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
             </mat-radio-group>
 
             <select *ngIf="yearItem?.controls?.formFieldType?.value == 'select'" class="form-select"
                 [ngClass]="{'is-invalid': yearItem.status == 'INVALID' && !hideErrors && (yearItem.dirty || yearItem.touched)}"
-                formControlName="value" [disabled]="yearItem?.controls?.readonly?.value"
+                formControlName="value" [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
                 [readonly]="yearItem?.controls?.readonly?.value">
                 <option [value]="option?.id" *ngFor="let option of yearItem?.controls?.options?.value">{{
                     option?.label}}</option>
@@ -156,8 +157,12 @@
                                     item?.value?.controls?.child |
                                     formError }}</small>
 
-                                <a [href]="item?.value?.controls?.downloadLink?.value" target="_blank"
-                                    *ngIf="item?.value?.controls?.downloadLink?.value">Download</a>
+                                <p *ngIf="item?.value?.controls?.downloadLink?.value">(Please download sample format)/<a
+                                        class="mb-0 text-small fst-italic" style="word-break: break-all;"
+                                        [href]="item?.value?.controls?.downloadLink?.value" target="_blank">
+                                        <mat-icon>cloud_download
+                                        </mat-icon>
+                                    </a></p>
                             </th>
                             <td style="width: 12%;"
                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
@@ -211,14 +216,13 @@
         </table>
     </div>
     <!---------- review process for State and Mohua ----------------->
-    <!-- <div class="">
+    <div class="" *ngIf="statusId && statusId != 1 && statusId != 2">
     <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
     (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
     [formId]="formId" [isButtonAvail]="isButtonAvail" [formName]="'dur'"></app-form-common-action>
-</div> -->
+    </div>
 
-
-    <div class="d-flex justify-content-end my-2">
+    <div class="d-flex justify-content-end my-2" *ngIf="isButtonAvail">
         <div class="row w-100">
             <div class="col-sm-6">
                 <button class="btn btn-pre" [routerLink]="nextPreUrl?.backBtnRouter">

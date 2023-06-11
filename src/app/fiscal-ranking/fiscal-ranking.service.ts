@@ -6,11 +6,64 @@ import { environment } from "src/environments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { KeyValue } from "@angular/common";
 import { FormGroup } from "@angular/forms";
+import { TableResponse } from "./common-table/common-table.component";
+
+import { map } from "rxjs/operators";
+import { UserUtility } from "../util/user/user";
+import { USER_TYPE } from "../models/user/userType";
+
+export enum StatusType {
+  "notStarted" = 1,
+  "inProgress" = 2,
+  "verificationNotStarted" = 8,
+  "verificationInProgress" = 9,
+  "returnedByPMU" = 10,
+  "ackByPMU" = 11
+}
+export interface Table {
+  id: string;
+  endpoint: string;
+  response: TableResponse;
+}
+
+
+export interface MapData {
+  _id: string;
+  heatMaps: HeatMap[];
+  ulbWiseData: UlbWiseData;
+  formWiseData: FormWiseData;
+  stateName: string;
+  totalUlbs: number;
+}
+export interface HeatMap {
+  _id: string;
+  stateId: string;
+  code: string;
+  percentage: number;
+}
+export interface UlbWiseData {
+  notStarted: number;
+  totalUlbs: number;
+  inProgress: number;
+  submitted: number;
+}
+export interface FormWiseData {
+  verificationNotStarted: number;
+  totalForms: number;
+  verificationInProgress: number;
+  approved: number;
+  rejected: number;
+}
+
+export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FiscalRankingService {
+
+  userUtil = new UserUtility();
 
   public badCredentials: Subject<boolean> = new Subject<boolean>();
   public helper = new JwtHelperService();
@@ -76,5 +129,25 @@ export class FiscalRankingService {
     a.download = filename;
     a.click();
     return url;
+  }
+
+  getTableResponse(endpoint: string, queryParams: string, columns) {
+    return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(
+      map((response) => {
+        response.columns = columns || response.columns.map(column => ({
+          ...column,
+          sort: column.sort || 0,
+        }));
+        return response;
+      })
+    );
+  }
+
+  getStateWiseForm(params = {}) {
+    if (this.userUtil.getUserType() == USER_TYPE.STATE) {
+      params['state'] = this.userUtil.getLoggedInUserDetails()?.state;
+    }
+    const queryParams = new URLSearchParams(removeFalsy(params)).toString()
+    return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
   }
 }

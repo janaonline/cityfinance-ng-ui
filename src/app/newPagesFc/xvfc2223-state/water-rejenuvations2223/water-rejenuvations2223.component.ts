@@ -125,7 +125,8 @@ nextRouter = '';
     public _stateformsService: StateformsService,
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
-    public newCommonService: NewCommonService
+    public newCommonService: NewCommonService,
+
   ) {
     this.initializeUserType();
     // this.id = sessionStorage.getItem("sessionID");
@@ -133,6 +134,7 @@ nextRouter = '';
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
     }
+    this.getIndicatorLineItem();
     this.navigationCheck();
 
   }
@@ -1461,7 +1463,6 @@ nextRouter = '';
       );
       return;
     }
-
     let size = leftNum;
     for (const key in files) {
       if (key == "length") break;
@@ -1642,6 +1643,7 @@ nextRouter = '';
     for (let index = 0; index < data?.uaData?.length; index++) {
       data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
+    data = {...data, previewYear: '2022-23', waterIndicators : this.waterIndicators}
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,
       height: "80%",
@@ -1882,6 +1884,22 @@ warningForAmount(val){
     swal('Alert !', `Project progress does not meet with conditions from operations guidelines para 9.2
      but ULB can still submit.`, 'warning');
   }
+}
+
+getIndicatorLineItem(){
+  let queryParam = {
+    type: 'water supply'
+  }
+  this.newCommonService.formGetMethod('indicatorLineItem', queryParam).subscribe((res:any)=>{
+    console.log('indicatorLineItem', res);
+    this.waterIndicators = res?.data;
+    
+  },
+  (error)=>{
+    swal("Error", "No indicator found for slb table, please refresh the page", "error")
+  }
+  )
+//  BASE_URL/indicatorLineItem
 }
 }
 

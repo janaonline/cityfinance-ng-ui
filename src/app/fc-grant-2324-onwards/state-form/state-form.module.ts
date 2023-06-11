@@ -25,6 +25,10 @@ import { AgGrid2223Component } from 'src/app/newPagesFc/xvfc2223-state/action-pl
 import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
+import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
+import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
+import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 
 
 @NgModule({
@@ -33,15 +37,20 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     ReviewUlbTableComponent,
     DashbordComponent,
     ProjectsWssComponent,
-    ProjectsWaterRejComponent, ActionPlanSliComponent,
-    GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent
+    ProjectsWaterRejComponent,
+    GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent,
+    ActionPlanSliComponent,
+    StateFinanceCnComponent,
+    SubmitClaimsGrantsComponent,
+    EditUlbComponent,
+    IndicatorsWssComponent
   ],
   imports: [
     CommonModule,
     StateFormRoutingModule,
     SharedModule,
-    FcSharedModule,
     Shared2223Module,
+    FcSharedModule,
     ReactiveFormsModule,
     FormsModule,
     WebFormModule,

@@ -1,0 +1,58 @@
+.form-header {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.f-i {
+    font-weight: normal;
+    font-size: 1rem;  
+}
+
+.card {
+    border: 1px #00000029;
+    box-shadow: 1px 1px 1px 1.5px #00000029;
+    padding: 6px 10px;
+}
+.card-body {
+    padding: 5px 8px;
+}
+.u-n {
+    font-size: 1rem;  
+    font-weight: 500;
+}
+.m-h {
+    background-color: #059b9a;
+    color: #fff;
+   // margin: auto;
+    vertical-align: middle;
+    padding: .5rem 1rem;
+}
+.d-s {
+    border-right: 2px solid lightgray;
+    padding: .5rem;
+    
+}
+.d-s:last-child {
+    border-right: none
+}
+.h-t {
+    font-weight: 500;
+}
+.w-f {
+    width: max-content;
+    background-color: #ade9e9;
+    color: black;
+    vertical-align: middle;
+    padding: .5rem 1rem;
+    font-weight: 500;
+}
+.br-f {
+    border: 2px solid lightgray;
+  //  padding: 0 .5rem;
+}
+.br-t {
+    border-top: 2px solid lightgray;
+}
+.row {
+    align-items: center;
+}

@@ -11,8 +11,8 @@
                 Indicator for Water Rejenuvation and Recycling
             </div> -->
         <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
-            <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2022-23</span>
-            <span *ngIf="parentData">Projects for Water and Sanitation</span>
+            <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY {{data?.previewYear}}</span>
+            <span *ngIf="parentData">Projects for Water Supply & Sanitation</span>
             <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
         </div>
 
@@ -30,7 +30,7 @@
     </div>
     <div class="row" *ngIf="!parentData">
         <div class="col-sm-12 text-center form-h">
-            Projects for Water and Sanitation
+            Projects for Water Supply & Sanitation
         </div>
     </div>
 
@@ -234,8 +234,7 @@
                                 </td>
 
                                 <td>
-
-                                    {{srIn.indicator}}
+                                    {{getLineItem(srIn.indicator)}}
                                 </td>
                                 <td>
                                     {{srIn.existing}}
@@ -254,18 +253,18 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row" style="margin-top: 1rem; margin-bottom: .5rem;">
-
-                    <div class="col-sm-3 d-u u-a-h">
-                        Declaration Upload :
-                    </div>
-                    <div class="col-sm-9 d-u u-a-a">
-                        <a href="{{data?.declaration?.url}}" target="_blank">{{data?.declaration?.name}}</a>
-                    </div>
-
-                </div>
+               
             </div>
         </div>
+    </div>
+    <div class="row mt-3 mb-3 m-t">
+        <div class="col-sm-3 d-u u-a-h">
+            Declaration Upload :
+        </div>
+        <div class="col-sm-9 d-u u-a-a">
+            <a href="{{data?.declaration?.url}}" target="_blank">{{data?.declaration?.name}}</a>
+        </div>
+
     </div>
 </div>
 

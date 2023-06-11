@@ -35,6 +35,15 @@ import { TowordPipe } from './pipes/toword.pipe';
 import { PercentprogressPipe } from './pipes/percentprogress.pipe';
 import { YearInfoPipe } from './pipes/year-info.pipe';
 import { DisplayPositionPipe } from './pipes/display-position.pipe';
+import { DecimalLimitDirective } from './ulb-fiscal-new/decimal-limit.directive';
+import { NoUpDownDirective } from './ulb-fiscal-new/no-up-down.directive';
+import { AlreadyUpdatedUrlPipe } from './pipes/already-updated-url.pipe';
+import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CommonTableComponent } from './common-table/common-table.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +59,13 @@ import { DisplayPositionPipe } from './pipes/display-position.pipe';
     PercentprogressPipe,
     YearInfoPipe,
     DisplayPositionPipe,
+    DecimalLimitDirective,
+    NoUpDownDirective,
+    AlreadyUpdatedUrlPipe,
+    MapcomponentComponent,
+    DashboardComponent,
+    CommonTableComponent,
+    TableRowCalculatorPipe,
   ],
   imports: [
     CommonModule,
@@ -81,7 +97,9 @@ import { DisplayPositionPipe } from './pipes/display-position.pipe';
     MatNativeDateModule,
     MatDatepickerModule,
     NgxPaginationModule,
-    Shared2223Module
+    Shared2223Module,
+    AngularMultiSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }

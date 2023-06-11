@@ -1,11 +1,23 @@
 <div class="container-fluid" id="preData" #preData>
     <div class="row header-p">
         <div class="col-sm-12 text-end">
-            <a (click)="closeMat()" class="pull-right"><img style="filter: invert(1);" src="../../../../assets/form-icon/close_black_24dp.svg"></a>
         </div>
-        <div class="col-sm-12 text-center heading-p">
-            <span style="display: block;">Submissions for Fiscal Rankings for FY 2022-23</span>
-            <b class="sub-h" style="margin-top: .5rem;">{{ulbName}}, {{stateName}}</b>
+        <div class="row text-center">
+            <div class="col-2 d-flex align-items-center">
+                <img class="w-100" src="/assets/M FIGMA/city-finance-ranking.png" alt="">
+            </div>
+            <div class="col-9 text-light">
+                <h2 class="mt-2 ulb-name">{{ulbName}}</h2>
+                <p class="mb-0 ulb-info">
+                    SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br />
+                    FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br />
+                    all figures in Rs.
+                </p>
+            </div>
+            <div class="col-1">
+                <a (click)="closeMat()" class="pull-right"><img class="invert"
+                        src="assets/form-icon/close_black_24dp.svg"></a>
+            </div>
         </div>
     </div>
     <div class="row" style="margin-top: 1rem;">
@@ -24,26 +36,38 @@
                     </div>
 
                     <table class="table mt-3" *ngIf="tab?.id == 's3'">
-                        <thead>
-                            <tr>
-                                <th class="th" *ngFor="let year of yearList">{{ year }}</th>
-                            </tr>
-                        </thead>
-
                         <tbody>
-                            <tr *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
-                                <th class="th" scope="row" width="40%">{{ tabData?.value?.label }}</th>
-                                <td class="td" width="15%" *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
-                                    <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
-                                    <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
-                                            target="_blank">{{elem?.file?.name}}</a></span>
-                                    <span>{{
-                                        elem?.formFieldType == 'number'
-                                        ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
-                                        : elem?.value
-                                        }}</span>
-                                </td>
-                            </tr>
+                            <ng-container *ngFor="let tabData of tab?.data | keyvalue: sortPosition; let y_i=index">
+
+                                <tr class="table-gray"
+                                    *ngIf="data.financialYearTableHeader[tabData?.value?.position]?.length > 0">
+                                    <th class="th"
+                                        *ngFor="let year of data.financialYearTableHeader[tabData?.value?.position]; let  i = index;">
+                                        {{ year }}</th>
+                                </tr>
+                                <tr *ngIf="tabData?.value?.position == data?.incomeSectionBelowKey" class="table-info">
+                                    <th colspan="6" class="th">REVENUE RECEIPTS (ACTUAL) </th>
+                                </tr>
+                                <tr *ngIf="tabData?.value?.position == data?.expenditureSectionBelowKey"
+                                    class="table-danger">
+                                    <th colspan="6" class="th">REVENUE EXPENDITURE (ACTUAL) </th>
+                                </tr>
+                                <tr>
+                                    <th class="th" scope="row" width="5%">{{ tabData?.value?.position }}</th>
+                                    <th class="th" scope="row" width="35%">{{ tabData?.value?.label }}</th>
+                                    <td class="td" width="15%"
+                                        *ngFor="let elem of tabData?.value?.yearData; let y_i=index">
+                                        <span *ngIf="elem?.date">{{ elem?.date | date: 'dd/MM/yyyy' }}</span>
+                                        <span *ngIf="elem?.file"><a href="{{elem?.file?.url}}"
+                                                target="_blank">{{elem?.file?.name}}</a></span>
+                                        <span>{{
+                                            elem?.formFieldType == 'number'
+                                            ? (elem?.value | currency: 'INR': 'symbol' : '1.0-0')
+                                            : elem?.value
+                                            }}</span>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
 
@@ -72,7 +96,9 @@
                                             <a href="{{elem?.file?.url}}" target="_blank">{{elem?.file?.name}}</a>
                                         </div>
                                         <div *ngIf="!elem?.file?.url && elem?.readonly == true">
-                                            Already uploaded on Cityfinance.
+                                            Already uploaded on Cityfinance - <a target="_blank"
+                                                [href]="elem?.label | alreadyUpdatedUrl : data?.stateCode : ulbName : ulbId">View
+                                                here</a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,28 +163,3 @@
         </div>
     </div>
 </div>
-<ng-template #templateSave>
-    <div class="modal-body text-center alert">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-
-        <p style="margin-top: 8px;">
-            You have some unsaved changes on this page. Do you wish to save your data as draft?
-        </p>
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
-                <button type="button" class="btn btn-success "
-                    style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="saveAsDraft()">
-                    Save & Proceed</button>
-            </div>
-
-        </div>
-    </div>
-</ng-template>

@@ -1,0 +1,163 @@
+<!-- <app-four-slb-view [data]="performanceAssesmentTable"></app-four-slb-view> -->
+<div class="container-fluid" *ngIf="!isApiInProgress">
+    <div class="row mb-2" *ngIf="response?.formName">
+        <div class="col-sm-10">
+            <div class="form-header">
+                {{response?.formName}}
+            </div>
+        </div>
+        <div class="col-sm-2 text-end">
+            <button type="button" class="btn btn-primary" (click)="onPreview()">PREVIEW</button>
+        </div>
+    </div>
+    <div class="row mb-3" *ngIf="response?.info">
+        <div class="col-sm-12 f-i">
+            {{response?.info}}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-12">
+            <div class="card mb-3" *ngFor="let uaDetails of uasList; let i=index">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-9"> 
+                            <div class="u-n" >UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</div>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': isCollapsed[i]}" (click)="foldCard(i,uaDetails._id)">Select</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="isCollapsed[i]">
+                        <div class="card mb-3" *ngFor="let form of response?.data | keyvalue :keepOriginalOrder">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 text-center mb-3">
+                                        <div class="m-h">{{form?.value?.title}}</div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="" *ngIf="form?.value?.key == 'indicators_wss'">
+                                                <div class="row mb-3 br-f">
+                                                    <div class="col d-s" *ngFor="let countData of form?.value?.dataCount?.fourSlbData?.data">
+                                                        <div class="h-t">
+                                                            {{countData?.name}}
+                                                        </div>
+                                                        <div class="h-v mt-1">
+                                                           <a>{{countData?.value}}</a> 
+                                                         </div> 
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="form?.value?.tables?.length">
+                                                    <div class="col-sm-12 g-0">
+                                                        <app-four-slb-view [data]="form?.value"></app-four-slb-view>
+                                                    </div>  
+                                                </div>
+                                        </div>
+                                        <div class="" *ngIf="form?.value?.key == 'indicators_swm'">
+                                            <div class="row mb-3">
+                                                <div class="col-sm-6 br-f" *ngFor="let countObj of form?.value?.dataCount | keyvalue">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 mb-3 mt-2 u-n text-center">
+                                                            {{countObj?.value?.name}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col d-s" *ngFor="let item of countObj?.value?.data">
+                                                            <div class="h-t">
+                                                                {{item?.name}}
+                                                            </div>
+                                                            <div class="h-v mt-1">
+                                                                {{item?.value}}
+                                                             </div> 
+                                                        </div>
+                                                    </div> 
+                                                    <div class="row mt-3 mb-3 br-t" *ngIf="countObj?.value?.odfRatings">
+                                                        <div class="col-sm-6 d-s">
+                                                            {{countObj?.value?.odfRatings?.name}}
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            {{countObj?.value?.odfRatings?.value}}
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="form?.value?.tables?.length">
+                                                <div class="col-sm-12 g-0">
+                                                    <app-four-slb-view [data]="form?.value"></app-four-slb-view>
+                                                </div>  
+                                            </div>
+                                         </div>
+                                         <div class="" *ngIf="form?.value?.key == 'performanceAsst'">
+                                            <div class="row">
+                                                <div class="col-sm-12 g-0 text-center">
+                                                   <div class="w-f mx-auto">{{form?.value?.name}}</div> 
+                                                </div>
+                                                <div class="col-sm-12 g-0">
+                                                    <app-four-slb-view [data]="form?.value"></app-four-slb-view>
+                                                </div>  
+                                            </div>
+                                         </div>
+                                    </div>
+                                    <div class="col-sm-12 g-0" *ngIf="form?.value?.uaScore">
+                                        <div class="w-f">{{form?.value?.uaScore?.title}} : {{form?.value?.uaScore?.value}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4 mb-3" style="">
+        <div class="col-sm-6 " style="">
+
+            <button type="button " class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-right" style="padding: 0;text-align: end;">
+            <button type="button " class="btn btn-c-next" [routerLink]="nextRouter">NEXT Form -></button>
+        </div>
+    </div>
+</div> 
+<!-- 
+<ng-template #template>
+    <div class="row">
+        <div class="col-12 text-end">
+            <i class="fa fa-close closeIcon" (click)="closeDialog()"></i>
+        </div>
+    </div>
+    <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> APPROVED BY STATE
+    </div>
+    <div class="table-responsive tracking-history-table " style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+        <table class="table ">
+            <thead>
+                <tr style="background-color: white">
+                    <th scope="col" style="width:10%">S.No</th>
+                    <th scope="col" style="width:45%">ULB Name </th>
+                    <th scope="col" style="width:45%">ULB Census Code/ ULB Code </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resData of templateData; let tabelIndex=index">
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                    </td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{resData['ulbName']}}
+                    </td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode']}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center alert" style="color: red;" *ngIf="templateData.length == 0">No Data Found!
+        </div>
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</ng-template> -->
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

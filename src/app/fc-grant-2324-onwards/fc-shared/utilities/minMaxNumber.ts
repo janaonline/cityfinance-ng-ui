@@ -1,0 +1,18 @@
+export const minMaxValue: any = {
+    Zero: 0,
+    OneDigit: 10,
+    TwoDigit: 100,
+    ThreeDigit: 1000,
+    FourDigit: 10000,
+    FiveDigit: 100000,
+    SixDigit:  1000000,
+    SevenDigit: 10000000,
+    EighthDigit: 100000000,
+    NineDigit: 1000000000,
+    TenDigit: 10000000000,
+    ElevenDigit: 100000000000,
+    TwelveDigit: 1000000000000,
+    thirteenDigit: 10000000000000,
+    fourteenDigit: 100000000000000,
+    fifteenDigit: 1000000000000000,
+  };

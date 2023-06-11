@@ -1,0 +1,94 @@
+<div class="container-fluid mb-3" style="" *ngIf="!isApiInProgress">
+    <!-- heading and drop down -->
+    <div class="row mt-2" *ngIf="claimsGrantJson?.formName">
+        <div class="col-sm-12 form-header">
+            {{claimsGrantJson?.formName}}
+        </div>
+    </div>
+    
+    <div class="row mt-3" *ngFor="let grantItem of claimsGrantJson?.data | keyvalue : keepOriginalOrder">
+            <div class="card">
+                <div class="card-body">
+                            <div class="row m-0 a-l-i" style="">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">{{grantItem?.value?.title}}</h6>
+                                </div>
+                                <div class="col-md-2 text-end" style="">
+                                    <button type="button" class="btn btn-primary" (click)="grantItem.value.isClose = !grantItem.value.isClose" 
+                                    [attr.aria-expanded]="!grantItem.value.isClose" aria-controls="collapseBasic{{grantItem.value.id}}">Select
+                                    </button>
+                                </div>
+                            </div>
+                        <div class="row mt-3 aco-d" id="collapseBasic{{grantItem.value.id}}" [collapse]="grantItem.value.isClose" [isAnimated]="true" style="">
+                            <div class="col-md-12" *ngFor="let installment of grantItem?.value?.yearData">
+                                <div class="card mb-2">
+                                    <div class="card-body c-in" style="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    <!-- 1st Installment (FY 2022-23): -->
+                                                    {{installment?.title}}
+                                                </label>
+                                            </div>
+                                            <h4 class="c-st" style="">
+                                                Current Status:
+                                            </h4>
+                                            <ul class="u-l-h">
+                                                <li>
+                                                    {{installment?.status}}
+                                                </li>
+
+                                            </ul>
+                                            <div>
+                                                <h4 class="c-st" style="">
+                                                    Conditions:
+                                                </h4>
+                                                <ul class="u-l-h">
+                                                    <li *ngFor="let conds of installment?.conditions let i = index;"> 
+                                                        {{conds?.text}}<span class="li-el">( {{conds?.value}}% Done)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="wrapper" [matTooltip]="tooltips" matTooltipClass="tooltip-red" [matTooltipDisabled]="'Eligibility Condition Pending.'" matTooltipPosition="left">
+                                                    <button class="chip-btn btn" [disabled]="!installment?.conditionSuccess" (click)="finalConfirm(grantItem, installment)" 
+                                                    [ngStyle]="{'background-color': (installment?.conditionSuccess) ?  '#5cb85c' : '#059b9a' }">
+                                                        {{installment?.buttonName}} {{installment?.amount ? installment?.amount : 'Not Available'}}
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                </div>
+            </div>
+    </div>
+  
+  
+    <!-- question for GTC -->
+    <div class="row mt-4" style="">
+        <div class="col-md-12">
+            <h4 class="f-l">
+                <a [routerLink]="['../gtCertificate']">Click Here to Submit Grant Transfer Certificate</a>
+            </h4>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        </div>
+    </div>
+    
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>

@@ -185,6 +185,7 @@ input::-webkit-inner-spin-button {
 
 .anDisable {
     pointer-events: none;
+  
     input,
     select,
     textarea {
@@ -223,10 +224,10 @@ input::-webkit-inner-spin-button {
 
 .disableInputs {
     pointer-events: none !important;
-    opacity: .6;
+    opacity: .75;
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .6;
+        opacity: .75;
     }
 }
 
@@ -279,4 +280,20 @@ display: inline-block;
 }
 .exp-text {
     font-size: 13px; font-weight: bold;
+}
+.file-icon-cross {
+    vertical-align: middle;
+}
+.addIcon {
+    font-size: 12px; 
+    margin-right: 3px;
+}
+.h-4 {
+    height: 4rem;
+}
+.latLong{
+    display: flex; position: relative; bottom: 2px;
+}
+.infoIcon {
+    width: 16px;height: 16px;
 }

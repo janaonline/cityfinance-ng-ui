@@ -19,6 +19,7 @@ import {
 } from "@angular/material/dialog";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
 import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
@@ -53,13 +54,38 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     classes: "filter-component",
   };
 
+
+  selectedValue: String = "2020-21";
+  selectedType: String = "Raw Data PDF";
+
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
     public dialog: MatDialog,
+    private route: ActivatedRoute,
     private _resourcesDashboardService: ResourcesDashboardService
   ) {
-    this.filterData("", "");
+    // this.filterData("", "");
+
+    const year = this.route.snapshot.queryParamMap.get('year') || this.selectedValue;
+    const ulbName = this.route.snapshot.queryParamMap.get('ulbName') || '';
+    const ulbId = this.route.snapshot.queryParamMap.get('ulbId') || '';
+    this.filterForm = this.fb.group({
+      state: [""],
+      ulb: [""],
+      ulbId: [""],
+      contentType: [""],
+      sortBy: [""],
+      year: [""],
+      category: this.category,
+    });
+    this.selectedValue = year ? year : "";
+    this.filterForm.patchValue({
+      year: this.selectedValue,
+      ulb: ulbName,
+      ulbId,
+      contentType: this.selectedType,
+    });
   }
 
   stateList;
@@ -96,19 +122,9 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
-    this.filterForm = this.fb.group({
-      state: [""],
-      ulb: [""],
-      ulbId: [""],
-      contentType: [""],
-      sortBy: [""],
-      year: [""],
-      category: this.category,
-    });
-    this.loadData();
+    this.getStatesList();
   }
-  selectedValue: String = "2020-21";
-  selectedType: String = "Raw Data PDF";
+
   onChange(event) {
     this.selectedValue = event.target.value;
     console.log("eve", event);
@@ -118,39 +134,59 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.selectedType = event.target.value;
     this.filterData("type", "");
   }
-  loadData() {
+
+  getStatesList() {
+    const stateCode = this.route.snapshot.queryParamMap.get('stateCode');
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         console.log("res", res);
         this.stateList = this._commonServices.sortDataSource(res, "name");
+        if (stateCode) {
+          const state = this.stateList?.find(st => st?.code == stateCode);
+          this.state.patchValue([state]);
+          this.onStateChange(state);
+        }
+        this.loadData();
       },
       (error) => {
         console.log(error);
       }
     );
-
-    console.log("formmm", this.filterForm);
-    this.filterForm?.controls?.category?.valueChanges.subscribe((val) => {
-      console.log(this.filterForm);
-    });
+  }
+  loadData() {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
+
+      console.log(value, this.filterForm.value);
       if (value?.length >= 1) {
-        this._commonServices
-          .postGlobalSearchData(value, "ulb", this.filterForm.value.state)
-          .subscribe((res: any) => {
-            console.log(res?.data);
-            let emptyArr: any = [];
-            this.filteredOptions = emptyArr;
-            if (res?.data.length > 0) {
-              this.filteredOptions = res?.data;
-              //this.noDataFound = false;
-            } else {
+        if ((this.filterForm.value.hasOwnProperty('state') && this.filterForm.value.state != undefined)
+          && (this.filterForm.value.hasOwnProperty('ulb') && this.filterForm.value.state != undefined)
+        ) {
+          this._commonServices
+            .postGlobalSearchData({ ...this.filterForm.value, ulb: value }, "ulb", this.filterForm.value.state)
+            .subscribe((res: any) => {
               let emptyArr: any = [];
               this.filteredOptions = emptyArr;
-              // this.noDataFound = true;
-              console.log("no data found");
-            }
-          });
+              if (res?.data.length > 0) {
+                this.filteredOptions = res?.data;
+                //this.noDataFound = false;
+              } else {
+                let emptyArr: any = [];
+                this.filteredOptions = emptyArr;
+                // this.noDataFound = true;
+                console.log("no data found");
+              }
+              const obj = res?.data.find(e => e.ulbName == this.filterForm?.value?.ulb)
+              if (obj && (!this.filterForm.value['ulbId'] || this.filterForm.value['ulbId'] != obj._id)) {
+                this.filterForm.patchValue({
+                  ulb: obj?.name,
+                  ulbId: obj?._id
+                })
+                this.filterData('ulb', obj);
+              }
+
+            });
+        }
+
       } else {
         return null;
       }
@@ -193,15 +229,17 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     console.log("filter form", this.filterForm);
     if (param == "ulb") {
       console.log(val);
+      const ulbName = val?.name || '';
       this.filterForm.patchValue({
         state: val.state._id,
         ulbId: val._id,
+        ulb: ulbName ? ulbName : '',
       });
     } else if (param == "state") {
       let emptyArr: any = [];
       this.filteredOptions = emptyArr;
       this.filterForm.patchValue({
-        ulb: "",
+        ulbId: val._id,
       });
     }
     this.filterFormData.emit(this.filterForm);
@@ -251,8 +289,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
 
   onStateChange(state) {
-    console.log(state);
-    this.filterForm.patchValue({state: state._id})
+    this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
   }
 }

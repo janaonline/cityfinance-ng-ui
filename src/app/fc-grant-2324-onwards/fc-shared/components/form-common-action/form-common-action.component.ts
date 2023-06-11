@@ -205,15 +205,6 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       ],
       "responses": [
        this.statusForm.value
-    //       {
-    //       "shortKey": "form_level",
-    //       "status": 4,
-    //       "rejectReason": 'ABCD',
-    //       "responseFile": {
-    //           "url":"a",
-    //           "name": "google.in"
-    //       }
-    //  }
       ],
       "multi": true,
       "shortKeys": [
@@ -228,25 +219,50 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       swal('Error', "Reject reason is mandatory", "error");
       return
     }
-    
+    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+      buttons: {
+        Submit: {
+          text: "Submit",
+          value: "submit",
+        },
+        Cancel: {
+          text: "Cancel",
+          value: "cancel",
+        },
+      },
+    }).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalSubmitAction();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+  }
+  finalSubmitAction(){
     this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res:any)=>{
       console.log('ressssss action', res);
       this.actBtnDis = true;
       this.isActionSubmitted = false;
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
+      //temp commented for Production
+      // if((this.formId == 4 || this.formId == 6) &&
+      //  (this.statusForm?.value?.status == 7) && 
+      //  this.userData?.role == 'MoHUA'){
+      //   this.sequentialReview();
+      //  } 
       swal('Saved', "Action submitted successfully", "success");
     },
     (error)=>{
       console.log('ressssss action', error);
       this.formChangeEventEmit.emit(false);
       this.isActionSubmitted = false;
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     }
     )
   }
-  // nextPreBtn(e){
-
-  // }
 
   getActionRes(){
     this.commonServices.formPostMethod(this.getQuery, 'common-action/getMasterAction').subscribe((res:any)=>{
@@ -266,5 +282,23 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       console.log('err action get');
 
     })
+  }
+
+  sequentialReview() {
+    let body = {
+      ulbs: [this.ulbId],
+      design_year: this.Years["2023-24"],
+      status: "REJECTED",
+      formId: this.formId,
+      multi: false,
+    };
+    this.commonServices.formPostMethod(body, 'common-action/sequentialReview').subscribe(
+      (res) => {
+        console.log("Sequential review", res);
+      },
+      (error) => {
+        swal("Error", "Sequential review field.", "error");
+      }
+    );
   }
 }
