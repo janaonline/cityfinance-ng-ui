@@ -24,6 +24,7 @@ import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.com
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
+import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-preview/indicator-wss-preview.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.componen
     StateFinanceCnComponent, 
     SubmitClaimsGrantsComponent,
     EditUlbComponent,
-    IndicatorsWssComponent
+    IndicatorsWssComponent,
+    IndicatorWssPreviewComponent
     ],
   imports: [
     CommonModule,
