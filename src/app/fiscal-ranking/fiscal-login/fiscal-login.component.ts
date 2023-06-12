@@ -108,7 +108,7 @@ export class FiscalLoginComponent implements OnInit {
       this.router.navigate(["/rankings/home"]);
       return;
     }
-    this.alertForload();
+    //this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -411,9 +411,9 @@ export class FiscalLoginComponent implements OnInit {
     this.onSelectingUserType(item);
     this.loginError = null;
   }
-  alertForload() {
-    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
-  }
+  // alertForload() {
+  //   swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to CFR reach out to rankings@cityfinance.in.`, 'warning')
+  // }
 }
 
 @Pipe({
