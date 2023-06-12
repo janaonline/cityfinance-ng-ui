@@ -990,6 +990,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
+      //  commented for prods
       //  if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA') this.sequentialReview();
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");

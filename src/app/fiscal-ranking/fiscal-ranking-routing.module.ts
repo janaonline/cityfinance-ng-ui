@@ -43,6 +43,17 @@ const routes: Routes = [
       }
     }
   },
+  {
+    path: "populationWise",
+    component: DashboardComponent,
+    data: {
+      table: {
+        id: 'populationWise',
+        endpoint: 'fiscal-ranking/overview/populationWise',
+        response: null,
+      }
+    }
+  },
 ];
 
 @NgModule({

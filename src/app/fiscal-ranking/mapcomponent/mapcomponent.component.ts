@@ -182,12 +182,11 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#194d5e", text: "100%" },
-      { color: "#216278", text: "<100% to 75%" },
-      { color: "#059b9a", text: "<75% to 50%" },
-      { color: "#8BD2F0", text: "<50% to 25%" },
-      { color: "#D0EDF9", text: "<25% to 1%" },
-      { color: "#E5E5E5", text: "<1%" },
+      { color: "#194d5e", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
@@ -250,11 +249,8 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   getColor(value: number) {
-    if (value == 100) {
-      return "#194d5e";
-    }
     if (value > 75) {
-      return "#216278";
+      return "#194d5e";
     }
     if (value > 50) {
       return "#059b9a";
@@ -348,6 +344,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     //  this.changeInStateOrCity.emit(e);
   }
 
+  get isState() {
+    return this.userUtil.getUserType() == USER_TYPE.STATE;
+  }
+
   currentId: any;
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -359,10 +359,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     containerId: string
   ) {
 
-    if(containerId) {
+    if (containerId) {
       if (this.userUtil.getUserType() == USER_TYPE.STATE) {
         const preSelectedState = this.stateList?.find(state => state._id == this.userUtil.getLoggedInUserDetails()?.state);
-        if(preSelectedState) {
+        if (preSelectedState) {
           this.onSelectingStateFromDropDown(preSelectedState);
         }
       }
@@ -569,7 +569,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
         // this.stateList = res;
-        this.stateList = this._commonService.sortDataSource(res, "name");
+        this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
       },
       (error) => {
         console.log(error);
@@ -606,7 +606,9 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   resetFilter() {
     this.selectedCategory = '';
     this.selectedYear = "2020-21";
-    this.onSelectingStateFromDropDown("");
+    if(!this.isState) {
+      this.onSelectingStateFromDropDown({ _id: "", name: "India" });
+    }
     this.nationalInput = this.nationalInput;
     // this.getNationalLevelMapData(this.selectedYear);
     this.getStateWiseForm();
@@ -701,6 +703,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   private selectStateOnMap(state?: IState) {
+    console.log(state);
     if (this.previousStateLayer) {
       // this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;
@@ -798,16 +801,20 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     })
   }
 
-  cardClick(type: string) {
-    this.onCardClick.emit(type);
+  loadStatePopup() {
+    setTimeout(() => {
+      if (this.stateselected) {
+        this.onCardClick.emit({
+          id: 'populationWise',
+          stateId: this.stateselected?._id,
+          stateName: this.stateselected?.name,
+          selectedCategory: this.selectedCategory
+        });
+      }
+    }, 500);
   }
 
-  public data1Percentage = '30';
-  public data2Percentage = '40';
-  public data3Percentage = '30';
-
-  public data11Percentage = '30';
-  public data12Percentage = '40';
-  public data13Percentage = '20';
-  public data14Percentage = '10';
+  cardClick(id: string) {
+    this.onCardClick.emit({ id, selectedState: this.stateselected?._id, selectedCategory: this.selectedCategory });
+  }
 }

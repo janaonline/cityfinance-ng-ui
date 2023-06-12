@@ -65,7 +65,7 @@
                                       </td>
                                       <td style="width: 9%;" class="icon">
                                           <div class="image-upload" style="display: inline-block;" [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null" [ngClass]="{'ph-error': checkErrorState(projectRow,'photos')}">
-                                              <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
+                                              <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex" [ngClass]="{'disableInputs': isDisabled }">
                                               <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                           </label>
                                               <input style="display: none;" onclick="value = null;" [attr.id]="waterBodiesIndex + '' + projectIndex" type="file" 

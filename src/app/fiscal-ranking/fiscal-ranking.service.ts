@@ -9,6 +9,8 @@ import { FormGroup } from "@angular/forms";
 import { TableResponse } from "./common-table/common-table.component";
 
 import { map } from "rxjs/operators";
+import { UserUtility } from "../util/user/user";
+import { USER_TYPE } from "../models/user/userType";
 
 export enum StatusType {
   "notStarted" = 1,
@@ -53,13 +55,15 @@ export interface FormWiseData {
   rejected: number;
 }
 
-const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
+export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FiscalRankingService {
+
+  userUtil = new UserUtility();
 
   public badCredentials: Subject<boolean> = new Subject<boolean>();
   public helper = new JwtHelperService();
@@ -132,7 +136,7 @@ export class FiscalRankingService {
       map((response) => {
         response.columns = columns || response.columns.map(column => ({
           ...column,
-          sort: 0,
+          sort: column.sort || 0,
         }));
         return response;
       })
@@ -140,6 +144,9 @@ export class FiscalRankingService {
   }
 
   getStateWiseForm(params = {}) {
+    if (this.userUtil.getUserType() == USER_TYPE.STATE) {
+      params['state'] = this.userUtil.getLoggedInUserDetails()?.state;
+    }
     const queryParams = new URLSearchParams(removeFalsy(params)).toString()
     return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
   }

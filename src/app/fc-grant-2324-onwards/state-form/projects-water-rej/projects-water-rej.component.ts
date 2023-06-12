@@ -129,7 +129,7 @@ export class ProjectsWaterRejComponent implements OnInit {
 waterRejRes = {
  formId: '',
  status: '',
- formName: 'Projects for Water and Sanitation',
+ formName: 'Projects for Water Supply and Sanitation',
  tables: [
     {
       tableName:'Fill Details of Project for Rejuvenation of Water Bodies',
@@ -934,6 +934,7 @@ errorOnload:boolean = false;
     for (let index = 0; index < data?.uaData?.length; index++) {
       data.uaData[index].name = this.uasData[data?.uaData[index].ua]?.name;
     }
+    data = {...data, previewYear: '2023-24',  waterIndicators : this.waterIndicators}
     let dialogRef = this.dialog.open(WaterRejenuvations2223PreviewComponent, {
       data: data,
       height: "80%",
