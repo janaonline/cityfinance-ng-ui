@@ -1,34 +1,39 @@
-<!-- <app-four-slb-view [data]="performanceAssesmentTable"></app-four-slb-view> -->
-<div class="container-fluid" *ngIf="!isApiInProgress">
-    <div class="row mb-2" *ngIf="response?.formName">
-        <div class="col-sm-10">
-            <div class="form-header">
-                {{response?.formName}}
-            </div>
+<div class="container-fluid" id="indicators" #indicators>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
         </div>
-        <div class="col-sm-2 text-end">
-            <button type="button" class="btn btn-primary" (click)="onPreview()">PREVIEW</button>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2023-24
+            </span>
+            <b class="sub-h"> {{userData?.stateName}}</b>
         </div>
     </div>
-    <div class="row mb-3" *ngIf="response?.info">
-        <div class="col-sm-12 f-i">
-            {{response?.info}}
+    <div class="row mt-3 mb-1">
+        <div class="col-sm-12 form-h text-center">
+            <h5 class="formHeading">Indicators for Water Supply and Sanitation</h5>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-sm-12">
-            <div class="card mb-3" *ngFor="let uaDetails of uasList; let i=index">
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-9"> 
-                            <div class="u-n" >UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</div>
-                        </div>
-                        <div class="col-sm-3 text-right">
-                            <button class="btn pull-right btn-primary" [ngClass]="{'selectBtn': isCollapsed[i]}" (click)="foldCard(i,uaDetails._id)">Select</button>
-                        </div>
+        <div class="col-sm-12 text-end h-cls">
+            <button id="donwloadButton" class="btn btn-primary h-cls" (click)="downloadAsPDF()">Download as
+                PDF</button>
+        </div>
+    </div>
+<div class="row mb-3">
+    <div class="col-sm-12">
+        <div class="card mb-3" *ngFor="let uaDetails of preData; let i=index">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-12 mb-3"> 
+                        <div class="u-n" >UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</div>
                     </div>
-                    <div class="col-sm-12" *ngIf="isCollapsed[i]">
-                        <div class="card mb-3" *ngFor="let form of response?.data | keyvalue :keepOriginalOrder">
+                    <div class="col-sm-12">
+
+                        <div class="card mb-3" *ngFor="let form of uaDetails?.formData | keyvalue:keepOriginalOrder">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-12 text-center mb-3">
@@ -37,12 +42,12 @@
                                     <div class="col-sm-12">
                                         <div class="" *ngIf="form?.value?.key == 'indicators_wss'">
                                                 <div class="row mb-3 br-f">
-                                                    <div class="col d-s" *ngFor="let countData of form?.value?.dataCount?.fourSlbData?.data">
+                                                    <div class=" d-s" *ngFor="let countData of form?.value?.dataCount?.fourSlbData?.data">
                                                         <div class="h-t">
                                                             {{countData?.name}}
                                                         </div>
-                                                        <div class="h-v mt-1" >
-                                                           <a (click)="openDialog(template, countData?.ulbs)">{{countData?.value}}</a> 
+                                                        <div class="h-v mt-1">
+                                                           {{countData?.value}}
                                                          </div> 
                                                     </div>
                                                 </div>
@@ -66,7 +71,7 @@
                                                                 {{item?.name}}
                                                             </div>
                                                             <div class="h-v mt-1">
-                                                              <a (click)="openDialog(template, item?.ulbs)">{{item?.value}}</a>  
+                                                              {{item?.value}}
                                                              </div> 
                                                         </div>
                                                     </div> 
@@ -112,58 +117,11 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div>
+                   
+                   
+                </div>
+                
+            </div> 
         </div>
     </div>
-    <div class="row mt-4 mb-3" style="">
-        <div class="col-sm-6 " style="">
-
-            <button type="button " class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
-        </div>
-        <div class="col-sm-6 text-right" style="padding: 0;text-align: end;">
-            <button type="button " class="btn btn-c-next" [routerLink]="nextRouter">NEXT Form -></button>
-        </div>
-    </div>
-</div> 
-
-<ng-template #template>
-    <div class="row">
-        <div class="col-12 text-end">
-            <i class="fa fa-close closeIcon" (click)="closeDialog()"></i>
-        </div>
-    </div>
-    <div class="table-responsive tracking-history-table " class="tbl">
-        <table class="table ">
-            <thead>
-                <tr class="bg">
-                    <th scope="col" class="w-10">S.No</th>
-                    <th scope="col" class="w-45">ULB Name </th>
-                    <th scope="col" class="w-45">ULB Census Code/ ULB Code </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let resData of templateData; let tabelIndex=index">
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
-                    </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['ulbName']}}
-                    </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode']}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="text-center alert text-danger"  *ngIf="templateData == null || templateData?.length == 0">No Data Found!
-        </div>
-        <pagination-controls style="" class="pg" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-            screenReaderCurrentLabel="You're on page">
-        </pagination-controls>
-    </div>
-</ng-template>
-
-<div class="text-center p-4" *ngIf="isApiInProgress">
-    <app-pre-loader-new></app-pre-loader-new>
 </div>
