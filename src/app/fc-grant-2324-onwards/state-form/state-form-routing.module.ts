@@ -11,6 +11,7 @@ import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.com
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
+import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 
 const routes: Routes = [
   {
@@ -53,7 +54,12 @@ const routes: Routes = [
       {
         path: "water-supply",
         component: IndicatorsWssComponent,
-      },  
+      },
+      {
+        path: "grant-allocation",
+        component: GrantAllocationUlbsComponent,
+      } 
+      
     ],
   },
 ];
