@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
-
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { IndicatorWssPreviewComponent } from './indicator-wss-preview/indicator-wss-preview.component';
 @Component({
   selector: 'app-indicators-wss',
   templateUrl: './indicators-wss.component.html',
@@ -9,7 +10,9 @@ import { CommonServicesService } from '../../fc-shared/service/common-services.s
 export class IndicatorsWssComponent implements OnInit {
 
   constructor(
-    private commonServices: CommonServicesService
+    private commonServices: CommonServicesService,
+    private dialog: MatDialog,
+   
   ) { 
     this.stateId = this.userData?.state;
     if (!this.stateId) {
@@ -156,8 +159,9 @@ export class IndicatorsWssComponent implements OnInit {
         }
       ],
       uaScore: {
-        'title' : 'Total UA Score for Water Supply and Sanitation : 60.00(out of maximum 60)',
-         value: '60'
+        'title' : 'Total UA Score for Water Supply and Sanitation :',
+         value: '60',
+         maximum: 60
       }  
       },
       indicators_swm: {
@@ -233,8 +237,9 @@ export class IndicatorsWssComponent implements OnInit {
             }
           },
         uaScore: {
-          'title' : 'Total UA Score for Solid Waste Management : 39.53 (out of maximum 40 marks)',
-           value: '39.4'
+          'title' : 'Total UA Score for Solid Waste Management :',
+           value: '39.4',
+           maximum: 40
         }
       },
       performanceAsst: {
@@ -289,58 +294,14 @@ export class IndicatorsWssComponent implements OnInit {
         uaScore: {
           'title' : `On the basis of the total marks obtained by UA,
            proportionate grants shall be recommended by MOH&UA as per the table given below:`,
-           value: '100'
+           value: '100',
+           maximum : 100
         }
       }
    }
   }
 
-  performanceAssesmentTable = {
-    name: '',
-    info: '',
-    id: '',
-    tableType: 'lineItem-highlited',
-    tables: [
-      {
-        rows: [
-          {
-            "marks" : '% of Recommended tied grant',
-            "less30" : '0%',
-            "30To45" : '60%',
-            "45To60": '75%',
-            "60To80": "90%",
-            "greater80" : '100%'
-          }
-        ],
-        columns: [
-          {
-              "key": "marks",
-              "display_name": "Marks"
-          },
-          {
-            "key": "less30",
-            "display_name": "< 30"
-          },
-          {
-            "key": "30To45",
-            "display_name": "< 30 and <=45"
-          },
-          {
-            "key": "45To60",
-            "display_name": "> 45 and <=60"
-          },
-          {
-            "key":  "60To80",
-            "display_name": "> 60 and <=80"
-          },
-          {
-            "key": "greater80",
-            "display_name": "> 80"
-          }
-        ]
-      }
-    ]
-  }
+
   stateId:string='';
   uasList: any;
   isCollapsed: boolean[] = [];
@@ -384,6 +345,7 @@ export class IndicatorsWssComponent implements OnInit {
       console.log('aaaaa', res);
      // this.noDataFound = false;
       this.response.data = res?.data?.data;
+      res?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false;
      },
      (err) => {
       console.log('aaaaa', err);
@@ -393,16 +355,83 @@ export class IndicatorsWssComponent implements OnInit {
         }
       }
     )
-    this.isCollapsed[index] = !this.isCollapsed[index];
-    console.log(this.isCollapsed.length, this.uasList);
-
-    for (let i = 0; i <= this.uasList.length; i++) {
-      console.log(i);
-      if (i != index) {
-        this.isCollapsed[i] = false;
+   
+      this.isCollapsed[index] = !this.isCollapsed[index];
+      console.log(this.isCollapsed.length, this.uasList);
+  
+      for (let i = 0; i <= this.uasList.length; i++) {
+        console.log(i);
+        if (i != index) {
+          this.isCollapsed[i] = false;
+        }
       }
-    }
+    
 
   }
+ onPreview() {
+  let uaLen = this.uasList?.length;
+    for(let i = 0; i< uaLen; i++){
+      let uas = this.uasList[i];
+      let params = {
+        ua: uas?._id,
+        design_year: this.Year["2023-24"]
+      }
+     this.commonServices.formGetMethod('UA/get2223', params).subscribe(
+       (res: any) => {
+        console.log('aaaaa', i,  res);
+        uas["formData"] = res?.data?.data;
+        if(uaLen-1 == i) this.openPreview();
+       },
+       (err) => {
+        if(uaLen-1 == i) this.openPreview();
+        }
+      )
+    }
+    
+  }
+  openPreview(){
+    let dialogRef = this.dialog.open(IndicatorWssPreviewComponent, {
+      data: this.uasList,
+      height: "80%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
+  templateData;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
+  };
+  openDialog(template, item) {
+    
+    this.templateData = item
+    console.log('tempdata', item)
+    const dialogConfig = new MatDialogConfig();
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  closeDialog() {
+    this.dialog.closeAll();
+}
+setPage(pageNoClick: number) {
+  this.tableDefaultOptions.currentPage = pageNoClick;
+  this.listFetchOption.skip =
+    (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+  // this.searchUsersBy(this.filterForm.value);
+}
   keepOriginalOrder = (a, b) => b.key - a.key;
 }
