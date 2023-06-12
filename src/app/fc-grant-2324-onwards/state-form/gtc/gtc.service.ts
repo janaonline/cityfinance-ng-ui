@@ -2584,7 +2584,7 @@ const staticResponse = {
               "shortKey": "propertyTaxNotifCopy",
               "viewSequence": "30",
               "child": [],
-              "parent": [],
+              "parent": [{value: "^([1])$", type: "5", order: "7.001"}],
               "min": null,
               "max": null,
               "minRange": null,

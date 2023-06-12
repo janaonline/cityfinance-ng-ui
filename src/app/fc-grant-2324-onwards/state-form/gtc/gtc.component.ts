@@ -135,7 +135,7 @@ export class GtcComponent implements OnInit {
       financialYear: this.design_year,
       design_year: this.design_year,
       state: this.stateId,
-      formId: '4',
+      // formId: '4',
       data: data.finalData,
     }
 
