@@ -106,7 +106,7 @@
                                          </div>
                                     </div>
                                     <div class="col-sm-12 g-0" *ngIf="form?.value?.uaScore">
-                                        <div class="w-f">{{form?.value?.uaScore?.title}} : {{form?.value?.uaScore?.value}} (out of maximum {{form?.value?.uaScore?.maximum}}) </div>
+                                        <div class="w-f">{{form?.value?.uaScore?.title}}  {{ form?.value?.uaScore?.value ? form?.value?.uaScore?.value : 'N/A'}} (out of maximum {{form?.value?.uaScore?.maximum}}) </div>
                                     </div>
                                 </div>
                             </div>

@@ -29,275 +29,275 @@ export class IndicatorsWssComponent implements OnInit {
     info: 'The below tables denotes the aggregate indicators and targets of ULBs in respective UA',
     previousYrMsg: '',
    data: {
-      indicators_wss : {
-        title: 'Indicators for Water Supply and Sanitation(A)',
-        key: 'indicators_wss',
-        dataCount: {
-          fourSlbData : {
-            name: '',
-            data: [
-              {
-                name: 'Total Number of ULBs in UA',
-                value: '3',
-                key: '',
-                ulbs: [
-  
-                ]
-               },
-               {
-                 name: 'Approved by State',
-                 value: '2',
-                 key: '',
-                 ulbs: [
-                  
-                 ]
-                },
-                {
-                 name: 'Pending for Submission/Approval',
-                 value: '1',
-                 key: '',
-                 ulbs: [
-                  
-                ]
-                }
-            ]
-          }
-        },
-  
-        tables: [
-        {
-          'a': 'aaa',
-          tableType: 'four-slb',
-          "rows": [
-            {
-              serviceLevelIndicators: 'Water supplied in litre per capita per day(lpcd)',
-              benchmark: '135 LPCD',
-              achieved2122: '',
-              target2223: '',
-              achieved2223: '',
-              target2122: '',
-              target2324: '',
-              target2425: '',
-              wghtd_score: ''
-            },
-            {
-              serviceLevelIndicators: '% of Non-revenue water',
-              benchmark: '70 %',
-              achieved2122: '',
-              target2223: '',
-              achieved2223: '',
-              target2122: '',
-              target2324: '',
-              target2425: '',
-              wghtd_score: ''
-      
-            },
-            {
-              serviceLevelIndicators: '% of households covered with sewerage/septage services',
-              benchmark: '100 %',
-              achieved2122: '',
-              target2223: '',
-              achieved2223: '',
-              target2122: '',
-              target2324: '',
-              target2425: '',
-              wghtd_score: ''
-      
-            },
-            {
-              serviceLevelIndicators: '% of households covered with piped water supply',
-              benchmark: '100 %',
-              achieved2122: '',
-              target2223: '',
-              achieved2223: '',
-              target2122: '',
-              target2324: '',
-              target2425: '',
-              wghtd_score: ''
-      
-            }, 
-          ],
-          "columns": [
-            {
-              "key": "serviceLevelIndicators",
-              "display_name": "Service Level Indicators"
-            },
-            {
-              "key": "benchmark",
-              "display_name": "Benchmark"
-            },
-            {
-              "key": "achieved2122",
-              "display_name": "Achieved <br> 2021-22"
-            },
-            {
-              "key": "target2223",
-              "display_name": "Target <br> 2022-23"
-            },
-            {
-              "key": "achieved2223",
-              "display_name": "Achieved <br> 2022-23"
-            },
-            {
-              "key": "target2122",
-              "display_name": "Target <br> 2021-22"
-            },
-            {
-              "key": "target2324",
-              "display_name": "Target <br> 2023-24"
-            },
-            {
-              "key": "target2425",
-              "display_name": "Target <br> 2024-25"
-            },
-            {
-              "key": "wghtd_score",
-              "display_name": "Weighted Score"
-            },
-      
-          ]
-        }
-      ],
-      uaScore: {
-        'title' : 'Total UA Score for Water Supply and Sanitation :',
-         value: '60',
-         maximum: 60
-      }  
-      },
-      indicators_swm: {
-        title: 'Indicators for Solid Waste Management(B)',
-        key: 'indicators_swm',
-        dataCount: {
-            odfFormData : {
-              name: 'ODF',
-              data: [
-                {
-                  name: 'Total Number of ULBs in UA',
-                  value: '3',
-                  key: '',
-                  ulbs: [
-                  
-                  ]
-                 },
-                 {
-                   name: 'Approved by State',
-                   value: '5',
-                   key: '',
-                   ulbs: [
-                  
-                   ]
-                  },
-                  {
-                   name: 'Pending for Submission/Approval',
-                   value: '6',
-                   key: '',
-                   ulbs: [
-                  
-                   ]
-                  }
-              ],
-              'odfRatings': {
-                'name': 'ODF Rating',
-                value: '10'
-              }
-            },
-            gfcFormData : {
-              name: 'GFC',
-              data: [
-                {
-                  name: 'Total Number of ULBs in UA',
-                  value: '3',
-                  key: '',
-                  ulbs: [
-                  
-                  ]
-                 },
-                 
-                 {
-                   name: 'Approved by State',
-                   value: '2',
-                   key: '',
-                   ulbs: [
-                  
-                   ]
-                  },
-                  {
-                   name: 'Pending for Submission/Approval',
-                   value: '1',
-                   key: '',
-                   ulbs: [
-                  
-                   ]
-                  }
-              ],
-              'odfRatings': {
-                'name': 'GFC Rating',
-                value: '10'
-              }
-            }
-          },
-        uaScore: {
-          'title' : 'Total UA Score for Solid Waste Management :',
-           value: '39.4',
-           maximum: 40
-        }
-      },
-      performanceAsst: {
-        title: 'Performance Assessment',
-        key: 'performanceAsst',
-        name: 'On the basis of the total marks obtained by UA, proportionate grants shall be recommended by MOH&UA as per the table given below:',
-        info: '',
-        id: '',
-        tables: [
-          {
-            tableType: 'lineItem-highlited',
-            rows: [
-              {
-                "marks" : '% of Recommended tied grant',
-                "less30" : '0%',
-                "30To45" : '60%',
-                "45To60": '75%',
-                "60To80": "90%",
-                "greater80" : '100%'
-              }
-            ],
-            columns: [
-              {
-                  "key": "marks",
-                  "display_name": "Marks"
-              },
-              {
-                "key": "less30",
-                "display_name": "< 30"
-              },
-              {
-                "key": "30To45",
-                "display_name": "< 30 and <=45"
-              },
-              {
-                "key": "45To60",
-                "display_name": "> 45 and <=60"
-              },
-              {
-                "key":  "60To80",
-                "display_name": "> 60 and <=80"
-              },
-              {
-                "key": "greater80",
-                "display_name": "> 80"
-              }
-            ]
-          }
-        ],
-        dataCount: {  
-          },
-        uaScore: {
-          'title' : `On the basis of the total marks obtained by UA,
-           proportionate grants shall be recommended by MOH&UA as per the table given below:`,
-           value: '100',
-           maximum : 100
-        }
-      }
+    // indicators_wss : {
+    //   title: 'Indicators for Water Supply and Sanitation(A)',
+    //   key: 'indicators_wss',
+    //   dataCount: {
+    //     fourSlbData : {
+    //       name: '',
+    //       data: [
+    //         {
+    //           name: 'Total Number of ULBs in UA',
+    //           value: '3',
+    //           key: '',
+    //           ulbs: [
+
+    //           ]
+    //          },
+    //          {
+    //            name: 'Approved by State',
+    //            value: '2',
+    //            key: '',
+    //            ulbs: [
+                
+    //            ]
+    //           },
+    //           {
+    //            name: 'Pending for Submission/Approval',
+    //            value: '1',
+    //            key: '',
+    //            ulbs: [
+                
+    //           ]
+    //           }
+    //       ]
+    //     }
+    //   },
+
+    //   tables: [
+    //   {
+    //     'a': 'aaa',
+    //     tableType: 'four-slb',
+    //     "rows": [
+    //       {
+    //         serviceLevelIndicators: 'Water supplied in litre per capita per day(lpcd)',
+    //         benchmark: '135 LPCD',
+    //         achieved2122: '',
+    //         target2223: '',
+    //         achieved2223: '',
+    //         target2122: '',
+    //         target2324: '',
+    //         target2425: '',
+    //         wghtd_score: ''
+    //       },
+    //       {
+    //         serviceLevelIndicators: '% of Non-revenue water',
+    //         benchmark: '70 %',
+    //         achieved2122: '',
+    //         target2223: '',
+    //         achieved2223: '',
+    //         target2122: '',
+    //         target2324: '',
+    //         target2425: '',
+    //         wghtd_score: ''
+    
+    //       },
+    //       {
+    //         serviceLevelIndicators: '% of households covered with sewerage/septage services',
+    //         benchmark: '100 %',
+    //         achieved2122: '',
+    //         target2223: '',
+    //         achieved2223: '',
+    //         target2122: '',
+    //         target2324: '',
+    //         target2425: '',
+    //         wghtd_score: ''
+    
+    //       },
+    //       {
+    //         serviceLevelIndicators: '% of households covered with piped water supply',
+    //         benchmark: '100 %',
+    //         achieved2122: '',
+    //         target2223: '',
+    //         achieved2223: '',
+    //         target2122: '',
+    //         target2324: '',
+    //         target2425: '',
+    //         wghtd_score: ''
+    
+    //       }, 
+    //     ],
+    //     "columns": [
+    //       {
+    //         "key": "serviceLevelIndicators",
+    //         "display_name": "Service Level Indicators"
+    //       },
+    //       {
+    //         "key": "benchmark",
+    //         "display_name": "Benchmark"
+    //       },
+    //       {
+    //         "key": "achieved2122",
+    //         "display_name": "Achieved <br> 2021-22"
+    //       },
+    //       {
+    //         "key": "target2223",
+    //         "display_name": "Target <br> 2022-23"
+    //       },
+    //       {
+    //         "key": "achieved2223",
+    //         "display_name": "Achieved <br> 2022-23"
+    //       },
+    //       {
+    //         "key": "target2122",
+    //         "display_name": "Target <br> 2021-22"
+    //       },
+    //       {
+    //         "key": "target2324",
+    //         "display_name": "Target <br> 2023-24"
+    //       },
+    //       {
+    //         "key": "target2425",
+    //         "display_name": "Target <br> 2024-25"
+    //       },
+    //       {
+    //         "key": "wghtd_score",
+    //         "display_name": "Weighted Score"
+    //       },
+    
+    //     ]
+    //   }
+    // ],
+    // uaScore: {
+    //   'title' : 'Total UA Score for Water Supply and Sanitation :',
+    //    value: '60',
+    //    maximum: 60
+    // }  
+    // },
+    // indicators_swm: {
+    //   title: 'Indicators for Solid Waste Management(B)',
+    //   key: 'indicators_swm',
+    //   dataCount: {
+    //       odfFormData : {
+    //         name: 'ODF',
+    //         data: [
+    //           {
+    //             name: 'Total Number of ULBs in UA',
+    //             value: '3',
+    //             key: '',
+    //             ulbs: [
+                
+    //             ]
+    //            },
+    //            {
+    //              name: 'Approved by State',
+    //              value: '5',
+    //              key: '',
+    //              ulbs: [
+                
+    //              ]
+    //             },
+    //             {
+    //              name: 'Pending for Submission/Approval',
+    //              value: '6',
+    //              key: '',
+    //              ulbs: [
+                
+    //              ]
+    //             }
+    //         ],
+    //         'odfRatings': {
+    //           'name': 'ODF Rating',
+    //           value: '10'
+    //         }
+    //       },
+    //       gfcFormData : {
+    //         name: 'GFC',
+    //         data: [
+    //           {
+    //             name: 'Total Number of ULBs in UA',
+    //             value: '3',
+    //             key: '',
+    //             ulbs: [
+                
+    //             ]
+    //            },
+               
+    //            {
+    //              name: 'Approved by State',
+    //              value: '2',
+    //              key: '',
+    //              ulbs: [
+                
+    //              ]
+    //             },
+    //             {
+    //              name: 'Pending for Submission/Approval',
+    //              value: '1',
+    //              key: '',
+    //              ulbs: [
+                
+    //              ]
+    //             }
+    //         ],
+    //         'odfRatings': {
+    //           'name': 'GFC Rating',
+    //           value: '10'
+    //         }
+    //       }
+    //     },
+    //   uaScore: {
+    //     'title' : 'Total UA Score for Solid Waste Management :',
+    //      value: '39.4',
+    //      maximum: 40
+    //   }
+    // },
+    // performanceAsst: {
+    //   title: 'Performance Assessment',
+    //   key: 'performanceAsst',
+    //   name: 'On the basis of the total marks obtained by UA, proportionate grants shall be recommended by MOH&UA as per the table given below:',
+    //   info: '',
+    //   id: '',
+    //   tables: [
+    //     {
+    //       tableType: 'lineItem-highlited',
+    //       rows: [
+    //         {
+    //           "marks" : '% of Recommended tied grant',
+    //           "less30" : '0%',
+    //           "30To45" : '60%',
+    //           "45To60": '75%',
+    //           "60To80": "90%",
+    //           "greater80" : '100%'
+    //         }
+    //       ],
+    //       columns: [
+    //         {
+    //             "key": "marks",
+    //             "display_name": "Marks"
+    //         },
+    //         {
+    //           "key": "less30",
+    //           "display_name": "< 30"
+    //         },
+    //         {
+    //           "key": "30To45",
+    //           "display_name": "< 30 and <=45"
+    //         },
+    //         {
+    //           "key": "45To60",
+    //           "display_name": "> 45 and <=60"
+    //         },
+    //         {
+    //           "key":  "60To80",
+    //           "display_name": "> 60 and <=80"
+    //         },
+    //         {
+    //           "key": "greater80",
+    //           "display_name": "> 80"
+    //         }
+    //       ]
+    //     }
+    //   ],
+    //   dataCount: {  
+    //     },
+    //   uaScore: {
+    //     'title' : `On the basis of the total marks obtained by UA,
+    //      proportionate grants shall be recommended by MOH&UA as per the table given below:`,
+    //      value: '100',
+    //      maximum : 100
+    //   }
+    // }
    }
   }
 
