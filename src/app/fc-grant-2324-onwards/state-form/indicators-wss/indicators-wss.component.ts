@@ -21,6 +21,7 @@ export class IndicatorsWssComponent implements OnInit {
       this.stateId = localStorage.getItem("state_id");
     }
     this.setUaList();
+    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
   }
   isApiInProgress:boolean = false;
   response = {
@@ -310,8 +311,11 @@ export class IndicatorsWssComponent implements OnInit {
   noDataFound:boolean = false;
   userData = JSON.parse(localStorage.getItem("userData"));
   Year = JSON.parse(localStorage.getItem("Years"));
+  nextRouter: string = '';
+  backRouter: string = '';
+  sideMenuItem : any;
   ngOnInit(): void {
-    
+    this.setRouter();
   }
 
   setUaList(){
@@ -435,5 +439,17 @@ setPage(pageNoClick: number) {
     (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
   // this.searchUsersBy(this.filterForm.value);
 }
+setRouter() {
+  this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
+  for (const key in this.sideMenuItem) {
+    this.sideMenuItem[key].forEach((element) => {
+      if (element?.folderName == "indicators_wss") {
+        this.nextRouter = element?.nextUrl;
+        this.backRouter = element?.prevUrl;
+      }
+    });
+  }
+}
+
   keepOriginalOrder = (a, b) => b.key - a.key;
 }
