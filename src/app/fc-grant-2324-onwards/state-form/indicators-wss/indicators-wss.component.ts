@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { IndicatorWssPreviewComponent } from './indicator-wss-preview/indicator-wss-preview.component';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-indicators-wss',
   templateUrl: './indicators-wss.component.html',
@@ -343,16 +345,16 @@ export class IndicatorsWssComponent implements OnInit {
    this.commonServices.formGetMethod('UA/get2223', params).subscribe(
      (res: any) => {
       console.log('aaaaa', res);
-     // this.noDataFound = false;
+      this.noDataFound = false;
       this.response.data = res?.data?.data;
-      res?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false;
+      if(!this.response["data"]["indicators_wss"]["tables"]?.length) {
+        this.noDataFound = true;
+        swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
+      }
      },
      (err) => {
       console.log('aaaaa', err);
-      err?.message == 'Insufficient Data' ? this.noDataFound = true : this.noDataFound = false;
-        if(this.noDataFound){
-        //  swal("", 'Data could not shown as ULBs data is pending for approval by State Government.', "");
-        }
+      swal("Error", `${err?.message}`, "error");
       }
     )
    
