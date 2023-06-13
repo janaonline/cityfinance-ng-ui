@@ -85,7 +85,7 @@ export class CommonServicesService {
  formGetMethodAsBlob(endPoints:string, queryParam:any){
   // return this.http.get(environment.api.url + 'grantDistribution/template', { responseType: 'blob' });
   return this.http.get(
-    `${environment.api.url}grantDistribution/template`,
+      `${environment.api.url}${endPoints}`,
     {  params: queryParam, responseType: "blob" }
   );
 }
