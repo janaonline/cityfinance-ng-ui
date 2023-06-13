@@ -63,6 +63,7 @@ export class GrantAllocationComponent implements OnInit {
         isDisabled: false,
         error: false,
         icon: "",
+        yearCode: '2022-23',
         quesArray: [
           {
             installment: 1,
