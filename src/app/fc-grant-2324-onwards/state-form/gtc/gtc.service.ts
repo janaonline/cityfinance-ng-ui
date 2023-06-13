@@ -86,7 +86,7 @@ const staticResponse = {
                   "restrictions": [],
                   "input_type": "3",
                   "weightage": [],
-                  "isQuestionDisabled": true,
+                  "isQuestionDisabled": false,
                   "value": "",
                   "acceptableType": "",
                   "acceptableFileType": "",
@@ -133,7 +133,7 @@ const staticResponse = {
                   "restrictions": [],
                   "input_type": "3",
                   "weightage": [],
-                  "isQuestionDisabled": true,
+                  "isQuestionDisabled": false,
                   "value": "",
                   "acceptableType": "",
                   "acceptableFileType": "",
@@ -180,7 +180,7 @@ const staticResponse = {
                   "restrictions": [],
                   "input_type": "3",
                   "weightage": [],
-                  "isQuestionDisabled": true,
+                  "isQuestionDisabled": false,
                   "value": "",
                   "acceptableType": "",
                   "acceptableFileType": "",
@@ -231,7 +231,7 @@ const staticResponse = {
                   "restrictions": [],
                   "input_type": "3",
                   "weightage": [],
-                  "isQuestionDisabled": true,
+                  "isQuestionDisabled": false,
                   "value": "",
                   "acceptableType": "",
                   "acceptableFileType": "",
@@ -312,20 +312,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "3",
-                      "nestedAnswer": [],
-                      "order": "1.008",
-                      "shortKey": "year"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -376,20 +363,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "3",
-                      "nestedAnswer": [],
-                      "order": "1.002",
-                      "shortKey": "ulbType"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -440,20 +414,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "3",
-                      "nestedAnswer": [],
-                      "order": "1.003",
-                      "shortKey": "grantType"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -508,20 +469,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "3",
-                      "nestedAnswer": [],
-                      "order": "1.009",
-                      "shortKey": "installment_type"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -954,21 +902,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "2.001",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
-                      "shortKey": "totalMpc"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -1016,21 +950,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "2.002",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
-                      "shortKey": "totalNmpc"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -1078,21 +998,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "2.003",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
-                      "shortKey": "totalElectedMpc"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -1140,21 +1046,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "2.004",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}|1000))$",
-                      "shortKey": "totalElectedNmpc"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -1474,21 +1366,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "3.001",
-                      "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
-                      "shortKey": "recAmount"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -1531,20 +1409,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "14",
-                      "nestedAnswer": [],
-                      "order": "3.002",
-                      "shortKey": "receiptDate"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -1627,27 +1492,7 @@ const staticResponse = {
               "hint": "",
               "resource_urls": [],
               "label": "4",
-              "shortKey": "transrantdetail_tableview_addbutton",
-              "tableHeaders": [
-                {
-                  "label": "Amount Transferred, excluding interest (in lakhs)"
-                },
-                {
-                  "label": "Date of Transfer"
-                },
-                {
-                  "label": "Was there any delay in transfer?"
-                },
-                {
-                  "label": "No. of working days delayed"
-                },
-                {
-                  "label": "Rate of interest (annual rate)"
-                },
-                {
-                  "label": "Amount of interest transferred, If there's any delay (in lakhs)"
-                }, 
-              ],
+              "shortKey": "transferGrantdetail_tableview_addbutton",
               "viewSequence": "14",
               "child": [],
               "parent": [],
@@ -1775,7 +1620,23 @@ const staticResponse = {
                   "label": "3",
                   "shortKey": "transDelay",
                   "viewSequence": "17",
-                  "child": [],
+                  "child": [
+                    {
+                      "type": "2",
+                      "value": "^([1])$",
+                      "order": "4.004"
+                    },
+                    {
+                      "type": "2",
+                      "value": "^([1])$",
+                      "order": "4.005"
+                    },
+                    {
+                      "type": "2",
+                      "value": "^([1])$",
+                      "order": "4.006"
+                    }
+                  ],
                   "parent": [],
                   "validation": [
                     {
@@ -1810,7 +1671,13 @@ const staticResponse = {
                   "shortKey": "daysDelay",
                   "viewSequence": "18",
                   "child": [],
-                  "parent": [],
+                  "parent": [
+                    {
+                      "value": "^([1])$",
+                      "type": "5",
+                      "order": "4.003"
+                    }
+                  ],
                   "validation": [
                     {
                       "error_msg": "",
@@ -1835,7 +1702,7 @@ const staticResponse = {
                   "acceptableType": "",
                   "acceptableFileType": "",
                   "type": "2",
-                  "visibility": true,
+                  "visibility": false,
                   "nestedConfig": {
                     "parentOrder": "4",
                     "index": 3,
@@ -1854,7 +1721,13 @@ const staticResponse = {
                   "shortKey": "interest",
                   "viewSequence": "19",
                   "child": [],
-                  "parent": [],
+                  "parent": [
+                    {
+                      "value": "^([1])$",
+                      "type": "5",
+                      "order": "4.003"
+                    }
+                  ],
                   "validation": [
                     {
                       "error_msg": "",
@@ -1879,7 +1752,7 @@ const staticResponse = {
                   "acceptableType": "",
                   "acceptableFileType": "",
                   "type": "2",
-                  "visibility": true,
+                  "visibility": false,
                   "nestedConfig": {
                     "parentOrder": "4",
                     "index": 4,
@@ -1898,7 +1771,13 @@ const staticResponse = {
                   "shortKey": "intTransfer",
                   "viewSequence": "20",
                   "child": [],
-                  "parent": [],
+                  "parent": [
+                    {
+                      "value": "^([1])$",
+                      "type": "5",
+                      "order": "4.003"
+                    }
+                  ],
                   "validation": [
                     {
                       "error_msg": "",
@@ -1923,7 +1802,7 @@ const staticResponse = {
                   "acceptableType": "",
                   "acceptableFileType": "",
                   "type": "2",
-                  "visibility": true,
+                  "visibility": false,
                   "nestedConfig": {
                     "parentOrder": "4",
                     "index": 5,
@@ -1992,21 +1871,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "4.001",
-                      "pattern": "^((?:[1-9]|[1-9][0-9]{1,5}))$",
-                      "shortKey": "transAmount"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -2049,20 +1914,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "14",
-                      "nestedAnswer": [],
-                      "order": "4.002",
-                      "shortKey": "transDate"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -2088,7 +1940,23 @@ const staticResponse = {
                     "label": "3",
                     "shortKey": "transDelay",
                     "viewSequence": "17",
-                    "child": [],
+                    "child": [
+                      {
+                        "type": "2",
+                        "value": "^([1])$",
+                        "order": "4.004"
+                      },
+                      {
+                        "type": "2",
+                        "value": "^([1])$",
+                        "order": "4.005"
+                      },
+                      {
+                        "type": "2",
+                        "value": "^([1])$",
+                        "order": "4.006"
+                      }
+                    ],
                     "parent": [],
                     "validation": [
                       {
@@ -2113,20 +1981,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "5",
-                      "nestedAnswer": [],
-                      "order": "4.003",
-                      "shortKey": "transDelay"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -2140,7 +1995,13 @@ const staticResponse = {
                     "shortKey": "daysDelay",
                     "viewSequence": "18",
                     "child": [],
-                    "parent": [],
+                    "parent": [
+                      {
+                        "value": "^([1])$",
+                        "type": "5",
+                        "order": "4.003"
+                      }
+                    ],
                     "validation": [
                       {
                         "error_msg": "",
@@ -2165,7 +2026,7 @@ const staticResponse = {
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
-                    "visibility": true,
+                    "visibility": false,
                     "nestedConfig": {
                       "parentOrder": "4",
                       "index": 3,
@@ -2174,21 +2035,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "4.004",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,2}))$",
-                      "shortKey": "daysDelay"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -2202,7 +2049,13 @@ const staticResponse = {
                     "shortKey": "interest",
                     "viewSequence": "19",
                     "child": [],
-                    "parent": [],
+                    "parent": [
+                      {
+                        "value": "^([1])$",
+                        "type": "5",
+                        "order": "4.003"
+                      }
+                    ],
                     "validation": [
                       {
                         "error_msg": "",
@@ -2227,7 +2080,7 @@ const staticResponse = {
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
-                    "visibility": true,
+                    "visibility": false,
                     "nestedConfig": {
                       "parentOrder": "4",
                       "index": 4,
@@ -2236,21 +2089,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "4.005",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]|100))$",
-                      "shortKey": "interest"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -2264,7 +2103,13 @@ const staticResponse = {
                     "shortKey": "intTransfer",
                     "viewSequence": "20",
                     "child": [],
-                    "parent": [],
+                    "parent": [
+                      {
+                        "value": "^([1])$",
+                        "type": "5",
+                        "order": "4.003"
+                      }
+                    ],
                     "validation": [
                       {
                         "error_msg": "",
@@ -2289,7 +2134,7 @@ const staticResponse = {
                     "acceptableType": "",
                     "acceptableFileType": "",
                     "type": "2",
-                    "visibility": true,
+                    "visibility": false,
                     "nestedConfig": {
                       "parentOrder": "4",
                       "index": 5,
@@ -2298,21 +2143,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "2",
-                      "nestedAnswer": [],
-                      "order": "4.006",
-                      "pattern": "^((?:[0-9]|[1-9][0-9]{1,3}))$",
-                      "shortKey": "intTransfer"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -2403,7 +2234,23 @@ const staticResponse = {
               "label": "3",
               "shortKey": "transDelay",
               "viewSequence": "17",
-              "child": [],
+              "child": [
+                {
+                  "type": "2",
+                  "value": "^([1])$",
+                  "order": "4.004"
+                },
+                {
+                  "type": "2",
+                  "value": "^([1])$",
+                  "order": "4.005"
+                },
+                {
+                  "type": "2",
+                  "value": "^([1])$",
+                  "order": "4.006"
+                }
+              ],
               "parent": [],
               "validation": [
                 {
@@ -2427,7 +2274,13 @@ const staticResponse = {
               "shortKey": "daysDelay",
               "viewSequence": "18",
               "child": [],
-              "parent": [],
+              "parent": [
+                {
+                  "value": "^([1])$",
+                  "type": "5",
+                  "order": "4.003"
+                }
+              ],
               "validation": [
                 {
                   "error_msg": "",
@@ -2460,7 +2313,13 @@ const staticResponse = {
               "shortKey": "interest",
               "viewSequence": "19",
               "child": [],
-              "parent": [],
+              "parent": [
+                {
+                  "value": "^([1])$",
+                  "type": "5",
+                  "order": "4.003"
+                }
+              ],
               "validation": [
                 {
                   "error_msg": "",
@@ -2493,7 +2352,13 @@ const staticResponse = {
               "shortKey": "intTransfer",
               "viewSequence": "20",
               "child": [],
-              "parent": [],
+              "parent": [
+                {
+                  "value": "^([1])$",
+                  "type": "5",
+                  "order": "4.003"
+                }
+              ],
               "validation": [
                 {
                   "error_msg": "",
@@ -2871,20 +2736,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "5",
-                      "nestedAnswer": [],
-                      "order": "5.001",
-                      "shortKey": "recomAvail"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -3434,20 +3286,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "5",
-                      "nestedAnswer": [],
-                      "order": "6.001",
-                      "shortKey": "projectUndtkn"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -3720,20 +3559,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "5",
-                      "nestedAnswer": [],
-                      "order": "7.001",
-                      "shortKey": "propertyTaxNotif"
-                    }
+                    "forParentValue": 1
                   },
                   {
                     "information": "",
@@ -4053,20 +3879,7 @@ const staticResponse = {
                     "selectedAnswerOption": {
                       "name": " 1"
                     },
-                    "forParentValue": 1,
-                    "answer": {
-                      "answer": [
-                        {
-                          "label": "",
-                          "textValue": "",
-                          "value": ""
-                        }
-                      ],
-                      "input_type": "5",
-                      "nestedAnswer": [],
-                      "order": "8.001",
-                      "shortKey": "accountLinked"
-                    }
+                    "forParentValue": 1
                   }
                 ]
               ],
@@ -4255,7 +4068,7 @@ export class GtcService {
     return this.http.get(`${environment.api.url}grant-transfer-certificate/installmentForm?design_year=${design_year}&state=${state}`)
       .pipe(
         map((res: any) => {
-          // return res;
+          return res;
           return baseForm;
         })
       );
