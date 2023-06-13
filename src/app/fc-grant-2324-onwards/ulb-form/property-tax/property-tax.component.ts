@@ -236,12 +236,12 @@ export class PropertyTaxComponent implements OnInit {
       position: [{ value: item.postion, disabled: true }],
       pos: [{ value: item.pos, disabled: true }],
       readonly: [{ value: item.readonly, disabled: true }],
-      ...(item.file && {
+      ...(item.formFieldType == 'file' && {
         allowedFileTypes: [{ value: item.allowedFileTypes, disabled: true }],
         file: this.fb.group({
           uploading: [{ value: false, disabled: true }],
-          name: [item.file.name, item.required ? [Validators.required] : []],
-          url: [item.file.url, item.required ? [Validators.required] : []]
+          name: [item.file?.name || '', item.required ? [Validators.required] : []],
+          url: [item.file?.url || '', item.required ? [Validators.required] : []]
         })
       })
     });
