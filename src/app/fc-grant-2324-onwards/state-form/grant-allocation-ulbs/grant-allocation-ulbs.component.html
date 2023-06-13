@@ -1,9 +1,9 @@
-<!-- <div class="container-fluid" *ngIf="!isApiInProgress">
+<div class="container-fluid" *ngIf="!isApiInProgress">
     <div class="row header mt-2">
-        <div class="col-sm-8 col-lg-8 col-md-8 header2">
-            <span>Grant Allocation to ULBs</span>
+        <div class="col-sm-8 header2">
+            <span>{{response?.formName}}</span>
         </div>
-        <div class="col-sm-4 col-lg-4 col-md-4  text-end">
+        <div class="col-sm-4 text-end">
             <button type="button" class="btn btn-primary mt-2" (click)="onPreview()" id="prevBtn">PREVIEW</button>
         </div>
     </div>
@@ -38,7 +38,7 @@
                                     <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                       data-height="16"></span>
                                 </button>
-                                    <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel', cIndex, qIndex)" type="file" accept=".xls, .xlsx" #file>
+                                    <input #bs_excel1 style="display: none;" onclick="value=null;" (change)="fileChangeEvent($event,'excel', cIndex, qIndex)" type="file" accept=".xls, .xlsx" #file>
                                 </div>
                             </div>
                             <div class="row mt-3 i-c" *ngIf="quesItem?.fileName != ''">
@@ -80,7 +80,7 @@
             <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
         </div>
     </div>
-</div> -->
+</div>
 
 
 <div class="text-center p-4" *ngIf="isApiInProgress">
