@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(["/home"]);
       return;
     }
-    this.alertForload();
+  //  this.alertForload();
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.user && param.user == "USER") {
         this.directLogin = true;
@@ -357,9 +357,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       //  this.leftMenu = res;
     });
   }
-  alertForload(){
-    swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in.`, 'warning')
-  }
+  // alertForload(){
+  //   swal("IMPORTANT", `Due to the sudden surge in usage, users can experience portal access issues. We are working to resolve this issue and appreciate your cooperation in this regard. For any queries related to 15th FC reach out to 15fcgrant@cityfinance.in.`, 'warning')
+  // }
 }
 
 @Pipe({

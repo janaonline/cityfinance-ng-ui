@@ -230,7 +230,6 @@ export const appRouter: Routes = [
         (m) => m.MohuaFormModule
       ),
   },
-  // for municipal-bonds only for stg now
   // {
   //   path: "municipal-bonds",
   //   component: MunicipalityBondsProjectsComponent,
