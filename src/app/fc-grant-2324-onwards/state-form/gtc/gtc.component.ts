@@ -6,6 +6,7 @@ import { WebFormComponent } from 'src/app/mform_webform/web-form/web-form.compon
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
+import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { GtcService } from './gtc.service';
 
 const swal: SweetAlert = require("sweetalert");
@@ -29,7 +30,8 @@ export class GtcComponent implements OnInit {
     private dialog: MatDialog,
     private loaderService: GlobalLoaderService,
     private dataEntryService: DataEntryService,
-  ) { 
+    private commonServices: CommonServicesService,
+  ) {
 
     setTimeout(() => {
       console.log('webForms', this.webForms);
@@ -130,7 +132,7 @@ export class GtcComponent implements OnInit {
   }
 
 
-  isFormValid(data) {
+  isFormValid(data, question) {
     return true;
   }
 
@@ -181,19 +183,19 @@ export class GtcComponent implements OnInit {
 
 
     if (isDraft == false) {
-      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
+      if (!(question?.file?.url && question.file?.name)) return swal('Error', 'Please upload signed copy of file', 'error');
+      if (!this.isFormValid(data, question)) return swal('Error', 'Please fill valid values in form', 'error');
     }
 
     this.loaderService.showLoader();
     this.gtcService.postForm(payload).subscribe(res => {
-      // this.webForm.hasUnsavedChanges = false;
+      this.webForms.forEach(webForm => webForm.hasUnsavedChanges = false);
       this.loaderService.stopLoader();
-      // this.commonServices.setFormStatusUlb.next(true);
-      // this.isFormFinalSubmit = true;
-      // if (!isDraft) {
-      //   this.getBaseForm();
-      // }
-      // swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
+      this.commonServices.setFormStatusUlb.next(true);
+      if (!isDraft) {
+        this.getBaseForm();
+      }
+      swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
       this.loaderService.stopLoader();

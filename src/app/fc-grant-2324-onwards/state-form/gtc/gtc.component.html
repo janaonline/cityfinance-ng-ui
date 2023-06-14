@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="col-sm-12 mb-3">
-                                        <button (click)="bs_pdf1.click()" class="btn border w-100">
+                                        <button  [disabled]="question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"  (click)="bs_pdf1.click()" class="btn border w-100">
                                             <div class="row">
                                                 <div class="col-sm-6 file-text ">
                                                     File
