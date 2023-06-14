@@ -7,8 +7,8 @@
         </div>
         <div class="col-sm-12 text-center heading-p">
             <span style="display: block;">
-              Submissions for 15th FC grant for FY 2022-23
-          </span>
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
 
             <span class="sub-h"> {{stateName}}</span>
         </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="col-sm-6 text-end h-cls">
             <button id="donwloadButton" class="btn btn-primary h-cls" (click)="downloadAsPDF()">Download as
-              PDF</button>
+                PDF</button>
         </div>
     </div>
     <div class="row">
@@ -32,34 +32,44 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card mb-3">
-                <div class="card-body" *ngFor="let item of data">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="l-h">{{item?.label}}</div>
-                            <div class="card">
-                                <div class="card-body" *ngFor="let question of item?.questions">
-                                    <div class="row">
-                                        <div class="col-sm-12 qus qus-h">
-                                            {{question?.instlText}}
-                                        </div>
-                                        
-                                        <app-installment-preview [questionresponse]="question?.questionresponse"></app-installment-preview>
-                                        <!-- <div class="col-sm-12 ms-4 mt-2 ans-h">
-                                            <span *ngIf="question?.file?.name"><a href="{{question?.file?.url}}">{{question?.file?.name}}</a></span>
-                                            <span *ngIf="question?.file?.name == ''">N/A</span>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
+                <ng-container *ngFor="let item of data?.formdata">
+                    <div class="card-body" *ngIf="canSeeInstallmentSection(item.questions)">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="l-h">{{item?.label}}</div>
+                                <div class="card">
+                                    <ng-container *ngFor="let question of item?.questions">
+                                        <div class="card-body"
+                                            *ngIf="!data?.selectedQuestion || question?.installment == data?.selectedQuestion?.installment">
+                                            <div class="row">
+                                                <div class="col-sm-12 qus qus-h">
+                                                    {{question?.instlText}}
+                                                </div>
 
+                                                <app-installment-preview
+                                                    [questionresponse]="question?.questionresponse">
+                                                </app-installment-preview>
+                                                <!-- <div class="col-sm-12 ms-4 mt-2 ans-h">
+                                                    <span *ngIf="question?.file?.name"><a href="{{question?.file?.url}}">{{question?.file?.name}}</a></span>
+                                                    <span *ngIf="question?.file?.name == ''">N/A</span>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>
-    <p class="fw-bold">Certified that the grants have been utilized/proposed to be utilized for the purpose for which these have been provided and if any deviation is observed, the same will be intimated. </p>
-    <p class="fw-bold">Signature with the seal of Counter sign Secretary (Nodal Department)	Signature with the seal of Finance Secretary </p>
+    <p class="fw-bold">Certified that the grants have been utilized/proposed to be utilized for the purpose for which
+        these have been provided and if any deviation is observed, the same will be intimated. </p>
+    <p class="fw-bold">Signature with the seal of Counter sign Secretary (Nodal Department) Signature with the seal of
+        Finance Secretary </p>
 </div>
 <ng-template #templateSave>
     <div class="modal-body text-center alert">
@@ -78,8 +88,9 @@
         <div class="row">
             <div class="col-sm-12 text-end">
                 <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-          Save & Proceed</button>
+                <button type="button" class="btn btn-success "
+                    style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                    Save & Proceed</button>
             </div>
 
         </div>

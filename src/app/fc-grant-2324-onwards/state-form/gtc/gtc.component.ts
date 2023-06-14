@@ -67,7 +67,7 @@ export class GtcComponent implements OnInit {
         url: ''
       };
       return;
-    } 
+    }
     const maxFileSize = 5;
     const excelFileExtensions = ['xls', 'xlsx'];
     const file: File = event.target.files[0];
@@ -100,11 +100,11 @@ export class GtcComponent implements OnInit {
     });
   }
 
-  onPreview() {
-    console.log(this.baseForm);
+  onPreview(selectedQuestion?) {
+    console.log('selectedQuestion', selectedQuestion);
     let formdata = this.baseForm;
     const dialogRef = this.dialog.open(GtcPreviewComponent, {
-      data: formdata,
+      data: { formdata, selectedQuestion },
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",

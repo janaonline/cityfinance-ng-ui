@@ -176,4 +176,9 @@ export class GtcPreviewComponent implements OnInit {
   stay() {
     this.dialogRef.close();
   }
+
+  canSeeInstallmentSection(questions: any[]) {
+    if(!this.data?.selectedQuestion) return true;
+    return questions.some(question => question?.type == this.data?.selectedQuestion?.type);
+  }
 }
