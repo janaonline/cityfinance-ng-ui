@@ -53,34 +53,35 @@ export class GtcPreviewComponent implements OnInit {
   font-size: 10px;
 }
   .card {
-      margin-top: 10px !important;
       padding: 5px 10px;
-      background-color: #EBF5F5;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      border-radius: 6px;
+      padding: 6px;
   }
 
-  .qus-h {
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-    font-size: 10px !important;
-}
+    .qus-h {
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      font-size: 10px !important;
+    }
 
-.ans-h {
-    margin-bottom: .5rem;
-    margin-left: 1.2rem;
-    margin-top: .5rem;
-    font-size: 10px !important;
-}
-.l-h {
-  font-size: 12px !important;
-}
-.m-r{
-  margin-bottom: 1.5rem !important;
-}
+    .ans-h {
+        margin-bottom: .5rem;
+        margin-left: 1.2rem;
+        margin-top: .5rem;
+        font-size: 10px !important;
+    }
+    .l-h {
+      font-size: 12px !important;
+    }
+    .m-r{
+      margin-bottom: 1.5rem !important;
+    }
 
- .h-cls{
+    .h-cls{
         display: none;
-      }
- .form-status {
+    }
+    .form-status {
         font-size: 10px;
         margin-top: 10px;
       }
@@ -89,9 +90,17 @@ export class GtcPreviewComponent implements OnInit {
         color: black;
         pointer-events: none;
     }
-.sub-h {
-  margin-top: .5rem !important;
-}
+    .sub-h {
+      margin-top: .5rem !important;
+    }
+    .td {
+      font-size: 6px;
+      border: 1px solid gray;
+    }
+    .th {
+      font-size: 6px;
+      text-align: left;
+    }
     </style>`;
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
@@ -168,7 +177,7 @@ export class GtcPreviewComponent implements OnInit {
     console.log("i, j data", data);
     // this.submit(data?.i, data?.j);
   }
-  
+
   alertClose() {
     this.stay();
   }
@@ -178,7 +187,7 @@ export class GtcPreviewComponent implements OnInit {
   }
 
   canSeeInstallmentSection(questions: any[]) {
-    if(!this.data?.selectedQuestion) return true;
+    if (!this.data?.selectedQuestion) return true;
     return questions.some(question => question?.type == this.data?.selectedQuestion?.type);
   }
 }
