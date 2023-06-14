@@ -7,7 +7,7 @@ import { UlbFormComponent } from './ulb-form.component';
 import { TwentyEightSlbComponent } from './twenty-eight-slb/twenty-eight-slb.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResourceComponent } from './resource/resource.component';
-import { ConfirmationGuard } from './guards/confirmation.guard';
+import { ConfirmationGuard } from '../guards/confirmation.guard';
 import { PropertyTaxComponent } from './property-tax/property-tax.component';
 import { PfmsComponent } from './pfms/pfms.component';
 import { FourSlbComponent } from './four-slb/four-slb.component';
@@ -40,17 +40,9 @@ const routes: Routes = [
         canDeactivate: [ConfirmationGuard]
       },
       {
-        path: "gfc",
-        component: CommonFormComponent,
-        canDeactivate: [ConfirmationGuard]
-      },
-      {
         path: "ptax",
         component: PropertyTaxComponent,
         canDeactivate: [ConfirmationGuard],
-        data: {
-          'formType': 'custom-form'
-        },
       },
       {
         path: "28SLBsForm",

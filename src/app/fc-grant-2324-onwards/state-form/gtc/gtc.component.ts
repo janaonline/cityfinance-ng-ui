@@ -1,7 +1,8 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
+import { WebFormComponent } from 'src/app/mform_webform/web-form/web-form.component';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
@@ -15,6 +16,8 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class GtcComponent implements OnInit {
 
+  @ViewChildren('webForm') webForms: QueryList<WebFormComponent>;
+
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
@@ -26,7 +29,12 @@ export class GtcComponent implements OnInit {
     private dialog: MatDialog,
     private loaderService: GlobalLoaderService,
     private dataEntryService: DataEntryService,
-  ) { }
+  ) { 
+
+    setTimeout(() => {
+      console.log('webForms', this.webForms);
+    }, 4000)
+  }
 
   get design_year() {
     const years = JSON.parse(localStorage.getItem("Years"));
@@ -36,11 +44,14 @@ export class GtcComponent implements OnInit {
   get stateId() {
     if (this.userData?.role == 'STATE') return this.userData?.state;
     return localStorage.getItem("state");
-
   }
 
   get uploadFolderName() {
     return `${this.userData?.role}/2023-24/gtc/${this.userData?.state}`
+  }
+
+  get hasUnsavedChanges() {
+    return this.webForms.some(webForm => webForm.hasUnsavedChanges);
   }
 
   ngOnInit(): void {

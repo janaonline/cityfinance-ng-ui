@@ -12,6 +12,7 @@ import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.com
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
+import { ConfirmationGuard } from '../guards/confirmation.guard';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       {
         path: "gtCertificate",
         component: GtcComponent,
+        canDeactivate: [ConfirmationGuard],
       },
       {
         path: "water-rejenuvation-new",

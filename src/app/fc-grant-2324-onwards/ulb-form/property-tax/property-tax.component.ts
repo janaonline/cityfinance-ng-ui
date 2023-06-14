@@ -131,6 +131,9 @@ export class PropertyTaxComponent implements OnInit {
     return localStorage.getItem("ulb_id");
   }
 
+  get hasUnsavedChanges() {
+    return !this.form.pristine;
+  }
 
   loadData() {
     this.loaderService.showLoader();
