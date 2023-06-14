@@ -24,7 +24,8 @@ export class InstallmentPreviewComponent implements OnInit {
     grantDistribute: '',
     receiptDate: '',
     recAmount: '',
-    transrantdetail_tableview_addbutton: []
+    sfcNotificationCopy: '',
+    transferGrantdetail_tableview_addbutton: []
   };
 
   constructor() { }
@@ -33,17 +34,20 @@ export class InstallmentPreviewComponent implements OnInit {
     const questions = this.questionresponse.data[0].language[0].question as any[];
     const parentQuestions = questions.filter(question => question.childQuestionData)
 
-    console.log(parentQuestions);
+    console.log('parentQuestions', parentQuestions);
     parentQuestions.forEach(parentQuestion => {
-      if (parentQuestion?.shortKey === 'transrantdetail_tableview_addbutton') {
+      if (parentQuestion?.shortKey === 'transferGrantdetail_tableview_addbutton') {
         console.log('special case');
-        this.formData.transrantdetail_tableview_addbutton = parentQuestion?.childQuestionData
+        this.formData.transferGrantdetail_tableview_addbutton = parentQuestion?.childQuestionData
           ?.map(childQuestion => (childQuestion?.reduce((obj, question) => {
             if (question.input_type == '2' || question.input_type == '14') {
               obj[question.shortKey] = question.modelValue;
             }
-            else if (question.input_type == '3' || question.input_type == '5') {
-              obj[question.shortKey] = question.selectedValue?.[0].label;
+            else if (question.input_type == '3') {
+              obj[question.shortKey] = question.selectedValue?.[0]?.label;
+            }
+            else if (question.input_type == '5') {
+              obj[question.shortKey] = question.selectedValue?.[0].textValue;
             }
             return obj;
           }, {})));
@@ -54,8 +58,15 @@ export class InstallmentPreviewComponent implements OnInit {
             if (question.input_type == '2' || question.input_type == '14') {
               this.formData[question.shortKey] = question.modelValue;
             }
-            else if (question.input_type == '3' || question.input_type == '5') {
-              this.formData[question.shortKey] = question.selectedValue[0].label;
+            else if (question.input_type == '3') {
+              this.formData[question.shortKey] = question.selectedValue?.[0]?.label;
+            }
+            else if (question.input_type == '5') {
+              this.formData[question.shortKey] = question.selectedValue?.[0]?.textValue;
+            }
+            else if (question.input_type == '11') {
+              this.formData[question.shortKey] = question.selectedValue?.[0];
+              console.log(question.shortKey, this.formData[question.shortKey]);
             }
           }
         });
