@@ -215,4 +215,32 @@ export class GtcComponent implements OnInit {
   }
 
 
+  async installmentAction(question) {
+    const payload = {
+      key: question?.key,
+      rejectReason_mohua: question?.rejectReason_mohua,
+      responseFile_mohua: question?.responseFile_mohua,
+      statusId: question?.statusId,
+      design_year: this.design_year,
+      state: this.stateId,
+    }
+
+    console.log(payload);
+
+    this.loaderService.showLoader();
+    this.gtcService.installmentAction(payload).subscribe(res => {
+      this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
+      this.getBaseForm();
+      swal('Saved', "Data saved successfully!", 'success');
+      console.log('data send');
+    }, ({ error }) => {
+      this.loaderService.stopLoader();
+      if (Array.isArray(error?.message)) {
+        error.message = error.message.join('\n\n');
+      }
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+      console.log('error occured');
+    })
+  }
 }
