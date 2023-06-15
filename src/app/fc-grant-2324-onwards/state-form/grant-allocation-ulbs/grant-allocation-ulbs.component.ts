@@ -36,7 +36,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   backRouter: string = '';
   sideMenuItem : any;
   gtcFormData;
-  isApiInProgress: boolean = false;
+  isApiInProgress: boolean = true;
   postBody: object | any;
   response = {
     formName: 'Grant Allocation to ULBs',
@@ -45,10 +45,86 @@ export class GrantAllocationUlbsComponent implements OnInit {
     statusId: '',
     info: '',
     previousYrMsg: '',
+    
   }
   ngOnInit(): void {
     this.setRouter();
-    this.intializeGtc();
+   // this.intializeGtc();
+    this.getGtcData();
+  }
+
+  getGtcData() {
+    this.isApiInProgress = true;
+    let queryParams = {
+      state: this.stateId,
+      design_year: this.years["2023-24"]
+    }
+ // {{local}}grantDistribution/getGrantDistributionForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7516a06aed41c748fe
+    this.commonServices.formGetMethod(`grantDistribution/getGrantDistributionForm`, queryParams).subscribe(
+      (res: any) => {
+        
+        console.log("res", res);
+        this.response = res;
+        this.gtcFormData = res?.gtcFormData;
+
+        this.isApiInProgress = false;
+        // for (let i = 0; i < this.gtcFormData.length; i++) {
+        //   let tabArray = this.gtcFormData[i]?.quesArray;
+        //   let obj;
+        //   this.gtcFormData[i]?.quesArray.forEach((el) => {
+        //     obj = res?.data?.find(({ key }) => {
+        //       //  console.log(key, el);
+        //       return key == el?.key;
+        //     });
+        //     if (obj) {
+        //       el["fileName"] = obj?.fileName;
+        //       el["url"] = obj?.url;
+        //       console.log("form", this.gtcFormData);
+        //       el["isDraft"] = false;
+        //       el["status"] = obj?.status;
+        //       el["rejectReason"] = obj?.rejectReason;
+        //     } else {
+        //       el["isDraft"] = true;
+        //       el["status"] = "PENDING";
+        //       el["rejectReason"] = null;
+        //     }
+        //   });
+        // }
+      //  this.disableInputs();
+      },
+      (error) => {
+        console.log("err", error);
+        this.isApiInProgress = false;
+      }
+    );
+  }
+  disableInputs() {
+    for (let i = 0; i < this.gtcFormData.length; i++) {
+      let tabArray = this.gtcFormData[i]?.quesArray;
+      for (let j = 0; j < tabArray.length; j++) {
+        let el = tabArray[j];
+        if(this.userData?.role == 'STATE'){
+          let nextEl = tabArray[j + 1];
+          if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
+            tabArray[0].isDisableQues = false;
+            break;
+          } else if (el?.isDraft == false && el?.status != "REJECTED") {
+            el.isDisableQues = true;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
+          } else if (el?.isDraft == false && el?.status == "REJECTED") {
+            el.isDisableQues = false;
+            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
+              nextEl.isDisableQues = false;
+            }
+          }
+        }else {
+          el.isDisableQues = true;
+        }
+
+      }
+    }
   }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
@@ -61,157 +137,157 @@ export class GrantAllocationUlbsComponent implements OnInit {
       });
     }
   }
-  intializeGtc() {
-    this.gtcFormData = [
-      {
-        label:
-          "1. View/Upload Grant Allocation for Non-Million Plus Cities Tied Grants",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        yearCode: '2023-24',
-        quesArray: [
-          {
-            installment: 1,
-            year: this.years["2023-24"],
-            type: "nonmillion_tied",
-            instlText: "1st Installment (2023-24)",
-            quesText: "Upload Grant Allocation to ULBs",
-            isDisableQues: false,
-            disableMsg: "",
-            key: "nonmillion_tied_2023-24_1",
-            question:
-              "(A) Upload Grant Allocation to ULBs - 1st Installment (2023-24)",
-            qusType: "",
-            fileName: "",
-            url: "",
-            file: {
-              // name: "",
-              // url: "",
-              progress: null,
-              error: null,
-            },
-            isDraft: null,
-            status: null,
-            rejectReason: null,
-          },
-          {
-            installment: 2,
-            year: this.years["2023-24"],
-            type: "nonmillion_tied",
-            instlText: "2nd Installment (2023-24)",
-            quesText: "Upload Grant Allocation to ULBs",
-            isDisableQues: true,
-            disableMsg: `1st Installment (2023-24) Grant allocation has to be uploaded first before uploading 2nd Installment (2023-24) Grant allocation to ULBs`,
-            question:
-              "(B) Upload Grant Allocation to ULBs - 2nd Installment (2023-24)",
-            key: "nonmillion_tied_2023-24_2",
-            qusType: "",
-            fileName: "",
-            url: "",
-            file: {
-              // name: "",
-              // url: "",
-              progress: null,
-              error: null,
-            },
-            isDraft: null,
-            status: null,
-            rejectReason: null,
-          },
-        ],
-      },
-      {
-        label:
-          "2. View/Upload Grant Allocation for Non-Million Plus Cities Untied Grants",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        quesArray: [
-          {
-            installment: 1,
-            year: this.years["2023-24"],
-            type: "nonmillion_untied",
-            instlText: "1st Installment (2023-24)",
-            quesText: "Upload Grant Allocation to ULBs",
-            isDisableQues: false,
-            disableMsg: "",
-            question:
-              "(A) Upload Grant Allocation to ULBs - 1st Installment (2023-24)",
-            key: "nonmillion_untied_2023-24_1",
-            qusType: "",
-            fileName: "",
-            url: "",
-            file: {
-              // name: "",
-              // url: "",
-              progress: null,
-              error: null,
-            },
-            isDraft: null,
-            status: null,
-            rejectReason: null,
-          },
-          {
-            installment: 2,
-            year: this.years["2023-24"],
-            type: "nonmillion_untied",
-            instlText: "2nd Installment (2023-24)",
-            quesText: "Upload Grant Allocation to ULBs",
-            isDisableQues: true,
-            disableMsg: `1st Installment (2023-24) Grant allocation has to be uploaded first before uploading 2nd Installment (2023-24) Grant allocation to ULBs`,
-            question:
-              "(B) Upload Grant Allocation to ULBs - 2nd Installment (2023-24)",
-            key: "nonmillion_untied_2023-24_2",
-            qusType: "",
-            fileName: "",
-            url: "",
-            file: {
-              // name: "",
-              // url: "",
-              progress: null,
-              error: null,
-            },
-            isDraft: null,
-            status: null,
-            rejectReason: null,
-          },
-        ],
-      },
-      {
-        label:
-          "3. View/Upload Grant Allocation for Million Plus Cities Tied Grants",
-        isDisabled: false,
-        error: false,
-        icon: "",
-        quesArray: [
-          {
-            installment: 1,
-            year: this.years["2023-24"],
-            type: "million_tied",
-            instlText: "FY (2023-24)",
-            isDisableQues: false,
-            quesText: "Upload Grant Allocation for Water Supply and SWM",
-            question:
-              "(A) Upload Grant Allocation for  Water Supply and SWM - FY ( 2023-24)",
-            key: "million_tied_2023-24_1",
-            qusType: "",
-            fileName: "",
-            url: "",
-            file: {
-              // name: "",
-              // url: "",
-              progress: null,
-              error: null,
-            },
-            isDraft: null,
-            status: null,
-            rejectReason: null,
-          },
-        ],
-      },
-    ];
-  }
+  // intializeGtc() {
+  //   this.gtcFormData = [
+  //     {
+  //       label:
+  //         "1. View/Upload Grant Allocation for Non-Million Plus Cities Tied Grants",
+  //       isDisabled: false,
+  //       error: false,
+  //       icon: "",
+  //       yearCode: '2023-24',
+  //       quesArray: [
+  //         {
+  //           installment: 1,
+  //           year: this.years["2023-24"],
+  //           type: "nonmillion_tied",
+  //           instlText: "1st Installment (2023-24)",
+  //           quesText: "Upload Grant Allocation to ULBs",
+  //           isDisableQues: false,
+  //           disableMsg: "",
+  //           key: "nonmillion_tied_2023-24_1",
+  //           question:
+  //             "(A) Upload Grant Allocation to ULBs - 1st Installment (2023-24)",
+  //           qusType: "",
+  //           fileName: "",
+  //           url: "",
+  //           file: {
+  //             // name: "",
+  //             // url: "",
+  //             progress: null,
+  //             error: null,
+  //           },
+  //           // isDraft: null,
+  //           // status: null,
+  //           // rejectReason: null,
+  //         },
+  //         {
+  //           installment: 2,
+  //           year: this.years["2023-24"],
+  //           type: "nonmillion_tied",
+  //           instlText: "2nd Installment (2023-24)",
+  //           quesText: "Upload Grant Allocation to ULBs",
+  //           isDisableQues: true,
+  //           disableMsg: `1st Installment (2023-24) Grant allocation has to be uploaded first before uploading 2nd Installment (2023-24) Grant allocation to ULBs`,
+  //           question:
+  //             "(B) Upload Grant Allocation to ULBs - 2nd Installment (2023-24)",
+  //           key: "nonmillion_tied_2023-24_2",
+  //           qusType: "",
+  //           fileName: "",
+  //           url: "",
+  //           file: {
+  //             // name: "",
+  //             // url: "",
+  //             progress: null,
+  //             error: null,
+  //           },
+  //           isDraft: null,
+  //           status: null,
+  //           rejectReason: null,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label:
+  //         "2. View/Upload Grant Allocation for Non-Million Plus Cities Untied Grants",
+  //       isDisabled: false,
+  //       error: false,
+  //       icon: "",
+  //       quesArray: [
+  //         {
+  //           installment: 1,
+  //           year: this.years["2023-24"],
+  //           type: "nonmillion_untied",
+  //           instlText: "1st Installment (2023-24)",
+  //           quesText: "Upload Grant Allocation to ULBs",
+  //           isDisableQues: false,
+  //           disableMsg: "",
+  //           question:
+  //             "(A) Upload Grant Allocation to ULBs - 1st Installment (2023-24)",
+  //           key: "nonmillion_untied_2023-24_1",
+  //           qusType: "",
+  //           fileName: "",
+  //           url: "",
+  //           file: {
+  //             // name: "",
+  //             // url: "",
+  //             progress: null,
+  //             error: null,
+  //           },
+  //           isDraft: null,
+  //           status: null,
+  //           rejectReason: null,
+  //         },
+  //         {
+  //           installment: 2,
+  //           year: this.years["2023-24"],
+  //           type: "nonmillion_untied",
+  //           instlText: "2nd Installment (2023-24)",
+  //           quesText: "Upload Grant Allocation to ULBs",
+  //           isDisableQues: true,
+  //           disableMsg: `1st Installment (2023-24) Grant allocation has to be uploaded first before uploading 2nd Installment (2023-24) Grant allocation to ULBs`,
+  //           question:
+  //             "(B) Upload Grant Allocation to ULBs - 2nd Installment (2023-24)",
+  //           key: "nonmillion_untied_2023-24_2",
+  //           qusType: "",
+  //           fileName: "",
+  //           url: "",
+  //           file: {
+  //             // name: "",
+  //             // url: "",
+  //             progress: null,
+  //             error: null,
+  //           },
+  //           isDraft: null,
+  //           status: null,
+  //           rejectReason: null,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label:
+  //         "3. View/Upload Grant Allocation for Million Plus Cities Tied Grants",
+  //       isDisabled: false,
+  //       error: false,
+  //       icon: "",
+  //       quesArray: [
+  //         {
+  //           installment: 1,
+  //           year: this.years["2023-24"],
+  //           type: "million_tied",
+  //           instlText: "FY (2023-24)",
+  //           isDisableQues: false,
+  //           quesText: "Upload Grant Allocation for Water Supply and SWM",
+  //           question:
+  //             "(A) Upload Grant Allocation for  Water Supply and SWM - FY ( 2023-24)",
+  //           key: "million_tied_2023-24_1",
+  //           qusType: "",
+  //           fileName: "",
+  //           url: "",
+  //           file: {
+  //             // name: "",
+  //             // url: "",
+  //             progress: null,
+  //             error: null,
+  //           },
+  //           isDraft: null,
+  //           status: null,
+  //           rejectReason: null,
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // }
 
   downloadSample(data) {
    let queryParams = {
