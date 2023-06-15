@@ -95,16 +95,17 @@
                             </div> -->
 
                             <div class="mt-3" *ngIf="question?.canTakeAction">
+                                <p>{{question.rejectReason_mohua}}</p>
                                 <div class="row" style="">
                                     <div class="col-sm-6 a-h">Review Status:</div>
                                     <div class="col-sm-6 p-0">
                                         <button type="button" class="btn btnA" [disabled]="!question?.canTakeAction"
-                                            [ngClass]="{'btnAAc' : (question?.status == 'APPROVED')}"
-                                            (click)="actionBtnClick('APPROVED', question, itemLabel, $event?.target?.value)">Approve</button>
+                                            [ngClass]="{'btnAAc' : (question?.statusId == 6)}"
+                                            (click)="question.statusId = 6;">Approve</button>
                                         <button type="button" class="btn ms-3 btnR"
                                             [disabled]="!question?.canTakeAction"
-                                            [ngClass]="{'btnRAc' : (question?.status == 'REJECTED')}"
-                                            (click)="actionBtnClick('REJECTED', question, itemLabel, $event?.target?.value)">Return</button>
+                                            [ngClass]="{'btnRAc' : (question?.statusId == 7)}"
+                                            (click)="question.statusId = 7;">Return</button>
                                     </div>
                                     <div class="row rej mt-3">
                                         <div class="col-sm-6 a-h h-aa" style="">Remarks/Return reason :</div>
@@ -147,7 +148,7 @@
                                                     <img src="/assets/form-icon/close_black_24dp.svg">
                                                 </a>
                                             </div>
-                                            <button  class="btn btn-primary mt-2">Submit review
+                                            <button  class="btn btn-primary mt-2" [disabled]="!(question?.statusId == 6 || (question?.statusId == 7 && question?.rejectReason_mohua))" >Submit review
                                             </button>
                                         </div>
                                     </div>
