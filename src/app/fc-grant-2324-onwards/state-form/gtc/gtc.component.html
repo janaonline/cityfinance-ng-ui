@@ -3,11 +3,12 @@
         <div class="col-sm-8 col-lg-8 col-md-8 header2">
             <span>Grant Transfer Certificate</span>
         </div>
-        <div class="col-sm-4 col-lg-4 col-md-4  text-end">
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm">
             <button type="button" class="btn btn-primary" (click)="onPreview()" style="margin-top: .2rem;"
                 id="prevBtn">PREVIEW</button>
         </div>
     </div>
+    <div class="pre-y" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
     <div class="row mt-3">
         <div class="col-sm-12">
             <accordion>
@@ -36,7 +37,9 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="col-sm-12 mb-3">
-                                        <button  [disabled]="question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"  (click)="bs_pdf1.click()" class="btn border w-100">
+                                        <button
+                                            [disabled]="question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"
+                                            (click)="bs_pdf1.click()" class="btn border w-100">
                                             <div class="row">
                                                 <div class="col-sm-6 file-text ">
                                                     File
