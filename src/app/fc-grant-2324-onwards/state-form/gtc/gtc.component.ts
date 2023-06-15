@@ -216,13 +216,16 @@ export class GtcComponent implements OnInit {
 
 
   async installmentAction(question) {
+
+    console.log(question);  
     const payload = {
-      key: question?.key,
-      rejectReason_mohua: question?.rejectReason_mohua,
-      responseFile_mohua: question?.responseFile_mohua,
       statusId: question?.statusId,
       design_year: this.design_year,
       state: this.stateId,
+      installment: question.installment,
+      key: question?.key,
+      rejectReason_mohua: question?.rejectReason_mohua,
+      responseFile_mohua: question?.responseFile_mohua,
     }
 
     console.log(payload);
