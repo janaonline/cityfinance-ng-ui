@@ -78,10 +78,10 @@ export class GtcComponent implements OnInit {
   }
 
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, question: any, reset: boolean = false) {
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, question: any, reset: boolean = false, selectorKey: string) {
     console.log({ event, fileType })
     if (reset) {
-      question.file = {
+      question[selectorKey] = {
         name: '',
         url: ''
       };
@@ -106,7 +106,7 @@ export class GtcComponent implements OnInit {
       const { url, file_url } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
-        question.file = {
+        question[selectorKey] = {
           name: file.name,
           url: file_url
         };
