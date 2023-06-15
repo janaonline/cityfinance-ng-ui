@@ -1,0 +1,82 @@
+
+
+<table>
+    <tr class="tr">
+        <td class="td" rowspan="2">1.</td>
+        <td class="td" rowspan="2">Million Plus Cities (MPC)/ Non - Million Plus Cities(NMPC)</td>
+        <td class="td" rowspan="2">Total No. Of </td>
+        <td class="td">MPC</td>
+        <td class="td">{{ formData.totalMpc }}</td>
+        <td class="td" rowspan="2">Duly elected bodies in the State</td>
+        <td class="td">ULBs in MPC</td>
+        <td class="td" colspan="2">{{ formData.totalElectedMpc }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td">NMPC</td>
+        <td class="td">{{ formData.totalNmpc }}</td>
+        <td class="td">ULBs in NMPC</td>
+        <td class="td" colspan="2">{{ formData.totalElectedNmpc }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td" rowspan="2">2.</td>
+        <td class="td" rowspan="2">Details of Basic Grant(Untied) / Tied Grant Received*</td>
+        <td class="td">Year</td>
+        <td class="td" colspan="2">Installment</td>
+        <td class="td">Amount (Rs in lakh)</td>
+        <td class="td" colspan="3">Date of receipt</td>
+    </tr>
+    <tr class="tr">
+        <td class="td" style="height: 40px;">{{ formData.year }}</td>
+        <td class="td" colspan="2">{{ formData.installment_type }}</td>
+        <td class="td">{{ formData.recAmount }}</td>
+        <td class="td" colspan="3">{{ formData.receiptDate }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td" [attr.rowspan]="formData?.transferGrantdetail_tableview_addbutton?.length + 1">3.</td>
+        <td class="td" [attr.rowspan]="formData?.transferGrantdetail_tableview_addbutton?.length + 1">Details of Basic
+            Grant(Untied) / Tied Grant transferred**</td>
+        <td class="td">Year</td>
+        <td class="td" colspan="2">Installment</td>
+        <td class="td">Amount (Rs in lakh)</td>
+        <td class="td">Date of transfer</td>
+        <td class="td">No of Days of delay </td>
+        <td class="td">If delayed amount of interest transferr ed (with rate of interest)</td>
+    </tr>
+    <tr class="tr" *ngFor="let transrantdetail of formData?.transferGrantdetail_tableview_addbutton">
+        <td class="td" style="height: 40px;">{{ formData?.year }}</td>
+        <td class="td" colspan="2">{{ formData?.installment_type }}</td>
+        <td class="td">{{ transrantdetail?.transAmount }}</td>
+        <td class="td">{{ transrantdetail?.transDate }}</td>
+        <td class="td">{{ transrantdetail?.daysDelay }}</td>
+        <td class="td">{{ transrantdetail?.interest }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td">4.</td>
+        <td class="td">Whether State Finance Commission (SFC) Recommendations available</td>
+        <td class="td">{{ formData.recomAvail }}</td>
+        <td class="td" colspan="2">If yes, whether, grant distributed as per census 2011 population or as per SFC Recommendation
+        </td>
+        <td class="td">{{ formData.grantDistribute }}</td>
+        <td class="td">If No, whether notification for constitution of SFC issued</td>
+        <td class="td" colspan="2">Yes/No (if yes attach a copy of notification)<br> <a
+                *ngIf="formData?.sfcNotificationCopy?.textValue" [href]="formData?.sfcNotificationCopy?.textValue"
+                target="_blank">{{formData?.sfcNotificationCopy?.label}}</a></td>
+    </tr>
+    <tr class="tr">
+        <td class="td">5.</td>
+        <td class="td">Whether project works undertaken uploaded on the website</td>
+        <td class="td" colspan="7">{{ formData.projectUndtkn }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td">6.</td>
+        <td class="td">Whether Property Tax Notification issued (if not already in force)</td>
+        <td class="td" colspan="7">{{ formData.propertyTaxNotif }}</td>
+    </tr>
+    <tr class="tr">
+        <td class="td">7.</td>
+        <td class="td">Whether ULB account for 15th FC Grants linked to PFMS fo r all transactions</td>
+        <td class="td" colspan="7">{{ formData.accountLinked }}</td>
+    </tr>
+</table>
+<p class="mb-1" style="font-size: 13px;">* Strikeout whichever is not applicable.</p>
+<p class="mb-1" style="font-size: 13px;">** Please submit separate UC for separate component</p>

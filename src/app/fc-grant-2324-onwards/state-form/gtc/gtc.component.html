@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <div class="row header mt-2">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">
+            <span>Grant Transfer Certificate</span>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm">
+            <button type="button" class="btn btn-primary" (click)="onPreview()" style="margin-top: .2rem;"
+                id="prevBtn">PREVIEW</button>
+        </div>
+    </div>
+    <div class="pre-y" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <accordion>
+                <accordion-group [isDisabled]="formItem?.isDisabled" class="mb-3"
+                    *ngFor="let formItem of baseForm; let cIndex = index">
+                    <div class="row al-c" style="" accordion-heading>
+                        <div class="col-md-10">
+                            <h6 class="uplod_label">{{formItem?.label}}</h6>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <button [disabled]="formItem?.isDisabled" type="button"
+                                class="btn btn-primary">Select</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card mt-2" *ngFor="let question of formItem?.questions; let qIndex = index">
+                        <div class="card-body">
+                            <div class="ins-h">
+                                {{question?.instlText}}
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-10 q-h">
+                                    {{question?.question}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-sm-12 mb-3">
+                                        <button
+                                            [disabled]="question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"
+                                            (click)="bs_pdf1.click()" class="btn border w-100">
+                                            <div class="row">
+                                                <div class="col-sm-6 file-text ">
+                                                    File
+                                                </div>
+                                                <div class="col-sm-6 text-end">
+                                                    <img src="/assets/circle/cloud_upload_black_24dp.svg">
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                                            (change)="uploadFile($event, 'pdf', question)" type="file" accept=".pdf"
+                                            #file>
+                                    </div>
+                                    <div class="col-sm-12 com-style f-w mt-1" *ngIf="question?.file?.url">
+                                        <a class="w-90" href="{{question?.file?.url}}"
+                                            target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
+                                            </mat-icon></a>
+                                        <a href="{{question?.file?.url}}" target="_blank"
+                                            (click)="uploadFile($event, 'pdf', question, true)" class="w-10">
+                                            <img src="/assets/form-icon/close_black_24dp.svg">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'dur'" [isProjectLoaded]="true"
+                                (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
+                                [isButtonDisplay]="true" *ngIf="question.questionresponse"
+                                [questionresponse]="question.questionresponse">
+                            </app-web-form>
+                        </div>
+                    </div>
+
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>

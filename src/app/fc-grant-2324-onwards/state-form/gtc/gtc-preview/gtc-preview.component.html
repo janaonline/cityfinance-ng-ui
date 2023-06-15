@@ -1,0 +1,98 @@
+<div class="container-fluid mb-3" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+                Submissions for 15th FC grant for FY 2022-23
+            </span>
+
+            <span class="sub-h"> {{stateName}}</span>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6 h-cls">
+            <p class="form-status d-none">
+                <b>Form Current Status:</b>&nbsp;&nbsp;{{formStatus}}
+            </p>
+        </div>
+        <div class="col-sm-6 text-end h-cls">
+            <button id="donwloadButton" class="btn btn-primary h-cls" (click)="downloadAsPDF()">Download as
+                PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            <p>Grant Transfer Certificate</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mb-3">
+                <ng-container *ngFor="let item of data?.formdata">
+                    <div class="card-body" *ngIf="canSeeInstallmentSection(item.questions)">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="l-h">{{item?.label}}</div>
+                                <div class="card">
+                                    <ng-container *ngFor="let question of item?.questions">
+                                        <div class="card-body"
+                                            *ngIf="!data?.selectedQuestion || question?.installment == data?.selectedQuestion?.installment">
+                                            <div class="row">
+                                                <div class="col-sm-12 qus qus-h">
+                                                    {{question?.instlText}}
+                                                </div>
+
+                                                <app-installment-preview
+                                                    [questionresponse]="question?.questionresponse">
+                                                </app-installment-preview>
+                                                <!-- <div class="col-sm-12 ms-4 mt-2 ans-h">
+                                                    <span *ngIf="question?.file?.name"><a href="{{question?.file?.url}}">{{question?.file?.name}}</a></span>
+                                                    <span *ngIf="question?.file?.name == ''">N/A</span>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <p class="fw-bold">Certified that the grants have been utilized/proposed to be utilized for the purpose for which
+        these have been provided and if any deviation is observed, the same will be intimated. </p>
+    <p class="fw-bold">Signature with the seal of Counter sign Secretary (Nodal Department) Signature with the seal of
+        Finance Secretary </p>
+</div>
+<ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success "
+                    style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                    Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
