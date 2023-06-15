@@ -79,7 +79,9 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     return localStorage.getItem("ulb_id");
   }
 
-
+  get hasUnsavedChanges() {
+    return this.webForm.hasUnsavedChanges;
+  }
 
 
 

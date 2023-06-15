@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { State2223Guard } from 'src/app/shared2223/common-gaurds/state/state2223.guard';
 import { DashbordComponent } from './dashbord/dashbord.component';
+import { GtcComponent } from './gtc/gtc.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { StateFormComponent } from './state-form.component';
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
@@ -12,6 +13,7 @@ import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claim
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
+import { ConfirmationGuard } from '../guards/confirmation.guard';
 
 const routes: Routes = [
   {
@@ -28,8 +30,9 @@ const routes: Routes = [
         component: ReviewUlbTableComponent,
       },
       {
-        path: "water-rejenuvation",
-        component: ProjectsWaterRejComponent,
+        path: "gtCertificate",
+        component: GtcComponent,
+        canDeactivate: [ConfirmationGuard],
       },
       {
         path: "water-rejenuvation-new",

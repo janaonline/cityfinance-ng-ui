@@ -1,0 +1,109 @@
+.header2 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 0.2rem;
+    font-weight: 600;
+}
+
+::ng-deep .card-header {
+    padding: 1rem 1rem;
+    background-color: #FFFFFF;
+    border-bottom: none;
+}
+
+.al-c {
+    align-items: center;
+}
+
+.ins-h {
+    color: #114551;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.q-h {
+    font-size: 16px;
+}
+
+::ng-deep .card-block {
+    padding-top: 0;
+}
+
+.dis-card {
+    pointer-events: none;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}
+
+.i-c {
+    align-items: baseline;
+}
+
+.w-c {
+    width: 22%;
+}
+
+.st-a {
+    background-color: green;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    //  margin-left: 4rem;
+    /* margin-bottom: 1rem; */
+}
+
+.st-r {
+    background-color: red;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    //    margin-left: 4rem;
+}
+
+.st-p {
+    background-color: rgb(250, 250, 68);
+    color: green;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    // margin-left: 4rem;
+}
+
+.btnA {
+    background-color: #75fdbe;
+    color: #000000;
+}
+
+.btnAAc {
+    background-color: green;
+    color: #fff
+}
+
+.btnR {
+    background-color: rgb(255, 194, 194);
+    color: #000000;
+}
+
+.btnRAc {
+    background-color: rgb(250, 37, 37);
+    color: #fff
+}
+
+.disCls {
+    pointer-events: none;
+    opacity: .8;
+}
+
+.disGray {
+    background-color: #e9ecef;
+    color: #000
+}
+
+
+.pre-y {
+    font-size: 1.5rem;
+    padding: 8rem 8rem;
+}

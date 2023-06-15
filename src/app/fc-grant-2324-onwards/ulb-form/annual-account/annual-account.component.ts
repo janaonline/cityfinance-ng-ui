@@ -92,6 +92,11 @@ export class AnnualAccountComponent implements OnInit {
     this.isApiComplete = false;
     this.onload();
   }
+
+  get hasUnsavedChanges() {
+    return this.webForm.hasUnsavedChanges;
+  }
+
   onload() {
     this.commonServices.formGetMethod(this.endpoints, this.getQuery).subscribe(
       (res: any) => {
