@@ -65,11 +65,11 @@
                                 </div>
                             </div>
 
-                            <!-- <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'dur'" [isProjectLoaded]="true"
+                            <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'gtc'" [isProjectLoaded]="true"
                                 (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
                                 [isButtonDisplay]="true" *ngIf="question.questionresponse"
                                 [questionresponse]="question.questionresponse">
-                            </app-web-form> -->
+                            </app-web-form>
 
                             <div class="row mt-3"
                                 *ngIf="question?.status && question?.statusId == 2 && question?.canTakeAction == false">
