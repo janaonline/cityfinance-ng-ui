@@ -4076,4 +4076,7 @@ export class GtcService {
   postForm(body) {
     return this.http.post(`${environment.api.url}/grant-transfer-certificate/installmentForm`, body);
   }
+  installmentAction(body) {
+    return this.http.post(`${environment.api.url}/grant-transfer-certificate/installmentAction`, body);
+  }
 }
