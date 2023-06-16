@@ -62,35 +62,10 @@ export class GrantAllocationUlbsComponent implements OnInit {
  // {{local}}grantDistribution/getGrantDistributionForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7516a06aed41c748fe
     this.commonServices.formGetMethod(`grantDistribution/getGrantDistributionForm`, queryParams).subscribe(
       (res: any) => {
-        
         console.log("res", res);
         this.response = res;
         this.gtcFormData = res?.gtcFormData;
-
         this.isApiInProgress = false;
-        // for (let i = 0; i < this.gtcFormData.length; i++) {
-        //   let tabArray = this.gtcFormData[i]?.quesArray;
-        //   let obj;
-        //   this.gtcFormData[i]?.quesArray.forEach((el) => {
-        //     obj = res?.data?.find(({ key }) => {
-        //       //  console.log(key, el);
-        //       return key == el?.key;
-        //     });
-        //     if (obj) {
-        //       el["fileName"] = obj?.fileName;
-        //       el["url"] = obj?.url;
-        //       console.log("form", this.gtcFormData);
-        //       el["isDraft"] = false;
-        //       el["status"] = obj?.status;
-        //       el["rejectReason"] = obj?.rejectReason;
-        //     } else {
-        //       el["isDraft"] = true;
-        //       el["status"] = "PENDING";
-        //       el["rejectReason"] = null;
-        //     }
-        //   });
-        // }
-      //  this.disableInputs();
       },
       (error) => {
         console.log("err", error);
@@ -98,34 +73,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       }
     );
   }
-  disableInputs() {
-    for (let i = 0; i < this.gtcFormData.length; i++) {
-      let tabArray = this.gtcFormData[i]?.quesArray;
-      for (let j = 0; j < tabArray.length; j++) {
-        let el = tabArray[j];
-        if(this.userData?.role == 'STATE'){
-          let nextEl = tabArray[j + 1];
-          if (tabArray[0].isDraft == null || tabArray[0].isDraft != false) {
-            tabArray[0].isDisableQues = false;
-            break;
-          } else if (el?.isDraft == false && el?.status != "REJECTED") {
-            el.isDisableQues = true;
-            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-              nextEl.isDisableQues = false;
-            }
-          } else if (el?.isDraft == false && el?.status == "REJECTED") {
-            el.isDisableQues = false;
-            if (j < tabArray.length - 1 && nextEl?.isDraft == true) {
-              nextEl.isDisableQues = false;
-            }
-          }
-        }else {
-          el.isDisableQues = true;
-        }
 
-      }
-    }
-  }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
     for (const key in this.sideMenuItem) {
@@ -290,6 +238,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   // }
 
   downloadSample(data) {
+    debugger
    let queryParams = {
     type: data?.type,
     year: data?.year,
@@ -357,7 +306,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       const s3Response = await this.dataEntryService.newGetURLForFileUpload(name, type, folderName).toPromise();
       this.updateFileProgress(i, j, 50);
       const res = s3Response.data[0];
-      this.gtcFormData[i].quesArray[j]["fileName"] = name;
+      this.gtcFormData[i].quesArray[j]["file"].name = name;
       await this.uploadFileToS3(file, res["url"], res["file_url"], name, fileType, i, j);
     } catch (err) {
       console.log(err);
@@ -380,10 +329,10 @@ export class GrantAllocationUlbsComponent implements OnInit {
               type: this.gtcFormData[i].quesArray[j]?.type,
               installment : this.gtcFormData[i].quesArray[j]?.installment
           }
-          const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload' ,params).toPromise();
-          console.log(response);
+       //   const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload' ,params).toPromise();
+       //   console.log(response);
           this.updateFileProgress(i, j, 100);
-          this.gtcFormData[i].quesArray[j]["url"] = fileAlias;
+          this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
 
         } catch (error) {
           console.log(error);
@@ -391,8 +340,8 @@ export class GrantAllocationUlbsComponent implements OnInit {
             type: "text/json; charset=utf-8",
           });
           this.updateFileProgress(i, j, null);
-          this.gtcFormData[i].quesArray[j]["url"] = "";
-          this.gtcFormData[i].quesArray[j]["fileName"] = "";
+          this.gtcFormData[i].quesArray[j]["file"]["url"] = "";
+          this.gtcFormData[i].quesArray[j]["file"]["name"] = "";
           fileSaver.saveAs(blob, "error-sheet.xlsx");
           swal("Error", "Your file is not correct. Please refer to the error sheet.", "error");
         }
@@ -408,9 +357,9 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
   
   saveFile(i, j) {
-    const fileName = this.gtcFormData[i].quesArray[j].fileName;
-    const url = this.gtcFormData[i].quesArray[j].url;
-  
+    const fileName = this.gtcFormData[i].quesArray[j]?.file?.name;
+    const url = this.gtcFormData[i].quesArray[j]?.file.url;
+
     if (fileName === "" && url === "") {
       swal("Error", "Please upload a file.", "error");
       return;
@@ -427,7 +376,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       installment: this.gtcFormData[i].quesArray[j]?.installment,
     };
   
-    this.commonServices.formPostMethod('grantDistribution/save', this.postBody).subscribe(
+    this.commonServices.formPostMethod(this.postBody, 'grantDistribution/save').subscribe(
       (res: any) => {
         swal("Saved", "File saved successfully.", "success");
         console.log("GTA file response", res);
@@ -458,5 +407,14 @@ export class GrantAllocationUlbsComponent implements OnInit {
       //   this.hidden = true;
     });
   }
+
+ // for clear file
+ clearFile(type, i, j) {
+  const quesArray = this.gtcFormData[i].quesArray[j];
+
+  quesArray["file"]["url"] = "";
+  quesArray["file"]["name"] = "";
+  quesArray["file"]["progress"] = null;
+}
   
 }
