@@ -8,10 +8,11 @@ import { DashbordComponent } from './dashbord/dashbord.component';
 import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReviewStateFormComponent } from './review-state-form/review-state-form.component';
 
 
 @NgModule({
-  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent],
+  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent, ReviewStateFormComponent],
   imports: [
     CommonModule,
     MohuaFormRoutingModule,
