@@ -238,7 +238,6 @@ export class GrantAllocationUlbsComponent implements OnInit {
   // }
 
   downloadSample(data) {
-    debugger
    let queryParams = {
     type: data?.type,
     year: data?.year,
