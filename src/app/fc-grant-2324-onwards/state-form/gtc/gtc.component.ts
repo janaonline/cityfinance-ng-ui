@@ -198,9 +198,7 @@ export class GtcComponent implements OnInit {
       this.webForms.forEach(webForm => webForm.hasUnsavedChanges = false);
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
-      if (!isDraft) {
-        this.getBaseForm();
-      }
+      this.getBaseForm();
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
