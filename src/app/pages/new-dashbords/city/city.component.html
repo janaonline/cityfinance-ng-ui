@@ -1,9 +1,9 @@
 <div class="container-fluid">
-    <!-- <div class="row" *ngIf="ulbDenotifiedMessage">
+    <div class="row" *ngIf="ulbDenotifiedMessage">
         <div class="col-sm-12 text-center text-danger dmsg">
             {{ulbDenotifiedMessage}}
         </div>
-    </div> -->
+    </div>
     <div class="row">
         <app-front-panel (changeInStateOrCity)="changeInDropDown($event)" style="padding: 0" [mapConfig]="mapData" [cardData]="revenueData" [data]="frontPanelData"></app-front-panel>
     </div>

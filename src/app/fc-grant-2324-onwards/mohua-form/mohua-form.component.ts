@@ -14,24 +14,18 @@ export class MohuaFormComponent implements OnInit {
     private router: Router,
     private commonServices : CommonServicesService 
   ) {
-    //debugger
     this.loggedInUserType = this.loggedInUserDetails.role;
     if (!this.loggedInUserType) {
       this.router.navigate(["/login"]);
-      // this.showLoader = false;
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
     if (this.userData?.role != 'MoHUA' && this.userData?.role != 'ADMIN') {
       this.router.navigate(["/fc-home-page"]);
     }
-  //  this.leftMenu = JSON.parse(localStorage.getItem("MohuaLeftMenu"));
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.stateName = sessionStorage.getItem("stateName");
     this.stateId = this.userData?.state;
     this.getMohuaSideBar(this.userData);
-    // if (!this.stateId) {
-    //   this.stateId = localStorage.getItem("state_id");
-    // }
   }
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   loggedInUserType:boolean;
