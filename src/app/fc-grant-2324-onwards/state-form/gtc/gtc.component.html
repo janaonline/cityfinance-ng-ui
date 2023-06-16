@@ -57,7 +57,7 @@
                                         <a class="w-90" href="{{question?.file?.url}}"
                                             target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
                                             </mat-icon></a>
-                                        <a href="{{question?.file?.url}}" target="_blank"
+                                        <a *ngIf="!question?.questionresponse?.data[0]?.language[0].isQuestionDisabled" href="{{question?.file?.url}}" target="_blank"
                                             (click)="uploadFile($event, 'pdf', question, true, 'file')" class="w-10">
                                             <img src="/assets/form-icon/close_black_24dp.svg">
                                         </a>
