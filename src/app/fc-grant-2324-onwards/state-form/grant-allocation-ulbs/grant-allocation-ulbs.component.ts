@@ -328,8 +328,8 @@ export class GrantAllocationUlbsComponent implements OnInit {
               type: this.gtcFormData[i].quesArray[j]?.type,
               installment : this.gtcFormData[i].quesArray[j]?.installment
           }
-       //   const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload' ,params).toPromise();
-       //   console.log(response);
+         const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload' ,params).toPromise();
+         console.log(response);
           this.updateFileProgress(i, j, 100);
           this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
 
