@@ -467,7 +467,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       ...csvParams,
       token: this.getToken(),
     };
-    const endPoint = "review";
+    const endPoint = this.designYear == '606aafc14dff55e6c075d3ec' ? this.endPoint : "review" ;
     console.log(params);
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }

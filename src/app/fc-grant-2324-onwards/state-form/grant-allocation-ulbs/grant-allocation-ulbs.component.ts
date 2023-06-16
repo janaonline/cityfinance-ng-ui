@@ -373,6 +373,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       isDraft: false,
       type: this.gtcFormData[i].quesArray[j]?.type,
       installment: this.gtcFormData[i].quesArray[j]?.installment,
+      currentFormStatus: 6
     };
   
     this.commonServices.formPostMethod(this.postBody, 'grantDistribution/save').subscribe(
