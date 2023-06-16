@@ -78,10 +78,10 @@ export class GtcComponent implements OnInit {
   }
 
 
-  uploadFile(event: { target: HTMLInputElement }, fileType: string, question: any, reset: boolean = false) {
+  uploadFile(event: { target: HTMLInputElement }, fileType: string, question: any, reset: boolean = false, selectorKey: string) {
     console.log({ event, fileType })
     if (reset) {
-      question.file = {
+      question[selectorKey] = {
         name: '',
         url: ''
       };
@@ -106,7 +106,7 @@ export class GtcComponent implements OnInit {
       const { url, file_url } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
-        question.file = {
+        question[selectorKey] = {
           name: file.name,
           url: file_url
         };
@@ -198,9 +198,7 @@ export class GtcComponent implements OnInit {
       this.webForms.forEach(webForm => webForm.hasUnsavedChanges = false);
       this.loaderService.stopLoader();
       this.commonServices.setFormStatusUlb.next(true);
-      if (!isDraft) {
-        this.getBaseForm();
-      }
+      this.getBaseForm();
       swal('Saved', isDraft ? "Data save as draft successfully!" : "Data saved successfully!", 'success');
       console.log('data send');
     }, ({ error }) => {
@@ -215,4 +213,35 @@ export class GtcComponent implements OnInit {
   }
 
 
+  async installmentAction(question) {
+
+    console.log(question);  
+    const payload = {
+      statusId: question?.statusId,
+      design_year: this.design_year,
+      state: this.stateId,
+      installment: question.installment,
+      key: question?.key,
+      rejectReason_mohua: question?.rejectReason_mohua,
+      responseFile_mohua: question?.responseFile_mohua,
+    }
+
+    console.log(payload);
+
+    this.loaderService.showLoader();
+    this.gtcService.installmentAction(payload).subscribe(res => {
+      this.loaderService.stopLoader();
+      this.commonServices.setFormStatusUlb.next(true);
+      this.getBaseForm();
+      swal('Saved', "Data saved successfully!", 'success');
+      console.log('data send');
+    }, ({ error }) => {
+      this.loaderService.stopLoader();
+      if (Array.isArray(error?.message)) {
+        error.message = error.message.join('\n\n');
+      }
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+      console.log('error occured');
+    })
+  }
 }
