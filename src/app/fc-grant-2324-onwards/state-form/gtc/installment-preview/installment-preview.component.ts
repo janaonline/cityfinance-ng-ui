@@ -24,6 +24,7 @@ export class InstallmentPreviewComponent implements OnInit {
     grantDistribute: '',
     receiptDate: '',
     recAmount: '',
+    sfcNotification: '',
     sfcNotificationCopy: '',
     propertyTaxNotifCopy: '',
     transferGrantdetail_tableview_addbutton: []
