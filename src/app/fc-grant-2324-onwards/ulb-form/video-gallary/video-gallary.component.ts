@@ -7,6 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoGallaryComponent implements OnInit {
 
+  videos = [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ]
+
   constructor() { }
 
   ngOnInit(): void {
