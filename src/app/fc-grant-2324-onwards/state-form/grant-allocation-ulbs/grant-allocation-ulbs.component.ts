@@ -70,6 +70,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       (error) => {
         console.log("err", error);
         this.isApiInProgress = false;
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
       }
     );
   }

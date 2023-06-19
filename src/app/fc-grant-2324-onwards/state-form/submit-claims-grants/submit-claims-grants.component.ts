@@ -231,7 +231,7 @@ export class SubmitClaimsGrantsComponent implements OnInit {
                 {
                     "key": "utilizationreports",
                     "text": "100% Detailed Utilization Report form Submitted, and Approved by State",
-                    value: 0
+                     value: 0
                 },
                 {
                     "key": "annualaccountdatas",
@@ -293,14 +293,31 @@ postData:postBody;
 userData = JSON.parse(localStorage.getItem("userData"));
 Year = JSON.parse(localStorage.getItem("Years"));
 stateId:string='';
+
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
   }
 
   onLoad(){
-    this.isApiInProgress = false;
-
+    this.isApiInProgress = true;
+  //environment.api.url + `grant-claim/get2223?financialYear=${financialYear}&stateId=${stateId}`;
+    const queryParams = {
+      financialYear: this.Year['2023-24'],
+      stateId: this.stateId
+    }
+    this.commonServices.formGetMethod('grant-claim/get2223', queryParams).subscribe(
+      (res: any) => {
+        console.log('submit....',res);
+        this.isApiInProgress = false;
+        this.claimsGrantJson = res?.data;
+      },
+      (err) => {
+        console.log(err.message);
+        this.isApiInProgress = false;
+        swal('Error', err?.message ?? 'Something went wrong', 'error');
+      }
+    )
   }
   setRouter() {
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
@@ -318,7 +335,7 @@ stateId:string='';
 
   finalConfirm(grantItem, inst) {
 
-    this.postData['financialYear'] = this.Year['2022-23']
+    this.postData['financialYear'] = this.Year['2023-24']
     this.postData['amountClaimed'] = inst?.amount;
     this.postData['installment'] = inst?.installment;
     this.postData['type'] = inst?.type;
@@ -354,7 +371,7 @@ stateId:string='';
  
   onSubmit() {
   //  this.alertClose();
-    this.commonServices.formPostMethod(this.postData, '').subscribe(
+    this.commonServices.formPostMethod(this.postData, 'grant-claim/create').subscribe(
       (res) => {
         swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
         this.onLoad();

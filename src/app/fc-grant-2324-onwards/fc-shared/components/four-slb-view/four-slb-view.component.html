@@ -19,9 +19,23 @@
                     <tr *ngFor="let row of table?.rows">
                       <td
                         *ngFor="let column of table?.columns"
-                        class="{{ column?.key }}"
+                        class="{{ column?.key }} br-slb"
                       >
-                        {{ row[column.key] }}
+                      <div class="" *ngIf="table?.tableType == 'four-slb'">
+                        <span class="ans" *ngIf="column.key === 'serviceLevelIndicators' || column.key === 'benchmark' || column.key === 'wghtd_score'">
+                          {{ row[column.key] }}
+                        </span>
+                       <div class="input-group data-input" *ngIf="column.key !== 'serviceLevelIndicators' && column.key !== 'benchmark' && column.key !== 'wghtd_score'">
+                            <input type="text" class="form-control" [value]="row[column.key]" disabled/>
+                            <span class="input-group-addon spanCustom"><em class="glyphicon">
+                                 {{ row.key === 'waterSuppliedPerDay' ? "LPCD" : "%" }}
+                            </em></span> 
+                       </div>
+                      </div>
+                    <div class="" *ngIf="table?.tableType != 'four-slb'">
+                      {{ row[column.key] }}
+                    </div>
+                    
                       </td>
                     </tr>
                   </tbody>

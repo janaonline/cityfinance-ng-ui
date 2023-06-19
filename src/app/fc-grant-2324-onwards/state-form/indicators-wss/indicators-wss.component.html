@@ -105,8 +105,9 @@
                                             </div>
                                          </div>
                                     </div>
-                                    <div class="col-sm-12 g-0" *ngIf="form?.value?.uaScore">
-                                        <div class="w-f">{{form?.value?.uaScore?.title}}  {{ form?.value?.uaScore?.value ? form?.value?.uaScore?.value : 'N/A'}} (out of maximum {{form?.value?.uaScore?.maximum}}) </div>
+                                    <div class="col-sm-12 g-0 w-f mt-3" *ngIf="form?.value?.uaScore">
+                                        <div class="">{{form?.value?.uaScore?.title}}  {{ form?.value?.uaScore?.value ? form?.value?.uaScore?.value : 'N/A'}} (out of maximum {{form?.value?.uaScore?.maximum}} marks) </div>
+                                        <div class="grants" *ngIf="form?.value?.key == 'performanceAsst'">% of Recommended tied grant : {{checkScore(form?.value?.uaScore?.value)}}</div>
                                     </div>
                                 </div>
                             </div>
