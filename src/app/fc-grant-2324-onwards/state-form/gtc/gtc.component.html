@@ -68,6 +68,7 @@
                             <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'gtc'" [isProjectLoaded]="true"
                                 (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
                                 [isButtonDisplay]="true" *ngIf="question.questionresponse"
+                                [formIdentifier]="question?.type"
                                 [questionresponse]="question.questionresponse">
                             </app-web-form>
 
