@@ -29,6 +29,7 @@ import { DecimalLimitDirective } from './property-tax/decimal-limit.directive';
 import { YearComparisionPipe } from './property-tax/year-comparision.pipe';
 import { AllowedFileTypesPipe } from './property-tax/allowed-file-types.pipe';
 import { FormErrorPipe } from './property-tax/form-error.pipe';
+import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 
 
 
@@ -43,7 +44,7 @@ import { FormErrorPipe } from './property-tax/form-error.pipe';
     TwentyEightSlbPreviewComponent, 
     OverviewComponent, 
     ResourceComponent, 
-    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe
+    PropertyTaxComponent, LoaderComponent, PreviewComponent, PfmsComponent, FourSlbComponent, DecimalLimitDirective, YearComparisionPipe, AllowedFileTypesPipe, FormErrorPipe, VideoGallaryComponent
   ],
   imports: [
     CommonModule,

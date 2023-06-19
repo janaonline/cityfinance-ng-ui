@@ -12,6 +12,7 @@ import { PropertyTaxComponent } from './property-tax/property-tax.component';
 import { PfmsComponent } from './pfms/pfms.component';
 import { FourSlbComponent } from './four-slb/four-slb.component';
 import { Ulb2223Guard } from 'src/app/shared2223/common-gaurds/ulb/ulb2223.guard';
+import { VideoGallaryComponent } from './video-gallary/video-gallary.component';
 
 const routes: Routes = [
   {
@@ -77,8 +78,10 @@ const routes: Routes = [
         component: PfmsComponent,
         canDeactivate: [ConfirmationGuard]
       },
-      
-
+      {
+        path: "video-gallary",
+        component: VideoGallaryComponent,
+      },
     ],
   },
 ];
