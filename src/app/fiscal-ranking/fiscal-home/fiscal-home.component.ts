@@ -93,14 +93,14 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       text: "",
       videos : [
         {
-          title: 'Click here for Launch Video',
+          title: 'Click here for latest video',
           url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
           key: 'newVideo',
           isActive: true,
           id: '1'
         },
         {
-          title: 'Click here for Intro Video',
+          title: 'Click here for launch video',
           url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
           key: 'oldVideo',
           isActive: false,
