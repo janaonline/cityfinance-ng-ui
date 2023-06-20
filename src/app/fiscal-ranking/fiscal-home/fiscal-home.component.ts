@@ -91,9 +91,22 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       image: "../../../assets/M FIGMA/dvr_black_24dp.svg",
       title: "Know more",
       text: "",
-      // url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/AV_City%20Finance%20Rankings%20V2_ec4d0b75-9ce8-4b2c-802f-8058bcf995cc.mp4`,
-      // url: `https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go%20Live_54e39bb4-5729-4db0-b4d4-28931d21966e.mp4`,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+      videos : [
+        {
+          title: 'Click here for Launch Video',
+          url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
+          key: 'newVideo',
+          isActive: true,
+          id: '1'
+        },
+        {
+          title: 'Click here for Intro Video',
+          url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+          key: 'oldVideo',
+          isActive: false,
+          id: '2'
+        }
+      ],
       isModal: true,
       icon_down: '',
       section: 'play_video',

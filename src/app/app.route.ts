@@ -230,10 +230,10 @@ export const appRouter: Routes = [
         (m) => m.MohuaFormModule
       ),
   },
-  {
-    path: "municipal-bonds",
-    component: MunicipalityBondsProjectsComponent,
-  },
+  // {
+  //   path: "municipal-bonds",
+  //   component: MunicipalityBondsProjectsComponent,
+  // },
 
   { path: "**", redirectTo: "rankings/home" },
 ];
