@@ -33,11 +33,23 @@
                 </div>
 
             </div>
-            <div class="col-sm-12 mt-3" *ngIf="data?.key == 'video'">
-                <video width="720" height="400" controls autoplay>
-                <source src="{{data?.url}}" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
+            <div class="col-sm-12 mt-3 v-d" *ngIf="data?.key == 'video'" >
+                <div *ngFor="let video of data?.videos"> 
+                    <div class="row">
+                        <div class="col-sm-6 f-s-{{video.id}}"><a class="link" (click)="playVideo(video)">{{video?.title}}</a> </div>
+                    </div>
+                   <div class="row m-t" *ngIf="video?.isActive">
+                    <div class="col-sm-12">
+                        <video id="{{video.id}}" width="720" height="400" controls autoplay #videoPlayer> 
+                            <source src="{{video?.url}}" type="video/mp4">
+                              Your browser does not support the video tag.
+                        </video>
+                    </div>
+                   
+                   </div>  
+                  
+                </div>
+               
             </div>
         </div>
     </div>
