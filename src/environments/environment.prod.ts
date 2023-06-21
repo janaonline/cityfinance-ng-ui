@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 let url;
 let GoogleTagID: string;
-
+let isProduction:boolean =false;
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
@@ -18,6 +18,7 @@ if (
   GoogleTagID = "UA-171288029-2";
 }
  else {
+  isProduction = true;
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "UA-171288029-1";
 }
@@ -31,6 +32,7 @@ export const environment = {
   reCaptcha: {
     siteKey: "6LcT9_gUAAAAANrZM5TNnE4OEEC46iFDfcAHZ8lD",
   },
+  isProduction: isProduction,
   GoogleTagID,
 };
 
