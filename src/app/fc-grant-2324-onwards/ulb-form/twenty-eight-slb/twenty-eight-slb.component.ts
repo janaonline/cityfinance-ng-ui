@@ -80,7 +80,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   }
 
   get hasUnsavedChanges() {
-    return this.webForm.hasUnsavedChanges;
+    return this.webForm?.hasUnsavedChanges;
   }
 
 

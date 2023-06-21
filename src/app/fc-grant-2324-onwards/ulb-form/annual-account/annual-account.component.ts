@@ -94,7 +94,7 @@ export class AnnualAccountComponent implements OnInit {
   }
 
   get hasUnsavedChanges() {
-    return this.webForm.hasUnsavedChanges;
+    return this.webForm?.hasUnsavedChanges;
   }
 
   onload() {
