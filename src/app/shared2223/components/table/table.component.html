@@ -132,7 +132,7 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- (click)="viewHistory(template, formId, resData?.ulbId)" -->
-                      <a  class="bl-ln"> {{resData.formStatus}} </a>  
+                      <a  class="bl-ln" (click)="viewHistory(template, formId, resData?.ulbId)"> {{resData.formStatus}} </a>  
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>
