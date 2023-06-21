@@ -8,6 +8,7 @@ import { MODULES_NAME } from "src/app/util/access/modules";
 import { ACTIONS } from "src/app/util/access/actions";
 import { AccessChecker } from '../../../util/access/accessChecker';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { environment } from "src/environments/environment";
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
@@ -28,7 +29,8 @@ export class NHomeHeaderComponent implements OnInit {
   canViewUserList = false;
   canViewULBSingUpListing = false;
   constructor(public _router: Router, private authService: AuthService,
-    private newCommonService: NewCommonService) {
+    private newCommonService: NewCommonService,
+    ) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
 
@@ -58,7 +60,9 @@ export class NHomeHeaderComponent implements OnInit {
 
   }
   private accessChecker = new AccessChecker();
+  isProd: boolean = false;
   ngOnInit(): void {
+    this.isProd = environment?.isProduction
     // this.authService.loginLogoutCheck.subscribe((res) => {
     //   console.log("loginLogoutCheck", res);
     //   if (res) {
