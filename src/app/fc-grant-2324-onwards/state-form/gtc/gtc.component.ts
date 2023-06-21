@@ -55,7 +55,7 @@ export class GtcComponent implements OnInit {
   }
 
   get hasUnsavedChanges() {
-    return this.webForms.some(webForm => webForm.hasUnsavedChanges);
+    return this.webForms.some(webForm => webForm?.hasUnsavedChanges);
   }
 
   ngOnInit(): void {
@@ -121,7 +121,7 @@ export class GtcComponent implements OnInit {
 
   onPreview(selectedQuestion?) {
     console.log('selectedQuestion', selectedQuestion);
-    if (!selectedQuestion && this.hasUnsavedChanges) return swal('Unsaved changes!', 'Please save form before preview', 'warning');
+    if (!selectedQuestion && this?.hasUnsavedChanges) return swal('Unsaved changes!', 'Please save form before preview', 'warning');
     let formdata = this.baseForm;
     const dialogRef = this.dialog.open(GtcPreviewComponent, {
       data: { formdata, selectedQuestion },

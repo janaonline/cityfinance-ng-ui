@@ -76,7 +76,7 @@ export class DurComponent implements OnInit, OnDestroy {
   }
 
   get hasUnsavedChanges() {
-    return this.webForm.hasUnsavedChanges;
+    return this.webForm?.hasUnsavedChanges;
   }
 
   loadData(loadProjects = false) {

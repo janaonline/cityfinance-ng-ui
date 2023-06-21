@@ -22,12 +22,6 @@ import { Router } from '@angular/router';
 export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   @ViewChild('webForm') webForm;
 
-  oppositeComparisionKeys: string[] = [
-    '6284d6f65da0fa64b423b516',
-    '6284d6f65da0fa64b423b540'
-  ];
-
-
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`;
@@ -69,9 +63,12 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
     sessionStorage.setItem("ulb_id", this.ulbId);
   }
 
+  get years() {
+    return JSON.parse(localStorage.getItem("Years"));
+  }
+
   get design_year() {
-    const years = JSON.parse(localStorage.getItem("Years"));
-    return years?.['2023-24'];
+    return this.years?.['2023-24'];
   }
 
   get ulbId() {
@@ -80,7 +77,7 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
   }
 
   get hasUnsavedChanges() {
-    return this.webForm.hasUnsavedChanges;
+    return this.webForm?.hasUnsavedChanges;
   }
 
 
@@ -199,18 +196,6 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
         if (targetValue < +target?.minRange) {
           return false;
         }
-
-        // if (!actualValue || !targetValue) continue;
-
-        // if (this.oppositeComparisionKeys.includes(lineItemValue)) {
-        //   if (actualValue < targetValue) {
-        //     return false;
-        //   }
-        // } else {
-        //   if (actualValue > targetValue) {
-        //     return false;
-        //   }
-        // }
       }
     }
     return true;
@@ -259,8 +244,8 @@ export class TwentyEightSlbComponent implements OnInit, OnDestroy {
       financialYear: this.design_year,
       design_year: this.design_year,
       status: isDraft ? 2 : 3,
-      actualYear: "606aafb14dff55e6c075d3ae",
-      targetYear: "606aaf854dff55e6c075d219",
+      actualYear: this.years["2022-23"],
+      targetYear: this.years["2023-24"],
       ulb: this.ulbId,
       formId: this.formId,
       data: finalData,

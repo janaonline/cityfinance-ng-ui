@@ -4,6 +4,8 @@ import { MouProjectsByUlbResponse, ProjectsResponse } from 'src/app/credit-ratin
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalBondsService } from '../../services/municipal/municipal-bonds.service';
+import { environment } from "src/environments/environment";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-municipality-bonds-projects',
@@ -24,7 +26,12 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
     public loaderService: GlobalLoaderService,
-  ) { }
+    private router: Router
+  ) {
+    if(environment?.isProduction === true){  
+      this.router.navigate(["/home"]);
+    }
+   }
 
   ngOnInit(): void {
     this.loadData();

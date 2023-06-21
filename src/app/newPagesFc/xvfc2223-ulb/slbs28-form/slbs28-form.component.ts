@@ -4,7 +4,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { Slbs28FormPreviewComponent } from "./slbs28-form-preview/slbs28-form-preview.component";
 import { NavigationStart, Router } from '@angular/router';
 import { SweetAlert } from "sweetalert/typings/core";
-import { I } from "@angular/cdk/keycodes";
+import { environment } from "src/environments/environment";
 const swal1: SweetAlert = require("sweetalert");
 // ES6 Modules or TypeScript
 // import { SweetAlert } from "sweetalert/typings/core";
@@ -647,7 +647,10 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         this.actionBtnDis = true;
         this.newCommonService.setFormStatus2223.next(true);
      //   commented for prods
-     if(actionBody?.status == 'REJECTED' && this.ulbData?.role == 'MoHUA') this.sequentialReview();
+     if(environment?.isProduction === false){ 
+      if(actionBody?.status == 'REJECTED' && this.ulbData?.role == 'MoHUA') this.sequentialReview();
+     }
+   
         swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
