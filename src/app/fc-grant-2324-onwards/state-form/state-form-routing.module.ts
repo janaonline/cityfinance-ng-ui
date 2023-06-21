@@ -41,6 +41,7 @@ const routes: Routes = [
       {
         path: "action-plan",
         component: ActionPlanSliComponent,
+        // canDeactivate: [ConfirmationGuard],
       },
       {
         path: "fc-formation",
@@ -61,7 +62,12 @@ const routes: Routes = [
       {
         path: "grant-allocation",
         component: GrantAllocationUlbsComponent,
-      } 
+      },
+      {
+        path: "water-rejenuvation",
+        component: ProjectsWaterRejComponent,
+        canDeactivate: [ConfirmationGuard],
+      },
       
     ],
   },
