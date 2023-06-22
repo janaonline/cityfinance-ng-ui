@@ -314,6 +314,19 @@ export class IndicatorsWssComponent implements OnInit {
   nextRouter: string = '';
   backRouter: string = '';
   sideMenuItem : any;
+    templateData;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
+  };
   ngOnInit(): void {
     this.setRouter();
   }
@@ -404,19 +417,7 @@ export class IndicatorsWssComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
-  templateData;
-  tableDefaultOptions = {
-    itemPerPage: 10,
-    currentPage: 1,
-    totalCount: null,
-  };
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    role: null,
-    skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
-  };
+
   openDialog(template, item) {
     
     this.templateData = item
@@ -468,4 +469,5 @@ setRouter() {
       return '100 %';
     }
   }
+ 
 }

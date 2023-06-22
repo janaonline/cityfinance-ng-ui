@@ -14,6 +14,7 @@ import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 import { ConfirmationGuard } from '../guards/confirmation.guard';
+import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,11 @@ const routes: Routes = [
         path: "water-rejenuvation",
         component: ProjectsWaterRejComponent,
         canDeactivate: [ConfirmationGuard],
+      },
+      {
+        path: "property-tax",
+        component: PropertyTaxFloorRateComponent,
+        
       },
       
     ],
