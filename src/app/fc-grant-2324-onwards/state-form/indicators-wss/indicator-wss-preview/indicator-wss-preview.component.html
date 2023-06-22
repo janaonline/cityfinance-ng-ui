@@ -14,7 +14,7 @@
     </div>
     <div class="row mt-3 mb-1">
         <div class="col-sm-12 form-h text-center">
-            <h5 class="formHeading">Indicators for Water Supply and Sanitation</h5>
+            <div class="formHeading">Indicators for Water Supply and Sanitation</div>
         </div>
     </div>
     <div class="row mb-3">
@@ -36,24 +36,55 @@
                         <div class="card mb-3" *ngFor="let form of uaDetails?.formData | keyvalue:keepOriginalOrder">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-12 text-center mb-3">
+                                    <div class="col-sm-12 text-center mb-3 hd">
                                         <div class="m-h">{{form?.value?.title}}</div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="" *ngIf="form?.value?.key == 'indicators_wss'">
                                                 <div class="row mb-3 br-f">
                                                     <div class="col d-s" *ngFor="let countData of form?.value?.dataCount?.fourSlbData?.data">
-                                                        <div class="h-t">
+                                                        <div class="h-t qus">
                                                             {{countData?.name}}
                                                         </div>
-                                                        <div class="h-v mt-1">
+                                                        <div class="h-v mt-1 ans">
                                                            {{countData?.value}}
                                                          </div> 
                                                     </div>
                                                 </div>
                                                 <div class="row" *ngIf="form?.value?.tables?.length">
-                                                    <div class="col-sm-12 g-0">
-                                                        <app-four-slb-view [data]="form?.value"></app-four-slb-view>
+                                                    <div class="col-sm-12 g-0 tb-1">
+                                                        <table class="table" [ngClass]="table?.tableType" *ngFor="let table of form?.value?.tables">
+                                                            <thead>
+                                                              <tr>
+                                                                <th
+                                                                  scope="col"
+                                                                  *ngFor="let column of table.columns"
+                                                                  class="{{ column?.key }} p-tb">
+                                                                  <div class="" [innerHtml]="column?.display_name"></div>
+                                                                </th>
+                                                              </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                              <tr *ngFor="let row of table?.rows">
+                                                                <td
+                                                                  *ngFor="let column of table?.columns"
+                                                                  class="{{ column?.key }} br-slb p-tb"
+                                                                >
+                                                                <div class="" *ngIf="table?.tableType == 'four-slb'">
+                                                                  <span class="ans" *ngIf="column.key === 'serviceLevelIndicators' || column.key === 'benchmark' || column.key === 'wghtd_score'">
+                                                                    {{ row[column.key] }}
+                                                                  </span>
+                                                                 <div class="input-group data-input" *ngIf="column.key !== 'serviceLevelIndicators' && column.key !== 'benchmark' && column.key !== 'wghtd_score'">
+                                                                      <span>{{row[column.key]}}</span>
+                                                                      <span class="input-group-addon spanCustom ms-2">
+                                                                           {{ row.key === 'waterSuppliedPerDay' ? "LPCD" : "%" }}
+                                                                      </span> 
+                                                                 </div>
+                                                                </div>
+                                                                </td>
+                                                              </tr>
+                                                            </tbody>
+                                                          </table>
                                                     </div>  
                                                 </div>
                                         </div>
@@ -61,58 +92,80 @@
                                             <div class="row mb-3">
                                                 <div class="col-sm-6 br-f" *ngFor="let countObj of form?.value?.dataCount | keyvalue">
                                                     <div class="row">
-                                                        <div class="col-sm-12 mb-3 mt-2 u-n text-center">
+                                                        <div class="col-sm-12 mb-3 mt-2  text-center tl">
                                                             {{countObj?.value?.name}}
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3 col-c">
                                                         <div class="col d-s e-h" *ngFor="let item of countObj?.value?.data">
-                                                            <div class="h-t">
+                                                            <div class="h-t qus">
                                                                 {{item?.name}}
                                                             </div>
-                                                            <div class="h-v mt-1">
+                                                            <div class="h-v mt-1 ans">
                                                               {{item?.value}}
                                                              </div> 
                                                         </div>
                                                     </div> 
                                                     <div class="row mt-3 mb-3 br-t" *ngIf="countObj?.value?.odfRatings">
-                                                        <div class="col-sm-6 d-s">
+                                                        <div class="col-sm-6 d-s qus">
                                                             {{countObj?.value?.odfRatings?.name}}
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-6 ans">
                                                             {{countObj?.value?.odfRatings?.value}}
                                                         </div>
                                                     </div> 
                                                     <div class="row mt-3 mb-3 br-t" *ngIf="countObj?.value?.gfcRatings">
-                                                        <div class="col-sm-6 d-s">
+                                                        <div class="col-sm-6 d-s qus">
                                                             {{countObj?.value?.gfcRatings?.name}}
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-6 ans">
                                                             {{countObj?.value?.gfcRatings?.value}}
                                                         </div>
                                                     </div> 
                                                 </div>
                                             </div>
-                                            <div class="row" *ngIf="form?.value?.tables?.length">
+                                            <!-- <div class="row" *ngIf="form?.value?.tables?.length">
                                                 <div class="col-sm-12 g-0">
                                                     <app-four-slb-view [data]="form?.value"></app-four-slb-view>
                                                 </div>  
-                                            </div>
+                                            </div> -->
                                          </div>
                                          <div class="" *ngIf="form?.value?.key == 'performanceAsst'">
                                             <div class="row">
-                                                <div class="col-sm-12 g-0 text-center">
+                                                <div class="col-sm-12 g-0 text-center hd mb">
                                                    <div class="w-f mx-auto">{{form?.value?.name}}</div> 
                                                 </div>
-                                                <div class="col-sm-12 g-0">
-                                                    <app-four-slb-view [data]="form?.value"></app-four-slb-view>
+                                                <div class="col-sm-12 g-0 mt">
+                                                    <!-- <app-four-slb-view [data]="form?.value"></app-four-slb-view> -->
+                                                    <table class="table tb-2" [ngClass]="table?.tableType" *ngFor="let table of form?.value?.tables">
+                                                        <thead>
+                                                          <tr>
+                                                            <th
+                                                              scope="col"
+                                                              *ngFor="let column of table.columns"
+                                                              class="{{ column?.key }} p-tb">
+                                                              <div class="" [innerHtml]="column?.display_name"></div>
+                                                            </th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr *ngFor="let row of table?.rows">
+                                                            <td
+                                                              *ngFor="let column of table?.columns"
+                                                              class="{{ column?.key }} br-slb p-tb"
+                                                            style="text-align: center;">
+                                                            {{ row[column.key] }}
+                                                            </td>
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
                                                 </div>  
                                             </div>
                                          </div>
                                     </div>
-                                    <div class="col-sm-12 g-0" *ngIf="form?.value?.uaScore">
-                                        
-                                        <div class="w-f">{{form?.value?.uaScore?.title}} {{ form?.value?.uaScore?.value ? form?.value?.uaScore?.value : 'N/A'}} (out of maximum {{ form?.value?.uaScore?.maximum }}) </div>
+                                    <div class="col-sm-12 g-0 w-f mt-3" *ngIf="form?.value?.uaScore">
+                                        <div class="qus">{{form?.value?.uaScore?.title}} {{ form?.value?.uaScore?.value ? form?.value?.uaScore?.value : 'N/A'}} (out of maximum {{ form?.value?.uaScore?.maximum }}) </div>
+                                        <div class="grants qus" *ngIf="form?.value?.key == 'performanceAsst'">% of Recommended tied grant : {{checkScore(form?.value?.uaScore?.value)}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -124,5 +177,6 @@
                 
             </div> 
         </div>
+        <div class="page-break"></div>
     </div>
 </div>

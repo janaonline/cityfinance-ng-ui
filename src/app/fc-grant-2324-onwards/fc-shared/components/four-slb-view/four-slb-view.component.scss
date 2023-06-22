@@ -11,16 +11,18 @@
         }
         th{
             vertical-align: middle;
+            
         }
         
     }
     tbody{
         td {
             text-align: center;
+            vertical-align: middle;
         }
-        tr :first-child{
-            text-align: left !important;
-        }
+        // tr :first-child{
+        //     text-align: left !important;
+        // }
     }
 }
 .lineItem-highlited {
@@ -79,4 +81,8 @@
 }
 .serviceLevelIndicators {
     min-width: 200px;
+    text-align: left !important;
 }
+.wghtd_score {
+    text-align: center !important;
+  }
