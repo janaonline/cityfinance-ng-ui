@@ -43,6 +43,7 @@ text-align: center;
     padding: 5px 10px;
     background-color: #EBF5F5;
 }
+
   table tbody tr {
     border: 100px solid black;
   }
@@ -59,6 +60,8 @@ text-align: center;
   table tbody td, li {
     font-size: 10px
   }
+
+
   .h-cls {
     display: none !important;
   }
@@ -66,10 +69,7 @@ text-align: center;
     width: 49% !important;
     display: inline-block !important;
   }
-  .col {
-    width: auto !important;
-    display: inline-block !important;
-  }
+ 
   .text-center {
     text-align: center !important;
   }
@@ -79,27 +79,13 @@ text-align: center;
   .mt-3 {
     margin-top : 0.5rem !important;
   }
-  .d-s {
-    padding: .5rem;
-    
-}
-thead {
-  tr {
-      background-color: #047474; 
-      color: #FFFFFF;  
-  }
-  th:first-child{
-      width: 20%;
-  }
-  th{
-      vertical-align: middle;
-  }
-}
+
 .w-f {
     background-color: #ade9e9;
     color: black;
-    padding: .5rem 1rem;
+    padding: .6rem 1rem;
     font-weight: 500;
+    
 }
 .m-h {
   background-color: #059b9a;
@@ -107,6 +93,44 @@ thead {
   padding: .5rem 1rem;
   font-weight: 500;
 }
+.qus {
+  font-size: 10px !important;
+  margin-top : 0.5rem !important;
+}
+.ans {
+  font-size: 10px !important;
+  margin-top : 0.5rem !important;
+}
+.hd {
+  font-size: 12px !important;
+  font-weight: 500;
+  margin-top : 1rem !important;
+}
+.tl {
+  text-align: left !important;
+  font-weight: 500;
+  font-size: 12px !important;
+}
+.p-tb {
+  border:1px solid #d7ebeb;
+}
+.wghtd_score {
+  text-align: center !important;
+}
+.u-n {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+. @media print {
+  .page-break {
+      page-break-before: always;
+  }
+}
+.formHeading {
+  font-size: 13px !important;
+  margin-bottom : 1rem !important;
+}
+
   </style>`;
   constructor(
     private _matDialog: MatDialog,
@@ -152,4 +176,19 @@ thead {
     this._matDialog.closeAll();
   }
   keepOriginalOrder = (a, b) => b.key - a.key;
+  checkScore(score) {
+    
+    let totalScore = Number(score);
+    if (!totalScore || totalScore < 30) {
+      return '0 %';
+    } else if (totalScore <= 45) {
+      return '60 %';
+    } else if (totalScore <= 60) {
+      return '75 %';
+    } else if (totalScore <= 80) {
+      return '90 %';
+    } else {
+      return '100 %';
+    }
+  }
 }

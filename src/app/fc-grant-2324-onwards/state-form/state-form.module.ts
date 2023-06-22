@@ -31,6 +31,7 @@ import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-preview/indicator-wss-preview.component';
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
+import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allo
     EditUlbComponent,
     IndicatorsWssComponent,
     IndicatorWssPreviewComponent,
-    GrantAllocationUlbsComponent
+    GrantAllocationUlbsComponent,
+    PropertyTaxFloorRateComponent
     ],
   imports: [
     CommonModule,
