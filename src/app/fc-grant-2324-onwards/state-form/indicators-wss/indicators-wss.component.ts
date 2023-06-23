@@ -295,8 +295,8 @@ export class IndicatorsWssComponent implements OnInit {
     //   dataCount: {  
     //     },
     //   uaScore: {
-    //     'title' : `On the basis of the total marks obtained by UA,
-    //      proportionate grants shall be recommended by MOH&UA as per the table given below:`,
+    //     'title' : `Total UA Score`
+    // 
     //      value: '100',
     //      maximum : 100
     //   }
@@ -314,6 +314,19 @@ export class IndicatorsWssComponent implements OnInit {
   nextRouter: string = '';
   backRouter: string = '';
   sideMenuItem : any;
+    templateData;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
+  };
   ngOnInit(): void {
     this.setRouter();
   }
@@ -404,19 +417,7 @@ export class IndicatorsWssComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
-  templateData;
-  tableDefaultOptions = {
-    itemPerPage: 10,
-    currentPage: 1,
-    totalCount: null,
-  };
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    role: null,
-    skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
-  };
+
   openDialog(template, item) {
     
     this.templateData = item
@@ -452,4 +453,21 @@ setRouter() {
 }
 
   keepOriginalOrder = (a, b) => b.key - a.key;
+
+  checkScore(score) {
+    
+    let totalScore = Number(score);
+    if (!totalScore || totalScore < 30) {
+      return '0 %';
+    } else if (totalScore <= 45) {
+      return '60 %';
+    } else if (totalScore <= 60) {
+      return '75 %';
+    } else if (totalScore <= 80) {
+      return '90 %';
+    } else {
+      return '100 %';
+    }
+  }
+ 
 }

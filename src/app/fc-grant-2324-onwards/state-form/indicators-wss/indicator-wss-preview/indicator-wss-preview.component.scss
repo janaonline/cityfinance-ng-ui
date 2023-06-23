@@ -17,7 +17,7 @@
 }
 
 .form-h {
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 500;
     margin-bottom: .5rem;
 }
@@ -115,5 +115,36 @@ thead {
         vertical-align: middle;
     }
 }
+tbody {
+    td {
+        vertical-align: middle;
+    }
+}
 
   
+.lineItem-highlited {
+    thead, tbody, tfoot, tr, td, th {
+        border-color: inherit;
+        border-style: solid;
+         border-width: 2px; 
+         background-color: #FFFFFF;
+    }
+    th {
+        color: #047474;
+        text-align: center;
+        vertical-align: middle;
+        
+    }
+    .marks{
+            color: #047474 !important; 
+            font-weight: bold;
+         }
+    td {
+        text-align: center;
+    }
+   
+
+}
+.wghtd_score {
+    text-align: center !important;
+  }

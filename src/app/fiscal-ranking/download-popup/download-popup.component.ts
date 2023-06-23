@@ -35,14 +35,14 @@ export class DownloadPopupComponent implements OnInit {
   
   
   playVideo(video){
-      for(let item of this.data.videos){
-        let myVideo: any = document.getElementById(`${item?.id}`);
-       if(item.isActive) myVideo.pause();
+      for(let item of this.data?.videos){
+        let myVideo: any = document?.getElementById(`${item?.id}`);
+       if(item?.isActive) myVideo?.pause();
         item.isActive = false;
       }
      video.isActive = true;
-    let myVideo: any = document.getElementById(`${video?.id}`);
-    if(video.isActive)  myVideo.play();
+    let myVideo: any = document?.getElementById(`${video?.id}`);
+    if(video?.isActive)  myVideo?.play();
      
   }
 }

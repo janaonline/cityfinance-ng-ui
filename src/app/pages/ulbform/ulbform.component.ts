@@ -15,6 +15,7 @@ import { UlbformService } from "./ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common'
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-ulbform",
@@ -623,7 +624,10 @@ export class UlbformComponent implements OnInit {
           console.log("State final action", res);
         }
       //  commented for prods
-   // if(actionStatus == "REJECTED" && this.loggedInUserType == this.userTypes.MoHUA) this.sequentialReview(actionBody); // for sequncial rejection
+      if(environment?.isProduction === false){  
+        if(actionStatus == "REJECTED" && this.loggedInUserType == this.userTypes.MoHUA) this.sequentialReview(actionBody); // for sequncial rejection
+      }
+
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);
         setTimeout(() => {

@@ -11,7 +11,7 @@
             (click)="openDialog('Approve')">Approve all</button>
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
             (click)="openDialog('Return')">Return all</button>
-        <button type="button" class="btn btn-danger ms-2" (click)="download()" *ngIf="designYear == '606aafb14dff55e6c075d3ae'">Download</button>
+        <button type="button" class="btn btn-danger ms-2" (click)="download()" *ngIf="formId != '3'">Download</button>
     </div>
 </div>
 <!-- <form > -->
@@ -132,7 +132,7 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         <!-- (click)="viewHistory(template, formId, resData?.ulbId)" -->
-                      <a  class="bl-ln"> {{resData.formStatus}} </a>  
+                      <a  class="bl-ln" (click)="viewHistory(template, formId, resData?.ulbId)"> {{resData.formStatus}} </a>  
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.filled ? resData.filled :
                         resData.filled_audited }}</td>

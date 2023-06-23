@@ -8,6 +8,12 @@ import { DashbordComponent } from './dashbord/dashbord.component';
 import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GtcComponent } from './gtc/gtc.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
+import { GtcPreviewComponent } from './gtc/gtc-preview/gtc-preview.component';
+import { InstallmentPreviewComponent } from './gtc/installment-preview/installment-preview.component';
+
 import { ProjectsWssComponent } from './projects-wss/projects-wss.component';
 import { ProjectsWaterRejComponent } from './projects-water-rej/projects-water-rej.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,7 +24,6 @@ import { ActionPlanComponent } from 'src/app/newPagesFc/xvfc2223-state/action-pl
 import { AgGrid2223Component } from 'src/app/newPagesFc/xvfc2223-state/action-plan/ag-grid2223/ag-grid2223.component';
 import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { StateFinanceCnComponent } from './state-finance-cn/state-finance-cn.component';
 import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claims-grants.component';
@@ -26,22 +31,25 @@ import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-preview/indicator-wss-preview.component';
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
+import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 
 
 @NgModule({
   declarations: [
     StateFormComponent,
-    ReviewUlbTableComponent, 
+    ReviewUlbTableComponent,
     DashbordComponent,
-    ProjectsWssComponent, 
+    ProjectsWssComponent,
     ProjectsWaterRejComponent,
+    GtcComponent, GtcPreviewComponent, InstallmentPreviewComponent,
     ActionPlanSliComponent,
-    StateFinanceCnComponent, 
+    StateFinanceCnComponent,
     SubmitClaimsGrantsComponent,
     EditUlbComponent,
     IndicatorsWssComponent,
     IndicatorWssPreviewComponent,
-    GrantAllocationUlbsComponent
+    GrantAllocationUlbsComponent,
+    PropertyTaxFloorRateComponent
     ],
   imports: [
     CommonModule,
@@ -51,6 +59,8 @@ import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allo
     FcSharedModule,
     ReactiveFormsModule,
     FormsModule,
+    WebFormModule,
+    AccordionModule.forRoot(),
     MatTooltipModule,
     MatIconModule,
     AccordionModule.forRoot(),

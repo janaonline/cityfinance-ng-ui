@@ -1,11 +1,11 @@
-import { I } from '@angular/cdk/keycodes';
+
 import { HttpEventType } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
-
+import { environment } from "src/environments/environment";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -329,11 +329,13 @@ export class TableApproveReturnDialogComponent implements OnInit {
         swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
        // temp commented for Prods
-        // if((this.data?.formId == 4 || this.data?.formId == 6 ||
-        //    this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
-        //    this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
-        //     this.sequentialReview(tempFormId);
-        //   }
+       if(environment?.isProduction === false){  
+        if((this.data?.formId == 4 || this.data?.formId == 6 ||
+           this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
+           this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
+            this.sequentialReview(tempFormId);
+          }
+        }
         this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);
       },

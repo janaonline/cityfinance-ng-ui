@@ -73,7 +73,10 @@ export class DurComponent implements OnInit, OnDestroy {
   get ulbId() {
     if(this.userData?.role == 'ULB') return this.userData?.ulb;
     return localStorage.getItem("ulb_id");
+  }
 
+  get hasUnsavedChanges() {
+    return this.webForm?.hasUnsavedChanges;
   }
 
   loadData(loadProjects = false) {

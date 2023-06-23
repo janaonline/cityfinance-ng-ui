@@ -15,6 +15,7 @@ import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-repo
 import { DurPreviewComponent } from "./dur-preview/dur-preview.component";
 import { NavigationStart, Router } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-detailed-utilization-report",
@@ -991,7 +992,10 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
       //  commented for prods
-      // if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA') this.sequentialReview();
+      if(environment?.isProduction === false){ 
+        if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA') this.sequentialReview();
+      }
+     
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },

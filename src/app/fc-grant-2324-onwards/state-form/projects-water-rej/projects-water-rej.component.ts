@@ -1118,6 +1118,9 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
     if(this.userData?.role == 'MoHUA' && data.statusId != 4) return true;
     return false;
   }
+  get hasUnsavedChanges() {
+    return !this.waterRejenuvation?.pristine;
+  }
 }
 
 

@@ -1,0 +1,170 @@
+<div class="container-fluid">
+    <div class="row header mt-2">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">
+            <span>Grant Transfer Certificate</span>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm">
+            <button type="button" class="btn btn-primary" (click)="onPreview()" style="margin-top: .2rem;"
+                id="prevBtn">PREVIEW</button>
+        </div>
+    </div>
+    <div class="pre-y" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <accordion>
+                <accordion-group [isDisabled]="formItem?.isDisabled" class="mb-3"
+                    *ngFor="let formItem of baseForm; let cIndex = index">
+                    <div class="row al-c" style="" accordion-heading>
+                        <div class="col-md-10">
+                            <h6 class="uplod_label">{{formItem?.label}}</h6>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <button [disabled]="formItem?.isDisabled" type="button"
+                                class="btn btn-primary">Select</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card mt-2" *ngFor="let question of formItem?.questions; let qIndex = index">
+                        <div class="card-body">
+                            <div class="ins-h">
+                                {{question?.instlText}}
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-10 q-h">
+                                    {{question?.question}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="col-sm-12 mb-3">
+                                        <button
+                                            [disabled]="question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"
+                                            (click)="bs_pdf1.click()" class="btn border w-100">
+                                            <div class="row">
+                                                <div class="col-sm-6 file-text ">
+                                                    File
+                                                </div>
+                                                <div class="col-sm-6 text-end">
+                                                    <img src="/assets/circle/cloud_upload_black_24dp.svg">
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <input #bs_pdf1 style="display: none;" onclick="this.value=null;"
+                                            (change)="uploadFile($event, 'pdf', question, false, 'file')" type="file"
+                                            accept=".pdf" #file>
+                                    </div>
+                                    <div class="col-sm-12 com-style f-w mt-1" *ngIf="question?.file?.url">
+                                        <a class="w-90" href="{{question?.file?.url}}"
+                                            target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
+                                            </mat-icon></a>
+                                        <a *ngIf="!question?.questionresponse?.data[0]?.language[0].isQuestionDisabled" href="{{question?.file?.url}}" target="_blank"
+                                            (click)="uploadFile($event, 'pdf', question, true, 'file')" class="w-10">
+                                            <img src="/assets/form-icon/close_black_24dp.svg">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'gtc'" [isProjectLoaded]="true"
+                                (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
+                                [isButtonDisplay]="true" *ngIf="question.questionresponse"
+                                [formIdentifier]="question?.key"
+                                [questionresponse]="question.questionresponse">
+                            </app-web-form>
+
+                            <!-- <div class="row mt-3"
+                                *ngIf="question?.status && question?.statusId == 2 && question?.canTakeAction == false">
+                                <div class="col-sm-12">
+                                    <span class="d-inline-block" style="width: 25%">Status:</span>
+                                    <span class="st-p d-inline-block" [ngClass]="{'st-r' : (question?.status == 'REJECTED'),
+                                  'st-a': (question?.status == 'APPROVED'),'st-p': (question?.status == 'PENDING')}">
+                                        {{question?.status}}
+                                    </span>
+                                    <div class="mt-3" *ngIf="question?.status != 'PENDING'">
+                                        <span class="d-inline-block" style="width: 25%">Remarks/Return reason :</span>
+                                        {{question?.rejectReason_mohua}}
+                                    </div>
+                                </div>
+                                <div class="row mt-3" *ngIf="question?.status != 'PENDING'">
+                                    <div class="col-sm-3">
+                                        Supporting Document :
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <a href="{{question?.responseFile_mohua?.url}}" target="_blank">
+                                            {{question?.responseFile_mohua?.name}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3" *ngIf="question?.canTakeAction">
+                                <p>{{question.rejectReason_mohua}}</p>
+                                <div class="row" style="">
+                                    <div class="col-sm-6 a-h">Review Status:</div>
+                                    <div class="col-sm-6 p-0">
+                                        <button type="button" class="btn btnA" [disabled]="!question?.canTakeAction"
+                                            [ngClass]="{'btnAAc' : (question?.statusId == 6)}"
+                                            (click)="question.statusId = 6;">Approve</button>
+                                        <button type="button" class="btn ms-3 btnR"
+                                            [disabled]="!question?.canTakeAction"
+                                            [ngClass]="{'btnRAc' : (question?.statusId == 7)}"
+                                            (click)="question.statusId = 7;">Return</button>
+                                    </div>
+                                    <div class="row rej mt-3">
+                                        <div class="col-sm-6 a-h h-aa" style="">Remarks/Return reason :</div>
+                                        <div class="col-sm-6">
+                                            <textarea class="" name="reason" id="reason" cols="30" rows="2"
+                                                [ngClass]="{'disCls disGray' : (question?.canTakeAction == 'false')}"
+                                                [(ngModel)]="question.rejectReason_mohua"
+                                                [ngModelOptions]="{standalone: true}"
+                                                (keyup)="actionBtnClick('returnRes', question, itemLabel, $event?.target?.value)">
+                                          </textarea>
+                                        </div>
+                                        <div class="text-danger acterr" *ngIf="actionError && !question?.status">
+                                            Action required.(in case of return, Return reason is also mandatory.)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            Supporting Document :
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <button [disabled]="question?.canTakeAction == false"
+                                                    (click)="bs_pdfAct.click()" class="btn btn-primary">Upload PDF
+                                                    <sup><span class="wh-s">*</span></sup>
+                                                    <img src="/assets/form-icon/upload-pdf-icon.png" alt=""
+                                                        style="margin-left: 4px;">
+                                                </button>
+                                                <input #bs_pdfAct style="display: none;" onclick="this.value=null;"
+                                                    (change)="uploadFile($event, 'pdf', question, false, 'responseFile_mohua')"
+                                                    type="file" accept=".pdf" #file>
+                                            </div>
+                                            <div class="col-sm-12 com-style f-w mt-1"
+                                                *ngIf="question?.responseFile_mohua?.url">
+                                                <a class="w-90" href="{{question?.responseFile_mohua?.url}}"
+                                                    target="_blank">{{question?.responseFile_mohua?.name}} <mat-icon>
+                                                        cloud_download
+                                                    </mat-icon></a>
+                                                <a href="{{question?.responseFile_mohua?.url}}" target="_blank"
+                                                    (click)="uploadFile($event, 'pdf', question, true, 'responseFile_mohua')"
+                                                    class="w-10">
+                                                    <img src="/assets/form-icon/close_black_24dp.svg">
+                                                </a>
+                                            </div>
+                                            <button (click)="installmentAction(question)" class="btn btn-primary mt-2"
+                                                [disabled]="!(question?.statusId == 6 || (question?.statusId == 7 && question?.rejectReason_mohua))">Submit
+                                                review
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>

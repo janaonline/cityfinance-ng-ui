@@ -11,15 +11,18 @@
         }
         th{
             vertical-align: middle;
+            
         }
+        
     }
     tbody{
-        td:nth-child(2) {
+        td {
             text-align: center;
+            vertical-align: middle;
         }
-        td :first-child{
-            border-top: none !important;
-        }
+        // tr :first-child{
+        //     text-align: left !important;
+        // }
     }
 }
 .lineItem-highlited {
@@ -45,3 +48,41 @@
 
 }
 
+:host {
+    --greenish: #047474;
+    textarea:disabled {
+        border: none;
+        // background: transparent;
+    }
+    .data-input {
+        min-width: 130px;
+    }
+    .input-group-addon {
+        background: var(--greenish);
+        color: white;
+        padding: 6px 8px;
+        border: 1px solid var(--greenish);
+        display: inline-block;
+        width: 52px;
+        font-size: 12px;
+    }
+    
+    .form-control {
+        border-color: var(--greenish);
+        width: 70px;
+        display: inline-block;
+        font-size: 14px;
+    }
+   
+    button.btn-primary {
+        outline: none;
+    }
+ 
+}
+.serviceLevelIndicators {
+    min-width: 200px;
+    text-align: left !important;
+}
+.wghtd_score {
+    text-align: center !important;
+  }

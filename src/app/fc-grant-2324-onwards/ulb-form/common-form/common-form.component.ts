@@ -312,6 +312,10 @@ export class CommonFormComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  get hasUnsavedChanges() {
+    return this.webForm?.hasUnsavedChanges;
+  }
   checkRouterForApi() {
     this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

@@ -23,6 +23,7 @@ import { TableApproveReturnDialogComponent } from "./table-approve-return-dialog
 import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-services/state2223.service";
 import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
+import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -467,7 +468,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       ...csvParams,
       token: this.getToken(),
     };
-    const endPoint = "review";
+    const endPoint = this.designYear == '606aafc14dff55e6c075d3ec' ? this.endPoint : "review" ;
     console.log(params);
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }
@@ -589,7 +590,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(this.designYear == '606aafc14dff55e6c075d3ec') return;
+    if(this.designYear == '606aafc14dff55e6c075d3ec' || environment?.isProduction) return;
     this.noHistorydataFound = false
     this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
       (res) => {
