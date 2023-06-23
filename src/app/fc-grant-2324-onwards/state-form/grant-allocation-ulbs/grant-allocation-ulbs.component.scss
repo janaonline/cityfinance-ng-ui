@@ -1,0 +1,69 @@
+.header2 {
+    font-weight: 700;
+    font-size: 1.25rem; 
+}
+.header2 {
+    font-family: 'Roboto', Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 0.2rem;
+    font-weight: 600;
+}
+
+
+.al-c {
+    align-items: center;
+}
+
+.ins-h {
+    color: #114551;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.q-h {
+    font-size: 16px;
+}
+
+
+.dis-card {
+    pointer-events: none;
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}
+
+.i-c {
+    align-items: baseline;
+}
+
+.w-c {
+    width: 22%;
+}
+
+.st-a {
+    background-color: green;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
+    /* margin-bottom: 1rem; */
+}
+
+.st-r {
+    background-color: red;
+    color: #fff;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
+}
+
+.st-p {
+    background-color: rgb(250, 250, 68);
+    color: green;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 4rem;
+}

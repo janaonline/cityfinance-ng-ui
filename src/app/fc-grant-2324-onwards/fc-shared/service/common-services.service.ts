@@ -81,4 +81,12 @@ export class CommonServicesService {
     if(userData?.role != USER_TYPE.ULB) return false;
     return [1, 2, 5, 7].includes(res?.statusId);
  }
+
+ formGetMethodAsBlob(endPoints:string, queryParam:any){
+  // return this.http.get(environment.api.url + 'grantDistribution/template', { responseType: 'blob' });
+  return this.http.get(
+      `${environment.api.url}${endPoints}`,
+    {  params: queryParam, responseType: "blob" }
+  );
+}
 }

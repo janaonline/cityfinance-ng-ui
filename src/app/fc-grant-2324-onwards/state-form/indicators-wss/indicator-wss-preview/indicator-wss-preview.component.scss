@@ -1,3 +1,33 @@
+.header-p {
+    background-color: #047474;
+    text-align: center;
+    padding: 10px;
+    // height: 100px;
+}
+.heading-p {
+    color: #FFFFFF;
+    font-size: 22px;
+    height: auto;
+    font-weight: 700;
+}
+
+.sub-h {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.form-h {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: .5rem;
+}
+
+h5 {
+    font-size: 15px;
+    color: #000000;
+    font-family: Roboto;
+    font-weight: 500;
+}
 .form-header {
     font-weight: 700;
     font-size: 1.25rem;
@@ -85,12 +115,5 @@ thead {
         vertical-align: middle;
     }
 }
-// .col-c{
-//     display: table; /* Make the container element behave like a table */
-//     width: 100%; /* Set full-width to expand the whole page */
-//   }
-  
-//   .e-h {
-//     display: table-cell; /* Make elements inside the container behave like table cells */
-//   }
+
   

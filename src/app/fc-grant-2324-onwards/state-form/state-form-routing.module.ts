@@ -13,6 +13,7 @@ import { SubmitClaimsGrantsComponent } from './submit-claims-grants/submit-claim
 import { EditUlbComponent } from './edit-ulb-table/edit-ulb.component';
 import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.component';
 import { ConfirmationGuard } from '../guards/confirmation.guard';
+import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,12 @@ const routes: Routes = [
       {
         path: "water-supply",
         component: IndicatorsWssComponent,
-      },  
+      },
+      {
+        path: "grant-allocation",
+        component: GrantAllocationUlbsComponent,
+      } 
+      
     ],
   },
 ];

@@ -1,0 +1,89 @@
+<div class="container-fluid" *ngIf="!isApiInProgress">
+    <div class="row header mt-2">
+        <div class="col-sm-8 header2">
+            <span>{{response?.formName}}</span>
+        </div>
+        <div class="col-sm-4 text-end">
+            <button type="button" class="btn btn-primary mt-2" (click)="onPreview()" id="prevBtn">PREVIEW</button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <accordion>
+                <accordion-group class="mb-3" *ngFor="let itemLabel of gtcFormData; let cIndex = index">
+                    <div class="row al-c" style="" accordion-heading>
+                        <div class="col-md-10">
+                            <h6 class="uplod_label">{{itemLabel?.label}}</h6>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <button type="button" class="btn btn-primary">Select</button>
+                        </div>
+                    </div>
+
+                    <div class="card mt-2" *ngFor="let quesItem of itemLabel?.quesArray; let qIndex = index">
+                        <div class="card-body">
+                            <div class="ins-h">
+                                {{quesItem?.instlText}}
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-sm-6 q-h">
+                                    {{quesItem?.quesText}}
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-primary" (click)="downloadSample(quesItem)">Download Format</button>
+                                </div>
+                                <div class="col-sm-3" [matTooltip]="quesItem?.disableMsg" matTooltipClass="tooltip-red" [matTooltipDisabled]="quesItem?.isDisableQues == false">
+                                    <button [disabled]="quesItem?.isDisableQues" (click)="bs_excel1.click()" class="btn btn-primary">Upload
+                                      EXCEL<sup><span class="wh-s">*</span></sup>
+                                    <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                      data-height="16"></span>
+                                </button>
+                                    <input #bs_excel1 style="display: none;" onclick="value=null;" (change)="fileChangeEvent($event,'excel', cIndex, qIndex)" type="file" accept=".xls, .xlsx" #file>
+                                </div>
+                            </div>
+                            <div class="row mt-3 i-c" *ngIf="quesItem?.fileName != ''">
+                                <div class="col-sm-6">
+                                    <a href="{{quesItem?.url}}" target="_blank"> {{quesItem?.fileName}} </a>
+                                </div>
+                                <div class="" [ngClass]="{'w-c' : quesItem?.file?.progress}" *ngIf="quesItem?.file?.progress" style="">
+                                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ quesItem?.file?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: quesItem?.file?.progress + '%' }">
+                                        {{ quesItem?.file?.progress }}%
+                                    </div>
+                                </div>
+                                <div class="mt-2" [ngClass]="{'col-sm-5' : !quesItem?.file?.progress, 'col-sm-2' : quesItem?.file?.progress}" *ngIf="quesItem?.url != ''">
+                                    <a href="{{quesItem?.url}}" target="_blank">
+                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                                    </a>
+                                    <span style="" [ngClass]="{'dis-card': quesItem?.isDisableQues}">
+                                    <a (click)="clearFile('click',  cIndex, qIndex)"  style="" class="ms-2">
+                                      <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                                    </a>
+                                  </span>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-12 text-end">
+                                    <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues" (click)="saveFile(cIndex, qIndex)">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+            <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
+        </div>
+    </div>
+</div>
+
+
+<div class="text-center p-4" *ngIf="isApiInProgress">
+    <app-pre-loader-new></app-pre-loader-new>
+</div>
+
