@@ -244,12 +244,14 @@ export class GrantAllocationUlbsComponent implements OnInit {
     year: data?.year,
     installment :data?.installment
    }
+   console.log('templates....', data);
+   
     this.commonServices.formGetMethodAsBlob('grantDistribution/template', queryParams).subscribe(
       (response: any) => {
         let blob: any = new Blob([response], {
           type: "text/json; charset=utf-8",
         });
-        fileSaver.saveAs(blob, "grant-allocation-template.xlsx");
+        fileSaver.saveAs(blob, `${data?.key}stInstallment_template.xlsx`);
         this.handleDownloadSuccess();
       },
       (error) => {
