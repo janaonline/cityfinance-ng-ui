@@ -462,8 +462,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   download() {
     let csvParams: any = { ...this.params }
-    delete csvParams.limit;
-    delete csvParams.skip;
+    delete csvParams?.limit;
+    delete csvParams?.skip;
+    delete csvParams?.csv;
     const params = {
       ...csvParams,
       token: this.getToken(),
