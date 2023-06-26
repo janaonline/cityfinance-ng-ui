@@ -23,7 +23,8 @@ export class MunicipalityBondsComponent implements OnInit {
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
   response: MouProjectsByUlbResponse;
-
+  @Input() isUA:String = 'No';
+  @Input() mouTabDescription = '';
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
     public loaderService: GlobalLoaderService,

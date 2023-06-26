@@ -11,6 +11,6 @@
         <label class="m-h text-center">Dashboard</label>
     </div>
     <div *ngIf="dashboardTabData" class="row">
-        <app-dashboard-tabs [yearListForDropDown]="yearListForDropDown" [mySelectedYears]="currentYear" [DashBoardType]="'city'" [cityId]="cityId" [data]="dashboardTabData" [scrollCords]="cords"></app-dashboard-tabs>
+        <app-dashboard-tabs [yearListForDropDown]="yearListForDropDown" [mySelectedYears]="currentYear" [DashBoardType]="'city'" [cityId]="cityId" [data]="dashboardTabData" [scrollCords]="cords" [isUA]="isUA"></app-dashboard-tabs>
     </div>
 </div>
