@@ -61,6 +61,11 @@ export interface MouProjectsByUlbResponse {
   rows?: (Row)[] | null;
   filters: Filter[];
   columns?: (Columns)[] | null;
+  filterYear: string;
+  filterYears: ({
+    label: string;
+    id: string;
+  })[];
   total: number;
 }
 
