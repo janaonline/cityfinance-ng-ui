@@ -51,6 +51,8 @@
         <h1 class="fw-bold">Ongoing Infrastructure Projects</h1>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" *ngIf="response && response.filters?.length > 0">
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
+                data-bs-target="#filterModalMou" *ngIf="isUA == 'Yes'">MoU</button>
+            <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
                 data-bs-target="#filterModal">Filter</button>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle me-2" data-bs-toggle="dropdown"
@@ -123,4 +125,18 @@
     <ng-template #no_data_found>
         <h2 class="text-center p-5" *ngIf="response">No data found</h2>
     </ng-template>
+</div>
+
+<div class="modal fade" id="filterModalMou" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">MoU</h5>
+                <button type="button" class="btn-close btn-c-m" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row " style="min-height: 80vh;" *ngIf="response && response.filters?.length > 0">
+                <app-pdf-card-viewer [cityId]="cityId" [tabDescription]="mouTabDescription"></app-pdf-card-viewer>
+            </div>
+        </div>
+    </div>
 </div>
