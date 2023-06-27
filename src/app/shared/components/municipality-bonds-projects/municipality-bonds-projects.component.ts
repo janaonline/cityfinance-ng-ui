@@ -28,9 +28,9 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
     public loaderService: GlobalLoaderService,
     private router: Router
   ) {
-    if(environment?.isProduction === true){  
-      this.router.navigate(["/home"]);
-    }
+    // if(environment?.isProduction === true){  
+    //   this.router.navigate(["/home"]);
+    // }
    }
 
   ngOnInit(): void {
