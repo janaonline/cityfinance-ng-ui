@@ -123,7 +123,7 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <div class="d-flex custom-input-group">
+                                                    <div class="d-flex custom-input-group"  [title]="yearItem.controls?.value?.value">
                                                         <span *ngIf="yearItem.controls?.isRupee?.value"
                                                             class="input-group-text br-a" id="basic-addon1">₹</span>
                                                         <input onwheel="this.blur()" appNoUpDown
