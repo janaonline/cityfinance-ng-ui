@@ -39,6 +39,13 @@ export class TableApproveReturnDialogComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
+  design_year;
+  userData;
+  formName = '';
+  actionPayload:any;
+  emptyArr = []
+  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoReject:boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dataEntryService: DataEntryService,
@@ -51,18 +58,20 @@ export class TableApproveReturnDialogComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeForm();
   }
-  design_year;
-  userData;
-  formName = '';
-  actionPayload:any;
+ 
   ngOnInit(): void {
     // this.onLoad();
+    if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
+    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
+  //  this.sequentialReview(tempFormId);
+    this.sequentialReview({tempFormId: 4, onlyGet: true})
+  }
   }
 
   get f() {
     return this.approveReturnForm.controls;
   }
-  emptyArr = []
+  
   initializeForm() {
     if (this.data?.tableName == 'Review State Forms') {
       this.approveReturnForm = this.formBuilder.group({
@@ -249,9 +258,11 @@ export class TableApproveReturnDialogComponent implements OnInit {
     } else {
       this.retuenError = false;
       this._matDialog.closeAll();
+      let confirmMessage = this.autoReject ? this.autoRejectInfo : '';
       swal(
         "Confirmation !",
-        `Are you sure you want to save this action ?`,
+        `${confirmMessage} 
+          Are you sure you want to submit this action?`, 
         "warning",
         {
           buttons: {
@@ -330,10 +341,10 @@ export class TableApproveReturnDialogComponent implements OnInit {
         //   this.newCommonService.multiAction.next(true);
        // temp commented for Prods
        if(environment?.isProduction === false){  
-        if((this.data?.formId == 4 || this.data?.formId == 6 ||
-           this.data?.formId == '62aa1c96c9a98b2254632a8a' ||
-           this.data?.formId == '62aa1d4fc9a98b2254632a96') && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
-            this.sequentialReview(tempFormId);
+        if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
+            && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && this.autoReject){
+          //  this.sequentialReview(tempFormId);
+            this.sequentialReview({tempFormId: tempFormId, onlyGet: false})
           }
         }
         this.approveReturnForm.reset();
@@ -349,20 +360,22 @@ export class TableApproveReturnDialogComponent implements OnInit {
     this._matDialog.closeAll();
   }
   
-  sequentialReview(tempFormId) {
+  sequentialReview(data) {
     let body = {
       design_year: this.data?.designYear,
       status: "REJECTED",
-      formId : tempFormId,
+      formId : data?.tempFormId,
       ulbs : this.data?.selectedId,
       multi: true,
+      "getReview": data?.onlyGet
     };
     this.newCommonService.postSeqReview(body).subscribe(
-      (res) => {
+      (res: any) => {
         console.log("Sequential review", res);
+        if(data?.onlyGet && this.autoReject == false) this.autoReject = res?.data?.autoReject;
       },
       (error) => {
-        swal("Error", "Sequential review field.", "error");
+      //  swal("Error", "Sequential review field.", "error");
       }
     );
   }
