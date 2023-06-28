@@ -60,9 +60,9 @@ export class NHomeHeaderComponent implements OnInit {
 
   }
   private accessChecker = new AccessChecker();
-  isProd: boolean = false;
+ // isProd: boolean = false;
   ngOnInit(): void {
-    this.isProd = environment?.isProduction;
+    // this.isProd = environment?.isProduction;
     // this.authService.loginLogoutCheck.subscribe((res) => {
     //   console.log("loginLogoutCheck", res);
     //   if (res) {

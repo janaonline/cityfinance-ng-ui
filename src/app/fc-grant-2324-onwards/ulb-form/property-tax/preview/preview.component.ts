@@ -38,8 +38,13 @@ export class PreviewComponent implements OnInit {
     if (this.userData?.role == "ULB") {
       this.ulbName = this.userData?.name;
       this.ulbId = this.userData?.ulb;
+      this.stateName = this.userData?.stateName;
+    }else {
+      this.ulbId = localStorage.getItem("ulb_id");
+      this.ulbName = sessionStorage.getItem("ulbName");
+      this.stateName = sessionStorage.getItem("stateName");
     }
-    this.stateName = this.userData?.stateName;
+    
   }
 
   styleForPDF = `<style>

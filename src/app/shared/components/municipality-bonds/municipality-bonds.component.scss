@@ -30,3 +30,12 @@ a:hover {
     max-height: 700px;
     overflow-y: auto;
 }
+// ::ng-deep .btn-c-m {
+// margin-right: 1rem;
+// font-weight: 700;
+// }
+
+.modal-header .btn-close {
+    margin-right: 1rem;
+    font-weight: 700;
+}

@@ -69,10 +69,10 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   };
   actionPayload = {};
   uploadFolderName:string='';
+  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoReject:boolean = false;
   ngOnInit(): void {
-  console.log('action data', this.actionData);
   if(this.actionData) this.setStatusData(this.actionData);
-  console.log('form id.....', this.formId, this.nextPreUrl);
   this.getQuery = {
     design_year: this.Years["2023-24"],
     formId: this.formId,
@@ -86,7 +86,10 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   this.getActionRes();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.isFormFinalSubmit) this.getActionRes()
+    if(this.isFormFinalSubmit) this.getActionRes();
+    if(this.userData?.role == 'MoHUA' && (this.formId == 4)){
+      this.sequentialReview({onlyGet: true});
+    }
   // if(this.actionData) this.setStatusData(this.actionData);
   }
   initializeForm() {
@@ -220,7 +223,9 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       swal('Error', "Reject reason is mandatory", "error");
       return
     }
-    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+    let confirmMessage = this.autoReject ? this.autoRejectInfo : '';
+    swal("Confirmation !", `${confirmMessage} 
+    Are you sure you want to submit this action?`, "warning", {
       buttons: {
         Submit: {
           text: "Submit",
@@ -250,10 +255,10 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.getActionRes();
       //temp commented for Production
       if(environment?.isProduction === false){
-        if((this.formId == 4 || this.formId == 6) &&
+        if((this.formId == 4) &&
         (this.statusForm?.value?.status == 7) && 
         this.userData?.role == 'MoHUA'){
-         this.sequentialReview();
+          this.sequentialReview({onlyGet: false})
         } 
       }
      
@@ -288,20 +293,23 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
     })
   }
 
-  sequentialReview() {
+  sequentialReview(data) {
     let body = {
       ulbs: [this.ulbId],
       design_year: this.Years["2023-24"],
       status: "REJECTED",
       formId: this.formId,
       multi: false,
+      "getReview": data?.onlyGet
+      
     };
     this.commonServices.formPostMethod(body, 'common-action/sequentialReview').subscribe(
-      (res) => {
+      (res:any) => {
         console.log("Sequential review", res);
+        if(data?.onlyGet && this.autoReject == false) this.autoReject = res?.data?.autoReject;
       },
       (error) => {
-        swal("Error", "Sequential review field.", "error");
+       // swal("Error", "Sequential review field.", "error");
       }
     );
   }

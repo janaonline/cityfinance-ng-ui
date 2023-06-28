@@ -19,6 +19,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ActionPlanSliComponent } from '../state-form/action-plan-sli/action-plan-sli.component';
 import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { FourSlbViewComponent } from './components/four-slb-view/four-slb-view.component';
+import { StateCommonReviewComponent } from './components/state-common-review/state-common-review.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { FourSlbViewComponent } from './components/four-slb-view/four-slb-view.c
     FormLoaderComponent, 
     FormCommonActionComponent, 
     AgGridComponent, 
-    FourSlbViewComponent
+    FourSlbViewComponent, StateCommonReviewComponent
   ],
   imports: [
     CommonModule,
