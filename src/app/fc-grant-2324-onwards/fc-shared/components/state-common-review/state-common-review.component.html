@@ -1,1 +1,37 @@
 
+<div class="card mt-2" *ngIf="canTakeAction">
+    <div class="card-body" >
+        <div class="action-form">
+                <div class="row">
+                    <div class="col-sm-5">
+                        Review Status* :
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="form-group mb-2">
+                            <div class="btn-group" btnRadioGroup [(ngModel)]="question.status" [ngModelOptions]="{standalone: true}" (ngModelChange)="formValueChange(question.status, 'status', question)">
+                                <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis" class="btn mb-0 c-app" [ngClass]="{'c-ap-ac' : (question?.status == 6), 'disCls' : actBtnDis}">Approve</label>
+                                <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 c-rej" [ngClass]="{'c-rej-ac' : (question?.status == 7), 'disCls' : actBtnDis}">Return</label>
+                            </div>
+                        </div>
+                        <div class="text-danger" *ngIf="isActionSubmitted && (question?.status)">
+                            This is the required field.
+                           </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-5">
+                        Remarks/Reject Reason* :
+                    </div>
+                    <div class="col-sm-7" [ngClass]="{'disCls' : actBtnDis}">
+                        <textarea name="reason" id="reason" cols="33" rows="2" 
+                        [(ngModel)]="question.rejectReason" [ngModelOptions]="{standalone: true}" disabled="{{actBtnDis}}" 
+                        placeholder="Type here ..." 
+                        (ngModelChange)="formValueChange(question.rejectReason, 'rejectReason', question)"></textarea>
+                        <div class="text-danger" *ngIf="question?.errorInAction">
+                         This is the required field.
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>  
+</div>

@@ -17,7 +17,7 @@ export class ReviewStateFormComponent implements OnInit {
       this.design_year = this.years["2023-24"];
     }
 
-  formId = "62c553822954384b44b3c38e";
+  formId = "7";
   formUrl = "";
   data;
   title = "";
@@ -29,12 +29,12 @@ export class ReviewStateFormComponent implements OnInit {
   stateId = '';
   years = JSON.parse(localStorage.getItem("Years"));
   design_year = '';
-  formBaseUrl:string = 'stateform2223';
+  formBaseUrl:string = 'state-form';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
     if (this.data?.length > 0)
-    this.formId = this.data[0]["_id"];
+    this.formId = this.data[0]["formId"];
     sessionStorage.removeItem("path2");
     sessionStorage.removeItem("Stateform_id");
   }

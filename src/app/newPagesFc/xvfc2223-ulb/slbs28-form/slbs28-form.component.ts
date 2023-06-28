@@ -53,11 +53,32 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   previewData;
   isApiInProgress = true;
   Years: object | any;
+  errorFieldIDs = [];
+  requiredFieldIDs = [];
+  errorFieldIDs_decrease = [];
+  errorFieldLineItems = [];
+  errorFieldLineItemsDec  = [];
+  error = 0;
+  counter = 0;
+  actionRes;
+  actionBtnDis = false;
+  canTakeAction = false;
+  actionError = false;
+  formSubs = null;
+  clickedSave;
+  errmsg;
+  popError = false;
+  formId = '';
+  slbFormData;
+  formShow;
+  showMess = '';
+  preSLBDataNotFilled;
+  isloadingComplte = false;
   ngOnInit(): void {
     this.setRouter();
     this.onLoad();
   }
-  clickedSave;
+  
 
   navigationCheck() {
     if (!this.clickedSave) {
@@ -177,7 +198,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  errmsg;
+  
   save(asDraft) {
     this.slbData["design_year"] = "606aafb14dff55e6c075d3ae";
     this.slbData["ulb"] = this.ulbId;
@@ -237,13 +258,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     }
     console.log(this.slbData);
   }
-  errorFieldIDs = [];
-  requiredFieldIDs = [];
-  errorFieldIDs_decrease = [];
-  errorFieldLineItems = [];
-  errorFieldLineItemsDec  = [];
-  error = 0;
-  counter = 0;
+ 
   validateData() {
     //checks
     //1. actual should be smaller or equal to target
@@ -327,13 +342,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
     this.slbData["isDraft"] = false;
     return true;
   }
-  popError = false;
-  formId = '';
-  slbFormData;
-  formShow;
-  showMess = '';
-  preSLBDataNotFilled;
-  isloadingComplte = false;
+ 
   onLoad() {
     this.isApiInProgress = true;
     sessionStorage.setItem("changeIn28SLB", "false");
@@ -578,10 +587,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
 
 
    // action related
-  actionRes;
-  actionBtnDis = false;
-  canTakeAction = false;
-  actionError = false
+  
   actionData(e) {
     console.log("action data..", e);
     this.actionRes = e;
@@ -646,11 +652,6 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
         this.newCommonService.setFormStatus2223.next(true);
-     //   commented for prods
-     if(environment?.isProduction === false){ 
-      if(actionBody?.status == 'REJECTED' && this.ulbData?.role == 'MoHUA') this.sequentialReview();
-     }
-   
         swal1("Saved", "Action saved successfully.", "success");
       },
       (error) => {
@@ -681,7 +682,7 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
       this.actionBtnDis = true;
     }
   }
-  formSubs = null;
+  
   setFormIdRouter() {
     this.formSubs = this.newCommonService.setULBRouter.subscribe((res) => {
       if (res == true) {
@@ -693,21 +694,21 @@ export class Slbs28FormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.formSubs?.unsubscribe();
   }
-  sequentialReview() {
-    let body = {
-      ulbs: [this.ulbId],
-      design_year: this.Years["2022-23"],
-      status: "REJECTED",
-      formId: 6,
-      multi: false,
-    };
-    this.newCommonService.postSeqReview(body).subscribe(
-      (res) => {
-        console.log("Sequential review", res);
-      },
-      (error) => {
-        swal("Error", "Sequential review field.", "error");
-      }
-    );
-  }
+  // sequentialReview() {
+  //   let body = {
+  //     ulbs: [this.ulbId],
+  //     design_year: this.Years["2022-23"],
+  //     status: "REJECTED",
+  //     formId: 6,
+  //     multi: false,
+  //   };
+  //   this.newCommonService.postSeqReview(body).subscribe(
+  //     (res) => {
+  //       console.log("Sequential review", res);
+  //     },
+  //     (error) => {
+  //       swal("Error", "Sequential review field.", "error");
+  //     }
+  //   );
+  // }
 }

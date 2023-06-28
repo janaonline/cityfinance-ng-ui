@@ -8,7 +8,7 @@
         <div class="col-sm-12">
             <label for="form">Select Form:</label>
             <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
-          <option *ngFor="let element of data" [value]="element._id">
+          <option *ngFor="let element of data" [value]="element.formId">
               {{element.name}}
           </option>
         </select>
