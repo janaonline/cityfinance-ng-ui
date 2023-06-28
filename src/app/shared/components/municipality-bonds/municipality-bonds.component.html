@@ -49,7 +49,8 @@
     <!-- TODO: remove extra entry if there is no row from backend -->
     <div class="d-flex justify-content-between my-2 ">
         <h1 class="fw-bold">Ongoing Infrastructure Projects</h1>
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" *ngIf="response && response.filters?.length > 0">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"
+            *ngIf="response && response.filters?.length > 0">
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
                 data-bs-target="#filterModalMou" *ngIf="isUA == 'Yes'">MoU</button>
             <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
@@ -80,18 +81,25 @@
                 class="btn btn-outline-secondary d-flex align-items-center me-2">Download</a>
         </div>
     </div>
+    
+    <div class="d-flex justify-content-end my-2" *ngIf="response?.filterYears?.length">
+        <select class="form-select float-right w-25" aria-label="Select Year" (change)="loadData()" [(ngModel)]="filterYear">
+            <option [value]="year?.id" *ngFor="let year of response?.filterYears" [selected]= "year?.id === response?.filterYear"   >{{ year?.label }}</option>
+        </select>
+    </div>
 
     <div
         *ngIf="response && response?.rows?.length > 0 && !(response.rows.length == 1 && !response.rows[0].projectName); else no_data_found">
-        <mat-paginator [length]="response.total" [pageSize]="limit"
-            [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
+        <mat-paginator [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
+            (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator>
         <div *ngFor="let row of response.rows" class="border mb-3 rounded">
             <div class="row mx-3">
                 <div class="col-4 py-3 fw-bold border-end">{{ row.projectName | titlecase }}</div>
                 <div class="col-4 py-3 ">Sector: {{ row.sector }}</div>
                 <div class="col-4 py-3 d-flex justify-content-end">
-                    <a [href]="baseUrl + 'UA/get-mou-project/' + this.cityId + '?projects=' + row.projectId + '&csv=true'">
+                    <a
+                        [href]="baseUrl + 'UA/get-mou-project/' + this.cityId + '?projects=' + row.projectId + '&csv=true'">
                         <img class="icon mr-1" src="../../../../assets/excel.png">
                         <span>More Information</span>
                     </a>
