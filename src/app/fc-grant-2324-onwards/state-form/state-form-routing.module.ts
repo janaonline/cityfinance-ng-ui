@@ -67,7 +67,7 @@ const routes: Routes = [
       {
         path: "water-rejenuvation",
         component: ProjectsWaterRejComponent,
-        canDeactivate: [ConfirmationGuard],
+       // canDeactivate: [ConfirmationGuard],
       },
       {
         path: "property-tax",
