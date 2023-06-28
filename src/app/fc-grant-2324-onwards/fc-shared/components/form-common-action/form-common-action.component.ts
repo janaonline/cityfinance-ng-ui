@@ -87,7 +87,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if(this.isFormFinalSubmit) this.getActionRes();
-    if(this.userData?.role == 'MoHUA' && (this.formId == 4)){
+    if(this.userData?.role == 'MoHUA' && (this.formId == 4) && environment?.isProduction === false){
       this.sequentialReview({onlyGet: true});
     }
   // if(this.actionData) this.setStatusData(this.actionData);

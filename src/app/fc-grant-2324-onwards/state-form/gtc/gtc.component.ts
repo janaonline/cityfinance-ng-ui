@@ -47,7 +47,7 @@ export class GtcComponent implements OnInit {
 
   get stateId() {
     if (this.userData?.role == 'STATE') return this.userData?.state;
-    return localStorage.getItem("state");
+    return localStorage.getItem("state_id");
   }
 
   get uploadFolderName() {

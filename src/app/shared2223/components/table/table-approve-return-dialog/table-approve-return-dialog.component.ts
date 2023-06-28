@@ -62,7 +62,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   ngOnInit(): void {
     // this.onLoad();
     if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
-    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
+    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && (environment?.isProduction === false)){
   //  this.sequentialReview(tempFormId);
     this.sequentialReview({tempFormId: 4, onlyGet: true})
   }

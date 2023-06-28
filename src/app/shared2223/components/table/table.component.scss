@@ -175,3 +175,7 @@ td {
     color: blue;
     text-decoration: none;
 }
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}

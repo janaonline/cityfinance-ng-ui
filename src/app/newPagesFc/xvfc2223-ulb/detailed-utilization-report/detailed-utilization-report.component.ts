@@ -100,7 +100,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     }
     this.setRouter();
     this.onLoad();
-    if(this.userData?.role == 'MoHUA') this.sequentialReview({onlyGet: true});
+    if(this.userData?.role == 'MoHUA' && environment?.isProduction === false) this.sequentialReview({onlyGet: true});
   }
   formId = "";
   setRouter() {
