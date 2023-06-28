@@ -91,6 +91,8 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   @ViewChild("changeTemplate") template;
   isApiInProgress = true;
   Years: object | any;
+  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoReject:boolean = false;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
     if (this.userData?.role != "ULB") {
@@ -98,6 +100,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     }
     this.setRouter();
     this.onLoad();
+    if(this.userData?.role == 'MoHUA') this.sequentialReview({onlyGet: true});
   }
   formId = "";
   setRouter() {
@@ -959,10 +962,11 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.actionError = false;
+    let confirmMessage = this.autoReject ? this.autoRejectInfo : '';
     swal(
       "Confirmation !",
-      `Are you sure you want to submit this action? Once submitted,
-      it will become uneditable and will be sent to MoHUA for Review.`,
+      `${confirmMessage} 
+      Are you sure you want to submit this action?`,
       "warning",
       {
         buttons: {
@@ -993,7 +997,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         this.actionBtnDis = true;
       //  commented for prods
       if(environment?.isProduction === false){ 
-        if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA') this.sequentialReview();
+        if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA' && this.autoReject) this.sequentialReview({onlyGet: false});
       }
      
         this.newCommonService.setFormStatus2223.next(true);
@@ -1016,20 +1020,22 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.formSubs?.unsubscribe();
   }
-  sequentialReview() {
+  sequentialReview(data) {
     let body = {
       ulbs: [this.ulbId],
       design_year: this.Years["2022-23"],
       status: "REJECTED",
       formId: 4,
       multi: false,
+    "getReview": data?.onlyGet
     };
     this.newCommonService.postSeqReview(body).subscribe(
-      (res) => {
+      (res:any) => {
         console.log("Sequential review", res);
+        if(data?.onlyGet && this.autoReject == false) this.autoReject = res?.data?.autoReject;
       },
       (error) => {
-        swal("Error", "Sequential review field.", "error");
+       // swal("Error", "Sequential review field.", "error");
       }
     );
   }
