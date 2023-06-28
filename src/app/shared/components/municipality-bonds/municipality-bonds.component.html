@@ -83,8 +83,8 @@
     </div>
     
     <div class="d-flex justify-content-end my-2" *ngIf="response?.filterYears?.length">
-        <select class="form-select float-right w-25" aria-label="Select Year" [(ngModel)]="filterYear">
-            <option [value]="year?.id" *ngFor="let year of response?.filterYears"  >{{ year?.label }}</option>
+        <select class="form-select float-right w-25" aria-label="Select Year" (change)="loadData()" [(ngModel)]="filterYear">
+            <option [value]="year?.id" *ngFor="let year of response?.filterYears" [selected]= "year?.id === response?.filterYear"   >{{ year?.label }}</option>
         </select>
     </div>
 
