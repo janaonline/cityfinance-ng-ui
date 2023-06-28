@@ -1,0 +1,40 @@
+.c-aap-ac {
+    background-color: green;
+    color: #fff
+}
+.c-rej-ac {
+    background-color: rgb(250, 37, 37);
+    color: #fff
+}
+
+.card {
+    background-color: #FFFFFF;
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 15px 15px 15px 15px;
+}
+
+.c-app {
+    border-radius: 8px !important;
+    margin-right: 1rem;
+    background-color: #75fdbe;
+    color: black;
+}
+
+.c-rej {
+    border-radius: 8px !important;
+    background-color: rgb(255, 194, 194);
+    color: black;
+}
+
+
+.btn:hover {
+    background-color: #ffc500;
+}
+.file-icon-cross {
+    vertical-align: middle;
+}
+.disCls {
+    pointer-events: none;
+}
+
+
