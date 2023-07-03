@@ -37,6 +37,15 @@ export class MapWithFilterComponent
   selectedDistrictCode = "";
   stateList = [];
   ulbList = [];
+  dropdownSettings = {
+    singleSelection: true,
+    text: "India",
+    enableSearchFilter: true,
+    labelKey: "ST_NM",
+    primaryKey: "ST_CODE",
+    showCheckbox: false,
+  };
+  selectedItems = [];
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -198,6 +207,7 @@ export class MapWithFilterComponent
       let type = this.layerMap[this.mapConfig.code.state];
       if (type) {
         this.selectedStateCode = this.mapConfig.code.state;
+        this.updateSelectedState();
         type.fireEvent("click");
       }
       setTimeout(() => {
@@ -400,6 +410,7 @@ export class MapWithFilterComponent
 
   stateOption(event) {
     console.log("stateOption(", event);
+    if(!event.ST_CODE) return;
 
     /**
      * Reloading the component. uncomment the below code and call the reloadComponent() function
@@ -411,18 +422,26 @@ export class MapWithFilterComponent
     //   this.reloadComponent(selectedStateId);
     // }
 
-    let selectedStateCode = JSON.parse(event.target.value).ST_CODE;
+    let selectedStateCode = event.ST_CODE;
     let selectedStateId = this.stateUlbData.data[selectedStateCode]._id;
+    this.updateSelectedState();
     sessionStorage.setItem('row_id', selectedStateId);
     this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
 
     this.changeInStateOrCity.emit({
-      value: JSON.parse(event.target.value),
+      value: event,
       fromState: true,
     });
     console.log(event.target.value, "test");
-    let layer = this.layerMap[JSON.parse(event.target.value).ST_CODE];
+    let layer = this.layerMap[event.ST_CODE];
     if (layer) layer.fireEvent("click");
+  }
+
+  updateSelectedState() {
+    const selectedState = this.stateList.find(state => state?.ST_CODE == this.selectedStateCode)
+    if(selectedState) {
+      this.selectedItems = [selectedState];
+    }
   }
 
   districtOption(event) {
