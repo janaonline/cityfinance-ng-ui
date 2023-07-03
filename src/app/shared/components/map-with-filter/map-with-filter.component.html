@@ -1,40 +1,17 @@
 <div [ngClass]="{ 'd-none': stateList.length <= 0 }" class="flex-column row">
   <div class="row smallScreen">
     <div class="col-sm-12 col-lg-6 col-md-6 pull-right">
-      <select
-        [ngStyle]="{ cursor: !mapConfig.showStateList ? 'not-allowed' : '' }"
-        [disabled]="!mapConfig.showStateList"
-        (change)="stateOption($event)"
-        *ngIf="stateList.length > 0"
-        class="form-select customClassMobile"
-        aria-label="State" style="font-weight: 700;"
-      >
-        <option
-          [selected]="mapConfig.code.state == item.ST_CODE"
-          value="{{ item | json }}"
-          *ngFor="let item of stateList"
-          selected
-        >
-          {{ item.ST_NM }}
-        </option>
-      </select>
+      <angular2-multiselect [disabled]="!mapConfig.showStateList" [(ngModel)]="selectedItems" class="stateDropdown" [ngStyle]="{ cursor: !mapConfig.showStateList ? 'not-allowed' : '', pointerEvents: !mapConfig.showStateList ? 'none' : 'inherit' }" [data]="stateList"
+        [settings]="dropdownSettings" (onSelect)="stateOption($event.ST_CODE ? $event : null)"
+        (onDeSelect)="stateOption(null)">
+      </angular2-multiselect>
     </div>
     <div class="col-sm-12 col-lg-6 col-md-6 filterEdit">
-      <input
-        type="text"
-        (keyup)="callAPI($event)"
-        class="form-select inputMobileCustom"
-        placeholder="Search for ULBs"
-        matInput
-        formControlName="ulb"
-        [matAutocomplete]="auto"
-      />
+      <input type="text" (keyup)="callAPI($event)" class="form-select inputMobileCustom" placeholder="Search for ULBs"
+        matInput formControlName="ulb" [matAutocomplete]="auto" />
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <a
-          (click)="dashboardNav(option)"
-          *ngFor="let option of filteredOptions; let i = index"
-          style="text-decoration: none"
-        >
+        <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index"
+          style="text-decoration: none">
           <mat-option [ngClass]="{ firstCls: i == 0 }" [value]="option?.name">
             <div class="row">
               <div class="col-8">
@@ -43,9 +20,9 @@
               <div class="col-4">
                 <span style="color: #8e8e8e; font-size: 12px">{{
                   option.type == "ulb"
-                    ? option.ulbType.name
-                    : (option.type | titlecase)
-                }}</span>
+                  ? option.ulbType.name
+                  : (option.type | titlecase)
+                  }}</span>
               </div>
             </div>
           </mat-option>
@@ -60,27 +37,17 @@
     </div> -->
   </div>
   <!-- [ngStyle]="{'min-height': mapConfig?.stateMapContainerHeight ? mapConfig.stateMapContainerHeight :'28rem'}" -->
-  <div
-    class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer"
-    [ngStyle]="{
+  <div class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer" [ngStyle]="{
       'min-height': mapConfig?.stateMapContainerHeight
         ? mapConfig.stateMapContainerHeight
         : '28rem'
-    }"
-  >
-    <div
-      class="col-sm-12"
-      id="districtMapContainer"
-      [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
-    ></div>
+    }">
+    <div class="col-sm-12" id="districtMapContainer"
+      [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"></div>
 
-    <div
-      class="stateMap analytics-map"
-      [id]="'mapidd' + randomNumber"
-      style="
+    <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="
         background-image: url('../../../../assets/Layer\ 1.png') !important;
-      "
-    ></div>
+      "></div>
   </div>
 </div>
 <div [ngClass]="{ 'd-none': stateList.length > 0 }">
