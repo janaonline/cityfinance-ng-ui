@@ -32,6 +32,8 @@ export class UlbFiscalNewComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
   loggedInUserType: any;
+  hideForm: boolean;
+  notice: string;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
@@ -122,6 +124,8 @@ export class UlbFiscalNewComponent implements OnInit {
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
+      this.hideForm = res?.data?.hideForm;
+      this.notice = res?.data?.notice;
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.ulbName = res?.data?.ulbName;
