@@ -29,7 +29,7 @@ export class ReviewStateFormComponent implements OnInit {
   stateId = '';
   years = JSON.parse(localStorage.getItem("Years"));
   design_year = '';
-  formBaseUrl:string = 'stateform2223';
+  formBaseUrl:string = 'state-form';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
