@@ -421,8 +421,18 @@ export class UlbFiscalNewComponent implements OnInit {
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
         control.patchValue({ uploading: false, name: file.name, url: file_url });
-      });
-    }, err => console.log(err));
+      },
+      (err)=> {
+        control.patchValue({ uploading: false });
+        swal("Error", "File uploading failed, please try again!", "error")
+      }
+      );
+    }, (err) => {
+      console.log(err);
+      control.patchValue({ uploading: false });
+      swal("Error", "File uploading failed, please try again!", "error")
+      
+    });
   }
 
   onPreview() {
