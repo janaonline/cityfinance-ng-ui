@@ -13,6 +13,7 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from 'src/app/pages/stateforms/state-dashboard/state-dashboard.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
+import { CommonServicesService } from 'src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service';
 
 
 
@@ -62,7 +63,7 @@ export class ActionPlanComponent implements OnInit {
   finalActionData;
   designYear = '';
   pendingStatus:string = "PENDING";
-  
+  formId:string = '';
   constructor(
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
@@ -70,7 +71,8 @@ export class ActionPlanComponent implements OnInit {
     private profileService: ProfileService,
     public stateDashboardService: StateDashboardService,
     public stateService: State2223Service,
-    private newCommonService: NewCommonService
+    private newCommonService: NewCommonService,
+    public fcCommonServices: CommonServicesService
 
   ) {
     this.initializeUserType();
@@ -94,7 +96,7 @@ export class ActionPlanComponent implements OnInit {
         this.ulbNames = res["data"];
         this.getCategory();
         this.load();
-        this.setCode()
+        this.setCode();
       },
       (err) => {
         console.log(err);
@@ -155,6 +157,10 @@ export class ActionPlanComponent implements OnInit {
         this.isPreYear = false;
         this.isApiInProgress = false;
         //this.onFail();
+      },
+      ()=>{
+        console.log('completed,,,,,', this.data);
+        this.actionPayloadPrepare();
       }
     );
   }
@@ -332,8 +338,8 @@ export class ActionPlanComponent implements OnInit {
         const form = JSON.parse(
           sessionStorage.getItem("allStatusStateForms")
         );
-
-        this.newCommonService.setStateFormStatus2223.next(true);
+        if(this.yearCode == '2023-24') this.fcCommonServices.setFormStatusState.next(true);
+        if(this.yearCode == '2022-23') this.newCommonService.setStateFormStatus2223.next(true);
         form.steps.actionPlans.isSubmit = !this.data.isDraft;
         // form.steps.actionPlans.status = "PENDING";
         // form.actionTakenByRole = "STATE";
@@ -576,7 +582,7 @@ export class ActionPlanComponent implements OnInit {
         if (element?.url == "action-plan") {
           this.nextRouter = element?.nextUrl;
           this.backRouter = element?.prevUrl;
-        //  this.formId = element?._id;
+          this.formId = element?._id;
 
         }
       });
@@ -613,6 +619,11 @@ export class ActionPlanComponent implements OnInit {
     if(this.yearCode == '2023-24'){
       return res["data"]?.statusId ?? this.pendingStatus;
     }
+  }
+
+  actionPayloadPrepare(){
+    //console.log('');
+    
   }
   
 }
