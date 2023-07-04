@@ -60,10 +60,11 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   pageChange({ pageIndex, pageSize }) {
     this.page = pageIndex;
     this.limit = pageSize;
-    this.loadData();
+    this.loadData(false);
   }
 
-  loadData() {
+  loadData(resetPage = true) {
+    if(resetPage) this.page = 0;
     this.loaderService.showLoader();
     this.municipalBondsSerivce.getProjects(this.queryParams, this.response?.columns).subscribe(res => {
       this.response = res;
