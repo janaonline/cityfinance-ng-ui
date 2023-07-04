@@ -591,7 +591,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(this.designYear == '606aafc14dff55e6c075d3ec' || environment?.isProduction) return;
+    if(environment?.isProduction) return;
     this.noHistorydataFound = false
     this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
       (res) => {
@@ -604,7 +604,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       },
       (err) => {
         console.log(err.message);
-        swal('Error', "No history found!", 'error')
+        swal('Error', "No history found!", 'error');
       })
   }
 

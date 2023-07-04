@@ -166,10 +166,10 @@ export const appRouter: Routes = [
     path: "ulb-not-registered",
     component: UlbNotRegisteredComponent,
   },
-  {
-    path: "app-water-rejenuvation",
-    component: WaterRejenuvationComponent,
-  },
+  // {
+  //   path: "app-water-rejenuvation",
+  //   component: WaterRejenuvationComponent,
+  // },
   {
     path: "own-revenue-dashboard",
     loadChildren: () =>

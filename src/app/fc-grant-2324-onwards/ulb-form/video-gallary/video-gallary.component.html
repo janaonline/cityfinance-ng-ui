@@ -1,0 +1,13 @@
+<div class="container mt-2">
+    <h4>Video Gallary</h4>
+    <div class="row  mt-4 row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <div class="col" *ngFor="let video of videos">
+            <div class="card shadow-sm">
+                <video controls [src]="video.link"></video>
+                <div class="card-body">
+                    <p class="card-text">{{ video.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
