@@ -21,14 +21,15 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   order: 1 | -1 = 1;
   page: number = 0;
   limit: number = 10;
-
+  environment = environment;
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,
     public loaderService: GlobalLoaderService,
-    private router: Router
+    private router: Router,
+    
   ) {
-    if(environment?.isProduction === true){  
+    if(this.environment?.isProduction === true){  
       this.router.navigate(["/home"]);
     }
    }
