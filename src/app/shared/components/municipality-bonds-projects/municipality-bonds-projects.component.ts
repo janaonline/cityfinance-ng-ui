@@ -63,6 +63,11 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
     this.loadData(false);
   }
 
+  resetFilters() {
+    this.response.columns = null;
+    this.loadData();
+  }
+
   loadData(resetPage = true) {
     if(resetPage) this.page = 0;
     this.loaderService.showLoader();
