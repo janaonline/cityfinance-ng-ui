@@ -32,6 +32,8 @@ export class UlbFiscalNewComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
   loggedInUserType: any;
+  hideForm: boolean;
+  notice: string;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
@@ -122,6 +124,8 @@ export class UlbFiscalNewComponent implements OnInit {
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
+      this.hideForm = res?.data?.hideForm;
+      this.notice = res?.data?.notice;
       this.formId = res?.data?._id;
       this.isDraft = res?.data?.isDraft;
       this.ulbName = res?.data?.ulbName;
@@ -421,8 +425,18 @@ export class UlbFiscalNewComponent implements OnInit {
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
         control.patchValue({ uploading: false, name: file.name, url: file_url });
-      });
-    }, err => console.log(err));
+      },
+      (err)=> {
+        control.patchValue({ uploading: false });
+        swal("Error", "File uploading failed, please try again!", "error")
+      }
+      );
+    }, (err) => {
+      console.log(err);
+      control.patchValue({ uploading: false });
+      swal("Error", "File uploading failed, please try again!", "error")
+      
+    });
   }
 
   onPreview() {

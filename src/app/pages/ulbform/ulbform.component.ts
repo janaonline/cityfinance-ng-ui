@@ -166,7 +166,7 @@ export class UlbformComponent implements OnInit {
         this.backLink = "../mohua/dashboard";
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
-        this.sequentialReview({onlyGet: true});
+        if(environment?.isProduction === false) this.sequentialReview({onlyGet: true});
         break;
       case USER_TYPE.ADMIN:
       case USER_TYPE.PARTNER:

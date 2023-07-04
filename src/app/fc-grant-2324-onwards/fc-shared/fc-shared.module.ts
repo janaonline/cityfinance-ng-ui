@@ -50,7 +50,8 @@ import { StateCommonReviewComponent } from './components/state-common-review/sta
     FormLoaderComponent,
     FormCommonActionComponent,
     AgGridComponent,
-    FourSlbViewComponent
+    FourSlbViewComponent,
+    StateCommonReviewComponent
   ]
 })
 export class FcSharedModule { }
