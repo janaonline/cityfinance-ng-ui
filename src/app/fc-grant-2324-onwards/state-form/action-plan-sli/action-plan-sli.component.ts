@@ -80,6 +80,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
       // "UA_223_ML002"
     ]
   }
+  canTakeAction: boolean = false;
   ngOnInit(): void {
    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
    this.getUAList();
