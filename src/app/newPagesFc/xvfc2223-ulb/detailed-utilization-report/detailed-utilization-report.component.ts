@@ -100,7 +100,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     }
     this.setRouter();
     this.onLoad();
-    if(this.userData?.role == 'MoHUA' && environment?.isProduction === false) this.sequentialReview({onlyGet: true});
+    if(this.userData?.role == 'MoHUA') this.sequentialReview({onlyGet: true});
   }
   formId = "";
   setRouter() {
@@ -996,9 +996,9 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
       //  commented for prods
-      if(environment?.isProduction === false){ 
+      // if(environment?.isProduction === false){ 
         if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA' && this.autoReject) this.sequentialReview({onlyGet: false});
-      }
+      // }
      
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");

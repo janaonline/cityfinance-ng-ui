@@ -90,7 +90,7 @@
 
     <div
         *ngIf="response && response?.rows?.length > 0 && !(response.rows.length == 1 && !response.rows[0].projectName); else no_data_found">
-        <mat-paginator [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
+        <mat-paginator [length]="response.total" [pageSize]="limit" [pageIndex]="page" [pageSizeOptions]="pageSizeOptions"
             (page)="pageChange($event)" aria-label="Select page">
         </mat-paginator>
         <div *ngFor="let row of response.rows" class="border mb-3 rounded">

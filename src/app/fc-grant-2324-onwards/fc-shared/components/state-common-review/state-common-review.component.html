@@ -1,4 +1,4 @@
-
+<!-- ------------for action inputs------- -->
 <div class="card mt-2" *ngIf="canTakeAction">
     <div class="card-body" >
         <div class="action-form">
@@ -9,11 +9,12 @@
                     <div class="col-sm-7">
                         <div class="form-group mb-2">
                             <div class="btn-group" btnRadioGroup [(ngModel)]="question.status" [ngModelOptions]="{standalone: true}" (ngModelChange)="formValueChange(question.status, 'status', question)">
+                                
                                 <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis" class="btn mb-0 c-app" [ngClass]="{'c-ap-ac' : (question?.status == 6), 'disCls' : actBtnDis}">Approve</label>
                                 <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 c-rej" [ngClass]="{'c-rej-ac' : (question?.status == 7), 'disCls' : actBtnDis}">Return</label>
                             </div>
                         </div>
-                        <div class="text-danger" *ngIf="isActionSubmitted && (question?.status)">
+                        <div class="text-danger" *ngIf="isActionSubmitted && (!question?.status)">
                             This is the required field.
                            </div>
                     </div>
@@ -27,11 +28,73 @@
                         [(ngModel)]="question.rejectReason" [ngModelOptions]="{standalone: true}" disabled="{{actBtnDis}}" 
                         placeholder="Type here ..." 
                         (ngModelChange)="formValueChange(question.rejectReason, 'rejectReason', question)"></textarea>
-                        <div class="text-danger" *ngIf="question?.errorInAction">
+                        <div class="text-danger" *ngIf="question?.status == 7 && !question.rejectReason">
                          This is the required field.
                         </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-5">
+                        Supporting Document : 
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="">
+                            <input #bs_pdf1 style="display: none;" onclick="value=null;" 
+                            (change)="uploadFile($event, 'pdf', question)"
+                            type="file" accept=".pdf" #file>
+                            <button (click)="bs_pdf1.click()" class="btn btn-primary"
+                             [disabled]="actBtnDis">Upload PDF</button>
+                        </div>
+                        <div class="mt-3" *ngIf="question?.responseFile?.url">
+                              <a href="{{question?.responseFile?.url}}" target="_blank">
+                                {{question?.responseFile?.name}}
+                              </a>
+                              <span class="ms-3" [ngClass]="{'disCls' : actBtnDis}">
+                                <span class="material-icons file-icon-cross"
+                                matTooltip="Remove the upload file"
+                                (click)="removeUploadedFile(question)">cancel</span>
+                              </span>
+                        </div>
+                       
                     </div>
                 </div>
         </div>
     </div>  
 </div>
+
+<div class="card mt-2" *ngIf="canTakeAction == false && (question?.statusId == 4 || question?.statusId == 6 || question?.statusId == 7)">
+    <div class="card-body">
+        <div class="final-status" *ngIf="question?.status">
+            <div class="row">
+                <div class="col-sm-6">
+                    Review Status:
+                </div>
+                <div class="col-sm-6">
+                    {{question?.status}}
+                </div>
+            </div> 
+            <hr>
+        </div>
+        <div class="action-view-form" *ngIf="question.status">
+            <div class="row">
+                <div class="col-sm-6">
+                    Remarks/Reject Reason:
+                </div>
+                <div class="col-sm-6">
+                    {{question?.rejectReason}}
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-sm-6">
+                    Supporting Document :
+                </div>
+                <div class="col-sm-6">
+                    <a href="{{question?.responseFile?.url}}" target="_blank" *ngIf="question?.responseFile?.url">
+                        {{question?.responseFile?.name}}
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+

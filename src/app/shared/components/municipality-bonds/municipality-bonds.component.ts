@@ -98,10 +98,11 @@ export class MunicipalityBondsComponent implements OnInit {
   pageChange({ pageIndex, pageSize }) {
     this.page = pageIndex;
     this.limit = pageSize;
-    this.loadData();
+    this.loadData(false);
   }
 
-  loadData() {
+  loadData(resetPage = true) {
+    if(resetPage) this.page = 0;
     this.loaderService.showLoader();
     this.municipalBondsSerivce.getMouProjectsByUlb(this.cityId, this.payload, this.response?.filters).subscribe(res => {
       this.response = res;
