@@ -62,7 +62,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   ngOnInit(): void {
     // this.onLoad();
     if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
-    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && (environment?.isProduction === false)){
+    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
   //  this.sequentialReview(tempFormId);
     this.sequentialReview({tempFormId: 4, onlyGet: true})
   }
@@ -340,12 +340,12 @@ export class TableApproveReturnDialogComponent implements OnInit {
         swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
        // temp commented for Prods
-       if(environment?.isProduction === false){  
+      //  if(environment?.isProduction === false){  
         if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
             && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && this.autoReject){
           //  this.sequentialReview(tempFormId);
             this.sequentialReview({tempFormId: tempFormId, onlyGet: false})
-          }
+          // }
         }
         this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);

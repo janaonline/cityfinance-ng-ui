@@ -97,7 +97,8 @@ export class UlbformComponent implements OnInit {
       display: [""],
     },
   ];
-  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
   @ViewChild("stickyMenu") menuElement: ElementRef;
 
@@ -166,7 +167,8 @@ export class UlbformComponent implements OnInit {
         this.backLink = "../mohua/dashboard";
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
-        if(environment?.isProduction === false) this.sequentialReview({onlyGet: true});
+        // if(environment?.isProduction === false)
+         this.sequentialReview({onlyGet: true});
         break;
       case USER_TYPE.ADMIN:
       case USER_TYPE.PARTNER:
@@ -612,9 +614,9 @@ export class UlbformComponent implements OnInit {
        
         }
         //  commented for prods
-        if (environment?.isProduction === false) {
+        // if (environment?.isProduction === false) {
           if (actionBody?.status == "REJECTED" && this.loggedInUserType == this.userTypes.MoHUA && this.autoReject) this.sequentialReview({onlyGet: false}); // for sequncial rejection
-        }
+       // }
 
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);

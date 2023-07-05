@@ -420,7 +420,7 @@ export class PropertyTaxComponent implements OnInit {
     swal(
       "Confirmation !",
       `Are you sure you want to submit this form? Once submitted,
-     it will become uneditable and will be sent to MoHUA for Review.
+     it will become uneditable and will be sent to State for Review.
       Alternatively, you can save as draft for now and submit it later.`,
       "warning",
       {
