@@ -51,102 +51,212 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     success: true,
     message: 'Form Questionare!',
     data: [
-           {
+      {
+
           _id: '5f4656c92daa9921dc1173aa',
           formId: 2,
           "language": [
             // {
-            //   "_id": "64a51b585d378601dbe1e0fc",
+            //   "_id": "63fc56abd4434c05939ac5e9",
             //   "lng": "en",
             //   "question": [
             //     {
             //       "information": "",
-            //       "_id": "6400a139e27eee072479823c",
+            //       "_id": "63fc53dad4434c05939ac50c",
             //       "order": "1",
+            //       "modelName": "Rating",
+            //       "modelFilter": {
+            //         "formName": "odf",
+            //         "financialYear": ""
+            //       },
             //       "answer_option": [
             //         {
-            //           "name": "YES",
+            //           "name": "ODF",
             //           "did": [],
             //           "viewSequence": "1",
+            //           "coordinates": [],
             //           "_id": "1"
             //         },
             //         {
-            //           "name": "NO",
+            //           "name": "ODF+",
             //           "did": [],
             //           "viewSequence": "2",
+            //           "coordinates": [],
             //           "_id": "2"
+            //         },
+            //         {
+            //           "name": "ODF++",
+            //           "did": [],
+            //           "viewSequence": "3",
+            //           "coordinates": [],
+            //           "_id": "3"
+            //         },
+            //         {
+            //           "name": "Non ODF",
+            //           "did": [],
+            //           "viewSequence": "4",
+            //           "coordinates": [],
+            //           "_id": "4"
+            //         },
+            //         {
+            //           "name": "No Rating",
+            //           "did": [],
+            //           "viewSequence": "5",
+            //           "coordinates": [],
+            //           "_id": "5"
             //         }
             //       ],
-            //       "title": "Do you wish to submit Details for PFMS Account ?",
-            //       "hint": "Select",
+            //       "title": "Open Defecation Free (ODF) Rating",
+            //       "hint": "Single Select",
             //       "resource_urls": [],
             //       "label": "1",
-            //       "shortKey": "linkPFMS",
+            //       "shortKey": "odfRating",
             //       "viewSequence": "1",
             //       "child": [
             //         {
-            //           "type": "5",
-            //           "value": "^([1])$",
+            //           "type": "11",
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "order": "3"
+            //         },
+            //         {
+            //           "type": "14",
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "order": "6"
+            //         },
+            //         {
+            //           "type": "11",
+            //           "value": "^([5])$",
             //           "order": "2"
             //         }
             //       ],
             //       "parent": [],
             //       "validation": [
             //         {
-            //           "error_msg": "",
-            //           "_id": "1"
+            //           "_id": "1",
+            //           "error_msg": ""
             //         }
             //       ],
             //       "restrictions": [],
-            //       "input_type": "5",
+            //       "input_type": "3",
             //       "weightage": [],
             //       "editable": false
             //     },
             //     {
             //       "information": "",
-            //       "_id": "6400a175e27eee0724798247",
+            //       "_id": "63fc5529d4434c05939ac521",
             //       "order": "2",
-            //       "answer_option": [
+            //       "answer_option": [],
+            //       "title": "Upload Declaration?",
+            //       "hint": "Upload PDF",
+            //       "resource_urls": [],
+            //       "label": "2",
+            //       "shortKey": "cert_declaration",
+            //       "viewSequence": "2",
+            //       "child": [],
+            //       "parent": [
             //         {
-            //           "name": "YES",
-            //           "did": [],
-            //           "viewSequence": "1",
+            //           "value": "^([5])$",
+            //           "type": "3",
+            //           "order": "1"
+            //         }
+            //       ],
+            //       "min": null,
+            //       "max": null,
+            //       "minRange": null,
+            //       "maxRange": null,
+            //       "pattern": "",
+            //       "validation": [
+            //         {
+            //           "error_msg": "",
             //           "_id": "1"
             //         },
             //         {
-            //           "name": "NO",
-            //           "did": [],
-            //           "viewSequence": "2",
-            //           "_id": "2"
+            //           "error_msg": "",
+            //           "_id": "83",
+            //           "value": "application/pdf"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "81",
+            //           "value": "5120"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "82",
+            //           "value": "1"
             //         }
             //       ],
-            //       "title": "Has the ULB linked its bank account with PFMS?",
-            //       "hint": "Select",
+            //       "restrictions": [],
+            //       "input_type": "11",
+            //       "editable": false,
+            //       "weightage": []
+            //     },
+            //     {
+            //       "information": "",
+            //       "_id": "63fc556dd4434c05939ac535",
+            //       "order": "3",
+            //       "answer_option": [],
+            //       "title": "Upload ODF Certificate?",
+            //       "hint": "Upload PDF",
             //       "resource_urls": [],
-            //       "label": "2",
-            //       "shortKey": "isUlbLinkedWithPFMS",
-            //       "viewSequence": "2",
-            //       "child": [
-            //         {
-            //           "type": "2",
-            //           "value": "^([1])$",
-            //           "order": "3"
-            //         },
-            //         {
-            //           "type": "11",
-            //           "value": "^([1])$",
-            //           "order": "4"
-            //         },
-            //         {
-            //           "type": "11",
-            //           "value": "^([1])$",
-            //           "order": "5"
-            //         }
-            //       ],
+            //       "label": "3",
+            //       "shortKey": "cert",
+            //       "viewSequence": "3",
+            //       "child": [],
             //       "parent": [
             //         {
-            //           "value": "^([1])$",
-            //           "type": "5",
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "type": "3",
+            //           "order": "1"
+            //         }
+            //       ],
+            //       "min": null,
+            //       "max": null,
+            //       "minRange": null,
+            //       "maxRange": null,
+            //       "pattern": "",
+            //       "validation": [
+            //         {
+            //           "error_msg": "",
+            //           "_id": "1"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "83",
+            //           "value": "application/pdf"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "81",
+            //           "value": "5120"
+            //         },
+            //         {
+            //           "error_msg": "",
+            //           "_id": "82",
+            //           "value": "1"
+            //         }
+            //       ],
+            //       "restrictions": [],
+            //       "input_type": "11",
+            //       "editable": false,
+            //       "weightage": []
+            //     },
+            //     {
+            //       "information": "",
+            //       "_id": "6405ee6e2638a6093d1b7123",
+            //       "order": "6",
+            //       "answer_option": [],
+            //       "title": "Certification Issue Date",
+            //       "hint": "Date",
+            //       "resource_urls": [],
+            //       "label": "4",
+            //       "shortKey": "certDate",
+            //       "viewSequence": "4",
+            //       "child": [],
+            //       "parent": [
+            //         {
+            //           "value": "^([1]|[2]|[3]|[4])$",
+            //           "type": "3",
             //           "order": "1"
             //         }
             //       ],
@@ -154,147 +264,20 @@ export class CommonFormComponent implements OnInit, OnDestroy {
             //         {
             //           "error_msg": "",
             //           "_id": "1"
+            //         },
+            //         {
+            //           "_id": "26.4",
+            //           "error_msg": "",
+            //           "value": "2"
             //         }
             //       ],
             //       "restrictions": [],
-            //       "input_type": "5",
-            //       "weightage": [],
-            //       "editable": false
-            //     },
-            //     {
-            //       "information": "",
-            //       "_id": "6400a1e5e27eee0724798259",
-            //       "order": "3",
-            //       "answer_option": [],
-            //       "title": "Bank account number linked to PFMS?",
-            //       "hint": "Account Number",
-            //       "resource_urls": [],
-            //       "label": "3",
-            //       "shortKey": "PFMSAccountNumber",
-            //       "viewSequence": "3",
-            //       "child": [],
-            //       "parent": [
-            //         {
-            //           "value": "^([1])$",
-            //           "type": "5",
-            //           "order": "2"
-            //         }
-            //       ],
-            //       "validation": [
-            //         {
-            //           "error_msg": "",
-            //           "_id": "1"
-            //         }
-            //       ],
-            //       "restrictions": [],
-            //       "minRange": 0,
-            //       "maxRange": 20,
-            //       "min": 1,
-            //       "max": 20,
-            //       "pattern": "",
-            //       "input_type": "2",
-            //       "weightage": [],
-            //       "valueHolder": "",
-            //       "editable": false
-            //     },
-            //     {
-            //       "information": "",
-            //       "_id": "6400a268e27eee0724798268",
-            //       "order": "4",
-            //       "answer_option": [],
-            //       "title": "Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy, etc",
-            //       "hint": "Upload - PDF",
-            //       "resource_urls": [],
-            //       "label": "4",
-            //       "shortKey": "cert",
-            //       "viewSequence": "4",
-            //       "child": [],
-            //       "parent": [
-            //         {
-            //           "value": "^([1])$",
-            //           "type": "5",
-            //           "order": "2"
-            //         }
-            //       ],
-            //       "min": null,
-            //       "max": null,
-            //       "minRange": null,
-            //       "maxRange": null,
-            //       "pattern": "",
-            //       "validation": [
-            //         {
-            //           "error_msg": "",
-            //           "_id": "1"
-            //         },
-            //         {
-            //           "error_msg": "",
-            //           "_id": "83",
-            //           "value": "application/pdf"
-            //         },
-            //         {
-            //           "error_msg": "",
-            //           "_id": "81",
-            //           "value": "5120"
-            //         },
-            //         {
-            //           "error_msg": "",
-            //           "_id": "82",
-            //           "value": "1"
-            //         }
-            //       ],
-            //       "restrictions": [],
-            //       "input_type": "11",
-            //       "editable": false,
-            //       "weightage": []
-            //     },
-            //     {
-            //       "information": "",
-            //       "_id": "6400a29ee27eee0724798279",
-            //       "order": "5",
-            //       "answer_option": [],
-            //       "title": "Upload any other transaction doc from PFMS",
-            //       "hint": "Upload - PDF",
-            //       "resource_urls": [],
-            //       "label": "5",
-            //       "shortKey": "otherDocs",
-            //       "viewSequence": "5",
-            //       "child": [],
-            //       "parent": [
-            //         {
-            //           "value": "^([1])$",
-            //           "type": "5",
-            //           "order": "2"
-            //         }
-            //       ],
-            //       "min": null,
-            //       "max": null,
-            //       "minRange": null,
-            //       "maxRange": null,
-            //       "pattern": "",
-            //       "validation": [
-            //         {
-            //           "error_msg": "",
-            //           "_id": "83",
-            //           "value": "application/pdf"
-            //         },
-            //         {
-            //           "error_msg": "",
-            //           "_id": "81",
-            //           "value": "5120"
-            //         },
-            //         {
-            //           "error_msg": "",
-            //           "_id": "82",
-            //           "value": "1"
-            //         }
-            //       ],
-            //       "restrictions": [],
-            //       "input_type": "11",
+            //       "input_type": "14",
             //       "editable": false,
             //       "weightage": []
             //     }
             //   ],
-            //   "title": "Linking of PFMS Account",
+            //   "title": "Open Defecation Free (ODF)",
             //   "buttons": []
             // }
           ],
@@ -343,8 +326,6 @@ export class CommonFormComponent implements OnInit, OnDestroy {
           this.handleUrlForForm('odf');
         } else if (urlArray.includes("gfc")) {
           this.handleUrlForForm('gfc');
-        }else if (urlArray.includes("pfms")) {
-          this.handleUrlForForm('pfms');
         }
   
         this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
@@ -352,279 +333,13 @@ export class CommonFormComponent implements OnInit, OnDestroy {
     });
   }
   handleUrlForForm(formName: string) {
-    
-    if(formName === 'gfc' || formName === 'odf'){
-      this.endPoints = 'gfc-odf-form-collection';
-      this.getQuery.isGfc = formName === 'gfc';
-      this.formName = formName;
-      this.getNextPreUrl(formName);
-      this.getScoring(formName, this.getQuery.design_year);
-    }else {
-      this.callForDummyData()
-    }
-    
-  }
-  callForDummyData(){
-    let data =  [{
-      _id: '5f4656c92daa9921dc1173aa',
-      formId: 2,
-      "language": [
-        {
-          "_id": "64a51b585d378601dbe1e0fc",
-          "lng": "en",
-          "question": [
-            {
-              "information": "",
-              "_id": "6400a139e27eee072479823c",
-              "order": "1",
-              "answer_option": [
-                {
-                  "name": "YES",
-                  "did": [],
-                  "viewSequence": "1",
-                  "_id": "1"
-                },
-                {
-                  "name": "NO",
-                  "did": [],
-                  "viewSequence": "2",
-                  "_id": "2"
-                }
-              ],
-              "title": "Do you wish to submit Details for PFMS Account ?",
-              "hint": "Select",
-              "resource_urls": [],
-              "label": "1",
-              "shortKey": "linkPFMS",
-              "viewSequence": "1",
-              "child": [
-                {
-                  "type": "5",
-                  "value": "^([1])$",
-                  "order": "2"
-                }
-              ],
-              "parent": [],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "input_type": "5",
-              "weightage": [],
-              "editable": false
-            },
-            {
-              "information": "",
-              "_id": "6400a175e27eee0724798247",
-              "order": "2",
-              "answer_option": [
-                {
-                  "name": "YES",
-                  "did": [],
-                  "viewSequence": "1",
-                  "_id": "1"
-                },
-                {
-                  "name": "NO",
-                  "did": [],
-                  "viewSequence": "2",
-                  "_id": "2"
-                }
-              ],
-              "title": "Has the ULB linked its bank account with PFMS?",
-              "hint": "Select",
-              "resource_urls": [],
-              "label": "2",
-              "shortKey": "isUlbLinkedWithPFMS",
-              "viewSequence": "2",
-              "child": [
-                {
-                  "type": "2",
-                  "value": "^([1])$",
-                  "order": "3"
-                },
-                {
-                  "type": "11",
-                  "value": "^([1])$",
-                  "order": "4"
-                },
-                {
-                  "type": "11",
-                  "value": "^([1])$",
-                  "order": "5"
-                }
-              ],
-              "parent": [
-                {
-                  "value": "^([1])$",
-                  "type": "5",
-                  "order": "1"
-                }
-              ],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "input_type": "5",
-              "weightage": [],
-              "editable": false
-            },
-            {
-              "information": "",
-              "_id": "6400a1e5e27eee0724798259",
-              "order": "3",
-              "answer_option": [],
-              "title": "Bank account number linked to PFMS?",
-              "hint": "Account Number",
-              "resource_urls": [],
-              "label": "3",
-              "shortKey": "PFMSAccountNumber",
-              "viewSequence": "3",
-              "child": [],
-              "parent": [
-                {
-                  "value": "^([1])$",
-                  "type": "5",
-                  "order": "2"
-                }
-              ],
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                }
-              ],
-              "restrictions": [],
-              "minRange": 0,
-              "maxRange": 20,
-              "min": 1,
-              "max": 20,
-              "pattern": "",
-              "input_type": "2",
-              "weightage": [],
-              "valueHolder": "",
-              "editable": false
-            },
-            {
-              "information": "",
-              "_id": "6400a268e27eee0724798268",
-              "order": "4",
-              "answer_option": [],
-              "title": "Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy, etc",
-              "hint": "Upload PDF",
-              "resource_urls": [],
-              "label": "4",
-              "shortKey": "cert",
-              "viewSequence": "4",
-              "child": [],
-              "parent": [
-                {
-                  "value": "^([1])$",
-                  "type": "5",
-                  "order": "2"
-                }
-              ],
-              "min": null,
-              "max": null,
-              "minRange": null,
-              "maxRange": null,
-              "pattern": "",
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "1"
-                },
-                {
-                  "error_msg": "",
-                  "_id": "83",
-                  "value": "application/pdf"
-                },
-                {
-                  "error_msg": "",
-                  "_id": "81",
-                  "value": "5120"
-                },
-                {
-                  "error_msg": "",
-                  "_id": "82",
-                  "value": "1"
-                }
-              ],
-              "restrictions": [],
-              "input_type": "11",
-              "editable": false,
-              "weightage": []
-            },
-            {
-              "information": "",
-              "_id": "6400a29ee27eee0724798279",
-              "order": "5",
-              "answer_option": [],
-              "title": "Upload any other transaction doc from PFMS",
-              "hint": "Upload PDF",
-              "resource_urls": [],
-              "label": "5",
-              "shortKey": "otherDocs",
-              "viewSequence": "5",
-              "child": [],
-              "parent": [
-                {
-                  "value": "^([1])$",
-                  "type": "5",
-                  "order": "2"
-                }
-              ],
-              "min": null,
-              "max": null,
-              "minRange": null,
-              "maxRange": null,
-              "pattern": "",
-              "validation": [
-                {
-                  "error_msg": "",
-                  "_id": "83",
-                  "value": "application/pdf"
-                },
-                {
-                  "error_msg": "",
-                  "_id": "81",
-                  "value": "5120"
-                },
-                {
-                  "error_msg": "",
-                  "_id": "82",
-                  "value": "1"
-                }
-              ],
-              "restrictions": [],
-              "input_type": "11",
-              "editable": false,
-              "weightage": []
-            }
-          ],
-          "title": "Linking of PFMS Account",
-          "buttons": []
-        }
-      ],
-      groupOrder: 37,
-      createDynamicOption: [],
-      getDynamicOption: [],
-    }];
-    this.questionResponse = {
-      ...JSON.parse(JSON.stringify(this.questionResponse))
-    }
-    this.questionResponse.data = data;
-   
-    this.isApiComplete = true;
+    this.endPoints = 'gfc-odf-form-collection';
+    this.getQuery.isGfc = formName === 'gfc';
+    this.formName = formName;
+    this.getNextPreUrl(formName);
+    this.getScoring(formName, this.getQuery.design_year);
   }
   callGetApi(endPoints: string, queryParams: {}) {
-    
     this.commonServices.formGetMethod(endPoints, queryParams).subscribe((res: any) => {
       console.log('res.........', res);
       this.questionResponse.data = res.data; 

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="isApiComplete && hideForm">
     <div class="row mt-4">
         <div class="col-sm-12">
             <div class="card">
@@ -10,14 +10,31 @@
     </div>
     <div class="row mb-3 mt-4">
         <div class="col-sm-6">
-            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]='backRouter'>
+            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active" [routerLink]='nextPreUrl?.backBtnRouter'>
                 <- Previous Form</button>
         </div>
         <div class="col-sm-6 text-end">
             <button type="button" class="btn btn-c-next" 
-            routerLinkActive="router-link-active" [routerLink]="nextRouter">Next Form-></button>
+            routerLinkActive="router-link-active" [routerLink]="nextPreUrl?.nextBtnRouter">Next Form-></button>
         </div>
             
 
     </div>
 </div>
+
+
+<div class="" *ngIf="isApiComplete && !hideForm">
+    <app-web-form #webForm [formName]="formName" [viewFormTemplate]="'commonFormCf'" [questionresponse]="questionResponse" (submitQuestion)="resData($event)"
+    [scoreOdfGfc]="ratingMarksArray" [s3FolderName]="fileFolderName"
+    (nextPreBtn)="nextPreBtn($event)" [isButtonDisplay]="isButtonAvail" [isFormDisable]="isFormDisable"></app-web-form>
+  </div>
+  
+  <div class="loader" *ngIf="!isApiComplete">
+  <app-form-loader></app-form-loader>
+  </div>
+
+  <div class="" *ngIf="isApiComplete && !hideForm">
+    <app-form-common-action [canTakeAction]="canTakeAction" [isFormFinalSubmit]="isFormFinalSubmit"
+    (formChangeEventEmit)="actionFormChangeDetect($event)" [nextPreUrl]="nextPreUrl" 
+    [formId]="getQuery.formId" [isButtonAvail]="isButtonAvail" [formName]="formName"></app-form-common-action>
+  </div>
