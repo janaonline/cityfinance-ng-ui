@@ -69,7 +69,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   };
   actionPayload = {};
   uploadFolderName:string='';
-  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
   ngOnInit(): void {
   if(this.actionData) this.setStatusData(this.actionData);
