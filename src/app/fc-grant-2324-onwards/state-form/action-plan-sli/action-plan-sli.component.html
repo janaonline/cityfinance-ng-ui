@@ -32,8 +32,12 @@
                     </app-ag-grid>
 
                     <!-- review process for MoHUA -->
-                    <!-- <app-state-common-review [canTakeAction]="true" [question]="item"
-                     [formData]="data"></app-state-common-review> -->
+                    <!-- <div class="action-div p-3">
+                        <app-state-common-review [canTakeAction]="true" [question]="item"
+                        [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
+                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted"></app-state-common-review>
+                    </div> -->
+                  
                 </div>
             </div>
 
@@ -45,6 +49,7 @@
             <div class="col-sm-9 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="!data?.canTakeAction" (click)="saveAction()" style="">Submit</button>
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>

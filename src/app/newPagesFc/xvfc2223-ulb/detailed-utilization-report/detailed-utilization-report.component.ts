@@ -91,7 +91,8 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   @ViewChild("changeTemplate") template;
   isApiInProgress = true;
   Years: object | any;
-  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
   ngOnInit(): void {
     this.ulbName = this.userData?.name;
@@ -100,7 +101,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     }
     this.setRouter();
     this.onLoad();
-    if(this.userData?.role == 'MoHUA' && environment?.isProduction === false) this.sequentialReview({onlyGet: true});
+    if(this.userData?.role == 'MoHUA') this.sequentialReview({onlyGet: true});
   }
   formId = "";
   setRouter() {
@@ -996,9 +997,9 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
         console.log("action respon", res);
         this.actionBtnDis = true;
       //  commented for prods
-      if(environment?.isProduction === false){ 
+      // if(environment?.isProduction === false){ 
         if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA' && this.autoReject) this.sequentialReview({onlyGet: false});
-      }
+      // }
      
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");

@@ -167,7 +167,8 @@ export class UlbformComponent implements OnInit {
         this.backLink = "../mohua/dashboard";
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
-        if(environment?.isProduction === false) this.sequentialReview({onlyGet: true});
+        // if(environment?.isProduction === false)
+         this.sequentialReview({onlyGet: true});
         break;
       case USER_TYPE.ADMIN:
       case USER_TYPE.PARTNER:
@@ -613,9 +614,9 @@ export class UlbformComponent implements OnInit {
        
         }
         //  commented for prods
-        if (environment?.isProduction === false) {
+        // if (environment?.isProduction === false) {
           if (actionBody?.status == "REJECTED" && this.loggedInUserType == this.userTypes.MoHUA && this.autoReject) this.sequentialReview({onlyGet: false}); // for sequncial rejection
-        }
+       // }
 
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);

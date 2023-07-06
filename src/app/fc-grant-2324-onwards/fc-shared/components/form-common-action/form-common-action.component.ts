@@ -69,7 +69,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   };
   actionPayload = {};
   uploadFolderName:string='';
-  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
   ngOnInit(): void {
   if(this.actionData) this.setStatusData(this.actionData);
@@ -87,7 +88,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if(this.isFormFinalSubmit) this.getActionRes();
-    if(this.userData?.role == 'MoHUA' && (this.formId == 4) && environment?.isProduction === false){
+    if(this.userData?.role == 'MoHUA' && (this.formId == 4)){
       this.sequentialReview({onlyGet: true});
     }
   // if(this.actionData) this.setStatusData(this.actionData);
@@ -254,12 +255,12 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
       //temp commented for Production
-      if(environment?.isProduction === false){
+      // if(environment?.isProduction === false){
         if((this.formId == 4) &&
         (this.statusForm?.value?.status == 7) && 
         this.userData?.role == 'MoHUA'){
           this.sequentialReview({onlyGet: false})
-        } 
+        // } 
       }
      
       swal('Saved', "Action submitted successfully", "success");

@@ -367,6 +367,42 @@ waterRejRes = {
 }
 maxNumVaditaion:number;
 errorOnload:boolean = false;
+
+isActionSubmitted:boolean = false;
+actionPayload = {
+    "form_level": 3,
+    "design_year": this.Year["2023-24"],
+    "formId": 12,
+    "type": "STATE",
+    "states": [
+      this.stateId
+    ],
+    "responses": [
+      // {
+      //   "shortKey": "UA_44_HR021",
+      //   "status": 6,
+      //   "rejectReason": "q",
+      //   "responseFile": {
+      //     "url": "aditya",
+      //     "name": "1123456"
+      //   }
+      // },
+      // {
+      //   "shortKey": "UA_223_ML002",
+      //   "status": 6,
+      //   "rejectReason": "q1",
+      //   "responseFile": {
+      //     "url": "1",
+      //     "name": "1"
+      //   }
+      // }
+    ],
+    "multi": false,
+    "shortKeys": [
+      // "UA_44_HR021",
+      // "UA_223_ML002"
+    ]
+  }
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -1121,6 +1157,79 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
   get hasUnsavedChanges() {
     return !this.waterRejenuvation?.pristine;
   }
+
+
+  actionFormChanges(e){
+    // console.log('ee', e); 
+   }
+   actionPayloadPrepare(){
+     console.log('this.data 453', this.data);
+     this.data.uaData.forEach((elem)=>{
+       this.actionPayload.shortKeys.push(elem?.uaCode);
+       let actionObj = {
+         "shortKey": elem?.uaCode,
+         "status": elem?.status,
+         "rejectReason": elem?.rejectReason,
+         "responseFile": elem?.responseFile ? elem?.responseFile : { "url": "", "name": ""}
+     }
+       this.actionPayload.responses.push(actionObj);
+     })
+   }
+ 
+   saveAction(){
+     console.log('this. action action', this.actionPayload);
+     this.isActionSubmitted = true;
+     for(let item of this.actionPayload.responses){
+       if(item?.status != 6 && item?.status != 7){
+         swal('Error', 'Status for all UA is mandatory', 'error')
+         return;
+       };
+       if(item?.status == 7 && !item?.rejectReason){
+         swal('Error', 'Reject reason is mandatory in case of rejection', 'error')
+         return;
+       };
+     }
+     swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+       buttons: {
+         Submit: {
+           text: "Submit",
+           value: "submit",
+         },
+         Cancel: {
+           text: "Cancel",
+           value: "cancel",
+         },
+       },
+     }).then((value) => {
+       switch (value) {
+         case "submit":
+           this.finalSubmitAction();
+           break;
+         case "cancel":
+           break;
+       }
+     });
+  //   console.log('everthing is corrects.............');
+     
+   }
+ 
+   finalSubmitAction(){
+     this.commonServices.formPostMethod(this.actionPayload, 'common-action/masterAction').subscribe((res:any)=>{
+       console.log('ressssss action', res);
+       //this.actBtnDis = true;
+       this.isActionSubmitted = false;
+       this.commonServices.setFormStatusState.next(true);
+       this.loadData()
+       swal('Saved', "Action submitted successfully", "success");
+     },
+     (error)=>{
+       console.log('ressssss action', error);
+      // this.formChangeEventEmit.emit(false);
+       this.isActionSubmitted = false;
+       swal('Error', error?.message ?? 'Something went wrong', 'error');
+     }
+     )
+   }
 }
 
 

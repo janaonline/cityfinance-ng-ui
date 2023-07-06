@@ -1,8 +1,12 @@
 <div class="container">
     <h1 class="my-3 fw-bold">Ongoing Infrastructure Projects</h1>
-    <mat-paginator *ngIf="response" [length]="response.total" [pageSize]="limit" [pageSizeOptions]="pageSizeOptions"
-        (page)="pageChange($event)" aria-label="Select page">
+
+    <mat-paginator *ngIf="response" [length]="response.total" [pageIndex]="page" [pageSize]="limit"
+        [pageSizeOptions]="pageSizeOptions" (page)="pageChange($event)" aria-label="Select page">
     </mat-paginator>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="resetFilters()">Reset filters</button>
+    </div>
     <table class="table table-striped mt-4">
         <thead *ngIf="response && response?.columns?.length > 0">
             <tr>
