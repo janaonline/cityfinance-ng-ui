@@ -74,11 +74,6 @@ const routes: Routes = [
         path: "video-gallary",
         component: VideoGallaryComponent,
       },
-      {
-        path: "pfms",
-        component: CommonFormComponent,
-        canDeactivate: [ConfirmationGuard]
-      },
     ],
   },
 ];
