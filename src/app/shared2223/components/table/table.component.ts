@@ -107,7 +107,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   pageName = 'Get All Data'
   noHistorydataFound = false
   historyData;
- 
+  environment = environment;
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -591,7 +591,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(environment?.isProduction) return;
+    if(this.environment?.isProduction) return;
     this.noHistorydataFound = false
     this.commonService.getDataForTrackingHistory(formId, ulbId, this.designYear).subscribe(
       (res) => {
