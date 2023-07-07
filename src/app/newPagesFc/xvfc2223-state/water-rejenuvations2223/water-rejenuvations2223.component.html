@@ -363,20 +363,24 @@
 
                                           <select [disabled]="isDisabled" (change)="indicatorSet($event, projectIndex,sliIndex)">
                                           <option value="">--Select Indicator--</option>
-                                          <option
+                                          <!-- <option
                                               [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator"
                                               *ngFor="let Indicator of waterIndicators">
-                                              {{Indicator}}</option>
+                                              {{Indicator}}</option> -->
+                                              <option [selected]="Uas[projectIndex]?.value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
+                                              *ngFor="let Indicator of waterIndicators" [value]="Indicator?.lineItemId">
+                                                 {{Indicator?.name}}
+                                             </option>
 
                                       </select>
                                           <!-- <input  matTooltipPosition="above"
                                           [matTooltip]="" type="text"> -->
                                       </td>
                                       <td>
-                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]="">
+                                          <input formControlName="existing" matTooltipPosition="above" [matTooltip]="" type="number" pattern="^\d*(\.\d{0,6})?$">
                                       </td>
                                       <td>
-                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]="">
+                                          <input formControlName="after" matTooltipPosition="above" [matTooltip]="" type="number" pattern="^\d*(\.\d{0,6})?$">
                                       </td>
                                       <td>
                                           <input formControlName="cost" matTooltipPosition="above" [matTooltip]="" type="number" pattern="^\d*(\.\d{0,6})?$">
