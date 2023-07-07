@@ -288,7 +288,7 @@
                                                     *ngFor="let Indicator of waterIndicators">
                                                     {{Indicator}}</option> -->
 
-                                                    <option [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
+                                                    <option [selected]="Uas[projectIndex]?.value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator?.lineItemId"
                                                      *ngFor="let Indicator of waterIndicators" [value]="Indicator?.lineItemId">
                                                         {{Indicator?.name}}
                                                     </option>
