@@ -435,12 +435,12 @@
                          </div>
                           </div>
                             <!-- review process for MoHUA -->
-                    <!--   <div class="action-div p-3">
+                         <div class="action-div p-3">
                              <app-state-common-review [canTakeAction]="uas?.canTakeAction" [question]="uas"
                                 [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
                                 [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted">
                             </app-state-common-review>
-                        </div> -->
+                        </div>
 
                         </div>
                     </div>
@@ -482,6 +482,17 @@
                         </div>
                   </div>
               
+                </div>
+             </div>
+
+               <!-- final status view  -->
+             <div class="row" *ngIf="completeWaterRejData?.statusId == 4 || completeWaterRejData?.statusId == 6 || completeWaterRejData?.statusId == 7">
+                 <div class="col-sm-12">
+                 <div class="card">
+                    <div class="card-body fw-bold">
+                        Form Status : {{completeWaterRejData?.status}}
+                    </div>
+                 </div>
                 </div>
               </div>
             <!-- --------all buttons-------- -->

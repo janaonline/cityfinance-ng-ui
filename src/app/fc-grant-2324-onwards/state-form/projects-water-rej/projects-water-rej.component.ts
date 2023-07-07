@@ -402,7 +402,9 @@ actionPayload = {
       // "UA_44_HR021",
       // "UA_223_ML002"
     ]
-  }
+  };
+completeWaterRejData: any | object;  
+
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -566,6 +568,7 @@ actionPayload = {
         this.isPreYear = true;
         this.isApiInProgress = false;
         this.errorOnload = true;
+        this.completeWaterRejData = res["data"];
         this.data = res["data"]["uaData"];
         this.isDraft = res["data"].isDraft;
         this.initializeReport();
