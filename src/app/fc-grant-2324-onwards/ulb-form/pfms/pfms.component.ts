@@ -38,7 +38,7 @@ export class PfmsComponent implements OnInit {
   endPoints: string = 'link-pfms'
   postData = {
   };
-  formName: string = '';
+  formName: string = 'pfms';
   isApiComplete: boolean = false;
   ratingMarksArray = [];
   questionResponse: any = {
@@ -300,7 +300,7 @@ export class PfmsComponent implements OnInit {
     ],
   };
   statusId: number = 1;
-  fileFolderName: string = 'pfms';
+  fileFolderName: string = '';
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
@@ -323,6 +323,7 @@ export class PfmsComponent implements OnInit {
         this.getNextPreUrl();
       }
     });
+    this.fileFolderName = `${this.userData?.role}/2023-24/${this.formName}/${this.userData?.ulbCode}`;
   }
 
   get hasUnsavedChanges() {
