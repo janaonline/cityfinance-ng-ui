@@ -21,6 +21,7 @@ import { StateformsService } from "../stateforms.service";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { stateWiseReportMain } from "src/app/shared/components/home-header/tableHeaders";
+import { CommonServicesService } from "src/app/fc-grant-2324-onwards/fc-shared/service/common-services.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -41,7 +42,8 @@ export class WaterRejenuvationComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _router: Router,
     public _stateformsService: StateformsService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private fcCommonService : CommonServicesService
   ) {
     this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
@@ -64,6 +66,8 @@ export class WaterRejenuvationComponent implements OnInit {
         }
       }
     });
+
+    this.getIndicatorLineItem();
   }
   disableAllForms = false;
   isStateSubmittedForms = "";
@@ -1102,6 +1106,21 @@ export class WaterRejenuvationComponent implements OnInit {
       val[0] = val[0].slice(0, 4)
     }
     event.controls[type].patchValue(val[0] + (val[1] ? "." + val[1] : ""));
+  }
+  getIndicatorLineItem(){
+    let queryParam = {
+      type: 'water supply'
+    }
+    this.fcCommonService.formGetMethod('indicatorLineItem', queryParam).subscribe((res:any)=>{
+      console.log('indicatorLineItem', res);
+      this.waterIndicators = res?.data;
+      
+    },
+    (error)=>{
+      swal("Error", "No indicator found for slb table, please refresh the page", "error")
+    }
+    )
+  //  BASE_URL/indicatorLineItem
   }
 }
 
