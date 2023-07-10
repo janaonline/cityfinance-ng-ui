@@ -3,7 +3,7 @@
         <div class="col-sm-8 col-lg-8 col-md-8 header2">
             <span>Grant Transfer Certificate</span>
         </div>
-        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm">
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm && !successErrorsMessage?.length">
             <button type="button" class="btn btn-primary" (click)="onPreview()" style="margin-top: .2rem;"
                 id="prevBtn">PREVIEW</button>
         </div>
