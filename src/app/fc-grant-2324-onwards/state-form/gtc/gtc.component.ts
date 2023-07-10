@@ -19,7 +19,7 @@ export class GtcComponent implements OnInit {
 
   @ViewChildren('webForm') webForms: QueryList<WebFormComponent>;
 
-  successErrorMessage: string;
+  successErrorsMessage: string[] = [];
 
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
@@ -68,8 +68,8 @@ export class GtcComponent implements OnInit {
       console.log(res);
       this.baseForm = res.data;
       this.loaderService.stopLoader();
-      if (res?.success == false && res?.message) {
-        this.successErrorMessage = res?.message;
+      if (res?.success == false && res?.errors.length) {
+        this.successErrorsMessage = res?.errors;
       }
     }, ({ error }) => {
       this.loaderService.stopLoader();
