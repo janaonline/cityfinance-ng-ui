@@ -51,9 +51,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
     "design_year": this.Year["2023-24"],
     "formId": 13,
     "type": "STATE",
-    "states": [
-      this.stateId
-    ],
+    "states": [],
     "responses": [
       // {
       //   "shortKey": "UA_44_HR021",
@@ -93,6 +91,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
    }
    actionPayloadPrepare(){
      console.log('this.data 453', this.data);
+     this.actionPayload["states"].push(this.stateId);
      this.data.uaData.forEach((elem)=>{
        this.actionPayload.shortKeys.push(elem?.uaCode);
        let actionObj = {
