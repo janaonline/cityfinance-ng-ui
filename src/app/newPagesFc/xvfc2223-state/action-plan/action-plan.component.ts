@@ -137,11 +137,13 @@ export class ActionPlanComponent implements OnInit {
         this.isApiInProgress = false;
         console.log(res["data"], "sss");
         this.getDisabledLogic(res);
+       
         this.data = {
           state: res["data"]?.state,
           design_year: this.designYear,
           uaData: res["data"]?.uaData,
-          status: this.getStatus(res),
+          status: this.yearCode == '2023-24' ? res["data"]?.status : this.getStatus(res),
+          statusId: res["data"]?.statusId,
           isDraft: res["data"]?.isDraft,
           canTakeAction : res["data"]?.canTakeAction,
         };

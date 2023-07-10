@@ -33,10 +33,11 @@ export class StateFormComponent implements OnInit {
       this.router.navigate(["/fc-home-page"]);
     }
   //  this.leftMenu = JSON.parse(localStorage.getItem("leftMenuState"));
-    this.stateName = sessionStorage.getItem("stateName");
+    this.stateName = this.userData?.stateName;
     this.stateId = this.userData?.state;
     if (!this.stateId) {
       this.stateId = localStorage.getItem("state_id");
+      this.stateName = sessionStorage.getItem("stateName");
     };
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
     this.getLeftMenu();
@@ -61,8 +62,12 @@ export class StateFormComponent implements OnInit {
   designYearArray:any;
   statusSubs:any;
   isApiComplete:boolean =false;
+  stateFormId:string = '';
+  path:string = '';
   ngOnInit(): void {
    // this.leftMenu = JSON.parse(localStorage.getItem("leftMenuULB"));
+   this.stateFormId = sessionStorage.getItem("Stateform_id");
+   this.path = sessionStorage.getItem("path2");
   }
 
   getLeftMenu() {
@@ -105,6 +110,12 @@ export class StateFormComponent implements OnInit {
       localStorage.setItem('state_name', this.states[this.userLoggedInDetails["state"]]?.name)
       localStorage.setItem('state_code', this.states[this.userLoggedInDetails["state"]]?.code)
     });
+  }
+
+  backStatePage() {
+    if (this.loggedInUserType !== this.userTypes.STATE) {
+      this.router.navigate(['mohua-form/review-state-form'], { queryParams: { formId: this.stateFormId } });
+    }
   }
 
 }
