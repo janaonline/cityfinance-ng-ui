@@ -365,9 +365,9 @@ export class TableApproveReturnDialogComponent implements OnInit {
 
   getActionPayload(statusId){
      this.actionPayload = {
-        "form_level": this.data.formId == 5 ? 2 : 1,
+        "form_level": this.data?.formId == 5 ? 2 : 1,
         "design_year" : this.data?.designYear,
-        "formId": this.data.formId ? Number(this.data.formId) : null,
+        "formId": this.data?.formId ? Number(this.data?.formId) : null,
           ulbs: this.data?.selectedId,
         "responses": [
             {
