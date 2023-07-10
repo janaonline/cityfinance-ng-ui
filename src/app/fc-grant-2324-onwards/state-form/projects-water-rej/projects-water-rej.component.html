@@ -436,8 +436,8 @@
                           </div>
                             <!-- review process for MoHUA -->
                          <div class="action-div p-3">
-                             <app-state-common-review [canTakeAction]="uas?.canTakeAction" [question]="uas"
-                                [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
+                             <app-state-common-review [canTakeAction]="completeWaterRejData?.canTakeAction" [question]="completeWaterRejData?.uaData[projectIndex]"
+                                [formData]="completeWaterRejData" (formChangeEventEmit)="actionFormChanges($event)" 
                                 [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted">
                             </app-state-common-review>
                         </div>
