@@ -367,7 +367,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
      this.actionPayload = {
         "form_level": this.data.formId == 5 ? 2 : 1,
         "design_year" : this.data?.designYear,
-        "formId": this.data.formId,
+        "formId": this.data.formId ? Number(this.data.formId) : null,
           ulbs: this.data?.selectedId,
         "responses": [
             {
@@ -386,6 +386,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
         delete this.actionPayload.ulbs;
         this.actionPayload["states"] = this.data?.selectedId;
         this.actionPayload["form_level"] = 3;
+        this.actionPayload["type"] = "STATE";
       }
   }
 }
