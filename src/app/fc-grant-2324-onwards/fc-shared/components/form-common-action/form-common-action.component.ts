@@ -87,7 +87,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if(this.isFormFinalSubmit) this.getActionRes();
-    if(this.userData?.role == 'MoHUA' && (this.formId == 4) && environment?.isProduction === false){
+    if(this.userData?.role == 'MoHUA' && (this.formId == 4)){
       this.sequentialReview({onlyGet: true});
     }
   // if(this.actionData) this.setStatusData(this.actionData);
@@ -254,12 +254,12 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       this.formChangeEventEmit.emit(true);
       this.getActionRes();
       //temp commented for Production
-      if(environment?.isProduction === false){
+      // if(environment?.isProduction === false){
         if((this.formId == 4) &&
         (this.statusForm?.value?.status == 7) && 
         this.userData?.role == 'MoHUA'){
           this.sequentialReview({onlyGet: false})
-        } 
+        // } 
       }
      
       swal('Saved', "Action submitted successfully", "success");

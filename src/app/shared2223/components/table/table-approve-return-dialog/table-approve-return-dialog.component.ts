@@ -62,7 +62,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
   ngOnInit(): void {
     // this.onLoad();
     if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
-    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && (environment?.isProduction === false)){
+    && this.data?.type == 'Return' && this.userData?.role == 'MoHUA'){
   //  this.sequentialReview(tempFormId);
     this.sequentialReview({tempFormId: 4, onlyGet: true})
   }
@@ -312,24 +312,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       if(this.data.type == "Return" && this.userData?.role == 'STATE') statusId = 5;
       if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
       if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
-      this.actionPayload = {
-        "form_level": this.data.formId == 5 ? 2 : 1,
-        "design_year" : this.data?.designYear,
-        "formId": this.data.formId,
-        "ulbs": this.data?.selectedId,
-        "responses": [
-            {
-            "shortKey": "form_level",
-            "status": statusId,
-            "rejectReason": this.approveReturnForm?.value?.rejectReason,
-            "responseFile": this.approveReturnForm?.value?.responseFile
-       }
-        ],
-        "multi": true,
-        "shortKeys": [
-            "form_level"
-        ]
-      }
+      this.getActionPayload(statusId);
     }
    console.log('this.acccc', this.actionPayload);
    
@@ -340,12 +323,12 @@ export class TableApproveReturnDialogComponent implements OnInit {
         swal("Saved", "Saved Data Successfully", "success");
         //   this.newCommonService.multiAction.next(true);
        // temp commented for Prods
-       if(environment?.isProduction === false){  
+      //  if(environment?.isProduction === false){  
         if((this.data?.formId == 4 || this.data?.formId == '62aa1c96c9a98b2254632a8a')
             && this.data?.type == 'Return' && this.userData?.role == 'MoHUA' && this.autoReject){
           //  this.sequentialReview(tempFormId);
             this.sequentialReview({tempFormId: tempFormId, onlyGet: false})
-          }
+          // }
         }
         this.approveReturnForm.reset();
         this.newCommonService.reviewStatus.next(true);
@@ -378,5 +361,32 @@ export class TableApproveReturnDialogComponent implements OnInit {
       //  swal("Error", "Sequential review field.", "error");
       }
     );
+  }
+
+  getActionPayload(statusId){
+     this.actionPayload = {
+        "form_level": this.data?.formId == 5 ? 2 : 1,
+        "design_year" : this.data?.designYear,
+        "formId": this.data?.formId ? Number(this.data?.formId) : null,
+          ulbs: this.data?.selectedId,
+        "responses": [
+            {
+            "shortKey": "form_level",
+            "status": statusId,
+            "rejectReason": this.approveReturnForm?.value?.rejectReason,
+            "responseFile": this.approveReturnForm?.value?.responseFile
+       }
+        ],
+        "multi": true,
+        "shortKeys": [
+            "form_level"
+        ]
+      };
+      if(this.data?.tableName == 'Review State Forms'){
+        delete this.actionPayload.ulbs;
+        this.actionPayload["states"] = this.data?.selectedId;
+        this.actionPayload["form_level"] = 3;
+        this.actionPayload["type"] = "STATE";
+      }
   }
 }

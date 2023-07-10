@@ -68,7 +68,7 @@
                         <span class="city-fr">City Finance Rankings 2022</span>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-sm-12 mb-4" *ngIf="!isOtpLogin">
+                        <div class="col-sm-12" *ngIf="!isOtpLogin">
                             <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
                                 <li class="nav-item" *ngFor="let item of loginTabs" [ngClass]="{'actClass': item.selected}">
                                     <a (click)="tabChanged(item)" role="tab" class="nav-link" id="{{item?.role}}">
@@ -78,6 +78,7 @@
                             </ul>
                         </div>
                         <div class="card-body" *ngIf="!isOtpLogin">
+                            <p class="text-danger mb-4">Cityfinance Rankings application submission is now closed.</p>
                             <h5 class="text-center fw-bolder fs-2">Login
                               <mat-icon class="info-icon" matTooltipClass="tooltip-red"
                               [matTooltip]="loginInfo">info</mat-icon>
