@@ -312,24 +312,7 @@ export class TableApproveReturnDialogComponent implements OnInit {
       if(this.data.type == "Return" && this.userData?.role == 'STATE') statusId = 5;
       if(this.data.type == "Approve" && this.userData?.role == 'MoHUA') statusId = 6;
       if(this.data.type == "Return" && this.userData?.role == 'MoHUA') statusId = 7;
-      this.actionPayload = {
-        "form_level": this.data.formId == 5 ? 2 : 1,
-        "design_year" : this.data?.designYear,
-        "formId": this.data.formId,
-        "ulbs": this.data?.selectedId,
-        "responses": [
-            {
-            "shortKey": "form_level",
-            "status": statusId,
-            "rejectReason": this.approveReturnForm?.value?.rejectReason,
-            "responseFile": this.approveReturnForm?.value?.responseFile
-       }
-        ],
-        "multi": true,
-        "shortKeys": [
-            "form_level"
-        ]
-      }
+      this.getActionPayload(statusId);
     }
    console.log('this.acccc', this.actionPayload);
    
@@ -378,5 +361,31 @@ export class TableApproveReturnDialogComponent implements OnInit {
       //  swal("Error", "Sequential review field.", "error");
       }
     );
+  }
+
+  getActionPayload(statusId){
+     this.actionPayload = {
+        "form_level": this.data.formId == 5 ? 2 : 1,
+        "design_year" : this.data?.designYear,
+        "formId": this.data.formId,
+          ulbs: this.data?.selectedId,
+        "responses": [
+            {
+            "shortKey": "form_level",
+            "status": statusId,
+            "rejectReason": this.approveReturnForm?.value?.rejectReason,
+            "responseFile": this.approveReturnForm?.value?.responseFile
+       }
+        ],
+        "multi": true,
+        "shortKeys": [
+            "form_level"
+        ]
+      };
+      if(this.data?.tableName == 'Review State Forms'){
+        delete this.actionPayload.ulbs;
+        this.actionPayload["states"] = this.data?.selectedId;
+        this.actionPayload["form_level"] = 3;
+      }
   }
 }
