@@ -374,9 +374,7 @@ actionPayload = {
     "design_year": this.Year["2023-24"],
     "formId": 12,
     "type": "STATE",
-    "states": [
-      this.stateId
-    ],
+    "states": [],
     "responses": [
       // {
       //   "shortKey": "UA_44_HR021",
@@ -578,6 +576,7 @@ completeWaterRejData: any | object;
         this.setSkipLogic(this.data);
         this.isDisabled = this.setDisableForm(res["data"]);
         if(this.isDisabled) this.waterRejenuvation.disable();
+        this.actionPayloadPrepare();
       },
       (err) => {
         this.showLoader = false;
@@ -860,6 +859,7 @@ completeWaterRejData: any | object;
             swal("Saved", `Data saved ${draft ? 'as draft' : ''} successfully`, "success");
               // this.getFormData();
               this.commonServices.setFormStatusState.next(true);
+              this.loadData();
            if(draft == false){
             this.waterRejenuvation.disable();
             this.isDisabled = true; 
@@ -1154,7 +1154,7 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
   setDisableForm(data){
     
     if((this.userData?.role == 'ADMIN') || (this.userData?.role == 'STATE' && (data.statusId == 4 || data.statusId == 6))) return true;
-    if(this.userData?.role == 'MoHUA' && data.statusId != 4) return true;
+    if(this.userData?.role == 'MoHUA') return true;
     return false;
   }
   get hasUnsavedChanges() {
@@ -1167,7 +1167,8 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
    }
    actionPayloadPrepare(){
      console.log('this.data 453', this.data);
-     this.data.uaData.forEach((elem)=>{
+     this.actionPayload["states"].push(this.stateId);
+     this.completeWaterRejData.uaData.forEach((elem)=>{
        this.actionPayload.shortKeys.push(elem?.uaCode);
        let actionObj = {
          "shortKey": elem?.uaCode,
@@ -1177,6 +1178,8 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
      }
        this.actionPayload.responses.push(actionObj);
      })
+
+     console.log('this.data 453 111', this.actionPayload); 
    }
  
    saveAction(){
