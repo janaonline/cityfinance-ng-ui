@@ -43,7 +43,7 @@ export class InstallmentPreviewComponent implements OnInit {
         this.formData.transferGrantdetail_tableview_addbutton = parentQuestion?.childQuestionData
           ?.map(childQuestion => (childQuestion?.reduce((obj, question) => {
             if (question.input_type == '2' || question.input_type == '14') {
-              obj[question.shortKey] = question.modelValue;
+              obj[question.shortKey] = question.modelValue?.split('-').reverse().join('-');
             }
             else if (question.input_type == '3') {
               obj[question.shortKey] = question.selectedValue?.[0]?.label;
