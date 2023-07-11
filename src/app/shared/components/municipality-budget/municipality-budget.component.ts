@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MunicipalityBudgetComponent implements OnInit {
 
+  details: any[] = [];
+
   constructor() { }
 
   ngOnInit(): void {

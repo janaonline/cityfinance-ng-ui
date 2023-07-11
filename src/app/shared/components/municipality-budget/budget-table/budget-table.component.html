@@ -1,0 +1,18 @@
+<table class="table container spaced-table table-bordered table-striped">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col"></th>
+            <th scope="col">Document Name</th>
+            <th scope="col">Updated on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of budgetData">
+            <td>
+                <img  src="assets/new_dashBord_ftr_hdr/pdf.png" class="file-type" />
+            </td>
+            <td>{{ item?.name }}</td>
+            <td>{{ item?.updatedAt}}</td>
+        </tr>
+    </tbody>
+</table>
