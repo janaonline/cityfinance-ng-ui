@@ -44,7 +44,8 @@ export class TableApproveReturnDialogComponent implements OnInit {
   formName = '';
   actionPayload:any;
   emptyArr = []
-  autoRejectInfo:string = `If this year's form is rejected, it would consequently lead to the rejection of next year's forms due to their inter-dependency.`;
+  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
