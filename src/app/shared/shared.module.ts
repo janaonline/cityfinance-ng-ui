@@ -100,6 +100,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MunicipalityBondsProjectsComponent } from './components/municipality-bonds-projects/municipality-bonds-projects.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { AutoCompleteComponent } from "./components/auto-complete/auto-complete.component";
+import { MunicipalityBudgetComponent } from './components/municipality-budget/municipality-budget.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -199,6 +200,7 @@ import { AutoCompleteComponent } from "./components/auto-complete/auto-complete.
     MunicipalityBondsProjectsComponent,
     JoinPipe,
     AutoCompleteComponent,
+    MunicipalityBudgetComponent,
   ],
   exports: [
     JoinPipe,
