@@ -102,6 +102,7 @@ import { JoinPipe } from './pipes/join.pipe';
 import { AutoCompleteComponent } from "./components/auto-complete/auto-complete.component";
 import { MunicipalityBudgetComponent } from './components/municipality-budget/municipality-budget.component';
 import { BudgetTableComponent } from './components/municipality-budget/budget-table/budget-table.component';
+import { MapcomponentComponent } from './components/municipality-budget/mapcomponent/mapcomponent.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -203,6 +204,7 @@ import { BudgetTableComponent } from './components/municipality-budget/budget-ta
     AutoCompleteComponent,
     MunicipalityBudgetComponent,
     BudgetTableComponent,
+    MapcomponentComponent,
   ],
   exports: [
     JoinPipe,
