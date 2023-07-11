@@ -13,6 +13,7 @@ import {ProTTaxFormComponent} from "./shared/components/pro-t-tax-form/pro-t-tax
 import { FiscalHomeComponent } from "./fiscal-ranking/fiscal-home/fiscal-home.component";
 import { FiscalRankingModule } from "./fiscal-ranking/fiscal-ranking.module";
 import { MunicipalityBondsProjectsComponent } from "./shared/components/municipality-bonds-projects/municipality-bonds-projects.component";
+import { MunicipalityBudgetComponent } from "./shared/components/municipality-budget/municipality-budget.component";
 export const appRouter: Routes = [
 
   { path: '', redirectTo: 'rankings/home', pathMatch: 'full' },
@@ -233,6 +234,10 @@ export const appRouter: Routes = [
   {
     path: "municipal-bonds",
     component: MunicipalityBondsProjectsComponent,
+  },
+  {
+    path: "municipal-budgets",
+    component: MunicipalityBudgetComponent,
   },
 
   { path: "**", redirectTo: "rankings/home" },
