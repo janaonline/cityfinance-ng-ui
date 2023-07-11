@@ -1,3 +1,11 @@
+
+<div class="d-flex align-items-center my-5">
+    <div class="line"></div>
+    <span style="background-color: #E67E15;" class="px-4 p-2 text-light rounded">Budget</span>
+    <div class="line"></div>
+</div>
+
+
 <table class="table container spaced-table table-bordered table-striped">
     <thead>
         <tr class="table-primary">
@@ -11,8 +19,8 @@
             <td>
                 <img  src="assets/new_dashBord_ftr_hdr/pdf.png" class="file-type" />
             </td>
-            <td>{{ item?.name }}</td>
-            <td>{{ item?.updatedAt}}</td>
+            <td>{{ item?.fileName }}</td>
+            <td>{{ item?.modifiedAt | date:'dd-MM-yyyy' }}</td>
         </tr>
     </tbody>
 </table>

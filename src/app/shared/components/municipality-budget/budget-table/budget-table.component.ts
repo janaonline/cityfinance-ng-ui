@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MunicipalityBudgetService } from '../municipality-budget.service';
 
 @Component({
   selector: 'app-budget-table',
@@ -7,24 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BudgetTableComponent implements OnInit {
 
-  budgetData: any[] = [
-    {
-      name: "First",
-      updatedAt: "20-06-2023"
-    },
-    {
-      name: "Second",
-      updatedAt: "20-06-2023"
-    },
-    {
-      name: "Third",
-      updatedAt: "20-06-2023"
-    },
-  ];
+  budgetData: any[] = [];
 
-  constructor() { }
+  constructor(
+    private municipalityBudgetsService: MunicipalityBudgetService
+  ) { }
 
   ngOnInit(): void {
+    this.municipalityBudgetsService.get().subscribe(({ data }: any) => {
+      this.budgetData = data.slice(0, 10);
+    })
   }
 
 }
