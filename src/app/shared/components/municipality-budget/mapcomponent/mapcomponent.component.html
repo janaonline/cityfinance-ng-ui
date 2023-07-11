@@ -1,112 +1,84 @@
 <div class="row mb-3 mt-2" style="display: flex;justify-content: space-evenly;flex-wrap: wrap;">
+    <div class="col-md-5 mt-4 mb-3">
+        <h2 class="my-2">Dashboard</h2>
 
+        <div class="bg-light my-5 p-3">
+            <h2 class="my-2">Explore</h2>
+            <small class="fw-light">Select a state or city to know more about its key municipal financial and operational information</small>
+            <h4 class="py-1 my-4 px-2 border-5 border-start border-warning">India</h4>
 
-    <div class="col-md-5 mt-1 mb-3">
-      <h2 class="my-2">Dashboard</h2>
-      <div role="button" (click)="cardClick('UlbActivities')" class="row mt-5 border p-4 rounded">
-        <h4>Number of ULBs : {{ mapData?.ulbWiseData?.totalUlbs }}</h4>
-        <ng-container *ngIf="mapData?.ulbWiseData?.totalUlbs">
-          <div class="d-flex w-100 p-0 rounded overflow-hidden" style="height: 20px;">
-            <div style="background-color: #e67e15 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.notStarted'></div>
-            <div style="background-color: #193369 ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.inProgress'></div>
-            <div style="background-color:#38cdfa ;height: 20px !important;" [style.width.%]='100 / mapData?.ulbWiseData?.totalUlbs * mapData?.ulbWiseData?.submitted'></div>
-          </div>
-    
-          <div class="row">
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #e67e15;"></div>
-              <span class="markerText">Not yet started: {{ mapData?.ulbWiseData?.notStarted}}</span>
+            <div class="row">
+                <div class="col-4">
+                    <h3>8,992</h3>
+                    <small class="fw-light">ULBs with atleast 1 Year of Financial Data</small>
+                </div>
+                <div class="col-4">
+                    <h3>2,663</h3>
+                    <small class="fw-light">Financial Statements for FYs 2015-16 to 20-21</small>
+                </div>
+                <div class="col-4">
+                    <h3>53%</h3>
+                    <small class="fw-light">ULBs Credit Rating Reports</small>
+                </div>
             </div>
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #193369;"></div>
-              <span class="markerText">In progress: {{ mapData?.ulbWiseData?.inProgress }}</span>
+
+            <div class="row mt-5">
+                <div class="col-4">
+                    <h3>8,992</h3>
+                    <small class="fw-light">ULBs With Investment Grade Rating</small>
+                </div>
+                <div class="col-4">
+                    <h3>2,663</h3>
+                    <small class="fw-light">Highest Financial Data Availability is in FY 2015-16</small>
+                </div>
+                <div class="col-4">
+                    <h3>53%</h3>
+                    <small class="fw-light">Municipal Bond Issuances Of Rs. 5,459 Cr With Details</small>
+                </div>
             </div>
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #38cdfa;"></div>
-              <span class="markerText">Submitted: {{ mapData?.ulbWiseData?.submitted }}</span>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-  
-      <div role="button" (click)="cardClick('PMUActivities')" class="row mt-5 border p-4 rounded">
-        <h4>Submitted Applications : {{ mapData?.formWiseData?.totalForms }}</h4>
-        <ng-container *ngIf="mapData?.formWiseData?.totalForms">
-          <div class="d-flex w-100 p-0 rounded overflow-hidden" style="height: 20px;">
-            <div style="background-color: #e67e15 ;height: 20px !important;"
-              [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.verificationNotStarted'>
-            </div>
-            <div style="background-color: #193369 ;height: 20px !important;"
-              [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.verificationInProgress'>
-            </div>
-            <div style="background-color: #38cdfa ;height: 20px !important;"
-              [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.approved'>
-            </div>
-            <div style="background-color: gray ;height: 20px !important;"
-              [style.width.%]='100 / mapData?.formWiseData?.totalForms * mapData?.formWiseData?.rejected'>
-            </div>
-          </div>
-    
-          <div class="row">
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #e67e15;"></div>
-              <span class="markerText">Verification not started: {{ mapData?.formWiseData?.verificationNotStarted }}</span>
-            </div>
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #193369;"></div>
-              <span class="markerText">Verification in progress: {{ mapData?.formWiseData?.verificationInProgress }}</span>
-            </div>
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: #38cdfa;"></div>
-              <span class="markerText">Approved: {{ mapData?.formWiseData?.approved }}</span>
-            </div>
-            <div class="col-6 d-flex mt-2">
-              <div class="circular-div" style="background-color: gray;"></div>
-              <span class="markerText">Rejected: {{ mapData?.formWiseData?.rejected }}</span>
-            </div>
-          </div>
-        </ng-container>
-      </div>
+
+        </div>
     </div>
     <div class="col-md-5 mt-3">
-      <div class="row d-flex" style="display: flex; align-items: center; justify-content: space-between;">
-        <div class="form-group col-md-4">
-          <div class="input-group inp-grp">
-            <form [formGroup]="myForm" class="w-100">
-              <angular2-multiselect [ngClass]="{'pe-none': isState}" class="expo-drp-in" [data]="stateList" formControlName="stateId"
-                [settings]="dropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)"
-                (onDeSelect)="onSelectingStateFromDropDown(null)">
-              </angular2-multiselect>
-            </form>
-          </div>
-  
+        <div class="row d-flex" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="form-group col-md-4">
+                <div class="input-group inp-grp">
+                    <form [formGroup]="myForm" class="w-100">
+                        <angular2-multiselect [ngClass]="{'pe-none': isState}" class="expo-drp-in" [data]="stateList"
+                            formControlName="stateId" [settings]="dropdownSettings"
+                            (onSelect)="onSelectingStateFromDropDown($event)"
+                            (onDeSelect)="onSelectingStateFromDropDown(null)">
+                        </angular2-multiselect>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-4 col-sm-4 col-md-4 ps-3">
+                <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="onCategoryChange()">
+                    <option selected value="">All Categories</option>
+                    <option *ngFor="let item of populationCategories" value="{{ item._id }}">
+                        {{ item.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-4 col-sm-4 col-md-4 ps-3">
+                <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
+            </div>
         </div>
-        <div class="col-4 col-sm-4 col-md-4 ps-3">
-          <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="onCategoryChange()">
-            <option selected value="">All Categories</option>
-            <option *ngFor="let item of populationCategories" value="{{ item._id }}">
-              {{ item.name }}
-            </option>
-          </select>
-        </div>
-        <div class="col-4 col-sm-4 col-md-4 ps-3">
-          <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
-        </div>
-      </div>
-      <div class="row stateMapContainer" (click)="loadStatePopup()">
-        <!-- <div *ngIf="nationalLevelMap" style="z-index: 1000 !important; opacity: 1"
+        <div class="row stateMapContainer" (click)="loadStatePopup()">
+            <!-- <div *ngIf="nationalLevelMap" style="z-index: 1000 !important; opacity: 1"
             class="spinner container-fluid d-flex justify-content-center align-items-center">
             <mat-spinner></mat-spinner>
           </div> -->
-        <div class="col-sm-12" id="districtMapContainer"
-          [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
-        </div>
-  
-        <!-- National map starts here -->
-        <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="
+            <div class="col-sm-12" id="districtMapContainer"
+                [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
+            </div>
+
+            <!-- National map starts here -->
+            <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="
                     background-image: url('assets/Layer\ 1.png') !important;
                   ">
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
