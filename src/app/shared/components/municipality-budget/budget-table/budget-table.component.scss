@@ -1,0 +1,37 @@
+.line {
+    border-bottom: 1px solid gray;
+    width: 100%;
+}
+.spaced-table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+
+    $border: 1px solid #d9d8d8;
+    $border-radius: 4px;
+
+    tbody tr td {
+        margin-bottom: 10px;
+        border-top: $border;
+        border-bottom: $border;
+        border-left: 0;
+        border-right: 0;
+        font-size: 14px;
+        font-weight: 500;
+
+        &:first-child {
+            border-left: $border;
+            border-bottom-left-radius: $border-radius;
+            border-top-left-radius: $border-radius;
+        }
+
+        &:last-child {
+            border-right: $border;
+            border-bottom-right-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+
+        .file-type {
+            height: 25px;
+        }
+    }
+}

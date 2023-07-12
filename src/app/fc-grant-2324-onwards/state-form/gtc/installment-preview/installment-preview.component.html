@@ -37,7 +37,7 @@
         <td class="td" colspan="2">Installment</td>
         <td class="td">Amount (Rs in lakh)</td>
         <td class="td">Date of transfer</td>
-        <td class="td">No of Days of delay </td>
+        <td class="td">No. of days delayed</td>
         <td class="td">If delayed amount of interest transferr ed (with rate of interest)</td>
     </tr>
     <tr class="tr" *ngFor="let transrantdetail of formData?.transferGrantdetail_tableview_addbutton">
@@ -57,7 +57,7 @@
         <td class="td">{{ formData.grantDistribute }}</td>
         <td class="td">If No, whether notification for constitution of SFC issued</td>
         <td class="td" colspan="2">Yes/No (if yes attach a copy of notification)<br> <a
-                *ngIf="formData?.recomAvail === 'No' && formData?.sfcNotification === 'Yes' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.sfcNotificationCopy?.textValue"
+                *ngIf="formData?.recomAvail === 'No' && formData?.sfcNotificationCopy?.textValue" [href]="formData?.sfcNotificationCopy?.textValue"
                 target="_blank">{{formData?.sfcNotificationCopy?.label}}</a></td>
     </tr>
     <tr class="tr">

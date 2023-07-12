@@ -3,13 +3,16 @@
         <div class="col-sm-8 col-lg-8 col-md-8 header2">
             <span>Grant Transfer Certificate</span>
         </div>
-        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm">
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end" *ngIf="baseForm && !successErrorsMessage?.length">
             <button type="button" class="btn btn-primary" (click)="onPreview()" style="margin-top: .2rem;"
                 id="prevBtn">PREVIEW</button>
         </div>
     </div>
-    <div class="pre-y" *ngIf="successErrorMessage" [innerHTML]="successErrorMessage"></div>
-    <div class="row mt-3">
+    <!-- <p>{{ successErrorsMessage | json}}</p> -->
+    <div class="alert alert-danger my-2" role="alert" *ngIf="successErrorsMessage?.length">
+        <div *ngFor="let error of successErrorsMessage" class="mb-2" [innerHTML]="error"></div>
+    </div>
+    <div class="row mt-3" *ngIf="!successErrorsMessage?.length">
         <div class="col-sm-12">
             <accordion>
                 <accordion-group [isDisabled]="formItem?.isDisabled" class="mb-3"
@@ -57,7 +60,8 @@
                                         <a class="w-90" href="{{question?.file?.url}}"
                                             target="_blank">{{question?.file?.name}} <mat-icon>cloud_download
                                             </mat-icon></a>
-                                        <a *ngIf="!question?.questionresponse?.data[0]?.language[0].isQuestionDisabled" href="{{question?.file?.url}}" target="_blank"
+                                        <a *ngIf="!question?.questionresponse?.data[0]?.language[0].isQuestionDisabled"
+                                            href="{{question?.file?.url}}" target="_blank"
                                             (click)="uploadFile($event, 'pdf', question, true, 'file')" class="w-10">
                                             <img src="/assets/form-icon/close_black_24dp.svg">
                                         </a>
@@ -68,8 +72,7 @@
                             <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'gtc'" [isProjectLoaded]="true"
                                 (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
                                 [isButtonDisplay]="true" *ngIf="question.questionresponse"
-                                [formIdentifier]="question?.key"
-                                [questionresponse]="question.questionresponse">
+                                [formIdentifier]="question?.key" [questionresponse]="question.questionresponse">
                             </app-web-form>
 
                             <!-- <div class="row mt-3"
