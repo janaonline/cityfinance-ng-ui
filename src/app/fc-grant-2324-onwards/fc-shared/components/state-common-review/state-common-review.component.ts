@@ -18,7 +18,7 @@ export class StateCommonReviewComponent implements OnInit {
   ) { }
   
   @Input() canTakeAction:boolean = false;
-  @Input() uploadFolderName:string = '';
+  @Input() formName:string = '';
   @Input() errorInAction = false;
   @Input() isActionSubmitted = false;
   @Input() actBtnDis:boolean = false;
@@ -26,7 +26,7 @@ export class StateCommonReviewComponent implements OnInit {
   @Output() formChangeEventEmit = new EventEmitter();
   @Input() question;
   @Input() actionPayload;
-
+  uploadFolderName:string = '';
   statusIdForApprove:string = '6';
   statusIdForReject:string = '7';
   Years = JSON.parse(localStorage.getItem("Years"));
@@ -70,7 +70,11 @@ export class StateCommonReviewComponent implements OnInit {
     console.log('formdata', this.formData);
 
     console.log('formdata actionPayload', this.actionPayload);
-    
+    let code = this.userData?.stateCode;
+    if (!code) {
+     code = sessionStorage.getItem('stateCode');
+     }
+    this.uploadFolderName = `${this.userData?.role}/2023-24/supporting_douments/${this.formName}/${code}`;
   }
 
   formValueChange(event, type, question){
