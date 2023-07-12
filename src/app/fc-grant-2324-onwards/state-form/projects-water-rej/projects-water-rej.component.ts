@@ -1236,12 +1236,6 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
      }
      )
    }
-
-   getValueForView(projectRow, controlName){
-    console.log('abcdefgh', projectRow);
-     this._snackBar.open("Unable to save the file..",'', {"duration": 2000});
-    
-   }
 }
 
 

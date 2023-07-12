@@ -46,7 +46,7 @@
                                       <td class="t-i">
                                           <span class="h-4" >{{1+waterBodiesIndex}}</span>
                                       </td>
-                                      <td (mouseenter)="getValueForView(projectRow, 'name')">
+                                      <td>
                                           <input class="h-4" formControlName="name" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" 
                                           [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" 
