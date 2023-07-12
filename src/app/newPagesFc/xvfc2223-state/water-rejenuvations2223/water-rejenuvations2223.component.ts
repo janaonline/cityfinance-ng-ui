@@ -1790,7 +1790,7 @@ nextRouter = '';
 
   uploadFiles(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
-      let folderName = `${this.userData?.role}/'2022-23'/projects_wss/${this.userData?.stateCode}`
+      let folderName = `${this.userData?.role}/2022-23/projects_wss/${this.userData?.stateCode}`
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_url"];

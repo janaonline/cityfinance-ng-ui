@@ -35,7 +35,7 @@
                     <div class="action-div p-3">
                         <app-state-common-review [canTakeAction]="item?.canTakeAction" [question]="item"
                         [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
-                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted"></app-state-common-review>
+                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted" [formName]="'action_plan'"></app-state-common-review>
                     </div>
                   
                 </div>
