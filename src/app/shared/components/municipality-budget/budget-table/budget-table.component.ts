@@ -8,15 +8,20 @@ import { MunicipalityBudgetService } from '../municipality-budget.service';
 })
 export class BudgetTableComponent implements OnInit {
 
-  budgetData: any[] = [];
+  documents: {
+    name: string;
+    url: string;
+    type: 'pdf';
+    modifiedAt: string;
+  }[] = [];
 
   constructor(
     private municipalityBudgetsService: MunicipalityBudgetService
   ) { }
 
   ngOnInit(): void {
-    this.municipalityBudgetsService.get().subscribe(({ data }: any) => {
-      this.budgetData = data.slice(0, 10);
+    this.municipalityBudgetsService.getDocuments().subscribe(({ data }: any) => {
+      this.documents = data;
     })
   }
 
