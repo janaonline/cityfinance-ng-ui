@@ -11,7 +11,7 @@ export class MunicipalityBudgetService {
     private http: HttpClient
   ) { }
 
-  getDocuments() {
-    return this.http.get(`${environment.api.url}municipality-budgets/documents`)
+  getDocuments(params = {}) {
+    return this.http.get(`${environment.api.url}municipality-budgets/documents`, { params })
   }
 }
