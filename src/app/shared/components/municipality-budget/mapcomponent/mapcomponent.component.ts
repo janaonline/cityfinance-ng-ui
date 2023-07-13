@@ -35,6 +35,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   @Output() onCardClick = new EventEmitter();
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
+  @Input() insight;
   randomNumber = 0;
 
 

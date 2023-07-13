@@ -21,7 +21,7 @@
             <td>
                 <img  [src]="'assets/new_dashBord_ftr_hdr/' + document?.type + '.png'" class="file-type" />
             </td>
-            <td>{{ document?.name }}</td>
+            <td><a [href]="document.url" download>{{ document?.name }}</a></td>
             <td>{{ document?.modifiedAt | date:'dd-MM-yyyy' }}</td>
         </tr>
     </tbody>
