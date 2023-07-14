@@ -1,0 +1,26 @@
+<div class="container bg-light py-3">
+    <h3 class="text-center">Filters</h3>
+    <form class="row g-3" (submit)="onSubmit()" (reset)="onReset()">
+        <ng-container *ngFor="let control of form.controls">
+            <div class="col-auto" *ngIf="control.value.type != 'select'">
+                <label [for]="'common-filter' + index + control.value.id" class="visually-hidden">{{ control.value.label
+                    }}</label>
+                <input style="padding: 18px;" [type]="control.value.type" class="form-control" [formControl]="control.controls.value"
+                    [id]="'common-filter' + index + control.value.id" [placeholder]="control.value.placeholder">
+            </div>
+
+            <div class="col-auto" *ngIf="control.value.type == 'select'">
+                <select class="form-select" [formControl]="control.controls.value">
+                    <option *ngFor="let option of control.value.options" [value]="option.id"
+                        [disabled]="option.disabled">{{ option.label }}</option>
+                </select>
+            </div>
+        </ng-container>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Filter</button>
+        </div>
+        <div class="col-auto">
+            <button type="reset" class="btn btn-primary mb-3">Reset</button>
+        </div>
+    </form>
+</div>
