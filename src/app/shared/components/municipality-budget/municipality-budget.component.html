@@ -1,8 +1,8 @@
 <div class="container-fluid pd-c" style="overflow-x: hidden;">
     <div class="row">
-        <app-mapcomponent *ngIf="mapData" [mapData]="mapData" (onStateChange)="onStateChange($event)"
-            (onCardClick)="onCardClick($event)" [populationCategories]="populationCategories">
+        <app-mapcomponent *ngIf="mapData" [insight]="insight" [mapData]="mapData" (onStateChange)="onStateChange($event)"
+            (onCardClick)="onCardClick($event)" [categories]="categories">
         </app-mapcomponent>
-        <app-budget-table></app-budget-table>
+        <app-budget-table [documents]="documents" (onFilterChanges)="onFilterChanges($event)"></app-budget-table>
     </div>
 </div>
