@@ -10,6 +10,11 @@ import { MunicipalityBudgetService } from './municipality-budget.service';
 export class MunicipalityBudgetComponent implements OnInit {
 
   details: any[] = [];
+  types = [
+    { name: 'Municipal Corporation', _id: '5dcfa67543263a0e75c71697' },
+    { name: 'Town Panchayat', _id: '5dcfa66b43263a0e75c71696' },
+    { name: 'Municipality', _id: '5dcfa64e43263a0e75c71695' },
+  ]
   perPage: number = 10;
   mapData: MapData;
   insight;
@@ -25,7 +30,7 @@ export class MunicipalityBudgetComponent implements OnInit {
   }
 
   onPerPageChange() {
-    
+
   }
 
   loadMapData(params = {}) {
@@ -35,10 +40,13 @@ export class MunicipalityBudgetComponent implements OnInit {
     })
   }
 
-  loadInsights() {
-    this.municpalityBudgetService.getInsights().subscribe(({ data }: any) => {
+  loadInsights(params = {}) {
+    this.municpalityBudgetService.getInsights(params).subscribe(({ data }: any) => {
       this.insight = data;
     })
   }
 
+  onStateChange(e) {
+    this.loadInsights(e);
+  }
 }

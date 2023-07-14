@@ -39,7 +39,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   randomNumber = 0;
 
 
-  @Input() populationCategories: any = [];
+  @Input() types: any = [];
   nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
@@ -281,7 +281,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   ngAfterViewInit(): void {
-    console.log(this.populationCategories, 'this.populationCategoriesthis.populationCategories')
+    console.log(this.types, 'this.populationCategoriesthis.populationCategories')
   }
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);

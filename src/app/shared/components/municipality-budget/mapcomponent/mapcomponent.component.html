@@ -10,30 +10,30 @@
             <div class="row">
                 <div class="col-4">
                     <h3>{{ insight.ulbCount }}</h3>
-                    <small class="fw-light">ULBs with atleast 1 Year of Financial Data</small>
+                    <small class="fw-light">Count of total ULBs active on Cityfinance.in</small>
                 </div>
                 <div class="col-4">
                     <h3>{{ insight.atLeastOneYearCount }}</h3>
-                    <small class="fw-light">Financial Statements for FYs 2015-16 to 20-21</small>
+                    <small class="fw-light">Count of ULBs with at least one year of budget data available on CF.</small>
                 </div>
                 <div class="col-4">
-                    <h3>{{ insight.fy2020_21 }} <mat-icon [matTooltip]="'2,546 ULBs out of 4,788'">info_outline</mat-icon></h3>
-                    <small class="fw-light">ULBs Credit Rating Reports</small>
+                    <h3>{{ insight.fy2020_21 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2020_21 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <small class="fw-light">Budget statments for FY 2020-21</small>
                 </div>
             </div>
 
             <div class="row mt-5">
                 <div class="col-4">
-                    <h3>{{ insight.fy2021_22 }} <mat-icon [matTooltip]="'2,546 ULBs out of 4,788'">info_outline</mat-icon></h3>
-                    <small class="fw-light">ULBs With Investment Grade Rating</small>
+                    <h3>{{ insight.fy2021_22 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2021_22 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <small class="fw-light">Budget statments for FY 2021-22</small>
                 </div>
                 <div class="col-4">
-                    <h3>{{ insight.fy2022_23 }} <mat-icon [matTooltip]="'2,546 ULBs out of 4,788'">info_outline</mat-icon></h3>
-                    <small class="fw-light">Highest Financial Data Availability is in FY 2015-16</small>
+                    <h3>{{ insight.fy2022_23 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2022_23 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <small class="fw-light">Budget statments for FY 2022-23</small>
                 </div>
                 <div class="col-4">
-                    <h3>{{ insight.fy2023_24 }}</h3>
-                    <small class="fw-light">Municipal Bond Issuances Of Rs. 5,459 Cr With Details</small>
+                    <h3>{{ insight.fy2023_24 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2023_24 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <small class="fw-light">Budget statments for FY 2023-24</small>
                 </div>
             </div>
             <small class="fw-light mt-2">* As per the data submitted by ULB.</small>
@@ -56,8 +56,8 @@
             <div class="col-4 col-sm-4 col-md-4 ps-3">
                 <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="onCategoryChange()">
                     <option selected value="">All Categories</option>
-                    <option *ngFor="let item of populationCategories" value="{{ item._id }}">
-                        {{ item.name }}
+                    <option *ngFor="let type of types" value="{{ type._id }}">
+                        {{ type.name }}
                     </option>
                 </select>
             </div>
