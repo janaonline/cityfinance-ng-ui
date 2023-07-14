@@ -1,13 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormField } from '../../common-filter/common-filter.component';
-import { MunicipalityBudgetService } from '../municipality-budget.service';
 
-interface Document {
-  name: string;
-  url: string;
-  type: 'pdf';
-  modifiedAt: string;
-}
 
 const years = {
   "2017-18": "63735a4bd44534713673bfbf",
@@ -27,7 +20,9 @@ const years = {
 })
 export class BudgetTableComponent implements OnInit {
 
-  documents: Document[] = [];
+  @Input() documents: Document[] = [];
+
+  @Output() onFilterChanges = new EventEmitter();
 
   filterInputs: FormField[] = [
     {
@@ -54,35 +49,21 @@ export class BudgetTableComponent implements OnInit {
       value: '',
       placeholder: '',
       options: [
-        {label: 'All years', id: ''},
-        ...Object.entries(years).map(([label, id]) => ({ label, id}))
+        { label: 'All years', id: '' },
+        ...Object.entries(years).map(([label, id]) => ({ label, id }))
       ]
     },
   ];
 
   constructor(
-    private municipalityBudgetsService: MunicipalityBudgetService
-  ) { }
-
-
-  get years() {
-    return JSON.parse(localStorage.getItem("Years"));
-  }
-
+  ) { }  
+  
   ngOnInit(): void {
-    this.getDocuments();
+      
   }
 
-  getDocuments(payload = {}) {
-    this.municipalityBudgetsService.getDocuments(payload).subscribe(({ data }: any) => {
-      this.documents = data;
-    })
+  onUpdate(e) {
+    console.log('onUpdate', e);
+    this.onFilterChanges.emit(e);
   }
-
-
-  onFilterChanges(event) {
-    console.log('onFilterChanges', event);
-    this.getDocuments(event);
-  }
-
 }

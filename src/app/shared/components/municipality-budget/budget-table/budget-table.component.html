@@ -5,7 +5,7 @@
     <div class="line"></div>
 </div>
 
-<app-common-filter [fields]="filterInputs" (onUpdate)="onFilterChanges($event)" ></app-common-filter>
+<app-common-filter [fields]="filterInputs" (onUpdate)="onUpdate($event)" ></app-common-filter>
 
 <h2 *ngIf="!documents?.length" class="text-center my-5">Not item found</h2>
 <table class="table container spaced-table table-bordered table-striped" *ngIf="documents?.length">
