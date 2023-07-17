@@ -144,6 +144,7 @@ input::-webkit-inner-spin-button {
 
 .falseVal {
     border-color: red;
+    background-color: #fff;
 }
 
 .icon {
@@ -183,21 +184,21 @@ input::-webkit-inner-spin-button {
     padding: 5rem 5rem;
 }
 
-.anDisable {
+.anDisable, .ua-disable {
     pointer-events: none;
   
     input,
     select,
     textarea {
         background-color: #e9ecef;
-        opacity: 1;
+        opacity: .8;
     }
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .6;
+        opacity: .75;
     }
     .d-i {
-        opacity: .6;
+        opacity: .75;
     }
     .td {
         cursor: not-allowed;
