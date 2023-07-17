@@ -576,6 +576,7 @@ completeWaterRejData: any | object;
         this.setSkipLogic(this.data);
         this.isDisabled = this.setDisableForm(res["data"]);
         if(this.isDisabled) this.waterRejenuvation.disable();
+        this.getUAdisabled();
         this.actionPayloadPrepare();
       },
       (err) => {
@@ -623,7 +624,7 @@ completeWaterRejData: any | object;
  }
 
   getDisableRow(pRow) {
-    //  console.log('prow...', pRow);
+      // console.log('prow...', pRow);
     return pRow?.value?.isDisable;
     // return false
   }
@@ -1236,6 +1237,18 @@ uploadOnS3(file, fileName, fileType, folderName, uploadType){
      }
      )
    }
+
+   getUAdisabled(){
+    this.completeWaterRejData?.uaData?.forEach(el => {
+      if(el?.statusId == 4 || el?.statusId == 6 || this.userData?.role != 'STATE'){
+        el["isDisabled"] = true;
+      }else{
+        el["isDisabled"] = false;
+      }
+    });
+    
 }
 
+
+}
 
