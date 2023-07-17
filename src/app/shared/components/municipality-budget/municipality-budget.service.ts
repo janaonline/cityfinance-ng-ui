@@ -19,4 +19,8 @@ export class MunicipalityBudgetService {
   getInsights(params = {}) {
     return this.http.get(`${environment.api.url}municipality-budgets/insights`, { params })
   }
+
+  getHeatmap(params = {}) {
+    return this.http.get(`${environment.api.url}municipality-budgets/heatMap`, { params })
+  }
 }

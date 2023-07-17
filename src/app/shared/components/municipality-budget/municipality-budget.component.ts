@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FiscalRankingService, MapData } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { MunicipalityBudgetService } from './municipality-budget.service';
 
@@ -16,9 +16,11 @@ interface Document {
 })
 export class MunicipalityBudgetComponent implements OnInit {
 
+  @ViewChild('heatMap') heatMapComponent;
+
   details: any[] = [];
   documents: Document[] = [];
-  filters = {};
+  filters: any = {};
 
   categories = [
     { name: 'Municipal Corporation', _id: '5dcfa67543263a0e75c71697' },
@@ -68,7 +70,7 @@ export class MunicipalityBudgetComponent implements OnInit {
   getDocuments() {
     this.municipalityBudgetsService.getDocuments({
       category: this.category,
-      state: this.state, 
+      state: this.state,
       ...this.filters
     }).subscribe(({ data }: any) => {
       this.documents = data;
@@ -81,6 +83,7 @@ export class MunicipalityBudgetComponent implements OnInit {
   }
 
   onStateChange(e) {
+    this.heatMapComponent?.getStateWiseForm({ category: e?.category });
     this.state = e?.state;
     this.category = e?.category;
     this.loadInsights(e);
