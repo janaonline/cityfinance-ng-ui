@@ -93,6 +93,11 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
      console.log('this.data 453', this.data);
      this.actionPayload["states"].push(this.stateId);
      this.data.uaData.forEach((elem)=>{
+      if (elem?.statusId == 4 || elem?.statusId == 6 || this.userData?.role != 'STATE') {
+        elem["isDisabled"] = true;
+      } else {
+        elem["isDisabled"] = false;
+      }
        this.actionPayload.shortKeys.push(elem?.uaCode);
        let actionObj = {
          "shortKey": elem?.uaCode,
@@ -159,5 +164,6 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
      }
      )
    }
+
 
 }

@@ -28,7 +28,7 @@
                     <app-ag-grid [catList]="projectCategories" 
                     (gridData)="getDataFromGrid($event, projectIndex)" 
                     [ulbList]="item.ulbList" [rowData]="item" 
-                    [isDisabled]="isDisabled">
+                    [isDisabled]="item?.isDisabled">
                     </app-ag-grid>
 
                     <!-- review process for MoHUA -->
