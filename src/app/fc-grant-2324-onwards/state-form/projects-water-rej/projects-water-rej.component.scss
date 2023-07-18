@@ -242,6 +242,7 @@ input::-webkit-inner-spin-button {
     input,
     textarea {
         background-color: #fff;
+        
     }
 }
 
@@ -296,5 +297,6 @@ display: inline-block;
     display: flex; position: relative; bottom: 2px;
 }
 .infoIcon {
-    width: 16px;height: 16px;
+    width: 16px;
+    height: 16px;
 }
