@@ -35,6 +35,9 @@
     margin-top: 8px;
     color: #FFFFFF;
 }
+.nav-link.active .upscale-icon {
+    filter: invert(1);
+}
 
 @media (min-width:961px) {
     .sidebar {
