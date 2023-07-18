@@ -108,7 +108,7 @@ label {
 
 .c-st {
     font-size: 15px;
-    padding-left: 15px;
+  //  padding-left: 15px;
 }
 
 .aco-d {
@@ -123,4 +123,9 @@ label {
 ::ng-deep .tooltip-red {
     background: #b71c1c;
     font-size: 12px;
+}
+.inst {
+    font-size: 18px !important;
+    margin-bottom: 1rem;
+    font-weight: 500;
 }
