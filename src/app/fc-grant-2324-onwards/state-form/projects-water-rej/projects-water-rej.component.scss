@@ -195,10 +195,10 @@ input::-webkit-inner-spin-button {
     }
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .75;
+        opacity: .80;
     }
     .d-i {
-        opacity: .75;
+        opacity: .80;
     }
     .td {
         cursor: not-allowed;
@@ -225,10 +225,10 @@ input::-webkit-inner-spin-button {
 
 .disableInputs {
     pointer-events: none !important;
-    opacity: .75;
+    opacity: .80;
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .75;
+        opacity: .80;
     }
 }
 
@@ -297,6 +297,5 @@ display: inline-block;
     display: flex; position: relative; bottom: 2px;
 }
 .infoIcon {
-    width: 16px;
-    height: 16px;
+    width: 16px;height: 16px;
 }
