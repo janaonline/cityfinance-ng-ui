@@ -22,6 +22,7 @@ import * as fileSaver from "file-saver";
 // import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { FiscalRankingService, MapData } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { MunicipalityBudgetService } from '../municipality-budget.service';
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require('../../../../../assets/jsonFile/state_boundries.json');
@@ -35,10 +36,11 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   @Output() onCardClick = new EventEmitter();
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
+  @Input() insight;
   randomNumber = 0;
 
 
-  @Input() populationCategories: any = [];
+  @Input() categories: any = [];
   nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
@@ -144,7 +146,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     private assetService: AssetsService,
     private router: Router,
     private nationalMapService: NationalMapSectionService,
-    private fiscalRankingService: FiscalRankingService,
+    private municipalityBudgetsService: MunicipalityBudgetService,
     private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
@@ -183,10 +185,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#194d5e", text: "76%-100%" },
-      { color: "#059b9a", text: "51%-75%" },
-      { color: "#8BD2F0", text: "26%-50%" },
-      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#65bf7d", text: "76%-100%" },
+      { color: "#a7dab5", text: "51%-75%" },
+      { color: "#cde9d6", text: "26%-50%" },
+      { color: "#e0f1e7", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
@@ -219,11 +221,11 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
     return Promise.all(prmsArr);
   }
 
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+  getStateWiseForm(params = {}) {
+    this.municipalityBudgetsService.getHeatmap(params).subscribe((res: any) => {
       console.log('state wise response', res);
 
-      this.colorCoding = res?.data.heatMaps;
+      this.colorCoding = res?.data;
 
       this.initializeNationalLevelMapLayer(this.stateLayers);
       this.createNationalLevelMap(
@@ -251,16 +253,16 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   getColor(value: number) {
     if (value > 75) {
-      return "#194d5e";
+      return "#65bf7d";
     }
     if (value > 50) {
-      return "#059b9a";
+      return "#a7dab5";
     }
     if (value > 25) {
-      return "#8BD2F0";
+      return "#cde9d6";
     }
     if (value > 1) {
-      return `#D0EDF9`;
+      return `#e0f1e7`;
     }
     return "#E5E5E5";
   }
@@ -280,7 +282,7 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
   }
 
   ngAfterViewInit(): void {
-    console.log(this.populationCategories, 'this.populationCategoriesthis.populationCategories')
+    console.log(this.categories, 'this.populationCategoriesthis.populationCategories')
   }
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
