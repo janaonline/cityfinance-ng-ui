@@ -221,7 +221,7 @@ export class GtcComponent implements OnInit {
       design_year: this.design_year,
       state: this.stateId,
       installment: question.installment,
-      key: question?.key,
+      key: question?.type,
       rejectReason_mohua: question?.rejectReason_mohua,
       responseFile_mohua: question?.responseFile_mohua,
     }
