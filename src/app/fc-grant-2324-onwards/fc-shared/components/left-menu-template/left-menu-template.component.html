@@ -14,19 +14,22 @@
     <ul class="nav nav-pills flex-column mb-auto">
         <ng-container *ngFor="let menuItem of leftMenu | keyvalue : returnPostion">
             <li class="out-f-h px-3 py-2 collapsable" *ngIf="(menuItem?.key?.split('_'))[0]">
-                <mat-icon class="pull-right" aria-hidden="false">
+                <!-- <mat-icon class="pull-right" aria-hidden="false">
                     <img src="assets/form-icon/checked.svg">
-                </mat-icon>
+                </mat-icon> -->
                 <span>
                     {{(menuItem?.key?.split('_'))[0]}}
                 </span>
             </li>
             <li *ngFor="let sideItem of menuItem?.value">
-                <a routerLinkActive="active" [routerLink]="sideItem?.url" class="nav-link link-light">
-                    <mat-icon aria-hidden="false" class="svg-gt ml-2">
-                        <img class="upscale-icon" src="{{sideItem?.icon}}">
-                    </mat-icon>
-                    <span class="collapsable" style="margin-left: 10px;">{{sideItem?.name}}</span>
+                <a routerLinkActive="active" [routerLink]="sideItem?.url"
+                    class="nav-link d-flex justify-content-between link-light">
+                    <div class="d-flex">
+                        <mat-icon aria-hidden="false" class="svg-gt ml-2" style="flex: 0 0 15px;">
+                            <img class="upscale-icon" src="{{sideItem?.icon}}">
+                        </mat-icon>
+                        <span class="collapsable" style="margin-left: 10px;">{{sideItem?.name}}</span>
+                    </div>
                     <mat-icon class="pull-right collapsable" aria-hidden="false" [tooltip]="sideItem?.tooltip">
                         <img src="{{sideItem?.tick}}">
                     </mat-icon>

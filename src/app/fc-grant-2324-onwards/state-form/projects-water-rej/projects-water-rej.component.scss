@@ -195,10 +195,10 @@ input::-webkit-inner-spin-button {
     }
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .75;
+        opacity: .80;
     }
     .d-i {
-        opacity: .75;
+        opacity: .80;
     }
     .td {
         cursor: not-allowed;
@@ -225,10 +225,10 @@ input::-webkit-inner-spin-button {
 
 .disableInputs {
     pointer-events: none !important;
-    opacity: .75;
+    opacity: .80;
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .75;
+        opacity: .80;
     }
 }
 
@@ -242,6 +242,7 @@ input::-webkit-inner-spin-button {
     input,
     textarea {
         background-color: #fff;
+        
     }
 }
 

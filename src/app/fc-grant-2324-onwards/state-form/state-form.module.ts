@@ -32,6 +32,7 @@ import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.componen
 import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-preview/indicator-wss-preview.component';
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/propert
     AccordionModule.forRoot(),
     CollapseModule.forRoot(),
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
+    TooltipModule.forRoot()
   ]
 })
 export class StateFormModule { }
