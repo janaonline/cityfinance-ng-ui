@@ -31,7 +31,7 @@ export class PfmsComponent implements OnInit {
   userData: object | any;
   designYearArray = [];
   getQuery: queryParam = {
-    design_year: '606aafc14dff55e6c075d3ec',
+    design_year: '',
     formId: null,
     ulb: null
   };
@@ -455,7 +455,7 @@ getNextPreUrl() {
   };
   this.getQuery = {
     design_year: this.designYearArray["2023-24"],
-    formId: this.formId,
+    formId: this.formId ? this.formId : 8 ,
     ulb: this.ulbId
   };
   this.callGetApi(this.endPoints, this.getQuery);
