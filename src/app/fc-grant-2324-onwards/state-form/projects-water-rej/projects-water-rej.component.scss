@@ -144,6 +144,7 @@ input::-webkit-inner-spin-button {
 
 .falseVal {
     border-color: red;
+    background-color: #fff;
 }
 
 .icon {
@@ -183,21 +184,21 @@ input::-webkit-inner-spin-button {
     padding: 5rem 5rem;
 }
 
-.anDisable {
+.anDisable, .ua-disable {
     pointer-events: none;
   
     input,
     select,
     textarea {
         background-color: #e9ecef;
-        opacity: 1;
+        opacity: .8;
     }
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .6;
+        opacity: .80;
     }
     .d-i {
-        opacity: .6;
+        opacity: .80;
     }
     .td {
         cursor: not-allowed;
@@ -224,10 +225,10 @@ input::-webkit-inner-spin-button {
 
 .disableInputs {
     pointer-events: none !important;
-    opacity: .75;
+    opacity: .80;
     .rdBtn {
         background-color: #e9ecef !important;
-        opacity: .75;
+        opacity: .80;
     }
 }
 
@@ -241,6 +242,7 @@ input::-webkit-inner-spin-button {
     input,
     textarea {
         background-color: #fff;
+        
     }
 }
 

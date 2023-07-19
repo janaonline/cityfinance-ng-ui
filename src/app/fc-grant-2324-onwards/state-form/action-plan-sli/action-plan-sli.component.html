@@ -28,19 +28,29 @@
                     <app-ag-grid [catList]="projectCategories" 
                     (gridData)="getDataFromGrid($event, projectIndex)" 
                     [ulbList]="item.ulbList" [rowData]="item" 
-                    [isDisabled]="isDisabled">
+                    [isDisabled]="item?.isDisabled">
                     </app-ag-grid>
 
                     <!-- review process for MoHUA -->
-                    <!-- <div class="action-div p-3">
-                        <app-state-common-review [canTakeAction]="true" [question]="item"
+                    <div class="action-div p-3">
+                        <app-state-common-review [canTakeAction]="item?.canTakeAction" [question]="item"
                         [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
-                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted"></app-state-common-review>
-                    </div> -->
+                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted" [formName]="'action_plan'"></app-state-common-review>
+                    </div>
                   
                 </div>
             </div>
 
+        </div>
+        <!-- final status view  -->
+        <div class="row" *ngIf="data?.statusId == 4 || data?.statusId == 6 || data?.statusId == 7">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body fw-bold">
+                        Form Status : {{data?.status}}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mt-5 mb-4" *ngIf="data?.uaData">
             <div class="col-sm-3">

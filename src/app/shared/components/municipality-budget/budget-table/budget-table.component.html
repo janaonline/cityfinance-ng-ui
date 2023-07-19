@@ -1,0 +1,28 @@
+
+<div class="d-flex align-items-center mt-2 mb-5">
+    <div class="line"></div>
+    <span style="background-color: #E67E15;" class="px-4 p-2 text-light rounded">Budget</span>
+    <div class="line"></div>
+</div>
+
+<app-common-filter [fields]="filterInputs" (onUpdate)="onUpdate($event)" ></app-common-filter>
+
+<h2 *ngIf="!documents?.length" class="text-center my-5">Not item found</h2>
+<table class="table container spaced-table table-bordered table-striped" *ngIf="documents?.length">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col"></th>
+            <th scope="col">Document Name</th>
+            <th scope="col">Updated on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let document of documents">
+            <td>
+                <img  [src]="'assets/new_dashBord_ftr_hdr/' + document?.type + '.png'" class="file-type" />
+            </td>
+            <td><a [href]="document.url" download>{{ document?.name }}</a></td>
+            <td>{{ document?.modifiedAt | date:'dd-MM-yyyy' }}</td>
+        </tr>
+    </tbody>
+</table>

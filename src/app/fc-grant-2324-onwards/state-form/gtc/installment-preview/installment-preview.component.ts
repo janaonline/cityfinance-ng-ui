@@ -42,34 +42,14 @@ export class InstallmentPreviewComponent implements OnInit {
         console.log('special case');
         this.formData.transferGrantdetail_tableview_addbutton = parentQuestion?.childQuestionData
           ?.map(childQuestion => (childQuestion?.reduce((obj, question) => {
-            if (question.input_type == '2' || question.input_type == '14') {
-              obj[question.shortKey] = question.modelValue;
-            }
-            else if (question.input_type == '3') {
-              obj[question.shortKey] = question.selectedValue?.[0]?.label;
-            }
-            else if (question.input_type == '5') {
-              obj[question.shortKey] = question.selectedValue?.[0].textValue;
-            }
+            this.hadleInputType(question, obj);
             return obj;
           }, {})));
       }
       parentQuestion.childQuestionData?.forEach(childQuestion => {
         childQuestion.forEach(question => {
           if (this.formData.hasOwnProperty(question.shortKey)) {
-            if (question.input_type == '2' || question.input_type == '14') {
-              this.formData[question.shortKey] = question.modelValue;
-            }
-            else if (question.input_type == '3') {
-              this.formData[question.shortKey] = question.selectedValue?.[0]?.label;
-            }
-            else if (question.input_type == '5') {
-              this.formData[question.shortKey] = question.selectedValue?.[0]?.textValue;
-            }
-            else if (question.input_type == '11') {
-              this.formData[question.shortKey] = question.selectedValue?.[0];
-              console.log(question.shortKey, this.formData[question.shortKey]);
-            }
+            this.hadleInputType(question, this.formData);
           }
         });
       })
@@ -78,4 +58,19 @@ export class InstallmentPreviewComponent implements OnInit {
     console.log(this.formData);
   }
 
+  hadleInputType(question, obj) {
+    if (question.input_type == '2' || question.input_type == '14') {
+      obj[question.shortKey] = question.modelValue?.split('-').reverse().join('-');
+    }
+    else if (question.input_type == '3') {
+      obj[question.shortKey] = question.selectedValue?.[0]?.label;
+    }
+    else if (question.input_type == '5') {
+      obj[question.shortKey] = question.selectedValue?.[0]?.textValue;
+    }
+    else if (question.input_type == '11') {
+      obj[question.shortKey] = question.selectedValue?.[0];
+      console.log(question.shortKey, obj[question.shortKey]);
+    }
+  }
 }

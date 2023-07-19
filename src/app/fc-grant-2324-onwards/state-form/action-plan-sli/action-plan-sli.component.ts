@@ -51,9 +51,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
     "design_year": this.Year["2023-24"],
     "formId": 13,
     "type": "STATE",
-    "states": [
-      this.stateId
-    ],
+    "states": [],
     "responses": [
       // {
       //   "shortKey": "UA_44_HR021",
@@ -80,6 +78,7 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
       // "UA_223_ML002"
     ]
   }
+  canTakeAction: boolean = false;
   ngOnInit(): void {
    this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
    this.getUAList();
@@ -92,7 +91,13 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
    }
    actionPayloadPrepare(){
      console.log('this.data 453', this.data);
+     this.actionPayload["states"].push(this.stateId);
      this.data.uaData.forEach((elem)=>{
+      if (elem?.statusId == 4 || elem?.statusId == 6 || this.userData?.role != 'STATE') {
+        elem["isDisabled"] = true;
+      } else {
+        elem["isDisabled"] = false;
+      }
        this.actionPayload.shortKeys.push(elem?.uaCode);
        let actionObj = {
          "shortKey": elem?.uaCode,
@@ -159,5 +164,6 @@ export class ActionPlanSliComponent extends ActionPlanComponent implements OnIni
      }
      )
    }
+
 
 }

@@ -1,0 +1,84 @@
+<div class="row mb-3 mt-2" style="display: flex;justify-content: space-evenly;flex-wrap: wrap;">
+    <div class="col-md-5 mt-4 mb-3" *ngIf="insight">
+        <h2 class="my-2">Dashboard</h2>
+
+        <div class="bg-light my-5 p-3">
+            <h2 class="my-2">Explore</h2>
+            <p class="fw-light small-font">Select a state or city to know more about its municipal budget information</p>
+            <h4 class="py-1 my-4 px-2 border-5 border-start border-warning">India</h4>
+
+            <div class="row">
+                <div class="col-4">
+                    <h3>{{ insight.ulbCount }}</h3>
+                    <p class="fw-light small-font">Count of total ULBs active on Cityfinance.in</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{ insight.atLeastOneYearCount }}</h3>
+                    <p class="fw-light small-font">Count of ULBs with at least one year of budget data available on CF.</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{ insight.fy2020_21 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2020_21 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <p class="fw-light small-font">Budget statments for FY 2020-21</p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-4">
+                    <h3>{{ insight.fy2021_22 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2021_22 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <p class="fw-light small-font">Budget statments for FY 2021-22</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{ insight.fy2022_23 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2022_23 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <p class="fw-light small-font">Budget statments for FY 2022-23</p>
+                </div>
+                <div class="col-4">
+                    <h3>{{ insight.fy2023_24 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2023_24 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
+                    <p class="fw-light small-font">Budget statments for FY 2023-24</p>
+                </div>
+            </div>
+            <p class="fw-light small-font mt-2">* As per the data submitted by ULB.</p>
+        </div>
+    </div>
+    <div class="col-md-5 mt-3">
+        <div class="row d-flex" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="form-group col-md-4">
+                <div class="input-group inp-grp">
+                    <form [formGroup]="myForm" class="w-100">
+                        <angular2-multiselect [ngClass]="{'pe-none': isState}" class="expo-drp-in" [data]="stateList"
+                            formControlName="stateId" [settings]="dropdownSettings"
+                            (onSelect)="onSelectingStateFromDropDown($event)"
+                            (onDeSelect)="onSelectingStateFromDropDown(null)">
+                        </angular2-multiselect>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-4 col-sm-4 col-md-4 ps-3">
+                <select [(ngModel)]="selectedCategory" class="form-select" id="years" (change)="onCategoryChange()">
+                    <option selected value="">All Categories</option>
+                    <option *ngFor="let categry of categories" value="{{ categry._id }}">
+                        {{ categry.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-4 col-sm-4 col-md-4 ps-3">
+                <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
+            </div>
+        </div>
+        <div class="row stateMapContainer" (click)="loadStatePopup()">
+            <!-- <div *ngIf="nationalLevelMap" style="z-index: 1000 !important; opacity: 1"
+            class="spinner container-fluid d-flex justify-content-center align-items-center">
+            <mat-spinner></mat-spinner>
+          </div> -->
+            <div class="col-sm-12" id="districtMapContainer"
+                [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
+            </div>
+
+            <!-- National map starts here -->
+            <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="
+                    background-image: url('assets/Layer\ 1.png') !important;
+                  ">
+            </div>
+        </div>
+    </div>
+</div>

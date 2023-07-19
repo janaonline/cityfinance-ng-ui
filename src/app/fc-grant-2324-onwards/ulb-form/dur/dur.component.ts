@@ -23,7 +23,7 @@ export class DurComponent implements OnInit, OnDestroy {
   isLastDeleted = false;
 
   isLoaded: boolean = false;
-  isProjectLoaded: boolean = false;
+  isProjectLoaded: boolean = true;
   finalSubmitMsg: string = `Are you sure you want to submit this form? Once submitted,
   it will become uneditable and will be sent to State for Review.
    Alternatively, you can save as draft for now and submit it later.`
@@ -183,8 +183,8 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseInt(lat).toFixed(2),
-          long: parseInt(long).toFixed(2)
+          lat: parseFloat(lat).toFixed(2),
+          long: parseFloat(long).toFixed(2)
         },
         cost: child[5]?.value,
         expenditure: child[6]?.value
