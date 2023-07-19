@@ -8,7 +8,6 @@
                 id="prevBtn">PREVIEW</button>
         </div>
     </div>
-    <!-- <p>{{ successErrorsMessage | json}}</p> -->
     <div class="alert alert-danger my-2" role="alert" *ngIf="successErrorsMessage?.length">
         <div *ngFor="let error of successErrorsMessage" class="mb-2" [innerHTML]="error"></div>
     </div>
@@ -76,7 +75,7 @@
                             </app-web-form>
 
                             <div class="row mt-3"
-                                *ngIf="question?.status && question?.statusId == 2 && question?.canTakeAction == false">
+                                *ngIf="question?.status && [2, 6, 7].includes(question?.statusId) && question?.canTakeAction == false">
                                 <div class="col-sm-12">
                                     <span class="d-inline-block" style="width: 25%">Status:</span>
                                     <span class="st-p d-inline-block" [ngClass]="{'st-r' : (question?.status == 'REJECTED'),
@@ -101,7 +100,6 @@
                             </div>
 
                             <div class="mt-3" *ngIf="question?.canTakeAction">
-                                <p>{{question.rejectReason_mohua}}</p>
                                 <div class="row" style="">
                                     <div class="col-sm-6 a-h">Review Status:</div>
                                     <div class="col-sm-6 p-0">
@@ -120,14 +118,14 @@
                                                 [ngClass]="{'disCls disGray' : (question?.canTakeAction == 'false')}"
                                                 [(ngModel)]="question.rejectReason_mohua"
                                                 [ngModelOptions]="{standalone: true}"
-                                                (keyup)="actionBtnClick('returnRes', question, itemLabel, $event?.target?.value)">
+                                            >
                                           </textarea>
                                         </div>
                                         <div class="text-danger acterr" *ngIf="actionError && !question?.status">
                                             Action required.(in case of return, Return reason is also mandatory.)
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <div class="col-sm-6">
                                             Supporting Document :
                                         </div>
@@ -155,6 +153,7 @@
                                                     <img src="/assets/form-icon/close_black_24dp.svg">
                                                 </a>
                                             </div>
+                                            <p class="text-danger mb-0 mt-1" *ngIf="question?.statusId == 7 && !question?.rejectReason_mohua">Remarks/Return reason is required</p>
                                             <button (click)="installmentAction(question)" class="btn btn-primary mt-2"
                                                 [disabled]="!(question?.statusId == 6 || (question?.statusId == 7 && question?.rejectReason_mohua))">Submit
                                                 review
