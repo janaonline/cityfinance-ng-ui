@@ -4,36 +4,36 @@
 
         <div class="bg-light my-5 p-3">
             <h2 class="my-2">Explore</h2>
-            <p class="fw-light small-font">Select a state or city to know more about its municipal budget information</p>
+            <p class="fw-light small-font">Select a state on map to know more about its municipal budget information</p>
             <h4 class="py-1 my-4 px-2 border-5 border-start border-warning fw-bold">India</h4>
 
             <div class="row">
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.ulbCount }}</h3>
-                    <p class="fw-light small-font">Count of total ULBs active on Cityfinance.in</p>
+                    <p class="fw-light small-font">ULBs registered on Cityfinance.in </p>
                 </div>
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.atLeastOneYearCount }}</h3>
-                    <p class="fw-light small-font">Count of ULBs with at least one year of budget data available on CF.</p>
+                    <p class="fw-light small-font">ULBs with at least 1 Year of budget data on Cityfinance.in </p>
                 </div>
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.fy2020_21 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2020_21 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
-                    <p class="fw-light small-font">Budget statments for FY 2020-21</p>
+                    <p class="fw-light small-font">{{ insight.fy2020_21 }}% cities with budgets for FY 2020-21</p>
                 </div>
             </div>
 
             <div class="row mt-5">
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.fy2021_22 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2021_22 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
-                    <p class="fw-light small-font">Budget statments for FY 2021-22</p>
+                    <p class="fw-light small-font">{{ insight.fy2021_22 }}% cities with budgets for FY 2021-22</p>
                 </div>
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.fy2022_23 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2022_23 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
-                    <p class="fw-light small-font">Budget statments for FY 2022-23</p>
+                    <p class="fw-light small-font">{{ insight.fy2022_23 }}% cities with budgets for FY 2022-23</p>
                 </div>
                 <div class="col-4">
                     <h3 class="section-heading">{{ insight.fy2023_24 }}% <mat-icon [matTooltip]="(insight.ulbCount / 100 * insight.fy2023_24 | number: '1.0-0') + ' ULBs out of ' + insight.ulbCount + ' active ULBs have submitted their budget document'">info_outline</mat-icon></h3>
-                    <p class="fw-light small-font">Budget statments for FY 2023-24</p>
+                    <p class="fw-light small-font">{{ insight.fy2023_24 }}% cities with budgets for FY 2023-24</p>
                 </div>
             </div>
             <p class="fw-light small-font mt-2">* As per the data submitted by ULB.</p>
