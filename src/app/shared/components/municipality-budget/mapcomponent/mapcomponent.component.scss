@@ -653,7 +653,14 @@ td {
   visibility: hidden;
 }
 
+.section-heading {
+  font: normal normal 800 1.5rem/1.625rem Archivo;
+  letter-spacing: 0px;
+  color: #0F1F40;
+}
+
 .small-font {
-  font-size: 13px;
-  font-weight: 500;
+  font: normal normal normal 0.813rem/1.188rem Archivo;
+  letter-spacing: 0px;
+  color: #6E7281;
 }
