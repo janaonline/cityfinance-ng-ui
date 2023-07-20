@@ -47,6 +47,7 @@
                                           <span class="h-4" >{{1+waterBodiesIndex}}</span>
                                       </td>
                                       <td>
+                                        <!-- class="custom-disabled-div" matTooltip="This is a tooltip!" [matTooltipDisabled]="false" -->
                                           <input class="h-4" formControlName="name" matTooltipPosition="above" 
                                           [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" 
                                           [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-50 Characters' : null" type="text" 

@@ -299,3 +299,6 @@ display: inline-block;
 .infoIcon {
     width: 16px;height: 16px;
 }
+.custom-disabled-div {
+    pointer-events: auto !important;
+  }
