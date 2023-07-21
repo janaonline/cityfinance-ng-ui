@@ -183,8 +183,8 @@ export class DurComponent implements OnInit, OnDestroy {
         name: child?.[0]?.value,
         categoryName: child?.[1]?.selectedValue?.[0]?.label,
         location: {
-          lat: parseInt(lat).toFixed(2),
-          long: parseInt(long).toFixed(2)
+          lat: parseFloat(lat).toFixed(2),
+          long: parseFloat(long).toFixed(2)
         },
         cost: child[5]?.value,
         expenditure: child[6]?.value

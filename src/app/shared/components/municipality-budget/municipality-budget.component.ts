@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FiscalRankingService, MapData } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 import { MunicipalityBudgetService } from './municipality-budget.service';
 
 interface Document {
@@ -36,6 +37,7 @@ export class MunicipalityBudgetComponent implements OnInit {
 
   constructor(
     private fiscalRankingService: FiscalRankingService,
+    private globalLoaderService: GlobalLoaderService,
     private municipalityBudgetsService: MunicipalityBudgetService
   ) { }
 
@@ -68,12 +70,16 @@ export class MunicipalityBudgetComponent implements OnInit {
   }
 
   getDocuments() {
+    this.globalLoaderService.showLoader();
     this.municipalityBudgetsService.getDocuments({
       category: this.category,
       state: this.state,
       ...this.filters
     }).subscribe(({ data }: any) => {
       this.documents = data;
+      this.globalLoaderService.stopLoader();
+    }, err => {
+      this.globalLoaderService.stopLoader();
     })
   }
 
