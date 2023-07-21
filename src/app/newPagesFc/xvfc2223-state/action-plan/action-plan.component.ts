@@ -417,6 +417,8 @@ export class ActionPlanComponent implements OnInit {
     });
     let apiData = JSON.parse(JSON.stringify(this.data));
     apiData.uaData = newUaData;
+    console.log('this datta', this.data);
+    
     this.data.uaData.forEach((uaData) => {
       for (const key in uaData) {
         if (key == "ulbList") continue;
