@@ -185,10 +185,10 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   createLegends() {
     const arr = [
-      { color: "#65bf7d", text: "76%-100%" },
-      { color: "#a7dab5", text: "51%-75%" },
-      { color: "#cde9d6", text: "26%-50%" },
-      { color: "#e0f1e7", text: "1%-25%" },
+      { color: "#194d5e", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
       { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomright" });
@@ -253,16 +253,16 @@ export class MapcomponentComponent extends NationalHeatMapComponent implements O
 
   getColor(value: number) {
     if (value > 75) {
-      return "#65bf7d";
+      return "#194d5e";
     }
     if (value > 50) {
-      return "#a7dab5";
+      return "#059b9a";
     }
     if (value > 25) {
-      return "#cde9d6";
+      return "#8BD2F0";
     }
     if (value > 1) {
-      return `#e0f1e7`;
+      return `#D0EDF9`;
     }
     return "#E5E5E5";
   }
