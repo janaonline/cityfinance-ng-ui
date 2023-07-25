@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatListModule } from "@angular/material/list";
@@ -41,6 +41,7 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 import { NgxPaginationModule } from "ngx-pagination";
+import { GlobalErrorHandler } from "./global-error-handler.service";
 
 
 
@@ -93,7 +94,7 @@ import { NgxPaginationModule } from "ngx-pagination";
       multi: true,
     },
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
-
+    { provide: ErrorHandler, useClass: GlobalErrorHandler},
     AuthService,
     AuthGuard,
   ],
