@@ -20,6 +20,7 @@ import { ActionPlanSliComponent } from '../state-form/action-plan-sli/action-pla
 import { CustomTooltipComponent } from 'src/app/shared/components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { FourSlbViewComponent } from './components/four-slb-view/four-slb-view.component';
 import { StateCommonReviewComponent } from './components/state-common-review/state-common-review.component';
+import { CommonStateDashboardComponent } from './components/common-state-dashboard/common-state-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { StateCommonReviewComponent } from './components/state-common-review/sta
     FormLoaderComponent, 
     FormCommonActionComponent, 
     AgGridComponent, 
-    FourSlbViewComponent, StateCommonReviewComponent
+    FourSlbViewComponent,
+    StateCommonReviewComponent, 
+    CommonStateDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +54,8 @@ import { StateCommonReviewComponent } from './components/state-common-review/sta
     FormCommonActionComponent,
     AgGridComponent,
     FourSlbViewComponent,
-    StateCommonReviewComponent
+    StateCommonReviewComponent,
+    CommonStateDashboardComponent
   ]
 })
 export class FcSharedModule { }

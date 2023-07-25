@@ -1,0 +1,134 @@
+<div class="row" *ngIf="stateInfo?.data">
+    <div class="col-sm-3" *ngFor="let item of stateInfo?.data">
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div *ngIf="!item?.isSubData">
+                        <h3>{{item?.value}}</h3>
+                         <p>{{item?.label}}</p>
+                    </div>
+                    <div *ngIf="item?.isSubData">
+                        <div class="row mb-2" *ngFor="let subElem of item?.subData">
+                            <span class="col-sm-8 sub-el">{{subElem?.label}} : </span>
+                            <span class="col-sm-4 sub-el">{{subElem?.value}}</span>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 text-end my-auto">
+                    <img src="{{item?.icon}}" alt="SVG" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4 mb-4">
+    <div class="col-sm-12">
+        <div class="tab-slider--nav row responsive-class">
+            <ul class="nav">
+                <li class="col-4 text-center" *ngFor="let item of citiesType?.data"
+                    [ngClass]="{'active': selectedItem == item.formType}" rel="tab1" (click)="cityTabChange(item)">
+                    {{item.title}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3">
+        <div *ngIf="selectedCity?.isInstallmentAvailbe" class="mt-4">
+            <button class="btn me-2" *ngFor="let instl of selectedCity?.installments"
+             [ngClass]="{'active-cls-ins': instl?.isActive}" (click)="installmentChange(instl)">{{instl?.label}}</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab-slider--container mt-4">
+    <div class="tab-slider--body">
+        <div *ngFor="let form of formData | keyvalue : keepOriginalOrder">
+            <div>
+                <div class="row mt-4">
+                    <div class="col-sm-6">
+                        <span class="formHeader">{{form?.value?.formHeader}}</span>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="row justify-content-end">
+                            <div class="col-auto font-cls">
+                                <span class="dot-submitted"
+                                    [ngStyle]="{'background-color': form?.value?.submittedColor}"></span>
+                                {{form?.value?.approvedColor == '#059B05' ? 'Submitted by State' : 'Submitted by ULB'}}
+                            </div>
+                            <div class="col-auto font-cls">
+                                <span class="dot-approved"
+                                    [ngStyle]="{'background-color': form?.value?.approvedColor}"></span>
+                                {{form?.value?.approvedColor == '#059B05' ? 'Approved by MoHUA' : 'Approved by State'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-card mt-3" *ngFor="let item of form?.value?.formData" (click)="navigateToPage(item)">
+                    <div class="row">
+                        <div class="col-6">
+                            <img src='{{item?.icon}}' width="30" height="30" class="fl-i">
+                            <span class="formName ms-3">{{item?.formName}}</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="formName">{{item?.status}}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-1">
+                            <p class="ms-5">0%</p>
+                        </div>
+                        <div class="col-9">
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-approved" role="progressbar" aria-label="approved"
+                                    [ngStyle]="{'width': item?.approvedValue <= 10 ? '4%' : item?.approvedValue+'%' ,'background-color': item?.approvedColor}"
+                                    aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
+                                    <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}"
+                                        mat-raised-button
+                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} {{element?.formHeader == 'ULB Forms' ? '& ' + item?.totalApproved + ' ULB Approved' : ''}}"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'"
+                                        matTooltipClass="tooltip-col-cls">{{item?.approvedValue ? item?.approvedValue +
+                                        '%' : '0%'}}</span>
+                                </div>
+                                <div class="progress-bar bg-submitted" role="progressbar" aria-label="submitted"
+                                    [ngStyle]="{'width':  item?.submittedValue <= 5 ? '4%' : item?.submittedValue+'%','background-color': item?.submittedColor,'background-color': item?.approvedValue == 100 ? item?.approvedColor : item?.submittedColor}"
+                                    aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
+                                    <span
+                                        [ngStyle]="{'border': (item?.approvedValue == 100 && element?.formHeader == 'State Forms') ? '5px solid #059B05' : '5px solid #E67E1566' }"
+                                        [ngClass]="{'no-value' : item?.submittedValue == 0}" mat-raised-button
+                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}}  {{element?.formHeader == 'ULB Forms' ? '& ' + item?.totalSubmitted + ' ULB Submitted' : ''}}"
+                                        aria-label="tooltip" [matTooltipPosition]="'above'"
+                                        matTooltipClass="tooltip-col-cls">{{item?.submittedValue ? item?.submittedValue
+                                        + '%' : ''}}</span>
+                                </div>
+                                <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltip-custom">
+                                    <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1 acr"
+                                                style=""></i></span></p>
+                                </div>
+                                <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar" role="progressbar"
+                                    aria-label="cutOff"
+                                    [ngStyle]="{'width': item?.cutOff+'%' ,'background-color': 'rgb(219 219 219 / 20%)'}"
+                                    aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
+                                    <p class="customSpan"><img
+                                            src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 target-class" *ngIf="item?.formName != 'Annual Accounts'">
+                            <p class="targetHundred">100% Target<span><br><i class="fa fa-angle-down arc"
+                                        style=""></i></span></p>
+                            <p>
+                                <img src="../../../../assets/dashboard-state/track_changes_black_24dp.svg">100%
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-3 ms-2">
+            <div class="col-12">
+                <button [disabled]="disableBtn" class="btn btn-primary" (click)="claimGrant()">Click here to claim grant</button>
+            </div>
+        </div> -->
+    </div>
+</div>
