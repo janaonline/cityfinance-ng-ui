@@ -138,7 +138,16 @@ export class GtcComponent implements OnInit {
   }
 
 
-  isFormValid(data, question) {
+
+  isFormValid(data) {
+    const hasZeroError = data.finalData?.find(q => q.shortKey == "transferGrantdetail_tableview_addbutton")?.nestedAnswer
+      ?.some(({ answerNestedData }) => {
+        const transAmountQuestion = answerNestedData?.find(answer => answer.shortKey == "transAmount");
+        const transAmountAnswer = transAmountQuestion?.answer?.[0].value;
+        return transAmountAnswer == '0';
+      });
+    if (hasZeroError) return false;
+
     return true;
   }
 
@@ -189,8 +198,8 @@ export class GtcComponent implements OnInit {
 
 
     if (isDraft == false) {
+      if (!this.isFormValid(data)) return swal('Error', 'Please fill valid values in form', 'error');
       if (!(question?.file?.url && question.file?.name)) return swal('Error', 'Please upload signed copy of file', 'error');
-      if (!this.isFormValid(data, question)) return swal('Error', 'Please fill valid values in form', 'error');
     }
 
     this.loaderService.showLoader();
@@ -214,8 +223,6 @@ export class GtcComponent implements OnInit {
 
 
   async installmentAction(question) {
-
-    console.log(question);  
     const payload = {
       statusId: question?.statusId,
       design_year: this.design_year,

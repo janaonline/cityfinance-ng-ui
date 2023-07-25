@@ -11,8 +11,8 @@
     <div class="alert alert-danger my-2" role="alert" *ngIf="successErrorsMessage?.length">
         <div *ngFor="let error of successErrorsMessage" class="mb-2" [innerHTML]="error"></div>
     </div>
-    <div class="row mt-3" *ngIf="!successErrorsMessage?.length">
-        <div class="col-sm-12">
+    <div class="py-3" *ngIf="baseForm && !successErrorsMessage?.length">
+        <div>
             <accordion>
                 <accordion-group [isDisabled]="formItem?.isDisabled" class="mb-3"
                     *ngFor="let formItem of baseForm; let cIndex = index">
@@ -70,8 +70,9 @@
 
                             <app-web-form #webForm [viewFormTemplate]="'dur'" [form]="'gtc'" [isProjectLoaded]="true"
                                 (onPreviewDUR)="onPreview(question)" (submitQuestion)="onSubmit($event, question)"
-                                [isButtonDisplay]="true" *ngIf="question.questionresponse"
-                                [formIdentifier]="question?.key" [questionresponse]="question.questionresponse">
+                                [hidePreviousButton]="true" [hideNextButton]="true" [isButtonDisplay]="true"
+                                *ngIf="question.questionresponse" [formIdentifier]="question?.key"
+                                [questionresponse]="question.questionresponse">
                             </app-web-form>
 
                             <div class="row mt-3"
@@ -117,8 +118,7 @@
                                             <textarea class="" name="reason" id="reason" cols="30" rows="2"
                                                 [ngClass]="{'disCls disGray' : (question?.canTakeAction == 'false')}"
                                                 [(ngModel)]="question.rejectReason_mohua"
-                                                [ngModelOptions]="{standalone: true}"
-                                            >
+                                                [ngModelOptions]="{standalone: true}">
                                           </textarea>
                                         </div>
                                         <div class="text-danger acterr" *ngIf="actionError && !question?.status">
@@ -153,7 +153,9 @@
                                                     <img src="/assets/form-icon/close_black_24dp.svg">
                                                 </a>
                                             </div>
-                                            <p class="text-danger mb-0 mt-1" *ngIf="question?.statusId == 7 && !question?.rejectReason_mohua">Remarks/Return reason is required</p>
+                                            <p class="text-danger mb-0 mt-1"
+                                                *ngIf="question?.statusId == 7 && !question?.rejectReason_mohua">
+                                                Remarks/Return reason is required</p>
                                             <button (click)="installmentAction(question)" class="btn btn-primary mt-2"
                                                 [disabled]="!(question?.statusId == 6 || (question?.statusId == 7 && question?.rejectReason_mohua))">Submit
                                                 review
@@ -167,6 +169,11 @@
 
                 </accordion-group>
             </accordion>
+        </div>
+        <div class="d-flex justify-content-between">
+            <!-- <button class="btn btn-primary  text-uppercase">&lt;- Previous Form </button> -->
+            <div></div>
+            <button routerLink="/state-form/property-tax" class="btn btn-primary text-uppercase">Next Form -&gt;</button>
         </div>
     </div>
 </div>
