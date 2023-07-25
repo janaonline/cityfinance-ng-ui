@@ -1,1 +1,17 @@
-<p>dashbord works!</p>
+<div class="container-fluid mb-4">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- first section info -->
+            <section class="mt-3 mb-3">
+                <app-common-state-dashboard [stateInfo]="stateInfo" [citiesType]="cityTypeInState" 
+                [formData]="formData" (cityTabClick)="cityTabChange($event)"></app-common-state-dashboard>
+            </section>
+
+            <!-- second section tyoes  in state  -->
+            <!-- <section class="mt-3 mb-3">
+                <app-common-state-dashboard [citiesType]="citieTypeInState"></app-common-state-dashboard>
+            </section> -->
+        </div>
+    </div>
+</div>
+

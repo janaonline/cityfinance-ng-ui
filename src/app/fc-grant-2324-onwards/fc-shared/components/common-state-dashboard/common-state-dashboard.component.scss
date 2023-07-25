@@ -1,6 +1,6 @@
-@import "./src/scss/functions";
-@import "./src/scss/variables";
-@import "./src/scss/mixins";
+@import "../../../../../scss/functions";
+@import "../../../../../scss/variables";
+@import "../../../../../scss/mixins";
 
 .dot {
     display: inline-block;
@@ -55,25 +55,20 @@ li {
     color: rgb(255, 255, 255);
 }
 
-.activeFirstInstallment {
+.active-cls-ins {
     background-color: #059B9A;
     cursor: pointer;
     color: rgb(255, 255, 255);
 }
 
-.activeSecondInstallment {
-    background-color: #059B9A;
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-}
 
-.noValue {
+.no-value {
     border: 1px solid white !important;
     color: black !important;
-    background-image: url("../../../../assets/dashboard-state/Group 13698.svg")!important;
+    background-image: url("../../../../../assets/dashboard-state/Group 13698.svg") !important;
 }
 
-.responsiveClass{
+.responsive-class {
     display: flex;
     justify-content: center;
 }
@@ -95,15 +90,15 @@ li {
 
 .card {
     border: 1px #00000029;
-    margin-left: 20px;
+   // margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 20px;
-    height: 130px;
+    min-height: 220px;
     background-color: #12505A;
     color: white;
 }
 
-.formCard {
+.form-card {
     border: 1px #00000029;
     margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
@@ -114,12 +109,12 @@ li {
     border-radius: 6px;
 }
 
-.fontClass {
+.font-cls {
     font-size: 14px;
     font-weight: 500;
 }
 
-.tooltipCustom {
+.tooltip-custom {
     position: absolute;
     left: 16%;
     background-color: #12505A;
@@ -131,7 +126,7 @@ li {
     font-size: 12px;
 }
 
-.targetClass {
+.target-class {
     margin-left: -20px;
     position: relative;
     margin-top: -34px;
@@ -150,12 +145,14 @@ li {
 .progress {
     overflow: unset !important;
     position: relative;
+
     .progress-bar {
         flex-direction: unset !important;
         justify-content: end !important;
         overflow: unset !important;
         position: absolute;
         height: 15px;
+
         & span {
             display: block;
             background: $white;
@@ -169,17 +166,13 @@ li {
             margin-right: -5px;
             z-index: 99;
         }
+
         &.bg-approved {
             background: #E67E15;
-            // & span{
-            //     border: 5px solid #E67E15;
-            // }
         }
+
         &.bg-submitted {
             background: #E67E1566;
-            // & span{
-            //     border: 5px solid #E67E1566;
-            // }
         }
     }
 }
@@ -195,6 +188,21 @@ li {
     line-height: 24px;
     margin-right: -2px;
 }
+
+.arc {
+    font-size: 16px;
+    color: black
+}
+
 .fl-i {
     filter: invert(1);
+}
+
+::ng-deep .tooltip-col-cls {
+    background: #E67E15;
+    font-size: 13px;
+    font-weight:  500;
+}
+.sub-el {
+    font-size: 15px;
 }
