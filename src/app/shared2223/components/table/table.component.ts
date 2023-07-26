@@ -625,7 +625,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   openStatus(template) {
     let dialogRef = this.dialog.open(template, {
       height: "auto",
-      width: "600px"
+      width: "750px"
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
