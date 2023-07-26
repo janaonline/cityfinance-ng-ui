@@ -32,14 +32,14 @@ export class DashbordComponent implements OnInit {
           },
           {
             key: 'totalNMPCs',
-            label: 'Total no. of NMPCs',
+            label: 'Total NMPCs',
             icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
             tooltip: '',
             value: '450'
           },
           {
             key: 'totalMPCs',
-            label: 'Total No: of MPCs',
+            label: 'Total MPCs',
             icon: '../../../../assets/dashboard-state/sustainable.svg',
             tooltip: '',
             value: '320'
