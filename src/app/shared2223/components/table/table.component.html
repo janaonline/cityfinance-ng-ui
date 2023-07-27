@@ -11,11 +11,12 @@
             (click)="openDialog('Approve')">Approve all</button>
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
             (click)="openDialog('Return')">Return all</button>
+            <!-- <button type="button" class="btn btn-danger ms-2" (click)="download()"
+            *ngIf="formId != '3'">Download</button> -->
         <button type="button" class="btn btn-danger ms-2" (click)="download()"
             *ngIf="formId != '3' && title == 'Review Grant Application'">Download</button>
-
         <button type="button" class="btn btn-danger ms-2" (click)="download()"
-            *ngIf="designYear == '606aafb14dff55e6c075d3ae' && title == 'Review State Forms'">Download</button>
+            *ngIf="(designYear == '606aafb14dff55e6c075d3ae' && title == 'Review State Forms') || formId == 12">Download</button>
     </div>
 </div>
 <!-- <form > -->
@@ -313,7 +314,7 @@
             <h3>Tracking</h3>
         </div>
     </div>
-    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+    <div class="table-responsive" style="max-height: 60vh; overflow-y: auto">
         <table class="table tracking-history-table">
             <thead>
                 <tr>
