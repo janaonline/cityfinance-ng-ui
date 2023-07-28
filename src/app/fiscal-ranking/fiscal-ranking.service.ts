@@ -150,4 +150,13 @@ export class FiscalRankingService {
     const queryParams = new URLSearchParams(removeFalsy(params)).toString()
     return this.http.get<{data: MapData}>(`${environment.api.url}/fiscal-ranking/getStateWiseForm?` + queryParams);
   }
+
+  getTrackingHistory(params={}){
+    try{
+      return this.http.get(`${environment.api.url}/fiscal-ranking/getStateWiseForm?`);
+    }
+    catch(err){
+      console.log("error in getTrackingHistory :: ",err.message)
+    }
+  }
 }

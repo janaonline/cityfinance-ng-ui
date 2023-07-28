@@ -8,6 +8,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FiscalRankingService, FormWiseData, MapData, removeFalsy, Table } from '../fiscal-ranking.service';
+import { TrackingHistoryTableComponent } from './tracking-history-table/tracking-history-table.component';
 
 const tables: Table[] = [
   {
@@ -291,6 +292,19 @@ export class ReviewUlbTableComponent implements OnInit {
     columnsData.map(e => e.key === this.sortedItem?.key ? e.sort = this.sortedItem.sort : e);
     return columnsData;
   }
+
+  showTrackingHistory(item){
+    try{
+      this.dialog.open(TrackingHistoryTableComponent,{
+        minWidth:"600px",
+        
+      })
+    }
+    catch(err){
+      console.log("error in  showTrackingHistory ::: ",err.message)
+    }
+  }
+
   statusFilterList = [
     { _id: '1', name: 'Not Started' },
     { _id: "2", name: "In Progress" },
@@ -301,4 +315,5 @@ export class ReviewUlbTableComponent implements OnInit {
   ];
   columnNamesList = ["S No.", "ULB Name", "Census Code", "State Name", "Population Category", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)", "Status", "Action"];
 }
+
 
