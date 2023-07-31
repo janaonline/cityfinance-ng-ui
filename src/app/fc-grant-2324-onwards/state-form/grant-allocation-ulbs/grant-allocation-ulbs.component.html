@@ -62,9 +62,19 @@
                                   </span>
                                 </div>
                             </div>
+                            <!-- <div class="row mt-3 mb-3">
+                                <div class="col-sm-12">
+                                    <div class="action-div">
+                                        <app-state-common-review [canTakeAction]="true" [question]="quesItem"
+                                        [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
+                                        [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted" [formName]="'grant_allocation'"></app-state-common-review>
+                                    </div>
+                                </div>
+                            </div> -->
                             <div class="row mt-3">
                                 <div class="col-sm-12 text-end">
-                                    <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues" (click)="saveFile(cIndex, qIndex)">Submit</button>
+                                    <button class="btn btn-primary" [disabled]="quesItem?.isDisableQues" *ngIf="userData?.role == 'STATE'" (click)="saveFile(cIndex, qIndex)">Submit</button>
+                                    <!-- <button class="btn btn-primary" [disabled]="!quesItem?.canTakeAction" *ngIf="userData?.role == 'MoHUA'" (click)="saveAction(cIndex, qIndex)">Submit</button> -->
                                 </div>
                             </div>
                         </div>
