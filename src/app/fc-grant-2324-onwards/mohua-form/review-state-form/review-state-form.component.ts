@@ -31,6 +31,7 @@ export class ReviewStateFormComponent implements OnInit {
   design_year = '';
   formBaseUrl:string = 'state-form';
   sfcFormId: string = '15';
+  sfcFormIdPreYear: string = '62c553822954384b44b3c38e';
   lastYearReviewRoutes: string = '../../mohua2223/review-state-form';
   ngOnInit(): void {
     this.onLoad();
