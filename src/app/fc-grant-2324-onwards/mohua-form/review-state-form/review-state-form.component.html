@@ -14,18 +14,18 @@
         </select>
         </div>
     </div>
-    <div class="row" *ngIf="formId != '15'">
+    <div class="row" *ngIf="formId != sfcFormId">
         <div class="col-sm-12">
             <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"
              [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
         </div>
     </div>
-    <div class="row mt-4 mb-m" *ngIf="formId == '15'">
+    <div class="row mt-4 mb-m" *ngIf="formId == sfcFormId">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
                     State Finance Commission Notification Form was part of 15th FC 2022-23 Module,
-                     please <a  [routerLink]="['../../mohua2223/review-state-form']" [queryParams]="{formId: '62c553822954384b44b3c38e'}" >click here</a> to review last year form. 
+                     please <a  [routerLink]="lastYearReviewRoutes" [queryParams]="{formId: sfcFormIdPreYear}" >click here</a> to review last year form. 
                 </div>
             </div>
         </div>

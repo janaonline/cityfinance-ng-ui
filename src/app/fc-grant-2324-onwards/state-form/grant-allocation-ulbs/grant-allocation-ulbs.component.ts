@@ -419,7 +419,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   quesArray["file"]["name"] = "";
   quesArray["file"]["progress"] = null;
 }
-saveAction(i, j){
+// saveAction(i, j){
 
-}
+// }
 }
