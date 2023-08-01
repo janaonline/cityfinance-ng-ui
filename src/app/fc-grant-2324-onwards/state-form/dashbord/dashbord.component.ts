@@ -13,75 +13,34 @@ export class DashbordComponent implements OnInit {
     name: '',
     id: '',
     data: [
-      {
-        key: '',
-        label: '',
-        icon: '../../../../assets/dashboard-state/16-location.svg',
-        tooltip: '',
-        value: '40',
-        link: '',
-        position: '1',
-        isSubData: true,
-        subData: [
-          {
+       {
             key: 'totalUlbs',
             label: 'Total ULBs',
             icon: '../../../../assets/dashboard-state/16-location.svg',
             tooltip: '',
-            value: '4750'
+            value: '4550'
           },
           {
-            key: 'totalNMPCs',
-            label: 'Total NMPCs',
+            key: 'TotalofNMPCs ',
+            label: 'Total no. of NMPCs ',
             icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
             tooltip: '',
-            value: '450'
+            value: '50'
           },
           {
-            key: 'totalMPCs',
-            label: 'Total MPCs',
+            key: 'TotalofMPCs',
+            label: 'Total No: of MPCs ',
             icon: '../../../../assets/dashboard-state/sustainable.svg',
             tooltip: '',
-            value: '320'
+            value: '20'
           },
           {
-            key: 'totalULBsInUAs',
-            label: 'Total ULBs in UAs',
+            key: 'Total ULBs in UAs ',
+            label: 'TotalULBsUAs ',
             icon: '../../../../assets/dashboard-state/16-location.svg',
             tooltip: '',
-            value: '4440'
+            value: '40'
           },
-         
-          // {
-          //   key: 'totalUlbs',
-          //   label: 'Total ULBs',
-          //   icon: '../../../../assets/dashboard-state/16-location.svg',
-          //   tooltip: '',
-          //   value: '50'
-          // },
-          // {
-          //   key: 'nonMillionCities',
-          //   label: 'Non Million Cities',
-          //   icon: '../../../../assets/dashboard-state/XMLID_1248_.svg',
-          //   tooltip: '',
-          //   value: '50'
-          // },
-          // {
-          //   key: 'millionPlusUAs',
-          //   label: 'Million Plus UAs',
-          //   icon: '../../../../assets/dashboard-state/sustainable.svg',
-          //   tooltip: '',
-          //   value: '20'
-          // },
-          // {
-          //   key: 'UlbInMillionPlusUA',
-          //   label: 'ULBs in Million-Plus UAs',
-          //   icon: '../../../../assets/dashboard-state/16-location.svg',
-          //   tooltip: '',
-          //   value: '40'
-          // },
-        ]
-      },
       {
         key: 'totalDulyElectedNMPCs',
         label: 'Total Duly Elected NMPCs ',
@@ -114,6 +73,13 @@ export class DashbordComponent implements OnInit {
         position: '4',
         isSubData: false,
         subData: []
+      },
+      {
+        key: 'totalUlbs',
+        label: 'Testing card',
+        icon: '../../../../assets/dashboard-state/16-location.svg',
+        tooltip: '',
+        value: '455'
       },
 
 
