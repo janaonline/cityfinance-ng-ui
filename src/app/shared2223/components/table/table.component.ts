@@ -591,7 +591,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(this.environment?.isProduction) return;
+    if(this.environment?.isProduction && this.title == 'Review State Forms') return;
     this.noHistorydataFound = false;
     let queryParam = {
       formId: formId,
