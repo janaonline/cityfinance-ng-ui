@@ -31,7 +31,7 @@ export class StateCommonReviewComponent implements OnInit {
   statusIdForReject:string = '7';
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
-
+  outputDataForPayload:object;
   // actionPayload = {
   //   "form_level": 3,
   //   "design_year": this.Years["2023-24"],
@@ -79,14 +79,15 @@ export class StateCommonReviewComponent implements OnInit {
 
   formValueChange(event, type, question){
     console.log('review', event, type, question);
-    const uaIndex = this.getUAIndex(question);
-    this.actionPayload.responses[uaIndex][type] = event;
-    const data = {
-      formData: this.formData,
-      actionData: this.actionPayload
-    }
-    this.formChangeEventEmit.emit(data);
-    console.log('review obj obj', uaIndex)
+      const uaIndex = this.getUAIndex(question);
+      this.actionPayload.responses[uaIndex][type] = event;
+      this.outputDataForPayload = {
+        formData: this.formData,
+        actionData: this.actionPayload,
+        item : question
+      }
+      this.formChangeEventEmit.emit(this.outputDataForPayload);
+    
   }
 
 
@@ -116,8 +117,7 @@ export class StateCommonReviewComponent implements OnInit {
         question["responseFile"] = { name: file.name, url: file_url };
         this._snackBar.dismiss();
         console.log(this.actionPayload, 'this.actionPayload');
-        
-        
+        this.formChangeEventEmit.emit(this.outputDataForPayload); 
       });
     }, 
     (err) => {
@@ -132,6 +132,11 @@ export class StateCommonReviewComponent implements OnInit {
     question["responseFile"] = { name: "", url: "" };
   }
   getUAIndex(question){
-    return this.actionPayload.responses.findIndex(({ shortKey }) => shortKey === question?.uaCode);
+    if(this.formName != 'grant_allocation') {
+      return this.actionPayload.responses.findIndex(({ shortKey }) => shortKey === question?.uaCode);
+    }else {
+      return 0;
+    }
+    
   }
 }

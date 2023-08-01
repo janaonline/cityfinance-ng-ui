@@ -19,7 +19,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
     private commonServices: CommonServicesService,
     private dataEntryService: DataEntryService,
     private dialog: MatDialog,
-  ) { 
+  ) {
     this.years = JSON.parse(localStorage.getItem("Years"));
     this.userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -29,12 +29,12 @@ export class GrantAllocationUlbsComponent implements OnInit {
     }
     this.sideMenuItem = JSON.parse(localStorage.getItem("leftMenuState"));
   }
-  stateId:string = '';
+  stateId: string = '';
   userData: object | any;
-  years : [] | any;
+  years: [] | any;
   nextRouter: string = '';
   backRouter: string = '';
-  sideMenuItem : any;
+  sideMenuItem: any;
   gtcFormData;
   isApiInProgress: boolean = true;
   postBody: object | any;
@@ -45,11 +45,27 @@ export class GrantAllocationUlbsComponent implements OnInit {
     statusId: '',
     info: '',
     previousYrMsg: '',
-    
+
   }
+  isActionSubmitted: boolean = false;
+  actionPostPayload:object = {};
+  actionPayload = {
+      "responses": [
+      {
+        "shortKey": "",
+        "status": '',
+        "rejectReason": "",
+        "responseFile": {
+          "url": "",
+          "name": ""
+        }
+      }
+    ]
+  }
+  
   ngOnInit(): void {
     this.setRouter();
-   // this.intializeGtc();
+    // this.intializeGtc();
     this.getGtcData();
   }
 
@@ -59,7 +75,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       state: this.stateId,
       design_year: this.years["2023-24"]
     }
- // {{local}}grantDistribution/getGrantDistributionForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7516a06aed41c748fe
+    // {{local}}grantDistribution/getGrantDistributionForm?design_year=606aafc14dff55e6c075d3ec&state=5dcf9d7516a06aed41c748fe
     this.commonServices.formGetMethod(`grantDistribution/getGrantDistributionForm`, queryParams).subscribe(
       (res: any) => {
         console.log("res", res);
@@ -239,13 +255,13 @@ export class GrantAllocationUlbsComponent implements OnInit {
   // }
 
   downloadSample(data) {
-   let queryParams = {
-    type: data?.type,
-    year: data?.year,
-    installment :data?.installment
-   }
-   console.log('templates....', data);
-   
+    let queryParams = {
+      type: data?.type,
+      year: data?.year,
+      installment: data?.installment
+    }
+    console.log('templates....', data);
+
     this.commonServices.formGetMethodAsBlob('grantDistribution/template', queryParams).subscribe(
       (response: any) => {
         let blob: any = new Blob([response], {
@@ -260,11 +276,11 @@ export class GrantAllocationUlbsComponent implements OnInit {
       }
     );
   }
-  
+
   handleDownloadSuccess() {
     swal('', "File downloaded successfully", '');
   }
-  
+
   handleDownloadError() {
     swal('', "Error downloading the file", '');
   }
@@ -276,23 +292,23 @@ export class GrantAllocationUlbsComponent implements OnInit {
       swal("Error", "File name has special characters that are not allowed. Please edit the file name and then upload.", 'error');
       return;
     }
-  
+
     const file = event.target.files[0];
     const fileSize = file?.size / (1024 * 1024); // Size in MB
-  
+
     if (fileSize >= 20) {
       swal("File Limit Error", "Maximum 20 MB file is allowed.", "error");
       return;
     }
-  
+
     const fileExtension = file.name.split(".").pop();
-  
+
     if ((fileType === "excel" && fileExtension !== "xls" && fileExtension !== "xlsx") ||
-        (fileType === "pdf" && fileExtension !== "pdf")) {
+      (fileType === "pdf" && fileExtension !== "pdf")) {
       swal("Error", `Only ${fileType.toUpperCase()} files can be uploaded.`, "error");
       return;
     }
-  
+
     try {
       await this.uploadFile(file, file.name, file.type, fileType, cIndex, qIndex);
     } catch (error) {
@@ -300,7 +316,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       swal("Error", "An error occurred during file upload.", "error");
     }
   }
-  
+
   async uploadFile(file, name, type, fileType, i, j) {
     this.updateFileProgress(i, j, 10);
     const folderName = `${this.userData?.role}/2023-24/grant_allocation/${this.userData?.stateCode}`;
@@ -316,23 +332,23 @@ export class GrantAllocationUlbsComponent implements OnInit {
       this.gtcFormData[i].quesArray[j]["file"]["error"] = true;
     }
   }
-  
+
   private async uploadFileToS3(file: File, s3URL: string, fileAlias: string, name, fileType, i, j) {
     this.updateFileProgress(i, j, 60);
-  
+
     try {
       const res = await this.dataEntryService.uploadFileToS3(file, s3URL).toPromise();
       this.updateFileProgress(i, j, 70);
       if (res.type === HttpEventType.Response) {
         try {
           const params = {
-              url: fileAlias,
-              design_year: this.gtcFormData[i].quesArray[j]?.year,
-              type: this.gtcFormData[i].quesArray[j]?.type,
-              installment : this.gtcFormData[i].quesArray[j]?.installment
+            url: fileAlias,
+            design_year: this.gtcFormData[i].quesArray[j]?.year,
+            type: this.gtcFormData[i].quesArray[j]?.type,
+            installment: this.gtcFormData[i].quesArray[j]?.installment
           }
-         const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload' ,params).toPromise();
-         console.log(response);
+          const response = await this.commonServices.formGetMethodAsBlob('grantDistribution/upload', params).toPromise();
+          console.log(response);
           this.updateFileProgress(i, j, 100);
           this.gtcFormData[i].quesArray[j]["file"]["url"] = fileAlias;
 
@@ -353,11 +369,11 @@ export class GrantAllocationUlbsComponent implements OnInit {
       this.gtcFormData[i].quesArray[j]["file"]["error"] = true;
     }
   }
-  
+
   private updateFileProgress(i, j, progress) {
     this.gtcFormData[i].quesArray[j]["file"]["progress"] = progress;
   }
-  
+
   saveFile(i, j) {
     const fileName = this.gtcFormData[i].quesArray[j]?.file?.name;
     const url = this.gtcFormData[i].quesArray[j]?.file?.url;
@@ -366,7 +382,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       swal("Error", "Please upload a file.", "error");
       return;
     }
-  
+
     this.postBody = {
       design_year: this.years["2023-24"],
       year: this.gtcFormData[i].quesArray[j]?.year,
@@ -376,9 +392,9 @@ export class GrantAllocationUlbsComponent implements OnInit {
       isDraft: false,
       type: this.gtcFormData[i].quesArray[j]?.type,
       installment: this.gtcFormData[i].quesArray[j]?.installment,
-      currentFormStatus: 6
+      currentFormStatus: 4
     };
-  
+
     this.commonServices.formPostMethod(this.postBody, 'grantDistribution/save').subscribe(
       (res: any) => {
         swal("Saved", "File saved successfully.", "success");
@@ -388,6 +404,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
           this.gtcFormData[i].quesArray[j + 1].isDisableQues = false;
         }
         this.commonServices.setFormStatusState.next(true);
+        this.getGtcData();
       },
       (error) => {
         swal("Error", `${error?.message}`, "error");
@@ -411,15 +428,76 @@ export class GrantAllocationUlbsComponent implements OnInit {
     });
   }
 
- // for clear file
- clearFile(type, i, j) {
-  const quesArray = this.gtcFormData[i].quesArray[j];
+  // for clear file
+  clearFile(type, i, j) {
+    const quesArray = this.gtcFormData[i].quesArray[j];
 
-  quesArray["file"]["url"] = "";
-  quesArray["file"]["name"] = "";
-  quesArray["file"]["progress"] = null;
-}
-// saveAction(i, j){
+    quesArray["file"]["url"] = "";
+    quesArray["file"]["name"] = "";
+    quesArray["file"]["progress"] = null;
+  }
+  saveAction(i, j){
+    console.log('this. action action', this.actionPayload);
+    this.isActionSubmitted = true;
+    const quesArray = this.gtcFormData[i].quesArray[j];
+      if(quesArray?.status != 6 && quesArray?.status != 7){
+        swal('Error', 'Status is mandatory', 'error')
+        return;
+      };
+      if(quesArray?.status == 7 && !quesArray?.rejectReason){
+        swal('Error', 'Reject reason is mandatory in case of rejection', 'error')
+        return;
+      };
+  
+    swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
+      buttons: {
+        Submit: {
+          text: "Submit",
+          value: "submit",
+        },
+        Cancel: {
+          text: "Cancel",
+          value: "cancel",
+        },
+      },
+    }).then((value) => {
+      switch (value) {
+        case "submit":
+          this.finalSubmitAction(i, j);
+          break;
+        case "cancel":
+          break;
+      }
+    });
+ //   console.log('everthing is corrects.............');
+    
+  }
+  finalSubmitAction(i, j) {
+    const quesArray = this.gtcFormData[i].quesArray[j];
+    this.actionPostPayload = {
+      "statusId": quesArray?.status,
+      "design_year": this.years["2023-24"],
+      "state": this.stateId,
+      key: quesArray?.type,
+      installment: quesArray?.installment,
+      "rejectReason": quesArray?.rejectReason,
+      "responseFile": quesArray?.responseFile,
+    }
+    this.commonServices.formPostMethod(this.actionPostPayload, 'grantDistribution/installmentAction').subscribe((res) => {
+      console.log('res', res);
+      this.commonServices.setFormStatusState.next(true);
+      this.getGtcData();
+    },
+      (error) => {
+        console.log('error', error);
 
-// }
+      }
+    )
+  }
+  
+  actionFormChanges(event, i, j){
+    console.log('e event event', event, i , j);
+    console.log('e event event', this.gtcFormData);
+  }
+
 }
