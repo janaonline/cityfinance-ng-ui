@@ -269,7 +269,7 @@ export class ReviewUlbTableComponent implements OnInit {
       data: {
         table: { ...tables?.find(table => table.id == id) },
         queryParams: removeFalsy(rest) || {}
-      }
+      },
     });
   }
 
@@ -299,12 +299,12 @@ export class ReviewUlbTableComponent implements OnInit {
         return
       }
       this.dialog.open(TrackingHistoryTableComponent,{
-        minWidth:"600px",
         data:{
           "queryParams":{
             "id":Object.keys(item.formData).includes("_id")? item.formData._id : ""
           }
-        }
+        },
+        maxHeight: '90vh'
       })
     }
     catch(err){
