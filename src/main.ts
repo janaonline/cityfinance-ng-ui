@@ -10,11 +10,11 @@ if (environment.production) {
   window.console.log = () => { };
 }
 
-// if (window) {
-//   window.console.log = () => {};
-//   window.console.error = () => {};
-//   window.console.warn = () => {};
-// }
+if (window) {
+  window.console.log = () => {};
+  window.console.error = () => {};
+  window.console.warn = () => {};
+}
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

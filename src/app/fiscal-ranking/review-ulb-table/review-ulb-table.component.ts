@@ -301,7 +301,7 @@ export class ReviewUlbTableComponent implements OnInit {
       this.dialog.open(TrackingHistoryTableComponent,{
         data:{
           "queryParams":{
-            "id":Object.keys(item.formData).includes("_id")? item.formData._id : ""
+            "id":item?.formData?._id || ""
           }
         },
         maxHeight: '90vh'
