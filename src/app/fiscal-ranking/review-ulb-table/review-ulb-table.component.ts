@@ -295,15 +295,24 @@ export class ReviewUlbTableComponent implements OnInit {
 
   showTrackingHistory(item){
     try{
+      if(![USER_TYPE.PMU,USER_TYPE.MoHUA].includes(this.userData.role)){
+        return
+      }
       this.dialog.open(TrackingHistoryTableComponent,{
         minWidth:"600px",
-        
+        data:{
+          "queryParams":{
+            "id":Object.keys(item.formData).includes("_id")? item.formData._id : ""
+          }
+        }
       })
     }
     catch(err){
       console.log("error in  showTrackingHistory ::: ",err.message)
     }
   }
+
+  
 
   statusFilterList = [
     { _id: '1', name: 'Not Started' },

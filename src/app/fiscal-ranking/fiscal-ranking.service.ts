@@ -55,6 +55,18 @@ export interface FormWiseData {
   rejected: number;
 }
 
+export interface TrackingHistoryData {
+  srNo : number;
+  action : String;
+  Date : String;
+}
+
+export interface TrackingHistoryResponse{
+  success:Boolean;
+  data:TrackingHistoryData[],
+  message:String
+}
+
 export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
@@ -153,7 +165,8 @@ export class FiscalRankingService {
 
   getTrackingHistory(params={}){
     try{
-      return this.http.get(`${environment.api.url}/fiscal-ranking/getStateWiseForm?`);
+      const queryParams = new URLSearchParams(removeFalsy(params)).toString()
+      return this.http.get<TrackingHistoryResponse>(`${environment.api.url}/fiscal-ranking/tracking-history?`+queryParams);
     }
     catch(err){
       console.log("error in getTrackingHistory :: ",err.message)

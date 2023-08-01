@@ -1,29 +1,37 @@
-<table class="table table-striped">
+
+<app-loader
+     [show]="showLoader">
+</app-loader>
+
+<div class="modal-title" *ngIf="!showLoader">
+  <div style="display: flex; justify-content: flex-end;">
+    <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button"
+      data-dismiss="modal" aria-label="Close">
+      <i class="fa fa-times" style="color: white;"></i>
+    </button>
+  </div>
+  <div>
+    <h3>Tracking</h3>
+  </div>
+</div>
+
+<table class="table table-striped ulb-table" *ngIf="tableData.length">
   <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+    <tr style="background-color: #047474; color: #FFFFFF;" class="p-4 text-center">
+      <th scope="col">Sr No.</th>
+      <th scope="col">Action</th>
+      <th scope="col">Date</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
+    <tr *ngFor="let item of tableData">
+      <th scope="row">{{item?.srNo}}</th>
+      <td>{{item?.action}}</td>
+      <td>{{item?.date}}</td>
     </tr>
   </tbody>
 </table>
+<div class="mx-auto text-center p-4" *ngIf="!tableData.length">
+  <strong>{{message}}</strong>
+</div>
+
