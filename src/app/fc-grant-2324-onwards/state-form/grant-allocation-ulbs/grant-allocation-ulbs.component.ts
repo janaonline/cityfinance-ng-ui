@@ -473,14 +473,15 @@ export class GrantAllocationUlbsComponent implements OnInit {
     
   }
   finalSubmitAction(i, j) {
+    const quesArray = this.gtcFormData[i].quesArray[j];
     this.actionPostPayload = {
-      "statusId": this.gtcFormData[i].quesArray[j]?.status,
+      "statusId": quesArray?.status,
       "design_year": this.years["2023-24"],
       "state": this.stateId,
-      key: this.gtcFormData[i].quesArray[j]?.type,
-      installment: this.gtcFormData[i].quesArray[j]?.installment,
-      "rejectReason": this.gtcFormData[i].quesArray[j]?.rejectReason,
-      "responseFile": this.gtcFormData[i].quesArray[j]?.responseFile,
+      key: quesArray?.type,
+      installment: quesArray?.installment,
+      "rejectReason": quesArray?.rejectReason,
+      "responseFile": quesArray?.responseFile,
     }
     this.commonServices.formPostMethod(this.actionPostPayload, 'grantDistribution/installmentAction').subscribe((res) => {
       console.log('res', res);
