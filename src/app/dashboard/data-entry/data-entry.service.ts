@@ -63,21 +63,21 @@ export class DataEntryService {
     );
   }
 
-  getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
-    const headers = new HttpHeaders();
+  // getURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
+  //   const headers = new HttpHeaders();
 
-    return this.http.post<S3FileURLResponse>(
-      `${environment.api.url}/getSignedUrl`,
-      JSON.stringify([
-        {
-          file_name: fileName,
-          mime_type: fileType,
-        },
-      ]),
-      { headers }
-    );
+  //   return this.http.post<S3FileURLResponse>(
+  //     `${environment.api.url}/getSignedUrl`,
+  //     JSON.stringify([
+  //       {
+  //         file_name: fileName,
+  //         mime_type: fileType,
+  //       },
+  //     ]),
+  //     { headers }
+  //   );
 
-  }
+  // }
   newGetURLForFileUpload(fileName: File["name"], fileType: File["type"], folderName?: string) {
     const headers = new HttpHeaders();
     return this.http.post<S3FileURLResponse>(
@@ -144,22 +144,6 @@ export class DataEntryService {
       .get(`${environment.api.url}/getProcessStatus/${fileId}`)
       .pipe(map((response) => ({ ...response["data"] })));
   }
-
-  // newGetURLForFileUpload(fileName: File["name"], fileType: File["type"]) {
-  //   const headers = new HttpHeaders();
-
-  //   return this.http.post<S3FileURLResponse>(
-  //     `${environment.api.url}/getS3Url`,
-  //     JSON.stringify([
-  //       {
-  //         file_name: fileName,
-  //         mime_type: fileType,
-  //       },
-  //     ]),
-  //     { headers }
-  //   );
-
-  // }
 
   newUploadFileToS3(
     file: File,
