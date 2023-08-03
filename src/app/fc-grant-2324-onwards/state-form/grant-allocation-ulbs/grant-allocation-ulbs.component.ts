@@ -499,8 +499,11 @@ export class GrantAllocationUlbsComponent implements OnInit {
           (res) => {
             this.commonServices?.setFormStatusState.next(true);
             this.getGtcData();
+            this.isActionSubmitted = false;
+            swal('Saved', "Action submitted successfully", "success");
           },
           (error) => {
+            this.isActionSubmitted = false;
             swal('Error', error?.message ?? 'Something went wrong', 'error');
           }
         );
