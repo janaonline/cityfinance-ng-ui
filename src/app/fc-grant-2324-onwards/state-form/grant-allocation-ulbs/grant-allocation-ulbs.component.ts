@@ -48,9 +48,9 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
   }
   isActionSubmitted: boolean = false;
-  actionPostPayload:object = {};
+  actionPostPayload: object = {};
   actionPayload = {
-      "responses": [
+    "responses": [
       {
         "shortKey": "",
         "status": '',
@@ -62,7 +62,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       }
     ]
   }
-  
+
   ngOnInit(): void {
     this.setRouter();
     // this.intializeGtc();
@@ -375,8 +375,8 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
 
   saveFile(i, j) {
-    const fileName = this.gtcFormData[i].quesArray[j]?.file?.name;
-    const url = this.gtcFormData[i].quesArray[j]?.file?.url;
+    const fileName = this.gtcFormData[i]?.quesArray[j]?.file?.name;
+    const url = this.gtcFormData[i]?.quesArray[j]?.file?.url;
 
     if (fileName === "" && url === "") {
       swal("Error", "Please upload a file.", "error");
@@ -385,13 +385,13 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
     this.postBody = {
       design_year: this.years["2023-24"],
-      year: this.gtcFormData[i].quesArray[j]?.year,
+      year: this.gtcFormData[i]?.quesArray[j]?.year,
       url,
       fileName,
       answer: true,
       isDraft: false,
-      type: this.gtcFormData[i].quesArray[j]?.type,
-      installment: this.gtcFormData[i].quesArray[j]?.installment,
+      type: this.gtcFormData[i]?.quesArray[j]?.type,
+      installment: this.gtcFormData[i]?.quesArray[j]?.installment,
       currentFormStatus: 4
     };
 
@@ -430,25 +430,24 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
   // for clear file
   clearFile(type, i, j) {
-    const quesArray = this.gtcFormData[i].quesArray[j];
+    const quesArray = this.gtcFormData[i]?.quesArray[j];
 
     quesArray["file"]["url"] = "";
     quesArray["file"]["name"] = "";
     quesArray["file"]["progress"] = null;
   }
-  saveAction(i, j){
-    console.log('this. action action', this.actionPayload);
+  saveAction(i, j) {
     this.isActionSubmitted = true;
-    const quesArray = this.gtcFormData[i].quesArray[j];
-      if(quesArray?.status != 6 && quesArray?.status != 7){
-        swal('Error', 'Status is mandatory', 'error')
-        return;
-      };
-      if(quesArray?.status == 7 && !quesArray?.rejectReason){
-        swal('Error', 'Reject reason is mandatory in case of rejection', 'error')
-        return;
-      };
-  
+    const quesArray = this.gtcFormData[i]?.quesArray[j];
+    if (!quesArray || ![6, 7].includes(quesArray?.status)) {
+      swal('Error', 'Status is mandatory', 'error');
+      return;
+    }
+    if (quesArray?.status == 7 && !quesArray?.rejectReason) {
+      swal('Error', 'Reject reason is mandatory in case of rejection', 'error');
+      return;
+    }
+
     swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
       buttons: {
         Submit: {
@@ -463,40 +462,52 @@ export class GrantAllocationUlbsComponent implements OnInit {
     }).then((value) => {
       switch (value) {
         case "submit":
-          this.finalSubmitAction(i, j);
+          this.handleActionSubmission(i, j);
           break;
         case "cancel":
           break;
       }
     });
- //   console.log('everthing is corrects.............');
-    
-  }
-  finalSubmitAction(i, j) {
-    const quesArray = this.gtcFormData[i].quesArray[j];
-    this.actionPostPayload = {
-      "statusId": quesArray?.status,
-      "design_year": this.years["2023-24"],
-      "state": this.stateId,
-      key: quesArray?.type,
-      installment: quesArray?.installment,
-      "rejectReason": quesArray?.rejectReason,
-      "responseFile": quesArray?.responseFile,
-    }
-    this.commonServices.formPostMethod(this.actionPostPayload, 'grantDistribution/installmentAction').subscribe((res) => {
-      console.log('res', res);
-      this.commonServices.setFormStatusState.next(true);
-      this.getGtcData();
-    },
-      (error) => {
-        console.log('error', error);
+    //   console.log('everthing is corrects.............');
 
-      }
-    )
   }
-  
-  actionFormChanges(event, i, j){
-    console.log('e event event', event, i , j);
+  handleActionSubmission(i, j) {
+      const quesArray = this.gtcFormData[i]?.quesArray[j];
+      if (!quesArray) {
+        swal('Error', 'Invalid data', 'error');
+        return;
+      }
+      const {
+        status,
+        type,
+        installment,
+        rejectReason,
+        responseFile,
+      } = quesArray ?? {};
+
+      const actionPostPayload = {
+        statusId: status,
+        design_year: this.years["2023-24"],
+        state: this.stateId,
+        key: type,
+        installment,
+        rejectReason,
+        responseFile,
+      };
+      this.commonServices.formPostMethod(actionPostPayload, 'grantDistribution/installmentAction')
+        .subscribe(
+          (res) => {
+            this.commonServices?.setFormStatusState.next(true);
+            this.getGtcData();
+          },
+          (error) => {
+            swal('Error', error?.message ?? 'Something went wrong', 'error');
+          }
+        );
+  }
+
+  // In development -- function for get data from child componets
+  actionFormChanges(event, i, j) {
     console.log('e event event', this.gtcFormData);
   }
 
