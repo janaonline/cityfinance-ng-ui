@@ -209,7 +209,7 @@
                     </th>
                     <th class="filter text-center">
                         <select class=""
-                            *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16'"
+                            *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != submitCliamStatus"
                             formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
@@ -236,13 +236,13 @@
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
 
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="formId != '16'"> 
-                        <!-- {{resData.formStatus}} -->
-                        <!-- (click)="viewHistory(template, formId, resData['_id'])" -->
-                        <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
-                        </a>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="formId != submitCliamStatus"> 
+                        {{resData?.formStatus}}
+                        <!-- temparory commented this for all state form -->
+                        <!-- <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
+                        </a> -->
                     </td>
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData?.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
                             [routerLink]="formRouterLink">
                             <!-- [routerLink]="[

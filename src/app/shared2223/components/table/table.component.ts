@@ -108,6 +108,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   noHistorydataFound = false
   historyData;
   environment = environment;
+  submitCliamStatus:string = '16';
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -591,7 +592,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(this.environment?.isProduction && this.title == 'Review State Forms') return;
+    // if(this.environment?.isProduction) return;
     this.noHistorydataFound = false;
     let queryParam = {
       formId: formId,
@@ -602,7 +603,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }else {
       queryParam["ulbId"] = ulbId;
     }
-  //  return this.http.get(`${environment.api.url}common-history?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`);
     this.commonService.formGetMethod('common-history', queryParam).subscribe(
       (res) => {
         this.historyData = res['data']

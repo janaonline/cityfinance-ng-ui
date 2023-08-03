@@ -40,3 +40,12 @@ declare module "@angular/core" {
         providers?: Provider[];
     }
 }
+
+declare global {
+    interface Math {
+        range(num: number, min: number, max: number): number;
+    }
+}
+
+
+Math.range = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
