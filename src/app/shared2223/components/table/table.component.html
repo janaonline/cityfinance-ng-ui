@@ -237,10 +237,10 @@
                     </td>
 
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="formId != '16'"> 
-                        <!-- {{resData.formStatus}} -->
-                        <!-- (click)="viewHistory(template, formId, resData['_id'])" -->
-                        <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
-                        </a>
+                        {{resData.formStatus}}
+                        <!-- temparory commented this for all state form -->
+                        <!-- <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
+                        </a> -->
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
