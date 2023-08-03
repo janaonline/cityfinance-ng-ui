@@ -269,7 +269,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         }
       },
       (err) => {
-        swal('Error', `${err.message}`, 'error');
+        swal('Error', `Failed to connect with Server, Please try again!`, 'error');
         this.isLoader = false;
       }
     );
