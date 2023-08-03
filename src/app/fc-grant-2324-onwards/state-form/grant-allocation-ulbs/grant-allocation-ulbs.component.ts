@@ -375,8 +375,8 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
 
   saveFile(i, j) {
-    const fileName = this.gtcFormData[i].quesArray[j]?.file?.name;
-    const url = this.gtcFormData[i].quesArray[j]?.file?.url;
+    const fileName = this.gtcFormData[i]?.quesArray[j]?.file?.name;
+    const url = this.gtcFormData[i]?.quesArray[j]?.file?.url;
 
     if (fileName === "" && url === "") {
       swal("Error", "Please upload a file.", "error");
@@ -385,13 +385,13 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
     this.postBody = {
       design_year: this.years["2023-24"],
-      year: this.gtcFormData[i].quesArray[j]?.year,
+      year: this.gtcFormData[i]?.quesArray[j]?.year,
       url,
       fileName,
       answer: true,
       isDraft: false,
-      type: this.gtcFormData[i].quesArray[j]?.type,
-      installment: this.gtcFormData[i].quesArray[j]?.installment,
+      type: this.gtcFormData[i]?.quesArray[j]?.type,
+      installment: this.gtcFormData[i]?.quesArray[j]?.installment,
       currentFormStatus: 4
     };
 
@@ -430,7 +430,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
 
   // for clear file
   clearFile(type, i, j) {
-    const quesArray = this.gtcFormData[i].quesArray[j];
+    const quesArray = this.gtcFormData[i]?.quesArray[j];
 
     quesArray["file"]["url"] = "";
     quesArray["file"]["name"] = "";
@@ -439,11 +439,11 @@ export class GrantAllocationUlbsComponent implements OnInit {
   saveAction(i, j) {
     this.isActionSubmitted = true;
     const quesArray = this.gtcFormData[i]?.quesArray[j];
-    if (!quesArray || ![6, 7].includes(quesArray.status)) {
+    if (!quesArray || ![6, 7].includes(quesArray?.status)) {
       swal('Error', 'Status is mandatory', 'error');
       return;
     }
-    if (quesArray.status == 7 && !quesArray.rejectReason) {
+    if (quesArray?.status == 7 && !quesArray?.rejectReason) {
       swal('Error', 'Reject reason is mandatory in case of rejection', 'error');
       return;
     }
@@ -497,7 +497,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
       this.commonServices.formPostMethod(actionPostPayload, 'grantDistribution/installmentAction')
         .subscribe(
           (res) => {
-            this.commonServices.setFormStatusState.next(true);
+            this.commonServices?.setFormStatusState.next(true);
             this.getGtcData();
           },
           (error) => {
