@@ -35,8 +35,8 @@ export class DashbordComponent implements OnInit {
             value: '20'
           },
           {
-            key: 'Total ULBs in UAs ',
-            label: 'TotalULBsUAs ',
+            key: 'TotalULBsUAs ',
+            label: 'Total ULBs in UAs ',
             icon: '../../../../assets/dashboard-state/16-location.svg',
             tooltip: '',
             value: '40'
