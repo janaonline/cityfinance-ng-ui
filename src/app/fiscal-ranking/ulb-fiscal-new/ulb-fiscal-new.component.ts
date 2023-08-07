@@ -256,7 +256,7 @@ export class UlbFiscalNewComponent implements OnInit {
     return [
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
-      ...(item.formFieldType == 'url' ? [urlValidator] : []),
+      ...(item.formFieldType == 'url' ? [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')] : []),
       ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
       ...(item.min !== '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
       ...(item.max !== '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
