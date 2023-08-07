@@ -278,7 +278,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
 
   handleDownloadSuccess() {
-    swal('', "File downloaded successfully", '');
+    swal('', "File downloaded successfully", 'success');
   }
 
   handleDownloadError() {
