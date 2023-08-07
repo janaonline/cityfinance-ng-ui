@@ -278,7 +278,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   }
 
   handleDownloadSuccess() {
-    swal('', "File downloaded successfully", '');
+    swal('', "File downloaded successfully", 'success');
   }
 
   handleDownloadError() {
@@ -439,7 +439,7 @@ export class GrantAllocationUlbsComponent implements OnInit {
   saveAction(i, j) {
     this.isActionSubmitted = true;
     const quesArray = this.gtcFormData[i]?.quesArray[j];
-    if (!quesArray || ![6, 7].includes(quesArray?.status)) {
+    if (!quesArray || ![6, 7].includes(Number(quesArray?.status))) {
       swal('Error', 'Status is mandatory', 'error');
       return;
     }

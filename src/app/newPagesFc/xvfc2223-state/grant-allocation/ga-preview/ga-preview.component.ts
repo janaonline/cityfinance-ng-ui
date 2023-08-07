@@ -34,6 +34,10 @@ export class GaPreviewComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.stateName = this.userData["stateName"];
     this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+      this.stateName = sessionStorage.getItem('stateName');
+    }
     this.years = JSON.parse(localStorage.getItem("Years"));
   }
   styleForPDF = `<style>

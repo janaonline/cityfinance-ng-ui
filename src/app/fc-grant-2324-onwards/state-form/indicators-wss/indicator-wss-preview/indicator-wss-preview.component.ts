@@ -136,10 +136,19 @@ text-align: center;
     private _matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public preData: any,
     private _questionnaireService: QuestionnaireService,
-  ) { }
-  userData = JSON.parse(localStorage.getItem("userData"));
+  ) { 
+    this.stateName = this.userData["stateName"];
+    this.stateId = this.userData?.state;
+    if (!this.stateId) {
+      this.stateId = localStorage.getItem("state_id");
+      this.stateName = sessionStorage.getItem('stateName');
+    }
+  }
+  
   @ViewChild("indicators") _html: ElementRef;
-
+  userData = JSON.parse(localStorage.getItem("userData"));
+  stateName:string ='';
+  stateId:string='';
   ngOnInit(): void {
     console.log('aaa aa preview', this.preData);
     
