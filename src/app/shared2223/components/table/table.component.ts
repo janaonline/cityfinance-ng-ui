@@ -639,9 +639,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
  getDownloadAvailability() {
 
   /* formId = 7(grant-tranfer), 11.2(grant-allocation), 12(Project for wss), 13(action-plan), 16(submit-claim-grant) */
-
-  if(!this.environment?.isProduction) return true; // temparory added this line for stg and demo.
-
   const isReviewStateForms = this.title == 'Review State Forms';
   const isReviewGrantApplication = this.title == 'Review Grant Application';
   const isFormIdIncluded = [7, 11.2, 12, 13, 16].includes(Number(this.formId));
