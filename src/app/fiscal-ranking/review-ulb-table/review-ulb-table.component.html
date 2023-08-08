@@ -170,7 +170,8 @@
                                 <td>{{item.populationType}}</td>
                                 <td>{{item.ulbDataSubmitted}}</td>
                                 <td>{{item.pmuVerificationProgress}}</td>
-                                <td style="cursor:pointer;" (click)="showTrackingHistory(item)">{{item.formStatus}}</td>
+                                <td >{{item.formStatus}}</td> 
+                                <!-- <td style="cursor:pointer;" (click)="showTrackingHistory(item)">{{item.formStatus}}</td> -->
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
                                 <!-- <p>{{ item | json }}</p> -->
                                 <td *ngIf="!item?.cantakeAction">
