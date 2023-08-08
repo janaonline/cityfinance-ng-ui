@@ -201,7 +201,7 @@
                     <th class="filter text-center">
                         <!-- formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16' -->
                         <select class=""
-                            *ngIf=" getStatusAvailability()"
+                            *ngIf="getStatusAvailability()"
                             formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
