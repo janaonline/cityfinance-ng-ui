@@ -108,6 +108,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   noHistorydataFound = false
   historyData;
   environment = environment;
+  years: object = JSON.parse(localStorage.getItem("Years"));
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -633,5 +634,24 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
  keepOriginalOrder = (a, b) => b.key - a.key;
+
+ //for hide and unhide download csv button logic
+ getDownloadAvailability() {
+
+  /* formId = 7(grant-tranfer), 11.2(grant-allocation), 12(Project for wss), 13(action-plan), 16(submit-claim-grant) */
+
+  if(!this.environment?.isProduction) return true; // temparory added this line for stg and demo.
+
+  const isReviewStateForms = this.title == 'Review State Forms';
+  const isReviewGrantApplication = this.title == 'Review Grant Application';
+  const isFormIdIncluded = [7, 11.2, 12, 13, 16].includes(Number(this.formId));
+  const isDesignYearMatch = this.designYear == this.years["2022-23"];
+
+  if ((isReviewGrantApplication && this.formId != '3') || (isDesignYearMatch && isReviewStateForms) || (isFormIdIncluded && isReviewStateForms)) {
+    return true;
+  }
+  
+  return false;
+}
 
 }

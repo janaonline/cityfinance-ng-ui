@@ -12,16 +12,16 @@
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
             (click)="openDialog('Return')">Return all</button>
             <!-- temp only for stg and demo -->
-            <span *ngIf="!environment?.isProduction">
-                <button type="button" class="btn btn-danger ms-2" (click)="download()" *ngIf="formId != '3'">Download</button>
+            <span *ngIf="getDownloadAvailability()">
+                <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
             </span>
            <!-- temp only for production -->
-    <span *ngIf="environment?.isProduction">
+    <!-- <span *ngIf="environment?.isProduction">
         <button type="button" class="btn btn-danger ms-2" (click)="download()"
         *ngIf="formId != '3' && title == 'Review Grant Application'">Download</button>
     <button type="button" class="btn btn-danger ms-2" (click)="download()"
         *ngIf="(designYear == '606aafb14dff55e6c075d3ae' && title == 'Review State Forms') || formId == 12">Download</button>
-    </span>
+    </span> -->
    
     </div>
 </div>
