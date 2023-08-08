@@ -651,4 +651,14 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   return false;
 }
 
+getStatusAvailability(){
+  const isReviewStateForms = this.title == 'Review State Forms';
+  const isFormIdIncluded = ['14', '16', '62c552c52954384b44b3c386', '62c554932954384b44b3c39e'].includes((this.formId));
+  if ((isFormIdIncluded && isReviewStateForms)) {
+    return false;
+  }
+  
+  return true;
+}
+
 }
