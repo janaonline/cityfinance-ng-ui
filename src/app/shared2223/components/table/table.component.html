@@ -11,18 +11,9 @@
             (click)="openDialog('Approve')">Approve all</button>
         <button type="button" class="btn btn-primary ms-2" [disabled]="selectedId.length == 0"
             (click)="openDialog('Return')">Return all</button>
-            <!-- temp only for stg and demo -->
-            <span *ngIf="!environment?.isProduction">
-                <button type="button" class="btn btn-danger ms-2" (click)="download()" *ngIf="formId != '3'">Download</button>
+            <span *ngIf="getDownloadAvailability()">
+                <button type="button" class="btn btn-danger ms-2" (click)="download()">Download</button>
             </span>
-           <!-- temp only for production -->
-    <span *ngIf="environment?.isProduction">
-        <button type="button" class="btn btn-danger ms-2" (click)="download()"
-        *ngIf="formId != '3' && title == 'Review Grant Application'">Download</button>
-    <button type="button" class="btn btn-danger ms-2" (click)="download()"
-        *ngIf="(designYear == '606aafb14dff55e6c075d3ae' && title == 'Review State Forms') || formId == 12">Download</button>
-    </span>
-   
     </div>
 </div>
 <!-- <form > -->
@@ -208,8 +199,9 @@
                         </select>
                     </th>
                     <th class="filter text-center">
+                        <!-- formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16' -->
                         <select class=""
-                            *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16'"
+                            *ngIf="getStatusAvailability()"
                             formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
@@ -235,12 +227,12 @@
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
-
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="formId != '16'"> 
-                        <!-- {{resData.formStatus}} -->
+                    <!-- *ngIf="formId != '16'" -->
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="getStatusAvailability()"> 
+                        {{resData.formStatus}}
                         <!-- (click)="viewHistory(template, formId, resData['_id'])" -->
-                        <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
-                        </a>
+                        <!-- <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
+                        </a> -->
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
                         <a [ngClass]='{"notClick" : actBtn}' (click)="viewStateForm(resData)"
