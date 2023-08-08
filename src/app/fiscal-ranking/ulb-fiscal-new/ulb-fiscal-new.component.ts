@@ -8,10 +8,6 @@ import { HttpEventType } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.component';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  customEmailValidator,
-  urlValidator,
-} from "src/app/util/reactiveFormValidators";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { Tab } from '../models';
@@ -257,7 +253,7 @@ export class UlbFiscalNewComponent implements OnInit {
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
       ...(item.formFieldType == 'url' ? [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')] : []),
-      ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
+      ...(item.formFieldType == 'email' ? [Validators.email] : []),
       ...(item.min !== '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
       ...(item.max !== '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
     ];
