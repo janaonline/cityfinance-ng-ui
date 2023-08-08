@@ -199,8 +199,9 @@
                         </select>
                     </th>
                     <th class="filter text-center">
+                        <!-- formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16' -->
                         <select class=""
-                            *ngIf="formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16'"
+                            *ngIf=" getStatusAvailability()"
                             formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
@@ -226,8 +227,8 @@
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData?.stateName}}
                     </td>
-
-                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="formId != '16'"> 
+                    <!-- *ngIf="formId != '16'" -->
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="getStatusAvailability()"> 
                         <!-- {{resData.formStatus}} -->
                         <!-- (click)="viewHistory(template, formId, resData['_id'])" -->
                         <a class="bl-ln" (click)="viewHistory(template, formId, resData['_id'])"> {{resData.formStatus}}
