@@ -47,5 +47,4 @@ declare global {
     }
 }
 
-
 Math.range = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
