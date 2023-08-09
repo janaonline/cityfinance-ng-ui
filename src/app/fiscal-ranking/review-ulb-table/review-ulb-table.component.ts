@@ -295,7 +295,7 @@ export class ReviewUlbTableComponent implements OnInit {
 
   showTrackingHistory(item){
     try{
-      if(![USER_TYPE.PMU,USER_TYPE.MoHUA].includes(this.userData.role)){
+      if(!this.canSeeTrackingHistory){
         return
       }
       this.dialog.open(TrackingHistoryTableComponent,{
@@ -312,6 +312,9 @@ export class ReviewUlbTableComponent implements OnInit {
     }
   }
 
+  get canSeeTrackingHistory() {
+    return [USER_TYPE.PMU,USER_TYPE.MoHUA].includes(this.userData.role)
+  }
   
 
   statusFilterList = [
