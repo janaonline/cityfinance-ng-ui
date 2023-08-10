@@ -2,23 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { PropertyTaxService } from './property-tax.service';
 
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
-import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { HttpEventType } from '@angular/common/http';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  customEmailValidator,
-  mobileNoValidator,
-  urlValidator,
-  validateOnlyText
-} from "src/app/util/reactiveFormValidators";
 import { UserUtility } from 'src/app/util/user/user';
-import { IUserLoggedInDetails } from 'src/app/models/login/userLoggedInDetails';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
 
 import { KeyValue } from '@angular/common';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
@@ -255,8 +245,8 @@ export class PropertyTaxComponent implements OnInit {
     return [
       ...(parent?.logic == 'sum' && item.modelName ? [Validators.pattern(new RegExp(item.value))] : []),
       ...(item.required && canApplyRequired ? [Validators.required] : []),
-      ...(item.formFieldType == 'url' ? [urlValidator] : []),
-      ...(item.formFieldType == 'email' ? [customEmailValidator] : []),
+      ...(item.formFieldType == 'url' ? [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')] : []),
+      ...(item.formFieldType == 'email' ? [Validators.email] : []),
       ...(item.min !== '' ? [Validators[item.formFieldType == 'number' ? 'min' : 'minLength'](+item.min)] : []),
       ...(item.max !== '' ? [Validators[item.formFieldType == 'number' ? 'max' : 'maxLength'](+item.max)] : []),
     ];
