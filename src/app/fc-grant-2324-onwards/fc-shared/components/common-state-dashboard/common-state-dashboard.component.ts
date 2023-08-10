@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+
 @Component({
   selector: 'app-common-state-dashboard',
   templateUrl: './common-state-dashboard.component.html',
@@ -50,6 +51,7 @@ export class CommonStateDashboardComponent implements OnInit {
   @Input() stateId: string;
   @Input() designYear: string;
   @Input() formData;
+  @Input() formDataCompleted: boolean = false;
   @Output() cityTabClick = new EventEmitter<any | object>();
   selectedItem: string = 'nmpc_untied';
   viewMode: string = 'tab1';
@@ -57,8 +59,9 @@ export class CommonStateDashboardComponent implements OnInit {
   installmentType: string = '1';
   selectedCity: object | any;
   ngOnInit(): void {
-    console.log('abcd', this.stateInfo);
-    this.selectedCity = this.citiesType?.data[0];
+    console.log('abcd', this.citiesType);
+    // this.selectedCity = this.citiesType?.data[0];
+    this.cityTabChange(this.citiesType?.data[0])
   }
 
   cityTabChange(item) {
@@ -66,16 +69,9 @@ export class CommonStateDashboardComponent implements OnInit {
     this.selectedItem = item?.formType
     this.viewMode = item?.viewMode
     this.selectedCity = item;
-    item.title == 'MPC'
-    this.cityTabClick.emit(item);
-    this.params = {
-      stateId: this.stateId,
-      design_year: this.designYear,
-      formType: item.formType,
-      installment: this.viewMode == 'tab3' ? 1 : this.installmentType
-    };
     const passValue = {
-      data: this.params,
+      data: item,
+      formType: this.selectedItem,
       type: 'cityTabChange'
     }
     this.cityTabClick.emit(passValue);
@@ -87,6 +83,7 @@ export class CommonStateDashboardComponent implements OnInit {
     instl["isActive"] = true;
     const passValue = {
       data: instl,
+      formType: this.selectedItem,
       type: 'installmentsChange'
     }
     this.cityTabClick.emit(passValue);

@@ -108,6 +108,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   noHistorydataFound = false
   historyData;
   environment = environment;
+  submitCliamStatus:string = '16';
   years: object = JSON.parse(localStorage.getItem("Years"));
   ngOnInit(): void {
     this.updatedTableData();
@@ -269,7 +270,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
         }
       },
       (err) => {
-        swal('Error', `${err.message}`, 'error');
+        swal('Error', `Failed to connect with Server, Please try again!`, 'error');
         this.isLoader = false;
       }
     );
@@ -592,7 +593,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   
   viewHistory(template, formId, ulbId) {
-    if(this.environment?.isProduction && this.title == 'Review State Forms') return;
+    // if(this.environment?.isProduction) return;
     this.noHistorydataFound = false;
     let queryParam = {
       formId: formId,
@@ -603,7 +604,6 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }else {
       queryParam["ulbId"] = ulbId;
     }
-  //  return this.http.get(`${environment.api.url}common-history?formId=${formId}&ulbId=${ulbId}&design_year=${designYr}`);
     this.commonService.formGetMethod('common-history', queryParam).subscribe(
       (res) => {
         this.historyData = res['data']

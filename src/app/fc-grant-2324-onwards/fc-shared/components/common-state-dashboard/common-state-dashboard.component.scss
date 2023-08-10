@@ -93,9 +93,10 @@ li {
    // margin-left: 20px;
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 10px 20px;
-    min-height: 220px;
+   // min-height: max-content;
     background-color: #12505A;
     color: white;
+    height: 100%;
 }
 
 .form-card {
@@ -206,3 +207,7 @@ li {
 .sub-el {
     font-size: 15px;
 }
+.row-c {
+    display: flex;
+    justify-content: space-between;
+  }

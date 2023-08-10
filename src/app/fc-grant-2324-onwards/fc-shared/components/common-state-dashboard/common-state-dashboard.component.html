@@ -1,22 +1,22 @@
-<div class="row" *ngIf="stateInfo?.data">
-    <div class="col-sm-3" *ngFor="let item of stateInfo?.data">
-        <div class="card">
+<div class="row row-c" *ngIf="stateInfo?.data">
+    <div class="col-sm-3 mt-3" *ngFor="let item of stateInfo?.data">
+        <div class="card ">
             <div class="row">
-                <div class="col-sm-12 text-center mb-2">
-                    <img src="{{item?.icon}}" alt="SVG" />
-                </div>
-                <div class="col-sm-12">
+                <div class="col-sm-9">
                     <div *ngIf="!item?.isSubData">
                         <h3>{{item?.value}}</h3>
                          <p>{{item?.label}}</p>
                     </div>
-                    <div *ngIf="item?.isSubData">
+                    <!-- <div *ngIf="item?.isSubData">
                         <div class="row mb-2" *ngFor="let subElem of item?.subData">
                             <span class="col-sm-8 sub-el">{{subElem?.label}} : </span>
                             <span class="col-sm-4 sub-el">{{subElem?.value}}</span>
                            
                         </div>
-                    </div>
+                    </div> -->
+                </div>
+                <div class="col-sm-3 text-end">
+                    <img src="{{item?.icon}}" alt="SVG" />
                 </div>
                 
             </div>
@@ -34,7 +34,8 @@
         </div>
     </div>
     <div class="col-sm-12 mt-3">
-        <div *ngIf="selectedCity?.isInstallmentAvailbe" class="mt-4">
+
+        <div *ngIf="selectedCity?.isInstallmentAvailable" class="mt-4">
             <button class="btn me-2" *ngFor="let instl of selectedCity?.installments"
              [ngClass]="{'active-cls-ins': instl?.isActive}" (click)="installmentChange(instl)">{{instl?.label}}</button>
         </div>
@@ -42,7 +43,14 @@
 </div>
 
 
-<div class="tab-slider--container mt-4">
+<div class="row" *ngIf="!formDataCompleted">
+    <div class="col-sm-12">
+        <div class="loader">
+            <app-form-loader></app-form-loader>
+        </div>  
+    </div>
+</div>
+<div class="tab-slider--container mt-4" *ngIf="formDataCompleted">
     <div class="tab-slider--body">
         <div *ngFor="let form of formData | keyvalue : keepOriginalOrder">
             <div>
@@ -102,8 +110,8 @@
                                         matTooltipClass="tooltip-col-cls">{{item?.submittedValue ? item?.submittedValue
                                         + '%' : ''}}</span>
                                 </div>
-                                <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltip-custom">
-                                    <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1 acr"
+                                <!-- <div *ngIf="item?.formName == 'Annual Accounts'" class="tooltip-custom">
+                                    <p>25% Target<span><br><i class="fa fa-angle-down ms-2 mt-1 arc"
                                                 style=""></i></span></p>
                                 </div>
                                 <div *ngIf="item?.formName == 'Annual Accounts'" class="progress-bar" role="progressbar"
@@ -112,10 +120,10 @@
                                     aria-valuenow="{{item?.cutOff}}" aria-valuemin="0" aria-valuemax="100">
                                     <p class="customSpan"><img
                                             src="../../../../assets/dashboard-state/track_changes_black_24dp.svg"></p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
-                        <div class="col-2 target-class" *ngIf="item?.formName != 'Annual Accounts'">
+                        <div class="col-2 target-class" >
                             <p class="targetHundred">100% Target<span><br><i class="fa fa-angle-down arc"
                                         style=""></i></span></p>
                             <p>

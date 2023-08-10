@@ -44,6 +44,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonTableComponent } from './common-table/common-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
+import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-history-table/tracking-history-table.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
     DashboardComponent,
     CommonTableComponent,
     TableRowCalculatorPipe,
+    TrackingHistoryTableComponent,
   ],
   imports: [
     CommonModule,
