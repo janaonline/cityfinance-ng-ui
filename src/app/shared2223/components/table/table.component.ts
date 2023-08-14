@@ -45,6 +45,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.fetchStateList();
     this.getDesignYear();
     this.dropdownChanges();
+    this.yearIdFor2223 = this.years['2022-23'];
+    
   }
   userData;
   title = "";
@@ -110,6 +112,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   environment = environment;
   submitCliamStatus:string = '16';
   years: object = JSON.parse(localStorage.getItem("Years"));
+  yearIdFor2223: string = '';
+
+  
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -153,7 +158,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.callAPI();
     let formData;
-    if(this.designYear == '606aafc14dff55e6c075d3ec'){
+    if(this.designYear == this.years["2023-24"]){
       formData = this.dropdownData?.find(({ formId }) => {
         return formId == this.formId;
       });
@@ -448,7 +453,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       formId: this.formId,
       tableName: this.title,
       designYear : this.designYear,
-      reviewType: this.designYear == '606aafc14dff55e6c075d3ec' ? 'new_review' : 'old_review'
+      reviewType: this.designYear == this.years["2023-24"] ? 'new_review' : 'old_review'
     };
     console.log(dialogdata);
     const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
@@ -471,7 +476,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       ...csvParams,
       token: this.getToken(),
     };
-    const endPoint = this.designYear == '606aafc14dff55e6c075d3ec' ? this.endPoint : "review" ;
+    const endPoint = this.designYear == this.years["2023-24"] ? this.endPoint : "review" ;
     console.log(params);
     this._commonService.openWindowToDownloadCsv(params, endPoint);
   }
@@ -607,7 +612,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.commonService.formGetMethod('common-history', queryParam).subscribe(
       (res) => {
         this.historyData = res['data']
-        this.historyData.reverse()
+      //  this.historyData.reverse()
         if (!this.historyData.length) {
           this.noHistorydataFound = true;
         }

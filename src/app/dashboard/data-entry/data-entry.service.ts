@@ -12,7 +12,7 @@ import { filter, timeout } from 'rxjs/operators';
   providedIn: "root",
 })
 export class DataEntryService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   httpUtil = new HttpUtility();
 
@@ -93,15 +93,15 @@ export class DataEntryService {
     );
     // .pipe(map((response) => this.changeKeys(response['data'][0])));
   }
-  changeKeys(el){
+  changeKeys(el) {
     let formattedObj = {
-      data : [
+      data: [
         {
-          file_url : el?.file_alias,
-          url : el?.url,
-          file_name : el?.file_name,
-          host : el?.host,
-          mime_type : el?.mime_type
+          file_url: el?.file_alias,
+          url: el?.url,
+          file_name: el?.file_name,
+          host: el?.host,
+          mime_type: el?.mime_type
         }
       ]
     }
@@ -124,7 +124,7 @@ export class DataEntryService {
    *
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
-  sendUploadFileForProcessing(alias: string, financialYear: string="") {
+  sendUploadFileForProcessing(alias: string, financialYear: string = "") {
     return this.http.post(`${environment.api.url}/processData`, {
       alias,
       financialYear,
@@ -155,15 +155,24 @@ export class DataEntryService {
       observe: "events",
     });
   }
-  checkSpcialCharInFileName(files){
+  checkSpcialCharInFileName(files) {
     let file = files[0];
     let name = ((file.name).split('.'))[0];
     let iChars = "~`!#$%^&*+=[]\\\';,/{}|\":<>?@";
     for (let i = 0; i < name.length; i++) {
-       if (iChars.indexOf(name.charAt(i)) != -1) {
-           return false;
-       }
+      if (iChars.indexOf(name.charAt(i)) != -1) {
+        return false;
+      }
     }
     return true;
+  }
+
+  downloadFileFromBlob(blob: Blob, filename: string) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);;
   }
 }

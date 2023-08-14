@@ -1,24 +1,38 @@
 <div class="row row-c" *ngIf="stateInfo?.data">
-    <div class="col-sm-3 mt-3" *ngFor="let item of stateInfo?.data">
-        <div class="card ">
+
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-4 mt-3" *ngFor="let item of stateInfo?.data | slice : stateInfo?.data?.length > 6 ? 1 : 0">
+                <div class="card ">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div *ngIf="!item?.isSubData">
+                                <h3>{{item?.value}}</h3>
+                                <p>{{item?.label}}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 text-end">
+                            <img src="{{item?.icon}}" alt="SVG" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 mt-3">
+        <div class="card">
             <div class="row">
                 <div class="col-sm-9">
-                    <div *ngIf="!item?.isSubData">
-                        <h3>{{item?.value}}</h3>
-                         <p>{{item?.label}}</p>
+                    <div>
+                        <h3>{{stateInfo?.data[6]?.value}}</h3>
+                        <p>{{stateInfo?.data[6]?.label}}</p>
                     </div>
-                    <!-- <div *ngIf="item?.isSubData">
-                        <div class="row mb-2" *ngFor="let subElem of item?.subData">
-                            <span class="col-sm-8 sub-el">{{subElem?.label}} : </span>
-                            <span class="col-sm-4 sub-el">{{subElem?.value}}</span>
-                           
-                        </div>
-                    </div> -->
                 </div>
                 <div class="col-sm-3 text-end">
-                    <img src="{{item?.icon}}" alt="SVG" />
+                    <img src="{{stateInfo?.data[6]?.icon}}" alt="SVG" />
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -37,7 +51,8 @@
 
         <div *ngIf="selectedCity?.isInstallmentAvailable" class="mt-4">
             <button class="btn me-2" *ngFor="let instl of selectedCity?.installments"
-             [ngClass]="{'active-cls-ins': instl?.isActive}" (click)="installmentChange(instl)">{{instl?.label}}</button>
+                [ngClass]="{'active-cls-ins': instl?.isActive}"
+                (click)="installmentChange(instl)">{{instl?.label}}</button>
         </div>
     </div>
 </div>
@@ -47,7 +62,7 @@
     <div class="col-sm-12">
         <div class="loader">
             <app-form-loader></app-form-loader>
-        </div>  
+        </div>
     </div>
 </div>
 <div class="tab-slider--container mt-4" *ngIf="formDataCompleted">
@@ -123,7 +138,7 @@
                                 </div> -->
                             </div>
                         </div>
-                        <div class="col-2 target-class" >
+                        <div class="col-2 target-class">
                             <p class="targetHundred">100% Target<span><br><i class="fa fa-angle-down arc"
                                         style=""></i></span></p>
                             <p>
