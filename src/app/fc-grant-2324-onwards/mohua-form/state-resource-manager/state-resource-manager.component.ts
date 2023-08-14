@@ -99,25 +99,6 @@ export class StateResourceManagerComponent implements OnInit {
     this.openAddResourceModel(resource);
   }
 
-  // async onDelete(event: Event, id: string) {
-  //   event.preventDefault();
-  //   const agree = await swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
-  //     buttons: {
-  //       Submit: {
-  //         text: "Submit",
-  //         value: true,
-  //       },
-  //       Cancel: {
-  //         text: "Cancel",
-  //         value: false,
-  //       },
-  //     },
-  //   })
-  //   if (!agree) return;
-  //   this.stateResourceService.deleteById(id).subscribe(res => {
-  //     this.loadData();
-  //   })
-  // }
 
   applyFilter() {
     this.pageIndex = 0;
