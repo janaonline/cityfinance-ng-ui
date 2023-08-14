@@ -50,7 +50,7 @@ export class CommonStateDashboardComponent implements OnInit {
   @Input() citiesType;
   @Input() stateId: string;
   @Input() designYear: string;
-  @Input() formData;
+  @Input() allData;
   @Input() formDataCompleted: boolean = false;
   @Output() cityTabClick = new EventEmitter<any | object>();
   selectedItem: string = 'nmpc_untied';
@@ -97,4 +97,11 @@ export class CommonStateDashboardComponent implements OnInit {
     this.cityTabClick.emit(passValue);
   }
   keepOriginalOrder = (a, b) => b.key - a.key;
+
+  claimGrant(){
+    // need to discuss --- with client
+
+    
+    // swal("Saved", "Claimed Grant !!!!.", "success");
+  }
 }

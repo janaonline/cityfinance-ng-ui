@@ -72,7 +72,7 @@ export class DashbordComponent implements OnInit {
     this.formDataCompleted = false;
     this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
       console.log('ressss', res);
-      this.formData = res?.data?.formData;
+      this.formData = res?.data;
       this.formDataCompleted = true;
     },
     (error)=>{
