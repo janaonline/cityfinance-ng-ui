@@ -74,13 +74,12 @@ export class StateResourceManagerComponent implements OnInit {
       },
       maxWidth: '50vw'
     }).afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         this.globalLoaderService.showLoader();
         this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data}) => {
           this.globalLoaderService.stopLoader();
           if(type == 'blob') {
-            this.dataEntryService.downloadFileFromBlob(data, `test.xlsx`);
+            this.dataEntryService.downloadFileFromBlob(data, `${result?.templateName}-errors.xlsx`);
             swal('Warning', "File has some invalid data please fix and re-upload", 'warning');
           } else if (type == 'json') {
             swal('Saved', "File uploaded successfully!", 'success');
