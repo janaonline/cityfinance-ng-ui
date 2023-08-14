@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { AddResourceComponent } from './add-resource/add-resource.component';
@@ -30,6 +31,7 @@ export class StateResourceManagerComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
+    private dataEntryService: DataEntryService,
     private stateResourceService: StateResourceService,
     private globalLoaderService: GlobalLoaderService
   ) { }
@@ -75,10 +77,18 @@ export class StateResourceManagerComponent implements OnInit {
       console.log(result);
       if (result) {
         this.globalLoaderService.showLoader();
-        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(res => {
+        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data}) => {
           this.globalLoaderService.stopLoader();
-          this.loadData();
+          if(type == 'blob') {
+            this.dataEntryService.downloadFileFromBlob(data, `test.xlsx`);
+            swal('Warning', "File has some invalid data please fix and re-upload", 'warning');
+          } else if (type == 'json') {
+            swal('Saved', "File uploaded successfully!", 'success');
+            console.log(data);
+            this.loadData();
+          }
         }, err => {
+          console.log({ err });
           this.globalLoaderService.stopLoader();
         })
       }
