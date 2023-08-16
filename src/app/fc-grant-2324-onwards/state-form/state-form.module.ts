@@ -33,6 +33,8 @@ import { IndicatorWssPreviewComponent } from './indicators-wss/indicator-wss-pre
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { StateResourcesComponent } from './state-resources/state-resources.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({
@@ -50,7 +52,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     IndicatorsWssComponent,
     IndicatorWssPreviewComponent,
     GrantAllocationUlbsComponent,
-    PropertyTaxFloorRateComponent
+    PropertyTaxFloorRateComponent,
+    StateResourcesComponent
     ],
   imports: [
     CommonModule,
@@ -67,7 +70,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     AccordionModule.forRoot(),
     CollapseModule.forRoot(),
     AgGridModule.withComponents([ActionPlanComponent, AgGrid2223Component, CustomTooltipComponent]),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    PdfViewerModule,
   ]
 })
 export class StateFormModule { }

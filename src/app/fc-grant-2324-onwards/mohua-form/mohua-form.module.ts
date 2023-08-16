@@ -9,17 +9,27 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { Shared2223Module } from 'src/app/shared2223/shared2223.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReviewStateFormComponent } from './review-state-form/review-state-form.component';
+import { StateResourceManagerComponent } from './state-resource-manager/state-resource-manager.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AddResourceComponent } from './state-resource-manager/add-resource/add-resource.component';
+import { MatIconModule } from '@angular/material/icon';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
-  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent, ReviewStateFormComponent],
+  declarations: [MohuaFormComponent, ReviewUlbTableComponent, DashbordComponent, ReviewStateFormComponent, StateResourceManagerComponent, AddResourceComponent],
   imports: [
     CommonModule,
     MohuaFormRoutingModule,
     FcSharedModule,
     Shared2223Module,
     ReactiveFormsModule,
+    MatIconModule,
     FormsModule,
+    PdfViewerModule,
+    AngularMultiSelectModule,
+    MatPaginatorModule
   ]
 })
 export class MohuaFormModule { }

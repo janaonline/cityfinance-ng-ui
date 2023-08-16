@@ -1,0 +1,48 @@
+<div class="container mt-2">
+
+    <div class="mt-2" *ngFor="let categoryWiseResource of categoryWiseResources; let i = index;">
+        <div class="d-flex justify-content-between">
+            <h4 class="fw-bold">{{ categoryWiseResource.name }}</h4>
+            <div class="d-flex gap-3">
+                <button class="btn-primary rounded" (click)="scroll('scroller-' + i, -150)" >
+                    <mat-icon >chevron_left</mat-icon>
+                </button>
+                <button class="btn-primary rounded" (click)="scroll('scroller-' + i, 150)" >
+                    <mat-icon >chevron_right</mat-icon>
+                </button>
+            </div>
+        </div>
+       
+        <div #scroller class="horizontal-scroll" [id]="'scroller-' + i" *ngIf="categoryWiseResource?.documents.length > 0;">
+            <a href="{{ document.url }}" target="_blank"
+                *ngFor="let document of categoryWiseResource?.documents" style="margin: 1rem 0">
+                <div class="card-body pdf">
+                    <div style="position: relative">
+                        <pdf-viewer [src]="document.url" [render-text]="false" [show-all]="false"
+                            style="display: block; height: 250px" [page]="1" [zoom-scale]="'page-fit'"
+                            [original-size]="false">
+                        </pdf-viewer>
+                    </div>
+                    <div class="row">
+                        <div class="col-10 file-name">{{ document.name }}</div>
+                        <div class="col-2">
+                            <a href="{{ document.url }}" download="">
+                                <mat-icon class="cursor-pointer" >cloud_download</mat-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="row" *ngIf="categoryWiseResources?.length == 0">
+        <div class="col-sm-12 mb-3">
+            <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+            <p class="text-center">
+                No repository found
+            </p>
+        </div>
+    </div>
+</div>
