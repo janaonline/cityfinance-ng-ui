@@ -98,10 +98,12 @@ export class CommonStateDashboardComponent implements OnInit {
   }
   keepOriginalOrder = (a, b) => b.key - a.key;
 
-  claimGrant(){
+  claimGrant(data){
     // need to discuss --- with client
-
-    
-    // swal("Saved", "Claimed Grant !!!!.", "success");
+    const passValue = {
+      data: data,
+      type: 'grantPageNavigation'
+    }
+    this.cityTabClick.emit(passValue);
   }
 }
