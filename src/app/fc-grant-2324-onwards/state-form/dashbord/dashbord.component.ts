@@ -72,7 +72,7 @@ export class DashbordComponent implements OnInit {
     this.formDataCompleted = false;
     this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
       console.log('ressss', res);
-      this.formData = res?.data?.formData;
+      this.formData = res?.data;
       this.formDataCompleted = true;
     },
     (error)=>{
@@ -85,12 +85,15 @@ export class DashbordComponent implements OnInit {
 
   cityTabChange(e) {
     console.log('eeee', e);
-    if(e?.type != 'pageNavigation'){
+    if(e?.type == 'cityTabChange' || e?.type == 'installmentsChange'){
       this.getQueryParams["formType"] = e?.formType;
       this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1
       this.callApiForAllFormData(this.getQueryParams);
-    }else{
+    } else if(e?.type == 'pageNavigation'){
       const navURl = `state-form${e?.data?.link}`
+      this._router.navigateByUrl(`${navURl}`);
+    }else{
+      const navURl = `state-form/grant-claims`
       this._router.navigateByUrl(`${navURl}`);
     }
     
