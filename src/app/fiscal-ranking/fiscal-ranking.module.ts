@@ -105,7 +105,8 @@ import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-histo
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
-  }]
+  }],
+  exports: [LoaderComponent]
   // providers: [
   //   {
   //     provide: STEPPER_GLOBAL_OPTIONS,

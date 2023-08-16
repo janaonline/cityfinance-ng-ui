@@ -4,6 +4,7 @@ import { Mohua2223Guard } from 'src/app/shared2223/common-gaurds/mohua/mohua2223
 import { MohuaFormComponent } from './mohua-form.component';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { ReviewStateFormComponent } from './review-state-form/review-state-form.component';
+import { StateResourceManagerComponent } from './state-resource-manager/state-resource-manager.component';
 
 const routes: Routes = [
   {
@@ -23,7 +24,10 @@ const routes: Routes = [
         path: "review-state-form",
         component: ReviewStateFormComponent,
       },
-      
+      {
+        path: 'state-resource-manager',
+        component: StateResourceManagerComponent,
+      }      
     ],
   },
 ];

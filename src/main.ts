@@ -10,7 +10,7 @@ if (environment.production) {
   window.console.log = () => { };
 }
 
-if (window) {
+if (window && !window.location.hostname.includes("localhost")) {
   window.console.log = () => {};
   window.console.error = () => {};
   window.console.warn = () => {};
