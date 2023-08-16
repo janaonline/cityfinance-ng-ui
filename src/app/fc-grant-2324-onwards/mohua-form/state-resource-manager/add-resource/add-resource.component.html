@@ -65,7 +65,7 @@
                     <p>Allowed file types: {{allowedFiles }}</p>
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
-                    type="file" accept="*" #file>
+                    type="file" [accept]="allowedFiles" #file>
                 <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
             </div>
             <div class="upload-section document" *ngIf="subCategory?.uploadType == 'database'">
@@ -75,16 +75,18 @@
                         <li>Download the formatted file by clicking the '<b>Download Format</b>' button below.</li>
                         <li>Fill in the necessary details in the downloaded file accurately and completely.</li>
                         <li>Once you have filled in the information, save the file on your computer.</li>
-                        <li>Now, use the '<b>Select Edited File</b>' button provided here to choose and upload the completed
+                        <li>Now, use the '<b>Browse</b>' button provided here to choose and upload the completed
                             file</li>
                     </ol>
-    
-                    <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.</p>
-    
+
+                    <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.
+                    </p>
+
                     <div class="d-flex gap-2 justify-content-center">
-                        <button type="button" class="btn btn-secondary" (click)="downloadTemplate(subCategory?.databaseTemplateName)">Download format</button>
-                        <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
-                            type="file" accept="*" #file>
+                        <button type="button" class="btn btn-secondary"
+                            (click)="downloadTemplate(subCategory?.databaseTemplateName)">Download format</button>
+                        <input #filePicker style="display: none;" onclick="this.value=null;"
+                            (change)="uploadFile($event)" type="file" [accept]="allowedFiles" #file>
                         <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
                     </div>
                 </div>
@@ -95,11 +97,18 @@
         <p class="mb-1"><b>File / Documents</b></p>
         <div class="file-entries">
             <div class="file-entry" *ngFor="let file of oldData?.files">
-                <div>
-                    <div>{{ file.name }}</div>
+                <div class="details">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ file.name }}</div>
+                        <p class="created-at">Created at {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
+                    </div>
                 </div>
-                <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
-                <a class="btn btn-outline-primary" _target="blank" href="{{ file.url }}" *ngIf="mode == 'view'">View</a>
+                <div class="actions">
+                    <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
+                    <a class="btn btn-outline-primary" _target="blank" href="{{ file.url }}" *ngIf="mode == 'view'">View</a>
+                </div>
             </div>
         </div>
     </ng-container>

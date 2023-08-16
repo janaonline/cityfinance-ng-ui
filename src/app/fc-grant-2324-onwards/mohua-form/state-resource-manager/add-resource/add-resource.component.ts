@@ -77,7 +77,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   get allowedFiles() {
-    return this.subCategory?.supportedTypes?.join();
+    return this.subCategory?.supportedTypes?.map(type => '.' + type).join();
   }
   get maxUploads() {
     return this.subCategory?.maxUploads;
