@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { AddResourceComponent } from './add-resource/add-resource.component';
@@ -30,6 +31,7 @@ export class StateResourceManagerComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
+    private dataEntryService: DataEntryService,
     private stateResourceService: StateResourceService,
     private globalLoaderService: GlobalLoaderService
   ) { }
@@ -57,8 +59,9 @@ export class StateResourceManagerComponent implements OnInit {
         this.states = data.states;
       }
       this.dataLoaded = true;
-    }, err => {
+    }, ({ error }) => {
       this.globalLoaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 
@@ -72,14 +75,21 @@ export class StateResourceManagerComponent implements OnInit {
       },
       maxWidth: '50vw'
     }).afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         this.globalLoaderService.showLoader();
-        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(res => {
+        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data }) => {
           this.globalLoaderService.stopLoader();
-          this.loadData();
-        }, err => {
+          if (type == 'blob') {
+            this.dataEntryService.downloadFileFromBlob(data, `${result?.templateName}-errors.xlsx`);
+            swal('Warning', "File has some invalid data please fix and re-upload", 'warning');
+          } else if (type == 'json') {
+            swal('Saved', "File uploaded successfully!", 'success');
+            console.log(data);
+            this.loadData();
+          }
+        }, ({ error }) => {
           this.globalLoaderService.stopLoader();
+          swal('Error', error?.message ?? 'Something went wrong', 'error');
         })
       }
     });
@@ -90,25 +100,6 @@ export class StateResourceManagerComponent implements OnInit {
     this.openAddResourceModel(resource);
   }
 
-  // async onDelete(event: Event, id: string) {
-  //   event.preventDefault();
-  //   const agree = await swal("Confirmation !", `Are you sure you want to submit this action?`, "warning", {
-  //     buttons: {
-  //       Submit: {
-  //         text: "Submit",
-  //         value: true,
-  //       },
-  //       Cancel: {
-  //         text: "Cancel",
-  //         value: false,
-  //       },
-  //     },
-  //   })
-  //   if (!agree) return;
-  //   this.stateResourceService.deleteById(id).subscribe(res => {
-  //     this.loadData();
-  //   })
-  // }
 
   applyFilter() {
     this.pageIndex = 0;
@@ -160,9 +151,9 @@ export class StateResourceManagerComponent implements OnInit {
       fileIds, stateId
     }).subscribe(res => {
       this.loadData();
-    }, err => {
-      console.log(err);
-    });
+    }, ({ error }) => {
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
 
     console.log({ isAgree, fileIds });
   }

@@ -50,7 +50,7 @@
                 <td>{{ document?.state?.name }}</td>
                 <td>{{ document?.category?.name }}</td>
                 <td>{{ document?.subCategory?.name }}</td>
-                <td>File upload</td>
+                <td>{{ document?.subCategory?.uploadType | titlecase }} upload</td>
                 <td>
                     <mat-icon class="cursor-pointer mr-1" (click)="openAddResourceModel('view', document)">remove_red_eye</mat-icon>
                     <mat-icon class="cursor-pointer mr-1" (click)="openAddResourceModel('edit', document)">edit</mat-icon>
