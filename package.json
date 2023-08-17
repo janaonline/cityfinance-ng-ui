@@ -10,8 +10,7 @@
     "CITest": "ng test --watch=false --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/PerfectAngular/stats.json",
-    "postinstall": "git submodule update --init --remote && npx submodules-install"
+    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/PerfectAngular/stats.json"
   },
   "private": true,
   "dependencies": {
