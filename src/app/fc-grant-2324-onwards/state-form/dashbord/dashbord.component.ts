@@ -62,7 +62,7 @@ export class DashbordComponent implements OnInit {
     },
     (error)=>{
       console.log('error', error);
-      this.isApiComplete = false;
+      this.isApiComplete = true;
       swal("Error", "Something went wrong. please try again later.", "error")
       
     })
@@ -78,7 +78,7 @@ export class DashbordComponent implements OnInit {
     (error)=>{
       console.log('error', error);
       swal("Error", "Something went wrong. please try again later.", "error")
-      
+      this.formDataCompleted = true;
     })
   }
 
