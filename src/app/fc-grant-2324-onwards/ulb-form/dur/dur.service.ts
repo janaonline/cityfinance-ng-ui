@@ -82,7 +82,7 @@ const defaultProject = [
       "order": "6.002",
       "answer_option": [
         {
-          "name": "Rejuvination of Water Bodies",
+          "name": "Rejuvenation of Water Bodies",
           "did": [],
           "viewSequence": "1",
           "_id": "1"
@@ -3639,7 +3639,7 @@ const staticResponse = {
                           "order": "6.002",
                           "answer_option": [
                               {
-                                  "name": "Rejuvination of Water Bodies",
+                                  "name": "Rejuvenation of Water Bodies",
                                   "did": [],
                                   "viewSequence": "1",
                                   "_id": "1"
