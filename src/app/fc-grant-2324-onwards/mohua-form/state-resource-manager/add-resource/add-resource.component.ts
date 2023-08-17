@@ -87,8 +87,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
-    const maxFileSize = 5;
-    const excelFileExtensions = ['xls', 'xlsx'];
+    const maxFileSize = 20;
     const file: File = event.target.files[0];
     if (!file) return;
     let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
@@ -97,6 +96,8 @@ export class AddResourceComponent implements OnInit {
       return;
     }
     const fileExtension = file.name.split('.').pop();
+
+    if (!this.subCategory?.supportedTypes?.includes(fileExtension)) return swal("Error", `Only ${this.allowedFiles} ${this.subCategory?.supportedTypes?.length == 1 ? 'is' : 'are'} allowed`, "error");
 
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     this.loaderService.showLoader();

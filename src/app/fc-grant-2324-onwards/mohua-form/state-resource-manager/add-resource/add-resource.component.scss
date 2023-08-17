@@ -44,3 +44,7 @@
         }
     }
 }
+
+::ng-deep.swal-overlay {
+    z-index: 1000000;
+}
