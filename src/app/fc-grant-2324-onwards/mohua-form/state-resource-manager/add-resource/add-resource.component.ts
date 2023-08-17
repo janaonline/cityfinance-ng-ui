@@ -77,7 +77,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   get allowedFiles() {
-    return this.subCategory?.supportedTypes?.join();
+    return this.subCategory?.supportedTypes?.map(type => '.' + type).join();
   }
   get maxUploads() {
     return this.subCategory?.maxUploads;
@@ -121,7 +121,11 @@ export class AddResourceComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close({...this.form.value, templateName: this.subCategory?.databaseTemplateName});
+    this.dialogRef.close({
+      ...this.form.value, 
+      uploadType: this.subCategory?.uploadType,
+      templateName: this.subCategory?.databaseTemplateName
+    });
   }
   close() {
     this.dialogRef.close();

@@ -28,4 +28,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .details {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        * {
+            margin: 0;
+        }
+        .file-icon {
+            height: 40px;
+        }
+        .created-at {
+            font-size: smaller;
+            color: gray;
+        }
+    }
 }

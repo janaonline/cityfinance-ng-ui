@@ -15,6 +15,7 @@ import { AddResourceComponent } from './state-resource-manager/add-resource/add-
 import { MatIconModule } from '@angular/material/icon';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CommonModule,
     MohuaFormRoutingModule,
     FcSharedModule,
+    SharedModule,
     Shared2223Module,
     ReactiveFormsModule,
     MatIconModule,
