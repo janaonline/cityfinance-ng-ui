@@ -104,6 +104,7 @@ import { MunicipalityBudgetComponent } from './components/municipality-budget/mu
 import { BudgetTableComponent } from './components/municipality-budget/budget-table/budget-table.component';
 import { MapcomponentComponent } from './components/municipality-budget/mapcomponent/mapcomponent.component';
 import { CommonFilterComponent } from './components/common-filter/common-filter.component';
+import { IncludesPipe } from './pipes/includes.pipe';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -207,6 +208,7 @@ import { CommonFilterComponent } from './components/common-filter/common-filter.
     BudgetTableComponent,
     MapcomponentComponent,
     CommonFilterComponent,
+    IncludesPipe,
   ],
   exports: [
     JoinPipe,

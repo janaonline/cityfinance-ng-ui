@@ -81,12 +81,7 @@
                 class="btn btn-outline-secondary d-flex align-items-center me-2">Download</a>
         </div>
     </div>
-    
-    <div class="d-flex justify-content-end my-2" *ngIf="response?.filterYears?.length">
-        <select class="form-select float-right w-25" aria-label="Select Year" (change)="loadData()" [(ngModel)]="filterYear">
-            <option [value]="year?.id" *ngFor="let year of response?.filterYears" [selected]= "year?.id === response?.filterYear"   >{{ year?.label }}</option>
-        </select>
-    </div>
+
 
     <div
         *ngIf="response && response?.rows?.length > 0 && !(response.rows.length == 1 && !response.rows[0].projectName); else no_data_found">
