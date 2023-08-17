@@ -59,8 +59,9 @@ export class StateResourceManagerComponent implements OnInit {
         this.states = data.states;
       }
       this.dataLoaded = true;
-    }, err => {
+    }, ({ error }) => {
       this.globalLoaderService.stopLoader();
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
     })
   }
 
@@ -76,9 +77,9 @@ export class StateResourceManagerComponent implements OnInit {
     }).afterClosed().subscribe((result) => {
       if (result) {
         this.globalLoaderService.showLoader();
-        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data}) => {
+        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data }) => {
           this.globalLoaderService.stopLoader();
-          if(type == 'blob') {
+          if (type == 'blob') {
             this.dataEntryService.downloadFileFromBlob(data, `${result?.templateName}-errors.xlsx`);
             swal('Warning', "File has some invalid data please fix and re-upload", 'warning');
           } else if (type == 'json') {
@@ -86,9 +87,9 @@ export class StateResourceManagerComponent implements OnInit {
             console.log(data);
             this.loadData();
           }
-        }, err => {
-          console.log({ err });
+        }, ({ error }) => {
           this.globalLoaderService.stopLoader();
+          swal('Error', error?.message ?? 'Something went wrong', 'error');
         })
       }
     });
@@ -150,9 +151,9 @@ export class StateResourceManagerComponent implements OnInit {
       fileIds, stateId
     }).subscribe(res => {
       this.loadData();
-    }, err => {
-      console.log(err);
-    });
+    }, ({ error }) => {
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
 
     console.log({ isAgree, fileIds });
   }

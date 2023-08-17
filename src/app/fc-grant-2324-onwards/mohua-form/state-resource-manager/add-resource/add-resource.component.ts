@@ -121,7 +121,11 @@ export class AddResourceComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close({...this.form.value, templateName: this.subCategory?.databaseTemplateName});
+    this.dialogRef.close({
+      ...this.form.value, 
+      uploadType: this.subCategory?.uploadType,
+      templateName: this.subCategory?.databaseTemplateName
+    });
   }
   close() {
     this.dialogRef.close();
