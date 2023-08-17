@@ -21,11 +21,11 @@
         </div>
         <div class="row">
             <div class="col-4">File source</div>
-            <div class="col-8"><b>PMU / CF Internal team</b></div>
+            <div class="col-8"><b>{{ oldData?.subCategory?.fileSource }}</b></div>
         </div>
         <div class="row">
             <div class="col-4">Type of upload</div>
-            <div class="col-8"><b>File upload</b></div>
+            <div class="col-8"><b>{{ oldData?.subCategory?.uploadType | titlecase }} upload</b></div>
         </div>
     </div>
     <ng-container *ngIf="mode != 'view'">
@@ -107,7 +107,8 @@
                 </div>
                 <div class="actions">
                     <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
-                    <a class="btn btn-outline-primary" _target="blank" href="{{ file.url }}" *ngIf="mode == 'view'">View</a>
+                    <a class="btn btn-outline-primary" _target="blank" href="{{ file.url }}"
+                        *ngIf="mode == 'view'">View</a>
                 </div>
             </div>
         </div>
