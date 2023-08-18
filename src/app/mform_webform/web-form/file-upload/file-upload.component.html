@@ -1,0 +1,74 @@
+<ng-container>
+    <div class="row" style="margin-right: 0px; margin-left: 0px;">
+        <div class="col-sm-12 px-0" *ngIf="template == 'browse'">
+            <div class="d-flex align-items-center mt-3 mb-1">
+                <label class="mr-2 mb-0" for="message">Attach Documents</label>
+                <button class="btn btn-sm btn-primary text-uppercase mx-2" (click)="fileDropRef.click()">Browse</button>
+                <input type="file" #fileDropRef id="fileDropRef" (change)="onFilesChange($event.target)"
+                    [multiple]="multipleSelection" [accept]="acceptableType" class="d-none">
+            </div>
+        </div>
+        <div class="col-sm-12 px-0" *ngIf="template == 'dragdrop'">
+            <div class="dropzone" fileDragDrop (filesChangeEmiter)="onFilesChange($event)"
+                [acceptableType]="acceptableType">
+                <div class="text-wrapper">
+                    <div class="centered">
+                        <input type="file" #fileDropRef id="fileDropRef" (change)="onFilesChange($event.target)"
+                            [multiple]="multipleSelection" [accept]="acceptableType">
+                        <label for="fileDropRef"><strong class="textLink btn-primary">Select your file</strong> or Drop
+                            it here!</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 px-0 divContainer">
+            <div>
+                <mat-list>
+                    <mat-list-item class="fileListItem" *ngFor="let i of fileList;let ind = index">
+                        <ng-container *ngIf="!i.error">
+                            <i class="{{getFileExtension(i)}} mr-2" style="color:#5cb85c;" aria-hidden="true"></i>
+                            <span class="text-truncate" style="max-width: 65%;width: 30%;" [matTooltip]="i.name">
+                                {{i.name}}
+                            </span>
+                            <ng-container *ngIf="(!fileProgress[i.fileId] || !fileProgress[i.fileId]['progress']) && i.display">
+                                <a [href]="i?.selectedUrl ? i?.selectedUrl : i?.url" download target="_blank">
+                                    <i align="end" class="fa fa-download ml-2 text-secondary"></i>
+                                </a>
+                                <i align="end" class="fileListItemIconTrash fa fa-trash ml-2 pointer-hand text-secondary"
+                                    (click)="deleteFile(ind);"></i><br />
+                                <a [href]="i?.imageUrl ? i?.imageUrl : i?.url" download target="_blank"
+                                    *ngIf="checkFileType([i])">
+                                    <img *ngIf="i?.imageUrl ? i?.imageUrl : i?.url"
+                                        [src]="i?.imageUrl ? i?.imageUrl : i?.url" class="ml-5 shadow" height="50"
+                                        width="100">
+                                </a>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="!fileProgress[i.fileId] && i.display && i.error">
+                            <span class="material-icons ng-star-inserted"
+                                style="color: #e51636;">new_releases</span>&nbsp;&nbsp;
+                            <span class="text-primary">{{i.name}}</span>
+                            <i align="end" class="fileListItemIconTrash fa fa-trash ml-2 pointer-hand text-secondary"
+                                (click)="deleteFile(ind);"></i>
+                        </ng-container>
+                        <!-- file upload progress part -->
+                        <ng-container *ngIf="fileProgress && fileProgress[i.fileId] && fileProgress[i.fileId]['progress'] ">
+                            <div class="progress" *ngIf="fileProgress && fileProgress[i.fileId]['progress']">
+                                <div class="progress-bar" [style.width]="fileProgress[i.fileId]['progress'] + '%'">
+                                    {{fileProgress[i.fileId]['progress']}}%</div>
+                            </div>
+                            <span class="material-icons pointer-hand cancel-icon"
+                                *ngIf="this.fileProgress[i.fileId]['subscription']" (click)="cancelUpload(i.fileId)">
+                                close
+                            </span>
+                        </ng-container>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<div class="custom-loader" *ngIf="isFileUploaded">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
