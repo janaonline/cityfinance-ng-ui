@@ -1,5 +1,5 @@
  
-import {
+import { 
   Component,
   Input,
   OnInit,
