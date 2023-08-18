@@ -167,6 +167,29 @@
         <span *ngIf="error?.required"> Adddress cannot be empty. </span>
       </small>
         </div>
+        <div class="input-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA || loggedInUserType === USER_TYPE.ADMIN">
+          <label for="address">Status
+      <span
+        class="asterik"
+        *ngIf="profileForm.controls.isDeleted.validator({})['required']"
+        >*</span
+      >
+    </label>
+          <!-- <input id="address" type="text" formControlName="address" class="form-control" [ngClass]="{
+        'is-invalid': GetFormControlErrors('address')
+      }" /> -->
+      <select name="State" id="state" formControlName="isDeleted" class="form-control" placeholder="Status" [ngClass]="{
+        'is-invalid': profileForm?.controls?.isDeleted.errors
+      }" style="width: 57%;">
+      <option value="false" selected>Active</option>
+      <option value="true">
+        InActive
+      </option>
+    </select>
+          <small *ngIf="GetFormControlErrors('isDeleted') as error" class="form-field-error-message">
+      <span *ngIf="error?.required"> Status cannot be empty. </span>
+    </small>
+      </div>
     </div>
 
     <p *ngIf="formErrors" style="width: 100%">

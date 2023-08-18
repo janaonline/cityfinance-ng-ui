@@ -221,6 +221,7 @@ export class FormUtil {
         [Validators.required, Validators.email, customEmailValidator],
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
+      isDeleted : ["", Validators.required]
     });
 
     form.controls.email.valueChanges
