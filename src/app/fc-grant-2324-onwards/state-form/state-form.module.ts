@@ -10,7 +10,7 @@ import { FcSharedModule } from '../fc-shared/fc-shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GtcComponent } from './gtc/gtc.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { WebFormModule } from 'src/app/mform_webform/web-form/web-form.module';
+import { WebFormModule } from 'src/app/web-form/web-form.module';
 import { GtcPreviewComponent } from './gtc/gtc-preview/gtc-preview.component';
 import { InstallmentPreviewComponent } from './gtc/installment-preview/installment-preview.component';
 

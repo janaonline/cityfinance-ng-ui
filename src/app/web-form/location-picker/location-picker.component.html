@@ -1,0 +1,27 @@
+<div class="d-flex location-picker">
+    <input 
+        class="form-control" 
+        type="number" 
+        step="any"
+        onwheel="this.blur()" 
+        [disabled]="disabled" 
+        [readonly]="disabled" 
+        [placeholder]="latitudeLabel" 
+        [value]="latitude == 0 ? '' : latitude" 
+        (change)="onLatChange($event)"
+    >
+    <input 
+        class="form-control" 
+        type="number" 
+        step="any"
+        onwheel="this.blur()" 
+        [disabled]="disabled" 
+        [readonly]="disabled" 
+        [placeholder]="longitudesLabel" 
+        [value]="longitude == 0 ? '' : longitude"  
+        (change)="onLongChange($event)"
+    >
+    <button class="btn btn-primary location-button" [disabled]="disabled" (click)="openDialog()" >
+        <mat-icon> location_on</mat-icon>
+    </button>
+</div>

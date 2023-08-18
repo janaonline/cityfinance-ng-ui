@@ -1,0 +1,30 @@
+.location-picker {
+    min-width: 150px;
+    gap: 4px;
+}
+
+.location-button {
+    padding: 3px;
+    height: 29px;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #fff !important;
+}
+
+/* Hide Input Number Arrows -> Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide Input Number Arrows -> Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-control[readonly] {
+  color: #6e6e6e;
+}

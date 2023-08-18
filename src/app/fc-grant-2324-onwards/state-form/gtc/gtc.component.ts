@@ -2,7 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { WebFormComponent } from 'src/app/mform_webform/web-form/web-form.component';
+import { WebFormComponent } from 'src/app/web-form/web-form.component';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { GtcPreviewComponent } from './gtc-preview/gtc-preview.component';
