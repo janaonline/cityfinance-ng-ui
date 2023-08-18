@@ -1,0 +1,535 @@
+// @import "../../assets/scss/functions";
+// @import "../src/variables";
+// @import "./src/assets/scss/mixins";
+
+.border-right-question {
+  border-right: 1px solid #3e8beb;
+}
+
+.chevron-right {
+  position: absolute;
+  right: -8px;
+  top: 5px;
+  color: blue;
+  background-color: white;
+  font-size: large;
+  cursor: pointer;
+}
+
+.invalid-border {
+  border: 1px solid #e31837 !important;
+}
+
+.warning-border {
+  border: 1px solid #df9c00 !important;
+}
+
+.danger-font {
+  color: red !important;
+}
+
+.custom-chip {
+  padding: 10px !important;
+  border-radius: 16px !important;
+}
+
+.custom-sm-12 {
+  max-width: 96% !important;
+}
+
+.custom-sm-6 {
+  max-width: 48% !important;
+}
+
+:host ::ng-deep.mat-checkbox-label {
+  white-space: pre-wrap !important;
+}
+
+input#durationInDays[type="number"]::-webkit-inner-spin-button,
+input#durationInDays[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.multiselect {
+  /* width: 200px; */
+  width: 100%;
+}
+
+.selectBox {
+  position: relative;
+  z-index: 1 !important;
+}
+
+.selectBox select {
+  width: 100%;
+  /* font-weight: bold; */
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.checkboxes {
+  /* display: none; */
+  /* height: 200px; */
+  border: 1px #dadada solid;
+  border-bottom: 0 !important;
+  border-top: 0 !important;
+  max-height: 250px !important;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  z-index: 99 !important;
+  background: white;
+  /* width: 100%; */
+  // margin-top: -2px;
+  width: 92%;
+  top: 33px !important;
+  border-radius: 5px !important;
+  color: #000000 !important;
+}
+
+.checkboxes label {
+  display: block;
+}
+
+.checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.font-13 {
+  font-size: 13px !important;
+}
+
+.date-custom-label {
+  position: absolute;
+  cursor: text;
+  font-size: 75%;
+  opacity: 1;
+  transition: all 0.2s;
+  top: -0.5em;
+  left: 1.75rem;
+  z-index: 3;
+  line-height: 1;
+  padding: 0 2px;
+  background: #fff;
+  color: #999999;
+}
+
+.error-msg {
+  position: initial !important;
+  top: 70%;
+  left: 2%;
+  font-size: 12px;
+}
+
+/* Hide Input Number Arrows -> Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide Input Number Arrows -> Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.input-eye-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 9px;
+  right: -3px;
+  font-size: 18px;
+  color: #999999;
+}
+
+.input-warning-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 0;
+  font-size: 18px;
+  color: #df9c00;
+}
+
+.custom-file-label {
+  color: #999999 !important;
+}
+
+.disable-question-field {
+  pointer-events: none;
+ // color: #abaaad;
+  // opacity: 0.5;
+  // opacity: 0.7;
+}
+
+.disable-question-field-opacity {
+  // opacity: 0.5;
+}
+
+.form-control[readonly] {
+  color: #6e6e6e;
+}
+
+.search-filter {
+  padding: 10px !important;
+  position: fixed !important;
+  top: 0 !important;
+}
+
+.single-select {
+  margin-top: 65px !important;
+  max-height: 250px !important;
+  // max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+::ng-deep .mat-select-panel-wrap .mat-select-panel.custom-mat-select-panel {
+  overflow-y: hidden !important;
+  max-height: 370px !important;
+}
+
+::ng-deep .customDropDown mat-form-field .mat-form-field-flex {
+  width: 100%;
+  // height: calc(1.5em + 0.75rem + 2px); // old value
+  height: calc(1.5em + 0.75rem + 5px);
+  // padding: 0 0.75rem 0.375rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  // line-height: 1;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-top-color: rgb(206, 212, 218);
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-right-color: rgb(206, 212, 218);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-bottom-color: rgb(206, 212, 218);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: rgb(206, 212, 218);
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  border-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition-property: border-color, box-shadow;
+  transition-duration: 0.15s, 0.15s;
+  transition-timing-function: ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s;
+}
+
+::ng-deep .customDropDown .mat-form-field-underline {
+  display: none;
+}
+
+::ng-deep .customDropDown .mat-form-field-infix {
+  border-top: 1px solid transparent;
+}
+
+::ng-deep .customDropDown .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+::ng-deep .customDropDown .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 8px 8px !important;
+  // margin-top: -1px;
+}
+
+::ng-deep .customDropDown label.mat-form-field-label mat-label {
+  /* position: absolute;
+    left: 0;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; */
+  /* top: -1.4em; */
+  /* position: absolute; */
+  /* font-size: 75%; */
+  cursor: text;
+  opacity: 1;
+  transition: all 0.2s;
+  padding: 0 2px;
+  border-radius: 3px;
+  background: #fff;
+  color: #999999;
+  margin-left: 10px;
+  margin-top: -1px;
+}
+
+::ng-deep .customDropDown .mat-form-field-label-wrapper {
+  // top: -10px;
+  margin-top: 2px;
+}
+
+// ::ng-deep .customDropDown .mat-select-panel-wrap{
+//   position: relative;
+//   top: 26px;
+// }
+
+// ::ng-deep .customDropDown .mat-select-panel-wrap .mat-select-panel{
+//   min-width: calc(100% + 12px) !important;
+//   transform: translateX(4px) !important
+// }
+
+::ng-deep .invalid-border-class mat-form-field .mat-form-field-flex {
+  // border: 1px solid #e51636 !important;
+  // border-top-color: #e51636;
+  // border-right-color: #e51636;
+  // border-bottom-color: #e51636;
+  // border-left-color: #e51636;
+  border-color: #e51636 !important;
+}
+
+.select-placeholder-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: -22px;
+}
+
+.select-placeholder-container>span {
+  flex: 1;
+}
+
+.custom-col-sm-2 {
+  flex: 0 0 20%;
+  max-width: 20%;
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.desc {
+  text-align: center;
+  font-size: 16px;
+  color: #e51736;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #fff !important;
+}
+
+input::-webkit-datetime-edit {
+  text-transform: uppercase;
+}
+
+.radio-info-icon {
+  cursor: pointer;
+  position: relative;
+  // right: 75px;
+  left: 4%;
+  top: 5px;
+  font-size: 18px;
+  color: #999999;
+}
+
+.file-type-info {
+  cursor: pointer;
+  position: relative;
+  top: 5px;
+  left: 1%;
+  font-size: 18px;
+  color: #999999;
+}
+
+.passwordShowHide {
+  position: absolute;
+  right: 25px;
+  bottom: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.flex-container>div {
+  width: 25%;
+  padding-left: 15px;
+  border-bottom: 1px solid lightgray;
+}
+
+@media (max-width: 800px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .flex-container>div {
+    width: 100%;
+  }
+}
+
+.padding {
+  padding: 0.2rem 0.5rem 0.5rem 0;
+}
+
+.form-label {
+  color: #6e6e6e;
+  white-space: break-spaces;
+  font-size: 0.7rem;
+  font-weight: 700 !important;
+}
+
+.custom-text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: break-spaces;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000de;
+  font-size: 14px;
+}
+
+.label-instruction {
+  font-size: 12px;
+}
+
+.option-info {
+  font-size: 11px;
+  font-style: italic;
+  margin: 5px 0 5px 0;
+}
+
+.common-font-family>.label-wrapper {
+  background-color: #DBDBDB;
+}
+
+table {
+  tr {
+    th {
+      font-size: 14px;
+    }
+
+    td .common-font-family {
+      width: 100%;
+      margin-bottom: 0 !important;
+
+      ::ng-deep .mat-form-field .mat-form-field-flex {
+        height: 30px !important;
+      }
+
+      ::ng-deep .mat-form-field-flex>.mat-form-field-infix {
+        padding: 0.4em 0px !important;
+      }
+
+      // ::ng-deep .mat-form-field-label-wrapper {
+      //   top: -1.5em;
+      // }
+
+      // ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+      //   transform: translateY(-1.1em) scale(.55);
+      // }
+    }
+  }
+}
+
+
+.btn-upload {
+  background-color: #059b9a !important;
+  color: #fff !important;
+  border: 0;
+}
+
+.btn-save {
+  background-color: #059b9a !important;
+  color: #fff;
+}
+
+.btn-next {
+  background-color: #0f1f40 !important;
+  color: #fff;
+}
+
+.btn-pre {
+  background-color: #CFCFCF;
+}
+
+.mr1 {
+  margin-right: 1rem;
+}
+
+::ng-deep .mat-info-icon {
+  cursor: pointer;
+  vertical-align: middle !important;
+  font-size: 18px !important;
+  color: #999999;
+}
+
+.scoreDiv {
+  border: 1px solid transparent;
+  background: limegreen;
+  border-radius: 4px;
+  // margin-top: 1rem;
+  padding: 0.2rem 1rem;
+  color: #fff;
+}
+
+.form-h {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+label {
+  font-size: 1rem !important;
+}
+
+.f-name {
+  color: blue;
+}
+
+.file-icon-cross {
+  margin-left: 5%;
+  vertical-align: middle;
+}
+
+.error-msg {
+  color: red !important;
+  margin-top: 0.25rem;
+}
+
+.disable-question-field {
+  pointer-events: none !important;
+}
+
+.disable-question-btn {}
+
+.slb28unit {
+  min-width: 23%;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #c1c0c0;
+}

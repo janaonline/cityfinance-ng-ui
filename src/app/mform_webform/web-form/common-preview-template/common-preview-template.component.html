@@ -1,0 +1,112 @@
+
+<div class="container-fluid" #downloadTemp>
+  <div class="row header-p">
+    <div class="col-sm-12 text-end">
+        <a (click)="closeDialog()" class="pull-right">
+            <img src="../../../../assets/form-icon/Icon material-close.svg">
+        </a>
+    </div>
+    <div class="col-sm-12 text-center heading-p">
+        <span style="display: block;">
+          Submissions for 15th FC grant for FY 2023-24
+         </span>
+
+        <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+    </div>
+</div>
+<div class="row mt-3">
+  <div class="col-sm-6">
+      <p class="form-status">
+          <b class="me-2">Form Current Status:</b> {{formStatus}}
+      </p>
+  </div>
+  <div class="col-sm-6 text-end d-n">
+      <button id="donwloadButton" class="btn btn-upload hi" (click)="clickedDownloadAsPDF(templateSave)">Download as
+          PDF</button>
+  </div>
+</div>
+  <!----------- form name --------->
+<div class="row mrTh">
+  <div class="col-sm-12 form-h text-center">
+    {{preData?.qusResponce?.data[0]?.language[0]?.title}}
+  </div>
+</div>
+  <div class="row mt-3 mb-4">
+      <!------- form ----------->
+      <div class="col-sm-12 mt-4 mrTh">
+          <div class="card">
+              <div class="card-body">
+                <div class="mb-3 mrB mrT" *ngFor="let question of preData?.qusAns | myfilter; trackBy:identity; let questionIndex = index">
+                  <div class="row">
+                    <div class="col-sm-6 d-qus" >
+                      {{question?.title}}
+                    </div>
+                    <div class="col-sm-6 d-ans" >
+                     <span *ngIf="question?.input_type == 3">
+                      {{(question?.selectedValue && question?.selectedValue[0]?.label) ? question?.selectedValue[0]?.label : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 1 || question?.input_type == 13">
+                      {{question?.value ? question?.value : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 2 && question?.shortKey == 'PFMSAccountNumber'">
+                      {{question?.value ? (question?.value) : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 2 && question?.shortKey != 'PFMSAccountNumber'">
+                      {{question?.value ? (question?.value | currency: 'INR') : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 14">
+                      {{question?.value ? (question?.value | date: 'dd/MM/yyyy') : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 5">
+                      {{(question?.selectedValue && question?.selectedValue[0]?.textValue) ? question?.selectedValue[0]?.textValue : (question?.selectedValue && question?.selectedValue[0]?.label) ? question?.selectedValue[0]?.label : 'N/A'}}
+                     </span>
+                     <span *ngIf="question?.input_type == 11">
+                        <a *ngIf="question?.selectedValue && question?.selectedValue[0]?.value" href="{{question?.selectedValue[0]?.value}}">
+                            {{question?.selectedValue[0]?.label}}
+                        </a>
+                        <span *ngIf="!question?.selectedValue">
+                          N/A
+                        </span>
+                     </span>
+
+                     </div>
+                    </div>
+                    <div class="row " style="" *ngIf="(question?.shortKey == 'rating') && (preData?.qusResponce?.data[0]?.formId == '2' || preData?.qusResponce?.data[0]?.formId == '1')">
+                      <div class="col-sm-6 d-qus"></div>
+                      <div class="col-sm-6 d-ans score" style="">
+                        Score = {{(preData?.odfGfcMarks || preData?.odfGfcMarks === 0) ? preData.odfGfcMarks : 'N/A'}}</div>
+                     </div>
+                  </div>
+
+                  <!-- <ng-container *ngFor="let question of preData?.qusAns | myfilter; trackBy:identity; let questionIndex = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: question, questionIndex:questionIndex, value: [] }">
+                  </ng-container> -->
+              </div>
+          </div>
+      </div>
+
+  </div>
+  </div>
+  <ng-template #templateSave>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            You have some unsaved changes on this page. Do you wish to save your data as draft?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="" (click)="proceed()">
+              Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
