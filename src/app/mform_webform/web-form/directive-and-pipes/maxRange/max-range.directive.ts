@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../../snack-bar/snack-bar.component';
 
-const DUR_MAXIMUM_PROJECT_SUPPORT = 500;
+const DUR_MAXIMUM_PROJECT_SUPPORT = 1000;
 @Directive({
   selector: '[appMaxRange]'
 })

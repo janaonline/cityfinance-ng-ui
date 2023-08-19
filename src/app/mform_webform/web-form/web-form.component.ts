@@ -1,4 +1,4 @@
- 
+
 import {
   Component,
   Input,
@@ -126,6 +126,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   districtsList: any = [];
   timer: any;
   questionData: any = [];
+  outerQuestions: any = [];
   selectedOptions: any = [];
   cloneAnswerOption: any = [];
   searchedText = '';
@@ -438,6 +439,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
             : '',
       }));
 
+      this.outerQuestions = questionData?.question?.filter(
+        (question: any) => question.order.includes(".")
+      );
       this.questionData = setInitialQuestions(questionData.question);
 
       this.questionData?.forEach(parentQuestion => {
@@ -1118,7 +1122,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onChange(question: any, value: any = {}, option: any = {}, skip = false) {
-    console.log('event', value);
+    console.log('questionData', this.questionData);
     if (['receiptDate', 'transDate'].includes(question?.shortKey) && !option['skipGtcLogic']) {
       this.gtcSpecialLogic();
     }
@@ -2648,6 +2652,14 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   pageChange(question, { pageIndex, pageSize }) {
     this.pageSize = pageSize;
     question.scrollIndex = pageIndex * pageSize;
+  }
+
+  getQuestion(question) {
+    const outerQuestion = this.outerQuestions.find(outerQuestion => outerQuestion?.shortKey == question?.shortKey);
+    return {
+      ...outerQuestion,
+      ...question,
+    };
   }
 }
 

@@ -54,6 +54,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollTableDirective } from './directive-and-pipes/scroll-table.directive';
 import { ScrollTablePipe } from './directive-and-pipes/scroll-table.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { GetQuestionPipe } from './pipes/get-question.pipe';
 
 
 
@@ -97,6 +98,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     SelectDeletableComponent,
     ScrollTableDirective,
     ScrollTablePipe,
+    GetQuestionPipe,
   ],
   schemas: [NO_ERRORS_SCHEMA],
   imports: [

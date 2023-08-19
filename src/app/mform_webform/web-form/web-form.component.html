@@ -186,6 +186,7 @@
                      </div> -->
                 </div>
                 <span class="" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+
                     <input digitOnly [decimal]="question?.skipDigitOnlyValidation" type="number" class="form-control "
                         [appNumberLength]="question.max" placeholder="{{question.hint}}"
                         [ngClass]="{'invalid-border': question.errorMessage}" minlength="{{question.min}}"
@@ -964,21 +965,18 @@
                         'w-100': tablular,
                         'ms-2': !tablular }">
                     <div class="d-flex">
+                        <!-- <p>v: {{ question | json }}</p> -->
                         <input appDisableNagetive [appDecimalLimit]="question.allowDecimal == false ? 0 : 2"
-                            type="number" class="form-control " [appMaxRange]="question"
-                            [questionData]="questionData"
+                            type="number" class="form-control " [appMaxRange]="question" [questionData]="questionData"
                             placeholder="{{question.hint}}" [ngClass]="{
                                 'disable-question-field': ( question?.isQuestionDisabled ),
                                 'invalid-border': question.errorMessage,
                                 'warning-border': question?.isFocused && question.shortKey | durCustomWarnings : question: questionData : questionIndex
                             }" minlength="{{question.min}}" id="{{question.order}}" [value]="question.modelValue"
-                            (input)="onChange(question, $event)" 
-                            (paste)="onChange(question, $event)" 
-                            (change)="onChange(question, $event)"
-
-                            [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order, question)"
-                            onwheel="this.blur()" (blur)="onBlurEvent(question)"
-                            [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
+                            (input)="onChange(question, $event)" (paste)="onChange(question, $event)"
+                            (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}"
+                            (focus)="onFocusEvent(question.order, question)" onwheel="this.blur()"
+                            (blur)="onBlurEvent(question)" [appRestrictFirstDigitAsZero]="isAppRestrictFirstDigitAsZero"
                             [readonly]="question?.isQuestionDisabled" />
 
                         <p *ngIf="question.shortKey | slb28Unit : parent : loopIndex"
@@ -1560,13 +1558,11 @@
                             [matTooltip]="question?.information">info</mat-icon>
                     </h6>
                     <mat-paginator *ngIf="question?.childQuestionData?.length > 10"
-                        [length]="question?.childQuestionData?.length" 
-                        [pageSize]="pageSize"
-                        [pageSizeOptions]="pageSizeOptions"
-                        [showFirstLastButtons]="true"
+                        [length]="question?.childQuestionData?.length" [pageSize]="pageSize"
+                        [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true"
                         (page)="pageChange(question, $event)"></mat-paginator>
                 </div>
-                
+
                 <table class="table table-striped" style="table-layout: fixed;">
                     <thead style="background-color: #058E91; color: white;">
                         <tr>
@@ -1589,7 +1585,7 @@
                                 <td *ngIf="!child?.hidden">
                                     <ng-container *ngIf="child.visibility" [ngTemplateOutlet]="treeNode"
                                         [ngTemplateOutletContext]="{
-                                                question: child,
+                                                question: child | getQuestion : outerQuestions,
                                                 questionIndex:questionIndexes,
                                                 loopIndex: rowIndex,
                                                 value: [question.value[questionIndexes]],
@@ -1644,7 +1640,7 @@
                     <ng-container *ngFor="let child of row | myfilter; trackBy:identity;">
 
                         <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{
-                                question: child,
+                                question: child | getQuestion : outerQuestions,
                                 questionIndex:questionIndexes,
                                 parent: question,
                                 value: [question.value[questionIndexes]]}">
