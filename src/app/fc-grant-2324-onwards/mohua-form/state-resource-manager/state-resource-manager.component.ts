@@ -73,7 +73,8 @@ export class StateResourceManagerComponent implements OnInit {
         categories: this.categories,
         states: this.states
       },
-      maxWidth: '50vw'
+      maxWidth: '50vw',
+      maxHeight: '90vh',
     }).afterClosed().subscribe((result) => {
       if (result) {
         this.globalLoaderService.showLoader();
