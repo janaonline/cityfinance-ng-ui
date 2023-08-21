@@ -62,7 +62,7 @@
                 <div class="content">
                     <p>You can upload up to {{ maxUploads }} {{ maxUploads > 1 ? 'files' : 'file'}} according to the
                         document type you've chosen.</p>
-                    <p>Allowed file types: {{allowedFiles }}</p>
+                    <p>Allowed file types: {{allowedFiles }} with size of 20 MB</p>
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
