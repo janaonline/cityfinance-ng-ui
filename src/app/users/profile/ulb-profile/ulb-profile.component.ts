@@ -294,7 +294,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         name: this.profileData.ulb.name,
         state: this.profileData.ulb.state.name,
       });
-
+      
       if (this.profileData.status !== "APPROVED") {
         this.canSubmitForm = false;
       } else {
