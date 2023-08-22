@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="text-center mt-3">
+        <span><b>ENTER PROJECT LOCATION</b></span>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <label class="col-md-1"> Search </label>
+            <input class="col-md-5" ngx-google-places-autocomplete [options]="options"
+                (onAddressChange)="handleAddressChange($event)" />
+        </div>
+        <mat-card>
+            <div>
+                <div class="center" *ngIf="latitude && longitude">
+                    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
+                        (mapClick)="chooseLocation($event)">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"  (drag)="onDrag($event)"></agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </mat-card>
+        <button class="btn btn-primary pull-right mt-3" (click)="onSubmit()">Submit</button>
+    </div>
+</div>
+
