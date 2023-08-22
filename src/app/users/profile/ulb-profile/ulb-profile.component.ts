@@ -75,9 +75,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     console.log("profileData", this.profileData);
     let data: any = this.profileData;
     this.isVerified2223 = data?.isVerified2223;
+    this.initializeLogginUserType();
     this.initializeAccess();
     this.initializeForm();
-    this.initializeLogginUserType();
     this.enableProfileEdit();
   }
 
@@ -284,6 +284,10 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private initializeForm() {
     this.profile = this.formUtil.getULBForm("EDIT");
+    if(this.loggedInUserType === this.USER_TYPE.STATE || this.loggedInUserType === this.USER_TYPE.ULB){
+      this.profile.removeControl('isDeleted');
+      this.profile.updateValueAndValidity();
+     }
     if (this.profileData) {
       this.profile.patchValue({
         ...{ ...this.profileData },
