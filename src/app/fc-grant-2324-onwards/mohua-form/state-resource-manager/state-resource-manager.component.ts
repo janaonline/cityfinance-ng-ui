@@ -26,7 +26,8 @@ export class StateResourceManagerComponent implements OnInit {
 
   filters = {
     stateId: '',
-    categoryId: ''
+    categoryId: '',
+    subCategoryId: ''
   }
 
   constructor(
@@ -73,7 +74,8 @@ export class StateResourceManagerComponent implements OnInit {
         categories: this.categories,
         states: this.states
       },
-      maxWidth: '50vw'
+      maxWidth: '50vw',
+      maxHeight: '90vh',
     }).afterClosed().subscribe((result) => {
       if (result) {
         this.globalLoaderService.showLoader();
@@ -95,6 +97,10 @@ export class StateResourceManagerComponent implements OnInit {
     });
   }
 
+  get subCategories() {
+    return this.categories.find(category => category._id == this.filters.categoryId)?.subCategories || [];
+  }
+
   onUpdate(event, resource) {
     event.preventDefault();
     this.openAddResourceModel(resource);
@@ -110,7 +116,8 @@ export class StateResourceManagerComponent implements OnInit {
     this.pageIndex = 0;
     this.filters = {
       categoryId: '',
-      stateId: ''
+      stateId: '',
+      subCategoryId: ''
     };
     this.loadData();
   }
