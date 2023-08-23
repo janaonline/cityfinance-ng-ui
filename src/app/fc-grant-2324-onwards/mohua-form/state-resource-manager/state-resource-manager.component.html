@@ -1,24 +1,30 @@
 <div class="container">
-    <button class="btn btn-primary" (click)="openAddResourceModel('add')">Add resource</button>
+    <button class="btn btn-primary" (click)="openAddResourceModel('add')">Add Resource</button>
 
     <div class="card my-2">
         <div class="card-body">
             <p>Filters</p>
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <select [(ngModel)]="filters.stateId" class="form-select">
                         <option value="">State</option>
                         <option [value]="state?._id" *ngFor="let state of states">{{ state?.name }}</option>
                     </select>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <select [(ngModel)]="filters.categoryId" class="form-select">
                         <option value="">Document type</option>
                         <option  [value]="category?._id" *ngFor="let category of categories">{{ category?.name }}</option>
                     </select>
                 </div>
-                <div class="col-4">
-                    <button class="btn btn-primary" (click)="applyFilter()">Filter</button>
+                <div class="col-3">
+                    <select [(ngModel)]="filters.subCategoryId" class="form-select">
+                        <option value="">Document name</option>
+                        <option  [value]="subCategory?._id" *ngFor="let subCategory of subCategories">{{ subCategory?.name }}</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-primary" (click)="applyFilter()">Search</button>
                     <button class="btn btn-primary btn-outline ms-2" (click)="resetFilter()">Reset</button>
                 </div>
             </div>
