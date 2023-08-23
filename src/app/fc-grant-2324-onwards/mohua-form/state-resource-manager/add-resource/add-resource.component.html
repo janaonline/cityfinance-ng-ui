@@ -50,7 +50,7 @@
             <select class="form-select" [attr.disabled]="!form?.value?.categoryId ? '' : null"
                 formControlName="subCategoryId" id="subCategoryId">
                 <option value="">Please select</option>
-                <option *ngFor="let category of getCategoryList" [value]="category._id">{{ category?.name }}</option>
+                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}</option>
             </select>
             <div class="invalid-feedback">
                 Please select a valid Document Name.

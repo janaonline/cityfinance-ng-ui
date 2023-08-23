@@ -41,6 +41,7 @@ export const stateForm: any = {
 };
 
 // state form folder name
-export const mohuaForm: any = {
-    GRANT_TRANSFER_DATA_UPLOAD: 'grant_transfer'
+export const mohuaForm = {
+    GRANT_TRANSFER_DATA_UPLOAD: 'grant_transfer',
+    STATE_RESOURCES: 'state-resources'
 };
