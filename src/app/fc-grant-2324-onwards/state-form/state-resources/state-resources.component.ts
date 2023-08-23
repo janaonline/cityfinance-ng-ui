@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { CategoryWiseResource } from '../../mohua-form/state-resource-manager/model';
 import { StateResourceService } from '../../mohua-form/state-resource-manager/state-resource.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class StateResourcesComponent implements OnInit {
 
   @ViewChildren('scroller') scrollers: QueryList<ElementRef>;
 
-  categoryWiseResources = [];
+  categoryWiseResources: CategoryWiseResource[] = [];
 
   constructor(
     private stateResourceService: StateResourceService
@@ -21,7 +22,7 @@ export class StateResourcesComponent implements OnInit {
   }
   
   loadData() {
-    this.stateResourceService.getList().subscribe(({ data }: any) => {
+    this.stateResourceService.getList().subscribe(({ data }) => {
       this.categoryWiseResources = data;
     })
   }
