@@ -63,7 +63,9 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   userUtil = new UserUtility();
   isVerified2223 = false;
-  ngOnChanges(changes) {}
+  ngOnChanges(changes) {
+    this.isVerified2223 = this.profileData?.isVerified2223
+  }
 
   fetchDatas() {
     this._profileService.getULBTypeList().subscribe((res) => {
@@ -73,12 +75,13 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     console.log("profileData", this.profileData);
-    let data: any = this.profileData;
-    this.isVerified2223 = data?.isVerified2223;
-    this.initializeLogginUserType();
+    this.isVerified2223 = this.profileData?.isVerified2223;
     this.initializeAccess();
     this.initializeForm();
+    this.initializeLogginUserType();
     this.enableProfileEdit();
+    console.log('this.isVerified2223', this.isVerified2223);
+    
   }
 
   onClickingChangePassword(event: Event) {
@@ -294,7 +297,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         name: this.profileData.ulb.name,
         state: this.profileData.ulb.state.name,
       });
-      
+
       if (this.profileData.status !== "APPROVED") {
         this.canSubmitForm = false;
       } else {

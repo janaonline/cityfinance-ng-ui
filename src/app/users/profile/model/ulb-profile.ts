@@ -30,6 +30,8 @@ export interface IULBProfileData extends IBaseProfileData {
   ulb: Ulb;
   role: USER_TYPE.ULB;
   rejectReason?: string;
+  isVerified2223?: boolean;
+  isDeleted?:boolean;
 }
 
 export interface Ulb {

@@ -77,7 +77,7 @@
         {{ errors }}
       </small>
     </div>
-    <div class="input-group"  formGroupName="ulb" *ngIf="loggedInUserType === USER_TYPE.MoHUA || loggedInUserType === USER_TYPE.ADMIN">
+    <div class="input-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA || loggedInUserType === USER_TYPE.ADMIN">
       <label for="status">Status
         <span class="asterik">*</span>
       </label>
@@ -85,10 +85,8 @@
       <select name="status" id="status" formControlName="isDeleted" class="form-control w-63" placeholder="Status" [ngClass]="{
         'is-invalid': profileForm?.controls?.isDeleted.errors
       }" style="">
-        <option value="false" selected>Active</option>
-        <option value="true">
-          InActive
-        </option>
+        <option value="false">Active</option>
+        <option value="true">InActive</option>
       </select>
       <small *ngIf="GetFormControlErrors('isDeleted') as error" class="form-field-error-message">
         <span *ngIf="error?.required"> Status cannot be empty. </span>
@@ -269,7 +267,6 @@
     <p *ngIf="respone.successMessage" class="success-message">
       {{ respone.successMessage }}
     </p>
-
     <div *ngIf="profile.disabled && canSubmitForm" class="mt-5">
       <button [disabled]="apiInProgress" type="button" class="btn btn-primary" (click)="enableProfileEdit()">
         Edit
@@ -279,13 +276,16 @@
         Change Password
       </button>
     </div>
-    <div *ngIf="profile.enabled && canSubmitForm" class="mt-5">
-      <button type="submit" class="btn btn-primary mr-2" *ngIf="isVerified2223">Update Profile</button>
-      <button type="submit" class="btn btn-primary mr-2" *ngIf="!isVerified2223">Verify Profile</button>
-      <button *ngIf="loggedInUserType === USER_TYPE.ULB" class="btn btn-primary mr-2" style="float: right"
-        (click)="onClickingChangePassword($event)">
-        Change Password
-      </button>
+
+    <div class="mt-5">
+      <span *ngIf="profile?.enabled && canSubmitForm && isVerified2223"><button type="submit" class="btn btn-primary mr-2" >Update Profile</button></span>
+      <span *ngIf="profile?.enabled && canSubmitForm && !isVerified2223"><button type="submit" class="btn btn-primary mr-2" > Verify Profile</button></span>
+      <span *ngIf="loggedInUserType === USER_TYPE.ULB">
+        <button  class="btn btn-primary mr-2" style="float: right"
+          (click)="onClickingChangePassword($event)">
+          Change Password
+        </button>
+      </span>
     </div>
 
     <div *ngIf="profileData.status === 'PENDING'" class="mt-5">
