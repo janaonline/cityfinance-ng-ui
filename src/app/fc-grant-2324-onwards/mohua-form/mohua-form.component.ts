@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../fc-shared/service/common-services.service';
 import { Router } from '@angular/router';
 import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 @Component({
   selector: 'app-mohua-form',
@@ -19,7 +20,7 @@ export class MohuaFormComponent implements OnInit {
       this.router.navigate(["/login"]);
     }
     this.userData = JSON.parse(localStorage.getItem("userData"));
-    if (this.userData?.role != 'MoHUA' && this.userData?.role != 'ADMIN') {
+    if (![USER_TYPE.MoHUA, USER_TYPE.ADMIN, USER_TYPE.PMU].includes(this.userData?.role)) {
       this.router.navigate(["/fc-home-page"]);
     }
     this.designYearArray = JSON.parse(localStorage.getItem("Years"));
@@ -41,9 +42,9 @@ export class MohuaFormComponent implements OnInit {
   }
 
   getMohuaSideBar(userData) {
-    // let role = userData?.role;
+    let role = userData?.role;
     let queryParam = {
-      role: 'MoHUA',
+      role,
       year: this.designYearArray["2023-24"],
       _id: ''
     }
