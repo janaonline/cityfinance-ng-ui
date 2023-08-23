@@ -26,7 +26,8 @@ export class StateResourceManagerComponent implements OnInit {
 
   filters = {
     stateId: '',
-    categoryId: ''
+    categoryId: '',
+    subCategoryId: ''
   }
 
   constructor(
@@ -96,6 +97,10 @@ export class StateResourceManagerComponent implements OnInit {
     });
   }
 
+  get subCategories() {
+    return this.categories.find(category => category._id == this.filters.categoryId)?.subCategories || [];
+  }
+
   onUpdate(event, resource) {
     event.preventDefault();
     this.openAddResourceModel(resource);
@@ -111,7 +116,8 @@ export class StateResourceManagerComponent implements OnInit {
     this.pageIndex = 0;
     this.filters = {
       categoryId: '',
-      stateId: ''
+      stateId: '',
+      subCategoryId: ''
     };
     this.loadData();
   }
