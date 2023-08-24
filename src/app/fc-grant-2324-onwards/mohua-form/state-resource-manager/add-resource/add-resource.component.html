@@ -94,6 +94,20 @@
             </div>
         </ng-container>
     </ng-container>
+    <ng-container *ngIf="mode == 'add' && form.value?.file?.url">
+        <p class="mb-1"><b>File / Document</b></p>
+        <div class="file-entries">
+            <div class="file-entry">
+                <div class="details">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ form.value.file.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
     <ng-container *ngIf="mode == 'view' || mode == 'edit'">
         <p class="mb-1"><b>File / Documents</b></p>
         <div class="file-entries">

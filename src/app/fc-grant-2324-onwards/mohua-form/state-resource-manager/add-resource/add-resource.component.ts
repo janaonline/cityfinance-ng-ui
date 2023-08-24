@@ -17,7 +17,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./add-resource.component.scss']
 })
 export class AddResourceComponent implements OnInit {
-  
+
   dropdownSettings = {
     text: "State",
     enableSearchFilter: false,
@@ -62,6 +62,9 @@ export class AddResourceComponent implements OnInit {
 
     this.form.get('categoryId').valueChanges.subscribe(res => {
       this.form.patchValue({ subCategoryId: '' });
+    })
+    this.form.get('subCategoryId').valueChanges.subscribe(res => {
+      this.form.patchValue({ file: { url: '', name: '' } });
     })
   }
 
@@ -125,7 +128,7 @@ export class AddResourceComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close({
-      ...this.form.value, 
+      ...this.form.value,
       uploadType: this.subCategory?.uploadType,
       templateName: this.subCategory?.databaseTemplateName
     });
