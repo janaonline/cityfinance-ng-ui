@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ResourceListResponse } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class StateResourceService {
   ) { }
 
   getList() {
-    return this.http.get(`${environment.api.url}state-resources/list`);
+    return this.http.get<ResourceListResponse>(`${environment.api.url}state-resources/list`);
   }
 
   getResourceList(params = {}) {
@@ -54,8 +55,9 @@ export class StateResourceService {
     return this.http.post(`${environment.api.url}state-resources/removeStateFromFiles`, data);
   }
 
-  getTemplate(templateName: string) {
+  getTemplate(templateName: string, params) {
     return this.http.get(`${environment.api.url}state-resources/template/${templateName}`, {
+      params,
       responseType: 'blob'
     });
   }
