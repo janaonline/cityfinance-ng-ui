@@ -56,7 +56,7 @@
                 Please select a valid Document Name.
             </div>
         </div>
-        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId">
+        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId && form?.value?.relatedIds?.length > 0">
             <small>Attachments</small>
             <div class="upload-section" *ngIf="subCategory?.uploadType == 'file'">
                 <div class="content">

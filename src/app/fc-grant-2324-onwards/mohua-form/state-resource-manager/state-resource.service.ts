@@ -55,8 +55,9 @@ export class StateResourceService {
     return this.http.post(`${environment.api.url}state-resources/removeStateFromFiles`, data);
   }
 
-  getTemplate(templateName: string) {
+  getTemplate(templateName: string, params) {
     return this.http.get(`${environment.api.url}state-resources/template/${templateName}`, {
+      params,
       responseType: 'blob'
     });
   }

@@ -138,7 +138,7 @@ export class AddResourceComponent implements OnInit {
   }
   downloadTemplate(templateName) {
     this.loaderService.showLoader();
-    this.stateResourceService.getTemplate(templateName).subscribe(blob => {
+    this.stateResourceService.getTemplate(templateName, { relatedIds: this.form.value?.relatedIds?.map(item => item?._id) }).subscribe(blob => {
       this.dataEntryService.downloadFileFromBlob(blob, `${templateName}.xlsx`);
       this.loaderService.stopLoader();
     }, err => {
