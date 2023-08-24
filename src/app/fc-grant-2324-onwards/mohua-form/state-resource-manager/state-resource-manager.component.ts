@@ -164,4 +164,8 @@ export class StateResourceManagerComponent implements OnInit {
 
     console.log({ isAgree, fileIds });
   }
+
+  onCategoryChange(value) {
+    if (!value) this.filters.subCategoryId = '';
+  }
 }

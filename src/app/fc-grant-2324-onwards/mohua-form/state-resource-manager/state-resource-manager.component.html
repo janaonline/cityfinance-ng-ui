@@ -12,7 +12,7 @@
                     </select>
                 </div>
                 <div class="col-3">
-                    <select [(ngModel)]="filters.categoryId" class="form-select">
+                    <select [(ngModel)]="filters.categoryId" (change)="onCategoryChange($event.target.value)" class="form-select">
                         <option value="">Document type</option>
                         <option  [value]="category?._id" *ngFor="let category of categories">{{ category?.name }}</option>
                     </select>
