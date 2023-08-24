@@ -50,19 +50,19 @@
             <select class="form-select" [attr.disabled]="!form?.value?.categoryId ? '' : null"
                 formControlName="subCategoryId" id="subCategoryId">
                 <option value="">Please select</option>
-                <option *ngFor="let category of getCategoryList" [value]="category._id">{{ category?.name }}</option>
+                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}</option>
             </select>
             <div class="invalid-feedback">
                 Please select a valid Document Name.
             </div>
         </div>
-        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId">
+        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId && form?.value?.relatedIds?.length > 0">
             <small>Attachments</small>
             <div class="upload-section" *ngIf="subCategory?.uploadType == 'file'">
                 <div class="content">
                     <p>You can upload up to {{ maxUploads }} {{ maxUploads > 1 ? 'files' : 'file'}} according to the
                         document type you've chosen.</p>
-                    <p>Allowed file types: {{allowedFiles }} with size of 20 MB</p>
+                    <p>Allowed file types: {{allowedFiles }} with maximum size of 20 MB</p>
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
@@ -77,6 +77,7 @@
                         <li>Once you have filled in the information, save the file on your computer.</li>
                         <li>Now, use the '<b>Browse</b>' button provided here to choose and upload the completed
                             file</li>
+                        <li>Allowed file types: .xls,.xlsx with maximum size of 20 MB</li>
                     </ol>
 
                     <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.
@@ -92,6 +93,20 @@
                 </div>
             </div>
         </ng-container>
+    </ng-container>
+    <ng-container *ngIf="mode == 'add' && form.value?.file?.url">
+        <p class="mb-1"><b>File / Document</b></p>
+        <div class="file-entries">
+            <div class="file-entry">
+                <div class="details">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ form.value.file.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
     <ng-container *ngIf="mode == 'view' || mode == 'edit'">
         <p class="mb-1"><b>File / Documents</b></p>

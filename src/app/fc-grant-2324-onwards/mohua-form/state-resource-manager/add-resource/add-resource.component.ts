@@ -7,6 +7,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { SweetAlert } from 'sweetalert/typings/core';
 import { StateResourceService } from '../state-resource.service';
+import { mohuaForm } from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/folderName'
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -16,7 +17,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./add-resource.component.scss']
 })
 export class AddResourceComponent implements OnInit {
-  
+
   dropdownSettings = {
     text: "State",
     enableSearchFilter: false,
@@ -62,18 +63,21 @@ export class AddResourceComponent implements OnInit {
     this.form.get('categoryId').valueChanges.subscribe(res => {
       this.form.patchValue({ subCategoryId: '' });
     })
+    this.form.get('subCategoryId').valueChanges.subscribe(res => {
+      this.form.patchValue({ file: { url: '', name: '' } });
+    })
   }
 
-  get getCategoryList() {
+  get getSubCategoryList() {
     return this.categories?.find(category => category._id == this.form.value.categoryId)?.subCategories;
   }
 
   get subCategory() {
-    return this.getCategoryList?.find(subCategory => subCategory._id == this.form.value.subCategoryId);
+    return this.getSubCategoryList?.find(subCategory => subCategory._id == this.form.value.subCategoryId);
   }
 
   get uploadFolderName() {
-    return `mohua/2023-24/state-resource`
+    return `mohua/2023-24/${mohuaForm.STATE_RESOURCES}/`
   }
 
   get allowedFiles() {
@@ -102,7 +106,8 @@ export class AddResourceComponent implements OnInit {
     if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
     this.loaderService.showLoader();
     this.isFileUploading = true;
-    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, this.uploadFolderName).subscribe(s3Response => {
+    const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
+    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
       const { url, file_url } = s3Response.data[0];
       this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
         if (res.type !== HttpEventType.Response) return;
@@ -123,7 +128,7 @@ export class AddResourceComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close({
-      ...this.form.value, 
+      ...this.form.value,
       uploadType: this.subCategory?.uploadType,
       templateName: this.subCategory?.databaseTemplateName
     });
@@ -133,7 +138,7 @@ export class AddResourceComponent implements OnInit {
   }
   downloadTemplate(templateName) {
     this.loaderService.showLoader();
-    this.stateResourceService.getTemplate(templateName).subscribe(blob => {
+    this.stateResourceService.getTemplate(templateName, { relatedIds: this.form.value?.relatedIds?.map(item => item?._id) }).subscribe(blob => {
       this.dataEntryService.downloadFileFromBlob(blob, `${templateName}.xlsx`);
       this.loaderService.stopLoader();
     }, err => {
