@@ -107,7 +107,7 @@ import { CommonFilterComponent } from './components/common-filter/common-filter.
 import { EndsWithPipe } from './pipes/ends-with.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import {MatBadgeModule} from '@angular/material/badge';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -131,6 +131,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatCheckboxModule,
     GooglePlaceModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
       libraries: ["places"],

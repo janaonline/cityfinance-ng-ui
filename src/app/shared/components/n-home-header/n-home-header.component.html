@@ -95,19 +95,15 @@
                     <li class="nav-item ms-1" *ngIf="isLoggedIn == false">
                       <button type="button" class="btn btn-login fw-bold btn-l-fc" (click)="loginLogout('15th_Fc')">Login for 15th FC Grant</button>
                     </li>
-                    <!-- <li class="nav-item ms-1" *ngIf="isLoggedIn">
-                        <a type="button" class="">
-                           <img width="18px" src="../../../../assets/bellIcon.svg" alt=""><sup class="badge bg-danger">4</sup>
-                        </a>
-                        <div class="demo-section">
-                            <button mat-raised-button color="primary"
-                                matBadge="8" matBadgePosition="before" matBadgeColor="accent">
-                              Action
-                            </button>
-                          </div>
-                    </li> -->
+                    <li class="nav-item ms-1" *ngIf="isLoggedIn">
+                        <!-- <button mat-icon-button [mdePopoverTriggerFor]="themePopover" [mdePopoverTargetAt]="mainToolbar" mdePopoverTriggerOn="click"> -->
+                            <mat-icon matBadge="5" matBadgeColor="warn" class="bell-icon" (click)="getNotification(template)">notifications</mat-icon> 
+                        <!-- </button> -->
+                            
+                    </li>
                 </ul>
             </div>
+            
             <div class="ms-auto">
                 <!-- <a *ngIf="isLoggedIn == false" routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{ btnName }}</a> -->
                 <!-- <div class="dropdown" *ngIf="isLoggedIn == false">
@@ -213,3 +209,17 @@
         </div>
     </nav>
 </div>
+<ng-template #template>
+    <div class="modal-header h-bg">
+      <h4 class="modal-title pull-left">Notifications</h4>
+      <button type="button" class="btn-close close pull-right fw-bold" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <ol>
+        <li>Need to action on 50 ULb.</li>
+        <li>Update your profile.</li>
+    </ol>
+    </div>
+  </ng-template>

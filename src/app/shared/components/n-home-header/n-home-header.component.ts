@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, HostListener, ViewChild, ElementRef, TemplateRef } from "@angular/core";
 import { NavigationEnd, Router, Event } from "@angular/router";
 import { UserUtility } from "src/app/util/user/user";
 import { Login_Logout } from "src/app/util/logout.util";
@@ -9,6 +9,7 @@ import { ACTIONS } from "src/app/util/access/actions";
 import { AccessChecker } from '../../../util/access/accessChecker';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { environment } from "src/environments/environment";
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
@@ -28,15 +29,19 @@ export class NHomeHeaderComponent implements OnInit {
   currentTextSize: any;
   canViewUserList = false;
   canViewULBSingUpListing = false;
-  constructor(public _router: Router, private authService: AuthService,
+  modalRef?: BsModalRef;
+  constructor(
+    public _router: Router, 
+    private authService: AuthService,
     private newCommonService: NewCommonService,
-    ) {
+    private modalService: BsModalService
+  ) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
 
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
-      
+
       this.initializeAccessChecking();
 
       if (this.isLoggedIn) {
@@ -60,7 +65,11 @@ export class NHomeHeaderComponent implements OnInit {
 
   }
   private accessChecker = new AccessChecker();
- isProd: boolean = false;
+  isProd: boolean = false;
+  isSticky = false;
+  public screenHeight: any;
+  elementPosition;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
   ngOnInit(): void {
     this.isProd = environment?.isProduction;
     // this.authService.loginLogoutCheck.subscribe((res) => {
@@ -76,7 +85,7 @@ export class NHomeHeaderComponent implements OnInit {
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);
   }
-  initializeAccessChecking(){
+  initializeAccessChecking() {
     this.canViewUserList = this.accessChecker.hasAccess({
       moduleName: MODULES_NAME.USERLIST,
       action: ACTIONS.VIEW,
@@ -124,54 +133,42 @@ export class NHomeHeaderComponent implements OnInit {
   scroll() {
     window.scrollTo({
       top: 1000,
-
       behavior: "smooth",
     });
   }
   // routerLink="/fc-home-page";
   loginLogout(type) {
-    if(type == '15th_Fc'){
+    if (type == '15th_Fc') {
       this._router.navigateByUrl("/fc_grant");
-    }else if(type == 'ranking'){
+    } else if (type == 'ranking') {
       this._router.navigateByUrl("/rankings/login");
-    }else if(type == 'logout'){
+    } else if (type == 'logout') {
       this.authService.loginLogoutCheck.next(false);
       // this.newCommonService.setFormStatus2223.next(false);
       localStorage.clear();
       this.removeSessionItem();
       this.isLoggedIn = false;
       this._router.navigateByUrl("rankings/home");
-    }else {
+    } else {
 
     }
-    // if (this.btnName == "Login for 15th FC Grants") {
-    //   this._router.navigateByUrl("/fc_grant");
-    // }
-    // if (this.btnName == "Logout") {
-    //   this.btnName = "Login for 15th FC Grants";
-    //   this.authService.loginLogoutCheck.next(false);
-    //   // this.newCommonService.setFormStatus2223.next(false);
-    //   localStorage.clear();
-    //   this.removeSessionItem();
-    //   this._router.navigateByUrl("/home");
-    // }
   }
-  isSticky = false;
-  public screenHeight: any;
-  elementPosition;
-  @ViewChild('stickyMenu') menuElement: ElementRef;
+
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
   @HostListener('window:scroll', ['$event'])
   handleScrollTop() {
     const windowScroll = window.pageYOffset;
-   // console.log('topppppp', );
     if (window.pageYOffset >= this.elementPosition) {
       this.isSticky = true;
-    }else{
+    } else {
       this.isSticky = false;
     }
 
+  }
+
+  getNotification(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
   }
 }
