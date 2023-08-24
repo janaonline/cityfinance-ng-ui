@@ -50,7 +50,7 @@
             <select class="form-select" [attr.disabled]="!form?.value?.categoryId ? '' : null"
                 formControlName="subCategoryId" id="subCategoryId">
                 <option value="">Please select</option>
-                <option *ngFor="let category of getCategoryList" [value]="category._id">{{ category?.name }}</option>
+                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}</option>
             </select>
             <div class="invalid-feedback">
                 Please select a valid Document Name.
@@ -62,7 +62,7 @@
                 <div class="content">
                     <p>You can upload up to {{ maxUploads }} {{ maxUploads > 1 ? 'files' : 'file'}} according to the
                         document type you've chosen.</p>
-                    <p>Allowed file types: {{allowedFiles }}</p>
+                    <p>Allowed file types: {{allowedFiles }} with size of 20 MB</p>
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="actions">
                     <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
-                    <a class="btn btn-outline-primary" _target="blank" href="{{ file.url }}"
+                    <a class="btn btn-outline-primary" target="_blank" href="{{ file.url }}"
                         *ngIf="mode == 'view'">View</a>
                 </div>
             </div>

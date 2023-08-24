@@ -23,12 +23,12 @@
                             [render-text]="false" [show-all]="false" style="display: block; height: 250px" [page]="1"
                             [zoom-scale]="'page-fit'" [original-size]="false">
                         </pdf-viewer>
-                        <img *ngIf="document?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png"
+                        <img *ngIf="document?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png"
                             style="display: block; height: 150px; margin: 50px;" [alt]="document?.name || 'Excel file'">
                     </div>
                     <div class="row">
                         <div class="col-10 details">
-                            <p class="file-name">{{ document.name }}</p>
+                            <p class="file-name" [title]="document.name">{{ document.name }}</p>
                             <p class="created-at">Created at {{ document.createdAt | date: 'dd/MM/yyyy' }}</p>
                         </div>
                         <div class="col-2">

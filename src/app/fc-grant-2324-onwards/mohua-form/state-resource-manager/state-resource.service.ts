@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,6 +33,19 @@ export class StateResourceService {
         } else {
           return { type: 'blob', data: response.body };
         }
+      }), catchError((error: HttpErrorResponse) => {
+        return new Observable((observer) => {
+          if (error.error instanceof Blob && error.error.type === "application/json") {
+            const reader = new FileReader();
+            reader.onload = (event: any) => {
+              const errorText = JSON.parse(event.target.result);
+              observer.error({error: errorText, type: 'blob'});
+            };
+            reader.readAsText(error.error);
+          } else {
+            observer.error({type: 'blob', error});
+          }
+        });
       })
     );
   }
