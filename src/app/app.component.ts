@@ -137,9 +137,9 @@ export class AppComponent implements OnDestroy, OnInit {
   callGenralAert(){
    const defaultMessage = {
     title: 'Error', 
-    text: `Cityfinance.in will be undergoing scheduled maintenance, resulting in a temporary outage on for sometime.
+    text: `Cityfinance.in will be undergoing scheduled maintenance, resulting in a temporary outage for sometime.
           <br> <br>For any assistance, please contact our support team at <a href = 'mailto: 15fcgrant@cityfinance.in'>15fcgrant@cityfinance.in</a>`, 
-    position: 'top-start',
+    position: 'center',
     icon: 'error'
   }
    
