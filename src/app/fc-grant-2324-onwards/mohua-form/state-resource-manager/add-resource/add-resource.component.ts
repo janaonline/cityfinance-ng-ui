@@ -20,11 +20,11 @@ export class AddResourceComponent implements OnInit {
 
   dropdownSettings = {
     text: "State",
-    enableSearchFilter: false,
+    enableSearchFilter: true,
+    badgeShowLimit: 2,
     labelKey: "name",
     primaryKey: "_id",
     enableCheckAll: true,
-    classes: "homepage-stateList custom-class",
   };
   states = [];
   selectedItems = [];
