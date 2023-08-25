@@ -779,4 +779,13 @@ export class CommonService {
   getSLBdashboardForntData() {
     return this.http.get(`${environment.api.url}slb-specific-metrics`);
   }
+  getCallMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
+
 }
