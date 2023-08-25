@@ -164,14 +164,15 @@
                                 <td style="width: 5%;">{{isInfiniteScroll ? tabelIndex+1 :
                                     (tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                     tabelIndex+1)}}</td>
-                                <td>{{item.ulbName}}</td>
-                                <td>{{item.censusCode}}</td>
-                                <td style="width: 11%;">{{item.stateName}}</td>
+                                <td>{{item?.ulbName}}</td>
+                                <td>{{item?.censusCode}}</td>
+                                <td style="width: 11%;">{{item?.stateName}}</td>
                                 <td>{{item.populationType}}</td>
-                                <td>{{item.ulbDataSubmitted}}</td>
-                                <td>{{item.pmuVerificationProgress}}</td>
-                                <!-- <td >{{item.formStatus}}</td>  -->
-                                <td [class.clickable]="canSeeTrackingHistory" (click)="showTrackingHistory(item)">{{item.formStatus}}</td>
+                                <td>{{item?.ulbDataSubmitted}}</td>
+                                <td>{{item?.pmuVerificationProgress}}</td>
+                                <!-- temp comment for production -->
+                                <td>{{item?.formStatus}}</td> 
+                                <!-- <td [class.clickable]="canSeeTrackingHistory" (click)="showTrackingHistory(item)">{{item.formStatus}}</td> -->
                                 <!-- <td *ngIf="item.filled_provisional">{{ item.filled_provisional }}</td> -->
                                 <!-- <p>{{ item | json }}</p> -->
                                 <td *ngIf="!item?.cantakeAction">
