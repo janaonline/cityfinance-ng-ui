@@ -29,9 +29,9 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
     private router: Router,
     
   ) {
-    // if(this.environment?.isProduction === true){  
-    //   this.router.navigate(["/home"]);
-    // }
+    if(this.environment?.isProduction === true){  
+      this.router.navigate(["/home"]);
+    }
    }
 
   ngOnInit(): void {

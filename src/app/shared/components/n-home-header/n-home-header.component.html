@@ -63,7 +63,7 @@
                                   Level Benchmarks Performance</a>
                             </li>
                             <!-- for municipal-bonds only for stg now -->
-                            <li>
+                            <li *ngIf="isProd == false">
                                 <a class="dropdown-item" routerLink="/municipal-bonds">Municipal Bonds</a>
                             </li>
                             <li *ngIf="isProd == false">
