@@ -10,8 +10,10 @@ import { UserUtility } from "./util/user/user";
 import { ConnectionService } from "ng-connection-service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonService } from "./shared/services/common.service";
-const swal: SweetAlert = require("sweetalert");
 import { MatSnackBar } from "@angular/material/snack-bar";
+// const swal: SweetAlert = require("sweetalert");
+const swal2 = require("sweetalert2");
+
 
 @Component({
   selector: "app-root",
@@ -96,6 +98,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.callGenralAert();
     this.commonService.isEmbedModeEnable.subscribe(data => {
       console.log('isEmbedModeEnable', data)
       if (data) {
@@ -133,4 +136,38 @@ export class AppComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.sessionService.endSession(this.sessionId).subscribe((res) => {});
   }
+
+  callGenralAert(){
+    const defaultMessage = {
+     title: 'Error', 
+     text: `Cityfinance.in will be undergoing scheduled maintenance, resulting in a temporary outage for sometime.
+           <br> <br>For any assistance, please contact our support team at <a href = 'mailto: 15fcgrant@cityfinance.in'>15fcgrant@cityfinance.in</a>`, 
+     position: 'center',
+     icon: 'error'
+   }
+    
+     this.commonService.getCallMethod('general-alert', {type: 'common'}).subscribe((res: any)=>{
+      // console.log('genral alert', res);
+       const message = res?.data?.message;
+       if(res?.data?.isActive){
+         this.showAlert(message);
+       }
+     },
+     (error)=>{
+     //  console.log('genral alert error', error);
+       this.showAlert(defaultMessage);
+     }
+     )
+   }
+ 
+   showAlert(message){
+     swal2.fire({
+       title: `${message?.title}`,
+       html: `${message?.text}`,
+       position: `${message?.position}`,
+       icon:`${message?.icon}`,
+       showCloseButton: true,
+     
+     });
+   }
 }
