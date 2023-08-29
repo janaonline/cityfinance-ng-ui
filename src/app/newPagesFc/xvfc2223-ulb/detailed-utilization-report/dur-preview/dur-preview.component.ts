@@ -206,8 +206,8 @@ tr {
       this.state = sessionStorage.getItem("stateName");
       this.ulb = sessionStorage.getItem("ulbName");
     }
-    this.state = this.data?.ulbDetails?.stateName;
-    this.ulb = this.data?.ulbDetails?.ulbName;
+    // this.state = this.data?.ulbDetails?.stateName;
+    // this.ulb = this.data?.ulbDetails?.ulbName;
     this.categories = this.data?.categories;
 
     console.log("preview data", this.data, this.categories);

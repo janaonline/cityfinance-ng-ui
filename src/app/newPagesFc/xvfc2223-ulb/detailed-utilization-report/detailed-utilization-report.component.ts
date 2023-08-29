@@ -39,14 +39,14 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
     };
-
-    this.ulbId = this.activatedRoute.snapshot.params.id;
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.ulbName = params['ulbName'];
-      this.ulbCode = params['ulbCode'];
-      this.stateName = params['stateName'];
-      this.status = params['status']; // Replace 'paramName' with your parameter name
-    });
+//<-----------------------------------bulk pdf download----------------------------->
+  //  this.ulbId = this.activatedRoute.snapshot.params.id;
+    // this.activatedRoute.queryParams.subscribe(params => {
+    //   this.ulbName = params['ulbName'];
+    //   this.ulbCode = params['ulbCode'];
+    //   this.stateName = params['stateName'];
+    //   this.status = params['status']; // Replace 'paramName' with your parameter name
+    // });
     this.initializeReport();
   };
   ulbCode = ''
@@ -107,10 +107,10 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   "In Progress" because of their interdependency.`;
   autoReject: boolean = false;
   ngOnInit(): void {
-    // this.ulbName = this.userData?.name;
-    // if (this.userData?.role != "ULB") {
-    //   this.ulbName = sessionStorage.getItem("ulbName");
-    // }
+    this.ulbName = this.userData?.name;
+    if (this.userData?.role != "ULB") {
+      this.ulbName = sessionStorage.getItem("ulbName");
+    }
     this.setRouter();
     this.onLoad();
     if (this.userData?.role == 'MoHUA') this.sequentialReview({ onlyGet: true });
