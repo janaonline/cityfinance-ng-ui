@@ -76,6 +76,7 @@ export class CommonService {
    * sorted = ["2014-15", "2015-16", "2018-19"]
    */
   private sortFinancialYears(years: string[]) {
+    
     return years.sort(
       (yearA, yearB) => +yearA.split("-")[0] - +yearB.split("-")[0]
     );
