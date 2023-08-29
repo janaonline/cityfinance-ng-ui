@@ -114,7 +114,7 @@ export class ReviewUlbTableComponent implements OnInit {
     })
   }
 
-  loadData(pageNumber?: number, callType?:string) {
+  loadData(pageNumber?: number, callType?: string) {
     if (pageNumber) {
       this.tableDefaultOptions.currentPage = pageNumber;
       this.listFetchOption.skip = (pageNumber - 1) * this.tableDefaultOptions.itemPerPage;
@@ -126,7 +126,7 @@ export class ReviewUlbTableComponent implements OnInit {
         filteredObj[key] = this.filterForm.getRawValue()[key].trim();
       }
     }
-    if(callType == 'search'){
+    if (callType == 'search') {
       this.listFetchOption.skip = 0;
       this.tableDefaultOptions.currentPage = 1;
     }
@@ -260,7 +260,7 @@ export class ReviewUlbTableComponent implements OnInit {
     return ["ULB Name", "State Name", "ULB Data Submitted (%)", "PMU Verification Progress (Approved,Rejected)",].includes(item.value);
   }
 
-  onCardClick({ id, ...rest}) {
+  onCardClick({ id, ...rest }) {
     console.log('id,rest', id, rest);
     this.dialog.open(DashboardComponent, {
       id: 'DashboardComponentModal',
@@ -293,29 +293,30 @@ export class ReviewUlbTableComponent implements OnInit {
     return columnsData;
   }
 
-  showTrackingHistory(item){
-    try{
-      if(!this.canSeeTrackingHistory){
+  showTrackingHistory(item) {
+    try {
+      if (!this.canSeeTrackingHistory) {
         return
       }
-      this.dialog.open(TrackingHistoryTableComponent,{
-        data:{
-          "queryParams":{
-            "id":item?.formData?._id || ""
+      this.dialog.open(TrackingHistoryTableComponent, {
+        data: {
+          "queryParams": {
+            "id": item?.formData?._id || ""
           }
         },
-        maxHeight: '90vh'
+        maxHeight: "90vh",
+        width: "600px"
       })
     }
-    catch(err){
-      console.log("error in  showTrackingHistory ::: ",err.message)
+    catch (err) {
+      console.log("error in  showTrackingHistory ::: ", err.message)
     }
   }
 
   get canSeeTrackingHistory() {
-    return [USER_TYPE.PMU,USER_TYPE.MoHUA].includes(this.userData.role)
+    return [USER_TYPE.PMU, USER_TYPE.MoHUA].includes(this.userData.role)
   }
-  
+
 
   statusFilterList = [
     { _id: '1', name: 'Not Started' },
