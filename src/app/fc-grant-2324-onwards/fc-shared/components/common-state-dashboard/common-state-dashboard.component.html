@@ -65,7 +65,7 @@
         </div>
     </div>
 </div>
-<div class="tab-slider--container mt-4" *ngIf="formDataCompleted">
+<div class="tab-slider--container mt-4" *ngIf="formDataCompleted && !allData?.msgVisible">
     <div class="tab-slider--body">
         <div *ngFor="let form of allData?.formData | keyvalue : keepOriginalOrder">
             <div>
@@ -153,6 +153,14 @@
             <div class="col-sm-12">
                 <button [disabled]="!allData?.isAvailableForGrant" class="btn btn-primary" (click)="claimGrant()">Click here to claim grant</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="no-data mt-4" *ngIf="formDataCompleted && allData?.msgVisible">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            {{allData?.message ? allData?.message : 'No Data Found'}}
         </div>
     </div>
 </div>
