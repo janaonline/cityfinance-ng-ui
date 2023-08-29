@@ -24,6 +24,8 @@ import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-servic
 import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
+import { ulbs_data } from "src/app/newPagesFc/xvfc2223-ulb/detailed-utilization-report/ulbsData";
+import { Router } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -37,7 +39,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     private _commonService: CommonService,
     private _fb: FormBuilder,
     public dialog: MatDialog,
-    private stateServices: State2223Service
+    private stateServices: State2223Service,
+    private router: Router
   ) {
     this.userData = JSON.parse(localStorage.getItem("userData"));
     this.initializeFilterForm();
@@ -120,6 +123,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.setParams();
     this.tableDefaultOptions.itemPerPage = 10;
     this.params["limit"] = this.tableDefaultOptions.itemPerPage;
+    //<-----------------------------------bulk pdf download----------------------------->
+    // ulbs_data.slice(720, 750).forEach(ulb => {
+    //   window.open(`/ulbform2223/utilisation-report/${ulb.ulbId}?ulbName=${ulb.ulbName}&ulbCode=${ulb.ulbCode}&stateName=${ulb.stateName}&status=${ulb?.formStatus}`, '_blank')
+    // });
   }
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;

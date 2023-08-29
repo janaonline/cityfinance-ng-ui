@@ -13,7 +13,7 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-report/uti-report.service";
 
 import { DurPreviewComponent } from "./dur-preview/dur-preview.component";
-import { NavigationStart, Router } from "@angular/router";
+import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
 const swal: SweetAlert = require("sweetalert");
@@ -28,6 +28,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private UtiReportService: UtiReportService,
     private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
     private _router: Router
   ) {
     this.navigationCheck();
@@ -37,9 +38,20 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
     this.ulbId = this.userData?.ulb;
     if (!this.ulbId) {
       this.ulbId = localStorage.getItem("ulb_id");
-    }
+    };
+
+    this.ulbId = this.activatedRoute.snapshot.params.id;
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.ulbName = params['ulbName'];
+      this.ulbCode = params['ulbCode'];
+      this.stateName = params['stateName'];
+      this.status = params['status']; // Replace 'paramName' with your parameter name
+    });
     this.initializeReport();
-  }
+  };
+  ulbCode = ''
+  stateName = ''
+  status = ''
   durForm;
   ulbId;
   ulbName = "";
@@ -91,17 +103,17 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
   @ViewChild("changeTemplate") template;
   isApiInProgress = true;
   Years: object | any;
-  autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
+  autoRejectInfo: string = `If this year's form is rejected, the next year's forms will be 
   "In Progress" because of their interdependency.`;
-  autoReject:boolean = false;
+  autoReject: boolean = false;
   ngOnInit(): void {
-    this.ulbName = this.userData?.name;
-    if (this.userData?.role != "ULB") {
-      this.ulbName = sessionStorage.getItem("ulbName");
-    }
+    // this.ulbName = this.userData?.name;
+    // if (this.userData?.role != "ULB") {
+    //   this.ulbName = sessionStorage.getItem("ulbName");
+    // }
     this.setRouter();
     this.onLoad();
-    if(this.userData?.role == 'MoHUA') this.sequentialReview({onlyGet: true});
+    if (this.userData?.role == 'MoHUA') this.sequentialReview({ onlyGet: true });
   }
   formId = "";
   setRouter() {
@@ -307,6 +319,17 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
           this.actionBtnDis = true;
         }
         this.isApiInProgress = false;
+//<-----------------------------------bulk pdf download----------------------------->
+        // setTimeout(() => {
+        //   (document.querySelector('#prevBtn') as any).click();
+        // }, 5000);
+        // setTimeout(() => {
+        //   (document.querySelector('#donwloadButton') as any).click();
+        // }, 7000);
+
+        // setTimeout(() => {
+        //   window.close();
+        // }, 20000);
       },
       (error) => {
         console.log("error", error);
@@ -353,17 +376,17 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
           : 0,
         receivedDuringYr:
           data?.grantPosition?.receivedDuringYr ||
-          data?.grantPosition?.receivedDuringYr === 0
+            data?.grantPosition?.receivedDuringYr === 0
             ? Number(data?.grantPosition?.receivedDuringYr).toFixed(2)
             : null,
         expDuringYr:
           data?.grantPosition?.expDuringYr ||
-          data?.grantPosition?.expDuringYr === 0
+            data?.grantPosition?.expDuringYr === 0
             ? Number(data?.grantPosition?.expDuringYr).toFixed(2)
             : null,
         closingBal:
           data?.grantPosition?.closingBal ||
-          data?.grantPosition?.closingBal === 0
+            data?.grantPosition?.closingBal === 0
             ? Number(data?.grantPosition?.closingBal).toFixed(2)
             : null,
       },
@@ -753,7 +776,7 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       this.changeInTotalPExp();
       if (
         this.utilizationReportForm["controls"]["projects"]["controls"].length ==
-          0 &&
+        0 &&
         this.totalPExpErr
       ) {
         this.addRow();
@@ -846,9 +869,15 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       financialYear: "606aaf854dff55e6c075d219",
       designYear: "606aafb14dff55e6c075d3ae",
       grantType: "Tied",
-      ulb: this.userData?.ulb,
+      ulb: this.ulbId,
       ...this.utilizationReportForm?.value,
       categories: this.categories,
+      ulbDetails: {
+        ulbName : this.ulbName,
+        ulbCode: this.ulbCode,
+        stateName: this.stateName,
+        status : this.status
+      }
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: formdata,
@@ -996,11 +1025,11 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       (res) => {
         console.log("action respon", res);
         this.actionBtnDis = true;
-      //  commented for prods
-      // if(environment?.isProduction === false){ 
-        if(actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA' && this.autoReject) this.sequentialReview({onlyGet: false});
-      // }
-     
+        //  commented for prods
+        // if(environment?.isProduction === false){ 
+        if (actionBody?.status == 'REJECTED' && this.userData?.role == 'MoHUA' && this.autoReject) this.sequentialReview({ onlyGet: false });
+        // }
+
         this.newCommonService.setFormStatus2223.next(true);
         swal("Saved", "Action saved successfully.", "success");
       },
@@ -1028,15 +1057,15 @@ export class DetailedUtilizationReportComponent implements OnInit, OnDestroy {
       status: "REJECTED",
       formId: 4,
       multi: false,
-    "getReview": data?.onlyGet
+      "getReview": data?.onlyGet
     };
     this.newCommonService.postSeqReview(body).subscribe(
-      (res:any) => {
+      (res: any) => {
         console.log("Sequential review", res);
-        if(data?.onlyGet && this.autoReject == false) this.autoReject = res?.data?.autoReject;
+        if (data?.onlyGet && this.autoReject == false) this.autoReject = res?.data?.autoReject;
       },
       (error) => {
-       // swal("Error", "Sequential review field.", "error");
+        // swal("Error", "Sequential review field.", "error");
       }
     );
   }

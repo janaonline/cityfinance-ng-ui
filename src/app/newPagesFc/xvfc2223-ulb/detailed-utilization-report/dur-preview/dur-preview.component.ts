@@ -206,6 +206,8 @@ tr {
       this.state = sessionStorage.getItem("stateName");
       this.ulb = sessionStorage.getItem("ulbName");
     }
+    this.state = this.data?.ulbDetails?.stateName;
+    this.ulb = this.data?.ulbDetails?.ulbName;
     this.categories = this.data?.categories;
 
     console.log("preview data", this.data, this.categories);
@@ -325,7 +327,10 @@ tr {
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         console.log("vishu", res);
-        this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
+       // StateName_ULBCode_ULBName_FyYear_FormStatus 
+        let fileName = `${this.state}_${this.data?.ulbDetails?.ulbCode}_${this.data?.ulbDetails?.ulbName}_2022-23_${this.data?.ulbDetails?.status}`;
+        fileName = fileName.replace(/\s/g, "");
+        this.downloadFile(res.slice(0), "pdf", `${fileName}.pdf`);
         this.showLoader = false;
       },
       (err) => {

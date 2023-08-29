@@ -147,14 +147,19 @@
                     <td *ngIf="resData.filled_provisional" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{
                         resData.filled_provisional }}</td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="resData.cantakeAction == false">
-                        <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)"
-                            [routerLink]="formRouterLink">
-                            <!-- [routerLink]="[
-                          '/ulbform/overview', resData?._id  ]" -->
+                        <!-----------------------------------bulk pdf download----------------------------->
+                        <!-- <a [ngClass]='{"notClick" : actBtn}' target="_blank"
+                            [routerLink]="formRouterLink + '/' + resData?.ulbId">
                             <mat-icon aria-hidden="false" [matTooltip]="resData?.info" matTooltipClass="tooltip-red">
                                 <img src="../../../../assets/ulbform/eye.png">
                             </mat-icon>
-                        </a>
+                        </a> -->
+                        <a [ngClass]='{"notClick" : actBtn}'
+                        (click)="viewUlbForm(resData)" [routerLink]="formRouterLink">
+                        <mat-icon aria-hidden="false" [matTooltip]="resData?.info" matTooltipClass="tooltip-red">
+                            <img src="../../../../assets/ulbform/eye.png">
+                        </mat-icon>
+                    </a>
                     </td>
                     <td class="btn-td" [style.border-top]="tabelIndex == '0' ? 'none' : ''"
                         *ngIf="resData.cantakeAction == true">
