@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 const swal: SweetAlert = require("sweetalert");
 
 export interface queryParams  {
@@ -39,6 +40,7 @@ export class DashbordComponent implements OnInit {
   getQueryParams: queryParams;
   isApiComplete:boolean = false;
   formDataCompleted:boolean = false;
+  private dataSubscription: Subscription;
   ngOnInit(): void {
     this.onload();
   }
@@ -70,7 +72,7 @@ export class DashbordComponent implements OnInit {
 // main dashboard data eg. form status for ulb and state
   callApiForAllFormData(queryParams){
     this.formDataCompleted = false;
-    this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
+   this.dataSubscription = this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
       console.log('ressss', res);
       this.formData = res?.data;
       this.formDataCompleted = true;
@@ -86,8 +88,9 @@ export class DashbordComponent implements OnInit {
   cityTabChange(e) {
     console.log('eeee', e);
     if(e?.type == 'cityTabChange' || e?.type == 'installmentsChange'){
+      this.dataSubscription?.unsubscribe();
       this.getQueryParams["formType"] = e?.formType;
-      this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1
+      this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1;
       this.callApiForAllFormData(this.getQueryParams);
     } else if(e?.type == 'pageNavigation'){
       const navURl = `state-form${e?.data?.link}`
