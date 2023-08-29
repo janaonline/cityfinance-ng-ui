@@ -194,7 +194,6 @@ export class DashboardMapSectionComponent
   }
   private fetchMinMaxFinancialYears() {
     this._commonService.getFinancialYearBasedOnData().subscribe((res) => {
-      debugger
       this.financialYearTexts = {
         min: res.data[0],
         max: res.data[res.data.length - 1].slice(2),
