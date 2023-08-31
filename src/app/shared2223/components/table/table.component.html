@@ -82,13 +82,13 @@
                     </th>
                     <th class="filter">
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()"
-                            *ngIf="designYear == '606aafb14dff55e6c075d3ae'">
+                            *ngIf="designYear == yearIdFor2223">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item" [selected]="item == params.status">
                                 {{item}}</option>
                         </select>
                         <select class="form-select in-sel" formControlName="status_s" (change)="search()"
-                            *ngIf="designYear != '606aafb14dff55e6c075d3ae'">
+                            *ngIf="designYear != yearIdFor2223">
                             <option value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item?.statusId"
                                 [selected]="item?.statusId == params?.status">{{item?.status}}</option>
@@ -198,13 +198,21 @@
                             <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
                         </select>
                     </th>
-                    <th class="filter text-center">
-                        <!-- formId != '62c552c52954384b44b3c386' && formId != '62c554932954384b44b3c39e' && formId != '16' -->
+                    <th class="filter text-center" *ngIf="designYear == yearIdFor2223">
                         <select class=""
                             *ngIf="getStatusAvailability()"
                             formControlName="status_s" style="width: 75%;" (change)="searchState()">
                             <option selected value="">Status</option>
                             <option *ngFor="let item of statusList" [value]="item">{{item}}</option>
+                        </select>
+                       
+                    </th>
+                    <th class="filter text-center" *ngIf="designYear != yearIdFor2223">
+                        <select class="" formControlName="status_s" (change)="searchState()"
+                        *ngIf="getStatusAvailability()">
+                        <option value="">Status</option>
+                        <option *ngFor="let item of statusList" [value]="item?.statusId"
+                            [selected]="item?.statusId == params?.status">{{item?.status}}</option>
                         </select>
                     </th>
                     <th class="filter text-center" colspan="2">

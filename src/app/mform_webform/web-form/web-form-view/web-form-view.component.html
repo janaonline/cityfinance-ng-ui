@@ -1,0 +1,142 @@
+<div class="container-fluid px-0 mt-3">
+    <div class="card">
+        <div class="card-title text-primary text-center mb-0" [ngClass]="{'border-bottom':titleDescription}"  *ngIf="title">
+            <h3 class="mb-1">{{title}}</h3>
+            <span class="my-1" *ngIf="titleDescription">{{titleDescription}}</span>
+        </div>
+        <div class="card-body" *ngIf="questionResponse && questionResponse.length; else noData">
+            <!-- template 1 -->
+            <!-- <div class="row mx-0 mt-3 border bg-white" >
+        <div
+          class="col-3 py-2 border-bottom"
+          *ngFor="let item of questionResponse; let i = index"
+        >
+          <label
+            class="col-form-label form-label"
+            style="font-size: 90%; font-weight: 500"
+            >{{ item?.title }}</label
+          >
+          <div
+            class=""
+            *ngIf="item?.input_type != '11' && item?.input_type != '14'"
+            style="color: gray"
+          >
+            <span
+              class="two-line-text pointer-hand"
+              [matTooltip]="item?.answerValue"
+              >{{ item?.answerValue }}</span
+            >
+          </div>
+          <div *ngIf="item?.input_type == '11'">
+            <img [src]="item?.answerValue" [width]="75" [height]="75" />
+            <a
+              class="material-icons pointer-hand text-primary download-icon"
+              [matTooltip]="'Download Sample File'"
+              matTooltipPosition="above"
+              [href]="item?.answerValue"
+              [download]="item?.title"
+              target="_blank"
+              style="
+                position: relative;
+                top: 6px;
+                left: 5px;
+                text-decoration: none;
+              "
+            >
+              file_download
+            </a>
+          </div>
+          <div *ngIf="item?.input_type == '14'">
+            <span>{{ item?.answerValue | date: "dd-MM-yyyy" }}</span>
+          </div>
+        </div>
+      </div>
+<br><br><br> -->
+            <div class="flex-container" *ngIf="template == 'template1'">
+                <div class="mt-2" [ngClass]="{'highLight': item?.isModified}" *ngFor="let item of questionResponse; let itemIndex = index">
+                    <label for="staticEmail" class="col-form-label form-label">{{
+                        item?.title
+                        }}</label>
+                    <div class="padding">
+                        <span *ngIf="item?.input_type != '14' && item?.input_type != '11'"
+                            class="custom-text-truncate two-line-text">{{ item?.answerValue }}</span>
+                        <span *ngIf="item?.input_type == '14'">{{
+                            item?.answerValue | date: "dd-MM-yyyy"
+                            }}</span>
+                        <div *ngIf="item?.input_type == '11'">
+                            <img [src]="item?.answerValue" [width]="75" [height]="75" />
+                            <a class="material-icons pointer-hand text-primary download-icon"
+                                [matTooltip]="'Download Sample File'" matTooltipPosition="above"
+                                [href]="item?.answerValue" [download]="item?.title" target="_blank" style="position: relative;top: 6px;left: 5px;text-decoration: none;">
+                                file_download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- template 2 -->
+            <div class="row mx-0 border" *ngIf="template == 'template2'">
+                <ng-container *ngFor="let item of questionResponse; let itemIndex = index">
+                    <div class="col-lg-3 col-md-6 col-12 p-2 border-bottom" [ngClass]="{'highLight': item?.isModified}" >
+                        <div class="d-flex align-items-center h-100">
+                            <span class="form-label">{{ item?.title }}&nbsp;:</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12 col-md-6 p-2 border-bottom" [ngClass]="{'border-right': itemIndex % 2 == 0, 'highLight': item?.isModified }"
+                        style="color: gray">
+                        <div class="d-flex align-items-center h-100">
+                            <span *ngIf="(item?.input_type != '11' && item?.input_type != '14')" class="two-line-text pointer-hand" [matTooltip]="item?.answerValue">
+                                {{ item?.answerValue}}
+                            </span>
+                            <ng-container *ngIf="item?.input_type == '11'">
+                                <img *ngIf="imagesExtension.includes(item?.fileTypeExt); else notAnImage" [src]="item?.answerValue ? item?.answerValue : noDataImg"
+                                    [width]="75" [height]="75" />
+                                <ng-template #notAnImage>
+                                    <i *ngIf="item?.answerValue != '---'" class="{{item?.fileIcon}} fileTypeIcon mr-2 custom-secondary-text-color" aria-hidden="true"></i>
+                                </ng-template>
+                                <a *ngIf="item?.answerValue != '---'" class="material-icons pointer-hand text-primary download-icon"
+                                    [matTooltip]="'Download File'" matTooltipPosition="above"
+                                    [href]="item?.answerValue" [download]="item?.title" target="_blank">
+                                    file_download
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="item?.input_type == '14'">
+                                <span>{{ item?.answerValue | date: "dd-MM-yyyy" }}</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!-- template 3 -->
+            <div class="flex-container2" *ngIf="template == 'template3'">
+                <div class="mt-2" [ngClass]="{'highLight': item?.isModified}" *ngFor="let item of questionResponse; let itemIndex = index">
+                    <label for="staticEmail" class="col-form-label form-label">{{
+                        item?.title
+                        }}</label>
+                    <div class="padding">
+                        <span *ngIf="item?.input_type != '14' && item?.input_type != '11'"
+                            class="custom-text-truncate two-line-text">{{ item?.answerValue }}</span>
+                        <span *ngIf="item?.input_type == '14'">{{
+                            item?.answerValue | date: "dd-MM-yyyy"
+                            }}</span>
+                        <div *ngIf="item?.input_type == '11'">
+                            <img [src]="item?.answerValue" [width]="75" [height]="75" />
+                            <a class="material-icons pointer-hand text-primary download-icon"
+                                [matTooltip]="'Download Sample File'" matTooltipPosition="above"
+                                [href]="item?.answerValue" [download]="item?.title" target="_blank" style="position: relative;top: 6px;left: 5px;text-decoration: none;">
+                                file_download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #noData>
+    <div class="container d-flex justify-content-center" *ngIf="questionResponse && !questionResponse.length" >
+      <img src="../../../../assets/images/no-data-found.png" style="object-fit: none;" />
+    </div>
+  </ng-template>

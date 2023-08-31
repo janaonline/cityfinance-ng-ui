@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonServicesService } from '../../fc-shared/service/common-services.service';
 import { SweetAlert } from "sweetalert/typings/core";
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 const swal: SweetAlert = require("sweetalert");
 
 export interface queryParams  {
@@ -39,6 +40,7 @@ export class DashbordComponent implements OnInit {
   getQueryParams: queryParams;
   isApiComplete:boolean = false;
   formDataCompleted:boolean = false;
+  private dataSubscription: Subscription;
   ngOnInit(): void {
     this.onload();
   }
@@ -62,7 +64,7 @@ export class DashbordComponent implements OnInit {
     },
     (error)=>{
       console.log('error', error);
-      this.isApiComplete = false;
+      this.isApiComplete = true;
       swal("Error", "Something went wrong. please try again later.", "error")
       
     })
@@ -70,27 +72,31 @@ export class DashbordComponent implements OnInit {
 // main dashboard data eg. form status for ulb and state
   callApiForAllFormData(queryParams){
     this.formDataCompleted = false;
-    this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
+   this.dataSubscription = this.commonServices.formGetMethod('dashboard',queryParams).subscribe((res:any)=>{
       console.log('ressss', res);
-      this.formData = res?.data?.formData;
+      this.formData = res?.data;
       this.formDataCompleted = true;
     },
     (error)=>{
       console.log('error', error);
       swal("Error", "Something went wrong. please try again later.", "error")
-      
+      this.formDataCompleted = true;
     })
   }
 
 
   cityTabChange(e) {
     console.log('eeee', e);
-    if(e?.type != 'pageNavigation'){
+    if(e?.type == 'cityTabChange' || e?.type == 'installmentsChange'){
+      this.dataSubscription?.unsubscribe();
       this.getQueryParams["formType"] = e?.formType;
-      this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1
+      this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1;
       this.callApiForAllFormData(this.getQueryParams);
-    }else{
+    } else if(e?.type == 'pageNavigation'){
       const navURl = `state-form${e?.data?.link}`
+      this._router.navigateByUrl(`${navURl}`);
+    }else{
+      const navURl = `state-form/grant-claims`
       this._router.navigateByUrl(`${navURl}`);
     }
     

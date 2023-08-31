@@ -22,6 +22,7 @@ export class MunicipalityBondsProjectsComponent implements OnInit {
   page: number = 0;
   limit: number = 10;
   environment = environment;
+  numericColumnKeys: string[] = ['totalProjectCost', 'totalProjects'];
 
   constructor(
     private municipalBondsSerivce: MunicipalBondsService,

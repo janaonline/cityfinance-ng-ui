@@ -20,7 +20,6 @@ export class MunicipalityBondsComponent implements OnInit {
   order: 1 | -1 = 1;
   page: number = 0;
   limit: number = 5;
-  filterYear: string = '';
   hiddenColumns = ['projectName', 'moreInformation', 'sector'];
   activeFilterKey: 'sectors' | 'projects' | 'implementationAgencies' = 'sectors';
   response: MouProjectsByUlbResponse;
@@ -66,7 +65,6 @@ export class MunicipalityBondsComponent implements OnInit {
       limit: this.limit,
       sortBy: this.sortBy,
       order: this.order,
-      filterYear: this.filterYear,
       ...this.response?.filters?.reduce((result, item) => {
         result[item.key] = item.options
           .filter(option => option.checked)
@@ -106,7 +104,6 @@ export class MunicipalityBondsComponent implements OnInit {
     this.loaderService.showLoader();
     this.municipalBondsSerivce.getMouProjectsByUlb(this.cityId, this.payload, this.response?.filters).subscribe(res => {
       this.response = res;
-      this.filterYear = res.filterYear;
       this.loaderService.stopLoader();
     }, error => {
       swal("Error", error?.message || "Something went worng", "error");

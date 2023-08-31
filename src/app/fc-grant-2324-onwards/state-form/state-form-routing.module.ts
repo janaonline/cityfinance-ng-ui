@@ -15,6 +15,8 @@ import { IndicatorsWssComponent } from './indicators-wss/indicators-wss.componen
 import { GrantAllocationUlbsComponent } from './grant-allocation-ulbs/grant-allocation-ulbs.component';
 import { ConfirmationGuard } from '../guards/confirmation.guard';
 import { PropertyTaxFloorRateComponent } from './property-tax-floor-rate/property-tax-floor-rate.component';
+import { StateResourceManagerComponent } from '../mohua-form/state-resource-manager/state-resource-manager.component';
+import { StateResourcesComponent } from './state-resources/state-resources.component';
 
 const routes: Routes = [
   {
@@ -72,9 +74,11 @@ const routes: Routes = [
       {
         path: "property-tax",
         component: PropertyTaxFloorRateComponent,
-        
       },
-      
+      {
+        path: "state-resources",
+        component: StateResourcesComponent,
+      },
     ],
   },
 ];

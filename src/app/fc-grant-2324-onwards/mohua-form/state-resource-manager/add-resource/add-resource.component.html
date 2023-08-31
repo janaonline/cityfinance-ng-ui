@@ -1,0 +1,134 @@
+<div class="d-flex">
+    <div>
+        <h4>Upload documents or files</h4>
+        <p>The uploaded document(s) or files will be shown on the State Dashboard based on the selected state if the
+            Type of Upload is "<b>File Upload</b>".</p>
+    </div>
+    <div>
+        <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    </div>
+</div>
+
+<form class="row g-3" (submit)="onSubmit()" [formGroup]="form">
+    <div class="mt-4" *ngIf="mode == 'view'">
+        <div class="row">
+            <div class="col-4">State</div>
+            <div class="col-8"><b>{{ oldData?.state?.name}}</b></div>
+        </div>
+        <div class="row">
+            <div class="col-4">Document type</div>
+            <div class="col-8"><b>{{ oldData?.category?.name}}</b></div>
+        </div>
+        <div class="row">
+            <div class="col-4">File source</div>
+            <div class="col-8"><b>{{ oldData?.subCategory?.fileSource }}</b></div>
+        </div>
+        <div class="row">
+            <div class="col-4">Type of upload</div>
+            <div class="col-8"><b>{{ oldData?.subCategory?.uploadType | titlecase }} upload</b></div>
+        </div>
+    </div>
+    <ng-container *ngIf="mode != 'view'">
+
+        <div class="col-md-6">
+            <label for="categoryId" class="form-label">States</label>
+            <angular2-multiselect [data]="states" class="add-resource-state-dropdown" formControlName="relatedIds" [settings]="dropdownSettings">
+            </angular2-multiselect>
+        </div>
+        <div class="col-md-6">
+            <label for="categoryId" class="form-label">Document Type</label>
+            <select class="form-select" formControlName="categoryId" id="categoryId">
+                <option value="">Please select</option>
+                <option *ngFor="let category of categories" [value]="category._id">{{ category?.name }}</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid document type.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="subCategoryId" class="form-label">Document Name</label>
+            <select class="form-select" [attr.disabled]="!form?.value?.categoryId ? '' : null"
+                formControlName="subCategoryId" id="subCategoryId">
+                <option value="">Please select</option>
+                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a valid Document Name.
+            </div>
+        </div>
+        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId && form?.value?.relatedIds?.length > 0">
+            <small>Attachments</small>
+            <div class="upload-section" *ngIf="subCategory?.uploadType == 'file'">
+                <div class="content">
+                    <p>You can upload up to {{ maxUploads }} {{ maxUploads > 1 ? 'files' : 'file'}} according to the
+                        document type you've chosen.</p>
+                    <p>Allowed file types: {{allowedFiles }} with maximum size of 20 MB</p>
+                </div>
+                <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
+                    type="file" [accept]="allowedFiles" #file>
+                <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+            </div>
+            <div class="upload-section document" *ngIf="subCategory?.uploadType == 'database'">
+                <div>
+                    <p>"You have selected '<b>Database Upload</b>' as the type of upload, please follow these steps:</p>
+                    <ol>
+                        <li>Download the formatted file by clicking the '<b>Download Format</b>' button below.</li>
+                        <li>Fill in the necessary details in the downloaded file accurately and completely.</li>
+                        <li>Once you have filled in the information, save the file on your computer.</li>
+                        <li>Now, use the '<b>Browse</b>' button provided here to choose and upload the completed
+                            file</li>
+                        <li>Allowed file types: .xls,.xlsx with maximum size of 20 MB</li>
+                    </ol>
+
+                    <p>Please ensure that all the required fields are filled correctly in the file before re-uploading.
+                    </p>
+
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-secondary"
+                            (click)="downloadTemplate(subCategory?.databaseTemplateName)">Download format</button>
+                        <input #filePicker style="display: none;" onclick="this.value=null;"
+                            (change)="uploadFile($event)" type="file" [accept]="allowedFiles" #file>
+                        <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="mode == 'add' && form.value?.file?.url">
+        <p class="mb-1"><b>File / Document</b></p>
+        <div class="file-entries">
+            <div class="file-entry">
+                <div class="details">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ form.value.file.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="mode == 'view' || mode == 'edit'">
+        <p class="mb-1"><b>File / Documents</b></p>
+        <div class="file-entries">
+            <div class="file-entry" *ngFor="let file of oldData?.files">
+                <div class="details">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <div>
+                        <div>{{ file.name }}</div>
+                        <p class="created-at">Created at {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
+                    </div>
+                </div>
+                <div class="actions">
+                    <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
+                    <a class="btn btn-outline-primary" target="_blank" href="{{ file.url }}"
+                        *ngIf="mode == 'view'">View</a>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <div class="col-12" *ngIf="mode != 'view'">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Upload and submit</button>
+    </div>
+</form>

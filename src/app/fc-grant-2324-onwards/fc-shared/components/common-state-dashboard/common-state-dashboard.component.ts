@@ -50,7 +50,7 @@ export class CommonStateDashboardComponent implements OnInit {
   @Input() citiesType;
   @Input() stateId: string;
   @Input() designYear: string;
-  @Input() formData;
+  @Input() allData;
   @Input() formDataCompleted: boolean = false;
   @Output() cityTabClick = new EventEmitter<any | object>();
   selectedItem: string = 'nmpc_untied';
@@ -73,7 +73,7 @@ export class CommonStateDashboardComponent implements OnInit {
       data: item,
       formType: this.selectedItem,
       type: 'cityTabChange'
-    }
+    };
     this.cityTabClick.emit(passValue);
   }
   installmentChange(instl){
@@ -85,7 +85,7 @@ export class CommonStateDashboardComponent implements OnInit {
       data: instl,
       formType: this.selectedItem,
       type: 'installmentsChange'
-    }
+    };
     this.cityTabClick.emit(passValue);
   }
 
@@ -97,4 +97,13 @@ export class CommonStateDashboardComponent implements OnInit {
     this.cityTabClick.emit(passValue);
   }
   keepOriginalOrder = (a, b) => b.key - a.key;
+
+  claimGrant(data){
+    // need to discuss --- with client
+    const passValue = {
+      data: data,
+      type: 'grantPageNavigation'
+    }
+    this.cityTabClick.emit(passValue);
+  }
 }

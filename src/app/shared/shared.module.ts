@@ -104,6 +104,8 @@ import { MunicipalityBudgetComponent } from './components/municipality-budget/mu
 import { BudgetTableComponent } from './components/municipality-budget/budget-table/budget-table.component';
 import { MapcomponentComponent } from './components/municipality-budget/mapcomponent/mapcomponent.component';
 import { CommonFilterComponent } from './components/common-filter/common-filter.component';
+import { EndsWithPipe } from './pipes/ends-with.pipe';
+import { IncludesPipe } from './pipes/includes.pipe';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -207,6 +209,8 @@ import { CommonFilterComponent } from './components/common-filter/common-filter.
     BudgetTableComponent,
     MapcomponentComponent,
     CommonFilterComponent,
+    EndsWithPipe,
+    IncludesPipe,
   ],
   exports: [
     JoinPipe,
@@ -257,6 +261,7 @@ import { CommonFilterComponent } from './components/common-filter/common-filter.
     GrantTransferMohuaComponent,
     MunicipalityBondsComponent,
     AutoCompleteComponent,
+    EndsWithPipe,
   ],
   providers: [FinancialDataService],
   entryComponents: [BalanceTabledialogComponent],
