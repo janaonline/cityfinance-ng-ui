@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div *ngSwitchCase="'projectReport'">
-                                <a [href]="row[column.key]?.url">
+                                <a [href]="row[column.key]?.url" *ngIf="row[column.key]?.url" target="_blank">
                                     <img class="icon mr-1" src="../../../../assets/pdf.png">
                                     <span>{{ row[column.key]?.name }}</span>
                                 </a>
