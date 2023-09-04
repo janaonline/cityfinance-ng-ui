@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-10 details">
                             <p class="file-name" [title]="document.name">{{ document.name }}</p>
-                            <p class="created-at">Created at {{ document.createdAt | date: 'dd/MM/yyyy' }}</p>
+                            <p class="created-at">Created on {{ document.createdAt | date: 'dd/MM/yyyy' }}</p>
                         </div>
                         <div class="col-2">
                             <a href="{{ document.url }}" download="">
