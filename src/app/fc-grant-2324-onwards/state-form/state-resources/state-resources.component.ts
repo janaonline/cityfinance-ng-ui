@@ -11,18 +11,19 @@ export class StateResourcesComponent implements OnInit {
 
   @ViewChildren('scroller') scrollers: QueryList<ElementRef>;
 
-  categoryWiseResources: CategoryWiseResource[] = [];
+  categoryWiseResources: CategoryWiseResource[];
 
   constructor(
     private stateResourceService: StateResourceService
   ) { }
 
   ngOnInit(): void {
-    this.loadData();
+    const stateId = localStorage.getItem("state_id");
+    this.loadData(stateId);
   }
   
-  loadData() {
-    this.stateResourceService.getList().subscribe(({ data }) => {
+  loadData(stateId) {
+    this.stateResourceService.getList(stateId).subscribe(({ data }) => {
       this.categoryWiseResources = data;
     })
   }
