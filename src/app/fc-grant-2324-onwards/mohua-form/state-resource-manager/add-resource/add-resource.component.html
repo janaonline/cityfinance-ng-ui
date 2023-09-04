@@ -117,7 +117,7 @@
                     <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
                     <div>
                         <div>{{ file.name }}</div>
-                        <p class="created-at">Created at {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
+                        <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
                     </div>
                 </div>
                 <div class="actions">
