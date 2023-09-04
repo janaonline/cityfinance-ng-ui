@@ -11,7 +11,7 @@ export class StateResourcesComponent implements OnInit {
 
   @ViewChildren('scroller') scrollers: QueryList<ElementRef>;
 
-  categoryWiseResources: CategoryWiseResource[] = [];
+  categoryWiseResources: CategoryWiseResource[];
 
   constructor(
     private stateResourceService: StateResourceService
