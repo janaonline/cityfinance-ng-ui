@@ -10,7 +10,7 @@
 </div>
 
 <form class="row g-3" (submit)="onSubmit()" [formGroup]="form">
-    <div class="mt-4" *ngIf="mode == 'view'">
+    <div class="mt-4" *ngIf="mode == 'edit'">
         <div class="row">
             <div class="col-4">State</div>
             <div class="col-8"><b>{{ oldData?.state?.name}}</b></div>
@@ -28,11 +28,12 @@
             <div class="col-8"><b>{{ oldData?.subCategory?.uploadType | titlecase }} upload</b></div>
         </div>
     </div>
-    <ng-container *ngIf="mode != 'view'">
+    <ng-container *ngIf="mode != 'edit'">
 
         <div class="col-md-6">
             <label for="categoryId" class="form-label">States</label>
-            <angular2-multiselect [data]="states" class="add-resource-state-dropdown" formControlName="relatedIds" [settings]="dropdownSettings">
+            <angular2-multiselect [data]="states" class="add-resource-state-dropdown" formControlName="relatedIds"
+                [settings]="dropdownSettings">
             </angular2-multiselect>
         </div>
         <div class="col-md-6">
@@ -50,13 +51,15 @@
             <select class="form-select" [attr.disabled]="!form?.value?.categoryId ? '' : null"
                 formControlName="subCategoryId" id="subCategoryId">
                 <option value="">Please select</option>
-                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}</option>
+                <option *ngFor="let subCategory of getSubCategoryList" [value]="subCategory._id">{{ subCategory?.name }}
+                </option>
             </select>
             <div class="invalid-feedback">
                 Please select a valid Document Name.
             </div>
         </div>
-        <ng-container *ngIf="form?.value?.categoryId && form?.value?.subCategoryId && form?.value?.relatedIds?.length > 0">
+        <ng-container
+            *ngIf="form?.value?.categoryId && form?.value?.subCategoryId && form?.value?.relatedIds?.length > 0">
             <small>Attachments</small>
             <div class="upload-section" *ngIf="subCategory?.uploadType == 'file'">
                 <div class="content">
@@ -66,7 +69,7 @@
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
-                <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+                <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
             </div>
             <div class="upload-section document" *ngIf="subCategory?.uploadType == 'database'">
                 <div>
@@ -88,47 +91,55 @@
                             (click)="downloadTemplate(subCategory?.databaseTemplateName)">Download format</button>
                         <input #filePicker style="display: none;" onclick="this.value=null;"
                             (change)="uploadFile($event)" type="file" [accept]="allowedFiles" #file>
-                        <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+                        <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
                     </div>
                 </div>
             </div>
         </ng-container>
     </ng-container>
-    <ng-container *ngIf="mode == 'add' && form.value?.file?.url">
+    <ng-container *ngIf="mode == 'add' && form.value?.files?.length">
         <p class="mb-1"><b>File / Document</b></p>
         <div class="file-entries">
-            <div class="file-entry">
+            <div class="file-entry" *ngFor="let file of form.value.files">
                 <div class="details">
-                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
-                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']"
+                        src="assets/excel.png">
                     <div>
-                        <div>{{ form.value.file.name }}</div>
+                        <div>{{ file.name }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </ng-container>
-    <ng-container *ngIf="mode == 'view' || mode == 'edit'">
-        <p class="mb-1"><b>File / Documents</b></p>
+    <ng-container *ngIf="mode == 'edit'">
+        <div class="d-flex justify-content-between">
+            <p class="mb-1"><b>File / Documents</b></p>
+            <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteAll()">
+                Delete All
+            </button>
+        </div>
         <div class="file-entries">
             <div class="file-entry" *ngFor="let file of oldData?.files">
                 <div class="details">
                     <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
-                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png">
                     <div>
                         <div>{{ file.name }}</div>
                         <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
                     </div>
                 </div>
                 <div class="actions">
-                    <mat-icon style="color: red;" *ngIf="mode == 'edit'">delete_forever</mat-icon>
                     <a class="btn btn-outline-primary" target="_blank" href="{{ file.url }}"
-                        *ngIf="mode == 'view'">View</a>
+                        *ngIf="mode == 'edit'">View</a>
+                    <button type="button" class="btn btn-outline-danger ms-2" (click)="deleteFiles([file._id])">
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
     </ng-container>
-    <div class="col-12" *ngIf="mode != 'view'">
+    <div class="col-12" *ngIf="mode != 'edit'">
         <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Upload and submit</button>
     </div>
 </form>

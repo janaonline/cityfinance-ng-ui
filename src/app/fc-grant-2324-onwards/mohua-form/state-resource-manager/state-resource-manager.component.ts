@@ -66,7 +66,7 @@ export class StateResourceManagerComponent implements OnInit {
     })
   }
 
-  openAddResourceModel(mode: 'add' | 'view' | 'edit', data?) {
+  openAddResourceModel(mode: 'add' | 'edit', data?) {
     this.matDialog.open(AddResourceComponent, {
       data: {
         mode,
@@ -76,23 +76,27 @@ export class StateResourceManagerComponent implements OnInit {
       },
       maxWidth: '50vw',
       maxHeight: '90vh',
-    }).afterClosed().subscribe((result) => {
-      if (result) {
+    }).afterClosed().subscribe(result => {
+      console.log(result);
+      if (!result) return;
+      if(result.actionType === 'deleteFiles') {
+        this.removeStateFromFiles(result?.stateId, result?.fileIds);
+      }
+      else if(result.actionType === 'createOrUpdate') {
         this.globalLoaderService.showLoader();
-        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data }) => {
+        this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data }: any) => {
           this.globalLoaderService.stopLoader();
           if (type == 'blob') {
             this.dataEntryService.downloadFileFromBlob(data, `${result?.templateName}-errors.xlsx`);
             swal('Warning', "File has some invalid data please fix and re-upload", 'warning');
           } else if (type == 'json') {
             swal('Saved', "File uploaded successfully!", 'success');
-            console.log(data);
             this.loadData();
           }
         }, ({ error }) => {
           this.globalLoaderService.stopLoader();
           swal('Error', error?.message ?? 'Something went wrong', 'error');
-        })
+        });
       }
     });
   }
@@ -129,13 +133,10 @@ export class StateResourceManagerComponent implements OnInit {
     this.loadData();
   }
 
-  async removeStateFromFiles(document) {
-    console.log(document);
-    const fileIds = document.files?.map(file => file._id);
-    const stateId = document.state._id;
+  async removeStateFromFiles(stateId: string, fileIds: string[]) {
     const isAgree = await swal(
       "Are you sure?",
-      `There are ${document?.files?.length} do you want to delete`,
+      `There are ${fileIds.length} do you want to delete`,
       "warning"
       , {
         buttons: {
