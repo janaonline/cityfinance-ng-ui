@@ -50,12 +50,9 @@ export class AddResourceComponent implements OnInit {
     this.states = this.data.states;
     this.form = this.fb.group({
       relatedIds: [[], [Validators.required]],
-      categoryId: [this.data?.oldData?.category?._id || '', Validators.required],
-      subCategoryId: [this.data?.oldData?.subCategory?._id || '', Validators.required],
-      file: this.fb.group({
-        url: [this.data?.oldData?.file?.url || '', Validators.required],
-        name: [this.data?.oldData?.file?.name || '', Validators.required]
-      })
+      categoryId: ['', Validators.required],
+      subCategoryId: ['', Validators.required],
+      files: [[], [Validators.required]],
     });
 
     console.log(this.form);
@@ -64,7 +61,7 @@ export class AddResourceComponent implements OnInit {
       this.form.patchValue({ subCategoryId: '' });
     })
     this.form.get('subCategoryId').valueChanges.subscribe(res => {
-      this.form.patchValue({ file: { url: '', name: '' } });
+      this.form.patchValue({ files: [] });
     })
   }
 
@@ -113,11 +110,14 @@ export class AddResourceComponent implements OnInit {
         if (res.type !== HttpEventType.Response) return;
         console.log({ file, file_url })
         this.form.patchValue({
-          file: {
-            name: file.name,
-            url: file_url
-          }
-        })
+          files: [
+            ...(this.form.value?.files || []),
+            {
+              name: file.name,
+              url: file_url
+            }
+          ]
+        });
         this.loaderService.stopLoader();
       });
     }, err => {
@@ -138,10 +138,10 @@ export class AddResourceComponent implements OnInit {
     this.deleteFiles(this.oldData.files?.map(file => file._id));
   }
   deleteFiles(fileIds: string[]) {
-    this.dialogRef.close({ 
-      actionType: 'deleteFiles', 
+    this.dialogRef.close({
+      actionType: 'deleteFiles',
       stateId: this.oldData?.state?._id,
-      fileIds 
+      fileIds
     });
   }
   close() {

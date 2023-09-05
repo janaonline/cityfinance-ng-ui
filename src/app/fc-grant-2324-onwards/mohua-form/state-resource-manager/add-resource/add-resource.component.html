@@ -69,7 +69,7 @@
                 </div>
                 <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
-                <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+                <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
             </div>
             <div class="upload-section document" *ngIf="subCategory?.uploadType == 'database'">
                 <div>
@@ -91,22 +91,22 @@
                             (click)="downloadTemplate(subCategory?.databaseTemplateName)">Download format</button>
                         <input #filePicker style="display: none;" onclick="this.value=null;"
                             (change)="uploadFile($event)" type="file" [accept]="allowedFiles" #file>
-                        <button type="button" class="btn btn-primary" (click)="filePicker.click()">Browse</button>
+                        <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
                     </div>
                 </div>
             </div>
         </ng-container>
     </ng-container>
-    <ng-container *ngIf="mode == 'add' && form.value?.file?.url">
+    <ng-container *ngIf="mode == 'add' && form.value?.files?.length">
         <p class="mb-1"><b>File / Document</b></p>
         <div class="file-entries">
-            <div class="file-entry">
+            <div class="file-entry" *ngFor="let file of form.value.files">
                 <div class="details">
-                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
-                    <img class="file-icon" *ngIf="form.value.file?.url | endsWith : ['.xls', 'xlsx']"
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']"
                         src="assets/excel.png">
                     <div>
-                        <div>{{ form.value.file.name }}</div>
+                        <div>{{ file.name }}</div>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
             <div class="file-entry" *ngFor="let file of oldData?.files">
                 <div class="details">
                     <img class="file-icon" *ngIf="file?.url | endsWith : ['.pdf']" src="assets/pdf.png">
-                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', 'xlsx']" src="assets/excel.png">
+                    <img class="file-icon" *ngIf="file?.url | endsWith : ['.xls', '.xlsx']" src="assets/excel.png">
                     <div>
                         <div>{{ file.name }}</div>
                         <p class="created-at">Created on {{ file.createdAt | date: 'dd/MM/yyyy' }}</p>
