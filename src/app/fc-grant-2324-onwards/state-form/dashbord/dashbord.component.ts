@@ -9,6 +9,7 @@ export interface queryParams  {
   formType: string;
   design_year: string;
   installment: number;
+  state? : string;
 }
 @Component({
   selector: 'app-dashbord',
@@ -28,7 +29,7 @@ export class DashbordComponent implements OnInit {
 
     this.stateId = this.userData?.state;
     if (!this.stateId) {
-      this.stateId = localStorage.getItem("state_id");
+      this.stateId = localStorage.getItem("state_id") ?? sessionStorage.getItem("state_id");
     }
    }
   stateInfo :object | any;
@@ -50,13 +51,17 @@ export class DashbordComponent implements OnInit {
     this.getQueryParams = {
       formType:'',
       design_year: this.years["2023-24"],
-      installment: null
+      installment: null,
+      state : this.stateId
     }
     // this.callApiForAllFormData(this.getQueryParams);
   }
 // first section related data eg. population, no of ulb etc
   callApiForUlbInfo(){
-    this.commonServices.formGetMethod('dashboard/populationData', '').subscribe((res:any)=>{
+    const queryParams = {
+      state : this.stateId
+    }
+    this.commonServices.formGetMethod('dashboard/populationData', queryParams).subscribe((res:any)=>{
       console.log('ressss', res);
       this.stateInfo = res?.data?.populationData;
       this.cityTypeInState = res?.data?.cityTypeInState;
@@ -93,7 +98,7 @@ export class DashbordComponent implements OnInit {
       this.getQueryParams["installment"] = e?.type == 'installmentsChange' ? Number(e?.data?.installment) : 1;
       this.callApiForAllFormData(this.getQueryParams);
     } else if(e?.type == 'pageNavigation'){
-      const navURl = `state-form${e?.data?.link}`
+      const navURl = `${e?.data?.link}`
       this._router.navigateByUrl(`${navURl}`);
     }else{
       const navURl = `state-form/grant-claims`
