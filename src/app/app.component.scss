@@ -57,16 +57,16 @@
     z-index: 3;
   }
 }
-::ng-deep .swal2-container {
-  z-index: 200000 !important;
-}
+// ::ng-deep .swal2-container {
+//   z-index: 200000 !important;
+// }
 
-::ng-deep .swal2-warning {
-  width: 3em !important;
-  height: 3em !important;
-}
-::ng-deep div:where(.swal2-icon) .swal2-icon-content {
-  display: flex;
-  align-items: center;
-  font-size: 2rem !important;
-}
+// ::ng-deep .swal2-warning {
+//   width: 3em !important;
+//   height: 3em !important;
+// }
+// ::ng-deep div:where(.swal2-icon) .swal2-icon-content {
+//   display: flex;
+//   align-items: center;
+//   font-size: 2rem !important;
+// }
