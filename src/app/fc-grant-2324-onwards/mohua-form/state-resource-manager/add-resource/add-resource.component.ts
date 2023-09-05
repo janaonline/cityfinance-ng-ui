@@ -32,7 +32,7 @@ export class AddResourceComponent implements OnInit {
   categories = [];
   isFileUploading: boolean = false;
   oldData: any = {};
-  mode: 'add' | 'view' | 'edit';
+  mode: 'add' | 'edit';
   form: FormGroup;
 
   constructor(
@@ -128,9 +128,20 @@ export class AddResourceComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close({
+      actionType: 'createOrUpdate',
       ...this.form.value,
       uploadType: this.subCategory?.uploadType,
       templateName: this.subCategory?.databaseTemplateName
+    });
+  }
+  deleteAll() {
+    this.deleteFiles(this.oldData.files?.map(file => file._id));
+  }
+  deleteFiles(fileIds: string[]) {
+    this.dialogRef.close({ 
+      actionType: 'deleteFiles', 
+      stateId: this.oldData?.state?._id,
+      fileIds 
     });
   }
   close() {
