@@ -98,7 +98,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.callGenralAert();
+  //  this.callGenralAert();
     this.commonService.isEmbedModeEnable.subscribe(data => {
       console.log('isEmbedModeEnable', data)
       if (data) {
@@ -137,37 +137,37 @@ export class AppComponent implements OnDestroy, OnInit {
     this.sessionService.endSession(this.sessionId).subscribe((res) => {});
   }
 
-  callGenralAert(){
-    const defaultMessage = {
-     title: 'Error', 
-     text: `Cityfinance.in will be undergoing scheduled maintenance, resulting in a temporary outage for sometime.
-           <br> <br>For any assistance, please contact our support team at <a href = 'mailto: 15fcgrant@cityfinance.in'>15fcgrant@cityfinance.in</a>`, 
-     position: 'center',
-     icon: 'error'
-   }
+  // callGenralAert(){
+  //   const defaultMessage = {
+  //    title: 'Error', 
+  //    text: `Cityfinance.in will be undergoing scheduled maintenance, resulting in a temporary outage for sometime.
+  //          <br> <br>For any assistance, please contact our support team at <a href = 'mailto: 15fcgrant@cityfinance.in'>15fcgrant@cityfinance.in</a>`, 
+  //    position: 'center',
+  //    icon: 'error'
+  //  }
     
-     this.commonService.getCallMethod('general-alert', {type: 'common'}).subscribe((res: any)=>{
-      // console.log('genral alert', res);
-       const message = res?.data?.message;
-       if(res?.data?.isActive){
-         this.showAlert(message);
-       }
-     },
-     (error)=>{
-     //  console.log('genral alert error', error);
-       this.showAlert(defaultMessage);
-     }
-     )
-   }
+  //    this.commonService.getCallMethod('general-alert', {type: 'common'}).subscribe((res: any)=>{
+  //     // console.log('genral alert', res);
+  //      const message = res?.data?.message;
+  //      if(res?.data?.isActive){
+  //        this.showAlert(message);
+  //      }
+  //    },
+  //    (error)=>{
+  //    //  console.log('genral alert error', error);
+  //      this.showAlert(defaultMessage);
+  //    }
+  //    )
+  //  }
  
-   showAlert(message){
-     swal2.fire({
-       title: `${message?.title}`,
-       html: `${message?.text}`,
-       position: `${message?.position}`,
-       icon:`${message?.icon}`,
-       showCloseButton: true,
+  //  showAlert(message){
+  //    swal2.fire({
+  //      title: `${message?.title}`,
+  //      html: `${message?.text}`,
+  //      position: `${message?.position}`,
+  //      icon:`${message?.icon}`,
+  //      showCloseButton: true,
      
-     });
-   }
+  //    });
+  // }
 }
