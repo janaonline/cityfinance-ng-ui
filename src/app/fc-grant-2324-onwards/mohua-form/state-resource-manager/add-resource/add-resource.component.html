@@ -1,7 +1,7 @@
-<div class="d-flex">
+<div class="d-flex justify-content-between">
     <div>
-        <h4>Upload documents or files</h4>
-        <p>The uploaded document(s) or files will be shown on the State Dashboard based on the selected state if the
+        <h4>{{ mode == 'add' ? 'Upload' : 'Uploaded'}}  documents or files</h4>
+        <p *ngIf="mode == 'add'">The uploaded document(s) or files will be shown on the State Dashboard based on the selected state if the
             Type of Upload is "<b>File Upload</b>".</p>
     </div>
     <div>
@@ -67,7 +67,7 @@
                         document type you've chosen.</p>
                     <p>Allowed file types: {{allowedFiles }} with maximum size of 20 MB</p>
                 </div>
-                <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
+                <input #filePicker style="display: none;" multiple onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
                 <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
             </div>

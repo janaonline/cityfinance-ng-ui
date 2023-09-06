@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -9,6 +9,7 @@ import { SweetAlert } from 'sweetalert/typings/core';
 import { StateResourceService } from '../state-resource.service';
 import { mohuaForm } from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/folderName'
 
+
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -17,6 +18,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./add-resource.component.scss']
 })
 export class AddResourceComponent implements OnInit {
+
+  @Output() refresh = new EventEmitter<any>(true);
 
   dropdownSettings = {
     text: "State",
@@ -89,41 +92,44 @@ export class AddResourceComponent implements OnInit {
 
   uploadFile(event: { target: HTMLInputElement }) {
     const maxFileSize = 20;
-    const file: File = event.target.files[0];
-    if (!file) return;
-    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if (isfileValid == false) {
-      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-      return;
-    }
-    const fileExtension = file.name.split('.').pop();
-
-    if (!this.subCategory?.supportedTypes?.includes(fileExtension)) return swal("Error", `Only ${this.allowedFiles} ${this.subCategory?.supportedTypes?.length == 1 ? 'is' : 'are'} allowed`, "error");
-
-    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
-    this.loaderService.showLoader();
-    this.isFileUploading = true;
-    const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
-    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
-      this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
-        if (res.type !== HttpEventType.Response) return;
-        console.log({ file, file_url })
-        this.form.patchValue({
-          files: [
-            ...(this.form.value?.files || []),
-            {
-              name: file.name,
-              url: file_url
-            }
-          ]
+    const files = Array.from(event.target.files);
+    if(this.maxUploads < (files.length + this.form.value?.files?.length)) return swal("File Limit Error", `Maximum ${this.maxUploads} files can be upload`, "error");
+    if(files.some(file => (file.size / 1024 / 1024) > maxFileSize)) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    for (const file of files) {
+      if (!file) return;
+      let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+      if (isfileValid == false) {
+        swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+        return;
+      }
+      const fileExtension = file.name.split('.').pop();
+  
+      if (!this.subCategory?.supportedTypes?.includes(fileExtension)) return swal("Error", `Only ${this.allowedFiles} ${this.subCategory?.supportedTypes?.length == 1 ? 'is' : 'are'} allowed`, "error");
+  
+      this.loaderService.showLoader();
+      this.isFileUploading = true;
+      const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
+        const { url, file_url } = s3Response.data[0];
+        this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
+          if (res.type !== HttpEventType.Response) return;
+          console.log({ file, file_url })
+          this.form.patchValue({
+            files: [
+              ...(this.form.value?.files || []),
+              {
+                name: file.name,
+                url: file_url
+              }
+            ]
+          });
+          this.loaderService.stopLoader();
         });
+      }, err => {
         this.loaderService.stopLoader();
+        console.log(err)
       });
-    }, err => {
-      this.loaderService.stopLoader();
-      console.log(err)
-    });
+    }
   }
 
   onSubmit() {
@@ -137,12 +143,43 @@ export class AddResourceComponent implements OnInit {
   deleteAll() {
     this.deleteFiles(this.oldData.files?.map(file => file._id));
   }
-  deleteFiles(fileIds: string[]) {
-    this.dialogRef.close({
-      actionType: 'deleteFiles',
-      stateId: this.oldData?.state?._id,
-      fileIds
-    });
+  async deleteFiles(fileIds: string[]) {
+    const isAgree = await swal(
+      "Are you sure?",
+      `There are ${fileIds.length} do you want to delete`,
+      "warning"
+      , {
+        buttons: {
+          Delete: {
+            text: "Delete",
+            className: 'btn-danger',
+            value: true,
+          },
+          Cancel: {
+            text: "Cancel",
+            className: 'btn-light',
+            value: false,
+          },
+        },
+      }
+    );
+
+    if (!isAgree) return;
+    this.stateResourceService.removeStateFromFiles({
+      fileIds, stateId: this.oldData?.state?._id
+    }).subscribe(res => {
+      swal('Successful', 'Successfully deleted', 'success');
+      if (this.oldData.files.length != fileIds.length) {
+        this.oldData.files = this.oldData?.files?.filter(file => !fileIds.includes(file._id));
+        return;
+      }
+      setTimeout(() => {
+        this.refresh.emit();
+        this.dialogRef.close()
+      }, 500);
+    }, ({ error }) => {
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
   }
   close() {
     this.dialogRef.close();
