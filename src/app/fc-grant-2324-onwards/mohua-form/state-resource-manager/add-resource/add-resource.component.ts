@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -9,6 +9,7 @@ import { SweetAlert } from 'sweetalert/typings/core';
 import { StateResourceService } from '../state-resource.service';
 import { mohuaForm } from 'src/app/fc-grant-2324-onwards/fc-shared/utilities/folderName'
 
+
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -17,6 +18,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./add-resource.component.scss']
 })
 export class AddResourceComponent implements OnInit {
+
+  @Output() refresh = new EventEmitter<any>(true);
 
   dropdownSettings = {
     text: "State",
@@ -137,12 +140,43 @@ export class AddResourceComponent implements OnInit {
   deleteAll() {
     this.deleteFiles(this.oldData.files?.map(file => file._id));
   }
-  deleteFiles(fileIds: string[]) {
-    this.dialogRef.close({
-      actionType: 'deleteFiles',
-      stateId: this.oldData?.state?._id,
-      fileIds
-    });
+  async deleteFiles(fileIds: string[]) {
+    const isAgree = await swal(
+      "Are you sure?",
+      `There are ${fileIds.length} do you want to delete`,
+      "warning"
+      , {
+        buttons: {
+          Delete: {
+            text: "Delete",
+            className: 'btn-danger',
+            value: true,
+          },
+          Cancel: {
+            text: "Cancel",
+            className: 'btn-light',
+            value: false,
+          },
+        },
+      }
+    );
+
+    if (!isAgree) return;
+    this.stateResourceService.removeStateFromFiles({
+      fileIds, stateId: this.oldData?.state?._id
+    }).subscribe(res => {
+      swal('Successful', 'Successfully deleted', 'success');
+      if (this.oldData.files.length != fileIds.length) {
+        this.oldData.files = this.oldData?.files?.filter(file => !fileIds.includes(file._id));
+        return;
+      }
+      setTimeout(() => {
+        this.refresh.emit();
+        this.dialogRef.close()
+      }, 500);
+    }, ({ error }) => {
+      swal('Error', error?.message ?? 'Something went wrong', 'error');
+    })
   }
   close() {
     this.dialogRef.close();
