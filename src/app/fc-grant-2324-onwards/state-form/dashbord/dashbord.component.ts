@@ -100,9 +100,11 @@ export class DashbordComponent implements OnInit {
     } else if(e?.type == 'pageNavigation'){
       const navURl = `${e?.data?.link}`
       this._router.navigateByUrl(`${navURl}`);
+      window.scrollTo(0, 0);
     }else{
       const navURl = `state-form/grant-claims`
       this._router.navigateByUrl(`${navURl}`);
+      window.scrollTo(0, 0);
     }
     
   }
