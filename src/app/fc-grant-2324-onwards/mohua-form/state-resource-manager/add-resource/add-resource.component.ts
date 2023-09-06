@@ -91,7 +91,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
-    const maxFileSize = 10;
+    const maxFileSize = 20;
     const files = Array.from(event.target.files);
     if(this.maxUploads < (files.length + this.form.value?.files?.length)) return swal("File Limit Error", `Maximum ${this.maxUploads} files can be upload`, "error");
     if(files.some(file => (file.size / 1024 / 1024) > maxFileSize)) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
