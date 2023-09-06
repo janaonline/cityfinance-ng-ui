@@ -113,10 +113,10 @@
                                             </p>
                                             <div class="mt-4"
                                                 *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                <button class="btn btn-sm btn-success mr-1"
+                                                <button  class="approve-all-btn btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
-                                                <button class="btn btn-sm btn-danger"
+                                                <button  class="reject-all-btn btn btn-sm btn-danger"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
                                                     All</button>
                                             </div>
@@ -510,16 +510,16 @@
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
-                                <button class="btn com-style"
+                                <button id="next-btn" class="btn com-style"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     (click)="stepperContinue(tab)"
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
-                                <button class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                <button id="submit-btn" class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn com-style"
+                                <button id="save-n-countinue-btn" class="btn com-style"
                                     [ngClass]="tab?.value?.id == selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="stepperContinueSave(tab)">Save & Continue
                                     Later</button>
