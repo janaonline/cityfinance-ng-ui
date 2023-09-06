@@ -67,7 +67,7 @@
                         document type you've chosen.</p>
                     <p>Allowed file types: {{allowedFiles }} with maximum size of 20 MB</p>
                 </div>
-                <input #filePicker style="display: none;" onclick="this.value=null;" (change)="uploadFile($event)"
+                <input #filePicker style="display: none;" multiple onclick="this.value=null;" (change)="uploadFile($event)"
                     type="file" [accept]="allowedFiles" #file>
                 <button type="button" class="btn btn-primary" [disabled]="form.value?.files?.length >= maxUploads" (click)="filePicker.click()">Browse</button>
             </div>

@@ -91,42 +91,45 @@ export class AddResourceComponent implements OnInit {
   }
 
   uploadFile(event: { target: HTMLInputElement }) {
-    const maxFileSize = 20;
-    const file: File = event.target.files[0];
-    if (!file) return;
-    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if (isfileValid == false) {
-      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-      return;
-    }
-    const fileExtension = file.name.split('.').pop();
-
-    if (!this.subCategory?.supportedTypes?.includes(fileExtension)) return swal("Error", `Only ${this.allowedFiles} ${this.subCategory?.supportedTypes?.length == 1 ? 'is' : 'are'} allowed`, "error");
-
-    if ((file.size / 1024 / 1024) > maxFileSize) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
-    this.loaderService.showLoader();
-    this.isFileUploading = true;
-    const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
-    this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
-      const { url, file_url } = s3Response.data[0];
-      this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
-        if (res.type !== HttpEventType.Response) return;
-        console.log({ file, file_url })
-        this.form.patchValue({
-          files: [
-            ...(this.form.value?.files || []),
-            {
-              name: file.name,
-              url: file_url
-            }
-          ]
+    const maxFileSize = 10;
+    const files = Array.from(event.target.files);
+    if(this.maxUploads < (files.length + this.form.value?.files?.length)) return swal("File Limit Error", `Maximum ${this.maxUploads} files can be upload`, "error");
+    if(files.some(file => (file.size / 1024 / 1024) > maxFileSize)) return swal("File Limit Error", `Maximum ${maxFileSize} mb file can be allowed.`, "error");
+    for (const file of files) {
+      if (!file) return;
+      let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+      if (isfileValid == false) {
+        swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+        return;
+      }
+      const fileExtension = file.name.split('.').pop();
+  
+      if (!this.subCategory?.supportedTypes?.includes(fileExtension)) return swal("Error", `Only ${this.allowedFiles} ${this.subCategory?.supportedTypes?.length == 1 ? 'is' : 'are'} allowed`, "error");
+  
+      this.loaderService.showLoader();
+      this.isFileUploading = true;
+      const fullFolderName = this.uploadFolderName + this.subCategory?.name?.replace(/[\/?<>\\:*|"\s]/g, '-')?.toLowerCase();
+      this.dataEntryService.newGetURLForFileUpload(file.name, file.type, fullFolderName).subscribe(s3Response => {
+        const { url, file_url } = s3Response.data[0];
+        this.dataEntryService.newUploadFileToS3(file, url).subscribe(res => {
+          if (res.type !== HttpEventType.Response) return;
+          console.log({ file, file_url })
+          this.form.patchValue({
+            files: [
+              ...(this.form.value?.files || []),
+              {
+                name: file.name,
+                url: file_url
+              }
+            ]
+          });
+          this.loaderService.stopLoader();
         });
+      }, err => {
         this.loaderService.stopLoader();
+        console.log(err)
       });
-    }, err => {
-      this.loaderService.stopLoader();
-      console.log(err)
-    });
+    }
   }
 
   onSubmit() {
