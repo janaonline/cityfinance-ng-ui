@@ -67,7 +67,7 @@ export class StateResourceManagerComponent implements OnInit {
   }
 
   openAddResourceModel(mode: 'add' | 'edit', data?) {
-    this.matDialog.open(AddResourceComponent, {
+    const dialog = this.matDialog.open(AddResourceComponent, {
       data: {
         mode,
         oldData: data,
@@ -76,13 +76,16 @@ export class StateResourceManagerComponent implements OnInit {
       },
       maxWidth: '50vw',
       maxHeight: '90vh',
-    }).afterClosed().subscribe(result => {
+    })
+
+    dialog.componentInstance.refresh.subscribe(() => {
+      this.loadData();
+    })
+    
+    dialog.afterClosed().subscribe(result => {
       console.log(result);
       if (!result) return;
-      if(result.actionType === 'deleteFiles') {
-        this.removeStateFromFiles(result?.stateId, result?.fileIds);
-      }
-      else if(result.actionType === 'createOrUpdate') {
+      if (result.actionType === 'createOrUpdate') {
         this.globalLoaderService.showLoader();
         this.stateResourceService.createOrUpdate({ ...result, ...(data && { id: data._id }) }).subscribe(({ type, data }: any) => {
           this.globalLoaderService.stopLoader();
@@ -131,39 +134,6 @@ export class StateResourceManagerComponent implements OnInit {
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
     this.loadData();
-  }
-
-  async removeStateFromFiles(stateId: string, fileIds: string[]) {
-    const isAgree = await swal(
-      "Are you sure?",
-      `There are ${fileIds.length} do you want to delete`,
-      "warning"
-      , {
-        buttons: {
-          Delete: {
-            text: "Delete",
-            className: 'btn-danger',
-            value: true,
-          },
-          Cancel: {
-            text: "Cancel",
-            className: 'btn-light',
-            value: false,
-          },
-        },
-      }
-    );
-
-    if (!isAgree) return;
-    this.stateResourceService.removeStateFromFiles({
-      fileIds, stateId
-    }).subscribe(res => {
-      this.loadData();
-    }, ({ error }) => {
-      swal('Error', error?.message ?? 'Something went wrong', 'error');
-    })
-
-    console.log({ isAgree, fileIds });
   }
 
   onCategoryChange(value) {
