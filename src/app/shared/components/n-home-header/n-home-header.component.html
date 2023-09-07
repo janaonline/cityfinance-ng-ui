@@ -77,7 +77,7 @@
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role == 'PMU'"> 
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/mohua-form/state-resource-manager">State resources</a>
-                    </li>-->
+                    </li>
                     <li class="nav-item" *ngIf="isLoggedIn && user?.role !== 'PMU'">
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
