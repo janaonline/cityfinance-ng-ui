@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <h4 *ngIf="hideForm" class="container text-center h-100 my-5 border p-5 rounded" >{{ notice }}</h4>
+    <h4 *ngIf="hideForm" class="container text-center h-100 my-5 border p-5 rounded">{{ notice }}</h4>
     <div class="row" *ngIf="!formSubmitted && !hideForm">
         <div class="col-sm-12">
             <app-loader class="p-3" [show]="isLoader" [dots]="4"></app-loader>
@@ -113,10 +113,10 @@
                                             </p>
                                             <div class="mt-4"
                                                 *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                <button class="btn btn-sm btn-success mr-1"
+                                                <button  class="approve-all-btn btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
-                                                <button class="btn btn-sm btn-danger"
+                                                <button  class="reject-all-btn btn btn-sm btn-danger"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
                                                     All</button>
                                             </div>
@@ -125,7 +125,8 @@
                                             *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
                                             <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
                                                 <div class="form-group">
-                                                    <div class="d-flex custom-input-group"  [title]="yearItem.controls?.value?.value">
+                                                    <div class="d-flex custom-input-group"
+                                                        [title]="yearItem.controls?.value?.value">
                                                         <span *ngIf="yearItem.controls?.isRupee?.value"
                                                             class="input-group-text br-a" id="basic-addon1">₹</span>
                                                         <input onwheel="this.blur()" appNoUpDown
@@ -171,8 +172,8 @@
                                                                 formControlName="date" style="pointer-events: none;"
                                                                 [matDatepicker]="r_i"
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
-                                                                [min]="yearItem?.controls?.min?.value"
-                                                                [max]="yearItem?.controls?.max?.value"
+                                                                [min]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.min?.value : ''"
+                                                                [max]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.max?.value : ''"
                                                                 placeholder="Choose a date" [attr.id]="  + r_i" />
                                                             <mat-datepicker-toggle matSuffix
                                                                 [disabled]="yearItem?.controls?.readonly?.value"
@@ -509,16 +510,16 @@
                         </div>
                         <div class="row mt-4 pd-b">
                             <div class="col-sm-6 ">
-                                <button class="btn com-style"
+                                <button id="next-btn" class="btn com-style"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     (click)="stepperContinue(tab)"
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
-                                <button class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                <button id="submit-btn" class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
                             <div class="col-sm-6 text-end">
-                                <button class="btn com-style"
+                                <button id="save-n-countinue-btn" class="btn com-style"
                                     [ngClass]="tab?.value?.id == selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="stepperContinueSave(tab)">Save & Continue
                                     Later</button>

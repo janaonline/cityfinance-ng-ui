@@ -76,6 +76,7 @@ export class CommonService {
    * sorted = ["2014-15", "2015-16", "2018-19"]
    */
   private sortFinancialYears(years: string[]) {
+    
     return years.sort(
       (yearA, yearB) => +yearA.split("-")[0] - +yearB.split("-")[0]
     );
@@ -778,5 +779,14 @@ export class CommonService {
 
   getSLBdashboardForntData() {
     return this.http.get(`${environment.api.url}slb-specific-metrics`);
+  }
+
+  getCallMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
   }
 }

@@ -63,7 +63,7 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
   historyData;
   ngOnInit() {
- this.state_id = sessionStorage.getItem("state_id")
+    this.state_id = sessionStorage.getItem("state_id") ?? localStorage.getItem("state_id");
     this.showLoader = true;
     this.loadData();
     if (this.loggedInUserType !== USER_TYPE.STATE) {

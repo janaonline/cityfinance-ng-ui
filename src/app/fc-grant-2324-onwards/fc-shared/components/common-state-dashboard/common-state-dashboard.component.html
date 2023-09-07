@@ -65,7 +65,7 @@
         </div>
     </div>
 </div>
-<div class="tab-slider--container mt-4" *ngIf="formDataCompleted">
+<div class="tab-slider--container mt-4" *ngIf="formDataCompleted && !allData?.msgVisible">
     <div class="tab-slider--body">
         <div *ngFor="let form of allData?.formData | keyvalue : keepOriginalOrder">
             <div>
@@ -109,7 +109,7 @@
                                     aria-valuenow="{{item?.approvedValue}}" aria-valuemin="0" aria-valuemax="100">
                                     <span [ngStyle]="{'border': '5px solid' + ' ' + item?.approvedColor}"
                                         mat-raised-button
-                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} {{element?.formHeader == 'ULB Forms' ? '& ' + item?.totalApproved + ' ULB Approved' : ''}}"
+                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.approvedValue + '% Submitted & Approved' : item?.approvedValue + '% Approved'}} {{form?.value?.formHeader == 'ULB Forms' ? '& ' + item?.totalApproved + ' ULB Approved' : ''}}"
                                         aria-label="tooltip" [matTooltipPosition]="'above'"
                                         matTooltipClass="tooltip-col-cls">{{item?.approvedValue ? item?.approvedValue +
                                         '%' : '0%'}}</span>
@@ -118,9 +118,9 @@
                                     [ngStyle]="{'width':  item?.submittedValue <= 5 ? '4%' : item?.submittedValue+'%','background-color': item?.submittedColor,'background-color': item?.approvedValue == 100 ? item?.approvedColor : item?.submittedColor}"
                                     aria-valuenow="{{item?.submittedValue}}" aria-valuemin="0" aria-valuemax="100">
                                     <span
-                                        [ngStyle]="{'border': (item?.approvedValue == 100 && element?.formHeader == 'State Forms') ? '5px solid #059B05' : '5px solid #E67E1566' }"
+                                        [ngStyle]="{'border': (item?.approvedValue == 100 && form?.value?.formHeader == 'State Forms') ? '5px solid #059B05' : '5px solid #E67E1566' }"
                                         [ngClass]="{'no-value' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}}  {{element?.formHeader == 'ULB Forms' ? '& ' + item?.totalSubmitted + ' ULB Submitted' : ''}}"
+                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? (item?.submittedValue + '% Submitted & Approved') : (item?.submittedValue + '% Submitted')}}  {{form?.value?.formHeader == 'ULB Forms' ? ('& ' + item?.totalSubmitted + ' ULB Submitted') : ''}}"
                                         aria-label="tooltip" [matTooltipPosition]="'above'"
                                         matTooltipClass="tooltip-col-cls">{{item?.submittedValue ? item?.submittedValue
                                         + '%' : ''}}</span>
@@ -153,6 +153,14 @@
             <div class="col-sm-12">
                 <button [disabled]="!allData?.isAvailableForGrant" class="btn btn-primary" (click)="claimGrant()">Click here to claim grant</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="no-data mt-4" *ngIf="formDataCompleted && allData?.msgVisible">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            {{allData?.message ? allData?.message : 'No Data Found'}}
         </div>
     </div>
 </div>
