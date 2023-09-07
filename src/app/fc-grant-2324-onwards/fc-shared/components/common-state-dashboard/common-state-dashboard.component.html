@@ -120,7 +120,7 @@
                                     <span
                                         [ngStyle]="{'border': (item?.approvedValue == 100 && form?.value?.formHeader == 'State Forms') ? '5px solid #059B05' : '5px solid #E67E1566' }"
                                         [ngClass]="{'no-value' : item?.submittedValue == 0}" mat-raised-button
-                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? item?.submittedValue + '% Submitted & Approved' : item?.submittedValue + '% Submitted'}}  {{form?.value?.formHeader == 'ULB Forms' ? '& ' + item?.totalSubmitted + ' ULB Submitted' : ''}}"
+                                        matTooltip="{{item?.submittedValue == item?.approvedValue ? (item?.submittedValue + '% Submitted & Approved') : (item?.submittedValue + '% Submitted')}}  {{form?.value?.formHeader == 'ULB Forms' ? ('& ' + item?.totalSubmitted + ' ULB Submitted') : ''}}"
                                         aria-label="tooltip" [matTooltipPosition]="'above'"
                                         matTooltipClass="tooltip-col-cls">{{item?.submittedValue ? item?.submittedValue
                                         + '%' : ''}}</span>
