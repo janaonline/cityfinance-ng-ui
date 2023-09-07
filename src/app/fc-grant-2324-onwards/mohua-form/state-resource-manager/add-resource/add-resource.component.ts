@@ -129,7 +129,7 @@ export class AddResourceComponent implements OnInit {
         });
       }, err => {
         --apiCalls;
-        if(apiCalls) this.loaderService.stopLoader();
+        if(!apiCalls) this.loaderService.stopLoader();
         console.log(err)
       });
     }
