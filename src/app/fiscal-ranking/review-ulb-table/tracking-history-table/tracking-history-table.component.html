@@ -1,21 +1,19 @@
-
-<app-loader
-     [show]="showLoader">
+<app-loader [show]="showLoader">
 </app-loader>
 
-<div class="modal-title" *ngIf="!showLoader">
+<div class="modal-title d-flex justify-content-between" *ngIf="!showLoader">
+  <div>
+    <h3>Tracking</h3>
+  </div>
   <div style="display: flex; justify-content: flex-end;">
     <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button"
       data-dismiss="modal" aria-label="Close">
       <i class="fa fa-times" style="color: white;"></i>
     </button>
   </div>
-  <div>
-    <h3>Tracking</h3>
-  </div>
 </div>
 
-<table class="table table-striped ulb-table" *ngIf="tableData.length">
+<table class="table table-striped ulb-table mt-2" *ngIf="tableData.length">
   <thead>
     <tr style="background-color: #047474; color: #FFFFFF;" class="p-4 text-center">
       <th scope="col">Sr No.</th>
@@ -31,7 +29,6 @@
     </tr>
   </tbody>
 </table>
-<div class="mx-auto text-center p-4" *ngIf="!tableData.length">
-  <strong>{{message}}</strong>
+<div class="mx-auto text-center p-4 text-danger" *ngIf="!tableData.length">
+  {{message}}
 </div>
-

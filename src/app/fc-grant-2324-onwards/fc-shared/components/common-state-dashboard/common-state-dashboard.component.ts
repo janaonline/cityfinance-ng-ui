@@ -73,7 +73,7 @@ export class CommonStateDashboardComponent implements OnInit {
       data: item,
       formType: this.selectedItem,
       type: 'cityTabChange'
-    }
+    };
     this.cityTabClick.emit(passValue);
   }
   installmentChange(instl){
@@ -85,7 +85,7 @@ export class CommonStateDashboardComponent implements OnInit {
       data: instl,
       formType: this.selectedItem,
       type: 'installmentsChange'
-    }
+    };
     this.cityTabClick.emit(passValue);
   }
 
