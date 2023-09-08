@@ -115,7 +115,7 @@ export class CommonService {
   public fetchDataForHomepageMap(stateId?: string) {
     const params = this.httpUtil.convertToHttpParams({ state: stateId });
     return this.http
-      .get(environment.api.url + `report/dashboard/home-page-data/`, { params })
+      .get(environment.api.url + `report/dashboard/home-page-data`, { params })
       .pipe(map((res) => res["data"]));
   }
 
