@@ -24,6 +24,7 @@ import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-servic
 import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
+import { Subscription } from "rxjs";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -113,8 +114,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   submitCliamStatus:string = '16';
   years: object = JSON.parse(localStorage.getItem("Years"));
   yearIdFor2223: string = '';
+  private dataSubscription: Subscription;
 
-  
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
@@ -125,7 +126,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("formId from Table Component", this.formId);
+  //  console.log("formId from Table Component", this.formId);
     this.params["formId"] = this.formId;
     this.params["design_year"] = this.designYear;
     if (this.userData?.role !== "STATE") {
@@ -134,7 +135,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.initializeListFetchParams();
     let skValue = sessionStorage.getItem('skipValue')
     let sesParams = JSON.parse(sessionStorage.getItem("params"));
-    console.log('default pages', this.tableDefaultOptions);
+   // console.log('default pages', this.tableDefaultOptions);
 
     if (skValue) {
       this.params = sesParams;
@@ -156,6 +157,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.tableDefaultOptions.currentPage = ((Number(skValue) / 10) >= page) ? page + 1 : page;
     } else {
     }
+    this.dataSubscription?.unsubscribe();
     this.callAPI();
     let formData;
     if(this.designYear == this.years["2023-24"]){
@@ -171,7 +173,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.formName = formData?.folderName;
    // this.formRouterLink = "../../ulbform2223/" + this.formUrl;
     this.formRouterLink = `../../${this.formBaseUrl}/` + this.formUrl;
-    console.log("form data url", formData);
+ //   console.log("form data url", formData);
   //  this.formStateRouterLink = "../../stateform2223/" + this.formUrl;
     
   }
@@ -241,8 +243,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   callAPI() {
     this.isLoader = true;
     this.params.formId = this.formId;
-    console.log('ppppppppppp', this.params);
-    this.commonService.getReviewForms(this.params, this.endPoint).subscribe(
+    this.dataSubscription = this.commonService.getReviewForms(this.params, this.endPoint).subscribe(
       (res) => {
         this.isLoader = false;
         this.title = res["title"];
@@ -262,7 +263,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       if(!this.ulbType) this.ulbType = Object.keys(res["ulbType"]).length > 0 ? Object.values(res["ulbType"]): null;
       if(!this.statusList)  this.statusList = Object.keys(res["statusList"]).length > 0 ? Object.values(res["statusList"]) : null;
       if(!this.populationType) this.populationType = Object.keys(res["populationType"]).length > 0 ? Object.values(res["populationType"]) : null;
-        console.log("merged data", this.data);
+        // console.log("merged data", this.data);
         sessionStorage.removeItem('skipValue');
         sessionStorage.removeItem('params');
         if(this.isInfiniteScroll && this.listFetchOption.skip == 0) {
@@ -294,6 +295,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     this.params["status"] = this.filterForm?.value?.status_s;
     this.params["state"] = this.filterForm?.value?.state_name_s;
     this.params["skip"] = 0;
+    this.dataSubscription?.unsubscribe();
     this.callAPI();
   }
 
@@ -330,8 +332,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       this.params["populationType"] = this.filterForm?.value?.population_type_s;
       this.params["filled2"] = this.filterForm?.value?.filled_2 ? this.filterForm?.value?.filled_2 : null;
     }
-
     this.params["skip"] = 0;
+    this.dataSubscription?.unsubscribe();
     this.callAPI();
   }
   isChecked(element: any) {

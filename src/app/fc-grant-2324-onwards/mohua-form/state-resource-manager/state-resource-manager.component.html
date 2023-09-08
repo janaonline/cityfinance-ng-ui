@@ -58,9 +58,7 @@
                 <td>{{ document?.subCategory?.name }}</td>
                 <td>{{ document?.subCategory?.uploadType | titlecase }} upload</td>
                 <td>
-                    <mat-icon class="cursor-pointer mr-1" (click)="openAddResourceModel('view', document)">remove_red_eye</mat-icon>
-                    <!-- <mat-icon class="cursor-pointer mr-1" (click)="openAddResourceModel('edit', document)">edit</mat-icon> -->
-                    <mat-icon class="cursor-pointer text-danger" (click)="removeStateFromFiles(document)">delete_forever</mat-icon>
+                    <mat-icon class="cursor-pointer mr-1" (click)="openAddResourceModel('edit', document)">edit</mat-icon>
                 </td>
             </tr>
         </tbody>
@@ -70,7 +68,7 @@
         <div class="col-sm-12 mb-3">
             <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
             <p class="text-center">
-                No resource found
+                No uploads found
             </p>
         </div>
     </div>

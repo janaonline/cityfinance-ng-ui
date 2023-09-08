@@ -14,8 +14,8 @@ export class StateResourceService {
     private http: HttpClient
   ) { }
 
-  getList() {
-    return this.http.get<ResourceListResponse>(`${environment.api.url}state-resources/list`);
+  getList(stateId) {
+    return this.http.get<ResourceListResponse>(`${environment.api.url}state-resources/list/${stateId || ''}`);
   }
 
   getResourceList(params = {}) {
