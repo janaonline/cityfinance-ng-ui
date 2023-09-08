@@ -17,7 +17,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { AuthService } from "../../auth.service";
 
 @Component({
@@ -145,7 +145,12 @@ export class DashboardMapSectionComponent
   };
   date: any;
   districtMap: L.Map;
+  highestYear:any;
+  highestDataAvailability:any;
+  dataAvailTooltip='';
+  private homePageSubscription: Subscription;
   ngOnDestroy(): void {
+    this.homePageSubscription?.unsubscribe();
     // let mapReferenceList = ['districtMap'];
     // for (const item of mapReferenceList) {
     //   MapUtil.destroy(this[item]);
@@ -572,26 +577,34 @@ export class DashboardMapSectionComponent
       console.log('stateList', this.stateList)
     });
   }
-highestYear;
-highestDataAvailability;
-dataAvailTooltip='';
+
   private fetchDataForVisualization(stateId?: string) {
     this.dataForVisualization.loading = true;
-    this._commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
+    this.homePageSubscription?.unsubscribe();
+    this.homePageSubscription = this._commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
       this.setDefaultAbsCreditInfo();
 
       this.showCreditInfoByState(
         this.stateselected ? this.stateselected.name : ""
       );
       this.dataForVisualization = { ...res, loading: false };
-      this.highestYear = '';
-      this.highestDataAvailability = '';
+      this.highestYear = null;
+      this.highestDataAvailability = null;
       if (this.dataForVisualization?.ulbDataCount?.length > 0) {
         // +yearA.split("-")[0] - +yearB.split("-")[0]
         // this.dataForVisualization.ulbDataCount = this.dataForVisualization?.ulbDataCount?.sort((a, b) => parseFloat(b.ulbs) - parseFloat(a.ulbs));
         this.dataForVisualization.ulbDataCount = this.dataForVisualization?.ulbDataCount?.sort((a, b) => +a?.year.split("-")[0] - +b?.year.split("-")[0]);
-        this.highestYear = this.dataForVisualization?.ulbDataCount[0]?.year;
-        this.highestDataAvailability = ((this.dataForVisualization?.ulbDataCount[0]?.ulbs / this.dataForVisualization?.totalULB) * 100).toFixed(0)
+        const ublsArray = this.dataForVisualization?.ulbDataCount;
+        let highestData = -1;
+        for (const item of ublsArray) {
+          if (item.ulbs > highestData) {
+            highestData = item?.ulbs;
+            this.highestYear = item?.year;
+          }
+      }
+      this.highestDataAvailability = ((+highestData / +this.dataForVisualization?.totalULB) * 100).toFixed(0);
+       // this.highestYear = this.dataForVisualization?.ulbDataCount[0]?.year;
+       // this.highestDataAvailability = ((this.dataForVisualization?.ulbDataCount[0]?.ulbs / this.dataForVisualization?.totalULB) * 100).toFixed(0);
       }
       this.dataAvailTooltip = '';
       this.dataForVisualization?.ulbDataCount?.forEach(element => {
