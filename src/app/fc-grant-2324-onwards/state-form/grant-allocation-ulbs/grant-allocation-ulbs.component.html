@@ -30,7 +30,7 @@
                                     {{quesItem?.quesText}}
                                 </div>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-primary" (click)="downloadSample(quesItem)">Download Format</button>
+                                    <button class="btn btn-primary" (click)="downloadSample(quesItem)" [disabled]="quesItem?.isDisableQues">Download Format</button>
                                     <!-- <a class="btn btn-primary" href="{{quesItem?.template}}">Download Format</a> -->
                                 </div>
                                 <div class="col-sm-3" [matTooltip]="quesItem?.disableMsg" matTooltipClass="tooltip-red" [matTooltipDisabled]="quesItem?.isDisableQues == false">
