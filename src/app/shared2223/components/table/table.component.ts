@@ -424,11 +424,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
-      this.stateList = res.data;
-      res.data?.forEach((state) => {
-        //  this.statesByID[state?._id] = state;
-      });
+    this._commonService.fetchStateList().subscribe((res:any) => {
+      console.log('state list', res);
+      this.stateList = res;
     });
   }
   selected_checkbox(id, status) {
