@@ -16,7 +16,7 @@
     </div>
     <div class="row" *ngIf="formId != sfcFormId && formId != pTaxFormId">
         <div class="col-sm-12">
-            <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"
+            <app-table [dropdownData]="data" [isUa]="isUa" [formId]="formId" [state_id_i]="stateId"
              [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'reviewForms'"></app-table>
         </div>
     </div>

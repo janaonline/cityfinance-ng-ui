@@ -71,6 +71,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     limit: this.tableDefaultOptions.itemPerPage,
   };
   @Input() formId;
+  @Input() isUa;
   @Input() designYear;
   @Input() dropdownData;
   @Input() state_id_i;
@@ -199,6 +200,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   get isInfiniteScroll() {
     return this.perPage == 'all';
+  }
+
+  get filterdStateList() {
+    return this.stateList.filter(state => !this.isUa || state.isUaWise)
   }
 
   onPerPageChange() {
