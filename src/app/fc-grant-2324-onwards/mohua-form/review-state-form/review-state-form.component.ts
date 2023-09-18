@@ -58,6 +58,10 @@ export class ReviewStateFormComponent implements OnInit {
     );
   }
 
+  get isUa() {
+    return this.data.find(item => item.formId == this.formId)?.isUa;
+  }
+
   setFormId(event) {
     this.formId = event;
     this.stateServices.dpReviewChanges.next(true);    
