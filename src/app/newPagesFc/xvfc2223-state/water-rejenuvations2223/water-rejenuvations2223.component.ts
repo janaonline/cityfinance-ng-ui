@@ -116,6 +116,7 @@ export class WaterRejenuvations2223Component implements OnInit {
   sideMenuItem;
 backRouter = '';
 nextRouter = '';
+completeWaterRejData: any | object;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvations2223ServiceService,
@@ -534,6 +535,7 @@ nextRouter = '';
         this.errorOnload = true;
         this.isPreYear = true;
         this.isApiInProgress = false;
+        this.completeWaterRejData = res["data"];
         this.data = res["data"]["uaData"];
         this.wData = res["data"];
         if (this.wData?.declaration?.url && this.wData?.declaration?.name) {

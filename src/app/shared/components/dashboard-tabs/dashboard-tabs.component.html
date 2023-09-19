@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-    <div class="container-cnt tab-content" *ngIf="activeFilter.length > 0" id="pills-tabContent"
+    <div class="container-cnt tab-content" *ngIf="activeFilter.length > 0 && !noDataFound" id="pills-tabContent"
         style="padding: 0; margin-left: 32px">
         <div class="row">
             <div class="col-sm-12">
@@ -128,7 +128,18 @@
                 </div>
             </div>
             <div *ngSwitchCase="'Balance Sheet & Income Statement'">
-                <app-balance-table [cityId]="cityId" [data]="innerActiveTab" [cityName]="cityName"></app-balance-table>
+                <div class="" *ngIf="!noDataFound">
+                    <app-balance-table [cityId]="cityId" [data]="innerActiveTab" [cityName]="cityName"></app-balance-table>
+                </div>
+                <div *ngIf="noDataFound" style="" class="no-data">
+                    <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+                    <div style="" class="t-1">
+                        No Data Found for chosen options
+                    </div>
+                    <p style="" class="t-2">
+                        Please refer Resources section for Raw files uploaded by ULB.
+                    </p>
+                </div>
             </div>
             <div *ngSwitchCase="'innerTab5'">
                 <h1>Balance Sheet and tax</h1>

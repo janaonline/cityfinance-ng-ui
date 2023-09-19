@@ -27,17 +27,25 @@
                 <div *ngIf="item.fold">
                     <app-ag-grid2223 [catList]="projectCategories" (gridData)="getDataFromGrid($event, projectIndex)" [ulbList]="item.ulbList" [rowData]="item" [isDisabled]="isDisabled">
                     </app-ag-grid2223>
-                    <!-- <div class="p-3">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <app-common-action [actionRes]="actionRes" [formData]="data" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'action_plan'">
-                                </app-common-action>
-                            </div>
-                        </div>
-                    </div> -->
+                  <!-- review process for MoHUA -->
+                  <!-- <div class="action-div p-3">
+                    <app-state-common-review [canTakeAction]="item?.canTakeAction" [question]="item"
+                    [formData]="data" (formChangeEventEmit)="actionFormChanges($event)" 
+                    [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted" [formName]="'action_plan'"></app-state-common-review>
+                </div> -->
                 </div>
             </div>
 
+        </div>
+        <!-- final status view  -->
+        <div class="row" *ngIf="data?.statusId == 4 || data?.statusId == 6 || data?.statusId == 7">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body fw-bold">
+                        Form Status : {{data?.status}}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mt-5" *ngIf="data?.uaData">
             <div class="col-sm-3">
@@ -46,7 +54,7 @@
             <div class="col-sm-9 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
-                <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
+                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>
