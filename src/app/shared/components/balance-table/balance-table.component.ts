@@ -268,6 +268,7 @@ export class BalanceTableComponent
     { name: "INR Crores", type: 10000000 },
   ];
   sheetType = "Summary";
+  //notDataFound:boolean = false;
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -310,19 +311,28 @@ export class BalanceTableComponent
   setUlbList(ulbId) {
     this._loaderService.showLoader();
     let stateId = this.stateCode[this.ulbStateMapping[ulbId]]._id;
-    this.commonService.fetchBasicLedgerData().subscribe((res) => {
-      this._loaderService.stopLoader();
+    this.commonService.fetchBasicLedgerData().subscribe((res:any) => {
       this.currentUlbFilterData = res.data
         .find((val) => val._id.state == stateId)
         ?.ulbList.find((val) => val.ulb == ulbId);
       this.compare = false;
+      this._loaderService.stopLoader();
+       if(!this.currentUlbFilterData || !this.currentUlbFilterData?.financialYear || !this.currentUlbFilterData?.financialYear?.length){
+        //  this.notDataFound = true;
+          return;
+       }
       this.createDataForBasicComp(this.reportGroup);
       this.allUlbsFilterData = res.data.reduce((result, value) => {
         result[value._id.state] = value.ulbList;
         return result;
       }, {});
       this.show = true;
-    });
+    },
+    (err)=>{
+      this._loaderService.stopLoader();
+     // this.notDataFound = true;
+    }
+    );
   }
   ulbName
 
@@ -366,6 +376,7 @@ this.getRawFiles();
         valueType: this.valueType,
       };
     }
+
     if (fromBs == "Balance Sheet") {
       this.reportService.BSDetailed(temp2);
       
@@ -636,6 +647,7 @@ forkJoin(calls1).subscribe(responses => {
     
     // this.invokeHidden();
     console.log("balance table", changes, this.data);
+    
     this._loaderService.showLoader();
     if (this.data.name == "Balance Sheet") {
       this.resetCompare();
