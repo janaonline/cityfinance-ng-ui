@@ -287,11 +287,11 @@
                 </span>
               </td> -->
               <td class="text-center d-flex actionCell">
-                <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
+                <!-- <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
                   [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">Take
                   Action
-                </a>
-                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING">
+                </a> -->
+                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING && ulb?.user != false">
                   <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
