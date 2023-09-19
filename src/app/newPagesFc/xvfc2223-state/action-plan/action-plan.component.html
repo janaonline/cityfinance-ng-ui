@@ -38,7 +38,7 @@
 
         </div>
         <!-- final status view  -->
-        <div class="row" *ngIf="data?.statusId == 4 || data?.statusId == 6 || data?.statusId == 7">
+        <!-- <div class="row" *ngIf="data?.statusId == 4 || data?.statusId == 6 || data?.statusId == 7">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body fw-bold">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row mt-5" *ngIf="data?.uaData">
             <div class="col-sm-3">
                 <button class="btn btn-c-back" [routerLink]="backRouter"><- Previous Form</button>
@@ -54,7 +54,7 @@
             <div class="col-sm-9 text-end">
                 <button class="btn btn-primary" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('isDraft')" style="">Save as Draft</button>
                 <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'STATE'" type="button" [disabled]="isDisabled" (click)="saveButtonClicked('save')" style="">Submit</button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
+                <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
                 <button class="btn btn-c-next ms-3" [routerLink]="nextRouter">Next Form -></button>
             </div>
         </div>

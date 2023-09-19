@@ -503,7 +503,7 @@
                 </div>
             </div>
             <!-- final status view  -->
-            <div class="row mt-3" *ngIf="completeWaterRejData?.statusId == 4 || completeWaterRejData?.statusId == 6 || completeWaterRejData?.statusId == 7">
+            <!-- <div class="row mt-3" *ngIf="completeWaterRejData?.statusId == 4 || completeWaterRejData?.statusId == 6 || completeWaterRejData?.statusId == 7">
                 <div class="col-sm-12">
                 <div class="card">
                 <div class="card-body fw-bold">
@@ -511,7 +511,7 @@
                 </div>
                 </div>
             </div>
-            </div>
+            </div> -->
 
             <div class="row mb-3 mt-3" style="">
                 <div class="col-sm-5">
@@ -526,7 +526,7 @@
                     <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
-                <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button>
+                <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
 
                     <button class="btn btn-c-next ms-2" [routerLink]="nextRouter" type="button">
                 Next Form ->
