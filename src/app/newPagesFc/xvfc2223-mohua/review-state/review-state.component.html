@@ -8,17 +8,19 @@
         <div class="col-sm-12">
             <label for="form">Select Form:</label>
             <!-- [(ngModel)]="formId" (ngModelChange)="setFormId($event)" -->
-            <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form" class="mt-1 dropdown ms-3">
-          <option *ngFor="let element of data" [value]="element._id">
-              {{element.name}}
-          </option>
-        </select>
+            <select [(ngModel)]="formId" (ngModelChange)="setFormId($event)" name="form" id="form"
+                class="mt-1 dropdown ms-3">
+                <option *ngFor="let element of data" [value]="element._id">
+                    {{element.name}}
+                </option>
+            </select>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <app-table [dropdownData]="data" [formId]="formId" [state_id_i]="stateId"
-             [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl" [endPoint]="'review'"></app-table>
+            <app-table [dropdownData]="data" [isUa]="isUa" [formId]="formId" [state_id_i]="stateId"
+                [tableName]="reviewTableName" [designYear]="design_year" [formBaseUrl]="formBaseUrl"
+                [endPoint]="'review'"></app-table>
         </div>
     </div>
 </div>

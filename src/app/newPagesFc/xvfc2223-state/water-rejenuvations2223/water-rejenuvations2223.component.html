@@ -433,19 +433,15 @@
                             </span>Add more</button>
                         </div>
                           </div>
-
+                            <!-- review process for MoHUA -->
+                            <!-- <div class="action-div p-3">
+                                <app-state-common-review [canTakeAction]="completeWaterRejData?.canTakeAction" [question]="completeWaterRejData?.uaData[projectIndex]"
+                                [formData]="completeWaterRejData" (formChangeEventEmit)="actionFormChanges($event)" 
+                                [actionPayload]="actionPayload" [isActionSubmitted]="isActionSubmitted" [formName]="'projects_wss'">
+                            </app-state-common-review>
+                            </div> -->
 
                         </div>
-
-                        <!-- action components -->
-                        <!-- <div class="mt-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <app-common-action [actionRes]="actionRes" [formData]="wData" [actionFor]="'StateForm'" [actBtnDis]="actionBtnDis" (actionEventEmit)="actionData($event, projectIndex)" [canTakeAction]="canTakeAction" [commonActionError]="actionError" [formNamefiles]="'projects_wss'">
-                                    </app-common-action>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
 
@@ -506,7 +502,16 @@
                     </div>
                 </div>
             </div>
-
+            <!-- final status view  -->
+            <!-- <div class="row mt-3" *ngIf="completeWaterRejData?.statusId == 4 || completeWaterRejData?.statusId == 6 || completeWaterRejData?.statusId == 7">
+                <div class="col-sm-12">
+                <div class="card">
+                <div class="card-body fw-bold">
+                    Form Status : {{completeWaterRejData?.status}}
+                </div>
+                </div>
+            </div>
+            </div> -->
 
             <div class="row mb-3 mt-3" style="">
                 <div class="col-sm-5">
@@ -521,7 +526,7 @@
                     <button class="btn btn-primary ms-2" *ngIf="userData?.role == 'STATE'" (click)="saveButtonClicked()" type="button" [disabled]="isDisabled" [ngClass]="{'p-none': isLoadingError}">
                 Submit
               </button>
-                    <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
+                <!-- <button class="btn btn-primary ms-3" *ngIf="userData?.role == 'MoHUA'" type="button" [disabled]="actionBtnDis" (click)="saveAction()" style="">Submit</button> -->
 
                     <button class="btn btn-c-next ms-2" [routerLink]="nextRouter" type="button">
                 Next Form ->

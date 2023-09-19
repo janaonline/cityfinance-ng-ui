@@ -38,6 +38,10 @@ export class ReviewStateComponent implements OnInit {
     sessionStorage.removeItem("Stateform_id");
   }
 
+  get isUa() {
+    return this.data.find(item => item._id == this.formId)?.isUa;
+  }
+
   onLoad() {
     if (this.params["role"] == "ULB") {
       this.title = "Review Grant Application";
