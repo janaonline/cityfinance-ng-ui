@@ -86,8 +86,8 @@ export class ReviewUlbComponent implements OnInit {
 
   }
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
-      this.stateList = res.data;
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.stateList = res;
     });
   }
 }

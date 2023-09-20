@@ -71,6 +71,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     limit: this.tableDefaultOptions.itemPerPage,
   };
   @Input() formId;
+  @Input() isUa;
   @Input() designYear;
   @Input() dropdownData;
   @Input() state_id_i;
@@ -199,6 +200,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   get isInfiniteScroll() {
     return this.perPage == 'all';
+  }
+
+  get filterdStateList() {
+    return this.stateList.filter(state => !this.isUa || state.isUaWise)
   }
 
   onPerPageChange() {
@@ -424,11 +429,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private fetchStateList() {
-    this._commonService.getStateUlbCovered().subscribe((res) => {
-      this.stateList = res.data;
-      res.data?.forEach((state) => {
-        //  this.statesByID[state?._id] = state;
-      });
+    this._commonService.fetchStateList().subscribe((res:any) => {
+      console.log('state list', res);
+      this.stateList = res;
     });
   }
   selected_checkbox(id, status) {

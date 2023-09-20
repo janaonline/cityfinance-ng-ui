@@ -50,6 +50,7 @@ export class CityComponent implements OnInit {
     this.cords = window.pageYOffset;
   }
   isUA;
+  noDataFound: boolean = false;
   ngOnInit(): void {
     //this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
@@ -93,7 +94,7 @@ export class CityComponent implements OnInit {
   dashboardCalls(cityId) {
     this.newDashboardService.getLatestDataYear(cityId).subscribe(
       (res) => {
-
+        
         this.currentYear = res["data"].financialYear;
          this.callMoneyApi(cityId);
         let tempData: any = this.frontPanelData.footer.split(" ");
@@ -106,9 +107,12 @@ export class CityComponent implements OnInit {
         });
         tempData = tempData.join(" ");
         this.frontPanelData.footer = tempData;
+        this.noDataFound = false;
       },
       (error) => {
+        this.noDataFound = true;
         console.log(error);
+        
       }
     );
     this.newDashboardService.getYearList(this.cityId).subscribe(

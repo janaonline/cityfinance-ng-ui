@@ -187,6 +187,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   // stateMap = json.parse(localStorage.getItem(stateIdsMap))
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   @Input() isUA:String = 'No';
+  @Input() noDataFound:boolean = false;
   changeTab(event, fromInner = false) {
     console.log('changeTab', event, fromInner)
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
