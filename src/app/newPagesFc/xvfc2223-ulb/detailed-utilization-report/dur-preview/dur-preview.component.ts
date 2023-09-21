@@ -199,15 +199,15 @@ tr {
   ngOnInit() {
     console.log("details.....", this.userDetails);
 
-    if (this.userDetails.role == USER_TYPE.ULB) {
-      this.state = this.userData.stateName;
-      this.ulb = this.userData.name;
-    } else {
-      this.state = sessionStorage.getItem("stateName");
-      this.ulb = sessionStorage.getItem("ulbName");
-    }
-    // this.state = this.data?.ulbDetails?.stateName;
-    // this.ulb = this.data?.ulbDetails?.ulbName;
+    // if (this.userDetails.role == USER_TYPE.ULB) {
+    //   this.state = this.userData.stateName;
+    //   this.ulb = this.userData.name;
+    // } else {
+    //   this.state = sessionStorage.getItem("stateName");
+    //   this.ulb = sessionStorage.getItem("ulbName");
+    // }
+    this.state = this.data?.ulbDetails?.stateName;
+    this.ulb = this.data?.ulbDetails?.ulbName;
     this.categories = this.data?.categories;
 
     console.log("preview data", this.data, this.categories);

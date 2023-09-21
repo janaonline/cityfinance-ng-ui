@@ -24,7 +24,7 @@ import { State2223Service } from "src/app/newPagesFc/xvfc2223-state/state-servic
 import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
-import { ulbs_data } from "src/app/newPagesFc/xvfc2223-ulb/detailed-utilization-report/ulbsData";
+import { ulbs_data_MZ, ulbs_data_UK } from "src/app/newPagesFc/xvfc2223-ulb/detailed-utilization-report/ulbsData";
 import { Router } from "@angular/router";
 const swal: SweetAlert = require("sweetalert");
 
@@ -121,10 +121,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     this.updatedTableData();
     this.setParams();
-    this.tableDefaultOptions.itemPerPage = 10;
+    this.tableDefaultOptions.itemPerPage = 150;
     this.params["limit"] = this.tableDefaultOptions.itemPerPage;
     //<-----------------------------------bulk pdf download----------------------------->
-    // ulbs_data.slice(720, 750).forEach(ulb => {
+    // ulbs_data_UK.slice(120, 140).forEach(ulb => {
     //   window.open(`/ulbform2223/utilisation-report/${ulb.ulbId}?ulbName=${ulb.ulbName}&ulbCode=${ulb.ulbCode}&stateName=${ulb.stateName}&status=${ulb?.formStatus}`, '_blank')
     // });
   }
