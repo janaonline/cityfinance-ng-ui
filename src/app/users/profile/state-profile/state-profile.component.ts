@@ -154,7 +154,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
     if(this.loggedInUserType === this.USER_TYPE.STATE){
-       this.profileForm.removeControl('isDeleted');
+       this.profileForm.removeControl('isActive');
        this.profileForm.updateValueAndValidity();
       }
     if (this.profileData) {

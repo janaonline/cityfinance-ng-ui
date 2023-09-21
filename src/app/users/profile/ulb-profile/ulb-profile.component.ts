@@ -136,7 +136,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         accountantName : this.profileData?.accountantName
       }
     }
-
+    
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
         message: "Profile Updated Successfully",
@@ -213,6 +213,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   private onUpdatingProfileSuccess(res, dataUpdated?: IULBProfileData) {
+    
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
     this.updateLocalLoggedInData(dataUpdated);
@@ -288,7 +289,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   private initializeForm() {
     this.profile = this.formUtil.getULBForm("EDIT");
     if(this.loggedInUserType === this.USER_TYPE.STATE || this.loggedInUserType === this.USER_TYPE.ULB){
-      this.profile.removeControl('isDeleted');
+      this.profile.removeControl('isActive');
       this.profile.updateValueAndValidity();
      }
     if (this.profileData) {
@@ -347,4 +348,5 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       return;
     }
   }
+ 
 }

@@ -29,7 +29,7 @@ export class TrackingHistoryTableComponent implements OnInit {
       this.showLoader = false
       
     } ,(error)=>{
-      this.message = "No history found"
+      this.message = "No data found!"
       this.showLoader = false
     })
   }

@@ -101,7 +101,7 @@ export class FormUtil {
         "",
         [Validators.required, Validators.email, customEmailValidator],
       ],
-       isDeleted: ["", Validators.required],
+       isActive: ["", Validators.required],
     });
     if (purpose === "CREATION") {
       return this.fb.group({
@@ -141,7 +141,7 @@ export class FormUtil {
           _id: ["", [Validators.required]],
         }),
         name: ["", [Validators.required, atLeast1AplhabetRequired]],
-        // isDeleted: ["", Validators.required],
+        // isActive: ["", Validators.required],
       }),
     });
 
@@ -223,7 +223,7 @@ export class FormUtil {
         [Validators.required, Validators.email, customEmailValidator],
       ],
       departmentContactNumber: ["", [Validators.required, mobileNoValidator]],
-      isDeleted : ["", Validators.required]
+      isActive : ["", Validators.required]
     });
 
     form.controls.email.valueChanges
@@ -445,7 +445,7 @@ export class FormUtil {
    * need 2 different method to validate it.
    */
   public validationULBProfileUpdateForm(form: FormGroup) {
-    debugger
+    
     let errors: string[] = [];
     if (form.controls.ulb) {
       let censusCode = (form.controls.ulb as FormGroup).controls.censusCode

@@ -266,16 +266,16 @@
               </td>
               <td class="">
                 <div style="word-break: break-word;">
-                  {{ulb['user'] == 'false' ? ulb["ulbName"] : ulb["name"] }}
+                  {{ulb['user'] == false ? ulb["ulbName"] : ulb["name"] }}
                 </div></td>
               <td>
                 <div style="word-break: break-word;">
-                  {{ ulb.sbCode ? ulb.sbCode : ulb.censusCode }}
+                  {{ ulb.sbCode ? ulb.sbCode : ulb?.censusCode }}
                 </div></td>
               <td>
-                <button class="btn btn-primary" *ngIf="ulb.user == 'false'" (click)="signUpForm(templateForm, ulb)">Sign
+                <button class="btn btn-primary" *ngIf="ulb?.user == false" (click)="signUpForm(templateForm, ulb)">Sign
                   Up</button>
-                <div *ngIf="ulb.user != 'false'">Yes</div>
+                <div *ngIf="ulb?.user != false">Yes</div>
               </td>
               <!-- <td>{{ ulb.censusCode }}</td> -->
               <!-- <td class="">
@@ -290,15 +290,15 @@
               </td> -->
               <td class="" style="">
                 <div style="">
-                  {{ ulb["isDeleted"] ? 'InActive' : 'Active' }}
+                  {{ ulb["isActive"] == true ? 'Active' : 'InActive' }}
                 </div>
               </td>
-              <td class="text-center d-flex actionCell">
-                <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
+              <td class="text-center " [ngClass]="{'d-flex actionCell' : ulb?.user != false}">
+                <!-- <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
                   [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">Take
                   Action
-                </a>
-                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING">
+                </a> -->
+                <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING && ulb?.user != false">
                   <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
@@ -466,7 +466,7 @@
               </td>
               <td class="" style="">
                 <div style="">
-                  {{ user["isDeleted"] ? 'InActive' : 'Active' }}
+                  {{ user["isActive"] ? 'Active' : 'InActive' }}
                 </div>
               </td>
               <td>

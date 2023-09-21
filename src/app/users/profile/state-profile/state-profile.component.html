@@ -136,18 +136,18 @@
     </div>
     <div class="input-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA || loggedInUserType === USER_TYPE.ADMIN">
       <label for="status">Status
-        <span class="asterik" *ngIf="profileForm.controls.isDeleted.validator({})['required']">*</span>
+        <span class="asterik" *ngIf="profileForm.controls.isActive.validator({})['required']">*</span>
       </label>
       <!-- <input id="address" type="text" formControlName="address" class="form-control" [ngClass]="{
         'is-invalid': GetFormControlErrors('address')
       }" /> -->
-      <select name="status" id="status" formControlName="isDeleted" class="form-control" placeholder="Status" [ngClass]="{
-        'is-invalid': profileForm?.controls?.isDeleted.errors
+      <select name="status" id="status" formControlName="isActive" class="form-control" placeholder="Status" [ngClass]="{
+        'is-invalid': profileForm?.controls?.isActive.errors
       }" style="width: 57%;">
-        <option value="false"> Active </option>
-        <option value="true"> InActive</option>
+        <option value="true"> Active </option>
+        <option value="false"> InActive</option>
       </select>
-      <small *ngIf="GetFormControlErrors('isDeleted') as error" class="form-field-error-message">
+      <small *ngIf="GetFormControlErrors('isActive') as error" class="form-field-error-message">
         <span *ngIf="error?.required"> Status cannot be empty. </span>
       </small>
     </div>

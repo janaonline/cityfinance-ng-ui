@@ -41,18 +41,16 @@ $white: #f7f7f7;
     * {
         margin: 0;
     }
+
     .file-name {
         font: normal normal 700 16px/23px "Archivo";
         letter-spacing: 0px;
         color: #1A90FC;
-        // height: 5rem;
-        display: -webkit-box !important;
-        -webkit-line-clamp: 3 !important;
-        -webkit-box-orient: vertical !important;
         overflow: hidden;
         text-overflow: ellipsis;
         text-decoration: underline;
     }
+
     .created-at {
         text-decoration: none;
         font-size: smaller;
@@ -74,7 +72,7 @@ $white: #f7f7f7;
 
     a {
         flex: 0 0 auto;
-        min-width: 270px;
+        width: 270px;
         text-decoration: none;
     }
 }

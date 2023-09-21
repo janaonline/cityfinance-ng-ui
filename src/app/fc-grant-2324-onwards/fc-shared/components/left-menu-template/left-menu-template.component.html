@@ -1,5 +1,5 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 col-sm-2 text-light w-100" style="background-color: #114551;">
-    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none"
+    <a *ngIf="role !== 'PMU'" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none"
         routerLink="/fc-home-page">
         <div class="row">
             <div class="col-sm-2">
@@ -10,7 +10,7 @@
             </div>
         </div>
     </a>
-    <hr>
+    <hr *ngIf="role !== 'PMU'">
     <ul class="nav nav-pills flex-column mb-auto">
         <ng-container *ngFor="let menuItem of leftMenu | keyvalue : returnPostion">
             <li class="out-f-h px-3 py-2 collapsable" *ngIf="(menuItem?.key?.split('_'))[0]">

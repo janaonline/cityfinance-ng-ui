@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ResourceListResponse } from './model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,8 @@ export class StateResourceService {
     private http: HttpClient
   ) { }
 
-  getList() {
-    return this.http.get(`${environment.api.url}state-resources/list`);
+  getList(stateId) {
+    return this.http.get<ResourceListResponse>(`${environment.api.url}state-resources/list/${stateId || ''}`);
   }
 
   getResourceList(params = {}) {
@@ -32,6 +34,19 @@ export class StateResourceService {
         } else {
           return { type: 'blob', data: response.body };
         }
+      }), catchError((error: HttpErrorResponse) => {
+        return new Observable((observer) => {
+          if (error.error instanceof Blob && error.error.type === "application/json") {
+            const reader = new FileReader();
+            reader.onload = (event: any) => {
+              const errorText = JSON.parse(event.target.result);
+              observer.error({error: errorText, type: 'blob'});
+            };
+            reader.readAsText(error.error);
+          } else {
+            observer.error({type: 'blob', error});
+          }
+        });
       })
     );
   }
@@ -40,8 +55,9 @@ export class StateResourceService {
     return this.http.post(`${environment.api.url}state-resources/removeStateFromFiles`, data);
   }
 
-  getTemplate(templateName: string) {
+  getTemplate(templateName: string, params) {
     return this.http.get(`${environment.api.url}state-resources/template/${templateName}`, {
+      params,
       responseType: 'blob'
     });
   }

@@ -195,7 +195,7 @@
                         <select class="" formControlName="state_name_s" (change)="searchState()"
                             *ngIf="userData?.role != 'STATE'" style="width: 75%;">
                             <option selected value="">State Name</option>
-                            <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
+                            <option *ngFor="let item of filterdStateList" [value]="item._id">{{item.name}}</option>
                         </select>
                     </th>
                     <th class="filter text-center" *ngIf="designYear == yearIdFor2223">

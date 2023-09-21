@@ -134,7 +134,11 @@ this._loaderService.showLoader()
         } else {
           alert("Year and ULB selection is mandatory");
         }
-      });
+      },
+      (error)=>{
+        this._loaderService.stopLoader()
+      }
+      );
   }
 
   getAggregate(criteria: IReportType) {

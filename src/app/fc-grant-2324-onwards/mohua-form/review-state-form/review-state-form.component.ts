@@ -33,6 +33,8 @@ export class ReviewStateFormComponent implements OnInit {
   sfcFormId: string = '15';
   sfcFormIdPreYear: string = '62c553822954384b44b3c38e';
   lastYearReviewRoutes: string = '../../mohua2223/review-state-form';
+  pTaxFormId:string = '17';
+  pTaxFormIdPreYear:string = '62c5534e2954384b44b3c38a';
   ngOnInit(): void {
     this.onLoad();
     this.getFormId();
@@ -56,10 +58,13 @@ export class ReviewStateFormComponent implements OnInit {
     );
   }
 
+  get isUa() {
+    return this.data.find(item => item.formId == this.formId)?.isUa;
+  }
+
   setFormId(event) {
-    console.log("drop down changes", event);
     this.formId = event;
-    this.stateServices.dpReviewChanges.next(true);
+    this.stateServices.dpReviewChanges.next(true);    
   }
 
   getFormId() {
