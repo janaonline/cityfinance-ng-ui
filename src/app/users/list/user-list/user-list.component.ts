@@ -398,6 +398,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
     });
     this._dialog.afterAllClosed.subscribe((event) => {
       this.userToDelete = null;
+      this.fetchList(this.listFetchOption);
     });
   }
 }
