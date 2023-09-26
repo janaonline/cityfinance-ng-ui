@@ -30,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
 import { CommonActionRadioComponent } from './components/common-action-radio/common-action-radio.component';
 import { MdePopoverModule } from "@material-extended/mde";
+import { PmuRejectionPopupComponent } from './components/pmu-rejection-popup/pmu-rejection-popup.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MdePopoverModule } from "@material-extended/mde";
     EditUlbTableComponent,
     PreLoaderNewComponent,
     CommonActionRadioComponent,
+    PmuRejectionPopupComponent,
     // BreadcrumbComponent,
   ],
   imports: [
