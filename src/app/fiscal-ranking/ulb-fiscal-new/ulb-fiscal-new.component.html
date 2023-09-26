@@ -69,7 +69,7 @@
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
                                         [isInvalid]="item?.value?.controls?.status?.status == 'INVALID' && (item?.value?.controls?.status?.touched || item?.value?.controls?.status?.dirty)"
                                         [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
-                                        (onRejectReasonChange)="updateControl(item?.value?.controls?.rejectReason, $event)">
+                                        (onReject)="updateControl(item?.value, $event)">
                                     </app-common-action-radio>
                                 </div>
                             </div>
@@ -235,7 +235,13 @@
                                                         [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
                                                         [rejectReason]="yearItem?.controls?.rejectReason"
-                                                        (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                        [title]="item?.value?.controls?.label.value"
+                                                        [subTitle]="yearItem?.controls?.label.value"
+                                                        [canSuggestValue]="true"
+                                                        [suggestedValue]="yearItem?.controls?.suggestedValue"
+                                                        [approvalType]="yearItem?.controls?.approvalType"
+                                                        [formFieldType]="yearItem?.controls?.formFieldType?.value"
+                                                        (onReject)="updateControl(yearItem, $event)">
                                                     </app-common-action-radio>
                                                 </div>
                                             </div>
@@ -376,7 +382,7 @@
                                                                     [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                                     [disabled]="!canTakeAction"
                                                                     [rejectReason]="yearItem?.controls?.rejectReason"
-                                                                    (onRejectReasonChange)="updateControl(yearItem?.controls?.rejectReason, $event)">
+                                                                    (onReject)="updateControl(yearItem, $event)">
                                                                 </app-common-action-radio>
                                                             </div>
                                                         </div>
@@ -421,7 +427,8 @@
                                                 formControlName="status" [disabled]="!canTakeAction"
                                                 [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
-                                                (onRejectReasonChange)="updateControl(otherUploadControl?.controls?.rejectReason, $event)">
+                                                (onReject)="updateControl(otherUploadControl, $event)"
+                                                >
                                             </app-common-action-radio>
                                         </div>
                                     </ng-container>
@@ -498,7 +505,7 @@
                                                         [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
                                                         [rejectReason]="signedCopyOfFileControl?.controls?.rejectReason"
-                                                        (onRejectReasonChange)="updateControl(signedCopyOfFileControl?.controls?.rejectReason, $event)">
+                                                        (onReject)="updateControl(signedCopyOfFileControl, $event)">
                                                     </app-common-action-radio>
                                                 </div>
                                             </div>
