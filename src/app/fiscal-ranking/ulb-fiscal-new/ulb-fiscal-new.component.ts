@@ -202,6 +202,8 @@ export class UlbFiscalNewComponent implements OnInit {
       type: item.type,
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
+      suggestedValue: [item?.suggestedValue],
+      approvalType: [item?.approvalType],
       focused: [{ value: false, disabled: true }],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],

@@ -1,5 +1,7 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Optional, Output, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Optional, Output, Self, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { PmuRejectionPopupComponent } from '../pmu-rejection-popup/pmu-rejection-popup.component';
 
 @Component({
   selector: 'app-common-action-radio',
@@ -13,14 +15,21 @@ import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/for
 })
 export class CommonActionRadioComponent implements ControlValueAccessor {
   @Output() onRejectReasonChange = new EventEmitter<any>();
+  @Output() onReject = new EventEmitter<any>();
   @Input() disabled: boolean = false;
-  @Input() rejectReason: string;
+  @Input() rejectReason: FormControl;
+  @Input() suggestedValue: FormControl;
   @Input() isInvalid: boolean;
+  @Input() title: string;
+  @Input() subTitle: string;
+  @Input() canSuggestValue: boolean = false;
 
   private onChange: (value: any) => void;
   private onTouched: () => void;
 
-  constructor() { }
+  constructor(
+    private matDialog: MatDialog
+  ) { }
 
   status: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
 
@@ -43,13 +52,30 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
 
   updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if (this.disabled) return;
+    if (value == 'REJECTED') return this.openRejectionDialog();
     this.status = value;
     this.onChange(value);
     this.onTouched();
   }
 
-  rejectReasonChange({ target: { value } }) {
-    this.onRejectReasonChange.emit(value);
+  openRejectionDialog() {
+    const dialog = this.matDialog.open(PmuRejectionPopupComponent, {
+      data: {
+        title: this.title,
+        subTitle: this.subTitle,
+        canSuggestValue: this.canSuggestValue,
+        suggestedValue: this.suggestedValue?.value,
+        rejectReason: this.rejectReason?.value
+      },
+      width: '500px'
+    });
+
+    dialog.afterClosed().subscribe(res => {
+      if (res) this.onReject.emit(res);
+      this.status = 'REJECTED';
+      this.onChange(this.status);
+      this.onTouched();
+    })
   }
 
 }
