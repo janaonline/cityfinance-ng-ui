@@ -75,182 +75,199 @@
                             </div>
                         </div>
 
-                        <p class="text-center" *ngIf="tab?.value?.id === 's3'">
-                            SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br>
-                            FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
-                            all figures in Rs.
-                        </p>
-                        <table class="table table-striped" *ngIf="tab?.value?.id === 's3'">
-                            <tbody style="border-top: none;">
-                                <ng-container
-                                    *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition;let rowIndex_rev=index">
-                                    <tr class="table-gray"
-                                        *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
-                                        <th
-                                            *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
-                                            {{ heading }}{{ heading && i > 1 ? ' (in ₹)' : ''}}</th>
-                                    </tr>
-                                    <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey"
-                                        class="table-info">
-                                        <th colspan="6">REVENUE RECEIPTS (ACTUAL) </th>
-                                    </tr>
-                                    <tr *ngIf="item?.value?.controls?.position?.value == expenditureSectionBelowKey"
-                                        class="table-danger">
-                                        <th colspan="6">REVENUE EXPENDITURE (ACTUAL) </th>
-                                    </tr>
-                                    <tr *ngIf="item?.value?.controls?.canShow?.value">
-                                        <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
-                                        <th scope="row"
-                                            [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
-                                            <p class="m-0">
-                                                {{item?.value?.controls?.label.value}}
-                                                <span *ngIf="item?.value?.controls?.required?.value"
-                                                    class="text-danger">*</span>
-                                                <mat-icon style="font-size: 18px;"
-                                                    *ngIf="item?.value?.controls?.info?.value"
-                                                    [matTooltip]="item?.value?.controls?.info?.value">info_outline
-                                                </mat-icon>
-                                            </p>
-                                            <div class="mt-4"
-                                                *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                <button  class="approve-all-btn btn btn-sm btn-success mr-1"
-                                                    (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
-                                                    All</button>
-                                                <button  class="reject-all-btn btn btn-sm btn-danger"
-                                                    (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
-                                                    All</button>
-                                            </div>
-                                        </th>
-                                        <td
-                                            *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
-                                            <div class="col-sm-12 " *ngIf="yearItem?.value?.key" [formGroup]="yearItem">
-                                                <div class="form-group">
-                                                    <div class="d-flex custom-input-group"
-                                                        [title]="yearItem.controls?.value?.value">
-                                                        <span *ngIf="yearItem.controls?.isRupee?.value"
-                                                            class="input-group-text br-a" id="basic-addon1">₹</span>
-                                                        <input onwheel="this.blur()" appNoUpDown
-                                                            (focus)="onFocusChange(yearItem, true)"
-                                                            (blur)="onFocusChange(yearItem, false)"
-                                                            *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
-                                                            [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
-                                                            formControlName="value" class="form-control"
-                                                            [type]="yearItem?.controls?.formFieldType?.value"
-                                                            [readonly]="yearItem?.controls?.readonly?.value"
-                                                            [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
-                                                            [ngClass]="{
+                        <ng-container *ngIf="tab?.value?.id === 's3'">
+                            <p class="text-center">
+                                SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br>
+                                FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
+                                all figures in Rs.
+                            </p>
+                            <div class="financial-tab-notice" *ngIf="loggedInUserType == userTypes.ULB && formExpiryDate">
+                                <p><b>Important Note:</b></p>
+                                <ul>
+                                    <li>Identify returned values flagged by the PMU and initiate the appropriate
+                                        actions, click on the '<b>Info</b>' button located next to the respective input field.
+                                    </li>
+                                    <li>Please note that editing the data or form will be disabled after the specified
+                                        date, which is <b>{{ formExpiryDate | date : 'longDate'}}</b>.</li>
+                                    <li>If you return PMU suggested value, You must upload a supporting document in
+                                        upload document section.</li>
+                                </ul>
+                            </div>
+                            <table class="table table-striped">
+                                <tbody style="border-top: none;">
+                                    <ng-container
+                                        *ngFor="let item of tab?.controls?.data?.controls | keyvalue: fiscalService.sortPosition;let rowIndex_rev=index">
+                                        <tr class="table-gray"
+                                            *ngIf="financialYearTableHeader[item?.value?.controls?.position?.value]?.length > 0">
+                                            <th
+                                                *ngFor="let heading of financialYearTableHeader[item?.value?.controls?.position?.value]; let  i = index;">
+                                                {{ heading }}{{ heading && i > 1 ? ' (in ₹)' : ''}}</th>
+                                        </tr>
+                                        <tr *ngIf="item?.value?.controls?.position?.value == incomeSectionBelowKey"
+                                            class="table-info">
+                                            <th colspan="6">REVENUE RECEIPTS (ACTUAL) </th>
+                                        </tr>
+                                        <tr *ngIf="item?.value?.controls?.position?.value == expenditureSectionBelowKey"
+                                            class="table-danger">
+                                            <th colspan="6">REVENUE EXPENDITURE (ACTUAL) </th>
+                                        </tr>
+                                        <tr *ngIf="item?.value?.controls?.canShow?.value">
+                                            <td>{{ item?.value?.controls?.position?.value | displayPosition }}</td>
+                                            <th scope="row"
+                                                [ngClass]="item?.value?.controls?.isHeading?.value ? 'whole-number' : 'float-number'">
+                                                <p class="m-0">
+                                                    {{item?.value?.controls?.label.value}}
+                                                    <span *ngIf="item?.value?.controls?.required?.value"
+                                                        class="text-danger">*</span>
+                                                    <mat-icon style="font-size: 18px;"
+                                                        *ngIf="item?.value?.controls?.info?.value"
+                                                        [matTooltip]="item?.value?.controls?.info?.value">info_outline
+                                                    </mat-icon>
+                                                </p>
+                                                <div class="mt-4"
+                                                    *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
+                                                    <button class="approve-all-btn btn btn-sm btn-success mr-1"
+                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
+                                                        All</button>
+                                                    <button class="reject-all-btn btn btn-sm btn-danger"
+                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
+                                                        All</button>
+                                                </div>
+                                            </th>
+                                            <td
+                                                *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
+                                                <div class="col-sm-12 " *ngIf="yearItem?.value?.key"
+                                                    [formGroup]="yearItem">
+                                                    <div class="form-group">
+                                                        <div class="d-flex custom-input-group"
+                                                            [title]="yearItem.controls?.value?.value">
+                                                            <span *ngIf="yearItem.controls?.isRupee?.value"
+                                                                class="input-group-text br-a" id="basic-addon1">₹</span>
+                                                            <input onwheel="this.blur()" appNoUpDown
+                                                                (focus)="onFocusChange(yearItem, true)"
+                                                                (blur)="onFocusChange(yearItem, false)"
+                                                                *ngIf="textualFormFiledTypes.includes(yearItem?.controls?.formFieldType?.value)"
+                                                                [appDecimalLimit]="yearItem.controls?.formFieldType?.value != 'number' ? null : yearItem?.controls?.decimalLimit?.value || 0"
+                                                                formControlName="value" class="form-control"
+                                                                [type]="yearItem?.controls?.formFieldType?.value"
+                                                                [readonly]="yearItem?.controls?.readonly?.value"
+                                                                [attr.disabled]="yearItem?.controls?.readonly?.value ? '' : null"
+                                                                [ngClass]="{
                                                                     'left-0-radius': yearItem.controls?.isRupee?.value,
                                                                     'is-invalid': yearItem?.controls?.value?.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}"
-                                                            placeholder="{{yearItem?.controls?.placeholder?.value}}" />
-                                                    </div>
-
-                                                    <small class="focus-warning"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0' && yearItem?.controls?.focused?.value">
-                                                        contains "0" do you still want to continue?
-                                                    </small>
-
-                                                    <small class="text-danger"
-                                                        *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
-                                                        As per financial data submitted for 15th FC grants, total value
-                                                        is ₹
-                                                        {{ yearItem.value.originalValue }}
-                                                    </small>
-                                                    <mat-radio-group aria-label="Select an option"
-                                                        formControlName="value"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
-                                                        [disabled]="yearItem?.controls?.readonly?.value">
-                                                        <mat-radio-button value="Yes">Yes</mat-radio-button>
-                                                        <mat-radio-button value="No" class="ms-3">No</mat-radio-button>
-                                                    </mat-radio-group>
-
-
-                                                    <div class="input-group border"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
-                                                        [ngClass]="{'border-danger': yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)}">
-                                                        <div class="d-flex w-100 px-2">
-                                                            <input onwheel="this.blur()" appNoUpDown matInput
-                                                                formControlName="date" style="pointer-events: none;"
-                                                                [matDatepicker]="r_i"
-                                                                [disabled]="yearItem?.controls?.readonly?.value"
-                                                                [min]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.min?.value : ''"
-                                                                [max]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.max?.value : ''"
-                                                                placeholder="Choose a date" [attr.id]="  + r_i" />
-                                                            <mat-datepicker-toggle matSuffix
-                                                                [disabled]="yearItem?.controls?.readonly?.value"
-                                                                [for]="r_i">
-                                                            </mat-datepicker-toggle>
+                                                                placeholder="{{yearItem?.controls?.placeholder?.value}}" />
                                                         </div>
-                                                        <mat-datepicker #r_i></mat-datepicker>
-                                                    </div>
-                                                    <small style="color: red"
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)">Please
-                                                        provide a valid date</small>
-                                                    <ng-container
-                                                        *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
-                                                        <div class="col-sm-12 mb-3"
-                                                            [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
-                                                            <button (click)="bs_pdf1.click()"
-                                                                class="btn form-btn com-style w-100 test-city"
-                                                                [disabled]="!(yearItem?.controls?.readonly?.value == false)">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6 file-text ">
-                                                                        File
-                                                                    </div>
-                                                                    <div class="col-sm-6 text-end">
-                                                                        <img
-                                                                            src="assets/circle/cloud_upload_black_24dp.svg">
-                                                                    </div>
-                                                                </div>
-                                                            </button>
-                                                            <input #bs_pdf1 style="display: none;"
-                                                                [disabled]="!(yearItem?.controls?.readonly?.value == false)"
-                                                                onclick="this.value=null;"
-                                                                (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
-                                                                type="file" accept=".pdf" #file>
-                                                        </div>
-                                                        <div class="col-sm-12 com-style f-w mt-1"
-                                                            *ngIf="yearItem?.value?.file?.url">
-                                                            <a class="w-90" href="{{yearItem?.value?.file?.url}}"
-                                                                target="_blank">{{yearItem?.value?.file?.name}}
-                                                                <mat-icon>cloud_download</mat-icon>
-                                                            </a>
-                                                            <a *ngIf="!yearItem?.controls?.readonly?.value"
-                                                                (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
-                                                                class="w-10" [ngClass]="{'pe-none': isDisabled}">
-                                                                <img src="assets/form-icon/close_black_24dp.svg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-sm-12 text-center w-70">
-                                                            <app-loader
-                                                                [show]="yearItem?.controls?.file?.controls?.uploading?.value">
-                                                            </app-loader>
-                                                        </div>
+
+                                                        <small class="focus-warning"
+                                                            *ngIf="yearItem?.controls?.formFieldType?.value == 'number' && yearItem?.controls?.value?.value == '0' && yearItem?.controls?.focused?.value">
+                                                            contains "0" do you still want to continue?
+                                                        </small>
+
                                                         <small class="text-danger"
-                                                            *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File
-                                                            is
-                                                            required</small>
-                                                    </ng-container>
-                                                    <div class="invalid-feedback">Please provide a valid input.</div>
-                                                    <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
-                                                        [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
-                                                        formControlName="status" [disabled]="!canTakeAction"
-                                                        [rejectReason]="yearItem?.controls?.rejectReason"
-                                                        [title]="item?.value?.controls?.label.value"
-                                                        [subTitle]="yearItem?.controls?.label.value"
-                                                        [canSuggestValue]="true"
-                                                        [suggestedValue]="yearItem?.controls?.suggestedValue"
-                                                        [approvalType]="yearItem?.controls?.approvalType"
-                                                        [formFieldType]="yearItem?.controls?.formFieldType?.value"
-                                                        (onReject)="updateControl(yearItem, $event)">
-                                                    </app-common-action-radio>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
+                                                            *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
+                                                            As per financial data submitted for 15th FC grants, total
+                                                            value
+                                                            is ₹
+                                                            {{ yearItem.value.originalValue }}
+                                                        </small>
+                                                        <mat-radio-group aria-label="Select an option"
+                                                            formControlName="value"
+                                                            *ngIf="yearItem?.controls?.formFieldType?.value == 'radio-toggle'"
+                                                            [disabled]="yearItem?.controls?.readonly?.value">
+                                                            <mat-radio-button value="Yes">Yes</mat-radio-button>
+                                                            <mat-radio-button value="No" class="ms-3">No
+                                                            </mat-radio-button>
+                                                        </mat-radio-group>
 
+
+                                                        <div class="input-group border"
+                                                            *ngIf="yearItem?.controls?.formFieldType?.value == 'date'"
+                                                            [ngClass]="{'border-danger': yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)}">
+                                                            <div class="d-flex w-100 px-2">
+                                                                <input onwheel="this.blur()" appNoUpDown matInput
+                                                                    formControlName="date" style="pointer-events: none;"
+                                                                    [matDatepicker]="r_i"
+                                                                    [disabled]="yearItem?.controls?.readonly?.value"
+                                                                    [min]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.min?.value : ''"
+                                                                    [max]="loggedInUserType == userTypes.ULB ? yearItem?.controls?.max?.value : ''"
+                                                                    placeholder="Choose a date" [attr.id]="  + r_i" />
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [disabled]="yearItem?.controls?.readonly?.value"
+                                                                    [for]="r_i">
+                                                                </mat-datepicker-toggle>
+                                                            </div>
+                                                            <mat-datepicker #r_i></mat-datepicker>
+                                                        </div>
+                                                        <small style="color: red"
+                                                            *ngIf="yearItem?.controls?.formFieldType?.value == 'date' && yearItem?.controls?.date?.status == 'INVALID' && (yearItem?.controls?.date?.dirty || yearItem?.controls?.date?.touched)">Please
+                                                            provide a valid date</small>
+                                                        <ng-container
+                                                            *ngIf="yearItem?.controls?.formFieldType?.value == 'file'">
+                                                            <div class="col-sm-12 mb-3"
+                                                                [ngClass]="{'border-danger-file': yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)}">
+                                                                <button (click)="bs_pdf1.click()"
+                                                                    class="btn form-btn com-style w-100 test-city"
+                                                                    [disabled]="!(yearItem?.controls?.readonly?.value == false)">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6 file-text ">
+                                                                            File
+                                                                        </div>
+                                                                        <div class="col-sm-6 text-end">
+                                                                            <img
+                                                                                src="assets/circle/cloud_upload_black_24dp.svg">
+                                                                        </div>
+                                                                    </div>
+                                                                </button>
+                                                                <input #bs_pdf1 style="display: none;"
+                                                                    [disabled]="!(yearItem?.controls?.readonly?.value == false)"
+                                                                    onclick="this.value=null;"
+                                                                    (change)="uploadFile($event, 'pdf', yearItem?.controls?.file)"
+                                                                    type="file" accept=".pdf" #file>
+                                                            </div>
+                                                            <div class="col-sm-12 com-style f-w mt-1"
+                                                                *ngIf="yearItem?.value?.file?.url">
+                                                                <a class="w-90" href="{{yearItem?.value?.file?.url}}"
+                                                                    target="_blank">{{yearItem?.value?.file?.name}}
+                                                                    <mat-icon>cloud_download</mat-icon>
+                                                                </a>
+                                                                <a *ngIf="!yearItem?.controls?.readonly?.value"
+                                                                    (click)="uploadFile($event, 'pdf', yearItem?.controls?.file, true)"
+                                                                    class="w-10" [ngClass]="{'pe-none': isDisabled}">
+                                                                    <img src="assets/form-icon/close_black_24dp.svg">
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-sm-12 text-center w-70">
+                                                                <app-loader
+                                                                    [show]="yearItem?.controls?.file?.controls?.uploading?.value">
+                                                                </app-loader>
+                                                            </div>
+                                                            <small class="text-danger"
+                                                                *ngIf="yearItem.status == 'INVALID' && (yearItem.dirty || yearItem.touched)">File
+                                                                is
+                                                                required</small>
+                                                        </ng-container>
+                                                        <div class="invalid-feedback">Please provide a valid input.
+                                                        </div>
+                                                        <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                            [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
+                                                            formControlName="status" [disabled]="!canTakeAction"
+                                                            [rejectReason]="yearItem?.controls?.rejectReason"
+                                                            [title]="item?.value?.controls?.label.value"
+                                                            [subTitle]="yearItem?.controls?.label.value"
+                                                            [canSuggestValue]="true"
+                                                            [suggestedValue]="yearItem?.controls?.suggestedValue"
+                                                            [approvalType]="yearItem?.controls?.approvalType"
+                                                            [formFieldType]="yearItem?.controls?.formFieldType?.value"
+                                                            (onReject)="updateControl(yearItem, $event)">
+                                                        </app-common-action-radio>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </ng-container>
                         <!-- tab 3, 4, 5, 6 -->
                         <div class="" *ngIf="twoDTabs.includes(tab?.value?.id)" [ngClass]="{'disable': isDisabled}">
                             <div class="row mx-auto">
@@ -427,8 +444,7 @@
                                                 formControlName="status" [disabled]="!canTakeAction"
                                                 [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
-                                                (onReject)="updateControl(otherUploadControl, $event)"
-                                                >
+                                                (onReject)="updateControl(otherUploadControl, $event)">
                                             </app-common-action-radio>
                                         </div>
                                     </ng-container>
@@ -521,7 +537,8 @@
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     (click)="stepperContinue(tab)"
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
-                                <button id="submit-btn" class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                <button id="submit-btn" class="btn com-style"
+                                    *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="finalSubmitConfirmation()">Submit</button>
                             </div>

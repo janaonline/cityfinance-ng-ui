@@ -30,6 +30,7 @@ export class UlbFiscalNewComponent implements OnInit {
   loggedInUserType: any;
   hideForm: boolean;
   notice: string;
+  pmuSubmissionDate: string;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
@@ -117,6 +118,13 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.form.get('4.data.signedCopyOfFile');
   }
 
+  get formExpiryDate() {
+    if(!this.pmuSubmissionDate) return null;
+    const date  = new Date(this.pmuSubmissionDate);
+    date.setDate(date.getDate() + 10);
+    return date;
+  }
+
   onLoad() {
     this.isLoader = true;
     this.fiscalService.getfiscalUlbForm(this.design_year, this.ulbId).subscribe((res: any) => {
@@ -129,6 +137,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.currentFormStatus = res?.data?.currentFormStatus;
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
+      this.pmuSubmissionDate = res?.data?.pmuSubmissionDate;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
