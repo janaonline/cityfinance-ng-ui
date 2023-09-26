@@ -87,7 +87,9 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                 <div class="col-sm-7">
                     <div class="form-group mb-2">
                         <div class="btn-group" btnRadioGroup formControlName="status">
-                            <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                            <label for="" [matTooltip]="isPreviewYearApproved ? sequentialAlert : ''" matTooltipClass="tooltip-red"> 
+                                <label btnRadio="APPROVED" [disabled]="isPreviewYearApproved" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                            </label>
                             <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
                         </div>
                     </div>

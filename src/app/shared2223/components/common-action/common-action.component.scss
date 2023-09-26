@@ -126,7 +126,7 @@
 .disabled {
     color: gray;
     cursor: not-allowed;
-    text-decoration: underline;
+ //   text-decoration: underline;
 }
 
 .btn-r {
@@ -208,4 +208,9 @@
 .disGray {
     background-color: #e9ecef;
     color: #000
+}
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
 }

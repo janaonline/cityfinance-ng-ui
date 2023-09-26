@@ -11,8 +11,14 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="form-group mb-2">
-                                        <div class="btn-group" btnRadioGroup formControlName="status">
-                                            <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
+                                        <div class="btn-group" btnRadioGroup formControlName="status" >
+                                           <label for="" [matTooltip]="isPreviewYearApproved ? sequentialAlert : ''" matTooltipClass="tooltip-red"> 
+                                            <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis || isPreviewYearApproved" 
+                                                 class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}"
+                                                 >
+                                                 Approve
+                                             </label>
+                                            </label>
                                             <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
                                         </div>
                                     </div>
