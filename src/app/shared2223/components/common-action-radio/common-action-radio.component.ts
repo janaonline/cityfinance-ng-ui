@@ -16,6 +16,8 @@ import { PmuRejectionPopupComponent } from '../pmu-rejection-popup/pmu-rejection
 export class CommonActionRadioComponent implements ControlValueAccessor {
   @Output() onRejectReasonChange = new EventEmitter<any>();
   @Output() onReject = new EventEmitter<any>();
+
+  @Input() formFieldType: string;
   @Input() disabled: boolean = false;
   @Input() rejectReason: FormControl;
   @Input() suggestedValue: FormControl;
@@ -65,16 +67,16 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         subTitle: this.subTitle,
         canSuggestValue: this.canSuggestValue,
         suggestedValue: this.suggestedValue?.value,
-        rejectReason: this.rejectReason?.value
+        rejectReason: this.rejectReason?.value,
+        formFieldType: this.formFieldType
       },
       width: '500px'
     });
 
     dialog.afterClosed().subscribe(res => {
-      if (res) this.onReject.emit(res);
-      this.status = 'REJECTED';
-      this.onChange(this.status);
-      this.onTouched();
+      if (res) {
+        this.onReject.emit(res);
+      } 
     })
   }
 

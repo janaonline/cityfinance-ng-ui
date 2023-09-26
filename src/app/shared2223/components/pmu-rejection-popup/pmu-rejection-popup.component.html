@@ -9,17 +9,30 @@
     </div>
 </div>
 
-<form [formGroup]="form"  (submit)="submit()" >
+<form [formGroup]="form" (submit)="submit()">
     <div class="mb-3">
         <label for="rejectReason" class="form-label">Return Reason</label>
-        <textarea cols="30" formControlName="rejectReason" rows="6" id="rejectReason" class="form-control" type="text"></textarea>
+        <textarea cols="30" formControlName="rejectReason" rows="6" id="rejectReason" class="form-control"
+            type="text"></textarea>
         <small id="rejectReason" class="form-text text-muted">Reject reason be 10 to 500 characters long</small>
     </div>
-    <div class="mb-3" *ngIf="data?.canSuggestValue">
-        <label for="suggestedValue" class="form-label">Suggest a value</label>
-        <input type="text" class="form-control" formControlName="suggestedValue" id="suggestedValue">
-    </div>
+    <ng-container *ngIf="data?.canSuggestValue">
+        <ol class="pmu-info" *ngIf="data?.formFieldType == 'radio-toggle'">
+            <li>Value should be either <b>Yes</b> or <b>No</b></li>
+        </ol>
+        <ol class="pmu-info" *ngIf="data?.formFieldType == 'date'">
+            <li>Format should be <b>dd/mm/yyyy</b></li>
+            <li>Allow past and current dates, future dates to be disabled <br>For Year >> Allow from</li>
+            <li>2021-22 > From 1 April 2022</li>
+            <li>2020-21 > From 1 April 2021</li>
+            <li>2019-20 > From 1 April 2020</li>
+        </ol>
+        <div class="mb-3">
+            <label for="suggestedValue" class="form-label">Suggest a value</label>
+            <input type="text" class="form-control" formControlName="suggestedValue" id="suggestedValue">
+        </div>
+    </ng-container>
     <div class="d-flex justify-content-center">
-        <button type="submit" class="btn warning-btn" [disabled]="!form.valid" >Return</button>
+        <button type="submit" class="btn warning-btn" [disabled]="!form.valid">Return</button>
     </div>
 </form>
