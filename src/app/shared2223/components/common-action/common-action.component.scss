@@ -200,9 +200,10 @@
     width: 26rem;
 }
 
-.disCls {
+.dis-cls {
     pointer-events: none;
-    opacity: .8;
+    background-color: gray !important;
+    // opacity: .8;
 }
 
 .disGray {

@@ -323,8 +323,9 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   }
 
   getSequentialStatus(item) {
-    const eligibleFormForSeq = ['4', '62aa1c96c9a98b2254632a8a'];
-     if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(`${this.formId}`)){
+    
+    const allowForms = ['dur', '28slb']
+     if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && allowForms.includes(this.formName)){
       return true;
      };
      return false;
