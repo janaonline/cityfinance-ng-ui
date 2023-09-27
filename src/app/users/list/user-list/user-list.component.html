@@ -168,6 +168,7 @@
                 User Created
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
+              <th>Status</th>
               <th scope="Take Action" class="text-center">Action</th>
             </tr>
           </thead>
@@ -234,6 +235,7 @@
                   </select>
                 </div>
               </td> -->
+              <td></td>
               <td>
                 <button class="btn btn-primary m-auto" style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)">
@@ -286,7 +288,12 @@
                   {{ ulb.status }}
                 </span>
               </td> -->
-              <td class="text-center d-flex actionCell">
+              <td class="" style="">
+                <div style="">
+                  {{ ulb["isActive"] == true ? 'Active' : 'InActive' }}
+                </div>
+              </td>
+              <td class="text-center " [ngClass]="{'d-flex actionCell' : ulb?.user != false}">
                 <!-- <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
                   [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">Take
                   Action
@@ -295,6 +302,7 @@
                   <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
+                  
                   <a *ngIf="
                       ulb.status === SINGPUP_STATUS.APPROVED && canEditProfile
                     " [routerLink]="['/', 'user', 'profile', 'view']"
@@ -365,6 +373,7 @@
                 Department Name
                 <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
               </th>
+              <th class="text-center">Status</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -406,10 +415,11 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input placeholder="Designation" type="text" class="form-control"
+                  <input placeholder="Department Name" type="text" class="form-control"
                     [formControl]="filterForm.controls.departmentName" />
                 </div>
               </td>
+              <td></td>
               <td>
                 <button class="btn btn-primary m-auto" style="display: block"
                   (click)="searchUsersBy(filterForm.value, 0)">
@@ -452,7 +462,13 @@
               <td class="" style="padding-left: 3px;">
                 <div style="word-break: break-word;">
                   {{ user["departmentName"] }}
-                </div></td>
+                </div>
+              </td>
+              <td class="" style="">
+                <div style="">
+                  {{ user["isActive"] ? 'Active' : 'InActive' }}
+                </div>
+              </td>
               <td>
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'STATE' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
@@ -466,6 +482,7 @@
                       openUserDeleteConfirmationBox(userDeletePopup, user)
                     "></i></a>
               </td>
+            
             </tr>
             <tr *ngIf="userList && !userList.length">
               <td colspan="6" class="text-center">

@@ -42,6 +42,7 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   @Input() nextPreUrl;
   @Input() formId;
   @Input() isFormFinalSubmit = false;
+  @Input() formData : any;
   viewMode:boolean = false;
   actionData: any;
   isActionSubmitted: boolean = false;
@@ -72,6 +73,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
   "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
   ngOnInit(): void {
   if(this.actionData) this.setStatusData(this.actionData);
   this.getQuery = {
@@ -85,12 +88,16 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
    }
   this.uploadFolderName = `${this.userData?.role}/2023-24/supporting_douments/${this.formName}/${id}`;
   this.getActionRes();
+
   }
+  isPreviewYearApproved: boolean = false;
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('formData formData', this.formData);
     if(this.isFormFinalSubmit) this.getActionRes();
     if(this.userData?.role == 'MoHUA' && (this.formId == 4)){
-      this.sequentialReview({onlyGet: true});
-    }
+      this.sequentialReview({onlyGet: true});      
+    };
+    this.isPreviewYearApproved = this.getSequentialStatus(this.formData);
   // if(this.actionData) this.setStatusData(this.actionData);
   }
   initializeForm() {
@@ -314,4 +321,13 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
       }
     );
   }
+
+  getSequentialStatus(item) {
+    
+    const allowForms = ['dur', '28slb']
+     if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && allowForms.includes(this.formName)){
+      return true;
+     };
+     return false;
+    }
 }

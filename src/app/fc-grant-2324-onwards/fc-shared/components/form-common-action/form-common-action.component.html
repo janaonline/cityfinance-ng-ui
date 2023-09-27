@@ -11,9 +11,15 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="form-group mb-2">
-                                        <div class="btn-group" btnRadioGroup formControlName="status">
-                                            <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
-                                            <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
+                                        <div class="btn-group" btnRadioGroup formControlName="status" >
+                                           <label for="" [matTooltip]="isPreviewYearApproved ? sequentialAlert : ''" matTooltipClass="tooltip-red"> 
+                                            <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis || isPreviewYearApproved" 
+                                                 class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'dis-cls' : actBtnDis || isPreviewYearApproved}"
+                                                 >
+                                                 Approve
+                                             </label>
+                                            </label>
+                                            <label btnRadio="{{statusIdForReject}}" [disabled]="actBtnDis" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'dis-cls' : actBtnDis}">Return</label>
                                         </div>
                                     </div>
                                     <div class="text-danger" *ngIf="isActionSubmitted && (!formValue?.status)">
@@ -25,7 +31,7 @@
                                 <div class="col-sm-5">
                                     Remarks/Reject Reason* :
                                 </div>
-                                <div class="col-sm-7" [ngClass]="{'disCls' : actBtnDis}">
+                                <div class="col-sm-7" [ngClass]="{'dis-cls' : actBtnDis}">
                                     <textarea name="reason" id="reason" cols="33" rows="2" 
                                     formControlName="rejectReason" disabled="{{actBtnDis}}" placeholder="Type here ..."></textarea>
                                     <div class="text-danger" *ngIf="errorInAction">
@@ -49,7 +55,7 @@
                                           <a href="{{responceFile?.url}}" target="_blank">
                                             {{responceFile?.name}}
                                           </a>
-                                          <span class="ms-3" [ngClass]="{'disCls' : actBtnDis}">
+                                          <span class="ms-3" [ngClass]="{'dis-cls' : actBtnDis}">
                                             <span class="material-icons file-icon-cross"
                                             matTooltip="Remove the upload file"
                                             (click)="removeUploadedFile()">cancel</span>

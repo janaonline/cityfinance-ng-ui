@@ -5,17 +5,12 @@ import {
   SimpleChanges,
   OnChanges,
   ViewChild,
-  AfterViewInit,
   OnDestroy,
-  HostListener,
   ElementRef,
 } from "@angular/core";
 import { NewCommonService } from "../../services/new-common.service";
 import { CommonService } from "src/app/shared/services/common.service";
-import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -25,6 +20,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { SweetAlert } from "sweetalert/typings/core";
 import { environment } from "src/environments/environment";
 import { Subscription } from "rxjs";
+
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -116,6 +112,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   years: object = JSON.parse(localStorage.getItem("Years"));
   yearIdFor2223: string = '';
   private dataSubscription: Subscription;
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
 
   ngOnInit(): void {
     this.updatedTableData();
@@ -452,24 +450,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
   openDialog(type) {
     sessionStorage.setItem("form_name", this.formName);
-    const dialogdata = {
-      selectedId: this.selectedId,
-      type: type,
-      formId: this.formId,
-      tableName: this.title,
-      designYear : this.designYear,
-      reviewType: this.designYear == this.years["2023-24"] ? 'new_review' : 'old_review'
-    };
-    console.log(dialogdata);
-    const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
-      data: dialogdata,
-      width: "50vw",
-      height: "auto",
-      panelClass: "no-padding-dialog",
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log("result", result);
-    });
+    if(type == 'Approve' && this.userData?.role == 'MoHUA'  && this.title == 'Review Grant Application'){
+      this.checkPreviousYearStatus(type);
+    }else {
+      this.openReviewDialogBox(type, false);
+    }
+   
   }
 
   download() {
@@ -670,5 +656,101 @@ getStatusAvailability(){
   
   return true;
 }
+/* 
+  this method return condition for approval or rejection for a ULB from MOHUA. 
+*/
+getSequentialStatus(item) {
+const eligibleFormForSeq = ['4', '6', '62aa1c96c9a98b2254632a8a', '62f0dbbf596298da6d3f4076'];
+ if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formId)){
+  return true;
+ };
+ return false;
+}
+/* 
+  checking previous status based on selection and adding a key for approval and rejection.
+*/
+checkPreviousYearStatus(type){
+  console.log('this.data, this.data', this.data);
+  let isAlertActive: boolean = false;
+  for(let item of this.data) {
+   item["preYearSeqStatus"] = this.getSequentialStatus(item);
+   if(item["preYearSeqStatus"]) isAlertActive = true;
+  }
+  if(isAlertActive){
+    swal(
+      "Confirmation !",
+     `Some ULBs were not approved by MoHUA in the previous year, so they are auto-deselected.
+      Only ULBs with the previous year's status 'Approved by MoHUA' can be approved.
+      
+      Would you like to proceed with this action?`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Yes",
+            value: "yes",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "no",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "yes":
+          this.openReviewDialogBox(type, true);
+          break;
+        case "no":
+          break;
+      }
+    });
+  }else{
+    this.openReviewDialogBox(type, false);
+  }
+
+ 
+  
+}
+/* 1.deselect checkboxes based on there previous year status 
+   2.Open popup for comments and document upload for approval and rejection.
+*/
+openReviewDialogBox(type, processType?){
+  if(processType) {
+    for(let elem of this.data){
+      if(elem?.preYearSeqStatus){
+        elem["isChecked"] = false;
+        let selectedIndex = this.selectedId.findIndex((id) => id == elem?._id);
+        if (selectedIndex > -1) {
+          this.selectedId.splice(selectedIndex, 1);
+        }
+      }
+    }
+  }
+ // console.log('this.selectedId this.selectedId', this.selectedId);
+  if(!this.selectedId?.length){
+    swal('Error', "Selected ULB are not allowed for action.", "error");
+    return;
+  }
+  const dialogdata = {
+    selectedId: this.selectedId,
+    type: type,
+    formId: this.formId,
+    tableName: this.title,
+    designYear : this.designYear,
+    reviewType: this.designYear == this.years["2023-24"] ? 'new_review' : 'old_review',
+    processType: processType
+  };
+  const dialogRef = this.dialog.open(TableApproveReturnDialogComponent, {
+    data: dialogdata,
+    width: "50vw",
+    height: "auto",
+    panelClass: "no-padding-dialog",
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log("result", result);
+  });
+}
+
 
 }
