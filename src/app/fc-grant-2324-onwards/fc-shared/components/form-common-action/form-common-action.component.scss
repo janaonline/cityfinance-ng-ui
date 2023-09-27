@@ -61,9 +61,7 @@
 .file-icon-cross {
     vertical-align: middle;
 }
-.disCls {
-    pointer-events: none;
-}
+
 
 .btn-save {
     background-color: #059b9a!important;
@@ -82,4 +80,9 @@
   ::ng-deep .tooltip-red {
     background: #b71c1c;
     font-size: 12px;
+}
+.dis-cls {
+    pointer-events: none;
+    background-color: gray !important;
+    // opacity: .8;
 }
