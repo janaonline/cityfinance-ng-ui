@@ -73,8 +73,8 @@ export class FormCommonActionComponent implements OnInit, OnChanges {
   autoRejectInfo:string = `If this year's form is rejected, the next year's forms will be 
   "In Progress" because of their interdependency.`;
   autoReject:boolean = false;
-  sequentialAlert: string = `Not eligible for the approval, only rejection is
-   allowed for this ULB beacuse this ULB previous year status is not approved`;
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
   ngOnInit(): void {
   if(this.actionData) this.setStatusData(this.actionData);
   this.getQuery = {

@@ -112,7 +112,8 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   years: object = JSON.parse(localStorage.getItem("Years"));
   yearIdFor2223: string = '';
   private dataSubscription: Subscription;
-  sequentialAlert: string = 'Not eligible for the approval, only rejection is allowed for this ULB beacuse this ULB previous year status is not approved';
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
 
   ngOnInit(): void {
     this.updatedTableData();
@@ -655,6 +656,9 @@ getStatusAvailability(){
   
   return true;
 }
+/* 
+  this method return condition for approval or rejection for a ULB from MOHUA. 
+*/
 getSequentialStatus(item) {
 const eligibleFormForSeq = ['4', '6', '62aa1c96c9a98b2254632a8a', '62f0dbbf596298da6d3f4076'];
  if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formId)){
@@ -662,7 +666,9 @@ const eligibleFormForSeq = ['4', '6', '62aa1c96c9a98b2254632a8a', '62f0dbbf59629
  };
  return false;
 }
-
+/* 
+  checking previous status based on selection and adding a key for approval and rejection.
+*/
 checkPreviousYearStatus(type){
   console.log('this.data, this.data', this.data);
   let isAlertActive: boolean = false;
@@ -670,13 +676,13 @@ checkPreviousYearStatus(type){
    item["preYearSeqStatus"] = this.getSequentialStatus(item);
    if(item["preYearSeqStatus"]) isAlertActive = true;
   }
-
   if(isAlertActive){
     swal(
       "Confirmation !",
-      `Some ULB previous status is 'Not approved by MoHUA', that's why all these are auto deselect, and 
-       only those ULB's approval are allowed which previous year status is "Approved by MoHUA"
-       Do you want to take the Action?`,
+     `Some ULBs were not approved by MoHUA in the previous year, so they are auto-deselected.
+      Only ULBs with the previous year's status 'Approved by MoHUA' can be approved.
+      
+      Would you like to proceed with this action?`,
       "warning",
       {
         buttons: {
@@ -706,7 +712,9 @@ checkPreviousYearStatus(type){
  
   
 }
-
+/* 1.deselect checkboxes based on there previous year status 
+   2.Open popup for comments and document upload for approval and rejection.
+*/
 openReviewDialogBox(type, processType?){
   if(processType) {
     for(let elem of this.data){
@@ -719,9 +727,10 @@ openReviewDialogBox(type, processType?){
       }
     }
   }
-  console.log('this.selectedId this.selectedId', this.selectedId);
+ // console.log('this.selectedId this.selectedId', this.selectedId);
   if(!this.selectedId?.length){
-    swal('Error', "No checkbox are selected!", "error")
+    swal('Error', "Selected ULB are not allowed for action.", "error");
+    return;
   }
   const dialogdata = {
     selectedId: this.selectedId,

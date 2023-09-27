@@ -64,8 +64,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
-  sequentialAlert: string = `Not eligible for the approval, only rejection is
-   allowed for this ULB beacuse this ULB previous year status is not approved`;
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
  // canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
