@@ -33,6 +33,7 @@ import { MdePopoverModule } from "@material-extended/mde";
 import { PmuRejectionPopupComponent } from './components/pmu-rejection-popup/pmu-rejection-popup.component';
 import { UlbActionPopupComponent } from './components/ulb-action-popup/ulb-action-popup.component';
 import { MatRadioModule } from "@angular/material/radio";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { MatRadioModule } from "@angular/material/radio";
     MatPaginatorModule,
     InfiniteScrollModule,
     MdePopoverModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
   ],
   exports: [
     OdfFormComponent,

@@ -10,12 +10,12 @@
     </div>
     
     <div class="mt-2" *ngIf="!isUlb">
-        <button class="approve-btn btn btn-sm mr-1" [disabled]="disabled"
+        <button class="approve-btn btn btn-sm" [disabled]="disabled"
             [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
             (click)="updateStatus('APPROVED')">
             {{ status === 'APPROVED' ? 'Approved' : 'Approve'}}
         </button>
-        <button class="reject-btn  btn-sm btn" [disabled]="disabled"
+        <button class="reject-btn  btn-sm btn" [disabled]="disabled || disableReject"
             [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')">
             {{ status === 'REJECTED' ? 'Returned' : 'Return'}}
         </button>

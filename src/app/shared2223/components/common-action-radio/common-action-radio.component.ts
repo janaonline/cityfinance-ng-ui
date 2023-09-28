@@ -29,6 +29,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   @Input() title: string;
   @Input() subTitle: string;
   @Input() canSuggestValue: boolean = false;
+  @Input() disableReject: boolean;
 
 
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();

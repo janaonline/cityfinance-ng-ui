@@ -69,6 +69,7 @@
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
                                         [isInvalid]="item?.value?.controls?.status?.status == 'INVALID' && (item?.value?.controls?.status?.touched || item?.value?.controls?.status?.dirty)"
                                         [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
+                                        [disableReject]="pmuSubmissionDate"
                                         (onReject)="updateControl(item?.value, $event)">
                                     </app-common-action-radio>
                                 </div>
@@ -130,7 +131,7 @@
                                                         (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                         All</button>
                                                     <button class="reject-all-btn btn btn-sm btn-danger"
-                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
+                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Return
                                                         All</button>
                                                 </div>
                                             </th>
@@ -256,6 +257,7 @@
                                                             [subTitle]="yearItem?.controls?.label.value"
                                                             [canSuggestValue]="true"
                                                             [ulbValue]="yearItem?.controls?.value.value"
+                                                            [disableReject]="pmuSubmissionDate"
                                                             [suggestedValue]="yearItem?.controls?.suggestedValue"
                                                             [approvalType]="yearItem?.controls?.approvalType"
                                                             [formFieldType]="yearItem?.controls?.formFieldType?.value"
@@ -399,6 +401,7 @@
                                                                     *ngIf="canSeeActions" formControlName="status"
                                                                     [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                                     [disabled]="!canTakeAction"
+                                                                    [disableReject]="pmuSubmissionDate"
                                                                     [rejectReason]="yearItem?.controls?.rejectReason"
                                                                     (onReject)="updateControl(yearItem, $event)">
                                                                 </app-common-action-radio>
@@ -443,6 +446,7 @@
                                         <div [formGroup]="otherUploadControl">
                                             <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                 formControlName="status" [disabled]="!canTakeAction"
+                                                [disableReject]="pmuSubmissionDate"
                                                 [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
                                                 (onReject)="updateControl(otherUploadControl, $event)">
@@ -521,6 +525,7 @@
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                         [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
+                                                        [disableReject]="pmuSubmissionDate"
                                                         [rejectReason]="signedCopyOfFileControl?.controls?.rejectReason"
                                                         (onReject)="updateControl(signedCopyOfFileControl, $event)">
                                                     </app-common-action-radio>
