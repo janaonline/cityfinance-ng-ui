@@ -250,17 +250,22 @@
                                                         <div class="invalid-feedback">Please provide a valid input.
                                                         </div>
                                                         <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
-                                                            [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
+                                                            [isInvalid]="
+                                                                (yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)) ||
+                                                                (yearItem?.controls?.approvalType?.status == 'INVALID' && (yearItem?.controls?.approvalType?.touched || yearItem?.controls?.approvalType?.dirty))
+                                                            "
                                                             formControlName="status" [disabled]="!canTakeAction"
                                                             [rejectReason]="yearItem?.controls?.rejectReason"
+                                                            [ulbComment]="yearItem?.controls?.ulbComment"
                                                             [title]="item?.value?.controls?.label.value"
                                                             [subTitle]="yearItem?.controls?.label.value"
                                                             [canSuggestValue]="true"
-                                                            [ulbValue]="yearItem?.controls?.value.value"
+                                                            [originalValue]="yearItem?.controls?.value"
+                                                            [ulbValue]="yearItem?.controls?.ulbValue"
                                                             [disableReject]="pmuSubmissionDate"
                                                             [suggestedValue]="yearItem?.controls?.suggestedValue"
                                                             [approvalType]="yearItem?.controls?.approvalType"
-                                                            [formFieldType]="yearItem?.controls?.formFieldType?.value"
+                                                            [formFieldType]="yearItem?.controls?.formFieldType"
                                                             (onReject)="updateControl(yearItem, $event)">
                                                         </app-common-action-radio>
                                                     </div>

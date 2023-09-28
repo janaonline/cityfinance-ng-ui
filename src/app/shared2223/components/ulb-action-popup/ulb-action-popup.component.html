@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label for="value" class="form-label">Ulb submitted value</label>
-            <p>{{ data?.ulbValue }}</p>
+            <p>{{ data?.ulbValue != null ? data?.ulbValue : data?.originalValue }}</p>
         </div>
         <div class="ulb-notice">
             <p><b>Correct details</b></p>
@@ -42,22 +42,24 @@
             <p>Now, review the reason by PMU and the PMU suggested value below.</p>
         </div>
 
-        <mat-radio-group aria-label="Select an option" formControlName="isAgree" class="d-flex justify-content-around">
-            <mat-radio-button [value]="true">Accept PMU Value</mat-radio-button>
-            <mat-radio-button [value]="false" class="ms-3">Return PMU Value</mat-radio-button>
+        <mat-radio-group aria-label="Select an option" formControlName="approvalType"
+            class="d-flex justify-content-around">
+            <mat-radio-button [value]="approvalTypes.enteredPmuAcceptUlb">Accept PMU Value</mat-radio-button>
+            <mat-radio-button [value]="approvalTypes.enteredPmuRejectUlb" class="ms-3">Return PMU Value
+            </mat-radio-button>
         </mat-radio-group>
 
-        <div class="mb-3" *ngIf="form.value?.isAgree == false">
-            <label for="ulbRejectReason" class="form-label">Reason for return</label>
-            <textarea cols="30" formControlName="ulbRejectReason" rows="6" id="ulbRejectReason" class="form-control"
+        <div class="mb-3" *ngIf="form.value?.approvalType === approvalTypes.enteredPmuRejectUlb">
+            <label for="ulbComment" class="form-label">Reason for return</label>
+            <textarea cols="30" formControlName="ulbComment" rows="6" id="ulbComment" class="form-control"
                 type="text"></textarea>
         </div>
 
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn" [ngClass]="
-                form.value?.isAgree == true
+                form.value?.approvalType !== approvalTypes.enteredPmuRejectUlb
                     ? 'btn-success' 
-                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.isAgree ? 'Agree & submit' : 'Reject &
+                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.approvalType ? 'Agree & submit' : 'Reject &
                 submit' }}
             </button>
         </div>
