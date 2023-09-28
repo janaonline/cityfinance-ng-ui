@@ -729,7 +729,7 @@ openReviewDialogBox(type, processType?){
   }
  // console.log('this.selectedId this.selectedId', this.selectedId);
   if(!this.selectedId?.length){
-    swal('Error', "Selected ULB are not allowed for action.", "error");
+    swal('Alert!', "Selected ULB are not allowed for action.", "info");
     return;
   }
   const dialogdata = {
