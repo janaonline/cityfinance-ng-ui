@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-between">
+    <div></div>
+    <div class="text-center">
+        <h4 *ngIf="data?.title">{{ data?.title }}</h4>
+        <p *ngIf="data?.subTitle" class="mb-0">{{ data?.subTitle }}</p>
+    </div>
+    <div>
+        <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    </div>
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+    <div class="mb-3">
+        <label for="rejectReason" class="form-label">Return Reason</label>
+        <p>{{ this.form.value?.rejectReason }}</p>
+    </div>
+
+    <ng-container *ngIf="data?.canSuggestValue">
+        <div class="mb-3">
+            <label for="suggestedValue" class="form-label">Suggest a value</label>
+            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue">
+        </div>
+        <div class="mb-3">
+            <label for="value" class="form-label">Ulb submitted value</label>
+            <p>{{ data?.ulbValue }}</p>
+        </div>
+        <div class="ulb-notice">
+            <p><b>Correct details</b></p>
+            <p>Please choose one of the following actions:</p>
+            <ul>
+                <li>
+                    Accept PMU Value: If you agree with the correction, click 'Accept' to update the input field with
+                    the PMU-suggested value. Once you accept the PMU value, your existing value will be replaced with
+                    the PMU-suggested value, and the correction will be automatically approved by the PMU.
+                </li>
+                <li>
+                    Return PMU Value: If you disagree with the correction, select this option, and an input field will
+                    appear below where you must provide a reason for return (mandatory). After filling in the reason,
+                    click 'Return' to submit your return with an explanation.
+                </li>
+            </ul>
+            <p>Now, review the reason by PMU and the PMU suggested value below.</p>
+        </div>
+
+        <mat-radio-group aria-label="Select an option" formControlName="isAgree" class="d-flex justify-content-around">
+            <mat-radio-button [value]="true">Accept PMU Value</mat-radio-button>
+            <mat-radio-button [value]="false" class="ms-3">Return PMU Value</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="mb-3" *ngIf="form.value?.isAgree == false">
+            <label for="ulbRejectReason" class="form-label">Reason for return</label>
+            <textarea cols="30" formControlName="ulbRejectReason" rows="6" id="ulbRejectReason" class="form-control"
+                type="text"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn" [ngClass]="
+                form.value?.isAgree == true
+                    ? 'btn-success' 
+                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.isAgree ? 'Agree & submit' : 'Reject &
+                submit' }}
+            </button>
+        </div>
+    </ng-container>
+</form>

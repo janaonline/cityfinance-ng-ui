@@ -11,25 +11,46 @@
 
 <form [formGroup]="form" (submit)="submit()">
     <div class="mb-3">
-        <label for="rejectReason" class="form-label">Return Reason</label>
+        <label for="rejectReason" class="form-label">Return Reason*</label>
         <textarea cols="30" formControlName="rejectReason" rows="6" id="rejectReason" class="form-control"
             type="text"></textarea>
         <small id="rejectReason" class="form-text text-muted">Reject reason be 10 to 500 characters long</small>
     </div>
     <ng-container *ngIf="data?.canSuggestValue">
-        <ol class="pmu-info" *ngIf="data?.formFieldType == 'radio-toggle'">
-            <li>Value should be either <b>Yes</b> or <b>No</b></li>
-        </ol>
-        <ol class="pmu-info" *ngIf="data?.formFieldType == 'date'">
-            <li>Format should be <b>dd/mm/yyyy</b></li>
-            <li>Allow past and current dates, future dates to be disabled <br>For Year >> Allow from</li>
-            <li>2021-22 > From 1 April 2022</li>
-            <li>2020-21 > From 1 April 2021</li>
-            <li>2019-20 > From 1 April 2020</li>
-        </ol>
-        <div class="mb-3">
-            <label for="suggestedValue" class="form-label">Suggest a value</label>
-            <input type="text" class="form-control" formControlName="suggestedValue" id="suggestedValue">
+        
+        <ng-container *ngIf="data?.formFieldType == 'date' || data?.formFieldType == 'radio-toggle'">
+            <label for="suggestedValue" class="form-label">Suggest a value*</label>
+            <ol class="pmu-info" *ngIf="data?.formFieldType == 'date'">
+                <li>Allow past and current dates, future dates to be disabled <br>For Year >> Allow from</li>
+                <li>2021-22 > From 1 April 2022</li>
+                <li>2020-21 > From 1 April 2021</li>
+                <li>2019-20 > From 1 April 2020</li>
+            </ol>
+            <mat-radio-group *ngIf="data?.formFieldType == 'radio-toggle'" aria-label="Select an option"
+                formControlName="suggestedValue">
+                <mat-radio-button value="Yes">Yes</mat-radio-button>
+                <mat-radio-button value="No" class="ms-3">No
+                </mat-radio-button>
+            </mat-radio-group>
+
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" appNoUpDown matInput formControlName="suggestedValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
+        </ng-container>
+
+
+
+        <div class="mb-3" *ngIf="data?.formFieldType != 'date' && data?.formFieldType != 'radio-toggle'">
+            <label for="suggestedValue" class="form-label">Suggest a value*</label>
+            <input [type]="data?.formFieldType" class="form-control" formControlName="suggestedValue"
+                id="suggestedValue">
         </div>
     </ng-container>
     <div class="d-flex justify-content-center">
