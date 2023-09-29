@@ -665,7 +665,7 @@ const eligibleFormForSeq = ['dur', '28slb'];
  if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formName)){
   return true;
  };
- 
+
  return false;
 }
 /* 
@@ -734,7 +734,7 @@ openReviewDialogBox(type, processType?){
   }
  // console.log('this.selectedId this.selectedId', this.selectedId);
   if(!this.selectedId?.length){
-    swal('Alert!', "Selected ULB are not allowed for action.", "error");
+    swal('Alert!', "Selected ULBs are not allowed for approval.", "error");
     return;
   }
   const dialogdata = {
