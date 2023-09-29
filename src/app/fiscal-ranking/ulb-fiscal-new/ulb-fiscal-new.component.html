@@ -75,6 +75,22 @@
                             </div>
                         </div>
 
+                        <div class="financial-tab-notice"
+                            *ngIf="
+                            loggedInUserType == userTypes.ULB && 
+                            (currentFormStatus == statusTypes.inProgress || currentFormStatus == statusTypes.returnedByPMU)">
+
+                            <p><b>Important Note:</b></p>
+                            <ul>
+                                <li>To access the returned values flagged by the PMU please click on the "Reject Reason"
+                                    and take appropriate action</li>
+                                <li>Please note last date to make any changes and submit the form will be October 9,
+                                    2023. Post this date, ULB cannot make any changes to the form.</li>
+                                <li>In case of any queries, please reach out to the PMU team @<a
+                                        href="mailto:rankings@cityfinance.in">rankings@cityfinance.in</a></li>
+                            </ul>
+                        </div>
+
                         <p class="text-center" *ngIf="tab?.value?.id === 's3'">
                             SUMMARY OF INFORMATION FROM BUDGET & ANNUAL FINANCIAL STATEMENTS<br>
                             FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
@@ -113,10 +129,10 @@
                                             </p>
                                             <div class="mt-4"
                                                 *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                <button  class="approve-all-btn btn btn-sm btn-success mr-1"
+                                                <button class="approve-all-btn btn btn-sm btn-success mr-1"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
                                                     All</button>
-                                                <button  class="reject-all-btn btn btn-sm btn-danger"
+                                                <button class="reject-all-btn btn btn-sm btn-danger"
                                                     (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Reject
                                                     All</button>
                                             </div>
@@ -514,7 +530,8 @@
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     (click)="stepperContinue(tab)"
                                     *ngIf="tab?.value?.id != selfDeclarationTabId">Next</button>
-                                <button id="submit-btn" class="btn com-style" *ngIf="tab?.value?.id == selfDeclarationTabId"
+                                <button id="submit-btn" class="btn com-style"
+                                    *ngIf="tab?.value?.id == selfDeclarationTabId"
                                     [ngClass]="tab?.value?.id != selfDeclarationTabId ? 'btn-f-next' : 'btn-f-c'"
                                     [disabled]="isDisabled" (click)="finalSubmitConfirmation()">Submit</button>
                             </div>
