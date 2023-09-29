@@ -202,8 +202,8 @@
 
 .dis-cls {
     pointer-events: none;
-    background-color: #e9ecef !important;
-    // opacity: .8;
+   // background-color: #e9ecef !important;
+     opacity: .8;
 }
 
 .disGray {
@@ -214,4 +214,10 @@
 ::ng-deep .tooltip-red {
     background: #b71c1c;
     font-size: 12px;
+}
+
+.app-seq {
+    color: #605f5f !important;
+    cursor: not-allowed;
+    background: #f3ebe0 !important;
 }

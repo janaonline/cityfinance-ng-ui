@@ -14,7 +14,7 @@
                                         <div class="btn-group" btnRadioGroup formControlName="status" >
                                            <label for="" [matTooltip]="isPreviewYearApproved ? sequentialAlert : ''" matTooltipClass="tooltip-red"> 
                                             <label btnRadio="{{statusIdForApprove}}" [disabled]="actBtnDis || isPreviewYearApproved" 
-                                                 class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'dis-cls' : actBtnDis || isPreviewYearApproved}"
+                                                 class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'dis-cls' : actBtnDis, 'app-seq' : isPreviewYearApproved}"
                                                  >
                                                  Approve
                                              </label>

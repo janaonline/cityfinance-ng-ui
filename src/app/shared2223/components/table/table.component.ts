@@ -660,22 +660,27 @@ getStatusAvailability(){
   this method return condition for approval or rejection for a ULB from MOHUA. 
 */
 getSequentialStatus(item) {
-const eligibleFormForSeq = ['4', '6', '62aa1c96c9a98b2254632a8a', '62f0dbbf596298da6d3f4076'];
- if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formId)){
+const eligibleFormForSeq = ['dur', '28slb'];
+
+ if(item?.prevYearStatusId != 6 && item?.cantakeAction && this.userData?.role == 'MoHUA' && eligibleFormForSeq.includes(this.formName)){
   return true;
  };
+ 
  return false;
 }
 /* 
   checking previous status based on selection and adding a key for approval and rejection.
 */
 checkPreviousYearStatus(type){
-  console.log('this.data, this.data', this.data);
+ // console.log('this.data, this.data', this.data);
   let isAlertActive: boolean = false;
   for(let item of this.data) {
    item["preYearSeqStatus"] = this.getSequentialStatus(item);
-   if(item["preYearSeqStatus"]) isAlertActive = true;
+   if(item["preYearSeqStatus"] && item?.isChecked){
+    isAlertActive = true;
+   }
   }
+
   if(isAlertActive){
     swal(
       "Confirmation !",
@@ -729,7 +734,7 @@ openReviewDialogBox(type, processType?){
   }
  // console.log('this.selectedId this.selectedId', this.selectedId);
   if(!this.selectedId?.length){
-    swal('Alert!', "Selected ULB are not allowed for action.", "info");
+    swal('Alert!', "Selected ULB are not allowed for action.", "error");
     return;
   }
   const dialogdata = {
