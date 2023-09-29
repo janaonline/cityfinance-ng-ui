@@ -24,6 +24,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
 
+  statusTypes = StatusType;
   yearIdArr: string[] = [];
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
