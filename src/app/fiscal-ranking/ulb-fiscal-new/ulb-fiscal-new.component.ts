@@ -119,8 +119,8 @@ export class UlbFiscalNewComponent implements OnInit {
   }
 
   get formExpiryDate() {
-    if(!this.pmuSubmissionDate) return null;
-    const date  = new Date(this.pmuSubmissionDate);
+    if (!this.pmuSubmissionDate) return null;
+    const date = new Date(this.pmuSubmissionDate);
     date.setDate(date.getDate() + 10);
     return date;
   }
@@ -141,7 +141,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
-      if(this.userData.role == this.userTypes.ULB) {
+      if (this.userData.role == this.userTypes.ULB) {
         this.addSumLogics();
       }
       this.addSubtractLogics();
@@ -212,7 +212,12 @@ export class UlbFiscalNewComponent implements OnInit {
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
       suggestedValue: [item?.suggestedValue],
-      approvalType: [item?.approvalType],
+      approvalType: [item?.approvalType, 
+        this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue 
+        ? [Validators.required]
+        : []],
+      ulbValue: [item?.ulbValue],
+      ulbComment: [item?.ulbComment],
       focused: [{ value: false, disabled: true }],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
@@ -433,16 +438,16 @@ export class UlbFiscalNewComponent implements OnInit {
         if (res.type !== HttpEventType.Response) return;
         control.patchValue({ uploading: false, name: file.name, url: file_url });
       },
-      (err)=> {
-        control.patchValue({ uploading: false });
-        swal("Error", "File uploading failed, please try again!", "error")
-      }
+        (err) => {
+          control.patchValue({ uploading: false });
+          swal("Error", "File uploading failed, please try again!", "error")
+        }
       );
     }, (err) => {
       console.log(err);
       control.patchValue({ uploading: false });
       swal("Error", "File uploading failed, please try again!", "error")
-      
+
     });
   }
 

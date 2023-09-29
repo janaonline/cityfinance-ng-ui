@@ -67,6 +67,7 @@
                                         </div>
                                     </div>
                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions" formControlName="status"
+                                        [title]="item?.value?.controls?.label?.value"
                                         [isInvalid]="item?.value?.controls?.status?.status == 'INVALID' && (item?.value?.controls?.status?.touched || item?.value?.controls?.status?.dirty)"
                                         [rejectReason]="item?.value?.controls?.rejectReason" [disabled]="!canTakeAction"
                                         [disableReject]="pmuSubmissionDate"
@@ -250,17 +251,22 @@
                                                         <div class="invalid-feedback">Please provide a valid input.
                                                         </div>
                                                         <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
-                                                            [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
+                                                            [isInvalid]="
+                                                                (yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)) ||
+                                                                (yearItem?.controls?.approvalType?.status == 'INVALID' && (yearItem?.controls?.approvalType?.touched || yearItem?.controls?.approvalType?.dirty))
+                                                            "
                                                             formControlName="status" [disabled]="!canTakeAction"
                                                             [rejectReason]="yearItem?.controls?.rejectReason"
-                                                            [title]="item?.value?.controls?.label.value"
+                                                            [ulbComment]="yearItem?.controls?.ulbComment"
+                                                            [title]="(item?.value?.controls?.position?.value | displayPosition) + ' ' +item?.value?.controls?.label.value"
                                                             [subTitle]="yearItem?.controls?.label.value"
                                                             [canSuggestValue]="true"
-                                                            [ulbValue]="yearItem?.controls?.value.value"
+                                                            [originalValue]="yearItem?.controls?.value"
+                                                            [ulbValue]="yearItem?.controls?.ulbValue"
                                                             [disableReject]="pmuSubmissionDate"
                                                             [suggestedValue]="yearItem?.controls?.suggestedValue"
                                                             [approvalType]="yearItem?.controls?.approvalType"
-                                                            [formFieldType]="yearItem?.controls?.formFieldType?.value"
+                                                            [formFieldType]="yearItem?.controls?.formFieldType"
                                                             (onReject)="updateControl(yearItem, $event)">
                                                         </app-common-action-radio>
                                                     </div>
@@ -399,6 +405,8 @@
                                                                 </div>
                                                                 <app-common-action-radio class="mt-2"
                                                                     *ngIf="canSeeActions" formControlName="status"
+                                                                    [title]="(item?.value?.controls?.position?.value | displayPosition) + ' ' +item?.value?.controls?.label.value"
+                                                                    [subTitle]="yearItem?.controls?.label.value"
                                                                     [isInvalid]="yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)"
                                                                     [disabled]="!canTakeAction"
                                                                     [disableReject]="pmuSubmissionDate"
@@ -446,6 +454,7 @@
                                         <div [formGroup]="otherUploadControl">
                                             <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                 formControlName="status" [disabled]="!canTakeAction"
+                                                [title]="'Other Information'"
                                                 [disableReject]="pmuSubmissionDate"
                                                 [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
                                                 [rejectReason]="otherUploadControl?.controls?.rejectReason"
@@ -523,6 +532,7 @@
 
                                                 <div class="text-center" [formGroup]="signedCopyOfFileControl">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                        [title]="'Signed Copy'"
                                                         [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
                                                         formControlName="status" [disabled]="!canTakeAction"
                                                         [disableReject]="pmuSubmissionDate"

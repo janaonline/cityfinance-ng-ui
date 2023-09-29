@@ -1,6 +1,7 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Optional, Output, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UserUtility } from 'src/app/util/user/user';
 import { PmuRejectionPopupComponent } from '../pmu-rejection-popup/pmu-rejection-popup.component';
@@ -20,10 +21,13 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   @Output() onRejectReasonChange = new EventEmitter<any>();
   @Output() onReject = new EventEmitter<any>();
 
-  @Input() formFieldType: string;
+  @Input() formFieldType: FormControl;
   @Input() disabled: boolean = false;
   @Input() rejectReason: FormControl;
+  @Input() ulbComment: FormControl;
   @Input() suggestedValue: FormControl;
+  @Input() originalValue: FormControl;
+  @Input() approvalType: FormControl;
   @Input() ulbValue: FormControl;
   @Input() isInvalid: boolean;
   @Input() title: string;
@@ -39,7 +43,8 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   private onTouched: () => void;
 
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   status: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
@@ -68,6 +73,13 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if (this.disabled) return;
     if (value == 'REJECTED') return this.openRejectionDialog();
+
+    console.log(this.subTitle);
+    
+    this.snackBar.open(`${(this.title || '')} ${(this.subTitle || ' ')} Approved`.trim(), null, {
+      duration: 2000,
+      panelClass: ['success-snackbar']
+    });
     this.status = value;
     this.onChange(value);
     this.onTouched();
@@ -81,7 +93,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         canSuggestValue: this.canSuggestValue,
         suggestedValue: this.suggestedValue?.value,
         rejectReason: this.rejectReason?.value,
-        formFieldType: this.formFieldType
+        formFieldType: this.formFieldType?.value
       },
       width: '500px',
       maxHeight: '90vh'
@@ -90,7 +102,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     dialog.afterClosed().subscribe(res => {
       if (res) {
         this.onReject.emit(res);
-      } 
+      }
     })
   }
 
@@ -103,8 +115,11 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         canSuggestValue: this.canSuggestValue,
         suggestedValue: this.suggestedValue?.value,
         rejectReason: this.rejectReason?.value,
-        formFieldType: this.formFieldType,
-        ulbValue: this.ulbValue
+        ulbComment: this.ulbComment?.value,
+        formFieldType: this.formFieldType?.value,
+        originalValue: this.originalValue?.value,
+        ulbValue: this.ulbValue?.value,
+        approvalType: this.approvalType?.value
       },
       width: '700px',
       maxHeight: '90vh'
@@ -113,7 +128,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     dialog.afterClosed().subscribe(res => {
       if (res) {
         this.onReject.emit(res);
-      } 
+      }
     })
   }
 
