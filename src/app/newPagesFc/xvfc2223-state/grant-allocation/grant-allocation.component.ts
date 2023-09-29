@@ -301,6 +301,7 @@ export class GrantAllocationComponent implements OnInit {
         isDraft: false,
         type: this.gtcFormData[i].quesArray[j]?.type,
         installment: this.gtcFormData[i].quesArray[j]?.installment,
+        currentFormStatus: 4
       };
 
       this.stateService.postGTAFile(this.postBody).subscribe(
