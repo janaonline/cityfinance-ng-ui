@@ -61,7 +61,7 @@ import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-histo
     YearInfoPipe,
     DisplayPositionPipe,
     DecimalLimitDirective,
-    NoUpDownDirective,
+    // NoUpDownDirective,
     AlreadyUpdatedUrlPipe,
     MapcomponentComponent,
     DashboardComponent,

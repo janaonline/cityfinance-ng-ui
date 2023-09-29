@@ -1,6 +1,7 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Optional, Output, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UserUtility } from 'src/app/util/user/user';
 import { PmuRejectionPopupComponent } from '../pmu-rejection-popup/pmu-rejection-popup.component';
@@ -42,7 +43,8 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   private onTouched: () => void;
 
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   status: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING';
@@ -71,6 +73,13 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if (this.disabled) return;
     if (value == 'REJECTED') return this.openRejectionDialog();
+
+    console.log(this.subTitle);
+    
+    this.snackBar.open(`${(this.title || '')} ${(this.subTitle || ' ')} Approved`.trim(), null, {
+      duration: 2000,
+      panelClass: ['success-snackbar']
+    });
     this.status = value;
     this.onChange(value);
     this.onTouched();

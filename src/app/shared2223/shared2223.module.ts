@@ -34,6 +34,7 @@ import { PmuRejectionPopupComponent } from './components/pmu-rejection-popup/pmu
 import { UlbActionPopupComponent } from './components/ulb-action-popup/ulb-action-popup.component';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { NoUpDownDirective } from "../fiscal-ranking/ulb-fiscal-new/no-up-down.directive";
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     CommonActionRadioComponent,
     PmuRejectionPopupComponent,
     UlbActionPopupComponent,
+    NoUpDownDirective,
     // BreadcrumbComponent,
   ],
   imports: [
