@@ -49,6 +49,7 @@ export class UlbFiscalNewComponent implements OnInit {
   ulbName: string;
   validators = {};
   userTypes = USER_TYPE;
+  statusTypes = StatusType;
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
