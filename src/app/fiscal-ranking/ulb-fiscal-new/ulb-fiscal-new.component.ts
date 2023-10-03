@@ -115,6 +115,10 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.form.get('4.data.otherUpload');
   }
 
+  get ulbSupportingDocControl() {
+    return this.form.get('4.data.ulbSupportingDoc');
+  }
+  
   get signedCopyOfFileControl() {
     return this.form.get('4.data.signedCopyOfFile');
   }
