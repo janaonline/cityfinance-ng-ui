@@ -30,6 +30,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { PreLoaderNewComponent } from './components/pre-loader/pre-loader-new.component';
 import { CommonActionRadioComponent } from './components/common-action-radio/common-action-radio.component';
 import { MdePopoverModule } from "@material-extended/mde";
+import { PmuRejectionPopupComponent } from './components/pmu-rejection-popup/pmu-rejection-popup.component';
+import { UlbActionPopupComponent } from './components/ulb-action-popup/ulb-action-popup.component';
+import { MatRadioModule } from "@angular/material/radio";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { NoUpDownDirective } from "../fiscal-ranking/ulb-fiscal-new/no-up-down.directive";
+import { NumericInputDirective } from './directive/numeric-input.directive';
 
 @NgModule({
   declarations: [
@@ -48,6 +54,10 @@ import { MdePopoverModule } from "@material-extended/mde";
     EditUlbTableComponent,
     PreLoaderNewComponent,
     CommonActionRadioComponent,
+    PmuRejectionPopupComponent,
+    UlbActionPopupComponent,
+    NoUpDownDirective,
+    NumericInputDirective,
     // BreadcrumbComponent,
   ],
   imports: [
@@ -64,7 +74,9 @@ import { MdePopoverModule } from "@material-extended/mde";
     MatCheckboxModule,
     MatPaginatorModule,
     InfiniteScrollModule,
-    MdePopoverModule
+    MdePopoverModule,
+    MatRadioModule,
+    MatDatepickerModule,
   ],
   exports: [
     OdfFormComponent,
@@ -77,6 +89,7 @@ import { MdePopoverModule } from "@material-extended/mde";
     EditUlbTableComponent,
     PreLoaderNewComponent,
     CommonActionRadioComponent,
+    NumericInputDirective
     // BreadcrumbComponent,
   ],
 })
