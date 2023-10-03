@@ -25,6 +25,7 @@ export class UlbActionPopupComponent implements OnInit {
     this.form = this.fb.group({
       rejectReason: [this.data?.rejectReason || '', ],
       originalValue: [this.data?.originalValue || '', ],
+      date: [this.data?.date || '', ],
       ulbValue: [this.data?.ulbValue || '', ],
       ulbComment: [this.data?.ulbComment || '', ],
       suggestedValue: [this.data?.suggestedValue || ''],
@@ -47,11 +48,20 @@ export class UlbActionPopupComponent implements OnInit {
   submit() {
     const payload = this.form.value;
     if(payload.approvalType == APPROVAL_TYPES.enteredPmuAcceptUlb) {
-      payload.ulbValue = payload.originalValue;
-      payload.value = payload.suggestedValue;
+      if(this.data?.formFieldType == 'date') {
+        payload.ulbValue = payload.date;
+        payload.date = payload.suggestedValue;
+      } else {
+        payload.ulbValue = payload.originalValue;
+        payload.value = payload.suggestedValue;
+      }
     } else {
       if(payload.ulbValue) {
-        payload.value = payload.ulbValue;
+        if(this.data?.formFieldType == 'date') { 
+          payload.date = payload.ulbValue;
+        } else {
+          payload.value = payload.ulbValue;
+        }
       }
     }
     return this.dialogRef.close(payload);
