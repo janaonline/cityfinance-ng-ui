@@ -278,6 +278,7 @@
                                                             [suggestedValue]="yearItem?.controls?.suggestedValue"
                                                             [approvalType]="yearItem?.controls?.approvalType"
                                                             [formFieldType]="yearItem?.controls?.formFieldType"
+                                                            [date]="yearItem?.controls?.date"
                                                             (onReject)="updateControl(yearItem, $event)">
                                                         </app-common-action-radio>
                                                     </div>
@@ -473,6 +474,47 @@
                                             </app-common-action-radio>
                                         </div>
                                     </ng-container>
+                                    <ng-container *ngIf="tab?.value?.id === 's4' && ulbSupportingDocControl">
+                                        <p class="px-3 mt-4">Upload supporting document</p>
+
+                                        <div class="col-sm-3 px-3 com-style mt-3 ">
+                                            <button class="btn w-100 form-btn"
+                                                style="font-size: smaller; font-weight: normal;"
+                                                [disabled]="!(ulbSupportingDocControl?.controls?.readonly?.value == false)"
+                                                (click)="bs_pdf_up.click()">
+                                                Upload File
+                                                <img class="u-i ms-3" src="assets/circle/cloud_upload_black_24dp.svg"
+                                                    alt="">
+                                            </button>
+                                            <input #bs_pdf_up style="display: none;"
+                                                [disabled]="!(ulbSupportingDocControl?.controls?.readonly?.value == false)"
+                                                (change)="uploadFile($event, 'pdf', ulbSupportingDocControl)"
+                                                onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                        </div>
+                                        <app-loader class="col-sm-3"
+                                            [show]="ulbSupportingDocControl.controls?.uploading?.value">
+                                        </app-loader>
+                                        <div class="mt-2 px-3" *ngIf="ulbSupportingDocControl?.controls?.url?.value">
+                                            <a href="{{ulbSupportingDocControl?.controls?.url?.value}}"
+                                                target="_blank">{{ulbSupportingDocControl?.controls?.name?.value}} <mat-icon>
+                                                    cloud_download</mat-icon></a>
+                                        </div>
+
+                                        <small
+                                            *ngIf="ulbSupportingDocControl?.controls?.url?.status == 'INVALID' && (ulbSupportingDocControl?.controls?.url?.dirty || ulbSupportingDocControl?.controls?.url?.touched)"
+                                            class="text-danger text-center">Please upload a file</small>
+
+                                        <div [formGroup]="ulbSupportingDocControl">
+                                            <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                formControlName="status" [disabled]="!canTakeAction"
+                                                [title]="'Other Information'"
+                                                [disableReject]="pmuSubmissionDate"
+                                                [isInvalid]="ulbSupportingDocControl?.controls?.status?.status == 'INVALID' && (ulbSupportingDocControl?.controls?.status?.touched || ulbSupportingDocControl?.controls?.status?.dirty)"
+                                                [rejectReason]="ulbSupportingDocControl?.controls?.rejectReason"
+                                                (onReject)="updateControl(ulbSupportingDocControl, $event)">
+                                            </app-common-action-radio>
+                                        </div>
+                                    </ng-container>
 
                                 </div>
                             </div>
@@ -541,7 +583,7 @@
                                                     *ngIf="signedCopyOfFileControl?.controls?.url?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.url?.dirty || signedCopyOfFileControl?.controls?.url?.touched)"
                                                     class="text-danger text-center">Please upload a file</small>
 
-                                                <div class="text-center" [formGroup]="signedCopyOfFileControl">
+                                                <div class="text-center d-flex justify-content-center" [formGroup]="signedCopyOfFileControl">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                         [title]="'Signed Copy'"
                                                         [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"

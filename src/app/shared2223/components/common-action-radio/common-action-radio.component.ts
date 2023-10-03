@@ -29,6 +29,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   @Input() originalValue: FormControl;
   @Input() approvalType: FormControl;
   @Input() ulbValue: FormControl;
+  @Input() date: FormControl;
   @Input() isInvalid: boolean;
   @Input() title: string;
   @Input() subTitle: string;
@@ -117,6 +118,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         rejectReason: this.rejectReason?.value,
         ulbComment: this.ulbComment?.value,
         formFieldType: this.formFieldType?.value,
+        date: this.date?.value,
         originalValue: this.originalValue?.value,
         ulbValue: this.ulbValue?.value,
         approvalType: this.approvalType?.value

@@ -18,11 +18,31 @@
     <!-- <ng-container *ngIf="data?.canSuggestValue">
         <div class="mb-3">
             <label for="suggestedValue" class="form-label">Suggest a value</label>
-            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue">
+            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue" *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="suggestedValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
         </div>
         <div class="mb-3">
             <label for="value" class="form-label">Ulb submitted value</label>
-            <p>{{ data?.ulbValue != null ? data?.ulbValue : data?.originalValue }}</p>
+            <input type="text" class="form-control" disabled formControlName="ulbValue" id="value" *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="ulbValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
         </div>
         <div class="ulb-notice">
             <p><b>Correct details</b></p>
