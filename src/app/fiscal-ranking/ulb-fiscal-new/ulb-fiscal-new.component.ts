@@ -10,7 +10,7 @@ import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.compon
 import { MatDialog } from '@angular/material/dialog';
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { Tab } from '../models';
+import { APPROVAL_TYPES, Tab } from '../models';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
@@ -207,6 +207,19 @@ export class UlbFiscalNewComponent implements OnInit {
     return Number.isInteger(+displayPriority);
   }
 
+  getApprovalTypeValidators(item) {
+    if(this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue ) {
+      return [Validators.required];
+    } else if(this.userData?.role == USER_TYPE.PMU && item?.status == 'REJECTED' && item?.suggestedValue ) {
+      return [
+        Validators.required,
+        (control) => control.value !== APPROVAL_TYPES.enteredPmuRejectUlb ? null : { invalidApprovalType: true }
+      ];
+    } else {
+      return [];
+    }
+  }
+
   getInnerFormGroup(item, parent?) {
     const innerFormGroup = this.fb.group({
       key: item.key,
@@ -218,10 +231,7 @@ export class UlbFiscalNewComponent implements OnInit {
       modelName: [{ value: item.modelName, disabled: true }],
       suggestedValue: [item?.suggestedValue],
       pmuSuggestedValue2: [item?.pmuSuggestedValue2],
-      approvalType: [item?.approvalType, 
-        this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue 
-        ? [Validators.required]
-        : []],
+      approvalType: [item?.approvalType,  this.getApprovalTypeValidators(item)],
       ulbValue: [item?.ulbValue],
       ulbComment: [item?.ulbComment],
       focused: [{ value: false, disabled: true }],

@@ -16,7 +16,7 @@
     </div>
     <ng-container *ngIf="data?.canSuggestValue">
         <div class="mb-3">
-            <label for="value" class="form-label">Initial ULB Submitted Value</label>
+            <label for="value" class="form-label"><b>Initial ULB Submitted Value</b></label>
             <input type="text" class="form-control" disabled formControlName="ulbValue" id="value"
                 *ngIf="data?.formFieldType != 'date'">
             <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="suggestedValue" class="form-label">PMU Suggested Value</label>
+            <label for="suggestedValue" class="form-label"><b>PMU Suggested Value</b></label>
             <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue"
                 *ngIf="data?.formFieldType != 'date'">
             <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
@@ -48,7 +48,8 @@
         <div class="ulb-notice">
             <p><b>Review and Finalize Correction</b></p>
             <p>You have received the form back from the ULB with the following reason for rejection:</p>
-            <p><b>{{ this.form.value?.ulbComment }}</b></p>
+            <p><b>Ulb reason</b></p>
+            <p>{{ this.form.value?.ulbComment }}</p>
 
             <p>Please review the reason provided and make a decision regarding the correction:</p>
             <ul>
@@ -102,24 +103,20 @@
 
 
             <div class="mb-3" *ngIf="data?.formFieldType != 'date' && data?.formFieldType != 'radio-toggle'">
-                <label for="pmuSuggestedValue2" class="form-label">Different Value **</label>
+                <label for="pmuSuggestedValue2" class="form-label"><b>Different Value*</b></label>
                 <input [type]="data?.formFieldType" appNoUpDown class="form-control" formControlName="pmuSuggestedValue2"
                     id="pmuSuggestedValue2">
             </div>
 
             <div class="mb-3">
-                <label for="rejectReason2" class="form-label">Reason for different value*</label>
+                <label for="rejectReason2" class="form-label"><b>Reason for different value*</b></label>
                 <textarea cols="30" formControlName="rejectReason2" rows="6" id="rejectReason2" class="form-control"
                     type="text"></textarea>
             </div>
         </ng-container>
 
         <div class="d-flex justify-content-center">
-            <button type="submit" class="btn" [ngClass]="
-                form.value?.approvalType !== approvalTypes.enteredPmuRejectUlb
-                    ? 'btn-success' 
-                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.approvalType ? 'Agree & submit' : 'Reject &
-                submit' }}
+            <button type="submit" class="btn btn-success" [disabled]="!form.valid">Accept & Approve
             </button>
         </div>
     </ng-container>

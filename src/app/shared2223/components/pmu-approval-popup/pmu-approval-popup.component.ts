@@ -34,17 +34,24 @@ export class PmuApprovalPopupComponent implements OnInit {
       ulbComment: [this.data?.ulbComment || '',],
       suggestedValue: [this.data?.suggestedValue || ''],
       pmuSuggestedValue2: [this.data?.pmuSuggestedValue2 || ''],
-      approvalType: [this.data?.approvalType || null, Validators.required]
+      approvalType: [this.data?.approvalType || null, [
+        Validators.required,
+        (control) => control.value !== APPROVAL_TYPES.enteredPmuRejectUlb ? null : { invalidApprovalType: true }
+      ]]
     })
 
     this.form.get('approvalType').valueChanges.subscribe(approvalType => {
-      const ulbCommentControl = this.form.get('ulbComment');
-      if (approvalType === APPROVAL_TYPES.enteredPmuRejectUlb) {
-        ulbCommentControl.setValidators(Validators.required);
+      const pmuSuggestedValue2Control = this.form.get('pmuSuggestedValue2');
+      const rejectReason2Control = this.form.get('rejectReason2');
+      if (approvalType === APPROVAL_TYPES.enteredPmuSecondAcceptPmu) {
+        pmuSuggestedValue2Control.setValidators(Validators.required);
+        rejectReason2Control.setValidators(Validators.required);
       } else {
-        ulbCommentControl.clearValidators();
+        pmuSuggestedValue2Control.clearValidators();
+        rejectReason2Control.clearValidators();
       }
-      ulbCommentControl.updateValueAndValidity();
+      pmuSuggestedValue2Control.updateValueAndValidity();
+      rejectReason2Control.updateValueAndValidity();
     });
   }
 
