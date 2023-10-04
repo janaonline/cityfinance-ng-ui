@@ -10,7 +10,7 @@
     </div>
     
     <div class="mt-2" *ngIf="!isUlb">
-        <button class="approve-btn btn btn-sm" [disabled]="disabled"
+        <button class="approve-btn btn btn-sm" [disabled]="disabled || disableApprove"
             [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
             (click)="updateStatus('APPROVED')">
             {{ status === 'APPROVED' ? 'Approved' : 'Approve'}}

@@ -217,6 +217,7 @@ export class UlbFiscalNewComponent implements OnInit {
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
       suggestedValue: [item?.suggestedValue],
+      pmuSuggestedValue2: [item?.pmuSuggestedValue2],
       approvalType: [item?.approvalType, 
         this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue 
         ? [Validators.required]
@@ -234,6 +235,7 @@ export class UlbFiscalNewComponent implements OnInit {
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
+      rejectReason2: [item?.rejectReason2],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       info: [{ value: item.info, disabled: true }],
