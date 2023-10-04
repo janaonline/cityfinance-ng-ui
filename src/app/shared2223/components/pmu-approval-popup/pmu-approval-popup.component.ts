@@ -61,26 +61,29 @@ export class PmuApprovalPopupComponent implements OnInit {
     const payload = this.form.value;
     delete payload.rejectReason;
     delete payload.ulbComment;
-    delete payload.suggestedValue;
-    // if (payload.approvalType == APPROVAL_TYPES.enteredPmuAcceptUlb) {
-    //   if (this.data?.formFieldType == 'date') {
-    //     payload.ulbValue = payload.date;
-    //     payload.date = payload.suggestedValue;
-    //   } else {
-    //     payload.ulbValue = payload.originalValue;
-    //     payload.value = payload.suggestedValue;
-    //   }
-    // } else {
-    //   if (payload.ulbValue) {
-    //     if (this.data?.formFieldType == 'date') {
-    //       payload.date = payload.ulbValue;
-    //     } else {
-    //       payload.value = payload.ulbValue;
-    //     }
-    //   }
-    // }
 
-    console.log('payload', payload);
+    if (payload.approvalType == APPROVAL_TYPES.enteredUlbAcceptPmu) {
+      if (this.data?.formFieldType == 'date') {
+        payload.date = payload.ulbValue;
+      } else {
+        payload.value = payload.ulbValue;
+      }
+    }
+    else if (payload.approvalType == APPROVAL_TYPES.enteredPmuAcceptPmu) {
+      if (this.data?.formFieldType == 'date') {
+        payload.date = payload.suggestedValue;
+      } else {
+        payload.value = payload.suggestedValue;
+      }
+    } 
+    else if(payload.approvalType == APPROVAL_TYPES.enteredPmuSecondAcceptPmu) {
+      if (this.data?.formFieldType == 'date') {
+        payload.date = payload.pmuSuggestedValue2;
+      } else {
+        payload.value = payload.pmuSuggestedValue2;
+      }
+    }
+
     return this.dialogRef.close(payload);
   }
 
