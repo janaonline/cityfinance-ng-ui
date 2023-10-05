@@ -47,6 +47,8 @@ export class PmuApprovalPopupComponent implements OnInit {
         pmuSuggestedValue2Control.setValidators(Validators.required);
         rejectReason2Control.setValidators(Validators.required);
       } else {
+        rejectReason2Control.patchValue('');
+        pmuSuggestedValue2Control.patchValue('');
         pmuSuggestedValue2Control.clearValidators();
         rejectReason2Control.clearValidators();
       }
