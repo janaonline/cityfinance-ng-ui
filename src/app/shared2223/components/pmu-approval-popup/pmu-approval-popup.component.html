@@ -1,0 +1,123 @@
+<div class="d-flex justify-content-between">
+    <div></div>
+    <div class="text-center">
+        <h4 *ngIf="data?.title">{{ data?.title }}</h4>
+        <p *ngIf="data?.subTitle" class="mb-0">{{ data?.subTitle }}</p>
+    </div>
+    <div>
+        <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    </div>
+</div>
+
+<form [formGroup]="form" (submit)="submit()">
+    <div class="mb-3">
+        <label for="rejectReason" class="form-label"><b>Return Reason</b></label>
+        <p>{{ this.form.value?.rejectReason }}</p>
+    </div>
+    <ng-container *ngIf="data?.canSuggestValue">
+        <div class="mb-3">
+            <label for="value" class="form-label"><b>Initial ULB Submitted Value</b></label>
+            <input type="text" class="form-control" disabled formControlName="ulbValue" id="value"
+                *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="ulbValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="suggestedValue" class="form-label"><b>PMU Suggested Value</b></label>
+            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue"
+                *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="suggestedValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
+        </div>
+        <div class="ulb-notice">
+            <p><b>Review and Finalize Correction</b></p>
+            <p>You have received the form back from the ULB with the following reason for rejection:</p>
+            <p><b>Ulb reason</b></p>
+            <p>{{ this.form.value?.ulbComment }}</p>
+
+            <p>Please review the reason provided and make a decision regarding the correction:</p>
+            <ul>
+                <li>
+                    If the reason supports retaining the ULB's original value, you can choose to keep the ULB value.
+                </li>
+                <li>
+                    If the reason supports the PMU-suggested value, you can choose to retain the PMU value.
+                </li>
+            </ul>
+            <p>Consider the rationale behind the rejection carefully. Your decision will help finalize the correction.
+                Thank you for your attention to detail..</p>
+        </div>
+
+        <mat-radio-group aria-label="Select an option" formControlName="approvalType" class="d-flex flex-column">
+            <mat-radio-button [value]="approvalTypes.enteredUlbAcceptPmu">Accept ULB Initial Submitted Value
+            </mat-radio-button>
+            <mat-radio-button [value]="approvalTypes.enteredPmuAcceptPmu">Accept PMU Submitted Value</mat-radio-button>
+            <mat-radio-button [value]="approvalTypes.enteredPmuSecondAcceptPmu">Accept a Different Value
+            </mat-radio-button>
+        </mat-radio-group>
+
+        <ng-container  *ngIf="form.value?.approvalType === approvalTypes.enteredPmuSecondAcceptPmu">
+            <ng-container *ngIf="data?.formFieldType == 'date' || data?.formFieldType == 'radio-toggle'">
+                <label for="pmuSuggestedValue2" class="form-label">Different Value **</label>
+                <ol class="pmu-info" *ngIf="data?.formFieldType == 'date'">
+                    <li>Allow past and current dates, future dates to be disabled <br>For Year >> Allow from</li>
+                    <li>2021-22 > From 1 April 2022</li>
+                    <li>2020-21 > From 1 April 2021</li>
+                    <li>2019-20 > From 1 April 2020</li>
+                </ol>
+                <mat-radio-group *ngIf="data?.formFieldType == 'radio-toggle'" aria-label="Select an option"
+                    formControlName="pmuSuggestedValue2">
+                    <mat-radio-button value="Yes">Yes</mat-radio-button>
+                    <mat-radio-button value="No" class="ms-3">No
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                    <div class="d-flex w-100 px-2">
+                        <input onwheel="this.blur()" appNoUpDown matInput formControlName="pmuSuggestedValue2"
+                            style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                            [attr.id]="  + r_i" />
+                        <mat-datepicker-toggle matSuffix [for]="r_i">
+                        </mat-datepicker-toggle>
+                    </div>
+                    <mat-datepicker #r_i></mat-datepicker>
+                </div>
+            </ng-container>
+
+
+
+            <div class="mb-3" *ngIf="data?.formFieldType != 'date' && data?.formFieldType != 'radio-toggle'">
+                <label for="pmuSuggestedValue2" class="form-label"><b>Different Value*</b></label>
+                <input [type]="data?.formFieldType" appNoUpDown class="form-control" formControlName="pmuSuggestedValue2"
+                    id="pmuSuggestedValue2">
+            </div>
+
+            <div class="mb-3">
+                <label for="rejectReason2" class="form-label"><b>Reason for different value*</b></label>
+                <textarea cols="30" formControlName="rejectReason2" rows="6" id="rejectReason2" class="form-control"
+                    type="text"></textarea>
+            </div>
+        </ng-container>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success" [disabled]="!form.valid">Accept & Approve
+            </button>
+        </div>
+    </ng-container>
+</form>
