@@ -39,6 +39,7 @@ export class UlbActionPopupComponent implements OnInit {
       if (approvalType === APPROVAL_TYPES.enteredPmuRejectUlb) {
         ulbCommentControl.setValidators(Validators.required);
       } else {
+        ulbCommentControl.patchValue('');
         ulbCommentControl.clearValidators();
       }
       ulbCommentControl.updateValueAndValidity();
