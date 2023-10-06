@@ -144,15 +144,6 @@
                                                         [matTooltip]="item?.value?.controls?.info?.value">info_outline
                                                     </mat-icon>
                                                 </p>
-                                                <div class="mt-4"
-                                                    *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                    <button class="approve-all-btn btn btn-sm btn-success mr-1"
-                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
-                                                        All</button>
-                                                    <button class="reject-all-btn btn btn-sm btn-danger"
-                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Return
-                                                        All</button>
-                                                </div>
                                             </th>
                                             <td
                                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">

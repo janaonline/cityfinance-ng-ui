@@ -11,7 +11,7 @@
 
 <form [formGroup]="form" (submit)="submit()">
     <div class="mb-3">
-        <label for="rejectReason" class="form-label"><b>Return Reason</b></label>
+        <label for="rejectReason" class="form-label"><b>PMU initial reason</b></label>
         <p>{{ this.form.value?.rejectReason }}</p>
     </div>
     <ng-container *ngIf="data?.canSuggestValue">
@@ -48,7 +48,6 @@
         <div class="ulb-notice">
             <p><b>Review and Finalize Correction</b></p>
             <p>You have received the form back from the ULB with the following reason for rejection:</p>
-            <p><b>Ulb reason</b></p>
             <p>{{ this.form.value?.ulbComment }}</p>
 
             <p>Please review the reason provided and make a decision regarding the correction:</p>
