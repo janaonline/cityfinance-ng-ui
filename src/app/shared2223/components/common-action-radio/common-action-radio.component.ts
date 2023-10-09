@@ -67,7 +67,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     return this.status === 'APPROVED'
       &&
       (!this.suggestedValue?.value || (this.suggestedValue?.value ||
-        this.approvalType.value == APPROVAL_TYPES.enteredPmuAcceptUlb));
+        this.approvalType?.value == APPROVAL_TYPES.enteredPmuAcceptUlb));
   }
 
   get isApprovable() {
@@ -75,7 +75,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
       APPROVAL_TYPES.enteredUlbAcceptPmu, 
       APPROVAL_TYPES.enteredPmuAcceptPmu,
       APPROVAL_TYPES.enteredPmuSecondAcceptPmu
-    ].includes(this.approvalType.value);
+    ].includes(this.approvalType?.value);
   }
 
   writeValue(value: any): void {
