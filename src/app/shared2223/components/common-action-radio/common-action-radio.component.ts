@@ -70,6 +70,14 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         this.approvalType.value == APPROVAL_TYPES.enteredPmuAcceptUlb));
   }
 
+  get isApprovable() {
+    return [
+      APPROVAL_TYPES.enteredUlbAcceptPmu, 
+      APPROVAL_TYPES.enteredPmuAcceptPmu,
+      APPROVAL_TYPES.enteredPmuSecondAcceptPmu
+    ].includes(this.approvalType.value);
+  }
+
   writeValue(value: any): void {
     this.status = value;
   }
