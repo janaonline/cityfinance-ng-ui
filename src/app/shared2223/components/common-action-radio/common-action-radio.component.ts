@@ -2,8 +2,10 @@ import { Component, EventEmitter, forwardRef, Input, OnInit, Optional, Output, S
 import { ControlValueAccessor, FormControl, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { APPROVAL_TYPES } from 'src/app/fiscal-ranking/models';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { UserUtility } from 'src/app/util/user/user';
+import { PmuApprovalPopupComponent } from '../pmu-approval-popup/pmu-approval-popup.component';
 import { PmuRejectionPopupComponent } from '../pmu-rejection-popup/pmu-rejection-popup.component';
 import { UlbActionPopupComponent } from '../ulb-action-popup/ulb-action-popup.component';
 
@@ -24,11 +26,14 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   @Input() formFieldType: FormControl;
   @Input() disabled: boolean = false;
   @Input() rejectReason: FormControl;
+  @Input() rejectReason2: FormControl;
   @Input() ulbComment: FormControl;
   @Input() suggestedValue: FormControl;
+  @Input() pmuSuggestedValue2: FormControl;
   @Input() originalValue: FormControl;
   @Input() approvalType: FormControl;
   @Input() ulbValue: FormControl;
+  @Input() date: FormControl;
   @Input() isInvalid: boolean;
   @Input() title: string;
   @Input() subTitle: string;
@@ -58,6 +63,21 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     return this.loggedInUserDetails?.role == this.userTypes.ULB;
   }
 
+  get disableApprove() {
+    return this.status === 'APPROVED'
+      &&
+      (!this.suggestedValue?.value || (this.suggestedValue?.value ||
+        this.approvalType?.value == APPROVAL_TYPES.enteredPmuAcceptUlb));
+  }
+
+  get isApprovable() {
+    return [
+      APPROVAL_TYPES.enteredUlbAcceptPmu, 
+      APPROVAL_TYPES.enteredPmuAcceptPmu,
+      APPROVAL_TYPES.enteredPmuSecondAcceptPmu
+    ].includes(this.approvalType?.value);
+  }
+
   writeValue(value: any): void {
     this.status = value;
   }
@@ -73,9 +93,10 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   updateStatus(value: '' | 'PENDING' | 'APPROVED' | 'REJECTED' = 'PENDING'): void {
     if (this.disabled) return;
     if (value == 'REJECTED') return this.openRejectionDialog();
+    if (value == 'APPROVED' && this.disableReject && this.suggestedValue?.value) return this.openApprovalDialog();
 
     console.log(this.subTitle);
-    
+
     this.snackBar.open(`${(this.title || '')} ${(this.subTitle || ' ')} Approved`.trim(), null, {
       duration: 2000,
       panelClass: ['success-snackbar']
@@ -107,6 +128,33 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
   }
 
 
+  openApprovalDialog() {
+    const dialog = this.matDialog.open(PmuApprovalPopupComponent, {
+      data: {
+        title: this.title,
+        subTitle: this.subTitle,
+        canSuggestValue: this.canSuggestValue,
+        suggestedValue: this.suggestedValue?.value,
+        rejectReason: this.rejectReason?.value,
+        rejectReason2: this.rejectReason2?.value,
+        approvalType: this.approvalType?.value,
+        pmuSuggestedValue2: this.pmuSuggestedValue2?.value,
+        ulbComment: this.ulbComment?.value,
+        ulbValue: this.ulbValue?.value,
+        formFieldType: this.formFieldType?.value
+      },
+      width: '800px',
+      // maxWidth: '100%',
+      maxHeight: '90vh'
+    });
+
+    dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.onReject.emit(res);
+      }
+    })
+  }
+
   openUlbActionDialog() {
     console.log('openUlbActionDialog')
     const dialog = this.matDialog.open(UlbActionPopupComponent, {
@@ -118,6 +166,7 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
         rejectReason: this.rejectReason?.value,
         ulbComment: this.ulbComment?.value,
         formFieldType: this.formFieldType?.value,
+        date: this.date?.value,
         originalValue: this.originalValue?.value,
         ulbValue: this.ulbValue?.value,
         approvalType: this.approvalType?.value

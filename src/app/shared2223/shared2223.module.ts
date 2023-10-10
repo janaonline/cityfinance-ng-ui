@@ -36,6 +36,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { NoUpDownDirective } from "../fiscal-ranking/ulb-fiscal-new/no-up-down.directive";
 import { NumericInputDirective } from './directive/numeric-input.directive';
+import { PmuApprovalPopupComponent } from './components/pmu-approval-popup/pmu-approval-popup.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { NumericInputDirective } from './directive/numeric-input.directive';
     UlbActionPopupComponent,
     NoUpDownDirective,
     NumericInputDirective,
+    PmuApprovalPopupComponent,
     // BreadcrumbComponent,
   ],
   imports: [
