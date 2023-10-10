@@ -95,7 +95,9 @@ export class CommonActionRadioComponent implements ControlValueAccessor {
     if (value == 'REJECTED') return this.openRejectionDialog();
     if (value == 'APPROVED' && this.disableReject && this.suggestedValue?.value) return this.openApprovalDialog();
 
-    console.log(this.subTitle);
+    if(value == 'APPROVED') {
+      this.onReject.emit({ approvalType: APPROVAL_TYPES.ulbEnteredPmuAccept });
+    }
 
     this.snackBar.open(`${(this.title || '')} ${(this.subTitle || ' ')} Approved`.trim(), null, {
       duration: 2000,
