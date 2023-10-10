@@ -17,29 +17,50 @@
 
     <!-- <ng-container *ngIf="data?.canSuggestValue">
         <div class="mb-3">
-            <label for="suggestedValue" class="form-label">Suggest a value</label>
-            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue">
+            <label for="suggestedValue" class="form-label">PMU Suggested value</label>
+            <input type="text" class="form-control" disabled formControlName="suggestedValue" id="suggestedValue"
+                *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="suggestedValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
         </div>
         <div class="mb-3">
-            <label for="value" class="form-label">Ulb submitted value</label>
-            <p>{{ data?.ulbValue != null ? data?.ulbValue : data?.originalValue }}</p>
+            <label for="value" class="form-label">ULB submitted value</label>
+            <input type="text" class="form-control" disabled formControlName="ulbValue" id="value"
+                *ngIf="data?.formFieldType != 'date'">
+            <div class="input-group my-2" *ngIf="data?.formFieldType == 'date'">
+                <div class="d-flex w-100 px-2">
+                    <input onwheel="this.blur()" disabled appNoUpDown matInput formControlName="ulbValue"
+                        style="pointer-events: none;" [matDatepicker]="r_i" placeholder="Choose a date"
+                        [attr.id]="  + r_i" />
+                    <mat-datepicker-toggle disabled matSuffix [for]="r_i">
+                    </mat-datepicker-toggle>
+                </div>
+                <mat-datepicker #r_i></mat-datepicker>
+            </div>
         </div>
         <div class="ulb-notice">
             <p><b>Correct details</b></p>
             <p>Please choose one of the following actions:</p>
             <ul>
                 <li>
-                    Accept PMU Value: If you agree with the correction, click 'Accept' to update the input field with
-                    the PMU-suggested value. Once you accept the PMU value, your existing value will be replaced with
-                    the PMU-suggested value, and the correction will be automatically approved by the PMU.
+                    Accept PMU Value: If you agree with the correction, click 'Accept PMU Value' to update the input
+                    field with the PMU-suggested value. Once you accept the PMU value, your existing value will be
+                    replaced with the PMU-suggested value.
                 </li>
                 <li>
-                    Return PMU Value: If you disagree with the correction, select this option, and an input field will
-                    appear below where you must provide a reason for return (mandatory). After filling in the reason,
-                    click 'Return' to submit your return with an explanation.
+                    Return PMU Value: If you disagree with the correction, select the option “Return PMU Value”, and an
+                    input field will appear below where you must provide a reason for return (mandatory). After filling
+                    in the reason, click 'Return & submit' to submit your return with an explanation.
                 </li>
             </ul>
-            <p>Now, review the reason by PMU and the PMU suggested value below.</p>
         </div>
 
         <mat-radio-group aria-label="Select an option" formControlName="approvalType"
@@ -55,11 +76,11 @@
                 type="text"></textarea>
         </div>
 
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn" [ngClass]="
-                form.value?.approvalType !== approvalTypes.enteredPmuRejectUlb
+        <div class="d-flex justify-content-center" *ngIf="form.value?.approvalType">
+            <button type="submit" class="btn" [ngClass]="form.value?.approvalType !== approvalTypes.enteredPmuRejectUlb
                     ? 'btn-success' 
-                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.approvalType ? 'Agree & submit' : 'Reject &
+                    : 'btn-danger'" [disabled]="!form.valid">{{ form.value?.approvalType !==
+                approvalTypes.enteredPmuRejectUlb ? 'Agree & submit' : 'Return &
                 submit' }}
             </button>
         </div>

@@ -17,16 +17,19 @@ export class UlbActionPopupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogComponent>,
     private fb: FormBuilder
-  ) { 
+  ) {
 
   }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      rejectReason: [this.data?.rejectReason || '', ],
-      originalValue: [this.data?.originalValue || '', ],
-      ulbValue: [this.data?.ulbValue || '', ],
-      ulbComment: [this.data?.ulbComment || '', ],
+      rejectReason: [this.data?.rejectReason || '',],
+      originalValue: [this.data?.originalValue || '',],
+      date: [this.data?.date || '',],
+      ulbValue: [this.data?.ulbValue || (
+        this.data?.formFieldType == 'date' ? this.data?.date : this.data?.originalValue
+      ) || '',],
+      ulbComment: [this.data?.ulbComment || '',],
       suggestedValue: [this.data?.suggestedValue || ''],
       approvalType: [this.data?.approvalType || null, Validators.required]
     })
@@ -36,6 +39,7 @@ export class UlbActionPopupComponent implements OnInit {
       if (approvalType === APPROVAL_TYPES.enteredPmuRejectUlb) {
         ulbCommentControl.setValidators(Validators.required);
       } else {
+        ulbCommentControl.patchValue('');
         ulbCommentControl.clearValidators();
       }
       ulbCommentControl.updateValueAndValidity();
@@ -46,17 +50,26 @@ export class UlbActionPopupComponent implements OnInit {
 
   submit() {
     const payload = this.form.value;
-    if(payload.approvalType == APPROVAL_TYPES.enteredPmuAcceptUlb) {
-      payload.ulbValue = payload.originalValue;
-      payload.value = payload.suggestedValue;
+    if (payload.approvalType == APPROVAL_TYPES.enteredPmuAcceptUlb) {
+      if (this.data?.formFieldType == 'date') {
+        payload.ulbValue = payload.date;
+        payload.date = payload.suggestedValue;
+      } else {
+        payload.ulbValue = payload.originalValue;
+        payload.value = payload.suggestedValue;
+      }
     } else {
-      if(payload.ulbValue) {
-        payload.value = payload.ulbValue;
+      if (payload.ulbValue) {
+        if (this.data?.formFieldType == 'date') {
+          payload.date = payload.ulbValue;
+        } else {
+          payload.value = payload.ulbValue;
+        }
       }
     }
     return this.dialogRef.close(payload);
   }
-  
+
   close() {
     this.dialogRef.close();
   }

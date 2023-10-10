@@ -83,15 +83,18 @@
                                 FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
                                 all figures in Rs.
                             </p>
-                            <ng-container *ngIf="loggedInUserType && 
+                            <ng-container
+                                *ngIf="loggedInUserType === userTypes.ULB && 
                                 (currentFormStatus == statusTypes.inProgress || currentFormStatus == statusTypes.returnedByPMU)">
                                 <div class="financial-tab-notice" *ngIf="formExpiryDate">
                                     <p><b>Important Note:</b></p>
                                     <ul>
                                         <li>Identify returned values flagged by the PMU and initiate the appropriate
-                                            actions, click on the '<b>Info</b>' button located next to the respective input field.
+                                            actions, click on the '<b>Info</b>' button located next to the respective
+                                            input field.
                                         </li>
-                                        <li>Please note that editing the data or form will be disabled after the specified
+                                        <li>Please note that editing the data or form will be disabled after the
+                                            specified
                                             date, which is <b>{{ formExpiryDate | date : 'longDate'}}</b>.</li>
                                         <li>If you return PMU suggested value, You must upload a supporting document in
                                             upload document section.</li>
@@ -100,9 +103,13 @@
                                 <div class="financial-tab-notice" *ngIf="!formExpiryDate">
                                     <p><b>Important Note:</b></p>
                                     <ul>
-                                        <li>To access the returned values flagged by the PMU please click on the "Reject Reason" and take appropriate action</li>
-                                        <li>Please note last date to make any changes and submit the form will be October 9, 2023. Post this date, ULB cannot make any changes to the form.</li>
-                                        <li>In case of any queries, please reach out to the PMU team @<a href="mailto:rankings@cityfinance.in">rankings@cityfinance.in</a></li>
+                                        <li>To access the returned values flagged by the PMU please click on the "Reject
+                                            Reason" and take appropriate action</li>
+                                        <li>Please note last date to make any changes and submit the form will be
+                                            October 9, 2023. Post this date, ULB cannot make any changes to the form.
+                                        </li>
+                                        <li>In case of any queries, please reach out to the PMU team @<a
+                                                href="mailto:rankings@cityfinance.in">rankings@cityfinance.in</a></li>
                                     </ul>
                                 </div>
                             </ng-container>
@@ -137,15 +144,6 @@
                                                         [matTooltip]="item?.value?.controls?.info?.value">info_outline
                                                     </mat-icon>
                                                 </p>
-                                                <div class="mt-4"
-                                                    *ngIf="canSeeAllActionButtons(item?.value?.controls?.yearData?.value)">
-                                                    <button class="approve-all-btn btn btn-sm btn-success mr-1"
-                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'APPROVED')">Approve
-                                                        All</button>
-                                                    <button class="reject-all-btn btn btn-sm btn-danger"
-                                                        (click)="rowReview(item?.value?.controls?.yearData?.controls, 'REJECTED')">Return
-                                                        All</button>
-                                                </div>
                                             </th>
                                             <td
                                                 *ngFor="let yearItem of item?.value?.controls?.yearData.controls; let r_i=index">
@@ -177,11 +175,15 @@
                                                         </small>
 
                                                         <small class="text-danger"
-                                                            *ngIf="yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
+                                                            *ngIf="yearItem?.value?.type === 'fixedAsset' && yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
                                                             As per financial data submitted for 15th FC grants, total
                                                             value
                                                             is ₹
                                                             {{ yearItem.value.originalValue }}
+                                                        </small>
+                                                        <small class="text-danger"
+                                                            *ngIf="yearItem?.value?.type !== 'fixedAsset' && yearItem?.controls?.value?.errors?.pattern  && (yearItem.dirty || yearItem.touched)">
+                                                            Invalid input
                                                         </small>
                                                         <mat-radio-group aria-label="Select an option"
                                                             formControlName="value"
@@ -265,9 +267,9 @@
                                                             [isInvalid]="
                                                                 (yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)) ||
                                                                 (yearItem?.controls?.approvalType?.status == 'INVALID' && (yearItem?.controls?.approvalType?.touched || yearItem?.controls?.approvalType?.dirty))
-                                                            "
-                                                            formControlName="status" [disabled]="!canTakeAction"
+                                                            " formControlName="status" [disabled]="!canTakeAction"
                                                             [rejectReason]="yearItem?.controls?.rejectReason"
+                                                            [rejectReason2]="yearItem?.controls?.rejectReason2"
                                                             [ulbComment]="yearItem?.controls?.ulbComment"
                                                             [title]="(item?.value?.controls?.position?.value | displayPosition) + ' ' +item?.value?.controls?.label.value"
                                                             [subTitle]="yearItem?.controls?.label.value"
@@ -276,8 +278,10 @@
                                                             [ulbValue]="yearItem?.controls?.ulbValue"
                                                             [disableReject]="pmuSubmissionDate"
                                                             [suggestedValue]="yearItem?.controls?.suggestedValue"
+                                                            [pmuSuggestedValue2]="yearItem?.controls?.pmuSuggestedValue2"
                                                             [approvalType]="yearItem?.controls?.approvalType"
                                                             [formFieldType]="yearItem?.controls?.formFieldType"
+                                                            [date]="yearItem?.controls?.date"
                                                             (onReject)="updateControl(yearItem, $event)">
                                                         </app-common-action-radio>
                                                     </div>
@@ -432,48 +436,91 @@
                                             </div>
                                         </div>
                                     </ng-container>
-                                    <ng-container *ngIf="tab?.value?.id === 's4' && otherUploadControl">
-                                        <p class="px-3">Any other information that you would like to provide us?</p>
+                                    <div class="row">
+                                        <div class="col-md-6" *ngIf="tab?.value?.id === 's4' && otherUploadControl">
+                                            <p class="px-3">Any other information that you would like to provide us?</p>
 
-                                        <div class="col-sm-3 px-3 com-style mt-3 ">
-                                            <button class="btn w-100 form-btn"
-                                                style="font-size: smaller; font-weight: normal;"
-                                                [disabled]="!(otherUploadControl?.controls?.readonly?.value == false)"
-                                                (click)="bs_pdf_up.click()">
-                                                Upload File
-                                                <img class="u-i ms-3" src="assets/circle/cloud_upload_black_24dp.svg"
-                                                    alt="">
-                                            </button>
-                                            <input #bs_pdf_up style="display: none;"
-                                                [disabled]="!(otherUploadControl?.controls?.readonly?.value == false)"
-                                                (change)="uploadFile($event, 'pdf', otherUploadControl)"
-                                                onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                            <div class="col-sm-3 px-3 com-style mt-3 col-md-6">
+                                                <button class="btn w-100 form-btn"
+                                                    style="font-size: smaller; font-weight: normal;"
+                                                    [disabled]="!(otherUploadControl?.controls?.readonly?.value == false)"
+                                                    (click)="bs_pdf_up.click()">
+                                                    Upload File
+                                                    <img class="u-i ms-3"
+                                                        src="assets/circle/cloud_upload_black_24dp.svg" alt="">
+                                                </button>
+                                                <input #bs_pdf_up style="display: none;"
+                                                    [disabled]="!(otherUploadControl?.controls?.readonly?.value == false)"
+                                                    (change)="uploadFile($event, 'pdf', otherUploadControl)"
+                                                    onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                            </div>
+                                            <app-loader class="col-sm-3"
+                                                [show]="otherUploadControl.controls?.uploading?.value">
+                                            </app-loader>
+                                            <div class="mt-2 px-3" *ngIf="otherUploadControl?.controls?.url?.value">
+                                                <a href="{{otherUploadControl?.controls?.url?.value}}"
+                                                    target="_blank">{{otherUploadControl?.controls?.name?.value}}
+                                                    <mat-icon>
+                                                        cloud_download</mat-icon></a>
+                                            </div>
+
+                                            <small
+                                                *ngIf="otherUploadControl?.controls?.url?.status == 'INVALID' && (otherUploadControl?.controls?.url?.dirty || otherUploadControl?.controls?.url?.touched)"
+                                                class="text-danger text-center">Please upload a file</small>
+
+                                            <div [formGroup]="otherUploadControl">
+                                                <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                    formControlName="status" [disabled]="!canTakeAction"
+                                                    [title]="'Other Information'" [disableReject]="pmuSubmissionDate"
+                                                    [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
+                                                    [rejectReason]="otherUploadControl?.controls?.rejectReason"
+                                                    (onReject)="updateControl(otherUploadControl, $event)">
+                                                </app-common-action-radio>
+                                            </div>
                                         </div>
-                                        <app-loader class="col-sm-3"
-                                            [show]="otherUploadControl.controls?.uploading?.value">
-                                        </app-loader>
-                                        <div class="mt-2 px-3" *ngIf="otherUploadControl?.controls?.url?.value">
-                                            <a href="{{otherUploadControl?.controls?.url?.value}}"
-                                                target="_blank">{{otherUploadControl?.controls?.name?.value}} <mat-icon>
-                                                    cloud_download</mat-icon></a>
+                                        <div class="col-md-6" *ngIf="tab?.value?.id === 's4' && ulbSupportingDocControl">
+                                            <p class="px-3">Upload supporting document</p>
+
+                                            <div class="col-sm-3 px-3 com-style mt-3 col-md-6">
+                                                <button class="btn w-100 form-btn"
+                                                    style="font-size: smaller; font-weight: normal;"
+                                                    [disabled]="!(ulbSupportingDocControl?.controls?.readonly?.value == false)"
+                                                    (click)="bs_pdf_up.click()">
+                                                    Upload File
+                                                    <img class="u-i ms-3"
+                                                        src="assets/circle/cloud_upload_black_24dp.svg" alt="">
+                                                </button>
+                                                <input #bs_pdf_up style="display: none;"
+                                                    [disabled]="!(ulbSupportingDocControl?.controls?.readonly?.value == false)"
+                                                    (change)="uploadFile($event, 'pdf', ulbSupportingDocControl)"
+                                                    onclick="this.value=null;" type="file" accept=".pdf" #file>
+                                            </div>
+                                            <app-loader class="col-sm-3"
+                                                [show]="ulbSupportingDocControl.controls?.uploading?.value">
+                                            </app-loader>
+                                            <div class="mt-2 px-3"
+                                                *ngIf="ulbSupportingDocControl?.controls?.url?.value">
+                                                <a href="{{ulbSupportingDocControl?.controls?.url?.value}}"
+                                                    target="_blank">{{ulbSupportingDocControl?.controls?.name?.value}}
+                                                    <mat-icon>
+                                                        cloud_download</mat-icon></a>
+                                            </div>
+
+                                            <small
+                                                *ngIf="ulbSupportingDocControl?.controls?.url?.status == 'INVALID' && (ulbSupportingDocControl?.controls?.url?.dirty || ulbSupportingDocControl?.controls?.url?.touched)"
+                                                class="text-danger text-center">Please upload a file</small>
+
+                                            <div [formGroup]="ulbSupportingDocControl">
+                                                <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
+                                                    formControlName="status" [disabled]="!canTakeAction"
+                                                    [title]="'Other Information'" [disableReject]="pmuSubmissionDate"
+                                                    [isInvalid]="ulbSupportingDocControl?.controls?.status?.status == 'INVALID' && (ulbSupportingDocControl?.controls?.status?.touched || ulbSupportingDocControl?.controls?.status?.dirty)"
+                                                    [rejectReason]="ulbSupportingDocControl?.controls?.rejectReason"
+                                                    (onReject)="updateControl(ulbSupportingDocControl, $event)">
+                                                </app-common-action-radio>
+                                            </div>
                                         </div>
-
-                                        <small
-                                            *ngIf="otherUploadControl?.controls?.url?.status == 'INVALID' && (otherUploadControl?.controls?.url?.dirty || otherUploadControl?.controls?.url?.touched)"
-                                            class="text-danger text-center">Please upload a file</small>
-
-                                        <div [formGroup]="otherUploadControl">
-                                            <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
-                                                formControlName="status" [disabled]="!canTakeAction"
-                                                [title]="'Other Information'"
-                                                [disableReject]="pmuSubmissionDate"
-                                                [isInvalid]="otherUploadControl?.controls?.status?.status == 'INVALID' && (otherUploadControl?.controls?.status?.touched || otherUploadControl?.controls?.status?.dirty)"
-                                                [rejectReason]="otherUploadControl?.controls?.rejectReason"
-                                                (onReject)="updateControl(otherUploadControl, $event)">
-                                            </app-common-action-radio>
-                                        </div>
-                                    </ng-container>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -541,7 +588,8 @@
                                                     *ngIf="signedCopyOfFileControl?.controls?.url?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.url?.dirty || signedCopyOfFileControl?.controls?.url?.touched)"
                                                     class="text-danger text-center">Please upload a file</small>
 
-                                                <div class="text-center" [formGroup]="signedCopyOfFileControl">
+                                                <div class="text-center d-flex justify-content-center"
+                                                    [formGroup]="signedCopyOfFileControl">
                                                     <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                         [title]="'Signed Copy'"
                                                         [isInvalid]="signedCopyOfFileControl?.controls?.status?.status == 'INVALID' && (signedCopyOfFileControl?.controls?.status?.touched || signedCopyOfFileControl?.controls?.status?.dirty)"
