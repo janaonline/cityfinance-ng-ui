@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { APPROVAL_TYPES } from 'src/app/fiscal-ranking/models';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
 @Component({
@@ -27,7 +28,7 @@ export class PmuRejectionPopupComponent implements OnInit {
         Validators.maxLength(500)
       ]],
       suggestedValue: [this.data?.suggestedValue || '', this.data?.canSuggestValue ? Validators.required : null],
-      approvalType: [this.data?.approvalType || ''],
+      approvalType: [APPROVAL_TYPES.ulbEnteredPmuReject || ''],
       status: 'REJECTED'
     })
   }
