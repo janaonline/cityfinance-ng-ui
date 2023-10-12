@@ -209,7 +209,13 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getApprovalTypeValidators(item) {
     if(this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue ) {
-      return [Validators.required];
+      return [
+        Validators.required,
+        (control) => [
+          APPROVAL_TYPES.enteredPmuAcceptUlb,
+          APPROVAL_TYPES.enteredPmuRejectUlb
+        ].includes(control.value) ? null : { invalidApprovalType: true }
+      ];
     } else if(this.userData?.role == USER_TYPE.PMU && item?.status == 'REJECTED' && item?.suggestedValue ) {
       return [
         Validators.required,
