@@ -67,8 +67,8 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       title: "Final Guidelines",
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
-      text: `These are final guidelines. Please <a class="mailId" href='https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf' target='_blank'> click here </a> to open the Draft guidelines.`,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Final_Guidelines_March_2023_85825255-1ad9-4f9f-a44c-044210682c7b.pdf`,
+      text: `These are final guidelines. Please <a class="mailId" href='https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%202022_Draft%20Guidelines_84d751ba-3050-4216-9bdb-ebf5e7ee8304.pdf' target='_blank'> click here </a> to open the Draft guidelines.`,
+      url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Final_Guidelines_March_2023_85825255-1ad9-4f9f-a44c-044210682c7b.pdf`,
       // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
       icon_down: '',
@@ -79,8 +79,8 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       image: "../../../assets/M FIGMA/newBroch.png",
       title: "Brochure",
       text: "",
-      // url: 'https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf`,
+      // url: 'https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FR_Module/Shared/City%20Finance%20Rankings%20%202022_Brochure.pdf',
+      url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf`,
       // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_brochure_d49ffe27-951b-41d1-8153-e54f88655d54.pdf`,
       isModal: false,
       icon_down: '',
@@ -94,14 +94,14 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       videos : [
         {
           title: 'Click here for latest video',
-          url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
+          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4`,
           key: 'newVideo',
           isActive: true,
           id: '1'
         },
         {
           title: 'Click here for launch video',
-          url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
+          url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Portal_Video_Go_Live_fc20cbd7-303f-4ef0-aa98-1b5e4c35dc19.mp4`,
           key: 'oldVideo',
           isActive: false,
           id: '2'
@@ -118,7 +118,7 @@ export class FiscalHomeComponent implements OnInit, AfterViewInit {
       // text:`“These are draft guidelines. Please share feedback, if any,
       // before <span class="clr"> 15th January, 2023 </span> via email on <span class="mailId">rankings@cityfinance.in</span>” `,
       text: `Please email <a class="contactDetails" href='mailto:rankings@cityfinance.in' target='_blank'> rankings@cityfinance.in </a> for any queries. Please download the file for regional helpline numbers.`,
-      url: `https://jana-cityfinance.s3.ap-south-1.amazonaws.com/FiscalRanking/city_finance_rankings_2022_regional_helpline_number_7087a0e5-ad16-4a4a-8533-df05a9727520.pdf`,
+      url: `https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/city_finance_rankings_2022_regional_helpline_number_7087a0e5-ad16-4a4a-8533-df05a9727520.pdf`,
       // url:`https://jccd-cityfinance-staging2.s3.ap-south-1.amazonaws.com/FiscalRanking/CFR_Final_guideline_2a6b5467-b2f2-456b-b38d-a0387d5f7709.pdf`,
       isModal: true,
       icon_down: '',
