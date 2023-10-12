@@ -49,7 +49,7 @@
 
         <div class="mb-3" *ngIf="data?.formFieldType != 'date' && data?.formFieldType != 'radio-toggle'">
             <label for="suggestedValue" class="form-label">Suggest a value*</label>
-            <input [type]="data?.formFieldType" class="form-control" formControlName="suggestedValue"
+            <input [type]="data?.formFieldType" appNoUpDown class="form-control" formControlName="suggestedValue"
                 id="suggestedValue">
         </div>
     </ng-container>

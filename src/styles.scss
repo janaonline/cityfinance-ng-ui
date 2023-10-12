@@ -1320,3 +1320,18 @@ img.align-center {
 .mat-dialog-container {
     border-radius: 10px !important;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.success-snackbar {
+    background-color: #2d6313;
+    color: white;
+}
