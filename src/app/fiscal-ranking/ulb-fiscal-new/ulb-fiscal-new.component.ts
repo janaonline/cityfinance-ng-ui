@@ -10,7 +10,7 @@ import { UlbFisPreviewComponent } from './ulb-fis-preview/ulb-fis-preview.compon
 import { MatDialog } from '@angular/material/dialog';
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
-import { Tab } from '../models';
+import { APPROVAL_TYPES, Tab } from '../models';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 import { DateAdapter } from '@angular/material/core';
 const swal: SweetAlert = require("sweetalert");
@@ -24,7 +24,6 @@ export class UlbFiscalNewComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatStepper;
 
-  statusTypes = StatusType;
   yearIdArr: string[] = [];
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   isLoader: boolean = false;
@@ -50,6 +49,7 @@ export class UlbFiscalNewComponent implements OnInit {
   ulbName: string;
   validators = {};
   userTypes = USER_TYPE;
+  statusTypes = StatusType;
   form: FormArray;
   status: '' | 'PENDING' | 'REJECTED' | 'APPROVED' = '';
   formSubmitted = false;
@@ -115,13 +115,17 @@ export class UlbFiscalNewComponent implements OnInit {
     return this.form.get('4.data.otherUpload');
   }
 
+  get ulbSupportingDocControl() {
+    return this.form.get('4.data.ulbSupportingDoc');
+  }
+  
   get signedCopyOfFileControl() {
     return this.form.get('4.data.signedCopyOfFile');
   }
 
   get formExpiryDate() {
-    if(!this.pmuSubmissionDate) return null;
-    const date  = new Date(this.pmuSubmissionDate);
+    if (!this.pmuSubmissionDate) return null;
+    const date = new Date(this.pmuSubmissionDate);
     date.setDate(date.getDate() + 10);
     return date;
   }
@@ -142,7 +146,7 @@ export class UlbFiscalNewComponent implements OnInit {
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();
-      if(this.userData.role == this.userTypes.ULB) {
+      if (this.userData.role == this.userTypes.ULB) {
         this.addSumLogics();
       }
       this.addSubtractLogics();
@@ -203,6 +207,19 @@ export class UlbFiscalNewComponent implements OnInit {
     return Number.isInteger(+displayPriority);
   }
 
+  getApprovalTypeValidators(item) {
+    if(this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue ) {
+      return [Validators.required];
+    } else if(this.userData?.role == USER_TYPE.PMU && item?.status == 'REJECTED' && item?.suggestedValue ) {
+      return [
+        Validators.required,
+        (control) => control.value !== APPROVAL_TYPES.enteredPmuRejectUlb ? null : { invalidApprovalType: true }
+      ];
+    } else {
+      return [];
+    }
+  }
+
   getInnerFormGroup(item, parent?) {
     const innerFormGroup = this.fb.group({
       key: item.key,
@@ -213,7 +230,10 @@ export class UlbFiscalNewComponent implements OnInit {
       _id: item._id,
       modelName: [{ value: item.modelName, disabled: true }],
       suggestedValue: [item?.suggestedValue],
-      approvalType: [item?.approvalType],
+      pmuSuggestedValue2: [item?.pmuSuggestedValue2],
+      approvalType: [item?.approvalType,  this.getApprovalTypeValidators(item)],
+      ulbValue: [item?.ulbValue],
+      ulbComment: [item?.ulbComment],
       focused: [{ value: false, disabled: true }],
       required: [{ value: item.required, disabled: true }],
       isRupee: [{ value: item.isRupee, disabled: true }],
@@ -225,6 +245,7 @@ export class UlbFiscalNewComponent implements OnInit {
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
       status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
       rejectReason: [item?.rejectReason],
+      rejectReason2: [item?.rejectReason2],
       bottomText: [{ value: item.bottomText, disabled: true }],
       label: [{ value: item.label, disabled: true }],
       info: [{ value: item.info, disabled: true }],
@@ -434,16 +455,16 @@ export class UlbFiscalNewComponent implements OnInit {
         if (res.type !== HttpEventType.Response) return;
         control.patchValue({ uploading: false, name: file.name, url: file_url });
       },
-      (err)=> {
-        control.patchValue({ uploading: false });
-        swal("Error", "File uploading failed, please try again!", "error")
-      }
+        (err) => {
+          control.patchValue({ uploading: false });
+          swal("Error", "File uploading failed, please try again!", "error")
+        }
       );
     }, (err) => {
       console.log(err);
       control.patchValue({ uploading: false });
       swal("Error", "File uploading failed, please try again!", "error")
-      
+
     });
   }
 

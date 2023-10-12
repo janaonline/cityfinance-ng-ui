@@ -1,5 +1,5 @@
 <ng-container *ngIf="canShow">
-    <div *ngIf="isUlb" class="mt-2 d-flex justify-content-between">
+    <div *ngIf="isUlb" class="mt-2 d-flex">
         <button class="approve-btn btn btn-sm mr-1" disabled
             [ngClass]="status === 'APPROVED' 
                 ? 'btn-success' 
@@ -10,24 +10,18 @@
     </div>
     
     <div class="mt-2" *ngIf="!isUlb">
-        <button class="approve-btn btn btn-sm" [disabled]="disabled"
-            [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
+        <button class="approve-btn btn btn-sm" [disabled]="disabled || disableApprove"
+            [ngClass]="(status === 'APPROVED' || isApprovable) ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
             (click)="updateStatus('APPROVED')">
-            {{ status === 'APPROVED' ? 'Approved' : 'Approve'}}
+            {{ (status === 'APPROVED' || isApprovable) ? 'Approved' : 'Approve'}}
         </button>
         <button class="reject-btn  btn-sm btn" [disabled]="disabled || disableReject"
-            [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')">
-            {{ status === 'REJECTED' ? 'Returned' : 'Return'}}
+            [ngClass]="(status === 'REJECTED' && !isApprovable) ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')">
+            {{ (status === 'REJECTED' && !isApprovable) ? 'Returned' : 'Return'}}
         </button>
     </div>
-    <!-- <p class="mb-0" *ngIf="disabled && status === 'REJECTED'">
-        <span class="text-danger">Reject Reason:</span> {{ rejectReason?.value }}
-    </p>
-    <p class="mb-0" *ngIf="disabled && status === 'REJECTED' && suggestedValue?.value">
-        <span class="text-danger">Suggested value:</span> {{ suggestedValue?.value }}
-    </p> -->
 
-    <small class="d-block text-danger" *ngIf="isInvalid">Please Approve or Reject</small>
+    <small class="d-block text-danger" *ngIf="isInvalid">Action is required</small>
     <small class="d-block text-danger" *ngIf="!disabled && status === 'REJECTED' && !rejectReason?.valid">Enter valid
         reject reason</small>
 </ng-container>
