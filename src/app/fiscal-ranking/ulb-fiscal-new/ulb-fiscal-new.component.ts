@@ -193,7 +193,7 @@ export class UlbFiscalNewComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
-            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item)))
+            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item, 's3')))
           })
         }
         return obj;
@@ -226,7 +226,7 @@ export class UlbFiscalNewComponent implements OnInit {
     }
   }
 
-  getInnerFormGroup(item, parent?) {
+  getInnerFormGroup(item, parent?, tabId?) {
     const innerFormGroup = this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
@@ -268,20 +268,25 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
-    this.attactRequiredReasonToggler(innerFormGroup);
+    this.attactRequiredReasonToggler(innerFormGroup, tabId);
     return innerFormGroup;
   }
 
-  attactRequiredReasonToggler(innerFormGroup: FormGroup) {
+  attactRequiredReasonToggler(innerFormGroup: FormGroup, tabId?) {
     const statusControl = innerFormGroup.get('status');
     statusControl?.valueChanges.subscribe(status => {
       const rejectReasonControl = innerFormGroup.get('rejectReason');
+      const suggestedValueControl = innerFormGroup.get('suggestedValue');
       rejectReasonControl?.setValidators(status == 'REJECTED' ? [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(500)
       ] : []);
+      suggestedValueControl?.setValidators(status == 'REJECTED' && tabId == 's3' ? [
+        Validators.required
+      ] : []);
       rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
+      suggestedValueControl?.updateValueAndValidity({ emitEvent: true });
     });
     statusControl?.updateValueAndValidity({ emitEvent: true });
   }

@@ -21,7 +21,7 @@
         </button>
     </div>
 
-    <small class="d-block text-danger" *ngIf="isInvalid">Action is required</small>
-    <small class="d-block text-danger" *ngIf="!disabled && status === 'REJECTED' && !rejectReason?.valid">Enter valid
-        reject reason</small>
+    <ng-container *ngIf="isInvalid">
+        <small class="d-block text-danger" *ngIf="isInvalid">Action is required</small>
+    </ng-container>
 </ng-container>
