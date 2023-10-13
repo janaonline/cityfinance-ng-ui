@@ -266,7 +266,8 @@
                                                         <app-common-action-radio class="mt-2" *ngIf="canSeeActions"
                                                             [isInvalid]="
                                                                 (yearItem?.controls?.status?.status == 'INVALID' && (yearItem?.controls?.status?.touched || yearItem?.controls?.status?.dirty)) ||
-                                                                (yearItem?.controls?.approvalType?.status == 'INVALID' && (yearItem?.controls?.approvalType?.touched || yearItem?.controls?.approvalType?.dirty))
+                                                                (yearItem?.controls?.approvalType?.status == 'INVALID' && (yearItem?.controls?.approvalType?.touched || yearItem?.controls?.approvalType?.dirty)) ||
+                                                                (yearItem?.controls?.suggestedValue?.status == 'INVALID' && (yearItem?.controls?.suggestedValue?.touched || yearItem?.controls?.suggestedValue?.dirty))
                                                             " formControlName="status" [disabled]="!canTakeAction"
                                                             [rejectReason]="yearItem?.controls?.rejectReason"
                                                             [rejectReason2]="yearItem?.controls?.rejectReason2"
