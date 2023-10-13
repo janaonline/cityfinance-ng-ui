@@ -175,7 +175,7 @@ export class UlbFiscalNewComponent implements OnInit {
             uploading: [{ value: false, disabled: true }],
             name: [item.name, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
             readonly: [{ value: item.readonly, disabled: true }],
-            status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+            status: [item?.status, this.getStatusValidators(item, tab.id)],
             rejectReason: item?.rejectReason,
             url: [item.url, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
           });
@@ -249,7 +249,7 @@ export class UlbFiscalNewComponent implements OnInit {
       max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, this.userData?.role == USER_TYPE.ULB && item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+      status: [item?.status, this.getStatusValidators(item, tabId)],
       rejectReason: [item?.rejectReason],
       rejectReason2: [item?.rejectReason2],
       bottomText: [{ value: item.bottomText, disabled: true }],
@@ -270,6 +270,19 @@ export class UlbFiscalNewComponent implements OnInit {
     });
     this.attactRequiredReasonToggler(innerFormGroup, tabId);
     return innerFormGroup;
+  }
+
+  getStatusValidators(item, tabId) {
+    if(this.loggedInUserType == this.userTypes.PMU) {
+      if(item?.status) {
+        if(tabId != 's3' && this?.pmuSubmissionDate) {
+          return Validators.pattern(/^(APPROVED)$/)
+        }
+        return Validators.pattern(/^(REJECTED|APPROVED)$/)
+      }
+      return null;
+    }
+    return null;
   }
 
   attactRequiredReasonToggler(innerFormGroup: FormGroup, tabId?) {
