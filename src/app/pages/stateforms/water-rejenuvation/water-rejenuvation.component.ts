@@ -278,7 +278,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         area: this.fb.control(data.area, [
           Validators.required,
@@ -286,7 +286,7 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         nameOfBody: this.fb.control(data.nameOfBody, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
