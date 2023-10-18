@@ -5,7 +5,7 @@ import 'rxjs/add/operator/first';
 export class VersionCheckService {
     // this will be replaced by actual hash post-build.js
     private currentHash = '{{POST_BUILD_ENTERS_HASH_HERE}}';
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
     /**
      * Checks in every set frequency the version of frontend application
      * @param url
@@ -13,7 +13,7 @@ export class VersionCheckService {
      */
     public initVersionCheck(url, frequency = 1000 * 60 * 30) {
         // setInterval(() => {
-            this.checkVersion(url);
+        this.checkVersion(url);
         // }, frequency);
     }
     /**
@@ -30,7 +30,16 @@ export class VersionCheckService {
                     const hashChanged = this.hasHashChanged(this.currentHash, hash);
                     // If new version, do something
                     if (hashChanged) {
-                        location.reload();
+                        let isAgree = true;
+                        if (response.force) {
+                            alert("There are some important updates in website you need to reload");
+                        } else {
+                            isAgree = confirm("Changes are made... Do you wish to reload ?");
+                        }
+                        if(isAgree) {
+                            // @ts-ignore
+                            location.reload(true);
+                        }
                         // ENTER YOUR CODE TO DO SOMETHING UPON VERSION CHANGE
                         // for an example: location.reload();
                     }
