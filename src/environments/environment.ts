@@ -4,6 +4,7 @@
 let url;
 let GoogleTagID: string;
 let isProduction:boolean =false;
+let versionCheckURL = window.location.origin + "/version.json";
 if (window.location.hostname.includes("new-cityfinance")) {
 
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
@@ -43,6 +44,7 @@ export const environment = {
   },
   isProduction: isProduction,
   GoogleTagID,
+  versionCheckURL
 };
 
 /*
