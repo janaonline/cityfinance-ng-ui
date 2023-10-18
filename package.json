@@ -7,7 +7,7 @@
     "start": "ng serve",
     "test": "ng test",
     "build": "node --max_old_space_size=8120 ./node_modules/@angular/cli/bin/ng build --prod",
-    "post-build": "node ./build/post-build.js",
+    "postbuild": "node ./build/post-build.js",
     "CITest": "ng test --watch=false --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
