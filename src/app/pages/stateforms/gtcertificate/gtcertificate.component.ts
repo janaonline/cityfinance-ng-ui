@@ -699,11 +699,12 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
       if(!this.uploadedFiles['million_tied']['isDraft'] && !this.uploadedFiles['nonmillion_tied']['isDraft'] && !this.uploadedFiles['nonmillion_untied']['isDraft'] ){
 this.uploadedFiles.isDraft = false
       }
-      let changeHappen = sessionStorage.getItem("changeInGTC")
-      if (changeHappen == "false") {
-        this._router.navigate(["stateform/water-supply"]);
-        return;
-      } else {
+      // temp commmnents all this code
+   //   let changeHappen = sessionStorage.getItem("changeInGTC")
+    //  if (changeHappen == "false") {
+      //  this._router.navigate(["stateform/water-supply"]);
+     //   return;
+    //  } else {
 
        if (this.routerNavigate || this.proceedClicked) {
           sessionStorage.setItem("changeInGTC", "false")
@@ -712,7 +713,7 @@ this.uploadedFiles.isDraft = false
         else {
           this.postsDataCall()
         }
-      }
+    //  }
     } else if (this.loggedInUserType === "MoHUA") {
       this.actionSubmit = true
       let changeHappen = sessionStorage.getItem("changeInGTC")

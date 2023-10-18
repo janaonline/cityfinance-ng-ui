@@ -1,41 +1,27 @@
 <ng-container *ngIf="canShow">
-
-    <div class="mt-2">
-        <button class="approve-btn btn mr-1" [disabled]="disabled"
-            [ngClass]="status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
-            (click)="updateStatus('APPROVED')">
-            <i class="fa fa-lg" [ngClass]="status === 'APPROVED' ? 'fa-check-circle' : 'fa-check-circle-o text-success'"
-                aria-hidden="true"></i>
+    <div *ngIf="isUlb" class="mt-2 d-flex">
+        <button class="approve-btn btn btn-sm mr-1" disabled
+            [ngClass]="status === 'APPROVED' 
+                ? 'btn-success' 
+                : 'btn-danger'" >
+            {{ status === 'APPROVED' ? 'Approved' : 'Returned'}}
         </button>
-        <button class="reject-btn btn" [disabled]="disabled"
-            [ngClass]="status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')"
-            [mdePopoverTriggerFor]="appPopover">
-            <i class="fa fa-lg"
-                [ngClass]="status === 'REJECTED' ? 'fa-times-circle text-light' : 'fa-times-circle-o text-danger'"
-                aria-hidden="true"></i>
-        </button>
-        <p *ngIf="disabled && status === 'REJECTED'"><span class="text-danger">Reject Reason:</span> {{
-            rejectReason?.value }}</p>
+        <mat-icon *ngIf="status === 'REJECTED'" class="cursor-pointer" (click)="openUlbActionDialog()" >info</mat-icon>
     </div>
-    <!-- <p class="m-0">
-        status: {{ status }}
-    </p> -->
+    
+    <div class="mt-2" *ngIf="!isUlb">
+        <button class="approve-btn btn btn-sm" [disabled]="disabled || disableApprove"
+            [ngClass]="(status === 'APPROVED' || isApprovable) ? 'btn-success' : 'btn-outline-success'" for="APPROVED"
+            (click)="updateStatus('APPROVED')">
+            {{ (status === 'APPROVED' || isApprovable) ? 'Approved' : 'Approve'}}
+        </button>
+        <button class="reject-btn  btn-sm btn" [disabled]="disabled || disableReject"
+            [ngClass]="(status === 'REJECTED' && !isApprovable) ? 'btn-danger' : 'btn-outline-danger'" (click)="updateStatus('REJECTED')">
+            {{ (status === 'REJECTED' && !isApprovable) ? 'Returned' : 'Return'}}
+        </button>
+    </div>
 
-
-    <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false"
-        [mdePopoverPositionX]="'after'">
-        <div *ngIf="status === 'REJECTED'" class="p-2 bg-light border border-dark rounded">
-            <small class="d-block text-danger text-center">Reason should be 10 to 500 characters long</small>
-            <textarea cols="30" rows="6" placeholder="Please enter reason" class="my-1" type="text"
-                *ngIf="status === 'REJECTED'" [value]="rejectReason?.value"
-                (input)="rejectReasonChange($event)"></textarea>
-        </div>
-    </mde-popover>
-
-    <small 
-        class="d-block text-danger" 
-        *ngIf="isInvalid">Please Approve or Reject</small>
-    <small 
-        class="d-block text-danger" 
-        *ngIf="!disabled && status === 'REJECTED' && !rejectReason?.valid">Enter valid reject reason</small>
+    <ng-container *ngIf="isInvalid">
+        <small class="d-block text-danger" *ngIf="isInvalid">Action is required</small>
+    </ng-container>
 </ng-container>
