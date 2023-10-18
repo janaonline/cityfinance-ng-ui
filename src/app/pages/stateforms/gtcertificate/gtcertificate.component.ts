@@ -1,10 +1,10 @@
 
 import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, Event } from "@angular/router";
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Router, NavigationStart, Event } from "@angular/router";
+import { HttpEventType } from '@angular/common/http';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, map, retryWhen } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+// import { delay, map, retryWhen } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
@@ -15,10 +15,10 @@ import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails"
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 
-import { isNull } from '@angular/compiler/src/output/output_ast';
+// import { isNull } from '@angular/compiler/src/output/output_ast';
 import { SweetAlert } from "sweetalert/typings/core";
-import { TrusteeForTheBond } from 'src/app/credit-rating/municipal-bond/models/bondIssureItemResponse';
-import { promise } from 'protractor';
+// import { TrusteeForTheBond } from 'src/app/credit-rating/municipal-bond/models/bondIssureItemResponse';
+// import { promise } from 'protractor';
 const swal: SweetAlert = require("sweetalert");
 
 
@@ -450,7 +450,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         this._router.navigate(["stateform/water-supply"]);
         return;
       } else if (this.routerNavigate) {
-        this.saveForm(this.template1,  this.yearInput, this.instInput, '1');
+        this.saveForm(this.template1, this.yearInput, this.instInput, '1');
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate([this.routerNavigate.url]);
         return
@@ -608,73 +608,73 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   instInput;
   yearInput;
   saveForm(template1, year, inst, isDraft) {
-     this.inDraftMode = isDraft == '1'
-this.instInput = inst;
-this.yearInput = year
+    this.inDraftMode = isDraft == '1'
+    this.instInput = inst;
+    this.yearInput = year
     console.log(this.loggedInUserType)
     if (this.loggedInUserType === "STATE") {
       this.submitted = true;
-let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, actionB, rrB, nonMilUntiedUrl, nonMilUntiedName, actionc, rrC, milDisable, nonmilUntiedDisable, nonmilTiedDisable ;
+      let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, actionB, rrB, nonMilUntiedUrl, nonMilUntiedName, actionc, rrC, milDisable, nonmilUntiedDisable, nonmilTiedDisable;
 
-      if(inst == '2' && year =='2020-21'){
+      if (inst == '2' && year == '2020-21') {
         millionUrl = this.millionTiedFileUrl_2021;
         millionName = this.fileName_millionTied_2021;
         actionA = this.stateActionA_2021;
         rrA = this.rejectReasonA_2021;
         milDisable = this.millionTiedDisable_2021
         nonMilTiedUrl = this.nonMillionTiedFileUrl_2021
-         nonMilTiedName = this.fileName_nonMillionTied_2021
-          actionB = this.stateActionB_2021
-           rrB = this.rejectReasonB_2021
-           nonmilTiedDisable = this.nonmillionTiedDisable_2021
-           nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2021
-           nonMilUntiedName = this.fileName_nonMillionUntied_2021
-             actionc = this.stateActionC_2021
-              rrC  = this.rejectReasonC_2021
-              nonmilUntiedDisable = this.nonmillionUntiedDisable_2021
-      }else if(inst == '1' && year =='2021-22'){
+        nonMilTiedName = this.fileName_nonMillionTied_2021
+        actionB = this.stateActionB_2021
+        rrB = this.rejectReasonB_2021
+        nonmilTiedDisable = this.nonmillionTiedDisable_2021
+        nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2021
+        nonMilUntiedName = this.fileName_nonMillionUntied_2021
+        actionc = this.stateActionC_2021
+        rrC = this.rejectReasonC_2021
+        nonmilUntiedDisable = this.nonmillionUntiedDisable_2021
+      } else if (inst == '1' && year == '2021-22') {
         millionUrl = this.millionTiedFileUrl;
         millionName = this.fileName_millionTied;
         actionA = this.stateActionA;
         rrA = this.rejectReasonA;
         milDisable = this.millionTiedDisable
         nonMilTiedUrl = this.nonMillionTiedFileUrl
-         nonMilTiedName = this.fileName_nonMillionTied
-          actionB = this.stateActionB
-           rrB = this.rejectReasonB
-           nonmilTiedDisable = this.nonmillionTiedDisable
-           nonMilUntiedUrl = this.nonMillionUntiedFileUrl
-           nonMilUntiedName = this.fileName_nonMillionUntied
-             actionc = this.stateActionC
-              rrC  = this.rejectReasonC
-              nonmilUntiedDisable = this.nonmillionUntiedDisable
-      }else if(inst == '2' && year =='2021-22'){
+        nonMilTiedName = this.fileName_nonMillionTied
+        actionB = this.stateActionB
+        rrB = this.rejectReasonB
+        nonmilTiedDisable = this.nonmillionTiedDisable
+        nonMilUntiedUrl = this.nonMillionUntiedFileUrl
+        nonMilUntiedName = this.fileName_nonMillionUntied
+        actionc = this.stateActionC
+        rrC = this.rejectReasonC
+        nonmilUntiedDisable = this.nonmillionUntiedDisable
+      } else if (inst == '2' && year == '2021-22') {
         millionUrl = this.millionTiedFileUrl_2122;
         millionName = this.fileName_millionTied_2122;
         actionA = this.stateActionA_2122;
         rrA = this.rejectReasonA_2122;
         milDisable = this.millionTiedDisable_2122
         nonMilTiedUrl = this.nonMillionTiedFileUrl_2122
-         nonMilTiedName = this.fileName_nonMillionTied_2122
-          actionB = this.stateActionB_2122
-           rrB = this.rejectReasonB_2122
-           nonmilTiedDisable = this.nonmillionTiedDisable_2122
-           nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2122
-           nonMilUntiedName = this.fileName_nonMillionUntied_2122
-             actionc = this.stateActionC_2122
-              rrC  = this.rejectReasonC_2122
-              nonmilUntiedDisable = this.nonmillionUntiedDisable_2122
+        nonMilTiedName = this.fileName_nonMillionTied_2122
+        actionB = this.stateActionB_2122
+        rrB = this.rejectReasonB_2122
+        nonmilTiedDisable = this.nonmillionTiedDisable_2122
+        nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2122
+        nonMilUntiedName = this.fileName_nonMillionUntied_2122
+        actionc = this.stateActionC_2122
+        rrC = this.rejectReasonC_2122
+        nonmilUntiedDisable = this.nonmillionUntiedDisable_2122
       }
       this.uploadedFiles = {
-        status:"PENDING",
-        installment:inst,
-        design_year: year =='2020-21' ? "606aadac4dff55e6c075c507" : "606aaf854dff55e6c075d219",
+        status: "PENDING",
+        installment: inst,
+        design_year: year == '2020-21' ? "606aadac4dff55e6c075c507" : "606aaf854dff55e6c075d219",
         million_tied:
         {
           pdfUrl: millionUrl,
           pdfName: millionName,
           status: actionA ? actionA : 'PENDING',
-          rejectReason: rrA ? rrA: null,
+          rejectReason: rrA ? rrA : null,
           isDraft: milDisable ? false : this.inDraftMode
         },
         nonmillion_tied:
@@ -696,10 +696,11 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
         isDraft: true
       };
 
-      if(!this.uploadedFiles['million_tied']['isDraft'] && !this.uploadedFiles['nonmillion_tied']['isDraft'] && !this.uploadedFiles['nonmillion_untied']['isDraft'] ){
-this.uploadedFiles.isDraft = false
+      if (!this.uploadedFiles['million_tied']['isDraft'] && !this.uploadedFiles['nonmillion_tied']['isDraft'] && !this.uploadedFiles['nonmillion_untied']['isDraft']) {
+        this.uploadedFiles.isDraft = false
       }
       // temp commmnents all this code
+
    //   let changeHappen = sessionStorage.getItem("changeInGTC")
     //  if (changeHappen == "false") {
       //  this._router.navigate(["stateform/water-supply"]);
@@ -714,6 +715,7 @@ this.uploadedFiles.isDraft = false
           this.postsDataCall()
         }
     //  }
+
     } else if (this.loggedInUserType === "MoHUA") {
       this.actionSubmit = true
       let changeHappen = sessionStorage.getItem("changeInGTC")
@@ -754,12 +756,12 @@ this.uploadedFiles.isDraft = false
       this.millionTiedProgress = '';
       this.fileName_millionTied = '';
       this.millionTiedFileUrl = ''
-    }else if(fileName == 'fileName_millionTied_2021'){
+    } else if (fileName == 'fileName_millionTied_2021') {
       this.clickedCrossA = true
       this.millionTiedProgress_2021 = '';
       this.fileName_millionTied_2021 = '';
       this.millionTiedFileUrl_2021 = ''
-    }else if(fileName == 'fileName_millionTied_2122'){
+    } else if (fileName == 'fileName_millionTied_2122') {
       this.clickedCrossC = true
       this.millionTiedProgress_2122 = '';
       this.fileName_millionTied_2122 = '';
@@ -770,12 +772,12 @@ this.uploadedFiles.isDraft = false
       this.nonMillionTiedProgress = '';
       this.fileName_nonMillionTied = '';
       this.nonMillionTiedFileUrl = ''
-    }else if(fileName == 'fileName_nonMillionTied_2021'){
+    } else if (fileName == 'fileName_nonMillionTied_2021') {
       this.clickedCrossA = true
       this.nonMillionTiedProgress_2021 = '';
       this.fileName_nonMillionTied_2021 = '';
       this.nonMillionTiedFileUrl_2021 = ''
-    }else if(fileName == 'fileName_nonMillionTied_2122'){
+    } else if (fileName == 'fileName_nonMillionTied_2122') {
       this.clickedCrossC = true
       this.nonMillionTiedProgress_2122 = '';
       this.fileName_nonMillionTied_2122 = '';
@@ -786,12 +788,12 @@ this.uploadedFiles.isDraft = false
       this.nonMillionUntiedProgress = '';
       this.fileName_nonMillionUntied = '';
       this.nonMillionUntiedFileUrl = ''
-    }else if(fileName == 'fileName_nonMillionUntied_2021'){
+    } else if (fileName == 'fileName_nonMillionUntied_2021') {
       this.clickedCrossA = true
       this.nonMillionUntiedProgress_2021 = '';
       this.fileName_nonMillionUntied_2021 = '';
       this.nonMillionUntiedFileUrl_2021 = ''
-    }else if(fileName == 'fileName_nonMillionUntied_2122'){
+    } else if (fileName == 'fileName_nonMillionUntied_2122') {
       this.clickedCrossC = true
       this.nonMillionUntiedProgress_2122 = '';
       this.fileName_nonMillionUntied_2122 = '';
@@ -801,10 +803,10 @@ this.uploadedFiles.isDraft = false
   }
 
   fileChangeEvent(event, progessType, fileName) {
-    let isfileValid =  this.dataEntryService.checkSpcialCharInFileName(event.target.files);
-    if(isfileValid == false){
-      swal("Error","File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
-       return;
+    let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
+    if (isfileValid == false) {
+      swal("Error", "File name has special characters ~`!#$%^&*+=[]\\\';,/{}|\":<>?@ \nThese are not allowed in file name,please edit file name then upload.\n", 'error');
+      return;
     }
     console.log(event, fileName)
     this.submitted = false;
@@ -835,7 +837,7 @@ this.uploadedFiles.isDraft = false
     }
     return validFiles;
   }
-apiData={}
+  apiData = {}
   async upload(progessType, fileName) {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
@@ -917,96 +919,96 @@ apiData={}
 
   millionTiedDisable_2021 = false
   nonmillionTiedDisable_2021 = false
-  nonmillionUntiedDisable_2021  = false
+  nonmillionUntiedDisable_2021 = false
 
-  millionTiedDisable =   false
-  nonmillionTiedDisable  = false
-  nonmillionUntiedDisable  = false
-clickedCrossA = false
-clickedCrossB = false
-clickedCrossC = false
+  millionTiedDisable = false
+  nonmillionTiedDisable = false
+  nonmillionUntiedDisable = false
+  clickedCrossA = false
+  clickedCrossB = false
+  clickedCrossC = false
 
-  millionTiedDisable_2122  = false
-  nonmillionTiedDisable_2122  = false
-  nonmillionUntiedDisable_2122  = false
- callGetAPI(year,inst){
-   return new Promise((resolve, reject) => {
-    let yearVal
-    if(year == '2021-22'){
-  yearVal = '606aaf854dff55e6c075d219'
-    }else{
-      yearVal   ='606aadac4dff55e6c075c507'
-    }
-  this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res)=>{
-    if(res['data'].length>0){
-      this.apiData = res['data'][0];
-      if(year =='2021-22' && inst =='1'){
-
-        if ( res['data'][0].hasOwnProperty('million_tied')  && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-          this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
-          this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
-          this.formDisableA = !res['data'][0]['isDraft']
-          this.millionTiedDisable = !res['data'][0]['million_tied']['isDraft']
-
-        }
-        if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-          this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
-          this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
-          this.formDisableB = !res['data'][0]['isDraft']
-      this.nonmillionTiedDisable =  !res['data'][0]['nonmillion_tied']['isDraft']
-        }
-        if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-          this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
-          this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
-          this.formDisableC = !res['data'][0]['isDraft']
-          this.nonmillionUntiedDisable =  !res['data'][0]['nonmillion_untied']['isDraft']
-        }
-      }else if(year =='2021-22' && inst =='2'){
-        if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-          this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
-          this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
-          this.formDisableA_2122 = !res['data'][0]['isDraft']
-          this.millionTiedDisable_2122 =  !res['data'][0]['million_tied']['isDraft']
-        }
-        if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-          this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
-          this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-          this.formDisableB_2122 = !res['data'][0]['isDraft'];
-          this.nonmillionTiedDisable_2122 =  !res['data'][0]['nonmillion_tied']['isDraft']
-        }
-        if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-          this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
-          this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-          this.formDisableC_2122 = !res['data'][0]['isDraft'];
-          this.nonmillionUntiedDisable_2122 =  !res['data'][0]['nonmillion_untied']['isDraft']
-        }
-      }else if(year =='2020-21' && inst =='2'){
-        if (res['data'][0].hasOwnProperty('million_tied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-          this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
-          this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
-          this.formDisableA_2021 = !res['data'][0]['isDraft']
-          this.millionTiedDisable_2021 =  !res['data'][0]['million_tied']['isDraft']
-        }
-        if (res['data'][0].hasOwnProperty('nonmillion_tied') && res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-          this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
-          this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-          this.formDisableB_2021 = !res['data'][0]['isDraft'];
-          this.nonmillionTiedDisable_2021 =  !res['data'][0]['nonmillion_tied']['isDraft']
-        }
-        if (res['data'][0].hasOwnProperty('nonmillion_untied') && res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-          this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
-          this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-          this.formDisableC_2021 = !res['data'][0]['isDraft'];
-          this.nonmillionUntiedDisable_2021 =  !res['data'][0]['nonmillion_untied']['isDraft']
-        }
+  millionTiedDisable_2122 = false
+  nonmillionTiedDisable_2122 = false
+  nonmillionUntiedDisable_2122 = false
+  callGetAPI(year, inst) {
+    return new Promise((resolve, reject) => {
+      let yearVal
+      if (year == '2021-22') {
+        yearVal = '606aaf854dff55e6c075d219'
+      } else {
+        yearVal = '606aadac4dff55e6c075c507'
       }
-        resolve(res['data'][0])
-    }
+      this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res) => {
+        if (res['data'].length > 0) {
+          this.apiData = res['data'][0];
+          if (year == '2021-22' && inst == '1') {
 
-  })
-   })
+            if (res['data'][0].hasOwnProperty('million_tied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+              this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
+              this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
+              this.formDisableA = !res['data'][0]['isDraft']
+              this.millionTiedDisable = !res['data'][0]['million_tied']['isDraft']
 
-}
+            }
+            if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+              this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
+              this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
+              this.formDisableB = !res['data'][0]['isDraft']
+              this.nonmillionTiedDisable = !res['data'][0]['nonmillion_tied']['isDraft']
+            }
+            if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+              this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
+              this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
+              this.formDisableC = !res['data'][0]['isDraft']
+              this.nonmillionUntiedDisable = !res['data'][0]['nonmillion_untied']['isDraft']
+            }
+          } else if (year == '2021-22' && inst == '2') {
+            if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+              this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
+              this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
+              this.formDisableA_2122 = !res['data'][0]['isDraft']
+              this.millionTiedDisable_2122 = !res['data'][0]['million_tied']['isDraft']
+            }
+            if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+              this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
+              this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+              this.formDisableB_2122 = !res['data'][0]['isDraft'];
+              this.nonmillionTiedDisable_2122 = !res['data'][0]['nonmillion_tied']['isDraft']
+            }
+            if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+              this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
+              this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+              this.formDisableC_2122 = !res['data'][0]['isDraft'];
+              this.nonmillionUntiedDisable_2122 = !res['data'][0]['nonmillion_untied']['isDraft']
+            }
+          } else if (year == '2020-21' && inst == '2') {
+            if (res['data'][0].hasOwnProperty('million_tied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+              this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
+              this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
+              this.formDisableA_2021 = !res['data'][0]['isDraft']
+              this.millionTiedDisable_2021 = !res['data'][0]['million_tied']['isDraft']
+            }
+            if (res['data'][0].hasOwnProperty('nonmillion_tied') && res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+              this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
+              this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+              this.formDisableB_2021 = !res['data'][0]['isDraft'];
+              this.nonmillionTiedDisable_2021 = !res['data'][0]['nonmillion_tied']['isDraft']
+            }
+            if (res['data'][0].hasOwnProperty('nonmillion_untied') && res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+              this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
+              this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+              this.formDisableC_2021 = !res['data'][0]['isDraft'];
+              this.nonmillionUntiedDisable_2021 = !res['data'][0]['nonmillion_untied']['isDraft']
+            }
+          }
+          resolve(res['data'][0])
+        }
+
+      })
+    })
+
+  }
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -1038,7 +1040,7 @@ clickedCrossC = false
               this.nonMillionTiedFileUrl_2021 = fileAlias;
             } else if (progressType == 'nonMillionUntiedProgress_2021') {
               this.nonMillionUntiedFileUrl_2021 = fileAlias;
-            }else if (progressType == 'millionTiedProgress_2122') {
+            } else if (progressType == 'millionTiedProgress_2122') {
               this.millionTiedFileUrl_2122 = fileAlias;
             } else if (progressType == 'nonMillionTiedProgress_2122') {
               this.nonMillionTiedFileUrl_2122 = fileAlias;
@@ -1054,50 +1056,50 @@ clickedCrossC = false
         }
       );
   }
+// not used any place
+  // private startFileProcessTracking(
+  //   file: File,
+  //   fileId: string,
+  //   _fileIndex: number
+  // ) {
+  //   this.fileProcessingTracker[_fileIndex] = {
+  //     status: "in-process",
+  //     message: "Processing",
+  //   };
 
-  private startFileProcessTracking(
-    file: File,
-    fileId: string,
-    _fileIndex: number
-  ) {
-    this.fileProcessingTracker[_fileIndex] = {
-      status: "in-process",
-      message: "Processing",
-    };
-
-    this.dataEntryService
-      .getFileProcessingStatus(fileId)
-      .pipe(
-        map((response) => {
-          this.fileProcessingTracker[_fileIndex].message = response.message;
-          if (!response.completed && response.status !== "FAILED") {
-            /**
-             * We are throwing error because we need to call the api again
-             * after some time (2s right now) to check if processing of
-             * file is completed or not. Once it is completed or FAILED, then we stop
-             * calling the api for that file.
-             */
-            observableThrowError("throw any error here");
-          }
-          return response;
-        }),
-        retryWhen((err) => err.pipe(delay(2000)))
-      )
-      .subscribe(
-        (response) => {
-          this.fileProcessingTracker[_fileIndex].message = response.message;
-          this.fileProcessingTracker[_fileIndex].status =
-            response.status === "FAILED" ? "FAILED" : "completed";
-        },
-        (err) => {
-          if (!this.fileProcessingTracker[_fileIndex]) {
-            this.fileProcessingTracker[fileId].status = "FAILED";
-            this.fileProcessingTracker[fileId].message =
-              "Server failed to process data.";
-          }
-        }
-      );
-  }
+  //   this.dataEntryService
+  //     .getFileProcessingStatus(fileId)
+  //     .pipe(
+  //       map((response) => {
+  //         this.fileProcessingTracker[_fileIndex].message = response.message;
+  //         if (!response.completed && response.status !== "FAILED") {
+  //           /**
+  //            * We are throwing error because we need to call the api again
+  //            * after some time (2s right now) to check if processing of
+  //            * file is completed or not. Once it is completed or FAILED, then we stop
+  //            * calling the api for that file.
+  //            */
+  //           observableThrowError("throw any error here");
+  //         }
+  //         return response;
+  //       }),
+  //       retryWhen((err) => err.pipe(delay(2000)))
+  //     )
+  //     .subscribe(
+  //       (response) => {
+  //         this.fileProcessingTracker[_fileIndex].message = response.message;
+  //         this.fileProcessingTracker[_fileIndex].status =
+  //           response.status === "FAILED" ? "FAILED" : "completed";
+  //       },
+  //       (err) => {
+  //         if (!this.fileProcessingTracker[_fileIndex]) {
+  //           this.fileProcessingTracker[fileId].status = "FAILED";
+  //           this.fileProcessingTracker[fileId].message =
+  //             "Server failed to process data.";
+  //         }
+  //       }
+  //     );
+  // }
   checkDiff() {
     let preData = {
       million_tied:
@@ -1126,20 +1128,20 @@ clickedCrossC = false
       this._stateformsService.allFormsPreData.next(allFormData)
     }
   }
- async onPreview() {
+  async onPreview() {
     let PreviewFiles = {
-      second_2021:{},
-      first_2122:{},
-      second_2122:{},
+      second_2021: {},
+      first_2122: {},
+      second_2122: {},
     };
 
-PreviewFiles.second_2021 = await this.callGetAPI('2020-21','2');
+    PreviewFiles.second_2021 = await this.callGetAPI('2020-21', '2');
 
-// this.callGetAPI('2021-22','1');
-PreviewFiles.first_2122 = await this.callGetAPI('2021-22','1');
+    // this.callGetAPI('2021-22','1');
+    PreviewFiles.first_2122 = await this.callGetAPI('2021-22', '1');
 
-// this.callGetAPI('2021-22','2');
-PreviewFiles.second_2122 = await this.callGetAPI('2021-22','2');
+    // this.callGetAPI('2021-22','2');
+    PreviewFiles.second_2122 = await this.callGetAPI('2021-22', '2');
 
 
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
@@ -1148,7 +1150,7 @@ PreviewFiles.second_2122 = await this.callGetAPI('2021-22','2');
         maxHeight: "100vh",
         width: '85vw',
         panelClass: 'no-padding-dialog',
-        autoFocus:false
+        autoFocus: false
       });
     console.log('dialog ref')
     dialogRef.afterClosed().subscribe(result => {
@@ -1225,9 +1227,9 @@ PreviewFiles.second_2122 = await this.callGetAPI('2021-22','2');
 
 }
 
-function observableThrowError(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+// function observableThrowError(arg0: string) {
+//   throw new Error('Function not implemented.');
+// }
 
 //pending - green and red ticks (will be done after master form api made)
 //2 times dialog box on routing alert

@@ -70,6 +70,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   fetchDatas() {
     this._profileService.getULBTypeList().subscribe((res) => {
       this.ulbTypeList = res["data"];
+      this.initializeForm();
     });
   }
 
@@ -77,7 +78,6 @@ export class UlbProfileComponent implements OnInit, OnChanges {
     console.log("profileData", this.profileData);
     this.isVerified2223 = this.profileData?.isVerified2223;
     this.initializeAccess();
-    this.initializeForm();
     this.initializeLogginUserType();
     this.enableProfileEdit();
     console.log('this.isVerified2223', this.isVerified2223);
@@ -292,6 +292,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       this.profile.removeControl('isActive');
       this.profile.updateValueAndValidity();
      }
+     
     if (this.profileData) {
       this.profile.patchValue({
         ...{ ...this.profileData },
@@ -315,6 +316,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         this.editable && (this.loggedInUserType === USER_TYPE.ULB || this.loggedInUserType === USER_TYPE.STATE)
       );
     }
+    console.log('profile profile form', this.profile);
+    
   }
 
   private initializeAccess() {
