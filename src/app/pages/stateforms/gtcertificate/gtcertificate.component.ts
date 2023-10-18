@@ -144,6 +144,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
    */
   filesAlreadyInProcess: number[] = [];
   change = ''
+  isFileUploadInProgress: boolean = false;
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -808,7 +809,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     }
     // this.checkDiff();
   }
-isFileUploadInProgress: boolean = false;
+
   fileChangeEvent(event, progessType, fileName) {
     let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if (isfileValid == false) {
