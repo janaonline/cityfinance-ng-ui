@@ -175,7 +175,7 @@ export class UlbFiscalNewComponent implements OnInit {
             uploading: [{ value: false, disabled: true }],
             name: [item.name, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
             readonly: [{ value: item.readonly, disabled: true }],
-            status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+            status: [item?.status, this.getStatusValidators(item, tab.id)],
             rejectReason: item?.rejectReason,
             url: [item.url, this.userData?.role == USER_TYPE.ULB && item.required ? Validators.required : null],
           });
@@ -193,7 +193,7 @@ export class UlbFiscalNewComponent implements OnInit {
             canShow: [{ value: true, disabled: true }],
             label: [{ value: item.label, disabled: true }],
             info: [{ value: item.info, disabled: true }],
-            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item)))
+            yearData: this.fb.array(item.yearData.slice().reverse().map(yearItem => this.getInnerFormGroup(yearItem, item, tab?.id)))
           })
         }
         return obj;
@@ -209,7 +209,13 @@ export class UlbFiscalNewComponent implements OnInit {
 
   getApprovalTypeValidators(item) {
     if(this.userData?.role == USER_TYPE.ULB && item?.status == 'REJECTED' && item?.suggestedValue ) {
-      return [Validators.required];
+      return [
+        Validators.required,
+        (control) => [
+          APPROVAL_TYPES.enteredPmuAcceptUlb,
+          APPROVAL_TYPES.enteredPmuRejectUlb
+        ].includes(control.value) ? null : { invalidApprovalType: true }
+      ];
     } else if(this.userData?.role == USER_TYPE.PMU && item?.status == 'REJECTED' && item?.suggestedValue ) {
       return [
         Validators.required,
@@ -220,7 +226,7 @@ export class UlbFiscalNewComponent implements OnInit {
     }
   }
 
-  getInnerFormGroup(item, parent?) {
+  getInnerFormGroup(item, parent?, tabId?) {
     const innerFormGroup = this.fb.group({
       key: item.key,
       value: [item.value, this.getValidators(item, !['date', 'file'].includes(item.formFieldType), parent)],
@@ -243,7 +249,7 @@ export class UlbFiscalNewComponent implements OnInit {
       max: [{ value: new Date(item?.max), disabled: true }],
       date: [item.date, this.userData?.role == USER_TYPE.ULB && item.formFieldType == 'date' && item.required ? [Validators.required] : []],
       formFieldType: [{ value: item.formFieldType || 'text', disabled: true }],
-      status: [item?.status, this.loggedInUserType == this.userTypes.PMU && item?.status ? Validators.pattern(/^(REJECTED|APPROVED)$/) : null],
+      status: [item?.status, this.getStatusValidators(item, tabId)],
       rejectReason: [item?.rejectReason],
       rejectReason2: [item?.rejectReason2],
       bottomText: [{ value: item.bottomText, disabled: true }],
@@ -262,20 +268,38 @@ export class UlbFiscalNewComponent implements OnInit {
         })
       })
     });
-    this.attactRequiredReasonToggler(innerFormGroup);
+    this.attactRequiredReasonToggler(innerFormGroup, tabId);
     return innerFormGroup;
   }
 
-  attactRequiredReasonToggler(innerFormGroup: FormGroup) {
+  getStatusValidators(item, tabId) {
+    if(this.loggedInUserType == this.userTypes.PMU) {
+      if(item?.status) {
+        if(tabId != 's3' && this?.pmuSubmissionDate) {
+          return Validators.pattern(/^(APPROVED)$/)
+        }
+        return Validators.pattern(/^(REJECTED|APPROVED)$/)
+      }
+      return null;
+    }
+    return null;
+  }
+
+  attactRequiredReasonToggler(innerFormGroup: FormGroup, tabId?) {
     const statusControl = innerFormGroup.get('status');
     statusControl?.valueChanges.subscribe(status => {
       const rejectReasonControl = innerFormGroup.get('rejectReason');
+      const suggestedValueControl = innerFormGroup.get('suggestedValue');
       rejectReasonControl?.setValidators(status == 'REJECTED' ? [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(500)
       ] : []);
+      suggestedValueControl?.setValidators(status == 'REJECTED' && tabId == 's3' ? [
+        Validators.required
+      ] : []);
       rejectReasonControl?.updateValueAndValidity({ emitEvent: true });
+      suggestedValueControl?.updateValueAndValidity({ emitEvent: true });
     });
     statusControl?.updateValueAndValidity({ emitEvent: true });
   }
