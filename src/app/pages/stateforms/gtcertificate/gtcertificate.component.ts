@@ -511,11 +511,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           console.log(form)
           this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
-          if (this.routerNavigate) {
-            this._router.navigate([this.routerNavigate.url]);
-          } else {
-            this._router.navigate(["stateform/dashboard"]);
+          if(this.inDraftMode == false){
+            if (this.routerNavigate) {
+              this._router.navigate([this.routerNavigate.url]);
+            } else {
+              this._router.navigate(["stateform/dashboard"]);
+            }
           }
+         
           resolve(res)
         },
           error => {
@@ -608,6 +611,10 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   instInput;
   yearInput;
   saveForm(template1, year, inst, isDraft) {
+    if(this.isFileUploadInProgress){
+      swal('Not allowed', 'Upload in progress, please wait', 'info');
+      return;
+    }
     this.inDraftMode = isDraft == '1'
     this.instInput = inst;
     this.yearInput = year
@@ -801,7 +808,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     }
     // this.checkDiff();
   }
-
+isFileUploadInProgress: boolean = false;
   fileChangeEvent(event, progessType, fileName) {
     let isfileValid = this.dataEntryService.checkSpcialCharInFileName(event.target.files);
     if (isfileValid == false) {
@@ -845,6 +852,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     console.log(files[0].name)
     let fileExtension = files[0].name.split('.').pop();
     console.log(fileExtension)
+    this.isFileUploadInProgress = true;
     this[progessType] = 10;
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
@@ -860,6 +868,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
       let folderName = `${this.userData?.role}/2021-22/gtc/${this.userData?.stateCode}`
+      this.isFileUploadInProgress = true;
       this.dataEntryService.newGetURLForFileUpload(file.name, file.type, folderName).subscribe(
         (s3Response) => {
           const fileAlias = s3Response["data"][0]["file_url"];
@@ -904,6 +913,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           }
         },
         (err) => {
+          this.isFileUploadInProgress = false;
           if (!this.fileUploadTracker[fileIndex]) {
             this.fileUploadTracker[fileIndex] = {
               status: "FAILED",
@@ -1047,12 +1057,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
             } else if (progressType == 'nonMillionUntiedProgress_2122') {
               this.nonMillionUntiedFileUrl_2122 = fileAlias;
             }
+            this.isFileUploadInProgress = false;
             // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
             // this.checkDiff();
           }
         },
         (err) => {
           this.fileUploadTracker[fileIndex].status = "FAILED";
+          this.isFileUploadInProgress = false;
         }
       );
   }
