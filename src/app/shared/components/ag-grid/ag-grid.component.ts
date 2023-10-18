@@ -926,7 +926,7 @@ const dropDown = (x) => {
 };
 const name = (x) => {
   if (typeof x == "string") {
-    return x.length > 0 && x.length < 50;
+    return x.length > 0 && x.length < 200;
   }
   return false;
 };

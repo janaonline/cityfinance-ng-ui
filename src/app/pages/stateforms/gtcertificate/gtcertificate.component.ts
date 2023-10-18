@@ -700,20 +700,22 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         this.uploadedFiles.isDraft = false
       }
       // temp commmnents all this code
-      //   let changeHappen = sessionStorage.getItem("changeInGTC")
-      //  if (changeHappen == "false") {
-      //  this._router.navigate(["stateform/water-supply"]);
-      //   return;
-      //  } else {
 
-      if (this.routerNavigate || this.proceedClicked) {
-        sessionStorage.setItem("changeInGTC", "false")
-        this.postsDataCall();
-      }
-      else {
-        this.postsDataCall()
-      }
-      //  }
+   //   let changeHappen = sessionStorage.getItem("changeInGTC")
+    //  if (changeHappen == "false") {
+      //  this._router.navigate(["stateform/water-supply"]);
+     //   return;
+    //  } else {
+
+       if (this.routerNavigate || this.proceedClicked) {
+          sessionStorage.setItem("changeInGTC", "false")
+          this.postsDataCall();
+        }
+        else {
+          this.postsDataCall()
+        }
+    //  }
+
     } else if (this.loggedInUserType === "MoHUA") {
       this.actionSubmit = true
       let changeHappen = sessionStorage.getItem("changeInGTC")
