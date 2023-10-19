@@ -88,8 +88,8 @@
         <option value="true">Active</option>
         <option value="false">InActive</option>
       </select>
-      <small *ngIf="GetFormControlErrors('isActive') as error" class="form-field-error-message">
-        <span *ngIf="error?.required"> Status cannot be empty. </span>
+      <small *ngIf="profileForm?.controls?.isActive?.errors" class="form-field-error-message">
+        <span *ngIf="profileForm?.controls?.isActive?.errors?.required"> Status cannot be empty. </span>
       </small>
     </div>
 
@@ -264,7 +264,7 @@
     <p *ngIf="respone.errorMessage" class="error-message">
       {{ respone.errorMessage }}
     </p>
-    <p [ngClass]="{'d-none' : !respone?.successMessage, 'd-block' : respone?.successMessage}" class="success-message">
+    <p *ngIf="respone?.successMessage" class="success-message">
       {{ respone?.successMessage }}
     </p>
     <div *ngIf="profile.disabled && canSubmitForm" class="mt-5">

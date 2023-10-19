@@ -64,7 +64,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   userUtil = new UserUtility();
   isVerified2223 = false;
   ngOnChanges(changes) {
-    this.isVerified2223 = this.profileData?.isVerified2223
+    this.isVerified2223 = this.profileData?.isVerified2223;
   }
 
   fetchDatas() {
@@ -351,5 +351,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       return;
     }
   }
+
+  
  
 }
