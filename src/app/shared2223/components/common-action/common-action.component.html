@@ -87,8 +87,10 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                 <div class="col-sm-7">
                     <div class="form-group mb-2">
                         <div class="btn-group" btnRadioGroup formControlName="status">
-                            <label btnRadio="APPROVED" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'disCls' : actBtnDis}">Approve</label>
-                            <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'disCls' : actBtnDis}">Return</label>
+                            <label for="" [matTooltip]="isPreviewYearApproved ? sequentialAlert : ''" matTooltipClass="tooltip-red"> 
+                                <label btnRadio="APPROVED" [disabled]="isPreviewYearApproved" class="btn mb-0 customApprove" [ngClass]="{'customApproveActive' : activeClassApprove, 'dis-cls' : actBtnDis, 'app-seq' : isPreviewYearApproved}">Approve</label>
+                            </label>
+                            <label btnRadio="REJECTED" class="btn mb-0 customReturn" [ngClass]="{'customReturnActive' : activeClassReturn, 'dis-cls' : actBtnDis}">Return</label>
                         </div>
                     </div>
                 </div>
@@ -102,7 +104,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                 </div>
 
                 <div class="col-sm-7" *ngIf="toggle?.status == 'APPROVED' || toggle?.status == 'REJECTED'">
-                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'disCls disGray' : actBtnDis}"></textarea>
+                    <textarea name="reason" id="reason" cols="33" rows="2" formControlName="reason" [disabled]="actBtnDis" placeholder="Type here ..." [ngClass]="{'dis-cls disGray' : actBtnDis}"></textarea>
                     <div *ngIf="item && toggle?.status == 'return'" class="text-danger">
                         {{item}}
                     </div>
@@ -115,7 +117,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                     </div>
                     <div class="col-sm-7 image-upload">
                         <label for="cin4">
-                        <a class="btn btn-primary" [ngClass]="{'disCls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
+                        <a class="btn btn-primary" [ngClass]="{'dis-cls' : actBtnDis}" (click)="uploadButtonClicked('A')">Upload
                             PDF
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                 style="margin-left: 4px;">
@@ -145,7 +147,7 @@ formDataChange?.status == 'PENDING' && formDataChange?.isDraft == false">
                         </a>
                         <span>
                         <a (click)="clearFile('stateAct')" style="margin-left: 4px;"
-                        [ngClass]="{'disCls' : actBtnDis}">
+                        [ngClass]="{'dis-cls' : actBtnDis}">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>

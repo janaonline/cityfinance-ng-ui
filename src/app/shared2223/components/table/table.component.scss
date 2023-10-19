@@ -179,3 +179,29 @@ td {
     background: #b71c1c;
     font-size: 12px;
 }
+::ng-deep .form-check {
+    .mat-checkbox-frame { 
+        border: 2px solid green !important;
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: green !important;
+        border: green !important;
+    }
+}
+::ng-deep .seq-rev-color {
+    .mat-checkbox-frame { 
+        border: 2px solid rgb(239, 41, 11) !important;
+    }
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: rgb(239, 41, 11) !important;
+        border: rgb(239, 41, 11) !important;
+    }
+}
+
+::ng-deep .swal-button--Submit {
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
+}

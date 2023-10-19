@@ -61,9 +61,7 @@
 .file-icon-cross {
     vertical-align: middle;
 }
-.disCls {
-    pointer-events: none;
-}
+
 
 .btn-save {
     background-color: #059b9a!important;
@@ -79,3 +77,20 @@
   .mr1 {
     margin-right: 1rem;
   }
+  .dis-cls {
+    pointer-events: none;
+   // background-color: #e9ecef !important;
+     opacity: .8;
+}
+
+
+::ng-deep .tooltip-red {
+    background: #b71c1c;
+    font-size: 12px;
+}
+
+.app-seq {
+    color: #605f5f !important;
+    cursor: not-allowed;
+    background: #f3ebe0 !important;
+}
