@@ -11,6 +11,7 @@ import { ConnectionService } from "ng-connection-service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonService } from "./shared/services/common.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { VersionCheckService } from "./version-check.service";
 // const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -32,8 +33,16 @@ export class AppComponent implements OnDestroy, OnInit {
     private profileService: ProfileService,
     private connectionService: ConnectionService,
     private commonService: CommonService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private versionService: VersionCheckService
   ) {
+
+    this.versionCheck()
+
+    setInterval(() => {
+      this.versionCheck()
+    }, 8000);
+
     this.startSession();
     this.globalLoader
       .observerLoading()
@@ -61,6 +70,11 @@ export class AppComponent implements OnDestroy, OnInit {
         new UserUtility().updateUserDataInRealTime(userData);
       });
     } catch (error) {}
+  }
+
+
+  versionCheck() {
+    this.versionService.initVersionCheck(environment.versionCheckURL);
   }
 
   /**
