@@ -31,6 +31,7 @@ export class UlbFiscalNewComponent implements OnInit {
   hideForm: boolean;
   notice: string;
   pmuSubmissionDate: string;
+  isAutoApproved: boolean;
   selfDeclarationTabId: string = 's5';
   guidanceNotesKey: string = 'guidanceNotes';
   incomeSectionBelowKey: number = 1;
@@ -143,6 +144,7 @@ export class UlbFiscalNewComponent implements OnInit {
       this.tabs = res?.data?.tabs;
       this.financialYearTableHeader = res?.data?.financialYearTableHeader;
       this.pmuSubmissionDate = res?.data?.pmuSubmissionDate;
+      this.isAutoApproved = res?.data?.isAutoApproved;
 
       this.form = this.fb.array(this.tabs.map(tab => this.getTabFormGroup(tab)))
       this.addSkipLogics();

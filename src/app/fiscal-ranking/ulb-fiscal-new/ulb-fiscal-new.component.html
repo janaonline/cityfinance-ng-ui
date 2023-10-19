@@ -83,6 +83,15 @@
                                 FOR THE PERIOD FROM 1ST APRIL 2018 To 31ST MARCH 2022<br>
                                 all figures in Rs.
                             </p>
+                            <ng-container *ngIf="isAutoApproved">
+                                <div class="financial-tab-notice">
+                                    <p><b>Important Note:</b></p>
+                                    <p class="m-0">PMU returned your form with a 10-day response request. Despite our efforts
+                                        to contact you via email and phone, we have not received any responses.
+                                        Consequently, we are now in the process of finalizing our ranking values.</p>
+                                    
+                                </div>
+                            </ng-container>
                             <ng-container
                                 *ngIf="loggedInUserType === userTypes.ULB && 
                                 (currentFormStatus == statusTypes.inProgress || currentFormStatus == statusTypes.returnedByPMU)">
@@ -462,7 +471,8 @@
                                                 <a href="{{otherUploadControl?.controls?.url?.value}}"
                                                     target="_blank">{{otherUploadControl?.controls?.name?.value}}
                                                     <mat-icon>
-                                                        cloud_download</mat-icon></a>
+                                                        cloud_download</mat-icon>
+                                                </a>
                                             </div>
 
                                             <small
@@ -479,7 +489,8 @@
                                                 </app-common-action-radio>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" *ngIf="tab?.value?.id === 's4' && ulbSupportingDocControl">
+                                        <div class="col-md-6"
+                                            *ngIf="tab?.value?.id === 's4' && ulbSupportingDocControl">
                                             <p class="px-3">Upload supporting document</p>
 
                                             <div class="col-sm-3 px-3 com-style mt-3 col-md-6">
@@ -504,7 +515,8 @@
                                                 <a href="{{ulbSupportingDocControl?.controls?.url?.value}}"
                                                     target="_blank">{{ulbSupportingDocControl?.controls?.name?.value}}
                                                     <mat-icon>
-                                                        cloud_download</mat-icon></a>
+                                                        cloud_download</mat-icon>
+                                                </a>
                                             </div>
 
                                             <small
