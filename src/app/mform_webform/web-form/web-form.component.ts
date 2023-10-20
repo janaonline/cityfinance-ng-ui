@@ -878,6 +878,10 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         // dialogRef.afterClosed().subscribe((response) => {
         //   console.log("response", response);
         // });
+        if(this.viewFormTemplate == 'dur'){
+          this.openSnackBar(['One or more required fields are empty or contains invalid data. Please check your input for all fields or pages.'], 3000);
+        }
+        
       } else if (filterInvalidEnterAnswer.length > 0) {
         this.isFormSubmittedSuccessfully = true;
       }
@@ -910,6 +914,7 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
         // console.log("question", this.questionData, emptyError);
         // this.isFormSubmittedSuccessfully = true;
       }
+
     }
     // this.submitQuestion.emit({ question: this.questionData});
     console.log("question", this.questionData, emptyError);
@@ -1504,7 +1509,9 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openSnackBar(data: string[], duration: number) {
-    this.snackBar.openFromComponent(SnackBarComponent, { data, duration });
+    this.snackBar.openFromComponent(SnackBarComponent, { data, duration,
+    horizontalPosition: 'center',
+    verticalPosition: 'top', });
   }
 
   async docsInputChangeHandler(event: any, question: any) {
@@ -2650,5 +2657,3 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     question.scrollIndex = pageIndex * pageSize;
   }
 }
-
-
