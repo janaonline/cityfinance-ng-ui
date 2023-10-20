@@ -82,7 +82,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       editable: true,
       tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       field: "Project_Name",
       cellEditor: "agTextCellEditor",
       suppressMovable: true,
@@ -139,7 +139,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       editable: true,
       tooltipField: "Executing_Agency",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       field: "Executing_Agency",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
@@ -157,7 +157,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       hide: true,
       tooltipField: "Parastatal_Agency",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       valueGetter: (params) =>
         params.data["Parastatal_Agency"].value != null
           ? params.data["Parastatal_Agency"].value
@@ -263,7 +263,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 180,
       tooltipField: "Project_Code",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       field: "Project_Code",
       suppressMovable: true,
     },
@@ -279,7 +279,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 120,
       pinned: true,
       tooltipField: "Project_Name",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       tooltipComponent: "customTooltip",
       field: "Project_Name",
       cellEditor: "agTextCellEditor",
@@ -475,7 +475,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 180,
       tooltipField: "Project_Code",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       field: "Project_Code",
       suppressMovable: true,
     },
@@ -491,7 +491,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       pinned: true,
       tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
-      tooltipComponentParams: { errorMsg: "Name less than 50 char" },
+      tooltipComponentParams: { errorMsg: "Name less than 200 char" },
       field: "Project_Name",
       cellEditor: "agTextCellEditor",
       cellEditorParams: {
@@ -926,7 +926,7 @@ const dropDown = (x) => {
 };
 const name = (x) => {
   if (typeof x == "string") {
-    return x.length > 0 && x.length < 50;
+    return x.length > 0 && x.length < 201;
   }
   return false;
 };
