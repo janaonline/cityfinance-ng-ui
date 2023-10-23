@@ -63,22 +63,25 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   userUtil = new UserUtility();
   isVerified2223 = false;
-  ngOnChanges(changes) {}
+  ngOnChanges(changes) {
+    this.isVerified2223 = this.profileData?.isVerified2223;
+  }
 
   fetchDatas() {
     this._profileService.getULBTypeList().subscribe((res) => {
       this.ulbTypeList = res["data"];
+      this.initializeForm();
     });
   }
 
   ngOnInit() {
     console.log("profileData", this.profileData);
-    let data: any = this.profileData;
-    this.isVerified2223 = data?.isVerified2223;
+    this.isVerified2223 = this.profileData?.isVerified2223;
     this.initializeAccess();
-    this.initializeForm();
     this.initializeLogginUserType();
     this.enableProfileEdit();
+    console.log('this.isVerified2223', this.isVerified2223);
+    
   }
 
   onClickingChangePassword(event: Event) {
@@ -133,7 +136,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         accountantName : this.profileData?.accountantName
       }
     }
-
+    
     if (!updatedFields || !Object.keys(updatedFields).length) {
       this.onUpdatingProfileSuccess({
         message: "Profile Updated Successfully",
@@ -210,6 +213,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
   }
 
   private onUpdatingProfileSuccess(res, dataUpdated?: IULBProfileData) {
+    
     this.respone.successMessage = res.message || "Profile Updated Successfully";
     this.apiInProgress = false;
     this.updateLocalLoggedInData(dataUpdated);
@@ -284,6 +288,11 @@ export class UlbProfileComponent implements OnInit, OnChanges {
 
   private initializeForm() {
     this.profile = this.formUtil.getULBForm("EDIT");
+    if(this.loggedInUserType === this.USER_TYPE.STATE || this.loggedInUserType === this.USER_TYPE.ULB){
+      this.profile.removeControl('isActive');
+      this.profile.updateValueAndValidity();
+     }
+     
     if (this.profileData) {
       this.profile.patchValue({
         ...{ ...this.profileData },
@@ -307,6 +316,8 @@ export class UlbProfileComponent implements OnInit, OnChanges {
         this.editable && (this.loggedInUserType === USER_TYPE.ULB || this.loggedInUserType === USER_TYPE.STATE)
       );
     }
+    console.log('profile profile form', this.profile);
+    
   }
 
   private initializeAccess() {
@@ -340,4 +351,7 @@ export class UlbProfileComponent implements OnInit, OnChanges {
       return;
     }
   }
+
+  
+ 
 }

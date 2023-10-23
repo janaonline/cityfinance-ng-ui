@@ -4,10 +4,11 @@
 let url;
 let GoogleTagID: string;
 let isProduction:boolean =false;
+let versionCheckURL = window.location.origin + "/version.json";
 if (window.location.hostname.includes("new-cityfinance")) {
 
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
-  // url = "http://localhost:8080/api/v1/";
+  ///url = "http://localhost:8080/api/v1/";
   GoogleTagID = "UA-171288029-2";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
@@ -18,7 +19,7 @@ if (window.location.hostname.includes("new-cityfinance")) {
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
  // url = "https://staging.cityfinance.in/api/v1/";
-  // url = "http://localhost:8080/api/v1/";
+ // url = "http://localhost:8080/api/v1/";
   GoogleTagID = "UA-171288029-2";
 } else {
   isProduction = true;
@@ -43,6 +44,7 @@ export const environment = {
   },
   isProduction: isProduction,
   GoogleTagID,
+  versionCheckURL
 };
 
 /*
