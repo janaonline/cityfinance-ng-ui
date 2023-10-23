@@ -47,6 +47,10 @@ import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
 import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-history-table/tracking-history-table.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header/header.component';
+import { RankingCategoriesComponent } from './home/ranking-categories/ranking-categories.component';
+import { UnionMinistorComponent } from './home/union-ministor/union-ministor.component';
+import { FooterComponent } from './home/footer/footer.component';
+import { TrainingSessionComponent } from './home/training-session/training-session.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +76,10 @@ import { HeaderComponent } from './home/header/header.component';
     TrackingHistoryTableComponent,
     HomeComponent,
     HeaderComponent,
+    RankingCategoriesComponent,
+    UnionMinistorComponent,
+    FooterComponent,
+    TrainingSessionComponent,
   ],
   imports: [
     CommonModule,
