@@ -2657,5 +2657,3 @@ export class WebFormComponent implements OnInit, OnDestroy, OnChanges {
     question.scrollIndex = pageIndex * pageSize;
   }
 }
-
-

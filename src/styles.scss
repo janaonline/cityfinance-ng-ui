@@ -1314,6 +1314,7 @@ img.align-center {
 }
 
 .cursor-pointer {
+    user-select: none;
     cursor: pointer;
 }
 
@@ -1335,4 +1336,11 @@ input[type=number] {
 .success-snackbar {
     background-color: #2d6313;
     color: white;
+}
+
+.btn-orange {
+    background: #E67E15;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    color: #fff
 }
