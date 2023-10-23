@@ -8,10 +8,12 @@ import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.com
 import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
 import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: "", component: FiscalHomeComponent },
   { path: "home", component: FiscalHomeComponent },
+  { path: "new-home", component: HomeComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
   {
