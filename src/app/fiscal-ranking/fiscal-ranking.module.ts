@@ -49,6 +49,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header/header.component';
 import { RankingCategoriesComponent } from './home/ranking-categories/ranking-categories.component';
 import { UnionMinistorComponent } from './home/union-ministor/union-ministor.component';
+import { FooterComponent } from './home/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { UnionMinistorComponent } from './home/union-ministor/union-ministor.com
     HeaderComponent,
     RankingCategoriesComponent,
     UnionMinistorComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
