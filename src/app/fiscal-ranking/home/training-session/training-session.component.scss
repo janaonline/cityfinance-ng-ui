@@ -1,0 +1,27 @@
+h1 {
+    color: #193369;
+}
+
+.card {
+    background-color: #FFEFF9;
+}
+
+.text-pink {
+    color: #F30098;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    /* or block, depending on your layout */
+}
+
+.image-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #FFEFF9 0%, rgba(0,0,0,0) 50%);
+}

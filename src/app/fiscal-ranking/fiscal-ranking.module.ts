@@ -50,6 +50,7 @@ import { HeaderComponent } from './home/header/header.component';
 import { RankingCategoriesComponent } from './home/ranking-categories/ranking-categories.component';
 import { UnionMinistorComponent } from './home/union-ministor/union-ministor.component';
 import { FooterComponent } from './home/footer/footer.component';
+import { TrainingSessionComponent } from './home/training-session/training-session.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { FooterComponent } from './home/footer/footer.component';
     RankingCategoriesComponent,
     UnionMinistorComponent,
     FooterComponent,
+    TrainingSessionComponent,
   ],
   imports: [
     CommonModule,
