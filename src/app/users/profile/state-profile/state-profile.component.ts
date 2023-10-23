@@ -23,6 +23,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
     private router: Router
   ) {
     this.fetchStateList();
+    this.initializeLogginUserType();
   }
   @Input()
   profileData: any;
@@ -43,7 +44,7 @@ export class StateProfileComponent implements OnInit, OnChanges {
   userUtil = new UserUtility();
   isProfileVerified = false;
   ngOnInit() {
-    this.initializeLogginUserType();
+    
   }
   ngOnChanges() {
     this.initializeForm();
@@ -152,7 +153,10 @@ export class StateProfileComponent implements OnInit, OnChanges {
 
   private initializeForm() {
     this.profileForm = this.formUtil.getStateForm();
-
+    if(this.loggedInUserType === this.USER_TYPE.STATE){
+       this.profileForm.removeControl('isActive');
+       this.profileForm.updateValueAndValidity();
+      }
     if (this.profileData) {
       if (this.profileData.role !== USER_TYPE.STATE) {
         this.profileData = null;

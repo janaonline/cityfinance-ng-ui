@@ -42,6 +42,7 @@ import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-update.component';
 import { NgxPaginationModule } from "ngx-pagination";
 import { GlobalErrorHandler } from "./global-error-handler.service";
+import { VersionCheckService } from "./version-check.service";
 
 
 
@@ -97,6 +98,7 @@ import { GlobalErrorHandler } from "./global-error-handler.service";
     { provide: ErrorHandler, useClass: GlobalErrorHandler},
     AuthService,
     AuthGuard,
+    VersionCheckService,
   ],
   declarations: [
     AppComponent,

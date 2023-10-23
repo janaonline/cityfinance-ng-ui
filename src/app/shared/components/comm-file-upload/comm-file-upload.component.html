@@ -3,7 +3,7 @@
         <!-- <div class="float-left"> -->
         <span class="" [ngClass]="{'col-sm-4': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
       (loggedInUserType === USER_TYPE.ULB && (btnStyleA || btnStyleR)),
-     'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
+     'col-sm': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
         <b>{{quesName}}</b><span style="color: red;">*</span></span>
         <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
      <sup><span style="color: white; font-size: 14px;">*</span></sup>
@@ -45,7 +45,7 @@
     <div class="row allupload" *ngIf="showPdf">
         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 5px;">
             <div class="row">
-                <div class="col-sm-6 col-lg-6 col-md-6">
+                <div class="col-sm-4">
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.pdf?.name">
                         {{data.pdf?.name}}</label>
                 </div>
@@ -84,7 +84,7 @@
 
         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 5px; ">
             <div class="row">
-                <div class="col-sm-5 col-lg-5 col-md-5">
+                <div class="col-sm-4">
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.excel?.name">
                         {{data.excel?.name}}</label>
                 </div>
