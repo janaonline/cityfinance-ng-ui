@@ -1,0 +1,59 @@
+<section class="row my-5">
+    <div class="col-6 p-5 silent-features">
+        <h2>Salient Features</h2>
+        <div class="m-5">
+            <div class="row mt-4">
+                <div class="col-2">
+                    <img src="/assets/fiscal-rankings/ranking-methodlogy.png">
+                </div>
+                <div class="col-10">
+                    <h3 class="sl-text">Simple Ranking Methodology</h3>
+                    <div class="sl-sub-text text-muted">Mandatory for all ULBs: Submit critical financial data and upload financial
+                        documents on www.cityfinance.in. This ensures standardized, credible, and timely sharing of
+                        financial information, promoting transparency and accountability.</div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-2">
+                    <img src="/assets/fiscal-rankings/paperless-process.png">
+                </div>
+                <div class="col-10">
+                    <h3 class="sl-text">100% Paperless Process</h3>
+                    <div class="sl-sub-text text-muted">All ULBs are required to submit their key financial data and upload their
+                        financial documents on the www.cityfinance.in</div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-2">
+                    <img src="/assets/fiscal-rankings/3-data.png">
+                </div>
+                <div class="col-10">
+                    <h3 class="sl-text">3 Data sources</h3>
+                    <div class="sl-sub-text text-muted">
+                        <ul>
+                            <li>Audited Annual Accounts</li>
+                            <li>Approved Annual Budget</li>
+                            <li>Self-reported financial details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 p-5 benifits">
+        <h2>Benefits of City Participation</h2>
+
+        <div class="m-5" #highlightContainer>
+
+            <ul class="autoplay-items">
+                <li *ngFor="let item of items; let i = index;"
+                    [ngClass]="{'active': highlightNo === i + 1, 'done' : highlightNo > i + 1}"
+                    (click)="highlightNo = i + 1">
+                    <h3 class="sl-text">{{ item.title }}</h3>
+                    <div class="sl-sub-text text-muted">{{ item.description }}</div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</section>

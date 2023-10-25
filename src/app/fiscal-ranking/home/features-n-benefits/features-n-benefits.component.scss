@@ -1,0 +1,109 @@
+@import "/src/scss/functions";
+@import "/src/scss/variables";
+@import "/src/scss/mixins";
+
+
+section {
+    
+}
+
+
+h2 {
+    text-align: center;
+}
+.silent-features {
+    background-color: #E2F5FF;
+    h2 {
+        color: #00486F;
+    }
+}
+.benifits {
+    h2 {
+
+    }
+}
+
+.sl-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+
+.autoplay-items {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    &::before {
+        content: '';
+        height: 100%;
+        width: 1px;
+        border: 1px dashed #c0e2ff;
+        position: absolute;
+        left: 15px;
+        top: 32px;
+    }
+    & li {
+        list-style: none;
+        position: relative;
+        padding-left: $spacer*3;
+        padding-bottom: $spacer;
+        cursor: pointer;
+        & h3 {
+            font-size: $font-size-base*1.5;
+            font-weight: $font-weight-bold;
+        }
+        &::before {
+            content: '';
+            height: 0;
+            width: 2px;
+            background: #0f4782;
+            position: absolute;
+            left: 15px;
+            top: 32px;
+        }
+        &::after {
+            content: '';
+            width: $spacer*2;
+            height: $spacer*2;
+            background: #c0e2ff;
+            border: 6px solid #c0e2ff;
+            border-radius: 50%;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        & div {
+            height: 0;
+            transition: all .2s ease-in;
+            overflow: hidden;
+        }
+        &.active {
+            &::before {
+                height: 100%;
+                transition: all 5s ease-in;
+            }
+            &::after {
+                background: #0f4782;
+            }
+            & div {
+                height: 100px;
+                transition: all .2s ease-in;
+            }
+        }
+        &.done {
+            &::before {
+                height: 100%;
+            }
+            &::after {
+                background: #c0e2ff;
+            }
+        }
+        &:last-child {
+            &::before {
+                height: 100%;
+                background: #fff;
+            }
+        }
+    }
+}
