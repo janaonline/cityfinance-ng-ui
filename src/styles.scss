@@ -1342,5 +1342,12 @@ input[type=number] {
     background: #E67E15;
     border: 1px solid #C6C6C6;
     border-radius: 5px;
-    color: #fff
+    color: #fff;
+    
+    &.btn-outline {
+        background: #fff;
+        border: 1px solid #E67E15;
+        border-radius: 5px;
+        color: #E67E15;
+    }
 }
