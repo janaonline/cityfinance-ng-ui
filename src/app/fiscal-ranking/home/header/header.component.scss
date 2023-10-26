@@ -30,6 +30,9 @@ section {
         .content {
             text-align: left;
             .download-link {
+                text-decoration: none;
+                color: inherit;
+                color: orange;
                 display: flex;
                 font-size: 14px;
                 mat-icon {

@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-8 content">
                     <p>Guidelines</p>
-                    <div class="download-link">
+                    <div class="download-link cursor-pointer" (click)="guidelinesPopup()">
                         <mat-icon>download</mat-icon> Download
                     </div>
                 </div>
@@ -24,9 +24,11 @@
                 </div>
                 <div class="col-8 content">
                     <p>Brochure</p>
-                    <div class="download-link">
+                    <a target="_blank"
+                        href="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/City_Finance_Rankings_2022_Brochure_March_2023_3708f180-5be7-41ef-96c9-2d98db398575.pdf"
+                        class="download-link cursor-pointer">
                         <mat-icon>download</mat-icon> Download
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="row dotted-card">
@@ -35,15 +37,16 @@
                 </div>
                 <div class="col-8 content">
                     <p>Video</p>
-                    <div class="download-link">
+                    <a href="https://jana-cityfinance-live.s3.ap-south-1.amazonaws.com/FiscalRanking/knowMoreVideo_6b2e991a-1d08-433f-b566-a61f515cba53.mp4"
+                        target="_blank" class="download-link cursor-pointer">
                         <mat-icon>fast_forward</mat-icon> Play video
-                    </div>
+                    </a>
                 </div>
+            </div>
         </div>
-    </div>
-    <div class="explore-more" (click)="scrollOnePageDown()">
-        <p>Explore more</p>
-        <img width="100px" src="assets/fiscal-rankings/down-arrow.gif">
-    </div>
+        <div class="explore-more" (click)="scrollOnePageDown()">
+            <p>Explore more</p>
+            <img width="100px" src="assets/fiscal-rankings/down-arrow.gif">
+        </div>
     </div>
 </section>
