@@ -1,0 +1,61 @@
+section {
+    text-align: center;
+    background-image: url('/assets/fiscal-rankings/header-background.png');
+    color: white;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-height: 90vh;
+
+    h1 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+    }
+
+    .dotted-card {
+        background-color: #2f1803ad;
+        color: orange;
+        border: 1px dashed orange;
+        border-radius: 10px;
+        padding: 20px;
+        min-width: 350px;
+        align-items: center;
+        .content {
+            text-align: left;
+            .download-link {
+                text-decoration: none;
+                color: inherit;
+                color: orange;
+                display: flex;
+                font-size: 14px;
+                mat-icon {
+                    font-size: 20px;
+                }
+            }
+            p {
+                color: white;
+                font-size: 18px;
+                margin: 0;
+                padding: 5px;
+            }
+        }
+    }
+
+    .explore-more {
+        font-size: 30px;
+        color: orange;
+        cursor: pointer;
+        padding: 0;
+        .down {
+            transform: scaleX(8.5);
+            font-weight: 100;
+        }
+    }
+}

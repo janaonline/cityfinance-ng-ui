@@ -357,7 +357,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          // Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         component: this.fb.control(data.component, [
           Validators.required,
@@ -387,7 +387,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.fb.group({
         name: this.fb.control(data.name, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ]),
         treatmentPlant: this.fb.control(data.treatmentPlant, [
           Validators.required,
