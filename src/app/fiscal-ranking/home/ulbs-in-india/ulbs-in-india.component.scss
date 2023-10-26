@@ -1,3 +1,39 @@
 .header {
     background-color: #C2D6FC1A;
 }
+
+.table-border {
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+    
+        th {
+            border-bottom: 1px solid gray;
+        }
+        td, th {
+            padding: 8px;
+        }
+    }
+}
+
+.section-1 {
+    background-image: url('/assets/fiscal-rankings/ulbs-in-india-bg-1.png');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+.section-2 {
+    background-image: url('/assets/fiscal-rankings/ulbs-in-india-bg-2.png');
+    background-color: #FFC2E71A;
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+.section-3 {
+    background-image: url('/assets/fiscal-rankings/ulbs-in-india-bg-3.png');
+    background-size: 90%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
