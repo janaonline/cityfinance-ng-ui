@@ -54,6 +54,7 @@ import { TrainingSessionComponent } from './home/training-session/training-sessi
 import { AssessmentParametersComponent } from './home/assessment-parameters/assessment-parameters.component';
 import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
 import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
+import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.compone
     AssessmentParametersComponent,
     FeaturesNBenefitsComponent,
     UlbsInIndiaComponent,
+    GuidelinesPopupComponent,
   ],
   imports: [
     CommonModule,
