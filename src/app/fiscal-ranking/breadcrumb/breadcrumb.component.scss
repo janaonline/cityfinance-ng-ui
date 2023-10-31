@@ -1,0 +1,9 @@
+.breadcrumb-item+.breadcrumb-item::before {
+    content: '>';
+}
+
+a {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration:none;
+}
