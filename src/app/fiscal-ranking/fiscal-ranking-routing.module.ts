@@ -6,9 +6,10 @@ import { FiscalLoginComponent } from './fiscal-login/fiscal-login.component';
 import { ConfirmationGuard } from './guards/confirmation.guard';
 import { ReviewUlbTableComponent } from './review-ulb-table/review-ulb-table.component';
 import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component';
-import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
+//import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
 import { HomeComponent } from './home/home.component';
+import { AssessmentParameterComponent } from './assessment-parameter/assessment-parameter.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -55,6 +56,9 @@ const routes: Routes = [
       }
     }
   },
+  {
+    path: 'assesst-parameters/:id', component: AssessmentParameterComponent
+  }
 ];
 
 @NgModule({
