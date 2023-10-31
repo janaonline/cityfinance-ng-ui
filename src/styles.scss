@@ -1314,6 +1314,7 @@ img.align-center {
 }
 
 .cursor-pointer {
+    user-select: none;
     cursor: pointer;
 }
 
@@ -1331,7 +1332,40 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+
 .success-snackbar {
     background-color: #2d6313;
     color: white;
+}
+
+.btn-orange {
+    $orange: #E67E15;
+    border-radius: 5px;
+    background: $orange;
+    color: #fff;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    
+    &.btn-outline {
+        background: #fff;
+        border: 1px solid $orange;
+        color: $orange;
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    }
+
+    &:hover {
+        background: #cf7113;
+        border-color: #cf7113;
+        color: #fff;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Adjusted box shadow on hover */
+    }
+}
+
+.color-orange {
+    color: #E67E15;
+}
+.color-blue {
+    color: #00486F;
 }

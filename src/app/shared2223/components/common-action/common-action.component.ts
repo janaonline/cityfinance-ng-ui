@@ -64,6 +64,8 @@ export class CommonActionComponent implements OnInit, OnChanges {
   mohuaStatus = "";
   @Input() formData: any;
   formDataChange;
+  sequentialAlert: string = `This ULB is not eligible for approval due to its previous year's unapproved status, 
+  allowing only rejection`;
  // canTakeAction;
   constructor(
     private dataEntryService: DataEntryService,
@@ -81,6 +83,12 @@ export class CommonActionComponent implements OnInit, OnChanges {
   userData = JSON.parse(localStorage.getItem("userData"));
   toggle: any;
   mohuaReview = false;
+  state_status = '';
+  mohua_status = ''
+  stateReview = false;
+  errorF = false;
+  userEvent;
+  isPreviewYearApproved:boolean = false;
   ngOnInit(): void {
     console.log(this.stateApprove);
     this.initializeFormm();
@@ -89,10 +97,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
     // this.canTakeAction = sessionStorage.getItem("canTakeAction");
     // console.log('take action.........', this.canTakeAction);
   }
-  state_status = '';
-  mohua_status = ''
-  stateReview = false;
-  errorF = false;
+  
   ngOnChanges(changes: SimpleChanges): void {
     this.formDataChange = this.formData;
     this.errorF = this.commonActionError;
@@ -153,9 +158,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
         this.mohua_status = 'REJECTED';
       }
     }
-
-    // debugger
-    // this.canTakeAction = sessionStorage.getItem("canTakeAction");
+    this.isPreviewYearApproved = this.getSequentialStatus(this.formData);
   }
   get f() {
     return this.statusForm.controls;
@@ -205,7 +208,7 @@ export class CommonActionComponent implements OnInit, OnChanges {
    // sessionStorage.setItem("changeInPto", "true");
     this.change = "true";
   }
-  userEvent;
+
   onChange(event) {
     console.log(event);
     if (event == "APPROVED") {
@@ -376,4 +379,12 @@ export class CommonActionComponent implements OnInit, OnChanges {
         }
       );
   }
+
+  getSequentialStatus(item) {
+    const allowForms = ['dur', '28slb']
+     if(item?.prevYearStatusId != 6 && item?.canTakeAction && this.userData?.role == 'MoHUA' && allowForms.includes(this.formNamefiles)){
+      return true;
+     };
+     return false;
+    }
 }

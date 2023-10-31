@@ -45,6 +45,19 @@ import { CommonTableComponent } from './common-table/common-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TableRowCalculatorPipe } from './pipes/table-row-calculator.pipe';
 import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-history-table/tracking-history-table.component';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './home/header/header.component';
+import { RankingCategoriesComponent } from './home/ranking-categories/ranking-categories.component';
+import { UnionMinistorComponent } from './home/union-ministor/union-ministor.component';
+import { FooterComponent } from './home/footer/footer.component';
+import { TrainingSessionComponent } from './home/training-session/training-session.component';
+import { AssessmentParametersComponent } from './home/assessment-parameters/assessment-parameters.component';
+import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
+import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
+import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
+import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +81,19 @@ import { TrackingHistoryTableComponent } from './review-ulb-table/tracking-histo
     CommonTableComponent,
     TableRowCalculatorPipe,
     TrackingHistoryTableComponent,
+    HomeComponent,
+    HeaderComponent,
+    RankingCategoriesComponent,
+    UnionMinistorComponent,
+    FooterComponent,
+    TrainingSessionComponent,
+    AssessmentParametersComponent,
+    FeaturesNBenefitsComponent,
+    UlbsInIndiaComponent,
+    GuidelinesPopupComponent,
+    AnnualFinancialStatementsComponent,
+    BreadcrumbComponent,
+    AnnualBudgetsComponent,
   ],
   imports: [
     CommonModule,

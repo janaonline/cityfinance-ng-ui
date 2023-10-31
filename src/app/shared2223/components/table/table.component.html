@@ -46,12 +46,6 @@
                             </span>
                         </div>
                     </th>
-                    <!-- <th class="filter" *ngIf="userData?.role != 'STATE'">
-                        <select class="form-select in-sel" formControlName="state_name_s" (change)="search()" *ngIf="userData?.role != 'STATE'">
-                            <option selected value="" class="s-pl">State Name</option>
-                            <option *ngFor="let item of stateList" [value]="item._id">{{item.name}}</option>
-                        </select>
-                    </th> -->
                     <th class="filter">
                         <div class="input-group">
                             <input type="text" formControlName="ulb_code_s" class="form-control in-se-s"
@@ -168,14 +162,15 @@
                         </a>
                     </td>
                     <td>
-                        <div class="form-check"
-                            [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
-                            <!-- <input (change)="selected_checkbox(resData?.ulbId, $event.srcElement)" class="form-check-input formCheck" [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}" [disabled]="resData?.cantakeAction == false" type="checkbox" value="" id="flexCheckChecked"
-                                [checked]="resData?.isChecked"> -->
-                            <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
+                        <div class="form-check" [ngClass]="{'seq-rev-color' : getSequentialStatus(resData)}" [matTooltip]="resData?.cantakeAction == false ? 'Not eligible to take action' : ''">
+                            <mat-checkbox class="" 
+                                [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
                                 [disabled]="resData?.cantakeAction == false"
-                                (change)="selected_checkbox(resData?.ulbId, resData.isChecked)"
-                                [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                (change)="selected_checkbox(resData?.ulbId, resData.isChecked, resData)"
+                                [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}" 
+                                [matTooltip]="getSequentialStatus(resData) ? sequentialAlert : ''"
+                                matTooltipClass="tooltip-red">
+                            </mat-checkbox>
                         </div>
                     </td>
                 </tr>
@@ -272,7 +267,7 @@
                                 [checked]="resData?.isChecked"> -->
                             <mat-checkbox class='' [ngClass]="{'checkboxBackground' : resData?.cantakeAction == false}"
                                 [disabled]="resData?.cantakeAction == false"
-                                (change)="selected_checkbox(resData?.state, resData.isChecked)"
+                                (change)="selected_checkbox(resData?.state, resData.isChecked, resData)"
                                 [(ngModel)]="resData.isChecked" [ngModelOptions]="{standalone: true}"></mat-checkbox>
                         </div>
                     </td>
