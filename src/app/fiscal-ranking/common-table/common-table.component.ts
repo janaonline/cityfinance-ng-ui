@@ -38,6 +38,7 @@ export interface TableColumnsEntity {
   styleUrls: ['./common-table.component.scss']
 })
 export class CommonTableComponent implements OnInit {
+  @Input() theme?: 'white';
   @Input() response: TableResponse;
   @Input() isDialog: boolean;
   @Input() pageSizeOptions = [10, 20, 50, 100];

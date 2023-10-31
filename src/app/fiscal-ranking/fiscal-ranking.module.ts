@@ -55,6 +55,9 @@ import { AssessmentParametersComponent } from './home/assessment-parameters/asse
 import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
 import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
 import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
+import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +91,9 @@ import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-pop
     FeaturesNBenefitsComponent,
     UlbsInIndiaComponent,
     GuidelinesPopupComponent,
+    AnnualFinancialStatementsComponent,
+    BreadcrumbComponent,
+    AnnualBudgetsComponent,
   ],
   imports: [
     CommonModule,
