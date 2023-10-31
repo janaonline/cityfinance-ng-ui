@@ -4,7 +4,7 @@
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item nav-breads"><a class="nav-h" href="#">City Finance Ranking - Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Ranking assessment parameter : {{currentPage}}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Ranking assessment parameter : {{pageData?.name}}</li>
                 </ol>
               </nav>
         </div>
@@ -16,20 +16,28 @@
     </div>
     <div class="row px-5 mb-4">
         <div class="col-sm-12 text-center">
-           <span class="form-h">{{currentPage}} : {{subHeading}}</span> 
+           <span class="form-h">{{pageData?.name}} : {{pageData?.subHeading}}</span> 
         </div>
-        <div class="col-sm-12 w-75 mx-auto text-center mt-3">
-            <p class="sub-def">{{pageDefinition}}</p>
+        <div class="col-sm-12 w-80 mx-auto text-center mt-3">
+            <p class="sub-def">{{pageData?.description}}</p>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col-sm-6">
-            <img src="../../../assets/fiscal-rankings/business-people-analyzing-data-graphs-and-charts-displayed-on-the-digital-tablet-screen 1.png" alt="">
+            <img src="{{pageData?.imgUrl}}" alt="">
         </div>
         <div class="col-sm-6 my-auto">
             <div class="row">
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-12 mb-3" *ngFor="let item of pageData?.questions">
+                    <div class="qus">
+                        {{item?.question}}
+                    </div>
+                    <div class="ans mt-3">
+                        {{item?.answer}}
+                    </div>
+                </div>
+                <!-- <div class="col-sm-12 mb-3">
                     <div class="qus">
                         Why is Resource Mobilization Important?
                     </div>
@@ -44,22 +52,22 @@
                     <div class="ans mt-3">
                         Resource Mobilization significantly influences ULB rankings. Higher mobilization indicates better financial health, leading to higher scores and better ULB positions in the rankings.
                     </div>
-                </div>
+                </div> -->
                 <div class="col-sm-12">
                     <div class="qus-info">
-                        Scoring Information
+                        {{pageData?.scoringInfo?.header}}
                     </div>
                     <div class="scoring-section">
                         <div class="row">
-                            <div class="col-sm-6 mt-3">
+                            <div class="col-sm-6 mt-3" *ngFor="let elem of pageData?.scoringInfo?.items">
                                 <div class="ind-val">
-                                    6
+                                    {{elem?.value}}
                                 </div>
                                 <div class="ind">
-                                    Number of Indicators
+                                    {{elem?.title}}
                                 </div>
                             </div>
-                            <div class="col-sm-6 mt-3">
+                            <!-- <div class="col-sm-6 mt-3">
                                 <div class="ind-val">
                                     100
                                 </div>
@@ -74,7 +82,7 @@
                                 <div class="ind">
                                     Maximum Score
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -83,14 +91,14 @@
     </div>
     <div class="row px-5 mb-4">
         <div class="col-sm-12">
-           <span class="form-h">Scoring Methodology</span> 
+           <span class="form-h">{{pageData?.scoringMethodology?.header}} </span> 
         </div>
         <div class="col-sm-12 mt-3">
-            <div class="scor-met">Unveiling the Metrics Shaping Urban Financial Strength and How They're Scored. Explore the assessment indicators that drive the financial health of Urban Local Bodies (ULBs) and understand the methodology behind their scoring. Gain insights into the significance of resource mobilization in urban development.</div>
+            <div class="scor-met">{{pageData?.scoringMethodology?.description}}</div>
         </div>
         <div class="col-sm-12">
             <div class="p-3">
-                <img src="../../../assets/fiscal-rankings/resMobTable.png" alt="" width="100%">
+                <img src="{{pageData?.scoringMethodology?.imgUrl}}" alt="" width="100%">
             </div>
             
         </div>
