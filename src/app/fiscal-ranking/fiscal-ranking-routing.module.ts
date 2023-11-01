@@ -10,12 +10,18 @@ import { UlbFiscalNewComponent } from './ulb-fiscal-new/ulb-fiscal-new.component
 import { MapcomponentComponent } from './mapcomponent/mapcomponent.component';
 import { HomeComponent } from './home/home.component';
 import { AssessmentParameterComponent } from './assessment-parameter/assessment-parameter.component';
+import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
+import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "home", component: HomeComponent },
+{ path: "home", component: HomeComponent },
+  // { path: "", component: FiscalHomeComponent },
+  // { path: "home", component: FiscalHomeComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "login", component: FiscalLoginComponent },
+  { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
+  { path: "annual-budgets", component: AnnualBudgetsComponent },
   {
     path: "ulb-form/:ulbId",
     component: UlbFiscalNewComponent,

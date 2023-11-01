@@ -1,0 +1,7 @@
+<nav style="--bs-breadcrumb-divider: '>';" class="p-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let link of links">
+            <a [routerLink]="link.url">{{ link.label }}</a>
+        </li>
+    </ol>
+</nav>
