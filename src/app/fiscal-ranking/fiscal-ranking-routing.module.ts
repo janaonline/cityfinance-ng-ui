@@ -15,7 +15,7 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-{ path: "home", component: HomeComponent },
+  { path: "home", component: HomeComponent },
   // { path: "", component: FiscalHomeComponent },
   // { path: "home", component: FiscalHomeComponent },
   { path: "dashboard", component: DashboardComponent },
