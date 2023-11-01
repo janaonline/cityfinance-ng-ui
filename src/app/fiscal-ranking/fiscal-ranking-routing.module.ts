@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
+import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: "annual-financial-statements", component: AnnualFinancialStatementsComponent },
   { path: "annual-budgets", component: AnnualBudgetsComponent },
   { path: "top-rankings", component: TopRankingsComponent },
+  { path: "ulb/:ulbId", component: UlbDetailsComponent },
   {
     path: "ulb-form/:ulbId",
     component: UlbFiscalNewComponent,
