@@ -189,3 +189,9 @@ a.disabled {
 .navbar-nav {
   align-items: baseline;
 }
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    border-top: none !important;
+}
+.dropdown-item {
+padding: .5rem 1rem;
+}

@@ -17,7 +17,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 
 import { MatCardModule } from "@angular/material/card";
-import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
+//import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
@@ -55,6 +55,7 @@ import { AssessmentParametersComponent } from './home/assessment-parameters/asse
 import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
 import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
 import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
+import { AssessmentParameterComponent } from './assessment-parameter/assessment-parameter.component';
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
@@ -63,7 +64,7 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
-    UlbFiscalComponent,
+   // UlbFiscalComponent,
     UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
@@ -91,6 +92,7 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     FeaturesNBenefitsComponent,
     UlbsInIndiaComponent,
     GuidelinesPopupComponent,
+    AssessmentParameterComponent,
     AnnualFinancialStatementsComponent,
     BreadcrumbComponent,
     AnnualBudgetsComponent,
