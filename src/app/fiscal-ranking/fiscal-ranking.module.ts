@@ -60,6 +60,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
+import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
     AnnualBudgetsComponent,
     TopRankingsComponent,
     UlbDetailsComponent,
+    ComparisonComponent,
   ],
   imports: [
     CommonModule,
