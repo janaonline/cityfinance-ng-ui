@@ -58,6 +58,7 @@ import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-pop
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
+import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     AnnualFinancialStatementsComponent,
     BreadcrumbComponent,
     AnnualBudgetsComponent,
+    TopRankingsComponent,
   ],
   imports: [
     CommonModule,
