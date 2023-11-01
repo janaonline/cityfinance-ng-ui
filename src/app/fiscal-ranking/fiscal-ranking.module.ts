@@ -61,6 +61,7 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
 import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
+import { AssessmentParameterComponent } from './ulb-details/assessment-parameter/assessment-parameter.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { ComparisonComponent } from './ulb-details/comparison/comparison.compone
     TopRankingsComponent,
     UlbDetailsComponent,
     ComparisonComponent,
+    AssessmentParameterComponent,
   ],
   imports: [
     CommonModule,
