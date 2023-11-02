@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import Chart from 'chart.js';
+import { ComparisionFiltersComponent } from '../comparision-filters/comparision-filters.component';
 
 
 @Component({
@@ -10,7 +12,9 @@ import Chart from 'chart.js';
 export class ComparisonComponent implements OnInit {
   public chart: any;
 
-  constructor() { }
+  constructor(
+    private matDialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.createChart();
@@ -85,7 +89,14 @@ export class ComparisonComponent implements OnInit {
       }
     } as any);
 
-    this.chart.canvas.style.height = '50vh';
+    this.chart.canvas.style.height = '55vh';
+  }
+
+  openFilter() {
+    this.matDialog.open(ComparisionFiltersComponent, {
+      minWidth: '400px',
+      maxWidth: '500px'
+    });
   }
 
 }
