@@ -199,7 +199,9 @@ export class AssessmentParameterComponent implements OnInit {
     this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const urlArray = event.url.split("/");
-        this.currentPageData = this.allPageData[urlArray[3]];
+        this.pageKey = urlArray[3]
+        this.currentPageData = this.allPageData[this.pageKey];
+        
       }
     });
   }
