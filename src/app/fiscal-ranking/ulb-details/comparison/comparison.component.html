@@ -1,1 +1,51 @@
-<p>comparison works!</p>
+<section class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4 class="color-blue">Comparison Across Assessment Parameters</h4>
+            <p>Compare <span class="color-orange">Navi Mumbai's</span> performance with national, state and population
+                category averages. Use below selection modes to explore.</p>
+
+
+            <form>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="overAllOption"
+                        value="Over All">
+                    <label class="form-check-label" for="overAllOption">
+                        Over All
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="resourceMobilisationOption"
+                        value="Resource mobilisation">
+                    <label class="form-check-label" for="resourceMobilisationOption">
+                        Resource mobilisation
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                        id="expenditurePerformanceOption" value="Expenditure performance">
+                    <label class="form-check-label" for="expenditurePerformanceOption">
+                        Expenditure performance
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="fiscalGovernanceOption"
+                        value="Fiscal Governance">
+                    <label class="form-check-label" for="fiscalGovernanceOption">
+                        Fiscal Governance
+                    </label>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-6">
+            <div class="chart-container">
+                <canvas id="bar-chart-with-line">{{ chart }}</canvas>
+            </div>
+
+        </div>
+    </div>
+</section>
