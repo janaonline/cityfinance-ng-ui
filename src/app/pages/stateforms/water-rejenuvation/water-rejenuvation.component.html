@@ -75,8 +75,8 @@
                                         <td>
                                             <input style="height:4rem" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" formControlName="area" type="number" pattern="^\d*(\.\d{0,6})?$">
                                         </td>
-                                        <td>
-                                            <div class="image-upload" style="display: inline-block;">
+                                        <td [matTooltip]="checkErrorState(projectRow,'photos') ? 'No photos added' : null">
+                                            <div class="image-upload" style="display: inline-block;" [ngClass]="{'falseVal br-red': checkErrorState(projectRow,'photos')}">
                                                 <label [ngClass]="{'anDisable' : (formDisable || disableUAs.includes(uas.value.ua) )}" class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
