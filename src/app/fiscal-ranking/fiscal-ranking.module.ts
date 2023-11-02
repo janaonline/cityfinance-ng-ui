@@ -62,9 +62,9 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
 import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
-import { AssessmentParameterComponent } from './ulb-details/assessment-parameter/assessment-parameter.component';
 import { PerformanceFourMComponent } from './ulb-details/performance-four-m/performance-four-m.component';
 import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-details-header.component';
+import { UlbDetailsAssessmentParametersComponent } from './ulb-details/ulb-details-assessment-parameters/ulb-details-assessment-parameters.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +108,7 @@ import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-
     AssessmentParameterComponent,
     PerformanceFourMComponent,
     UlbDetailsHeaderComponent,
+    UlbDetailsAssessmentParametersComponent,
   ],
   imports: [
     CommonModule,

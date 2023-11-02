@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-assessment-parameter',
-  templateUrl: './assessment-parameter.component.html',
-  styleUrls: ['./assessment-parameter.component.scss']
+  selector: 'app-ulb-details-assessment-parameters',
+  templateUrl: './ulb-details-assessment-parameters.component.html',
+  styleUrls: ['./ulb-details-assessment-parameters.component.scss']
 })
-export class AssessmentParameterComponent implements OnInit {
+export class UlbDetailsAssessmentParametersComponent implements OnInit {
 
 
 
