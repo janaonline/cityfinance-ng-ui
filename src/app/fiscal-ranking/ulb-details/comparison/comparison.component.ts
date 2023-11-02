@@ -63,11 +63,17 @@ export class ComparisonComponent implements OnInit {
       options: {
         maintainAspectRatio: false,
         scales: {
-          y: {
+          yAxes: [{
             ticks: {
+              beginAtZero: true,
               stepSize: 100
             }
-          }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            }
+          }],
         },
         legend: {
           position: 'bottom',
