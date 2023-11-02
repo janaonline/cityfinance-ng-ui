@@ -59,6 +59,9 @@ import { AssessmentParameterComponent } from './assessment-parameter/assessment-
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
+import { TopRankingsComponent } from './top-rankings/top-rankings.component';
+import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
+import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +99,9 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     AnnualFinancialStatementsComponent,
     BreadcrumbComponent,
     AnnualBudgetsComponent,
+    TopRankingsComponent,
+    UlbDetailsComponent,
+    ComparisonComponent,
   ],
   imports: [
     CommonModule,
