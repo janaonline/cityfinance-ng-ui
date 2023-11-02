@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-ulb-details',
@@ -7,6 +8,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./ulb-details.component.scss']
 })
 export class UlbDetailsComponent implements OnInit {
+
+
+  breadcrumbLinks: BreadcrumbLink[] = [
+    {
+      label: 'City Finance Ranking - Home',
+      url: '/rankings/home'
+    },
+    {
+      label: 'Top rankings',
+      url: '/rankings/top-rankings'
+    }
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -17,6 +30,10 @@ export class UlbDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breadcrumbLinks.push({
+      label: 'Ulb details',
+      url: `/rankings/ulb/${this.ulbId}`
+    });
   }
 
 }

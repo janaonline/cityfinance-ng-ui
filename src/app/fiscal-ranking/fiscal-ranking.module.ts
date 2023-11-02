@@ -63,6 +63,7 @@ import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
 import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
 import { AssessmentParameterComponent } from './ulb-details/assessment-parameter/assessment-parameter.component';
 import { PerformanceFourMComponent } from './ulb-details/performance-four-m/performance-four-m.component';
+import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-details-header.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { PerformanceFourMComponent } from './ulb-details/performance-four-m/perf
     ComparisonComponent,
     AssessmentParameterComponent,
     PerformanceFourMComponent,
+    UlbDetailsHeaderComponent,
   ],
   imports: [
     CommonModule,
