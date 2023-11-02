@@ -110,31 +110,31 @@ export class WaterRejenuvationComponent implements OnInit {
           this.disableActionUAs.push(el.value?.ua)
         }
       })
-      console.log(this.disableActionUAs)
+   //   console.log(this.disableActionUAs)
 
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
         this.formDisable = true;
       } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
-        console.log(this.waterRejenuvation)
+      //  console.log(this.waterRejenuvation)
         this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
 
           if (el['controls']['status']['value'] == 'APPROVED') {
-            console.log(el)
+          //  console.log(el)
             this.disableUAs.push(el.value?.ua)
 
             el.disable();
-            console.log(el['controls'])
+          //  console.log(el['controls'])
             // this.waterRejenuvation['controls']['uaData']['controls'][el]['controls'].disable();
           }
         })
-        console.log(this.disableUAs)
+       // console.log(this.disableUAs)
       }
     }
     else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
       this.actionFormDisable = true;
     }
-    console.log('waterRejuvenation', this.waterRejenuvation)
+   // console.log('waterRejuvenation', this.waterRejenuvation)
     if (this.formDisable) {
 
       this.waterRejenuvation.disable();
@@ -154,18 +154,18 @@ export class WaterRejenuvationComponent implements OnInit {
     let indicatorValue = event.target.value
 
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-    console.log(uaDataAtIndex._id);
+ //   console.log(uaDataAtIndex._id);
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
         el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue)
       }
     }
-    console.log(this.waterRejenuvation)
+   // console.log(this.waterRejenuvation)
     // this.checkDiff();
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
-    console.log(this._router.url);
+    //console.log(this._router.url);
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -208,8 +208,8 @@ export class WaterRejenuvationComponent implements OnInit {
       change.uaData.forEach((element) => {
         delete element.foldCard;
       });
-      console.log(deepEqual(change, JSON.parse(data)));
-      console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
+     // console.log(deepEqual(change, JSON.parse(data)));
+    //  console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
 
       if (!deepEqual(change, JSON.parse(data))) {
         if(this.userData?.role == 'STATE') {
@@ -259,7 +259,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   getUas() {
-    console.log("rejen heading...", this.data);
+   // console.log("rejen heading...", this.data);
     return this.data.map((data) =>
       this.fb.group({
         ua: data.ua,
@@ -352,7 +352,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getServiceLevelIndicator(dataArray) {
-    console.log(dataArray)
+  //  console.log(dataArray)
     return dataArray.map((data) =>
       this.fb.group({
         name: this.fb.control(data.name, [
@@ -414,7 +414,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   actionTakenByRoleOnForm = null
   loadData() {
-    console.log(this.uasData)
+   // console.log(this.uasData)
     return new Promise((resolve, reject) => {
       let id = sessionStorage.getItem("state_id");
       this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
@@ -426,7 +426,7 @@ export class WaterRejenuvationComponent implements OnInit {
           this.totalStatus = res["data"].status;
           this.storeData(res["data"]);
           this.showLoader = false;
-          console.log("water rej data", this.data);
+        //  console.log("water rej data", this.data);
           resolve("ss");
         },
         (err) => {
@@ -553,7 +553,7 @@ export class WaterRejenuvationComponent implements OnInit {
   disableAddMore2 = false
   addRow1(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-    console.log(uaDataAtIndex._id);
+   // console.log(uaDataAtIndex._id);
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
         if (el['controls']['reuseWater'].length > 9) {
@@ -563,8 +563,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
       }
     }
-    console.log(this.data)
-    console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+   // console.log(this.data)
+   // console.log(this.waterRejenuvation['controls']['uaData']['controls'])
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
@@ -607,8 +607,8 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   addRow2(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
-    console.log(uaDataAtIndex._id);
-    console.log(this.data)
+  //  console.log(uaDataAtIndex._id);
+  //  console.log(this.data)
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
         if (el['controls']['serviceLevelIndicators'].length > 9) {
@@ -673,7 +673,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   submit(fromPrev = null) {
     let draftFlag = 0;
-    console.log(this.loggedInUserType);
+   // console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
       console.log(this.waterRejenuvation.controls);
@@ -947,7 +947,7 @@ export class WaterRejenuvationComponent implements OnInit {
           resolve();
         },
         (err) => {
-          console.log(err);
+        //  console.log(err);
           this.errorPhotosArray.push(file);
         }
       );
@@ -1023,14 +1023,14 @@ export class WaterRejenuvationComponent implements OnInit {
     //   this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
 
     let data = this.waterRejenuvation.value;
-    console.log('check diff data', data);
+   // console.log('check diff data', data);
 
     // for (let index = 0; index < data.uaData.length; index++) {
     //   data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
     // }
     let preData = data;
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
-    console.log('in water rej change', allFormData, preData);
+   // console.log('in water rej change', allFormData, preData);
     if (allFormData) {
       allFormData[0].waterrejenuvationrecyclings[0] = preData
       this._stateformsService.allFormsPreData.next(allFormData)
@@ -1043,7 +1043,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
 
     let data = this.waterRejenuvation.value;
-    console.log(data);
+   // console.log(data);
 
     for (let index = 0; index < data.uaData.length; index++) {
       data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
@@ -1068,7 +1068,7 @@ export class WaterRejenuvationComponent implements OnInit {
     );
   }
   checkStatus(ev, ua_id) {
-    console.log("mohua action in state", ev, ua_id);
+   // console.log("mohua action in state", ev, ua_id);
     this.saveBtnText = "SAVE AND NEXT";
     sessionStorage.setItem("changeInWaterRejenuvation", "true");
     console.log("before", this.waterRejenuvation.value);
@@ -1076,7 +1076,7 @@ export class WaterRejenuvationComponent implements OnInit {
     this.waterRejenuvation.value.state = state_id;
     this.waterRejenuvation.value.uaData.forEach((el) => {
       if (el.ua === ua_id) {
-        console.log(ev["status"], el.ua);
+        //console.log(ev["status"], el.ua);
         el["status"] = ev["status"];
         el["rejectReason"] = ev["rejectReason"];
       }
@@ -1088,7 +1088,7 @@ export class WaterRejenuvationComponent implements OnInit {
         this.waterRejenuvation.value["status"] = "APPROVED";
       }
     });
-    console.log("after", this.waterRejenuvation.value);
+   // console.log("after", this.waterRejenuvation.value);
   }
 
   latLong(value, event, type) {
@@ -1112,7 +1112,7 @@ export class WaterRejenuvationComponent implements OnInit {
       type: 'water supply'
     }
     this.fcCommonService.formGetMethod('indicatorLineItem', queryParam).subscribe((res:any)=>{
-      console.log('indicatorLineItem', res);
+    //  console.log('indicatorLineItem', res);
       this.waterIndicators = res?.data;
       
     },
