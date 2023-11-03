@@ -1,15 +1,10 @@
-<div class="row">
+<div class="row m-0">
     <div class="col-10">
         <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
     </div>
     <div class="col-2 p-3">
-        <input 
-        type="text" 
-        readonly 
-        class="form-control cursor-pointer px-2 py-1" 
-        placeholder="Search ULB..." 
-        (click)="openSearch()"
-        >
+        <input type="text" readonly class="form-control cursor-pointer px-2 py-1" placeholder="Search ULB..."
+            (click)="openSearch()">
     </div>
 </div>
 
@@ -24,14 +19,40 @@
 </section>
 
 <section style="min-height: 100vh;">
-    <div class="row">
-        <div class="col-5">
+    <div class="row m-0">
+        <div class="col-6">
             <h2 class="p-5">map section</h2>
         </div>
-        <div class="col-7">
-            <h2 class="p-5">table section</h2>
+        <div class="col-6">
+            <div class="card p-4 mt-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5>Top-ranked ULBs In</h5>
+                    <button class="btn btn-outline btn-orange">Download</button>
+                </div>
+                <div class="row d-flex mt-3">
+                    <div class="form-group col-md-4">
+                        <div class="input-group inp-grp">
+                            <form class="w-100">
+                                <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId"
+                                    [settings]="dropdownSettings">
+                                </angular2-multiselect>
+                            </form>
+                        </div>
 
-            <a routerLink="/rankings/ulb/456789">Ulb details page</a>
+                    </div>
+                    <div class="col-4 col-sm-4 col-md-4 ps-3">
+                        <select class="form-select" id="years">
+                            <option selected value="">All Categories</option>
+                            <option *ngFor="let item of populationCategories" value="{{ item._id }}">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <app-common-table theme="white" [response]="table?.response">
+            </app-common-table>
         </div>
     </div>
 </section>
