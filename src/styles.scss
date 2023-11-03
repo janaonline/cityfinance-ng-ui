@@ -1322,6 +1322,12 @@ img.align-center {
     border-radius: 10px !important;
 }
 
+.search-page {
+    .mat-dialog-container {
+        background-color: black;
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
