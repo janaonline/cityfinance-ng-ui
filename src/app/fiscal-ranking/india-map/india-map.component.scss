@@ -16,7 +16,7 @@
 .stateMap {
     border-radius: inherit;
     bottom: 0px;
-    background: #fff;
+    background: initial;
     z-index: 8;
     display: inline-block;
     width: 98%;
@@ -369,8 +369,8 @@ div.miniMap {
 }
 
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
-    stroke: #ffffff !important;
-    stroke-width: 2px;
+    stroke: black !important;
+    stroke-width: 1px;
 }
 
 ::ng-deep #districtMapId .leaflet-pane>svg path.leaflet-interactive {

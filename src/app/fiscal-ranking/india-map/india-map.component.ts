@@ -153,7 +153,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   getColor(value: any) {
-    return this.colorDetails?.find(item => value >= item.min && value <= item.max)?.color || "#E5E5E5";
+    return this.colorDetails?.find(item => value >= item.min && value <= item.max)?.color || "#F3FAFF";
   }
 
   ngAfterViewInit(): void {
@@ -331,15 +331,22 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
       let color;
       let stateCodes = this.colorCoding.map(el => el.code);
-      if (this.stateData?.find(state => state?.code === stateCode)) {
+      const state = this.stateData?.find(state => state?.code === stateCode);
+
+      if (state) {
         this.colorCoding?.forEach((elem) => {
           if (elem?.code == layer?.feature?.properties?.ST_CODE) {
-            color = this.getColor(elem?.percentage);
+            if (elem.color) {
+              color = elem.color;
+            } else {
+              color = this.getColor(elem?.percentage);
+            }
           } else if (
             !stateCodes.includes(layer?.feature?.properties?.ST_CODE)
           ) {
             color = this.getColor(0);
           }
+
           MapUtil.colorStateLayer(layer, color);
         });
       }
