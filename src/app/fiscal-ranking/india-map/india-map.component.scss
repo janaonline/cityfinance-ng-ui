@@ -15,10 +15,8 @@
 
 .stateMap {
     border-radius: inherit;
-    //   position: absolute;
-    //  left: 5px;
     bottom: 0px;
-    background: #f8f9ff !important;
+    background: #fff;
     z-index: 8;
     display: inline-block;
     width: 98%;
@@ -30,8 +28,6 @@
     @media screen and (max-width: 768px) {
         width: 99vw;
     }
-
-    // border-left: inherit;
 }
 
 .stateMapContainer {
@@ -41,10 +37,7 @@
 
     @media (max-width: 600px) {
         min-height: 550px;
-        //  margin-left: 10px;
     }
-
-    // border: 1px solid rgb(212, 212, 212);
     border-radius: 5px;
     padding-top: 1%;
     display: flex;
@@ -77,23 +70,14 @@ div.miniMap {
 #districtMapContainer {
     padding: 0px;
     width: 98%;
-    // margin-top: 1%;
     position: absolute;
     top: 0%;
-
+    border-radius: inherit;
+    border-left: inherit;
     @media (max-width: 768px) {
         margin-top: 0%;
         height: 100%;
     }
-
-    // position: absolute;
-    border-radius: inherit;
-    border-left: inherit;
-    // transform: translateY(9%);
-}
-
-::ng-deep div.preLoaderWrapper[_ngcontent-c7] {
-    padding: 0% 1%;
 }
 
 .skeletonWrapper {
@@ -140,7 +124,6 @@ div.miniMap {
 .ulbDetails {
     transform: scale(0.8);
     margin-top: -10%;
-
     &>span {
         display: block;
     }
@@ -181,16 +164,8 @@ div.miniMap {
     background-color: black;
     color: white;
     padding: 10px;
-    // z-index: 9;
 }
 
-/*
-*
-* ==========================================
-* CUSTOM UTIL CLASSES
-* ==========================================
-*
-*/
 
 .progress {
     width: 100px;
@@ -279,25 +254,10 @@ div.miniMap {
     color: #8bd2f0;
 }
 
-// ::ng-deep .mat-option-text {
-//   font-size: 1.2rem;
-// }
-// ::ng-deep .mat-optgroup-label {
-//   font-size: 1.5rem;
-// }
 ::ng-deep .leaflet-zoom-animated svg g {
     transform: translateX(-5%) !important;
 }
 
-// ::ng-deep mat-option.mat-option {
-//   height: 40px;
-// }
-// ::ng-deep label.mat-optgroup-label {
-//   height: 38px;
-// }
-// ::ng-deep input.mat-input-element {
-//   font-size: 1.7rem;
-// }
 ::ng-deep div#cdk-overlay-0.cdk-overlay-pane {
     min-width: 200.1px !important;
 }
@@ -349,38 +309,28 @@ div.miniMap {
     .leaflet-control-attribution {
         display: none;
     }
-
-    // .mat-form-field-flex {
-    //   border: 1.2px solid #3a3939;
-    //   border-radius: 0px;
-    // }
     .cuppa-dropdown {
         position: relative;
         margin-top: -2px;
     }
-
     .map-click-guide {
         position: absolute;
         bottom: 3vh;
     }
-
     .national-map-click-guide {
         margin-left: 13%;
         width: fit-content;
         margin-top: 2%;
         bottom: 1px;
         font-size: 1vw;
-
         @media screen and (max-width: 1024px) and (min-width: 560px) {
             font-size: $font-size-base * 0.75;
         }
-
         @media screen and (max-width: 551px) {
             font-size: $font-size-base * 0.75;
             margin: auto;
         }
     }
-
     .state-map-click-guide {
         text-align: center;
         left: 18%;
@@ -403,21 +353,6 @@ div.miniMap {
     min-height: 70.84px;
 }
 
-// @media (max-width: 777px) {
-//   .national-map-click-guide {
-//     color: yellow;
-//   }
-// }
-// @media (min-width: 777px) {
-//   .national-map-click-guide {
-//     color: green;
-//   }
-// }
-// @media (min-width: 1024px) {
-//   .national-map-click-guide {
-//     color: red;
-//   }
-// }
 @media screen and (max-width: 768px) {
     ::ng-deep .mat-option-text {
         white-space: nowrap;
@@ -443,10 +378,8 @@ div.miniMap {
     stroke-width: 0 !important;
 }
 
-// css for new changes.............
 ::ng-deep .selected-list {
     border-radius: 8px !important;
-    // width: 80%;
     background-color: #e9ecf7;
 }
 
@@ -468,9 +401,6 @@ div.miniMap {
 }
 
 .form-select {
-    // background: #FFFFFF 0% 0% no-repeat padding-box;
-    // border: 1px solid #FFCF8E;
-    // border-radius: 6px 6px 0px 0px;
     border: 1px solid #d0d0d0;
     border-radius: 6px;
     font: normal normal 600 13px/14px "Archivo";
@@ -575,12 +505,10 @@ td {
 }
 
 .inp-grp {
-    // width: 40%;
     display: inline-flex;
 }
 
 .expo-drp-in {
-    //  background: #E9ECF7 !important;
     border-radius: 8px !important;
     font: normal normal 600 14px/15px "Archivo";
     letter-spacing: 0px;
@@ -594,10 +522,6 @@ td {
 }
 
 @media screen and (max-width: 428px) {
-
-    //   .heading {
-    //     //   text-align: center;
-    //   }
     .form-select {
         margin-top: 1rem;
         width: auto;
@@ -617,8 +541,6 @@ td {
 .searchButton {
     border: none;
     padding: 6px;
-    // padding-left: 2px;
-    // padding-right: 2px;
     width: auto;
     font-size: 1em;
     border-radius: 5px;

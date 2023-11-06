@@ -10,7 +10,6 @@ import { NationalMapSectionService } from 'src/app/pages/new-dashbords/national/
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
 import { NationalHeatMapComponent } from 'src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
-import { ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
@@ -25,36 +24,28 @@ import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
   styleUrls: ['./india-map.component.scss']
 })
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
-  @Output() onCardClick = new EventEmitter();
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
   randomNumber = 0;
 
-
-  @Input() populationCategories: any = [];
   nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
   stateList: IState[];
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
-  popBtn = true;
   tableData;
   myForm: FormGroup;
   selectedStateCode;
-
   nationalInput: any = {
     financialYear: "2020-21",
     stateId: "",
     populationCat: true,
     ulbType: "",
   };
-
   AvailabilityTitle: String = "India";
-
   showLoader: boolean = true;
   dataAvailabilityvalue: Number;
   isLoading: boolean = true;
-
   mapConfig = {
     code: {
       state: "",
@@ -69,16 +60,11 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     stateZoomOnWeb: 4, // will fit map in container
     stateBlockHeight: "23.5rem", // will fit map in container
   };
-
   currentStateId: any = "";
   colorCoding: any = [];
   financialYearList: any = [];
-
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
-  stateDataForNation = [];
-  selectedYear: any = "2020-21";
-  selectedCategory: any = '';
   currentId: any;
 
   constructor(
@@ -113,7 +99,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.getFinancialYearList();
     this.getNationalTableData();
     this.loadData();
-    this.getStateUlbCovered();
     this.createNationalMapJson();
   }
 
@@ -141,7 +126,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       div.innerHTML = labels.join(``);
       return div;
     };
-
     legend.addTo(this.nationalLevelMap);
   }
 
@@ -237,7 +221,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
     this.currentId = containerId;
     this.isLoading = true;
-    this.isProcessingCompleted.emit(false);
     let zoom;
     if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;
     else zoom = this.mapConfig.nationalZoomOnMobile;
@@ -264,12 +247,8 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
     let stateToAutoSelect: IStateULBCovered;
     let layerToAutoSelect;
-    if (this.queryParams.state) {
-      const stateFound = this.stateData.find(
-        (state) => state._id === this.queryParams.state
-      );
-      if (stateFound) stateToAutoSelect = stateFound;
-    }
+    const stateFound = this.stateData.find(state => state._id === this.queryParams?.state);
+    if (this.queryParams.state && stateFound) stateToAutoSelect = stateFound;
 
     this.stateLayers.eachLayer((layer) => {
       if (stateToAutoSelect) {
@@ -300,7 +279,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       );
     }
     this.initializeNationalLevelMapLayer(this.stateLayers);
-    this.isProcessingCompleted.emit(true);
   }
 
   showMapLegends() {
@@ -323,60 +301,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   </div>`;
   }
 
-  createDistrictMap(
-    districtGeoJSON,
-    options: {
-      center: ILeafletStateClickEvent["latlng"];
-      dataPoints: {
-        lat: string;
-        lng: string;
-        name: string;
-        area: number;
-        population: number;
-        auditStatus: ULBWithMapData["auditStatus"];
-      }[];
-    }
-  ) {
-    if (this.districtMap) return;
-    this.clearDistrictMapContainer();
-
-    setTimeout(() => {
-      let zoom = 5.5;
-
-      const districtMap = L.map("districtMapId", {
-        scrollWheelZoom: false,
-        fadeAnimation: true,
-        minZoom: zoom,
-        maxZoom: zoom,
-        zoomControl: false,
-        keyboard: true,
-        attributionControl: true,
-        doubleClickZoom: false,
-        dragging: true,
-        tap: true,
-      }).setView([options.center.lat, options.center.lng], 4);
-      districtMap.scrollWheelZoom.disable();
-
-      const districtLayer = L.geoJSON(districtGeoJSON, {
-        style: {
-          fill: true,
-          fillColor: "red",
-        }
-      }).addTo(districtMap);
-
-      if (districtLayer) {
-        districtMap.fitBounds(districtLayer.getBounds());
-      }
-      this.districtMap = districtMap;
-      let color;
-      this.colorCoding?.forEach((elem) => {
-        if (elem?.code == this.selectedStateCode) {
-          color = this.getColor(elem?.percentage);
-        }
-        MapUtil.colorStateLayer(districtLayer, color);
-      });
-    }, 0.5);
-  }
   loadData() {
     this._commonService.fetchStateList().subscribe((res: any) => {
       this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
@@ -396,7 +320,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   onSelectingStateFromDropDown(state: any | null) {
     this.nationalMapService.setCurrentSelectedId({ data: state?._id });
     this.currentStateId = state?._id;
-    this.onStateChange.emit({ state: this.currentStateId, category: this.selectedCategory })
+    this.onStateChange.emit({ state: this.currentStateId })
     this.AvailabilityTitle = state?.name;
     this.nationalInput.stateId = state?._id || '';
     this.getNationalTableData();
@@ -423,11 +347,10 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) return;
 
-      const stateFound = this.stateData?.find(state => state?.code === stateCode);
       let color;
       let stateCodes = this.colorCoding.map(el => el.code);
-      if (this.colorCoding && stateFound) {
-        this.colorCoding.forEach((elem) => {
+      if (this.stateData?.find(state => state?.code === stateCode)) {
+        this.colorCoding?.forEach((elem) => {
           if (elem?.code == layer?.feature?.properties?.ST_CODE) {
             color = this.getColor(elem?.percentage);
           } else if (
@@ -462,12 +385,5 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   private updateDropdownStateSelection(state: IState) {
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
-  }
-
-  getStateUlbCovered() {
-    const body = { year: this.yearSelected || [] };
-    this._commonService.getStateUlbCovered(body).subscribe(res => {
-      this.stateDataForNation = [...res?.data]
-    })
   }
 }
