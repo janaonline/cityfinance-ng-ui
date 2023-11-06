@@ -45,7 +45,7 @@ export class CommonTableComponent implements OnInit {
   @Input() order: 1 | -1 = 1;
   @Input() page: number = 0;
   @Input() limit: number = 10;
-
+  @Input() classLists?:string;
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
