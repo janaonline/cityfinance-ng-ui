@@ -12,7 +12,6 @@ import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-he
 import { NationalHeatMapComponent } from 'src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
 import { ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
-import { AssetsService } from 'src/app/shared/services/assets/assets.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
@@ -210,31 +209,24 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   getStateWiseForm() {
     this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      console.log('state wise response', res);
-
       this.colorCoding = res?.data.heatMaps;
-
       this.initializeNationalLevelMapLayer(this.stateLayers);
       this.createNationalLevelMap(
         this.StatesJSONForMapCreation,
         this.currentId
       );
-
     });
   }
 
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
-      if (res) {
-        console.log("new Response", res);
-        this.colorCoding = res?.data;
-
-        this.initializeNationalLevelMapLayer(this.stateLayers);
-        this.createNationalLevelMap(
-          this.StatesJSONForMapCreation,
-          this.currentId
-        );
-      }
+      if (!res) return;
+      this.colorCoding = res?.data;
+      this.initializeNationalLevelMapLayer(this.stateLayers);
+      this.createNationalLevelMap(
+        this.StatesJSONForMapCreation,
+        this.currentId
+      );
     });
   }
 
@@ -260,16 +252,12 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.selectedYear = event.target.value;
     this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
-    // this.nationalMapService.setCurrentSelectYear({
-    //   data: event.target.value,
-    // });
     MapUtil.destroy(this.nationalLevelMap);
     this.getStateWiseForm();
-    // this.getNationalLevelMapData(event.target.value);
   }
 
   ngAfterViewInit(): void {
-    console.log(this.populationCategories, 'this.populationCategoriesthis.populationCategories')
+
   }
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
@@ -331,7 +319,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
   changeInDropdown(e) {
     this.onStateLayerClick(e);
-    //  this.changeInStateOrCity.emit(e);
   }
 
   get isState() {
@@ -359,8 +346,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     }
 
 
-    console.log("get-statewise-data-availability", containerId);
-    console.log(this.stateLayers, 'this.stateLayers,this.stateLayers,this.stateLayers')
     this.currentId = containerId;
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
@@ -523,13 +508,9 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
         this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
-      },
-      (error) => {
-        console.log(error);
       }
     );
     this._commonService.state_name_data.subscribe((res) => {
-      console.log(res, 'JJJJJJJJJJJJJJJJJJJJJJJJJJ')
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
@@ -552,7 +533,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   getFinancialYearList() {
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
-      console.log(this.financialYearList, 'this.financialYearListthis.financialYearList')
     });
   }
 
@@ -576,13 +556,10 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   onSelectingStateFromDropDown(state: any | null) {
-    console.log('state', state);
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-
     this.currentStateId = state?._id;
-
     this.onStateChange.emit({ state: this.currentStateId, category: this.selectedCategory })
     this.AvailabilityTitle = state?.name;
     if (state) {
@@ -612,7 +589,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    console.log("colorCoding==>", this.colorCoding);
     this.showMapLegends();
     map?.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
@@ -642,7 +618,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   private selectStateOnMap(state?: IState) {
-    console.log(state);
+
     if (this.previousStateLayer) {
       this.previousStateLayer = null;
     }
@@ -662,7 +638,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   private higlightClickedState(stateLayer) {
     let currentUrl = window.location.pathname;
-    console.log("currentUrl", currentUrl);
+
     let obj: any = {
       containerPoint: {},
       latlng: {
