@@ -26,7 +26,7 @@ import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
   templateUrl: './india-map.component.html',
   styleUrls: ['./india-map.component.scss']
 })
-export class IndiaMapComponent  extends NationalHeatMapComponent implements OnInit, AfterViewInit {
+export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onCardClick = new EventEmitter();
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
@@ -135,8 +135,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     protected _geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private _ngZone: NgZone,
-    private assetService: AssetsService,
     private router: Router,
     private nationalMapService: NationalMapSectionService,
     private fiscalRankingService: FiscalRankingService,
@@ -169,12 +167,8 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     // this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
-  ngOnDestroy(): void {
-    // let mapReferenceList = ['districtMap'];
-    // for (const item of mapReferenceList) {
-    //   MapUtil.destroy(this[item]);
-    // };
-  }
+
+  s
 
   createLegends() {
     const arr = [
@@ -373,17 +367,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     let zoom;
     if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;
     else zoom = this.mapConfig.nationalZoomOnMobile;
-    // let vw = Math.max(document.documentElement.clientWidth);
-    // vw = (vw - 1366) / 1366;
-    // let zoom = 4 + vw;
-    // if (this.userUtil.isUserOnMobile()) {
-    //   zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
-    //   if (window.innerHeight < 600) zoom = 3.6;
-    //   const valueOf1vh = this.calculateVH(1);
-    //   if (valueOf1vh < 5) zoom = 3;
-    //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
-    //   // return zoom;
-    // }
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -399,20 +382,14 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     };
     let map: L.Map;
 
-    // MapUtil.createDefaultNationalMap({});
-
     ({ stateLayers: this.stateLayers, map } =
       MapUtil?.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
 
     this.createControls(this.nationalLevelMap);
-
-    // setTimeout(() => {
-    // }, 1000);
     this.createLegends();
 
-    // Prepare to auto select state from query Params.
     let stateToAutoSelect: IStateULBCovered;
     let layerToAutoSelect;
     if (this.queryParams.state) {
@@ -439,19 +416,12 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       });
     });
 
-    /**
-     * @description If the map is already on mini mode, then it means the state is already selected, and its state map
-     * is in the view.
-     */
-
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
       this.isLoading = false;
     }
-    // this.hideMapLegends();
 
     if (this.isMapOnMiniMapMode) {
-      // this.hideMapLegends();
       this.showStateLayerOnlyFor(
         this.nationalLevelMap,
         this.currentStateInView
@@ -470,7 +440,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     }
   }
   clearDistrictMapContainer() {
-    // const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
     const height = this.userUtil.isUserOnMobile() ? `100%` : "530px";
 
     document.getElementById("districtMapContainer").innerHTML = `
@@ -518,7 +487,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        // maxZoom: zoom + 5,
         maxZoom: zoom,
         zoomControl: false,
         keyboard: true,
@@ -527,22 +495,13 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
         dragging: true,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
-      // districtMap.touchZoom.disable();
-      // districtMap.doubleClickZoom.disable();
       districtMap.scrollWheelZoom.disable();
-      // districtMap.boxZoom.disable();
-      // districtMap.keyboard.disable();
-      // districtMap.dragging.disable();
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: {
           fill: true,
           fillColor: "red",
-        },
-        // style: this.newDashboardstateColorStyle,
-        // style: {
-        //   color: "#0000",
-        // },
+        }
       }).addTo(districtMap);
 
       if (districtLayer) {
@@ -555,7 +514,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
           if (elem?.code == this.selectedStateCode) {
             color = this.getColor(elem?.percentage);
           }
-          // return;
           MapUtil.colorStateLayer(districtLayer, color);
         });
       }
@@ -564,7 +522,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
   loadData() {
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
-        // this.stateList = res;
         this.stateList = [{ _id: "", name: "India" }].concat(this._commonService.sortDataSource(res, "name"));
       },
       (error) => {
@@ -602,18 +559,16 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
   resetFilter() {
     this.selectedCategory = '';
     this.selectedYear = "2020-21";
-    if(!this.isState) {
+    if (!this.isState) {
       this.onSelectingStateFromDropDown({ _id: "", name: "India" });
     }
     this.nationalInput = this.nationalInput;
-    // this.getNationalLevelMapData(this.selectedYear);
     this.getStateWiseForm();
     this.nationalMapService.setCurrentSelectYear({
       data: this.selectedYear,
     });
 
     this.subFilterFn("popCat");
-    // this.getNationalTableData();
   }
 
   onCategoryChange() {
@@ -639,7 +594,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
-      // this.stateList = [];
       this.createLegends();
       this._commonService.fetchStateList().subscribe((res) => {
         this.stateList = [{ _id: "", name: "India" }].concat(res);
@@ -652,18 +606,9 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
-    // else {
-    //   this.higlightClickedState(this.stateLayers);
-    // }
     this.stateselected = state;
 
     this.selectStateOnMap(state);
-    this._commonService
-      .getUlbByState(state ? state?.code : null)
-      .subscribe((res) => {
-        let ulbsData: any = res;
-        //   this.cityData = ulbsData?.data?.ulbs;
-      });
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
@@ -678,7 +623,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       const stateFound = this.stateData?.find(
         (state) => state?.code === stateCode
       );
-      const count = stateFound ? stateFound.coveredUlbPercentage : 0;
 
       let color;
       let stateCodes = this.colorCoding.map((el) => el.code);
@@ -691,7 +635,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
           ) {
             color = this.getColor(0);
           }
-          // return;
           MapUtil.colorStateLayer(layer, color);
         });
       }
@@ -701,7 +644,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
   private selectStateOnMap(state?: IState) {
     console.log(state);
     if (this.previousStateLayer) {
-      // this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;
     }
     if (!state) {
@@ -742,12 +684,10 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       "/dashboard/city",
       "/dashboard/slb",
     ];
-    // if (this.colorCoding && currentUrl != "/home") {
     if (
       this.colorCoding &&
       !restrictedSelectedColorFromModule.includes(currentUrl)
     ) {
-      console.log("restricted func called");
       this.colorCoding.forEach((elem) => {
         if (elem?.code == selectedCode) {
           color = this.getColor(elem?.percent);
@@ -757,13 +697,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       this.onStateLayerClick(obj);
       stateLayer.options.style.color = color;
     }
-  }
-  private resetStateLayer(layer) {
-    layer.setStyle({
-      color: this.defaultStateLayerColorOption.color,
-      weight: this.defaultStateLayerColorOption.weight,
-    });
-    layer.closeTooltip();
   }
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -782,11 +715,6 @@ export class IndiaMapComponent  extends NationalHeatMapComponent implements OnIn
       name: "India",
     };
     this.updateDropdownStateSelection(obj);
-  }
-
-  selectedState(stateId: string) {
-    const state = this.stateDataForNation.find(e => e._id === stateId);
-
   }
 
   stateDataForNation = [];
