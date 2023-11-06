@@ -1,3 +1,27 @@
 section {
     text-align: center;
 }
+
+.card {
+    background-color: #f5f6ff;
+    border: 1px solid #9ca4ed;
+}
+
+.form-check {
+    margin-top: 25px;
+    .form-check-label {
+        font-size: 26px;
+        margin-left: 10px;
+    }
+    .form-check-input {
+        transform: scale(1.5);
+        margin-top: 12px;
+    }
+}
+
+.expo-drp-in {
+    border-radius: 8px !important;
+    font: normal normal 600 14px/15px "Archivo";
+    letter-spacing: 0px;
+    color: #000000;
+}

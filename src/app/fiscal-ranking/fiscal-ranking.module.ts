@@ -62,6 +62,14 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
 import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
+import { PerformanceFourMComponent } from './ulb-details/performance-four-m/performance-four-m.component';
+import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-details-header.component';
+import { UlbDetailsAssessmentParametersComponent } from './ulb-details/ulb-details-assessment-parameters/ulb-details-assessment-parameters.component';
+import { ComparisionFiltersComponent } from './ulb-details/comparision-filters/comparision-filters.component';
+import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.component';
+import { ParticipatingStateComponent } from './participating-state/participating-state.component';
+import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
+import { IndiaMapComponent } from './india-map/india-map.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +110,15 @@ import { ComparisonComponent } from './ulb-details/comparison/comparison.compone
     TopRankingsComponent,
     UlbDetailsComponent,
     ComparisonComponent,
+    AssessmentParameterComponent,
+    PerformanceFourMComponent,
+    UlbDetailsHeaderComponent,
+    UlbDetailsAssessmentParametersComponent,
+    ComparisionFiltersComponent,
+    SearchPopupComponent,
+    ParticipatingStateComponent,
+    ParticipatingUlbsComponent,
+    IndiaMapComponent,
   ],
   imports: [
     CommonModule,

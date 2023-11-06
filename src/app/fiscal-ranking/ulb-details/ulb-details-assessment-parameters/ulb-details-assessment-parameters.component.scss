@@ -1,0 +1,29 @@
+section {
+    background-color: #FFF6F8;
+}
+
+$primary-color: #E67E15;
+
+.btn-outline-primary {
+    color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+        color: #fff;
+        background-color: $primary-color;
+        border-color: $primary-color;
+    }
+
+    &.active, &:focus {
+        outline: none;
+        color: #fff;
+        background-color: $primary-color;
+        border-color: $primary-color;
+    }
+}
+
+.btn-check:checked + .btn-outline-primary {
+    color: #fff;
+    background-color: $primary-color;
+    border-color: $primary-color;
+}
