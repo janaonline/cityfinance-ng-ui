@@ -36,61 +36,11 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
-  creditRating: { [stateName: string]: number; total?: number } = {};
   stateList: IState[];
-  statesLayer: L.GeoJSON<any>;
-  districtMarkerMap = {};
-  dataForVisualization: {
-    financialStatements?: number;
-    totalMunicipalBonds?: number;
-    totalULB?: number;
-    coveredUlbCount?: number;
-    loading: boolean;
-  } = { loading: true };
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
-  totalUsersVisit: number;
-  StyleForSelectedState = {
-    weight: 2,
-    color: "#a6b9b4",
-    fillOpacity: 1,
-  };
-  defaultStateLayerColorOption = {
-    fillColor: "#efefef",
-    weight: 1,
-    opacity: 1,
-    color: "#a6b9b4",
-    fillOpacity: 1,
-  };
-  mapLabels = [
-    {
-      name: "0%",
-      color: "#a6b9b4",
-    },
-    {
-      name: "25%",
-      color: "#fcda4a",
-    },
-    {
-      name: "60%",
-      color: "#4a6ccb",
-    },
-    {
-      name: "Above 80%",
-      color: "#12a6dd",
-    },
-  ];
   popBtn = true;
   tableData;
   myForm: FormGroup;
-  dropdownSettings = {
-    singleSelection: true,
-    text: "India",
-    enableSearchFilter: true,
-    labelKey: "name",
-    primaryKey: "_id",
-    showCheckbox: false,
-    classes: "homepage-stateList custom-class",
-  };
   selectedStateCode;
 
   nationalInput: any = {
@@ -127,6 +77,10 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
+  stateDataForNation = [];
+  selectedYear: any = "2020-21";
+  selectedCategory: any = '';
+  currentId: any;
 
   constructor(
     protected _commonService: CommonService,
@@ -134,7 +88,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     protected _geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router,
     private nationalMapService: NationalMapSectionService,
     private fiscalRankingService: FiscalRankingService,
     private _loaderService: GlobalLoaderService
@@ -156,18 +109,14 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   ngOnInit(): void {
     this.getStateWiseForm();
-    // this.getNationalLevelMapData("2020-21");
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
     this.getNationalTableData();
     this.loadData();
     this.getStateUlbCovered();
-    // this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
-
-  s
 
   createLegends() {
     const arr = [
@@ -246,49 +195,8 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     return "#E5E5E5";
   }
 
-  selectedYear: any = "2020-21";
-  selectedCategory: any = '';
-  selectFinancialYear(event) {
-    this.selectedYear = event.target.value;
-    this.nationalInput.financialYear = this.selectedYear;
-    this.getNationalTableData();
-    MapUtil.destroy(this.nationalLevelMap);
-    this.getStateWiseForm();
-  }
-
   ngAfterViewInit(): void {
 
-  }
-  convertMiniMapToOriginal(domId: string) {
-    const element = document.getElementById(domId);
-    element?.classList.remove("miniMap");
-    this.isMapOnMiniMapMode = false;
-    return true;
-  }
-
-  viewDashboard() {
-    this.router.navigateByUrl(
-      `/dashboard/state?stateId=${this.currentStateId}`
-    );
-  }
-
-  downloadTableData() {
-    this.nationalInput["csv"] = true;
-    this._loaderService.showLoader();
-    try {
-      this.nationalMapService
-        .DownloadNationalTableData(this.nationalInput)
-        .subscribe((res: any) => {
-          this._loaderService.stopLoader();
-          let blob: any = new Blob([res], {
-            type: "text/json; charset=utf-8",
-          });
-          const url = window.URL.createObjectURL(blob);
-          fileSaver.saveAs(blob, `National Data.xlsx`);
-        });
-    } catch (err) {
-      this._loaderService.stopLoader();
-    }
   }
 
   getNationalTableData() {
@@ -325,7 +233,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     return this.userUtil.getUserType() == USER_TYPE.STATE;
   }
 
-  currentId: any;
+  
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -438,7 +346,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   </div>`;
   }
 
-  // districtMap: any;
   createDistrictMap(
     districtGeoJSON,
     options: {
@@ -534,25 +441,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
       this.financialYearList = res?.data?.FYs;
     });
-  }
-
-  resetFilter() {
-    this.selectedCategory = '';
-    this.selectedYear = "2020-21";
-    if (!this.isState) {
-      this.onSelectingStateFromDropDown({ _id: "", name: "India" });
-    }
-    this.nationalInput = this.nationalInput;
-    this.getStateWiseForm();
-    this.nationalMapService.setCurrentSelectYear({
-      data: this.selectedYear,
-    });
-
-    this.subFilterFn("popCat");
-  }
-
-  onCategoryChange() {
-    this.onStateChange.emit({ state: this.currentStateId, category: this.selectedCategory });
   }
 
   onSelectingStateFromDropDown(state: any | null) {
@@ -684,16 +572,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
-  resetNationalMap() {
-    this.onSelectingStateFromDropDown(null);
-    let obj = {
-      _id: "null",
-      name: "India",
-    };
-    this.updateDropdownStateSelection(obj);
-  }
-
-  stateDataForNation = [];
+  
   getStateUlbCovered() {
     const body = { year: this.yearSelected || [] };
     this._commonService.getStateUlbCovered(body).subscribe(res => {
