@@ -67,6 +67,8 @@ import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-
 import { UlbDetailsAssessmentParametersComponent } from './ulb-details/ulb-details-assessment-parameters/ulb-details-assessment-parameters.component';
 import { ComparisionFiltersComponent } from './ulb-details/comparision-filters/comparision-filters.component';
 import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.component';
+import { ParticipatingStateComponent } from './participating-state/participating-state.component';
+import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 import { IndiaMapComponent } from './india-map/india-map.component';
 
 @NgModule({
@@ -114,6 +116,8 @@ import { IndiaMapComponent } from './india-map/india-map.component';
     UlbDetailsAssessmentParametersComponent,
     ComparisionFiltersComponent,
     SearchPopupComponent,
+    ParticipatingStateComponent,
+    ParticipatingUlbsComponent,
     IndiaMapComponent,
   ],
   imports: [

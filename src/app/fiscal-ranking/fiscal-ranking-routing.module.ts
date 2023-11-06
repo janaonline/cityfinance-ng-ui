@@ -13,6 +13,8 @@ import { AnnualFinancialStatementsComponent } from './annual-financial-statement
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
 import { TopRankingsComponent } from './top-rankings/top-rankings.component';
 import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
+import { ParticipatingStateComponent } from './participating-state/participating-state.component';
+import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -65,7 +67,14 @@ const routes: Routes = [
   },
   {
     path: 'assesst-parameters/:id', component: AssessmentParameterComponent
-  }
+  },
+  {
+    path: 'participated-states-ut', component: ParticipatingStateComponent
+  },
+  {
+    path: 'participated-ulbs', component: ParticipatingUlbsComponent
+  },
+  
 ];
 
 @NgModule({

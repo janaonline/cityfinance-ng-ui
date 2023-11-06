@@ -2,7 +2,7 @@
     padding-top: 0;
 }
 
-.white  {
+.white {
     border: 1px solid #DBDBDB;
     box-shadow: 0px 0px 10px 3px #afafaf;
     border-radius: 5px;
@@ -11,13 +11,32 @@
 
     table {
         text-align: left;
-    
 
-        td, th{
+
+        td,
+        th {
             padding: 10px 20px;
         }
-        td.text-center, th.text-center {
+
+        td.text-center,
+        th.text-center {
             text-align: left !important;
         }
     }
+}
+
+.scroll {
+    width: 100;
+    overflow: auto;
+}
+
+.th-color-cls {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #E67E15;
+
 }

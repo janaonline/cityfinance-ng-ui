@@ -10,13 +10,13 @@
         </mat-paginator>
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
-    <div [class]="theme">
+    <div class="{{theme}} {{classLists}}">
         <table class="table p-2" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0" style="position: sticky; top: 50px;">
                 <tr>
                     <th scope="col" 
                         *ngFor="let column of response.columns" 
-                        class="border-0 "
+                        class="border-0 {{column?.class}}"
                         [ngClass]="{'table-primary': !theme}"
                     >
                         <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
