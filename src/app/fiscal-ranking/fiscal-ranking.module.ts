@@ -69,6 +69,7 @@ import { ComparisionFiltersComponent } from './ulb-details/comparision-filters/c
 import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.component';
 import { ParticipatingStateComponent } from './participating-state/participating-state.component';
 import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
+import { IndiaMapComponent } from './india-map/india-map.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { ParticipatingUlbsComponent } from './participating-ulbs/participating-u
     SearchPopupComponent,
     ParticipatingStateComponent,
     ParticipatingUlbsComponent,
+    IndiaMapComponent,
   ],
   imports: [
     CommonModule,
