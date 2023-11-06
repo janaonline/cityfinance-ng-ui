@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
+import { FiscalRankingService } from '../fiscal-ranking.service';
+import { ColorDetails } from '../india-map/india-map.component';
 import { SearchPopupComponent } from '../ulb-details/search-popup/search-popup.component';
 
 @Component({
@@ -182,11 +184,29 @@ export class TopRankingsComponent implements OnInit {
     classes: "homepage-stateList custom-class",
   };
 
+  colorCoding;
+
+  colorDetails: ColorDetails[] = [
+    { color: "#04DC00", text: "76%-100%", min: 76, max: 100 },
+    { color: "#F8A70B", text: "51%-75%", min: 51, max: 75 },
+    { color: "#FFDB5B", text: "26%-50%", min: 26, max: 50 },
+    { color: "#FFF281", text: "1%-25%", min: 1, max: 15 },
+    { color: "#E5E5E5", text: "0%", min: 0, max: 0 },
+  ];
+
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private fiscalRankingService: FiscalRankingService
   ) { }
 
   ngOnInit(): void {
+    this.getStateWiseForm();
+  }
+
+  getStateWiseForm() {
+    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      this.colorCoding = res?.data.heatMaps;
+    });
   }
 
   openSearch() {
