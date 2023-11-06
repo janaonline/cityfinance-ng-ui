@@ -18,10 +18,19 @@
         performance scores and gain valuable insights</p>
 </section>
 
-<section style="min-height: 100vh;">
+<section>
     <div class="row m-0">
         <div class="col-6 p-3">
             <app-india-map></app-india-map>
+
+            <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
+                aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="map-filter" id="top-ulbs" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="top-ulbs">Top ULBs</label>
+
+                <input type="radio" class="btn-check" name="map-filter" id="rank-holders" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rank-holders">ULB Rank Holders</label>
+            </div>
         </div>
         <div class="col-6">
             <div class="card p-4 mt-3">
@@ -49,6 +58,24 @@
                         </select>
                     </div>
                 </div>
+            </div>
+
+
+            <div class="btn-group btn-group-sm custom-btn-group btn-group-lg mt-3 text-center d-block" role="group"
+                aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="filter" id="all-resoource" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="all-resoource">All</label>
+
+                <input type="radio" class="btn-check" name="filter" id="resource-mobilization" autocomplete="off">
+                <label class="btn btn-outline-primary" for="resource-mobilization">Resource
+                    Mobilisation</label>
+
+                <input type="radio" class="btn-check" name="filter" id="expenditure-performance" autocomplete="off">
+                <label class="btn btn-outline-primary" for="expenditure-performance">Expenditure
+                    Performance</label>
+
+                <input type="radio" class="btn-check" name="filter" id="fiscal-governance" autocomplete="off">
+                <label class="btn btn-outline-primary" for="fiscal-governance">Fiscal Governance</label>
             </div>
 
             <app-common-table theme="white" [response]="table?.response">
