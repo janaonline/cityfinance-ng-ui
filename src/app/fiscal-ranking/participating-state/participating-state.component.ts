@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
+import { ColorDetails } from '../india-map/india-map.component';
+import { FiscalRankingService } from '../fiscal-ranking.service';
 
 
 export interface FrFilter {
@@ -15,7 +17,9 @@ export interface FrFilter {
 
 export class ParticipatingStateComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private fiscalRankingService: FiscalRankingService
+  ) { }
   breadcrumbLinks: BreadcrumbLink[] = [
     {
       label: 'City Finance Ranking - Home',
@@ -23,7 +27,8 @@ export class ParticipatingStateComponent implements OnInit {
     },
     {
       label: 'Participated States and UT ',
-      url: '/rankings/participated-states-ut '
+      url: '/rankings/participated-states-ut',
+      class: 'disabled'
     }
   ];
 
@@ -187,8 +192,19 @@ export class ParticipatingStateComponent implements OnInit {
         "$sum",
       ],
     }
-  }
+  };
+  colorCoding;
+
+  colorDetails: ColorDetails[] = [
+    { color: "#04DC00", text: "76%-100%", min: 76, max: 100 },
+    { color: "#F8A70B", text: "51%-75%", min: 51, max: 75 },
+    { color: "#FFDB5B", text: "26%-50%", min: 26, max: 50 },
+    { color: "#FFF281", text: "1%-25%", min: 1, max: 15 },
+    { color: "#E5E5E5", text: "0%", min: 0, max: 0 },
+  ];
+
   ngOnInit(): void {
+    this.getStateWiseForm();
   }
   stateTypeChange(e){
 
@@ -198,5 +214,11 @@ export class ParticipatingStateComponent implements OnInit {
   }
   ulbRankingStatusFilterChange(e){
 
+  }
+
+  getStateWiseForm() {
+    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      this.colorCoding = res?.data.heatMaps;
+    });
   }
 }
