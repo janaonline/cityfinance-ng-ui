@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
+import { FrFilter } from '../participating-state/participating-state.component';
 
 @Component({
   selector: 'app-participating-ulbs',
@@ -27,7 +28,190 @@ export class ParticipatingUlbsComponent implements OnInit {
     },
 
   ];
+
+  populationCategoryFilter: FrFilter[] = [
+    {
+      label: 'All',
+      id: '1',
+      key: 'all'
+    },
+    {
+      label: '4M+',
+      id: '2',
+      key: 'greaterThanFourM'
+    },
+    {
+      label: '1M-4M',
+      id: '3',
+      key: 'OneToFourM'
+    },
+    {
+      label: '100K-1M',
+      id: '4',
+      key: 'hundradKtoOneM'
+    },
+    {
+      label: '<100K',
+      id: '5',
+      key: 'lessThan100K'
+    },
+  
+  ]
+  ulbParticipationFilter: FrFilter[] = [
+    {
+      label: 'All',
+      id: '1',
+      key: 'all'
+    },
+    {
+      label: 'Participated',
+      id: '2',
+      key: 'participated'
+    },
+    {
+      label: 'Non Participated',
+      id: '3',
+      key: 'nonParticipated'
+    },
+  ];
+  ulbRankingStatusFilter: FrFilter[] = [
+    {
+      label: 'All',
+      id: '1',
+      key: 'all'
+    },
+    {
+      label: 'Ranked',
+      id: '2',
+      key: 'ranked'
+    },
+    {
+      label: 'Non Ranked',
+      id: '3',
+      key: 'nonRanked'
+    },
+  ];
+  populationCategory;
+  ulbParticipation;
+  ulbRankingStatus;
+  table = {
+    response: {
+      "status": true,
+      "message": "Successfully saved data!",
+      "columns": [
+        {
+          "label": "ULB Name",
+          "key": "ulbName",
+          "sort": 1,
+          "sortable": true,
+          "subHeader" : 'A',
+          "class": "th-color-cls"
+        },
+        {
+          "label": "Population Category",
+          "key": "populationCategory",
+          "sortable": false,
+          "subHeader" : 'B',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Total ULBs",
+          "key": "totalULBs",
+          "sortable": false,
+          "subHeader" : 'c',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Participated ULBs",
+          "key": "participatedULBs",
+          "sortable": true,
+          "subHeader" : 'c',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Participated ULBs",
+          "key": "participatedULBs",
+          "sortable": true,
+          "subHeader" : 'c',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Ranked ULBs",
+          "key": "rankedULBs",
+          "sortable": true,
+          "subHeader" : 'c',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Non Ranked ULBs",
+          "key": "nonRankedULBs",
+          "sortable": true,
+          "subHeader" : 'c',
+          "class": "th-common-cls"
+        },
+        {
+          "label": "Ranked to Total(%)",
+          "key": "rankedtoTotal",
+          "sortable": true,
+          "subHeader" : 'c',
+          "class": "th-color-cls"
+        },
+        
+      ],
+      "name": "",
+      "data": [
+        {
+          "_id": "5dcf9d7216a06aed41c748dc",
+          "stateType": 1,
+          "totalULBs": 0,
+          "participatedULBs": 0,
+          "rankedULBs": 0,
+          "nonRankedULBs": 1,
+          "stateName": "Andaman and Nicobar Islands",
+          "selected": false,
+          "rankedtoTotal": ""
+        },
+        {
+          "_id": "5dcf9d7216a06aed41c748dc",
+          "stateType": 1,
+          "totalULBs": 0,
+          "participatedULBs": 0,
+          "rankedULBs": 0,
+          "nonRankedULBs": 1,
+          "stateName": "Andaman and Nicobar Islands",
+          "selected": false,
+          "rankedtoTotal": ""
+        },
+        {
+          "_id": "5dcf9d7216a06aed41c748dc",
+          "stateType": 1,
+          "totalULBs": 0,
+          "participatedULBs": 0,
+          "rankedULBs": 0,
+          "nonRankedULBs": 1,
+          "stateName": "Andaman and Nicobar Islands",
+          "selected": false,
+          "rankedtoTotal": ""
+        },
+     
+      ],
+      "lastRow": [
+        "Total",
+        "$sum",
+        "$sum",
+        "$sum",
+      ],
+    }
+  }
   ngOnInit(): void {
   }
+  populationCategoryChange(e){
 
+  }
+  ulbParticipationChange(e){
+
+  }
+  ulbRankingStatusFilterChange(e){
+
+  }
 }

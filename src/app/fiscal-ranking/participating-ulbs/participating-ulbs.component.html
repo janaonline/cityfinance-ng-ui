@@ -16,6 +16,66 @@
              </p>
         </div>
     </div>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="w-75 mx-auto">
+                <div class="card fl-card">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-6 text-start common-cls fl-label">Filter by :</div>
+                            <div class="col-6 text-end color-orange">Reset</div>
+                        </div>
+                        <div class="row">
+                            <!-- State type filter -->
+                            <div class="col-4 mb-4">
+                                <div class="filter-heading common-cls">
+                                    Population Category
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="populationCategory" [(ngModel)]="populationCategory" (change)="populationCategoryChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of populationCategoryFilter">{{item?.label}}</option>
+                                    </select>  
+                                </div>
+                            </div>
+                            <!-- ULB Participation -->
+                            <div class="col-4 mb-4">
+                                <div class="filter-heading common-cls">
+                                    ULB Participation
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
+                                      </select>  
+                                </div>
+                               
+                            </div>
+                            <!-- ULB Ranking Status -->
+                            <div class="col-4">
+                                <div class="filter-heading common-cls">
+                                    ULB Ranking Status
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
+                                      </select>  
+                                </div>
+    
+                               
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
+            </app-common-table>
+        </div>
+    </div>
   
     
 </div>
