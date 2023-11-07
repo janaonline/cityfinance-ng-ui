@@ -1322,6 +1322,12 @@ img.align-center {
     border-radius: 10px !important;
 }
 
+.search-page {
+    .mat-dialog-container {
+        background-color: black;
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -1368,4 +1374,25 @@ input[type=number] {
 }
 .color-blue {
     color: #00486F;
+}
+
+.form-h-fr {
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #000000;
+
+}
+
+.sub-def-fr {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+
 }

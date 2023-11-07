@@ -17,7 +17,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 
 import { MatCardModule } from "@angular/material/card";
-import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
+//import { UlbFiscalComponent } from './ulb-fiscal/ulb-fiscal.component';
 import { SharedModule } from '../shared/shared.module';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { LoaderComponent } from './loader/loader.component';
@@ -55,15 +55,27 @@ import { AssessmentParametersComponent } from './home/assessment-parameters/asse
 import { FeaturesNBenefitsComponent } from './home/features-n-benefits/features-n-benefits.component';
 import { UlbsInIndiaComponent } from './home/ulbs-in-india/ulbs-in-india.component';
 import { GuidelinesPopupComponent } from './home/guidelines-popup/guidelines-popup.component';
+import { AssessmentParameterComponent } from './assessment-parameter/assessment-parameter.component';
 import { AnnualFinancialStatementsComponent } from './annual-financial-statements/annual-financial-statements.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.component';
+import { TopRankingsComponent } from './top-rankings/top-rankings.component';
+import { UlbDetailsComponent } from './ulb-details/ulb-details.component';
+import { ComparisonComponent } from './ulb-details/comparison/comparison.component';
+import { PerformanceFourMComponent } from './ulb-details/performance-four-m/performance-four-m.component';
+import { UlbDetailsHeaderComponent } from './ulb-details/ulb-details-header/ulb-details-header.component';
+import { UlbDetailsAssessmentParametersComponent } from './ulb-details/ulb-details-assessment-parameters/ulb-details-assessment-parameters.component';
+import { ComparisionFiltersComponent } from './ulb-details/comparision-filters/comparision-filters.component';
+import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.component';
+import { ParticipatingStateComponent } from './participating-state/participating-state.component';
+import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
+import { IndiaMapComponent } from './india-map/india-map.component';
 
 @NgModule({
   declarations: [
     FiscalHomeComponent,
     FiscalLoginComponent,
-    UlbFiscalComponent,
+   // UlbFiscalComponent,
     UlbFiscalNewComponent,
     LoaderComponent,
     UlbFisPreviewComponent,
@@ -91,9 +103,22 @@ import { AnnualBudgetsComponent } from './annual-budgets/annual-budgets.componen
     FeaturesNBenefitsComponent,
     UlbsInIndiaComponent,
     GuidelinesPopupComponent,
+    AssessmentParameterComponent,
     AnnualFinancialStatementsComponent,
     BreadcrumbComponent,
     AnnualBudgetsComponent,
+    TopRankingsComponent,
+    UlbDetailsComponent,
+    ComparisonComponent,
+    AssessmentParameterComponent,
+    PerformanceFourMComponent,
+    UlbDetailsHeaderComponent,
+    UlbDetailsAssessmentParametersComponent,
+    ComparisionFiltersComponent,
+    SearchPopupComponent,
+    ParticipatingStateComponent,
+    ParticipatingUlbsComponent,
+    IndiaMapComponent,
   ],
   imports: [
     CommonModule,

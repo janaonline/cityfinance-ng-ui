@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-sm-12">
+            <app-breadcrumb [links]="breadcrumbLinks"></app-breadcrumb>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-sm-12 text-center">
+           <span class="form-h-fr">Participating States and Union Territories Overview</span> 
+        </div>
+        <div class="col-sm-12 w-80 mx-auto text-center mt-2 px-5">
+            <p class="sub-def-fr">Explore a comprehensive overview of states and Union Territories (UTs) across India that have actively participated.
+                 This page presents a detailed breakdown of each region's characteristics, including state type (large or small), the total number of ULBs,
+                  the number of ULBs participated, the number ranked, the number not ranked, and the total ULBs that received a ranking.
+                   Gain insights into engagements and achievements across different regions in India.
+             </p>
+        </div>
+    </div><section style="min-height: 100vh;">
+        <div class="row m-0">
+            <div class="col-6">
+                <h2 class="p-5">map section</h2>
+            </div>
+            <div class="col-6">
+                <div class="card fl-card">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-6 text-start common-cls fl-label">Filter by :</div>
+                            <div class="col-6 text-end color-orange">Reset</div>
+                        </div>
+                        <div class="row">
+                            <!-- State type filter -->
+                            <div class="col-6 mb-4">
+                                <div class="filter-heading common-cls">
+                                    State type
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="stateTypeChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
+                                    </select>  
+                                </div>
+                            </div>
+                            <!-- ULB Participation -->
+                            <div class="col-6 mb-4">
+                                <div class="filter-heading common-cls">
+                                    ULB Participation
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
+                                      </select>  
+                                </div>
+                               
+                            </div>
+                            <!-- ULB Ranking Status -->
+                            <div class="col-6">
+                                <div class="filter-heading common-cls">
+                                    ULB Ranking Status
+                                </div>
+                                <div class="filer">
+                                    <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
+                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
+                                      </select>  
+                                </div>
+
+                               
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="card table-card mt-4" style="">
+                    <div class="card-body"> -->
+                        <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
+                        </app-common-table>
+                    <!-- </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    
+</div>
+

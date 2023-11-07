@@ -1,0 +1,76 @@
+<div class="container-fluid mt-3">
+    <div class="row px-2 mb-4">
+        <div class="col-sm-9">
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item nav-breads"><a class="nav-h" routerLink="/rankings/home">City Finance Ranking - Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ranking assessment parameter : {{currentPageData?.name}}</li>
+                </ol>
+              </nav>
+        </div>
+        <div class="col-sm-3">
+            <select class="form-select" aria-label="assestParametersDropdown" [(ngModel)]="pageKey" (change)="setPageKey($event.target.value)">
+                <option value="{{item?.key}}" selected *ngFor="let item of assestParameters?.data">{{item?.label}}</option>
+              </select>  
+        </div>
+    </div>
+    <div class="row px-5 mb-4">
+        <div class="col-sm-12 text-center">
+           <span class="form-h-fr">{{currentPageData?.name}} : {{currentPageData?.subHeading}}</span> 
+        </div>
+        <div class="col-sm-12 w-80 mx-auto text-center mt-3">
+            <p class="sub-def-fr">{{currentPageData?.description}}</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-sm-6">
+            <img src="{{currentPageData?.imgUrl}}" alt="">
+        </div>
+        <div class="col-sm-6 my-auto">
+            <div class="row">
+                <div class="col-sm-12 mb-3" *ngFor="let item of currentPageData?.questions">
+                    <div class="qus">
+                        {{item?.question}}
+                    </div>
+                    <div class="ans mt-3">
+                        {{item?.answer}}
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="qus-info">
+                        {{currentPageData?.scoringInfo?.header}}
+                    </div>
+                    <div class="scoring-section">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" *ngFor="let elem of currentPageData?.scoringInfo?.items">
+                                <div class="ind-val">
+                                    {{elem?.value}}
+                                </div>
+                                <div class="ind">
+                                    {{elem?.title}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-5 mb-4">
+        <div class="col-sm-12">
+           <span class="form-h-fr">{{currentPageData?.scoringMethodology?.header}} </span> 
+        </div>
+        <div class="col-sm-12 mt-3">
+            <div class="scor-met">{{currentPageData?.scoringMethodology?.description}}</div>
+        </div>
+        <div class="col-sm-12">
+            <div class="p-3">
+                <img src="{{currentPageData?.scoringMethodology?.imgUrl}}" alt="" width="100%">
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+

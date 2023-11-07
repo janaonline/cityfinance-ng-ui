@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between">
+    <div><button class="btn btn-outline btn-orange">Reset</button></div>
+    <h4 class="text-center">Filter</h4>
+    <div>
+        <mat-icon class="cursor-pointer" (click)="close()">close</mat-icon>
+    </div>
+</div>
+
+<form>
+
+    <div class="mt-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="State Average" id="stateAverageCheckbox">
+            <label class="form-check-label" for="stateAverageCheckbox">
+                State Average
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="National Average" id="nationalAverageCheckbox">
+            <label class="form-check-label" for="nationalAverageCheckbox">
+                National Average
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Population Average" id="populationAverageCheckbox">
+            <label class="form-check-label" for="populationAverageCheckbox">
+                Population Average
+            </label>
+        </div>
+    </div>
+    <div class="mt-3">
+        <input type="search" class="form-control" placeholder="Search ULB...">
+        <div id="emailHelp" class="form-text">Maximum of 5 ULBs can be compared at once</div>
+    </div>
+    <div class="chip-container">
+        <span class="chip">
+            Navi Mumbai <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Hyderabad <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Chennai <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Bangalore <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Udipi <mat-icon>close</mat-icon>
+        </span>
+    </div>
+    <div class="mt-3 text-center">
+        <button class="btn btn-orange">Apply</button>
+    </div>
+</form>

@@ -2,7 +2,7 @@
 
 
 <div class="common-table container px-0" *ngIf="response">
-    <div class="d-flex justify-content-between mt-4" style="background: white; position: sticky; top: 0;">
+    <div class="d-flex justify-content-between mt-4" *ngIf="response?.name" style="background: white; position: sticky; top: 0;">
         <h4 class="my-3">{{ response?.name }} <a [href]="response?.headerLink?.link" target="_blank"
                 *ngIf="response?.headerLink"> - {{response?.headerLink?.label}}</a> </h4>
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
@@ -10,13 +10,13 @@
         </mat-paginator>
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
-    <div [class]="theme">
+    <div class="{{theme}} {{classLists}}">
         <table class="table p-2" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0" style="position: sticky; top: 50px;">
                 <tr>
                     <th scope="col" 
                         *ngFor="let column of response.columns" 
-                        class="border-0 "
+                        class="border-0 {{column?.class}}"
                         [ngClass]="{'table-primary': !theme}"
                     >
                         <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
