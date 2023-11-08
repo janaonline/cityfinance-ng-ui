@@ -172,4 +172,8 @@ export class FiscalRankingService {
       console.log("error in getTrackingHistory :: ",err.message)
     }
   }
+
+  dashboard() {
+    return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
+  }
 }

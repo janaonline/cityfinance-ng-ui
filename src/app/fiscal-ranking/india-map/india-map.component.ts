@@ -32,6 +32,11 @@ export interface ColorDetails {
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
+  @Input() markers: {
+    x: number,
+    y: number,
+    text: string
+  }[] = [];
   @Input() colorCoding: any = [];
   @Input() colorDetails: ColorDetails[];
   randomNumber = 0;
@@ -325,6 +330,14 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
     this.showMapLegends();
+    this.markers.forEach(marker => {
+      L.marker([marker.x, marker.y], {
+        icon: new L.Icon({
+          iconUrl: 'assets/fiscal-rankings/map-marker.png',
+        }), title: marker.text
+      }).addTo(this.nationalLevelMap);
+    });
+
     map?.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) return;
