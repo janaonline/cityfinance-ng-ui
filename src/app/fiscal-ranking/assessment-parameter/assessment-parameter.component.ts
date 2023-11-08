@@ -137,7 +137,6 @@ export class AssessmentParameterComponent implements OnInit {
        Gain insights into the significance of resource mobilization in urban development.`,
        imgUrl: '../../../assets/fiscal-rankings/expenTable.png'
     }
-  
      },
      fiscalGovernance : {
       id: 1,
@@ -206,7 +205,8 @@ export class AssessmentParameterComponent implements OnInit {
     });
   }
   setPageKey(data){
-    this.currentPageData = this.allPageData[data];
+   // this.currentPageData = this.allPageData[data];
+    this.router.navigateByUrl(`rankings/assesst-parameters/${data}`)
   }
 
   ngOnDestroy() {

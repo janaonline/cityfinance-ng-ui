@@ -17,6 +17,12 @@ import { MapUtil } from 'src/app/util/map/mapUtil';
 import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 
+export interface ColorDetails {
+  color: string,
+  text: string,
+  min: number,
+  max: number
+}
 
 @Component({
   selector: 'app-india-map',
@@ -26,6 +32,13 @@ import { FiscalRankingService, MapData } from '../fiscal-ranking.service';
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onStateChange = new EventEmitter();
   @Input() mapData: MapData;
+  @Input() markers: {
+    x: number,
+    y: number,
+    text: string
+  }[] = [];
+  @Input() colorCoding: any = [];
+  @Input() colorDetails: ColorDetails[];
   randomNumber = 0;
 
   nationalLevelMap: any;
@@ -61,7 +74,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     stateBlockHeight: "23.5rem", // will fit map in container
   };
   currentStateId: any = "";
-  colorCoding: any = [];
   financialYearList: any = [];
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
@@ -93,7 +105,11 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.getStateWiseForm();
+    this.initializeNationalLevelMapLayer(this.stateLayers);
+    this.createNationalLevelMap(
+      this.StatesJSONForMapCreation,
+      this.currentId
+    );
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
@@ -103,22 +119,16 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   }
 
   createLegends() {
-    const colorDetails = [
-      { color: "#194d5e", text: "76%-100%" },
-      { color: "#059b9a", text: "51%-75%" },
-      { color: "#8BD2F0", text: "26%-50%" },
-      { color: "#D0EDF9", text: "1%-25%" },
-      { color: "#E5E5E5", text: "0%" },
-    ];
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
       `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
+    const colorDetails = this.colorDetails;
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
       div.style.width = "100%";
-      colorDetails.forEach((value) => {
+      colorDetails?.forEach((value) => {
         labels.push(
           `<span style="display: flex; align-items: center; width: 75%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
         );
@@ -135,17 +145,6 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     return Promise.all([promise]);
   }
 
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.colorCoding = res?.data.heatMaps;
-      this.initializeNationalLevelMapLayer(this.stateLayers);
-      this.createNationalLevelMap(
-        this.StatesJSONForMapCreation,
-        this.currentId
-      );
-    });
-  }
-
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
       if (!res) return;
@@ -158,20 +157,8 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     });
   }
 
-  getColor(value: number) {
-    if (value > 75) {
-      return "#194d5e";
-    }
-    if (value > 50) {
-      return "#059b9a";
-    }
-    if (value > 25) {
-      return "#8BD2F0";
-    }
-    if (value > 1) {
-      return `#D0EDF9`;
-    }
-    return "#E5E5E5";
+  getColor(value: any) {
+    return this.colorDetails?.find(item => value >= item.min && value <= item.max)?.color || "#F3FAFF";
   }
 
   ngAfterViewInit(): void {
@@ -343,21 +330,36 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
     this.showMapLegends();
+    this.markers.forEach(marker => {
+      L.marker([marker.x, marker.y], {
+        icon: new L.Icon({
+          iconUrl: 'assets/fiscal-rankings/map-marker.png',
+        }), title: marker.text
+      }).addTo(this.nationalLevelMap);
+    });
+
     map?.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) return;
 
       let color;
       let stateCodes = this.colorCoding.map(el => el.code);
-      if (this.stateData?.find(state => state?.code === stateCode)) {
+      const state = this.stateData?.find(state => state?.code === stateCode);
+
+      if (state) {
         this.colorCoding?.forEach((elem) => {
           if (elem?.code == layer?.feature?.properties?.ST_CODE) {
-            color = this.getColor(elem?.percentage);
+            if (elem.color) {
+              color = elem.color;
+            } else {
+              color = this.getColor(elem?.percentage);
+            }
           } else if (
             !stateCodes.includes(layer?.feature?.properties?.ST_CODE)
           ) {
             color = this.getColor(0);
           }
+
           MapUtil.colorStateLayer(layer, color);
         });
       }
