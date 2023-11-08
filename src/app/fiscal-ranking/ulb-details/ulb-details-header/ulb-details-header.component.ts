@@ -13,6 +13,7 @@ export class UlbDetailsHeaderComponent implements OnInit {
   colorCoding: any[];
 
   colorDetails: ColorDetails[] = [];
+  markers = [];
 
   constructor(private fiscalRankingService: FiscalRankingService) { }
 
@@ -22,6 +23,22 @@ export class UlbDetailsHeaderComponent implements OnInit {
 
   getStateWiseForm() {
     this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+      this.markers = [
+        {
+          x: 28.6139, 
+          y: 77.2090,
+          text: 'hi'
+        }
+      ];
+
+      for (let i = 0; i < 10; i++) {
+        this.markers.push({
+          x: Math.random() * 20 + 10, 
+          y: Math.random() * 40 + 50,
+          text: 'hardcoded'
+        });
+      }
+
       this.colorCoding = res?.data.heatMaps;
       this.colorCoding?.forEach(item => {
         if(item.stateId == '5dcf9d7416a06aed41c748f0') {

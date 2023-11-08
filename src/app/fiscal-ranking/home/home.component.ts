@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FiscalRankingService } from '../fiscal-ranking.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  data;
+
+
+  constructor(
+    private fiscalRankingService: FiscalRankingService
+  ) { }
 
   ngOnInit(): void {
+    this.loadData();
   }
 
+  loadData() {
+    this.fiscalRankingService.dashboard().subscribe(({ data }: any) => {
+      console.log(data);
+      this.data = data;
+      this.data['topCategoryUlb'] = {
+        "columns": [
+          {
+            "label": "4M+",
+            "key": "4M+"
+          },
+          {
+            "label": "1M-4M",
+            "key": "1M-4M"
+          },
+          {
+            "label": "100K-1M",
+            "key": "100k-M"
+          },
+          {
+            "label": "<100K",
+            "key": "<100K"
+          }
+        ],
+        "data": [
+          {
+            "4M+": "Navi mumbar",
+            "1M-4M": "Ab",
+            "100k-M": " test",
+            "<100K": "Navi mumbar"
+          },
+          {
+            "4M+": "Navi mumbar",
+            "1M-4M": "Navi mumbar",
+            "100k-M": "Navi mumbar",
+            "<100K": "Navi mumbar"
+          }
+        ]
+      };
+    })
+  }
 }
