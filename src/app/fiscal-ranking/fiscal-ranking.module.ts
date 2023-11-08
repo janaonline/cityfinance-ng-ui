@@ -70,6 +70,7 @@ import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.co
 import { ParticipatingStateComponent } from './participating-state/participating-state.component';
 import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 import { IndiaMapComponent } from './india-map/india-map.component';
+import { NewuiCommonTableComponent } from './newui-common-table/newui-common-table.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { IndiaMapComponent } from './india-map/india-map.component';
     ParticipatingStateComponent,
     ParticipatingUlbsComponent,
     IndiaMapComponent,
+    NewuiCommonTableComponent,
   ],
   imports: [
     CommonModule,

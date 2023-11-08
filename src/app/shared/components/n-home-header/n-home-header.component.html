@@ -51,22 +51,22 @@
                       </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown-ranking">
                             <li>
-                                <a class="dropdown-item" routerLink="#">
+                                <a class="dropdown-item" routerLink="/rankings/participated-states-ut">
                                     Participation 
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" routerLink="#">
+                                <a class="dropdown-item" routerLink="/rankings/top-rankings">
                                     Scores & Ranks 
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" routerLink="#">
+                                <a class="dropdown-item" routerLink="/rankings/annual-financial-statements">
                                     Financial Statements 
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" routerLink="#">
+                                <a class="dropdown-item" routerLink="/rankings/home">
                                     About CF Rankings 
                                 </a>
                             </li>
@@ -109,7 +109,7 @@
                         <a class="nav-link" [routerLinkActive]="'active'" routerLink="/fc-home-page">15<sup>th</sup> FC Grants</a>
                     </li>
                     <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">Rankings</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="user?.role == 'ULB' ? '/rankings/ulb-form' : '/rankings/review-rankings-ulbform'">{{user?.role == 'ULB' ? "Rankings'22 Form" : "Rankings'22 Dashboard"}}</a>
                     </li>
                     <li class="nav-item" *ngIf="user?.role !== 'PMU'">
                         <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn

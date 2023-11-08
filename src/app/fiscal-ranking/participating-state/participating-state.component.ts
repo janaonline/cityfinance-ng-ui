@@ -98,95 +98,133 @@ export class ParticipatingStateComponent implements OnInit {
       "message": "Successfully saved data!",
       "columns": [
         {
+          "label": "S.No",
+          "key": "sNo",
+          "sort": 0,
+          "sortable": false,
+          "class": "th-common-cls",
+          "width": "3"
+        },
+        {
           "label": "State Name",
           "key": "stateName",
           "sort": 1,
           "sortable": true,
-          "class": "th-common-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         {
           "label": "State Type",
           "key": "stateType",
           "sortable": false,
-          "class": "th-common-cls"
+          "sort": 1,
+          "class": "th-common-cls",
+          "width": "6"
         },
         {
           "label": "Total ULBs",
           "key": "totalULBs",
           "sortable": false,
-          "class": "th-common-cls"
+          "sort": 0,
+          "class": "th-common-cls",
+          "width": "6"
         },
         {
           "label": "Participated ULBs",
           "key": "participatedULBs",
           "sortable": true,
-          "class": "th-common-cls"
-        },
-        {
-          "label": "Participated ULBs",
-          "key": "participatedULBs",
-          "sortable": true,
-          "class": "th-common-cls"
+          "sort": 1,
+          "class": "th-common-cls",
+          "width": "7"
         },
         {
           "label": "Ranked ULBs",
           "key": "rankedULBs",
           "sortable": true,
-          "class": "th-common-cls"
+          "sort": 1,
+          "class": "th-common-cls",
+          "width": "6"
         },
         {
           "label": "Non Ranked ULBs",
           "key": "nonRankedULBs",
           "sortable": true,
-          "class": "th-common-cls"
+          "sort": 1,
+          "class": "th-common-cls",
+          "width": "7"
         },
         {
           "label": "Ranked to Total(%)",
           "key": "rankedtoTotal",
           "sortable": true,
-          "class": "th-color-cls"
+          "sort": 1,
+          "class": "th-color-cls",
+          "width": "7"
         },
         
       ],
       "name": "",
       "data": [
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "nonRankedULBs": 1,
-          "stateName": "Andaman and Nicobar Islands",
+          "_id": "",
+          "sNo" : "",
+          "stateType": "",
+          "totalULBs": "A",
+          "participatedULBs": "B",
+          "rankedULBs": "C",
+          "nonRankedULBs": "D",
+          "stateName": "",
           "selected": false,
-          "rankedtoTotal": ""
+          "rankedtoTotal": "E=C/A",
+          "stateNameLink": ""
         },
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
+          "_id": "1",
+          "sNo" : 1,
+          "stateType": "Large",
+          "totalULBs": 6,
           "participatedULBs": 0,
           "rankedULBs": 0,
-          "nonRankedULBs": 1,
-          "stateName": "Andaman and Nicobar Islands",
+          "nonRankedULBs": 3,
+          "stateName": "Andhra Pradesh",
           "selected": false,
-          "rankedtoTotal": ""
+          "rankedtoTotal": 5,
+          "stateNameLink": "/rankings/participated-ulbs"
         },
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "nonRankedULBs": 1,
+          "_id": "2",
+          "sNo" : 2,
+          "stateType": "Large",
+          "totalULBs": 9,
+          "participatedULBs": 3,
+          "rankedULBs": 4,
+          "nonRankedULBs": 5,
+          "stateName": "Uttar Pradesh",
+          "selected": false,
+          "rankedtoTotal": 5,
+          "stateNameLink": "/rankings/participated-ulbs"
+        },
+        {
+          "_id": "3",
+          "sNo" : 3,
+          "stateType": "Small",
+          "totalULBs": 3,
+          "participatedULBs": 3,
+          "rankedULBs": 1,
+          "nonRankedULBs": 2,
           "stateName": "Andaman and Nicobar Islands",
           "selected": false,
-          "rankedtoTotal": ""
+          "rankedtoTotal": 2,
+          "stateNameLink": "/rankings/participated-ulbs"
         },
      
       ],
       "lastRow": [
+        "",
+        "",
         "Total",
+        "$sum",
+        "$sum",
         "$sum",
         "$sum",
         "$sum",

@@ -72,7 +72,7 @@ const routes: Routes = [
     path: 'participated-states-ut', component: ParticipatingStateComponent
   },
   {
-    path: 'participated-ulbs', component: ParticipatingUlbsComponent
+    path: 'participated-ulbs/:id', component: ParticipatingUlbsComponent
   },
   
 ];

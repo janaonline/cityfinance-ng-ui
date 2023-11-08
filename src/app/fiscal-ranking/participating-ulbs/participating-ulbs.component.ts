@@ -100,61 +100,61 @@ export class ParticipatingUlbsComponent implements OnInit {
       "message": "Successfully saved data!",
       "columns": [
         {
+          "label": "S.No",
+          "key": "sNo",
+          "sort": 0,
+          "sortable": false,
+          "class": "th-common-cls",
+          "width": "3"
+        },
+        {
           "label": "ULB Name",
           "key": "ulbName",
           "sort": 1,
           "sortable": true,
           "subHeader" : 'A',
-          "class": "th-color-cls"
+          "class": "th-color-cls",
+          "width": "8"
         },
         {
           "label": "Population Category",
           "key": "populationCategory",
           "sortable": false,
           "subHeader" : 'B',
-          "class": "th-common-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         {
-          "label": "Total ULBs",
-          "key": "totalULBs",
-          "sortable": false,
-          "subHeader" : 'c',
-          "class": "th-common-cls"
-        },
-        {
-          "label": "Participated ULBs",
+          "label": "ULB Participated",
           "key": "participatedULBs",
           "sortable": true,
           "subHeader" : 'c',
-          "class": "th-common-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         {
-          "label": "Participated ULBs",
-          "key": "participatedULBs",
-          "sortable": true,
-          "subHeader" : 'c',
-          "class": "th-common-cls"
-        },
-        {
-          "label": "Ranked ULBs",
+          "label": "CFR Ranked",
           "key": "rankedULBs",
           "sortable": true,
           "subHeader" : 'c',
-          "class": "th-common-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         {
-          "label": "Non Ranked ULBs",
-          "key": "nonRankedULBs",
+          "label": "Annual Financial Statement Available",
+          "key": "annualFinancialStatementAvailable",
           "sortable": true,
           "subHeader" : 'c',
-          "class": "th-common-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         {
-          "label": "Ranked to Total(%)",
-          "key": "rankedtoTotal",
+          "label": "Annual Budget Available",
+          "key": "annualBudgetAvailable",
           "sortable": true,
           "subHeader" : 'c',
-          "class": "th-color-cls"
+          "class": "th-common-cls",
+          "width": "8"
         },
         
       ],
