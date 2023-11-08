@@ -15,21 +15,22 @@
                    Gain insights into engagements and achievements across different regions in India.
              </p>
         </div>
-    </div><section style="min-height: 100vh;">
-        <div class="row m-0">
-            <div class="col-6">
-                <h2 class="p-5">map section</h2>
+    </div>
+    <section style="">
+        <div class="row">
+            <div class="col-6 my-0" style="height: 35rem;">
+                <app-india-map [colorCoding]="colorCoding" [colorDetails]="colorDetails" ></app-india-map>
             </div>
             <div class="col-6">
                 <div class="card fl-card">
                     <div class="card-body">
-                        <div class="row mb-4">
+                        <div class="row mb-2">
                             <div class="col-6 text-start common-cls fl-label">Filter by :</div>
                             <div class="col-6 text-end color-orange">Reset</div>
                         </div>
                         <div class="row">
                             <!-- State type filter -->
-                            <div class="col-6 mb-4">
+                            <div class="col-6 mb-3">
                                 <div class="filter-heading common-cls">
                                     State type
                                 </div>
@@ -40,7 +41,7 @@
                                 </div>
                             </div>
                             <!-- ULB Participation -->
-                            <div class="col-6 mb-4">
+                            <div class="col-6 mb-3">
                                 <div class="filter-heading common-cls">
                                     ULB Participation
                                 </div>
@@ -69,12 +70,12 @@
                     </div>
                 </div>
 
-                <!-- <div class="card table-card mt-4" style="">
-                    <div class="card-body"> -->
-                        <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
-                        </app-common-table>
-                    <!-- </div>
-                </div> -->
+                <div class="card table-card mt-4" style="">
+                    <div class="card-body">
+                        <app-newui-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
+                        </app-newui-common-table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
