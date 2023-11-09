@@ -24,20 +24,23 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-sm-6 ps-0">
-            <img src="{{currentPageData?.imgUrl}}" alt="">
+        <div class="col-sm-5 ps-0 h-100">
+            <img src="{{currentPageData?.imgUrl}}" alt="" width="90%" height="90%">
         </div>
-        <div class="col-sm-6 my-auto">
+        <div class="col-sm-7 my-auto h-100">
             <div class="row">
-                <div class="col-sm-12 mb-3" *ngFor="let item of currentPageData?.questions">
+                <div class="col-sm-12 mb-4" *ngFor="let item of currentPageData?.questions">
                     <div class="qus">
                         {{item?.question}}
                     </div>
                     <div class="ans mt-3">
-                        {{item?.answer}}
+                        <ul>
+                            <li>{{item?.answer}}</li>
+                        </ul>
+                        
                     </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <div class="qus-info">
                         {{currentPageData?.scoringInfo?.header}}
                     </div>
@@ -57,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="row px-5 mb-4">
+    <div class="row px-5 mb-4 mt-4">
         <div class="col-sm-12">
            <span class="form-h-fr">{{currentPageData?.scoringMethodology?.header}} </span> 
         </div>
