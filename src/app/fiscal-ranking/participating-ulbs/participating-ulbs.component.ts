@@ -105,7 +105,7 @@ export class ParticipatingUlbsComponent implements OnInit {
           "sort": 0,
           "sortable": false,
           "class": "th-common-cls",
-          "width": "3"
+          "width": "2"
         },
         {
           "label": "ULB Name",
@@ -122,7 +122,7 @@ export class ParticipatingUlbsComponent implements OnInit {
           "sortable": false,
           "subHeader" : 'B',
           "class": "th-common-cls",
-          "width": "8"
+          "width": "7"
         },
         {
           "label": "ULB Participated",
@@ -130,7 +130,7 @@ export class ParticipatingUlbsComponent implements OnInit {
           "sortable": true,
           "subHeader" : 'c',
           "class": "th-common-cls",
-          "width": "8"
+          "width": "7"
         },
         {
           "label": "CFR Ranked",
@@ -138,23 +138,59 @@ export class ParticipatingUlbsComponent implements OnInit {
           "sortable": true,
           "subHeader" : 'c',
           "class": "th-common-cls",
-          "width": "8"
+          "width": "6"
         },
         {
           "label": "Annual Financial Statement Available",
           "key": "annualFinancialStatementAvailable",
+           "subHeaderData": [
+            {
+              "key": "1819",
+              "label": "2018-19"
+            },
+            {
+              "key": "1920",
+              "label": "2019-20"
+            },
+            {
+              "key": "2021",
+              "label": "2020-21"
+            },
+            {
+              "key": "2122",
+              "label": "2021-22"
+            },
+           ],
           "sortable": true,
           "subHeader" : 'c',
           "class": "th-common-cls",
-          "width": "8"
+          "width": "10"
         },
         {
           "label": "Annual Budget Available",
           "key": "annualBudgetAvailable",
+          "subHeaderData": [
+            {
+              "key": "2122",
+              "label": "2021-22"
+            },
+            {
+              "key": "2223",
+              "label": "2022-23"
+            },
+            {
+              "key": "2324",
+              "label": "2023-24"
+            },
+            {
+              "key": "2425",
+              "label": "2024-25"
+            },
+         ],
           "sortable": true,
           "subHeader" : 'c',
           "class": "th-common-cls",
-          "width": "8"
+          "width": "10"
         },
         
       ],
@@ -162,37 +198,49 @@ export class ParticipatingUlbsComponent implements OnInit {
       "data": [
         {
           "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
+          "stateName": "Andaman and Nicobar Islands",
+          "ulbName": '',
+          "populationCategory": 1,
           "participatedULBs": 0,
           "rankedULBs": 0,
-          "nonRankedULBs": 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "rankedtoTotal": ""
+          "annualFinancialStatementAvailable": {
+            "1819": {
+              url: '',
+              name: 'abc9'
+            },
+            "1920": {
+              url: '',
+              name: 'abc8'
+            },
+            "2021": {
+              url: '',
+              name: 'abc7'
+            },
+            "2122": {
+              url: '',
+              name: 'abc6'
+            }
+          },
+          "annualBudgetAvailable": {
+            "2122": {
+              url: '',
+              name: 'abc1'
+            },
+            "2223": {
+              url: '',
+              name: 'abc2'
+            },
+            "2324": {
+              url: '',
+              name: 'abc3'
+            },
+            "2425": {
+              url: '',
+              name: 'abc4'
+            }
+          }
         },
-        {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "nonRankedULBs": 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "rankedtoTotal": ""
-        },
-        {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateType": 1,
-          "totalULBs": 0,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "nonRankedULBs": 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "rankedtoTotal": ""
-        },
+      
      
       ],
       "lastRow": [
