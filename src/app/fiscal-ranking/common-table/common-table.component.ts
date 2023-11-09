@@ -7,10 +7,11 @@ export interface TableResponse {
   success?: boolean;
   message?: string;
   name: string;
-  headerLink: {
-    label: string;
-    link: string;
-  }
+  // headerLink: {
+  //   label: string;
+  //   link: string;
+  // }
+  headerLink: HeaderLink;
   getEndpoint?: string;
   postEndpoint?: string;
   data?: TableDataEntity[] | null;
@@ -19,7 +20,10 @@ export interface TableResponse {
   columns?: TableColumnsEntity[] | null;
   multipleSort?: boolean;
 }
-
+export interface HeaderLink {
+  label: string;
+  link: string;
+}
 export interface TableDataEntity {
   [key: string]: number | string | boolean;
 }
