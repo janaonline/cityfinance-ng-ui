@@ -8,6 +8,7 @@ export interface FrFilter {
   label: string;
   id: string;
   key?:string;
+  value?: number
 }
 @Component({
   selector: 'app-participating-state',
@@ -36,22 +37,26 @@ export class ParticipatingStateComponent implements OnInit {
     {
       label: 'All',
       id: '1',
-      key: 'all'
+      key: 'all',
+      value: null //for score type filter
     },
     {
       label: 'Large state',
       id: '2',
-      key: 'largeState'
+      key: 'largeState',
+      value: null //for score type filter
     },
     {
       label: 'Small state',
       id: '3',
-      key: 'smallState'
+      key: 'smallState',
+      value: null //for score type filter
     },
     {
       label: 'Union territory',
       id: '4',
-      key: 'unionTerritory'
+      key: 'unionTerritory',
+      value: null //for score type filter
     },
   
   ]
@@ -59,34 +64,40 @@ export class ParticipatingStateComponent implements OnInit {
     {
       label: 'All',
       id: '1',
-      key: 'all'
+      key: 'all',
+      value: null //for score type filter
     },
     {
       label: 'Participated',
       id: '2',
-      key: 'participated'
+      key: 'participated',
+      value: null //for score type filter
     },
     {
       label: 'Non Participated',
       id: '3',
-      key: 'nonParticipated'
+      key: 'nonParticipated',
+      value: null //for score type filter
     },
   ];
   ulbRankingStatusFilter: FrFilter[] = [
     {
       label: 'All',
       id: '1',
-      key: 'all'
+      key: 'all',
+      value: null //for score type filter
     },
     {
       label: 'Ranked',
       id: '2',
-      key: 'ranked'
+      key: 'ranked',
+      value: null //for score type filter
     },
     {
       label: 'Non Ranked',
       id: '3',
-      key: 'nonRanked'
+      key: 'nonRanked',
+      value: null //for score type filter
     },
   ];
   stateType;
