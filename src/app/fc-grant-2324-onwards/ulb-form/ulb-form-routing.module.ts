@@ -74,6 +74,11 @@ const routes: Routes = [
         path: "video-gallary",
         component: VideoGallaryComponent,
       },
+      {
+        path: "utilisation-report/:id",
+        component: DurComponent,
+      },
+
     ],
   },
 ];

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const swal: SweetAlert = require("sweetalert");
 
@@ -44,14 +44,29 @@ export class DurComponent implements OnInit, OnDestroy {
   canTakeAction:boolean = false;
   leftMenuSubs:any;
   statusShow:string = '';
+  ulbCode = ''
+  stateName = ''
+  status = ''
+  ulbId;
+  ulbName = "";
   constructor(
     private dialog: MatDialog,
     private durService: DurService,
     private loaderService: GlobalLoaderService,
     private commonServices: CommonServicesService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { 
     this.getNextPreUrl();
+
+    //<-----------------------------------bulk pdf download----------------------------->
+   this.ulbId = this.activatedRoute.snapshot.params.id;
+   this.activatedRoute.queryParams.subscribe(params => {
+     this.ulbName = params['ulbName'];
+     this.ulbCode = params['ulbCode'];
+     this.stateName = params['stateName'];
+     this.status = params['status']; // Replace 'paramName' with your parameter name
+   });
   }
 
 
@@ -70,10 +85,10 @@ export class DurComponent implements OnInit, OnDestroy {
     return years?.['2023-24'];
   }
 
-  get ulbId() {
-    if(this.userData?.role == 'ULB') return this.userData?.ulb;
-    return localStorage.getItem("ulb_id");
-  }
+  // get ulbId() {
+  //   if(this.userData?.role == 'ULB') return this.userData?.ulb;
+  //   return localStorage.getItem("ulb_id");
+  // }
 
   get hasUnsavedChanges() {
     return this.webForm?.hasUnsavedChanges;
@@ -94,7 +109,18 @@ export class DurComponent implements OnInit, OnDestroy {
       this.formDisable(res?.data[0]);
       if(loadProjects) {
         this.getProjects();
-      }
+      };
+      //<-----------------------------------bulk pdf download----------------------------->
+      setTimeout(() => {
+        (document.querySelector('#prevBtn') as any).click();
+      }, 5000);
+      setTimeout(() => {
+        (document.querySelector('#donwloadButton') as any).click();
+      }, 7000);
+
+      setTimeout(() => {
+        window.close();
+      }, 20000);
     }, ({ error }) => {
       console.log(error.success)
       this.loaderService.stopLoader();
@@ -205,7 +231,13 @@ export class DurComponent implements OnInit, OnDestroy {
       designation: selfDeclaration?.childQuestionData?.[0]?.[1]?.modelValue,
       categoryWiseData_wm,
       categoryWiseData_swm,
-      projects
+      projects,
+      ulbDetails: {
+        ulbName : this.ulbName,
+        ulbCode: this.ulbCode,
+        stateName: this.stateName,
+        status : this.status
+      }
     };
     const dialogRef = this.dialog.open(DurPreviewComponent, {
       data: previewData,

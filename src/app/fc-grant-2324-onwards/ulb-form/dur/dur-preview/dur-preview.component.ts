@@ -182,13 +182,15 @@ tr {
 
   ngOnInit(): void {
 
-    if (this.userDetails.role == USER_TYPE.ULB) {
-      this.state = this.userData.stateName;
-      this.ulb = this.userData.name;
-    } else {
-      this.state = sessionStorage.getItem("stateName");
-      this.ulb = sessionStorage.getItem("ulbName");
-    }
+    // if (this.userDetails.role == USER_TYPE.ULB) {
+    //   this.state = this.userData.stateName;
+    //   this.ulb = this.userData.name;
+    // } else {
+    //   this.state = sessionStorage.getItem("stateName");
+    //   this.ulb = sessionStorage.getItem("ulbName");
+    // }
+    this.state = this.data?.ulbDetails?.stateName;
+    this.ulb = this.data?.ulbDetails?.ulbName;
 console.log('preview data', this.data);
 
   }
@@ -201,7 +203,10 @@ console.log('preview data', this.data);
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
         console.log("vishu", res);
-        this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
+        let fileName = `${this.state}_${this.data?.ulbDetails?.ulbCode}_${this.data?.ulbDetails?.ulbName}_2023-24_${this.data?.ulbDetails?.status}`;
+        fileName = fileName.replace(/\s/g, "");
+        this.downloadFile(res.slice(0), "pdf", `${fileName}.pdf`);
+      //  this.downloadFile(res.slice(0), "pdf", "utilization-report.pdf");
         this.showLoader = false;
       },
       (err) => {
