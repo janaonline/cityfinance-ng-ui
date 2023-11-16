@@ -11,6 +11,7 @@ import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { GoogleAnalyticsService } from "ngx-google-analytics";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -67,7 +68,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private commonService: CommonService,
-    private newCommonService: NewCommonService
+    private newCommonService: NewCommonService,
+    private gaService: GoogleAnalyticsService,
   ) {
     if (this.authService.loggedIn()) {
       this.router.navigate(["/home"]);
@@ -132,6 +134,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private onSuccessfullLogin(res) {
+    this.gaService.set({ user: res?.user });
+    this.gaService.event('login', 'auth', 'Login', res);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));

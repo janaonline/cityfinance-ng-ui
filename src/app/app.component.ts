@@ -12,6 +12,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { CommonService } from "./shared/services/common.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { VersionCheckService } from "./version-check.service";
+import { GoogleAnalyticsService } from "ngx-google-analytics";
 // const swal: SweetAlert = require("sweetalert");
 const swal2 = require("sweetalert2");
 
@@ -34,7 +35,8 @@ export class AppComponent implements OnDestroy, OnInit {
     private connectionService: ConnectionService,
     private commonService: CommonService,
     private matSnackBar: MatSnackBar,
-    private versionService: VersionCheckService
+    private versionService: VersionCheckService,
+    private gaService: GoogleAnalyticsService
   ) {
 
     this.versionCheck()
@@ -50,7 +52,8 @@ export class AppComponent implements OnDestroy, OnInit {
       .subscribe((loadingStatus) => {
         this.showLoader = loadingStatus;
       });
-    this.addCustomScripts();
+
+    // this.addCustomScripts();
     // this.connectionService.monitor().subscribe(isConnected => {
     //   if(!isConnected){
     //     swal({
@@ -69,30 +72,17 @@ export class AppComponent implements OnDestroy, OnInit {
         userData["name"] = name;
         new UserUtility().updateUserDataInRealTime(userData);
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
+
+  customEvent() {
+    console.log('custom event');
+    this.gaService.event('enter_name', 'user_register_form', 'Name');
+  }
 
   versionCheck() {
     this.versionService.initVersionCheck(environment.versionCheckURL);
-  }
-
-  /**
-   * @description Why we are adding script like this instead off adding
-   * it in the index.html?
-   *
-   * It is because the GoogleTagId is different for developement and
-   * production use, and we cannot writing dynamic values in index.html
-   * as of now.
-   */
-  private addCustomScripts() {
-    // const id = environment.GoogleTagID;
-    if (!this.googleTagId) return false;
-    const scriptTag = document.createElement("script");
-    scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleTagId}`;
-    scriptTag.async = true;
-    scriptTag.onload = this.onGoogleTagLoad;
-    document.getElementsByTagName("head")[0].appendChild(scriptTag);
   }
 
   onGoogleTagLoad = () => {
@@ -112,7 +102,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-  //  this.callGenralAert();
+    //  this.callGenralAert();
     this.commonService.isEmbedModeEnable.subscribe(data => {
       console.log('isEmbedModeEnable', data)
       if (data) {
@@ -144,11 +134,11 @@ export class AppComponent implements OnDestroy, OnInit {
         localStorage.setItem("ulbMapping", JSON.stringify(ulbMapping));
         console.log(res, "ULB LIST");
       },
-      (error) => {}
+      (error) => { }
     );
   }
   ngOnDestroy(): void {
-    this.sessionService.endSession(this.sessionId).subscribe((res) => {});
+    this.sessionService.endSession(this.sessionId).subscribe((res) => { });
   }
 
   // callGenralAert(){
@@ -159,7 +149,7 @@ export class AppComponent implements OnDestroy, OnInit {
   //    position: 'center',
   //    icon: 'error'
   //  }
-    
+
   //    this.commonService.getCallMethod('general-alert', {type: 'common'}).subscribe((res: any)=>{
   //     // console.log('genral alert', res);
   //      const message = res?.data?.message;
@@ -173,7 +163,7 @@ export class AppComponent implements OnDestroy, OnInit {
   //    }
   //    )
   //  }
- 
+
   //  showAlert(message){
   //    swal2.fire({
   //      title: `${message?.title}`,
@@ -181,7 +171,7 @@ export class AppComponent implements OnDestroy, OnInit {
   //      position: `${message?.position}`,
   //      icon:`${message?.icon}`,
   //      showCloseButton: true,
-     
+
   //    });
   // }
 }
