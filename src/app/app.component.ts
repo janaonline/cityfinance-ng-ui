@@ -76,24 +76,10 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
 
-  customEvent() {
-    console.log('custom event');
-    this.gaService.event('enter_name', 'user_register_form', 'Name');
-  }
-
   versionCheck() {
     this.versionService.initVersionCheck(environment.versionCheckURL);
   }
 
-  onGoogleTagLoad = () => {
-    const dataLayer = (<any>window).dataLayer || [];
-    function gtag(...args: any[]) {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", this.googleTagId);
-  };
 
   private startSession() {
     this.sessionService.generateSessionID().subscribe((res) => {

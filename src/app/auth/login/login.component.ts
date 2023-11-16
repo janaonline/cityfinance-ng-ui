@@ -121,9 +121,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       const body = { ...this.loginForm.value, type:'15thFC'};
       body["email"] = body["email"].trim();
       this.loginForm.disable();
-
       this.authService.signin(body).subscribe(
-        (res) => this.onSuccessfullLogin(res),
+        (res) => this.onSuccessfullLogin(res, body?.email),
         (error) => {
           this.onLoginError(error);
         }
@@ -133,8 +132,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onSuccessfullLogin(res) {
-    this.gaService.set({ user: res?.user });
+  private onSuccessfullLogin(res, userId) {
+    this.gaService.set({ 
+      userRole: res?.user?.role,
+      userId, 
+      user: res?.user 
+    });
     this.gaService.event('login', 'auth', 'Login', res);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
@@ -275,7 +278,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const body = { ...this.loginForm.value };
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
-      (res) => this.onSuccessfullLogin(res),
+      (res) => this.onSuccessfullLogin(res, body?.email),
       (error) => this.onLoginError(error)
     );
   }
