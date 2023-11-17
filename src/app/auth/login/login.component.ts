@@ -132,13 +132,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onSuccessfullLogin(res, userId) {
-    this.gaService.set({ 
-      userRole: res?.user?.role,
-      userId, 
-      user: res?.user 
-    });
-    this.gaService.event('login', 'auth', 'Login', res);
+  private onSuccessfullLogin(res, user_id) {
+    const gData = { 
+      user_role: res?.user?.role,
+      user_id, 
+      ...res?.user 
+    };
+    this.gaService.set(gData);
+    this.gaService.gtag('event', 'login', gData);
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));

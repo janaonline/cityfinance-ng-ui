@@ -9,10 +9,10 @@ if (window.location.hostname.includes("new-cityfinance")) {
 
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   ///url = "http://localhost:8080/api/v1/";
-  GoogleTagID = "G-LG8CTEBM7J";
+  GoogleTagID = "G-MDPDTZFW0N";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
-  GoogleTagID = "G-LG8CTEBM7J";
+  GoogleTagID = "G-MDPDTZFW0N";
 } else if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")
@@ -20,11 +20,11 @@ if (window.location.hostname.includes("new-cityfinance")) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
  // url = "https://staging.cityfinance.in/api/v1/";
  // url = "http://localhost:8080/api/v1/";
-  GoogleTagID = "G-LG8CTEBM7J";
+  GoogleTagID = "G-MDPDTZFW0N";
 } else {
   isProduction = true;
   url = "https://cityfinance.in/api/v1/";
-  GoogleTagID = "G-LG8CTEBM7J";
+  GoogleTagID = "G-MDPDTZFW0N";
 }
 
 
