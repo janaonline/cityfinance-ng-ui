@@ -20,7 +20,10 @@
                         [ngClass]="{'table-primary': !theme}"
                     >
                         <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
-                            <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                            <div>
+                                <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                                <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info }}</small></div>
+                            </div>
                             <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
                                 'fa-sort': column.sort == 0,
                                 'fa-sort-desc': column.sort == -1,
