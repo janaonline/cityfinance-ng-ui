@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="filer">
                                     <select class="form-select" aria-label="stateType" [(ngModel)]="stateType" (change)="stateTypeChange($event.target.value)">
-                                        <option value="{{item?.id}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
+                                        <option value="{{item?.value}}" selected *ngFor="let item of stateTypeFilter">{{item?.label}}</option>
                                     </select>  
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="filer">
                                     <select class="form-select" aria-label="ulbParticipation" [(ngModel)]="ulbParticipation" (change)="ulbParticipationChange($event.target.value)">
-                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
+                                        <option value="{{item?.value}}" selected *ngFor="let item of ulbParticipationFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
                                
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="filer">
                                     <select class="form-select" aria-label="ulbRankingStatusFilter" [(ngModel)]="ulbRankingStatus" (change)="ulbRankingStatusFilterChange($event.target.value)">
-                                        <option value="{{item?.id}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
+                                        <option value="{{item?.value}}" selected *ngFor="let item of ulbRankingStatusFilter">{{item?.label}}</option>
                                       </select>  
                                 </div>
 
