@@ -4,6 +4,7 @@ h1 {
 
 .card {
     background-color: #FFEFF9;
+    border-radius: 20px;
 }
 
 .text-pink {
@@ -13,7 +14,9 @@ h1 {
 .image-container {
     position: relative;
     display: inline-block;
-    /* or block, depending on your layout */
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
 }
 
 .image-container::before {
