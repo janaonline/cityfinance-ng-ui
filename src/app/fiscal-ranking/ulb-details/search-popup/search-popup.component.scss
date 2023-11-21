@@ -12,8 +12,21 @@ section {
 
         .card {
             font-size: 20px;
+
             input {
                 outline: none;
+            }
+        }
+
+        .search-result {
+            max-height: 50vh;
+            overflow-x: scroll;
+            .list-group-item {
+                transition: 300ms ease all;
+                &:hover {
+                    background-color: #E67E15;
+                    color: white;
+                }
             }
         }
     }

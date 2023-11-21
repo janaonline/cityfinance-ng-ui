@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FiscalRankingService } from '../../fiscal-ranking.service';
 
 @Component({
   selector: 'app-search-popup',
@@ -8,13 +9,22 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SearchPopupComponent implements OnInit {
 
+  ulbs = [];
+  query = '';
   constructor(
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private fiscalRankingService: FiscalRankingService
   ) { }
 
   ngOnInit(): void {
   }
 
+  search() {
+    this.fiscalRankingService.searchUlb(this.query).subscribe((res: any) => {
+      console.log(res);
+      this.ulbs = res?.data;
+    })
+  }
   close() {
     this.matDialog.closeAll();
   }

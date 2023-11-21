@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FiscalRankingService } from '../fiscal-ranking.service';
+import { GuidelinesPopupComponent } from './guidelines-popup/guidelines-popup.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    private fiscalRankingService: FiscalRankingService
+    private fiscalRankingService: FiscalRankingService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -58,5 +61,12 @@ export class HomeComponent implements OnInit {
         ]
       };
     })
+  }
+
+  guidelinesPopup() {
+    this.matDialog.open(GuidelinesPopupComponent, {
+      width: '450px',
+      maxHeight: '90vh'
+    });
   }
 }

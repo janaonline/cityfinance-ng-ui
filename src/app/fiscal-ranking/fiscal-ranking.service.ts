@@ -173,7 +173,19 @@ export class FiscalRankingService {
     }
   }
 
+  searchUlb(query: string = '') {
+    return this.http.get(`${environment.api.url}scoring-fr/states`)
+  }
   dashboard() {
     return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
   }
+  callGetMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
+
 }
