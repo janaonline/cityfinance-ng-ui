@@ -2,7 +2,8 @@
 
 
 <div class="common-table container px-0" *ngIf="response">
-    <div class="d-flex justify-content-between mt-4" *ngIf="response?.name" style="background: white; position: sticky; top: 0;">
+    <div class="d-flex justify-content-between mt-4" *ngIf="response?.name"
+        style="background: white; position: sticky; top: 0;">
         <h4 class="my-3">{{ response?.name }} <a [href]="response?.headerLink?.link" target="_blank"
                 *ngIf="response?.headerLink"> - {{response?.headerLink?.label}}</a> </h4>
         <mat-paginator *ngIf="response?.total" [length]="response.total" [pageSize]="limit"
@@ -14,24 +15,32 @@
         <table class="table p-2" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
-                    <th scope="col" 
-                        *ngFor="let column of response.columns" 
-                        class="border-0 {{column?.class}}"
-                        [ngClass]="{'table-primary': !theme}"
-                    >
-                        <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
-                            <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                            <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
-                                'fa-sort': column.sort == 0,
-                                'fa-sort-desc': column.sort == -1,
-                                'fa-sort-asc': column.sort == 1
-                            }" aria-hidden="true"></i>
-                        </div>
-                    </th>
+                    <ng-container *ngFor="let column of response.columns">
+                        <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1" class="border-0 {{column?.class}}"
+                            [ngClass]="{'table-primary': !theme}">
+                            <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
+                                <div>
+                                    <p [innerHTML]="column.label" class="m-0 text-center"></p>
+                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info }}</small>
+                                    </div>
+                                </div>
+                                <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
+                                    'fa-sort': column.sort == 0,
+                                    'fa-sort-desc': column.sort == -1,
+                                    'fa-sort-asc': column.sort == 1
+                                }" aria-hidden="true"></i>
+                            </div>
+                        </th>
+                    </ng-container>
+                </tr>
+                <tr *ngIf="response.subHeaders">
+                    <td class="text-muted fst-italic" scope="col" *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
+                        {{ subHeader}}
+                    </td>
                 </tr>
                 <tr>
                     <th scope="col" *ngFor="let column of response.columns" class="border-0"
-                    [ngClass]="{'table-secondary': !theme}">
+                        [ngClass]="{'table-secondary': !theme}">
                         <input type="text" *ngIf="column.hasOwnProperty('query')"
                             [placeholder]="'Search ' + column?.label" class="form-control p-1"
                             [(ngModel)]="column.query" (keyup.enter)="loadData()" (blur)="loadData()">
