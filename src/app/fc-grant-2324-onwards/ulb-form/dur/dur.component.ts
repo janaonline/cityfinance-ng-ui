@@ -116,11 +116,11 @@ export class DurComponent implements OnInit, OnDestroy {
       }, 5000);
       setTimeout(() => {
         (document.querySelector('#donwloadButton') as any).click();
-      }, 7000);
+      }, 8000);
 
       setTimeout(() => {
         window.close();
-      }, 20000);
+      }, 22000);
     }, ({ error }) => {
       console.log(error.success)
       this.loaderService.stopLoader();
