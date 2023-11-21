@@ -32,7 +32,8 @@ export class UlbDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.breadcrumbLinks.push({
       label: 'Ulb details',
-      url: `/rankings/ulb/${this.ulbId}`
+      url: `/rankings/ulb/${this.ulbId}`,
+      class: 'disabled'
     });
   }
 
