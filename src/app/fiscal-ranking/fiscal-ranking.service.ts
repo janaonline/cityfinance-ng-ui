@@ -179,4 +179,13 @@ export class FiscalRankingService {
   dashboard() {
     return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
   }
+  callGetMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
+
 }
