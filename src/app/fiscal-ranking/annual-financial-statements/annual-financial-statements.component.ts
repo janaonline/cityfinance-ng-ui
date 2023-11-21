@@ -15,7 +15,8 @@ export class AnnualFinancialStatementsComponent implements OnInit {
     },
     {
       label: 'Annual financial statements',
-      url: '/rankings/annual-financial-statements'
+      url: '/rankings/annual-financial-statements',
+      class: 'disabled'
     }
   ];
 
@@ -77,7 +78,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
           "ab2223": 0,
           "ab2324": 1,
           "stateName": "Andaman and Nicobar Islands",
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dc?stateName=Andaman and Nicobar Islands"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
           "noOfUlbs": 123,
@@ -86,7 +87,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
           "ab2223": 0,
           "ab2324": 0,
           "stateName": "Andhra Pradesh",
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dd?stateName=Andhra Pradesh"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
           "noOfUlbs": 31,
@@ -95,7 +96,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
           "ab2223": 0,
           "ab2324": 31,
           "stateName": "Arunachal Pradesh",
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748de?stateName=Arunachal Pradesh"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
           "noOfUlbs": 107,
@@ -104,7 +105,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
           "ab2223": 37,
           "ab2324": 45,
           "stateName": "Assam",
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748df?stateName=Assam"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
           "noOfUlbs": 263,
@@ -113,7 +114,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
           "ab2223": 26,
           "ab2324": 233,
           "stateName": "Bihar",
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748e0?stateName=Bihar"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         }
       ]
     }
