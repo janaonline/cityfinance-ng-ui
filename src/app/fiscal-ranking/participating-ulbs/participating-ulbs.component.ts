@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FrFilter } from '../participating-state/participating-state.component';
+import { FiscalRankingService } from '../fiscal-ranking.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-participating-ulbs',
@@ -9,7 +11,13 @@ import { FrFilter } from '../participating-state/participating-state.component';
 })
 export class ParticipatingUlbsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private fiscalRankingService: FiscalRankingService,
+    private router: Router
+  ) { 
+    this.fetchStateList();
+    this.checkRouterForApi();
+  }
   breadcrumbLinks: BreadcrumbLink[] = [
     {
       label: 'City Finance Ranking - Home',
@@ -91,9 +99,13 @@ export class ParticipatingUlbsComponent implements OnInit {
       key: 'nonRanked'
     },
   ];
-  populationCategory;
-  ulbParticipation;
-  ulbRankingStatus;
+  populationCategory: string;
+  ulbParticipation : string;
+  ulbRankingStatus: string;
+  stateList = [];
+  routerSubs:any;
+  selectedStateId: string = '';
+  selectedStateName:string = '';
   table = {
     response: {
       "status": true,
@@ -261,5 +273,33 @@ export class ParticipatingUlbsComponent implements OnInit {
   }
   ulbRankingStatusFilterChange(e){
 
+  }
+  checkRouterForApi() {
+    this.routerSubs = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const urlArray = event.url.split("/");
+        console.log('abcdef',urlArray);
+        this.selectedStateId = urlArray[3];
+      }
+    });
+  }
+  private fetchStateList() {
+    this.fiscalRankingService.callGetMethod('scoring-fr/states', null).subscribe((res:any) => {
+      console.log('1234', res);
+       this.stateList = res?.data;
+       const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
+       console.log('selectedState', selectedState);
+       this.selectedStateName = selectedState?.name
+       
+    });
+  }
+  resetFilter(){
+    this.populationCategory = 'all';
+    this.ulbParticipation = 'all';
+    this.ulbRankingStatus = 'all';
+  //  this.getTableData();
+  }
+  ngOnDestroy() {
+    this.routerSubs.unsubscribe();
   }
 }

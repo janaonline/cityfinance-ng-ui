@@ -193,6 +193,13 @@ export class TopRankingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStateWiseForm();
+    this.loadStates();
+  }
+
+  loadStates() {
+    this.fiscalRankingService.states().subscribe((res: any) => {
+      this.stateList = res.data;
+    });
   }
 
   getStateWiseForm() {

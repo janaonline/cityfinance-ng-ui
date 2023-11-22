@@ -26,7 +26,9 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-6 text-start common-cls fl-label">Filter by :</div>
-                            <div class="col-6 text-end color-orange">Reset</div>
+                            <div class="col-6 text-end ">
+                               <button class="btn color-orange btn-outline" (click)="resetFilter()">Reset</button> 
+                            </div>
                         </div>
                         <div class="row">
                             <!-- State type filter -->
@@ -72,8 +74,8 @@
 
                 <div class="card table-card mt-4" style="">
                     <div class="card-body">
-                        <app-newui-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
-                        </app-newui-common-table>
+                        <app-common-table theme="white" [response]="table?.response" [classLists]="'scroll'">
+                        </app-common-table>
                     </div>
                 </div>
             </div>
