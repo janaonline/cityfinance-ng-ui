@@ -11,7 +11,7 @@ export class AssessmentParameterComponent implements OnInit {
   constructor(
     private router: Router,
   ) { 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+   // window.scrollTo({ top: 0, behavior: 'smooth' });
     this.checkRouterForApi();
   }
   pageKey:string = 'resourceMobilisation';
