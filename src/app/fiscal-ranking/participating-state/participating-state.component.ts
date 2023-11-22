@@ -288,4 +288,10 @@ export class ParticipatingStateComponent implements OnInit {
       this.colorCoding = res?.data.heatMaps;
     });
   }
+  resetFilter(){
+    this.stateType = 'all';
+    this.ulbParticipation = 'all';
+    this.ulbRankingStatus = 'all';
+    this.getTableData();
+  }
 }
