@@ -118,7 +118,7 @@ import { IndiaMapComponent } from './india-map/india-map.component';
     SearchPopupComponent,
     ParticipatingStateComponent,
     ParticipatingUlbsComponent,
-    IndiaMapComponent,
+    IndiaMapComponent
   ],
   imports: [
     CommonModule,

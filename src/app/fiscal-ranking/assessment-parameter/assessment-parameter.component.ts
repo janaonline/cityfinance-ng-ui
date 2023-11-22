@@ -11,7 +11,7 @@ export class AssessmentParameterComponent implements OnInit {
   constructor(
     private router: Router,
   ) { 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+   // window.scrollTo({ top: 0, behavior: 'smooth' });
     this.checkRouterForApi();
   }
   pageKey:string = 'resourceMobilisation';
@@ -137,10 +137,9 @@ export class AssessmentParameterComponent implements OnInit {
        Gain insights into the significance of resource mobilization in urban development.`,
        imgUrl: '../../../assets/fiscal-rankings/expenTable.png'
     }
-  
      },
      fiscalGovernance : {
-      id: 1,
+      id: 3,
       key: 'fiscalGovernance',
       name: 'Fiscal Governance',
       subHeading: 'Fueling Urban Growth',
@@ -206,7 +205,8 @@ export class AssessmentParameterComponent implements OnInit {
     });
   }
   setPageKey(data){
-    this.currentPageData = this.allPageData[data];
+   // this.currentPageData = this.allPageData[data];
+    this.router.navigateByUrl(`rankings/assesst-parameters/${data}`)
   }
 
   ngOnDestroy() {

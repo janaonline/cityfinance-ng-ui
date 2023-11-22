@@ -12,107 +12,78 @@ export class UlbDetailsAssessmentParametersComponent implements OnInit {
   table = {
     response: {
       "status": true,
-      "message": "Successfully saved data!",
+      "message": "Successfully fetched data!",
       "columns": [
         {
-          "label": "State Name",
-          "key": "stateName",
-          "query": "",
-          "sort": 1,
-          "sortable": true
+          "label": "S. No",
+          "key": "sNo",
         },
         {
-          "label": "Total ULBs",
-          "key": "totalUlbs",
-          "sortable": true
+          "label": "Indicator",
+          "key": "indicator"
         },
         {
-          "label": "Under Review by PMU",
-          "key": "underReviewByPMU",
-          "sortable": true
+          "label": "Units",
+          "key": "unit"
         },
         {
-          "label": "Returned by PMU",
-          "key": "returnedByPMU",
-          "sortable": true
+          "label": "Ulb performance",
+          "key": "ulbPerformance"
         },
         {
-          "label": "In Progress",
-          "key": "inProgress",
-          "sortable": true
+          "label": "Highest performance",
+          "info": "In population category",
+          "key": "highPerformance"
         },
         {
-          "label": "Not Started",
-          "key": "notStarted",
-          "sortable": true
+          "label": "Lowest performance",
+          "info": "In population category",
+          "key": "lowPerformance"
+        },
+        {
+          "label": "Ulb Score",
+          "info": "Out of 300",
+          "key": "ulbScore"
         }
       ],
-      "name": "",
       "data": [
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "totalUlbs": 1,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dc?stateName=Andaman and Nicobar Islands"
+          "sNo": 1,
+          "indicator": "Total Budget size per capita (Actual Total Reciepts)",
+          "unit": "Rs",
+          "ulbPerformance": 460,
+          "highPerformance": 86,
+          "lowPerformance": 256,
+          "ulbScore": 260
         },
         {
-          "_id": "5dcf9d7216a06aed41c748dd",
-          "totalUlbs": 123,
-          "underReviewByPMU": 122,
-          "returnedByPMU": 1,
-          "inProgress": 0,
-          "notStarted": 0,
-          "stateName": "Andhra Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dd?stateName=Andhra Pradesh"
+          "sNo": 1,
+          "indicator": "Own Revenue per capita",
+          "unit": "Rs",
+          "ulbPerformance": 460,
+          "highPerformance": 86,
+          "lowPerformance": 256,
+          "ulbScore": 260
         },
         {
-          "_id": "5dcf9d7216a06aed41c748de",
-          "totalUlbs": 31,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 31,
-          "stateName": "Arunachal Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748de?stateName=Arunachal Pradesh"
+          "sNo": 1,
+          "indicator": "Property Tax per capita",
+          "unit": "Rs",
+          "ulbPerformance": 460,
+          "highPerformance": 86,
+          "lowPerformance": 256,
+          "ulbScore": 260
         },
-        {
-          "_id": "5dcf9d7216a06aed41c748df",
-          "totalUlbs": 107,
-          "underReviewByPMU": 25,
-          "returnedByPMU": 0,
-          "inProgress": 37,
-          "notStarted": 45,
-          "stateName": "Assam",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748df?stateName=Assam"
-        },
-        {
-          "_id": "5dcf9d7216a06aed41c748e0",
-          "totalUlbs": 263,
-          "underReviewByPMU": 4,
-          "returnedByPMU": 0,
-          "inProgress": 26,
-          "notStarted": 233,
-          "stateName": "Bihar",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748e0?stateName=Bihar"
-        }
       ],
       "lastRow": [
+        "",
+        "",
+        "",
+        "",
+        "",
         "Total",
         "$sum",
-        "$sum",
-        "$sum",
-        "$sum",
-        "$sum"
-      ],
+      ]
     }
   }
 

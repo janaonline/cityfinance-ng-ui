@@ -15,7 +15,8 @@ export class AnnualFinancialStatementsComponent implements OnInit {
     },
     {
       label: 'Annual financial statements',
-      url: '/rankings/annual-financial-statements'
+      url: '/rankings/annual-financial-statements',
+      class: 'disabled'
     }
   ];
 
@@ -25,104 +26,97 @@ export class AnnualFinancialStatementsComponent implements OnInit {
       "message": "Successfully saved data!",
       "columns": [
         {
+          "label": "S. No",
+          "key": "sNo",
+        },
+        {
           "label": "State Name",
           "key": "stateName",
-          "query": "",
           "sort": 1,
           "sortable": true
         },
         {
-          "label": "Total ULBs",
-          "key": "totalUlbs",
-          "sortable": true
+          "label": "No of ulbs",
+          "key": "noOfUlbs"
         },
         {
-          "label": "Under Review by PMU",
-          "key": "underReviewByPMU",
-          "sortable": true
+          "label": "Annual Budget Available",
+          "key": "ab2021",
+          "colspan": 4
         },
         {
-          "label": "Returned by PMU",
-          "key": "returnedByPMU",
-          "sortable": true
+          "label": "",
+          "key": "ab2122",
+          "hidden": true
         },
         {
-          "label": "In Progress",
-          "key": "inProgress",
-          "sortable": true
+          "label": "",
+          "key": "ab2223",
+          "hidden": true
         },
         {
-          "label": "Not Started",
-          "key": "notStarted",
-          "sortable": true
+          "label": "",
+          "key": "ab2324",
+          "hidden": true
         }
+      ],
+      "subHeaders": [
+        "",
+        "",
+        "",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24"
       ],
       "name": "",
       "data": [
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "totalUlbs": 1,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 1,
+          "noOfUlbs": 1,
+          "ab2021": 0,
+          "ab2122": 0,
+          "ab2223": 0,
+          "ab2324": 1,
           "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dc?stateName=Andaman and Nicobar Islands"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
-          "_id": "5dcf9d7216a06aed41c748dd",
-          "totalUlbs": 123,
-          "underReviewByPMU": 122,
-          "returnedByPMU": 1,
-          "inProgress": 0,
-          "notStarted": 0,
+          "noOfUlbs": 123,
+          "ab2021": 122,
+          "ab2122": 1,
+          "ab2223": 0,
+          "ab2324": 0,
           "stateName": "Andhra Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748dd?stateName=Andhra Pradesh"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
-          "_id": "5dcf9d7216a06aed41c748de",
-          "totalUlbs": 31,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 31,
+          "noOfUlbs": 31,
+          "ab2021": 0,
+          "ab2122": 0,
+          "ab2223": 0,
+          "ab2324": 31,
           "stateName": "Arunachal Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748de?stateName=Arunachal Pradesh"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
-          "_id": "5dcf9d7216a06aed41c748df",
-          "totalUlbs": 107,
-          "underReviewByPMU": 25,
-          "returnedByPMU": 0,
-          "inProgress": 37,
-          "notStarted": 45,
+          "noOfUlbs": 107,
+          "ab2021": 25,
+          "ab2122": 0,
+          "ab2223": 37,
+          "ab2324": 45,
           "stateName": "Assam",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748df?stateName=Assam"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         },
         {
-          "_id": "5dcf9d7216a06aed41c748e0",
-          "totalUlbs": 263,
-          "underReviewByPMU": 4,
-          "returnedByPMU": 0,
-          "inProgress": 26,
-          "notStarted": 233,
+          "noOfUlbs": 263,
+          "ab2021": 4,
+          "ab2122": 0,
+          "ab2223": 26,
+          "ab2324": 233,
           "stateName": "Bihar",
-          "selected": false,
-          "stateNameLink": "/rankings/populationWise/5dcf9d7216a06aed41c748e0?stateName=Bihar"
+          "stateNameLink": "/rankings/participated-ulbs/5fa25a6e0fb1d349c0fdfbc7"
         }
-      ],
-      "lastRow": [
-        "Total",
-        "$sum",
-        "$sum",
-        "$sum",
-        "$sum",
-        "$sum"
-      ],
+      ]
     }
   }
 

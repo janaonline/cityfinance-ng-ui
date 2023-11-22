@@ -1,6 +1,10 @@
 <section class="p-4">
+    <div class="d-flex gap-2 guidelines-link cursor-pointer" (click)="onGuidelinesPopup.emit()" >
+        <img src="assets/pdf.png" />
+        <div>CFR Guidelines</div>
+    </div>
     <p>Discover how Urban Local Bodies (ULBs) achieve top rankings.</p>
-    <h2>Assessment parameters</h2>
+    <h2 class="fw-bold">Assessment parameters</h2>
     <p>Explore City Finance Rankings, where 15 indicators assess Urban Local Bodies (ULBs) on financial parameters,
         promoting sustainability, accountability, and transparency.</p>
 
@@ -11,7 +15,8 @@
             <h5 class="card-title mt-2">Resource Mobilization</h5>
             <p class="text-muted">signifies the size and growth trend in the total receipts and own revenues of the ULB
                 ...</p>
-            <button class="btn btn-outline btn-orange" routerLink="../assesst-parameters/resourceMobilisation">
+            <button class="btn btn-outline btn-orange w-50 m-auto"
+                routerLink="../assesst-parameters/resourceMobilisation">
                 Learn more
             </button>
         </div>
@@ -20,7 +25,8 @@
             <h5 class="card-title mt-2">Expenditure Performance</h5>
             <p class="text-muted">signifies size and quality of expenditure (spending) towards building
                 infrastructure...</p>
-            <button class="btn btn-outline btn-orange" routerLink="../assesst-parameters/expenditurePerformance">
+            <button class="btn btn-outline btn-orange w-50 m-auto"
+                routerLink="../assesst-parameters/expenditurePerformance">
                 Learn more
             </button>
         </div>
@@ -29,8 +35,8 @@
             <h5 class="card-title mt-2">Fiscal Governance</h5>
             <p class="text-muted">refers to robustness of systems in place with respect to transparency and
                 accountabili...</p>
-            <button class="btn btn-outline btn-orange" routerLink="../assesst-parameters/fiscalGovernance">
-             Learn more
+            <button class="btn btn-outline btn-orange w-50 m-auto" routerLink="../assesst-parameters/fiscalGovernance">
+                Learn more
             </button>
         </div>
     </div>

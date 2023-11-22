@@ -19,7 +19,8 @@ export class TopRankingsComponent implements OnInit {
     },
     {
       label: 'Top rankings',
-      url: '/rankings/top-rankings'
+      url: '/rankings/top-rankings',
+      class: 'disabled'
     }
   ];
 
@@ -27,95 +28,86 @@ export class TopRankingsComponent implements OnInit {
   table = {
     response: {
       "status": true,
-      "message": "Successfully saved data!",
+      "message": "Successfully fetched data!",
       "columns": [
         {
-          "label": "State Name",
-          "key": "stateName",
-          "query": "",
+          "label": "Rank",
+          "key": "rank",
           "sort": 1,
           "sortable": true
         },
         {
-          "label": "Returned by PMU",
-          "key": "returnedByPMU",
-          "sortable": true
+          "label": "ULB Name",
+          "key": "ulbName"
         },
         {
-          "label": "In Progress",
-          "key": "inProgress",
-          "sortable": true
+          "label": "Total Ulb Score",
+          "info": "Max Score: 1200",
+          "key": "totalUlbScore"
         },
         {
-          "label": "Not Started",
-          "key": "notStarted",
-          "sortable": true
+          "label": "RM Score",
+          "info": "Max Score: 600",
+          "key": "rmScore"
+        },
+        {
+          "label": "EP Score",
+          "info": "Max Score: 300",
+          "key": "epScore"
+        },
+        {
+          "label": "FG Score",
+          "info": "Max Score: 300",
+          "key": "fgScore"
         }
       ],
-      "name": "",
       "data": [
         {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "totalUlbs": 1,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 1,
-          "stateName": "Andaman and Nicobar Islands",
-          "selected": false,
-          "stateNameLink": "/rankings/ulb/456789"
+          "rank": 1,
+          "ulbName": "Navi Mumbai",
+          "ulbNameLink": "/rankings/ulb/456789",
+          "totalUlbScore": 40,
+          "rmScore": 23,
+          "epScore": 50,
+          "fgScore": 32
         },
         {
-          "_id": "5dcf9d7216a06aed41c748dd",
-          "totalUlbs": 123,
-          "underReviewByPMU": 122,
-          "returnedByPMU": 1,
-          "inProgress": 0,
-          "notStarted": 0,
-          "stateName": "Andhra Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/ulb/456789"
+          "rank": 2,
+          "ulbName": "Delhi",
+          "ulbNameLink": "/rankings/ulb/685965",
+          "totalUlbScore": 50,
+          "rmScore": 33,
+          "epScore": 20,
+          "fgScore": 25
         },
         {
-          "_id": "5dcf9d7216a06aed41c748de",
-          "totalUlbs": 31,
-          "underReviewByPMU": 0,
-          "returnedByPMU": 0,
-          "inProgress": 0,
-          "notStarted": 31,
-          "stateName": "Arunachal Pradesh",
-          "selected": false,
-          "stateNameLink": "/rankings/ulb/456789"
+          "rank": 3,
+          "ulbName": "Banglore",
+          "ulbNameLink": "/rankings/ulb/685965",
+          "totalUlbScore": 50,
+          "rmScore": 33,
+          "epScore": 20,
+          "fgScore": 25
         },
         {
-          "_id": "5dcf9d7216a06aed41c748df",
-          "totalUlbs": 107,
-          "underReviewByPMU": 25,
-          "returnedByPMU": 0,
-          "inProgress": 37,
-          "notStarted": 45,
-          "stateName": "Assam",
-          "selected": false,
-          "stateNameLink": "/rankings/ulb/456789"
+          "rank": 4,
+          "ulbName": "Chennai",
+          "ulbNameLink": "/rankings/ulb/685965",
+          "totalUlbScore": 50,
+          "rmScore": 33,
+          "epScore": 20,
+          "fgScore": 25
         },
         {
-          "_id": "5dcf9d7216a06aed41c748e0",
-          "totalUlbs": 263,
-          "underReviewByPMU": 4,
-          "returnedByPMU": 0,
-          "inProgress": 26,
-          "notStarted": 233,
-          "stateName": "Bihar",
-          "selected": false,
-          "stateNameLink": "/rankings/ulb/456789"
+          "rank": 5,
+          "ulbName": "Hyderabad",
+          "ulbNameLink": "/rankings/ulb/685965",
+          "totalUlbScore": 50,
+          "rmScore": 33,
+          "epScore": 20,
+          "fgScore": 25
         }
-      ],
-      "lastRow": [
-        "Total",
-        "$sum",
-        "$sum",
-        "$sum",
-      ],
+      ]
     }
   }
 
@@ -201,6 +193,13 @@ export class TopRankingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStateWiseForm();
+    this.loadStates();
+  }
+
+  loadStates() {
+    this.fiscalRankingService.states().subscribe((res: any) => {
+      this.stateList = res.data;
+    });
   }
 
   getStateWiseForm() {

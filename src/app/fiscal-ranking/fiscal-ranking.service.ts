@@ -172,4 +172,24 @@ export class FiscalRankingService {
       console.log("error in getTrackingHistory :: ",err.message)
     }
   }
+
+  searchUlb(query: string = '') {
+    return this.http.get(`${environment.api.url}scoring-fr/states`)
+  }
+  dashboard() {
+    return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
+  }
+  callGetMethod(endPoints:string, queryParam:any) {
+    return this.http.get(
+      `${environment.api.url}${endPoints}`,
+       {
+        params: queryParam
+       }
+    );
+  }
+
+  states() {
+    return this.http.get(`${environment.api.url}scoring-fr/states`)
+  }
+
 }

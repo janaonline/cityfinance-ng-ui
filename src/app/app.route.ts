@@ -243,7 +243,9 @@ export const appRouter: Routes = [
   { path: "**", redirectTo: "rankings/home" },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(appRouter)],
+  imports: [RouterModule.forRoot(appRouter,{
+    scrollPositionRestoration: 'enabled'
+  })],
   exports: [RouterModule]
 })
 export class AppRouter { }
