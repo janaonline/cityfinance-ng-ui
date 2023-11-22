@@ -188,5 +188,8 @@ export class FiscalRankingService {
     );
   }
 
+  states() {
+    return this.http.get(`${environment.api.url}scoring-fr/states`)
+  }
 
 }
