@@ -5,6 +5,6 @@
     <p>Delve into the financial transparency of Urban Local Bodies (ULBs). Access audited annual accounts to understand
         how ULBs manage their finances effectively and ensure accountability.</p>
 
-    <app-common-table theme="white" [response]="table?.response">
+    <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response">
     </app-common-table>
 </section>

@@ -197,6 +197,14 @@ export class FiscalRankingService {
   states() {
     return this.http.get(`${environment.api.url}scoring-fr/states`)
   }
+
+  auditedAccounts() {
+    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts`)
+  }
+
+  annualBudgets() {
+    return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
+  }
   
 
 }

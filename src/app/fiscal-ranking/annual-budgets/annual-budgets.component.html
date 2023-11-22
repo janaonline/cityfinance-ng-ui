@@ -6,6 +6,6 @@
         how ULBs manage their finances effectively and ensure accountability.</p>
     
         
-    <app-common-table theme="white" [response]="table?.response">
+    <app-common-table theme="white" *ngIf="table?.response" [response]="table?.response">
     </app-common-table>
 </section>
