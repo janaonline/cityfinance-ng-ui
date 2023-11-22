@@ -21,9 +21,7 @@ export class AnnualFinancialStatementsComponent implements OnInit {
     }
   ];
 
-  table = {
-    response: {  }
-  };
+  table = { response: null };
 
   constructor(
     private fiscalRankingService: FiscalRankingService

@@ -25,91 +25,7 @@ export class TopRankingsComponent implements OnInit {
   ];
 
 
-  table = {
-    response: {
-      "status": true,
-      "message": "Successfully fetched data!",
-      "columns": [
-        {
-          "label": "Rank",
-          "key": "rank",
-          "sort": 1,
-          "sortable": true
-        },
-        {
-          "label": "ULB Name",
-          "key": "ulbName"
-        },
-        {
-          "label": "Total Ulb Score",
-          "info": "Max Score: 1200",
-          "key": "totalUlbScore"
-        },
-        {
-          "label": "RM Score",
-          "info": "Max Score: 600",
-          "key": "rmScore"
-        },
-        {
-          "label": "EP Score",
-          "info": "Max Score: 300",
-          "key": "epScore"
-        },
-        {
-          "label": "FG Score",
-          "info": "Max Score: 300",
-          "key": "fgScore"
-        }
-      ],
-      "data": [
-        {
-          "rank": 1,
-          "ulbName": "Navi Mumbai",
-          "ulbNameLink": "/rankings/ulb/456789",
-          "totalUlbScore": 40,
-          "rmScore": 23,
-          "epScore": 50,
-          "fgScore": 32
-        },
-        {
-          "rank": 2,
-          "ulbName": "Delhi",
-          "ulbNameLink": "/rankings/ulb/685965",
-          "totalUlbScore": 50,
-          "rmScore": 33,
-          "epScore": 20,
-          "fgScore": 25
-        },
-        {
-          "rank": 3,
-          "ulbName": "Banglore",
-          "ulbNameLink": "/rankings/ulb/685965",
-          "totalUlbScore": 50,
-          "rmScore": 33,
-          "epScore": 20,
-          "fgScore": 25
-        },
-        {
-          "rank": 4,
-          "ulbName": "Chennai",
-          "ulbNameLink": "/rankings/ulb/685965",
-          "totalUlbScore": 50,
-          "rmScore": 33,
-          "epScore": 20,
-          "fgScore": 25
-        },
-        {
-          "rank": 5,
-          "ulbName": "Hyderabad",
-          "ulbNameLink": "/rankings/ulb/685965",
-          "totalUlbScore": 50,
-          "rmScore": 33,
-          "epScore": 20,
-          "fgScore": 25
-        }
-      ]
-    }
-  }
+  table = { response: null };
 
   stateList = [
     {
@@ -192,8 +108,19 @@ export class TopRankingsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this.getStateWiseForm();
     this.loadStates();
+    this.loadTopRankedUlbs();
+  }
+
+  loadTopRankedUlbs() {
+    this.fiscalRankingService.topRankedUlbs().subscribe((res: any) => {
+      this.table.response = res;
+    })
   }
 
   loadStates() {

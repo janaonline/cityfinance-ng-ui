@@ -206,5 +206,9 @@ export class FiscalRankingService {
     return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
   }
   
+  topRankedUlbs() {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`)
+  }
+  
 
 }
