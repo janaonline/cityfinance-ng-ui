@@ -19,7 +19,8 @@ export class TopRankingsComponent implements OnInit {
     },
     {
       label: 'Top rankings',
-      url: '/rankings/top-rankings'
+      url: '/rankings/top-rankings',
+      class: 'disabled'
     }
   ];
 
