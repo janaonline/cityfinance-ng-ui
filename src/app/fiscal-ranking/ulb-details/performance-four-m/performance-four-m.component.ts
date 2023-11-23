@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-performance-four-m',
@@ -7,7 +7,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerformanceFourMComponent implements OnInit {
 
+  @Input() data;
+
+  activeFilter = 'overAll';
+
+  
   constructor() { }
+
+  get ulb() {
+    return this.data?.ulb;
+  }
+
+  get selectedRank() {
+    return this.ulb?.[this.activeFilter]?.rank;
+  }
+
+  get activeFilterName() {
+    return {
+      overAll: 'Over All',
+      resourceMobilization: 'Resource Mobilization',
+      expenditurePerformance: 'Expenditure Performance',
+      fiscalGovernance: 'Fiscal Governance'
+    }[this.activeFilter];
+  }
+
+
 
   ngOnInit(): void {
   }
