@@ -119,7 +119,7 @@ export class TopRankingsComponent implements OnInit {
 
   loadTopRankedUlbs() {
     this.fiscalRankingService.topRankedUlbs().subscribe((res: any) => {
-      this.table.response = res;
+      this.table.response = res.tableData;
     })
   }
 
