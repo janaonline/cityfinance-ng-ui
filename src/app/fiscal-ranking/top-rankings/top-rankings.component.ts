@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService } from '../fiscal-ranking.service';
-import { ColorDetails } from '../india-map/india-map.component';
+import { ColorDetails, Marker } from '../india-map/india-map.component';
 import { SearchPopupComponent } from '../ulb-details/search-popup/search-popup.component';
 
 @Component({
@@ -24,8 +24,12 @@ export class TopRankingsComponent implements OnInit {
     }
   ];
 
+  markers: Marker[] = [];
+
 
   table = { response: null };
+
+  selectedMap: string = 'topUlbs'; // Initialize to default value
 
   stateList = [
     {
@@ -120,6 +124,7 @@ export class TopRankingsComponent implements OnInit {
   loadTopRankedUlbs() {
     this.fiscalRankingService.topRankedUlbs().subscribe((res: any) => {
       this.table.response = res.tableData;
+      this.markers = res.mapDataTopUlbs;
     })
   }
 
