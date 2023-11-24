@@ -38,15 +38,15 @@ export class UlbDetailsHeaderComponent implements OnInit {
   }
 
   get markers() {
-    const { lat: x, lng: y } = this.ulb?.location;
-    return [{ x, y, text: this.ulb?.name }];
+    const { lat, lng } = this.ulb?.location;
+    return [{ lat, lng, name: this.ulb?.name }];
   }
 
   get colorCoding() {
     return [{
-      "_id": "Rajasthan",
+      "_id": this.ulb?.stateName,
       "stateId": this.ulb.state,
-      "code": "RJ",
+      "code": this.ulb?.stateCode,
       "color": "#FFF0E0"
     }];
   };
