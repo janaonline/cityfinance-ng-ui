@@ -174,7 +174,7 @@ export class FiscalRankingService {
   }
 
   searchUlb(query: string = '') {
-    return this.http.get(`${environment.api.url}scoring-fr/states`)
+    return this.http.get(`${environment.api.url}scoring-fr/autocomplete-ulbs?q=${query}`)
   }
 
   ulbDetails(ulbId: string) {
