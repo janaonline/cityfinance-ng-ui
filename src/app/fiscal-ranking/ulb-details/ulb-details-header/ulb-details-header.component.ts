@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getPopulationCategory } from 'src/app/util/common';
-import { FiscalRankingService } from '../../fiscal-ranking.service';
 import { ColorDetails } from '../../india-map/india-map.component';
 
 export interface Service {
@@ -21,20 +20,13 @@ export interface Category {
   styleUrls: ['./ulb-details-header.component.scss']
 })
 export class UlbDetailsHeaderComponent implements OnInit {
-
-
   @Input() data;
 
-  colorCoding: any[];
-
   colorDetails: ColorDetails[] = [];
-  markers = [];
 
-  constructor(private fiscalRankingService: FiscalRankingService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getStateWiseForm();
-
   }
 
   get ulb() {
@@ -44,6 +36,20 @@ export class UlbDetailsHeaderComponent implements OnInit {
   get fsData() {
     return this.data?.fsData;
   }
+
+  get markers() {
+    const { lat: x, lng: y } = this.ulb?.location;
+    return [{ x, y, text: this.ulb?.name }];
+  }
+
+  get colorCoding() {
+    return [{
+      "_id": "Rajasthan",
+      "stateId": this.ulb.state,
+      "code": "RJ",
+      "color": "#FFF0E0"
+    }];
+  };
 
   get categories(): Category[] {
     return [
@@ -80,33 +86,4 @@ export class UlbDetailsHeaderComponent implements OnInit {
   get populationCategory() {
     return getPopulationCategory(this.ulb?.population)
   }
-
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.markers = [
-        {
-          x: 28.6139,
-          y: 77.2090,
-          text: 'hi'
-        }
-      ];
-
-      for (let i = 0; i < 10; i++) {
-        this.markers.push({
-          x: Math.random() * 20 + 10,
-          y: Math.random() * 40 + 50,
-          text: 'hardcoded'
-        });
-      }
-
-      this.colorCoding = res?.data.heatMaps;
-      this.colorCoding?.forEach(item => {
-        if (item.stateId == '5dcf9d7416a06aed41c748f0') {
-          item.color = '#FFF0E0';
-        }
-      })
-    });
-  }
-
-
 }
