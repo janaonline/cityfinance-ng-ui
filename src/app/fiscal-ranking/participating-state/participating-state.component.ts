@@ -253,7 +253,7 @@ export class ParticipatingStateComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.getStateWiseForm();
+  //  this.getStateWiseForm();
     this.getTableData();
   }
   stateTypeChange(e){
@@ -276,18 +276,19 @@ export class ParticipatingStateComponent implements OnInit {
   }
    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state', filterObj).subscribe((res: any)=>{
     console.log('participated-state table responces', res);
-    this.table["response"] = res?.data;
+    this.table["response"] = res?.data?.tableData;
+    this.colorCoding = res?.data?.mapData;
    },
    (error)=>{
     console.log('participated-state table error', error);
    }
    )
   }
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.colorCoding = res?.data.heatMaps;
-    });
-  }
+  // getStateWiseForm() {
+  //   this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+  //     this.colorCoding = res?.data.heatMaps;
+  //   });
+  // }
   resetFilter(){
     this.stateType = 'all';
     this.ulbParticipation = 'all';
