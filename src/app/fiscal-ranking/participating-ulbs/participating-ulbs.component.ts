@@ -108,159 +108,159 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateName:string = '';
   table = {
     response: {
-      "status": true,
-      "message": "Successfully saved data!",
-      "columns": [
-        {
-          "label": "S.No",
-          "key": "sNo",
-          "sort": 0,
-          "sortable": false,
-          "class": "th-common-cls",
-          "width": "2"
-        },
-        {
-          "label": "ULB Name",
-          "key": "ulbName",
-          "sort": 1,
-          "sortable": true,
-          "subHeader" : 'A',
-          "class": "th-color-cls",
-          "width": "8"
-        },
-        {
-          "label": "Population Category",
-          "key": "populationCategory",
-          "sortable": false,
-          "subHeader" : 'B',
-          "class": "th-common-cls",
-          "width": "7"
-        },
-        {
-          "label": "ULB Participated",
-          "key": "participatedULBs",
-          "sortable": true,
-          "subHeader" : 'c',
-          "class": "th-common-cls",
-          "width": "7"
-        },
-        {
-          "label": "CFR Ranked",
-          "key": "rankedULBs",
-          "sortable": true,
-          "subHeader" : 'c',
-          "class": "th-common-cls",
-          "width": "6"
-        },
-        {
-          "label": "Annual Financial Statement Available",
-          "key": "annualFinancialStatementAvailable",
-           "subHeaderData": [
-            {
-              "key": "1819",
-              "label": "2018-19"
-            },
-            {
-              "key": "1920",
-              "label": "2019-20"
-            },
-            {
-              "key": "2021",
-              "label": "2020-21"
-            },
-            {
-              "key": "2122",
-              "label": "2021-22"
-            },
-           ],
-          "sortable": true,
-          "subHeader" : 'c',
-          "class": "th-common-cls",
-          "width": "10"
-        },
-        {
-          "label": "Annual Budget Available",
-          "key": "annualBudgetAvailable",
-          "subHeaderData": [
-            {
-              "key": "2122",
-              "label": "2021-22"
-            },
-            {
-              "key": "2223",
-              "label": "2022-23"
-            },
-            {
-              "key": "2324",
-              "label": "2023-24"
-            },
-            {
-              "key": "2425",
-              "label": "2024-25"
-            },
-         ],
-          "sortable": true,
-          "subHeader" : 'c',
-          "class": "th-common-cls",
-          "width": "10"
-        },
+      // "status": true,
+      // "message": "Successfully saved data!",
+      // "columns": [
+      //   {
+      //     "label": "S.No",
+      //     "key": "sNo",
+      //     "sort": 0,
+      //     "sortable": false,
+      //     "class": "th-common-cls",
+      //     "width": "2"
+      //   },
+      //   {
+      //     "label": "ULB Name",
+      //     "key": "ulbName",
+      //     "sort": 1,
+      //     "sortable": true,
+      //     "subHeader" : 'A',
+      //     "class": "th-color-cls",
+      //     "width": "8"
+      //   },
+      //   {
+      //     "label": "Population Category",
+      //     "key": "populationCategory",
+      //     "sortable": false,
+      //     "subHeader" : 'B',
+      //     "class": "th-common-cls",
+      //     "width": "7"
+      //   },
+      //   {
+      //     "label": "ULB Participated",
+      //     "key": "participatedULBs",
+      //     "sortable": true,
+      //     "subHeader" : 'c',
+      //     "class": "th-common-cls",
+      //     "width": "7"
+      //   },
+      //   {
+      //     "label": "CFR Ranked",
+      //     "key": "rankedULBs",
+      //     "sortable": true,
+      //     "subHeader" : 'c',
+      //     "class": "th-common-cls",
+      //     "width": "6"
+      //   },
+      //   {
+      //     "label": "Annual Financial Statement Available",
+      //     "key": "annualFinancialStatementAvailable",
+      //      "subHeaderData": [
+      //       {
+      //         "key": "1819",
+      //         "label": "2018-19"
+      //       },
+      //       {
+      //         "key": "1920",
+      //         "label": "2019-20"
+      //       },
+      //       {
+      //         "key": "2021",
+      //         "label": "2020-21"
+      //       },
+      //       {
+      //         "key": "2122",
+      //         "label": "2021-22"
+      //       },
+      //      ],
+      //     "sortable": true,
+      //     "subHeader" : 'c',
+      //     "class": "th-common-cls",
+      //     "width": "10"
+      //   },
+      //   {
+      //     "label": "Annual Budget Available",
+      //     "key": "annualBudgetAvailable",
+      //     "subHeaderData": [
+      //       {
+      //         "key": "2122",
+      //         "label": "2021-22"
+      //       },
+      //       {
+      //         "key": "2223",
+      //         "label": "2022-23"
+      //       },
+      //       {
+      //         "key": "2324",
+      //         "label": "2023-24"
+      //       },
+      //       {
+      //         "key": "2425",
+      //         "label": "2024-25"
+      //       },
+      //    ],
+      //     "sortable": true,
+      //     "subHeader" : 'c',
+      //     "class": "th-common-cls",
+      //     "width": "10"
+      //   },
         
-      ],
-      "name": "",
-      "data": [
-        {
-          "_id": "5dcf9d7216a06aed41c748dc",
-          "stateName": "Andaman and Nicobar Islands",
-          "ulbName": '',
-          "populationCategory": 1,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "annualFinancialStatementAvailable": {
-            "1819": {
-              url: '',
-              name: 'abc9'
-            },
-            "1920": {
-              url: '',
-              name: 'abc8'
-            },
-            "2021": {
-              url: '',
-              name: 'abc7'
-            },
-            "2122": {
-              url: '',
-              name: 'abc6'
-            }
-          },
-          "annualBudgetAvailable": {
-            "2122": {
-              url: '',
-              name: 'abc1'
-            },
-            "2223": {
-              url: '',
-              name: 'abc2'
-            },
-            "2324": {
-              url: '',
-              name: 'abc3'
-            },
-            "2425": {
-              url: '',
-              name: 'abc4'
-            }
-          }
-        },
+      // ],
+      // "name": "",
+      // "data": [
+      //   {
+      //     "_id": "5dcf9d7216a06aed41c748dc",
+      //     "stateName": "Andaman and Nicobar Islands",
+      //     "ulbName": '',
+      //     "populationCategory": 1,
+      //     "participatedULBs": 0,
+      //     "rankedULBs": 0,
+      //     "annualFinancialStatementAvailable": {
+      //       "1819": {
+      //         url: '',
+      //         name: 'abc9'
+      //       },
+      //       "1920": {
+      //         url: '',
+      //         name: 'abc8'
+      //       },
+      //       "2021": {
+      //         url: '',
+      //         name: 'abc7'
+      //       },
+      //       "2122": {
+      //         url: '',
+      //         name: 'abc6'
+      //       }
+      //     },
+      //     "annualBudgetAvailable": {
+      //       "2122": {
+      //         url: '',
+      //         name: 'abc1'
+      //       },
+      //       "2223": {
+      //         url: '',
+      //         name: 'abc2'
+      //       },
+      //       "2324": {
+      //         url: '',
+      //         name: 'abc3'
+      //       },
+      //       "2425": {
+      //         url: '',
+      //         name: 'abc4'
+      //       }
+      //     }
+      //   },
       
      
-      ],
-      "lastRow": [
-        "Total",
-        "$sum",
-        "$sum",
-        "$sum",
-      ],
+      // ],
+      // "lastRow": [
+      //   "Total",
+      //   "$sum",
+      //   "$sum",
+      //   "$sum",
+      // ],
     }
   }
   ngOnInit(): void {
@@ -289,7 +289,8 @@ export class ParticipatingUlbsComponent implements OnInit {
        this.stateList = res?.data;
        const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
        console.log('selectedState', selectedState);
-       this.selectedStateName = selectedState?.name
+       this.selectedStateName = selectedState?.name;
+       this.getTableData();
        
     });
   }
@@ -297,9 +298,27 @@ export class ParticipatingUlbsComponent implements OnInit {
     this.populationCategory = 'all';
     this.ulbParticipation = 'all';
     this.ulbRankingStatus = 'all';
-  //  this.getTableData();
+   this.getTableData();
   }
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
   }
+  getTableData(){
+    // https://staging.cityfinance.in/api/v1/scoring-fr/ulbs/5dcf9d7316a06aed41c748e7
+   const filterObj = {
+    populationCategory: this.populationCategory,
+     ulbParticipationFilter : this.ulbParticipation,
+     ulbRankingStatusFilter: this.ulbRankingStatus
+ 
+   }
+    this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}`, filterObj).subscribe((res: any)=>{
+     console.log('participated-state table responces', res);
+     this.table["response"] = res?.data;
+    },
+    (error)=>{
+     console.log('participated-state table error', error);
+    }
+    )
+   }
+ 
 }
