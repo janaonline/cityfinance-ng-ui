@@ -1,6 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FiscalRankingService } from '../../fiscal-ranking.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { getPopulationCategory } from 'src/app/util/common';
 import { ColorDetails } from '../../india-map/india-map.component';
+
+export interface Service {
+  name: string;
+  key: string;
+  isApproved: boolean;
+}
+
+export interface Category {
+  title: string;
+  services: Service[];
+}
+
 
 @Component({
   selector: 'app-ulb-details-header',
@@ -8,45 +20,70 @@ import { ColorDetails } from '../../india-map/india-map.component';
   styleUrls: ['./ulb-details-header.component.scss']
 })
 export class UlbDetailsHeaderComponent implements OnInit {
-
-
-  colorCoding: any[];
+  @Input() data;
 
   colorDetails: ColorDetails[] = [];
-  markers = [];
 
-  constructor(private fiscalRankingService: FiscalRankingService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getStateWiseForm();
   }
 
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.markers = [
-        {
-          x: 28.6139, 
-          y: 77.2090,
-          text: 'hi'
-        }
-      ];
+  get ulb() {
+    return this.data?.ulb;
+  }
 
-      for (let i = 0; i < 10; i++) {
-        this.markers.push({
-          x: Math.random() * 20 + 10, 
-          y: Math.random() * 40 + 50,
-          text: 'hardcoded'
-        });
+  get fsData() {
+    return this.data?.fsData;
+  }
+
+  get markers() {
+    const { lat: x, lng: y } = this.ulb?.location;
+    return [{ x, y, text: this.ulb?.name }];
+  }
+
+  get colorCoding() {
+    return [{
+      "_id": "Rajasthan",
+      "stateId": this.ulb.state,
+      "code": "RJ",
+      "color": "#FFF0E0"
+    }];
+  };
+
+  get categories(): Category[] {
+    return [
+      {
+        title: 'Service Handling',
+        services: [
+          { name: 'Water Supply Services', key: 'waterSupply' },
+          { name: 'Sanitation Service Delivery', key: 'sanitationService' }
+        ]
+      },
+      {
+        title: 'Property Tax Details',
+        services: [
+          { name: 'Property Tax Includes Water Tax', key: 'propertyWaterTax' },
+          { name: 'Property Tax Includes Sanitation/Sewerage Tax', key: 'sanitationService' },
+          { name: 'Property Tax Register GIS-based', key: 'registerGis' }
+        ]
+      },
+      {
+        title: 'Technology Usage',
+        services: [
+          { name: 'Accounting Software Used', key: 'accountStwre' }
+        ]
       }
-
-      this.colorCoding = res?.data.heatMaps;
-      this.colorCoding?.forEach(item => {
-        if(item.stateId == '5dcf9d7416a06aed41c748f0') {
-          item.color = '#FFF0E0';
-        }
-      })
-    });
+    ].map(section => ({
+      ...section,
+      services: section.services.map(service => ({
+        ...service,
+        isApproved: this.data?.fsData?.[service.key]?.value?.toLowerCase() == 'yes'
+      }))
+    }));
   }
 
-
+  get populationCategory() {
+    return getPopulationCategory(this.ulb?.population)
+  }
 }

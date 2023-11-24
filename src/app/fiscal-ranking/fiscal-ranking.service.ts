@@ -176,9 +176,15 @@ export class FiscalRankingService {
   searchUlb(query: string = '') {
     return this.http.get(`${environment.api.url}scoring-fr/states`)
   }
+
+  ulbDetails(ulbId: string) {
+    return this.http.get(`${environment.api.url}scoring-fr/ulb/${ulbId}`)
+  }
+
   dashboard() {
     return this.http.get(`${environment.api.url}scoring-fr/dashboard`)
   }
+
   callGetMethod(endPoints:string, queryParam:any) {
     return this.http.get(
       `${environment.api.url}${endPoints}`,
@@ -191,5 +197,18 @@ export class FiscalRankingService {
   states() {
     return this.http.get(`${environment.api.url}scoring-fr/states`)
   }
+
+  auditedAccounts() {
+    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts`)
+  }
+
+  annualBudgets() {
+    return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
+  }
+  
+  topRankedUlbs() {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`)
+  }
+  
 
 }

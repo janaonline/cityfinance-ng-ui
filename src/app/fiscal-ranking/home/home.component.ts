@@ -24,41 +24,35 @@ export class HomeComponent implements OnInit {
 
   loadData() {
     this.fiscalRankingService.dashboard().subscribe(({ data }: any) => {
-      console.log(data);
       this.data = data;
+      const topCategoryUlbLength = Object.entries(this.data.bucketWiseUlb)
+        .reduce((max, item) => Math.max(max, item.length), 0)
+      const columns = [
+        {
+          "label": "4M+",
+          "key": "populationBucket1"
+        },
+        {
+          "label": "1M-4M",
+          "key": "populationBucket2"
+        },
+        {
+          "label": "100K-1M",
+          "key": "populationBucket3"
+        },
+        {
+          "label": "<100K",
+          "key": "populationBucket4"
+        }
+      ];
       this.data['topCategoryUlb'] = {
-        "columns": [
-          {
-            "label": "4M+",
-            "key": "4M+"
-          },
-          {
-            "label": "1M-4M",
-            "key": "1M-4M"
-          },
-          {
-            "label": "100K-1M",
-            "key": "100k-M"
-          },
-          {
-            "label": "<100K",
-            "key": "<100K"
-          }
-        ],
-        "data": [
-          {
-            "4M+": "Navi mumbar",
-            "1M-4M": "Ab",
-            "100k-M": " test",
-            "<100K": "Navi mumbar"
-          },
-          {
-            "4M+": "Navi mumbar",
-            "1M-4M": "Navi mumbar",
-            "100k-M": "Navi mumbar",
-            "<100K": "Navi mumbar"
-          }
-        ]
+        "columns": columns,
+        "data": Array.from({ length: topCategoryUlbLength }).map((_, index) => (
+          columns.reduce((obj, column) => ({
+            ...obj,
+            [column.key]: this.data?.bucketWiseUlb?.[column.key]?.[index]?.name
+          }), {})
+        ))
       };
     })
   }

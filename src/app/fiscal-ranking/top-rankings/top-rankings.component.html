@@ -78,7 +78,7 @@
                 <label class="btn btn-outline-primary" for="fiscal-governance">Fiscal Governance</label>
             </div>
 
-            <app-common-table theme="white" [response]="table?.response">
+            <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response">
             </app-common-table>
         </div>
     </div>

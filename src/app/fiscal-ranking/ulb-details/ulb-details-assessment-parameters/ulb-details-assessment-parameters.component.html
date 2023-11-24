@@ -1,15 +1,19 @@
 <section class="align-center py-3">
     <h3 class="my-4 text-center color-blue">Assessment Parameters</h3>
 
-    <div class="btn-group custom-btn-group btn-group-lg text-center d-block" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="filter" id="resource-mobilization" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="resource-mobilization">Resource Mobilisation</label>
+    <div class="btn-group custom-btn-group btn-group-lg text-center d-block" role="group"
+        aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="filter" id="resourceMobilization" [(ngModel)]="activeFilter"
+            value="resourceMobilization" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" for="resourceMobilization">Resource Mobilisation</label>
 
-        <input type="radio" class="btn-check" name="filter" id="expenditure-performance" autocomplete="off">
-        <label class="btn btn-outline-primary" for="expenditure-performance">Expenditure Performance</label>
+        <input type="radio" class="btn-check" name="filter" id="expenditurePerformance" [(ngModel)]="activeFilter"
+            value="expenditurePerformance" autocomplete="off">
+        <label class="btn btn-outline-primary" for="expenditurePerformance">Expenditure Performance</label>
 
-        <input type="radio" class="btn-check" name="filter" id="fiscal-governance" autocomplete="off">
-        <label class="btn btn-outline-primary" for="fiscal-governance">Fiscal Governance</label>
+        <input type="radio" class="btn-check" name="filter" id="fiscalGovernance" [(ngModel)]="activeFilter"
+            value="fiscalGovernance" autocomplete="off">
+        <label class="btn btn-outline-primary" for="fiscalGovernance">Fiscal Governance</label>
     </div>
 
 
