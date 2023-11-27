@@ -1,7 +1,7 @@
 <app-loader [show]="!response"></app-loader>
 
 
-<div class="common-table container px-0" *ngIf="response">
+<div class="common-table container-fluid px-0" *ngIf="response">
     <div class="d-flex justify-content-between mt-4" *ngIf="response?.name"
         style="background: white; position: sticky; top: 0;">
         <h4 class="my-3">{{ response?.name }} <a [href]="response?.headerLink?.link" target="_blank"
@@ -12,7 +12,7 @@
         <mat-icon *ngIf="isDialog" (click)="closeDialog()" role="button">clear</mat-icon>
     </div>
     <div class="{{theme}} {{classLists}}">
-        <table class="table p-2" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
+        <table class="table" [ngClass]="{'d-block': isDialog, 'table-striped': !theme}">
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
@@ -34,11 +34,11 @@
                     </ng-container>
                 </tr>
                 <tr *ngIf="response.subHeaders">
-                    <td class="text-muted fst-italic" scope="col" *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
+                    <td class="text-muted fst-italic text-nowrap"  scope="col" *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
                         {{ subHeader}}
                     </td>
                 </tr>
-                <tr>
+                <tr *ngIf="isSearchable">
                     <th scope="col" *ngFor="let column of response.columns" class="border-0"
                         [ngClass]="{'table-secondary': !theme}">
                         <input type="text" *ngIf="column.hasOwnProperty('query')"
@@ -56,11 +56,11 @@
                             <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank" >{{ row[column.key] }}</a>
                             <a *ngIf="!isDialog" [routerLink]="row[column.key + 'Link']">{{ row[column.key] }}</a>
                         </ng-container>
-                        <ng-template #text>{{ row[column.key] }}</ng-template>
+                        <ng-template #text> {{ row[column.key] }} </ng-template>
                     </td>
                 </tr>
                 <tr *ngIf="response.lastRow">
-                    <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}">{{
+                    <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}" >{{
                         item |
                         tableRowCalculator : response?.columns[i]?.key : response.data }}</th>
                 </tr>
