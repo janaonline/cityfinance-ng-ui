@@ -66,7 +66,19 @@ export interface TrackingHistoryResponse{
   data:TrackingHistoryData[],
   message:String
 }
+export interface FrFilter {
+  label: string;
+  id: string;
+  key?: string;
+  value?: string;
+}
 
+export interface Filter {
+  stateTypeFilter?: [];
+  ulbParticipationFilter?: [];
+  ulbRankingStatusFilter?: [];
+  populationBucketFilter?:[];
+}
 export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
