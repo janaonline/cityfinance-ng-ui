@@ -24,7 +24,8 @@
             <app-india-map *ngIf="selectedMap == 'topUlbs'" [markers]="markers">
             </app-india-map>
             <app-india-map *ngIf="selectedMap == 'rankHolders'" [colorCoding]="colorCoding"
-                [colorDetails]="colorDetails">
+                [colorDetails]="colorDetails"
+                label="Rank holding ULBs in state">
             </app-india-map>
             <div class="btn-group btn-group-sm btn-group-lg mt-3 text-center d-block" role="group"
                 aria-label="Basic radio toggle button group">
@@ -37,27 +38,27 @@
                 <label class="btn btn-outline-primary" for="rankHolders">ULB Rank Holders</label>
             </div>
         </div>
-        <div class="col-6">
+        <form class="col-6" [formGroup]="filter">
             <div class="card p-4 mt-3">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5>Top-ranked ULBs In</h5>
                     <button class="btn btn-outline btn-orange">Download</button>
                 </div>
                 <div class="row d-flex mt-3">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4" >
                         <div class="input-group inp-grp">
-                            <form class="w-100">
-                                <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId"
-                                    [settings]="dropdownSettings">
+                            <div class="w-100">
+                                <angular2-multiselect class="expo-drp-in"
+                                    [data]="stateList" formControlName="stateData" [settings]="dropdownSettings">
                                 </angular2-multiselect>
-                            </form>
+                            </div>
                         </div>
 
                     </div>
                     <div class="col-4 col-sm-4 col-md-4 ps-3">
-                        <select class="form-select" id="years">
-                            <option selected value="">All Categories</option>
-                            <option *ngFor="let item of populationCategories" value="{{ item._id }}">
+                        <select class="form-select" formControlName="populationBucket">
+                            <option value="">All Categories</option>
+                            <option *ngFor="let item of populationCategories" [value]="item._id">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -68,23 +69,15 @@
 
             <div class="btn-group btn-group-sm custom-btn-group btn-group-lg mt-3 text-center d-block" role="group"
                 aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="filter" id="all-resoource" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="all-resoource">All</label>
 
-                <input type="radio" class="btn-check" name="filter" id="resource-mobilization" autocomplete="off">
-                <label class="btn btn-outline-primary" for="resource-mobilization">Resource
-                    Mobilisation</label>
-
-                <input type="radio" class="btn-check" name="filter" id="expenditure-performance" autocomplete="off">
-                <label class="btn btn-outline-primary" for="expenditure-performance">Expenditure
-                    Performance</label>
-
-                <input type="radio" class="btn-check" name="filter" id="fiscal-governance" autocomplete="off">
-                <label class="btn btn-outline-primary" for="fiscal-governance">Fiscal Governance</label>
+                <ng-container *ngFor="let type of types">
+                    <input type="radio" class="btn-check" formControlName="sortBy" [id]="type?.key" [value]="type?.key">
+                    <label class="btn btn-outline-primary" [for]="type?.key">{{ type?.label }}</label>
+                </ng-container>
             </div>
 
             <app-common-table *ngIf="table?.response" theme="white" [response]="table?.response">
             </app-common-table>
-        </div>
+        </form>
     </div>
 </section>

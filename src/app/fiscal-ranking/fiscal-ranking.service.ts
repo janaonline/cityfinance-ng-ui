@@ -66,7 +66,19 @@ export interface TrackingHistoryResponse{
   data:TrackingHistoryData[],
   message:String
 }
+export interface FrFilter {
+  label: string;
+  id: string;
+  key?: string;
+  value?: string;
+}
 
+export interface Filter {
+  stateTypeFilter?: [];
+  ulbParticipationFilter?: [];
+  ulbRankingStatusFilter?: [];
+  populationBucketFilter?:[];
+}
 export const removeFalsy = obj => Object.entries(obj).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {});
 
 
@@ -206,9 +218,15 @@ export class FiscalRankingService {
     return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
   }
   
-  topRankedUlbs() {
-    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`)
+  topRankedUlbs(params) {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`, { params })
   }
-  
 
+  topRankedStates(params) {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-states`, { params })
+  }
+
+  getBarchartData() {
+    return this.http.get(`${environment.api.url}scoring-fr/search-ulbs?ulb[]=5eb5844f76a3b61f40ba06fd&ulb[]=5dd24b8f91344e2300876cac&ulb[]=5eb5844f76a3b61f40ba069b`)
+  }
 }
