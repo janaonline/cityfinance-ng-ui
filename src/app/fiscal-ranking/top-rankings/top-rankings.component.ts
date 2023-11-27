@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 import { FiscalRankingService } from '../fiscal-ranking.service';
@@ -23,69 +24,36 @@ export class TopRankingsComponent implements OnInit {
       class: 'disabled'
     }
   ];
-
   markers: Marker[] = [];
+  types = [
+    {
+      key: 'overAll',
+      label: 'All',
+    },
+    {
+      key: 'resourceMobilization',
+      label: 'Resource Mobilization'
+    },
+    {
+      key: 'expenditurePerformance',
+      label: 'Expenditure Performance'
+    },
+    {
+      key: 'fiscalGovernance',
+      label: 'Fiscal Governance'
+    },
+  ]
 
-
+  filter: FormGroup;
   table = { response: null };
-
   selectedMap: string = 'topUlbs'; // Initialize to default value
-
-  stateList = [
-    {
-      "code": "AP",
-      "name": "Andhra Pradesh",
-      "_id": "5dcf9d7216a06aed41c748dd",
-      "totalUlbs": 107,
-      "coveredUlbCount": 0,
-      "audited": 0,
-      "unaudited": 0,
-      "auditNA": 0,
-      "coveredUlbPercentage": 0
-    },
-    {
-      "code": "AR",
-      "name": "Arunachal Pradesh",
-      "_id": "5dcf9d7216a06aed41c748de",
-      "totalUlbs": 19,
-      "coveredUlbCount": 0,
-      "audited": 0,
-      "unaudited": 0,
-      "auditNA": 0,
-      "coveredUlbPercentage": 0
-    },
-    {
-      "code": "AS",
-      "name": "Assam",
-      "_id": "5dcf9d7216a06aed41c748df",
-      "totalUlbs": 98,
-      "coveredUlbCount": 0,
-      "audited": 0,
-      "unaudited": 0,
-      "auditNA": 0,
-      "coveredUlbPercentage": 0
-    },
-    {
-      "code": "BR",
-      "name": "Bihar",
-      "_id": "5dcf9d7216a06aed41c748e0",
-      "totalUlbs": 144,
-      "coveredUlbCount": 0,
-      "audited": 0,
-      "unaudited": 0,
-      "auditNA": 0,
-      "coveredUlbPercentage": 0
-    }
-  ];
-
-
+  stateList = [];
   populationCategories = [
     { _id: '1', name: '4M+' },
     { _id: '2', name: '1M to 4M' },
     { _id: '3', name: '100K to 1M' },
     { _id: '4', name: '<100K' }
   ];
-
   dropdownSettings = {
     singleSelection: true,
     text: "India",
@@ -97,32 +65,52 @@ export class TopRankingsComponent implements OnInit {
   };
 
   colorCoding;
-
   colorDetails: ColorDetails[] = [
-    { color: "#04DC00", text: "76%-100%", min: 76, max: 100 },
-    { color: "#F8A70B", text: "51%-75%", min: 51, max: 75 },
-    { color: "#FFDB5B", text: "26%-50%", min: 26, max: 50 },
-    { color: "#FFF281", text: "1%-25%", min: 1, max: 15 },
-    { color: "#E5E5E5", text: "0%", min: 0, max: 0 },
+    { color: "#E5E5E5", text: "0", min: 0, max: 0 },
+    { color: "#FFF281", text: "1 to 2", min: 1, max: 2 },
+    { color: "#FFDB5B", text: "3 to 5", min: 3, max: 5 },
+    { color: "#F8A70B", text: "6 to 8", min: 6, max: 8 },
+    { color: "#31CFF1", text: "9 to 10", min: 9, max: 10 },
+    { color: "#04DC00", text: "10+", min: 11, max: Infinity },
   ];
 
   constructor(
     private matDialog: MatDialog,
-    private fiscalRankingService: FiscalRankingService
-  ) { }
+    private fiscalRankingService: FiscalRankingService,
+    private fb: FormBuilder
+  ) { 
+    this.filter = this.fb.group({
+      populationBucket: '',
+      stateData: [''],
+      state: '',
+      sortBy: 'overAll',
+      sortOrder: 1
+    });
 
+    this.filter.get('stateData')?.valueChanges.subscribe(value => {
+      this.filter.patchValue({ state: value?.[0]?._id || ''}, { emitEvent: false });
+    });
+    this.filter.valueChanges.subscribe(() => this.loadData());
+  }
+  
   ngOnInit(): void {
+    this.loadStates();
     this.loadData();
   }
 
+  get params() {
+    const params = this.filter.value;
+    delete params.stateData;
+    return params;
+  }
+
   loadData() {
-    this.getStateWiseForm();
-    this.loadStates();
+    this.loadTopRankedStates();
     this.loadTopRankedUlbs();
   }
 
   loadTopRankedUlbs() {
-    this.fiscalRankingService.topRankedUlbs().subscribe((res: any) => {
+    this.fiscalRankingService.topRankedUlbs(this.params).subscribe((res: any) => {
       this.table.response = res.tableData;
       this.markers = res.mapDataTopUlbs;
     })
@@ -134,14 +122,13 @@ export class TopRankingsComponent implements OnInit {
     });
   }
 
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.colorCoding = res?.data.heatMaps;
+  loadTopRankedStates() {
+    this.fiscalRankingService.topRankedStates(this.params).subscribe((res: any) => {
+      this.colorCoding = res?.states?.map(state => ({...state, percentage: state.count }));
     });
   }
 
   openSearch() {
-    console.log('wfh');
     this.matDialog.open(SearchPopupComponent, {
       width: '100vw',
       height: '100%',

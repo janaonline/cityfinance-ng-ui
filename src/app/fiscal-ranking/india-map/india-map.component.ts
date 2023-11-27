@@ -37,6 +37,7 @@ export interface Marker{
 })
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onStateChange = new EventEmitter();
+  @Input() label: string = '';
   @Input() mapData: MapData;
   @Input() markers: Marker[] = [];
   @Input() colorCoding: any = [];
@@ -123,7 +124,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   createLegends() {
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
-      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">${this.label}</span>`,
     ];
     const colorDetails = this.colorDetails;
     legend.onAdd = function (map) {
