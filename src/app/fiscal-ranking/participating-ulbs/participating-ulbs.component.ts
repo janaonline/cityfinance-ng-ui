@@ -4,7 +4,6 @@ import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/f
 import { NavigationEnd, Router } from '@angular/router';
 
 import { SweetAlert } from "sweetalert/typings/core";
-import { AnyCnameRecord } from 'dns';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-participating-ulbs',
