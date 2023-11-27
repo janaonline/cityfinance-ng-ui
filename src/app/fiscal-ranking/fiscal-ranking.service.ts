@@ -209,6 +209,8 @@ export class FiscalRankingService {
   topRankedUlbs(params) {
     return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`, { params })
   }
-  
 
+  topRankedStates(params) {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-states`, { params })
+  }
 }

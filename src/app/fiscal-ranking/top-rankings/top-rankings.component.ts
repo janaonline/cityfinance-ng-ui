@@ -24,9 +24,7 @@ export class TopRankingsComponent implements OnInit {
       class: 'disabled'
     }
   ];
-
   markers: Marker[] = [];
-
   types = [
     {
       key: 'overAll',
@@ -46,28 +44,16 @@ export class TopRankingsComponent implements OnInit {
     },
   ]
 
-  // filter = {
-  //   type: 'lkfsjdlf',
-  //   category: 'slfhdsl',
-  //   state: 'jjsj'
-  // };
-
   filter: FormGroup;
-
   table = { response: null };
-
   selectedMap: string = 'topUlbs'; // Initialize to default value
-
   stateList = [];
-
-
   populationCategories = [
     { _id: '1', name: '4M+' },
     { _id: '2', name: '1M to 4M' },
     { _id: '3', name: '100K to 1M' },
     { _id: '4', name: '<100K' }
   ];
-
   dropdownSettings = {
     singleSelection: true,
     text: "India",
@@ -79,13 +65,13 @@ export class TopRankingsComponent implements OnInit {
   };
 
   colorCoding;
-
   colorDetails: ColorDetails[] = [
-    { color: "#04DC00", text: "76%-100%", min: 76, max: 100 },
-    { color: "#F8A70B", text: "51%-75%", min: 51, max: 75 },
-    { color: "#FFDB5B", text: "26%-50%", min: 26, max: 50 },
-    { color: "#FFF281", text: "1%-25%", min: 1, max: 15 },
-    { color: "#E5E5E5", text: "0%", min: 0, max: 0 },
+    { color: "#E5E5E5", text: "0", min: 0, max: 0 },
+    { color: "#FFF281", text: "1 to 2", min: 1, max: 2 },
+    { color: "#FFDB5B", text: "3 to 5", min: 3, max: 5 },
+    { color: "#F8A70B", text: "6 to 8", min: 6, max: 8 },
+    { color: "#31CFF1", text: "9 to 10", min: 9, max: 10 },
+    { color: "#04DC00", text: "10+", min: 11, max: Infinity },
   ];
 
   constructor(
@@ -119,7 +105,7 @@ export class TopRankingsComponent implements OnInit {
   }
 
   loadData() {
-    this.getStateWiseForm();
+    this.loadTopRankedStates();
     this.loadTopRankedUlbs();
   }
 
@@ -136,9 +122,9 @@ export class TopRankingsComponent implements OnInit {
     });
   }
 
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.colorCoding = res?.data.heatMaps;
+  loadTopRankedStates() {
+    this.fiscalRankingService.topRankedStates(this.params).subscribe((res: any) => {
+      this.colorCoding = res?.states?.map(state => ({...state, percentage: state.count }));
     });
   }
 
