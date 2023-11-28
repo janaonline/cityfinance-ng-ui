@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { SweetAlert } from "sweetalert/typings/core";
+import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-assessment-parameter',
@@ -194,7 +195,17 @@ export class AssessmentParameterComponent implements OnInit {
   currentPageData: object | any = {};
   routerSubs: any;
   isApiInProgress: boolean = true;
-
+  breadcrumbLinks: BreadcrumbLink[] = [
+    {
+      label: 'City Finance Ranking - Home',
+      url: '/rankings/home'
+    },
+    {
+      label: `Ranking assessment parameter : `,
+      url: '/rankings/participated-states-ut',
+      class: 'disabled'
+    }
+  ];
   ngOnInit(): void {
     //   this.currentPageData = this.allPageData[this.pageKey];
   }
@@ -214,13 +225,17 @@ export class AssessmentParameterComponent implements OnInit {
   }
   getPageData() {
     this.fiscalRankingService.callGetMethod(`scoring-fr/assessment-parameters`, null).subscribe((res: any) => {
-      console.log('assessment-parameters', res);
       this.allPageData = res?.data;
       this.currentPageData = this.allPageData[this.pageKey];
+      const currentPageLink = {
+        label: `Ranking assessment parameter : ${this.currentPageData?.name}`,
+        url: '/rankings/participated-states-ut',
+        class: 'disabled'
+      }
+      this.breadcrumbLinks.splice(1, 1, currentPageLink);
       this.isApiInProgress = false;
     },
       (error) => {
-        console.log('participated-state table error', error);
         swal('Error', error?.message ?? 'Something went wrong', 'error');
         this.currentPageData = {};
         this.isApiInProgress = false;
