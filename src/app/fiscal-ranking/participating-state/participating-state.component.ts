@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
-import { ColorDetails } from '../india-map/india-map.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { BreadcrumbLink } from 'src/app/fiscal-ranking/breadcrumb/breadcrumb.component';
+import { ColorDetails } from 'src/app/fiscal-ranking/india-map/india-map.component';
+import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 
-export interface FrFilter {
-  label: string;
-  id: string;
-  key?:string;
-  value?: string;
-}
 @Component({
   selector: 'app-participating-state',
   templateUrl: './participating-state.component.html',
@@ -20,7 +16,9 @@ export class ParticipatingStateComponent implements OnInit {
 
   constructor(
     private fiscalRankingService: FiscalRankingService
-  ) { }
+  ) {
+    this.getFilters();
+  }
   breadcrumbLinks: BreadcrumbLink[] = [
     {
       label: 'City Finance Ranking - Home',
@@ -38,7 +36,7 @@ export class ParticipatingStateComponent implements OnInit {
       label: 'All',
       id: '1',
       key: 'all',
-      value: 'all' 
+      value: 'all'
     },
     {
       label: 'Large state',
@@ -58,7 +56,7 @@ export class ParticipatingStateComponent implements OnInit {
       key: 'unionTerritory',
       value: 'UT'
     },
-  
+
   ]
   ulbParticipationFilter: FrFilter[] = [
     {
@@ -97,12 +95,12 @@ export class ParticipatingStateComponent implements OnInit {
       label: 'Non Ranked',
       id: '3',
       key: 'nonRanked',
-      value: 'nonRanked' 
+      value: 'nonRanked'
     },
   ];
-  stateType:string = 'all';
-  ulbParticipation:string = 'all';
-  ulbRankingStatus:string = 'all';
+  stateType: string = 'all';
+  ulbParticipation: string = 'all';
+  ulbRankingStatus: string = 'all';
   table = {
     response: {
       // "status": true,
@@ -172,7 +170,7 @@ export class ParticipatingStateComponent implements OnInit {
       //     "class": "th-color-cls",
       //     "width": "7"
       //   },
-        
+
       // ],
       // "name": "",
       // "data": [
@@ -228,7 +226,7 @@ export class ParticipatingStateComponent implements OnInit {
       //     "rankedtoTotal": 2,
       //     "stateNameLink": "/rankings/participated-ulbs"
       //   },
-     
+
       // ],
       // "lastRow": [
       //   "",
@@ -253,45 +251,64 @@ export class ParticipatingStateComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.getStateWiseForm();
+    //  this.getStateWiseForm();
     this.getTableData();
   }
-  stateTypeChange(e){
+  stateTypeChange(e) {
     this.getTableData();
   }
-  ulbParticipationChange(e){
+  ulbParticipationChange(e) {
     this.getTableData();
 
   }
-  ulbRankingStatusFilterChange(e){
+  ulbRankingStatusFilterChange(e) {
     this.getTableData();
   }
-  getTableData(){
-   //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
-  const filterObj = {
-    stateType: this.stateType,
-    ulbParticipationFilter : this.ulbParticipation,
-    ulbRankingStatusFilter: this.ulbRankingStatus
+  getTableData() {
+    this.colorCoding = [];
+    //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
+    const filterObj = {
+      stateType: this.stateType,
+      ulbParticipationFilter: this.ulbParticipation,
+      ulbRankingStatusFilter: this.ulbRankingStatus
 
+    }
+    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state', filterObj).subscribe((res: any) => {
+      console.log('participated-state table responces', res);
+      this.table["response"] = res?.data?.tableData;
+      this.colorCoding = res?.data?.mapData;
+    },
+      (error) => {
+        console.log('participated-state table error', error);
+      }
+    )
   }
-   this.fiscalRankingService.callGetMethod('scoring-fr/participated-state', filterObj).subscribe((res: any)=>{
-    console.log('participated-state table responces', res);
-    this.table["response"] = res?.data;
-   },
-   (error)=>{
-    console.log('participated-state table error', error);
-   }
-   )
-  }
-  getStateWiseForm() {
-    this.fiscalRankingService.getStateWiseForm().subscribe(res => {
-      this.colorCoding = res?.data.heatMaps;
-    });
-  }
-  resetFilter(){
+  // getStateWiseForm() {
+  //   this.fiscalRankingService.getStateWiseForm().subscribe(res => {
+  //     this.colorCoding = res?.data.heatMaps;
+  //   });
+  // }
+  resetFilter() {
     this.stateType = 'all';
     this.ulbParticipation = 'all';
     this.ulbRankingStatus = 'all';
     this.getTableData();
+  }
+
+  // for all filters
+
+  getFilters() {
+    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state-filter', null).subscribe((res: any) => {
+      console.log('scoring-fr/participated-state-filter', res);
+      const filter: Filter = res?.data;
+      this.stateTypeFilter = filter?.stateTypeFilter;
+      this.ulbParticipationFilter = filter?.ulbParticipationFilter;
+      this.ulbRankingStatusFilter = filter?.ulbRankingStatusFilter;
+
+    },
+      (error) => {
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+      }
+    )
   }
 }

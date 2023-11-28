@@ -10,7 +10,8 @@ import { FiscalRankingService } from '../../fiscal-ranking.service';
 export class SearchPopupComponent implements OnInit {
 
   ulbs = [];
-  query = '';
+  query: string = '';
+
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService
@@ -21,8 +22,7 @@ export class SearchPopupComponent implements OnInit {
 
   search() {
     this.fiscalRankingService.searchUlb(this.query).subscribe((res: any) => {
-      console.log(res);
-      this.ulbs = res?.data;
+      this.ulbs = res?.ulbs;
     })
   }
   close() {

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
-import { FrFilter } from '../participating-state/participating-state.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { BreadcrumbLink } from 'src/app/fiscal-ranking/breadcrumb/breadcrumb.component';
+import { FrFilter, Filter, FiscalRankingService } from 'src/app/fiscal-ranking/fiscal-ranking.service';
 import { NavigationEnd, Router } from '@angular/router';
 
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-participating-ulbs',
   templateUrl: './participating-ulbs.component.html',
@@ -14,9 +15,10 @@ export class ParticipatingUlbsComponent implements OnInit {
   constructor(
     private fiscalRankingService: FiscalRankingService,
     private router: Router
-  ) { 
+  ) {
     this.fetchStateList();
     this.checkRouterForApi();
+
   }
   breadcrumbLinks: BreadcrumbLink[] = [
     {
@@ -37,75 +39,18 @@ export class ParticipatingUlbsComponent implements OnInit {
 
   ];
 
-  populationCategoryFilter: FrFilter[] = [
-    {
-      label: 'All',
-      id: '1',
-      key: 'all'
-    },
-    {
-      label: '4M+',
-      id: '2',
-      key: 'greaterThanFourM'
-    },
-    {
-      label: '1M-4M',
-      id: '3',
-      key: 'OneToFourM'
-    },
-    {
-      label: '100K-1M',
-      id: '4',
-      key: 'hundradKtoOneM'
-    },
-    {
-      label: '<100K',
-      id: '5',
-      key: 'lessThan100K'
-    },
-  
-  ]
-  ulbParticipationFilter: FrFilter[] = [
-    {
-      label: 'All',
-      id: '1',
-      key: 'all'
-    },
-    {
-      label: 'Participated',
-      id: '2',
-      key: 'participated'
-    },
-    {
-      label: 'Non Participated',
-      id: '3',
-      key: 'nonParticipated'
-    },
-  ];
-  ulbRankingStatusFilter: FrFilter[] = [
-    {
-      label: 'All',
-      id: '1',
-      key: 'all'
-    },
-    {
-      label: 'Ranked',
-      id: '2',
-      key: 'ranked'
-    },
-    {
-      label: 'Non Ranked',
-      id: '3',
-      key: 'nonRanked'
-    },
-  ];
+  populationCategoryFilter: FrFilter[] = [];
+  ulbParticipationFilter: FrFilter[]= [];
+  ulbRankingStatusFilter: FrFilter[]= [];
   populationCategory: string;
-  ulbParticipation : string;
+  ulbParticipation: string;
   ulbRankingStatus: string;
   stateList = [];
-  routerSubs:any;
+  routerSubs: any;
   selectedStateId: string = '';
-  selectedStateName:string = '';
+  selectedStateName: string = '';
+  allowedExtensions: string[] = ['pdf', 'excel'];
+  targetExtension = 'pdf';
   table = {
     response: {
       "status": true,
@@ -114,8 +59,6 @@ export class ParticipatingUlbsComponent implements OnInit {
         {
           "label": "S.No",
           "key": "sNo",
-          "sort": 0,
-          "sortable": false,
           "class": "th-common-cls",
           "width": "2"
         },
@@ -124,182 +67,195 @@ export class ParticipatingUlbsComponent implements OnInit {
           "key": "ulbName",
           "sort": 1,
           "sortable": true,
-          "subHeader" : 'A',
           "class": "th-color-cls",
-          "width": "8"
+
         },
         {
           "label": "Population Category",
           "key": "populationCategory",
-          "sortable": false,
-          "subHeader" : 'B',
+          "sortable": true,
+          "sort": 1,
           "class": "th-common-cls",
-          "width": "7"
+
         },
         {
           "label": "ULB Participated",
           "key": "participatedULBs",
           "sortable": true,
-          "subHeader" : 'c',
+          "sort": 1,
           "class": "th-common-cls",
-          "width": "7"
+
         },
         {
           "label": "CFR Ranked",
           "key": "rankedULBs",
           "sortable": true,
-          "subHeader" : 'c',
+          "sort": 1,
           "class": "th-common-cls",
-          "width": "6"
+
         },
         {
           "label": "Annual Financial Statement Available",
-          "key": "annualFinancialStatementAvailable",
-           "subHeaderData": [
-            {
-              "key": "1819",
-              "label": "2018-19"
-            },
-            {
-              "key": "1920",
-              "label": "2019-20"
-            },
-            {
-              "key": "2021",
-              "label": "2020-21"
-            },
-            {
-              "key": "2122",
-              "label": "2021-22"
-            },
-           ],
-          "sortable": true,
-          "subHeader" : 'c',
+          "key": "auditedAccounts1819",
+          "colspan": 4,
           "class": "th-common-cls",
-          "width": "10"
+        },
+        {
+          "label": "",
+          "key": "auditedAccounts1920",
+          "hidden": true
+        },
+        {
+          "label": "",
+          "key": "auditedAccounts2021",
+          "hidden": true
+        },
+        {
+          "label": "",
+          "key": "auditedAccounts2122",
+          "hidden": true
         },
         {
           "label": "Annual Budget Available",
-          "key": "annualBudgetAvailable",
-          "subHeaderData": [
-            {
-              "key": "2122",
-              "label": "2021-22"
-            },
-            {
-              "key": "2223",
-              "label": "2022-23"
-            },
-            {
-              "key": "2324",
-              "label": "2023-24"
-            },
-            {
-              "key": "2425",
-              "label": "2024-25"
-            },
-         ],
-          "sortable": true,
-          "subHeader" : 'c',
+          "key": "annualBudget2021",
+          "colspan": 4,
           "class": "th-common-cls",
-          "width": "10"
+
         },
-        
+        {
+          "label": "",
+          "key": "annualBudget2122",
+          "hidden": true
+        },
+        {
+          "label": "",
+          "key": "annualBudget2223",
+          "hidden": true
+        },
+        {
+          "label": "",
+          "key": "annualBudget2324",
+          "hidden": true
+        },
+
+      ],
+      "subHeaders": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "2018-19",
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24"
       ],
       "name": "",
       "data": [
         {
           "_id": "5dcf9d7216a06aed41c748dc",
+          'sNo': 1,
           "stateName": "Andaman and Nicobar Islands",
-          "ulbName": '',
-          "populationCategory": 1,
-          "participatedULBs": 0,
-          "rankedULBs": 0,
-          "annualFinancialStatementAvailable": {
-            "1819": {
-              url: '',
-              name: 'abc9'
-            },
-            "1920": {
-              url: '',
-              name: 'abc8'
-            },
-            "2021": {
-              url: '',
-              name: 'abc7'
-            },
-            "2122": {
-              url: '',
-              name: 'abc6'
-            }
-          },
-          "annualBudgetAvailable": {
-            "2122": {
-              url: '',
-              name: 'abc1'
-            },
-            "2223": {
-              url: '',
-              name: 'abc2'
-            },
-            "2324": {
-              url: '',
-              name: 'abc3'
-            },
-            "2425": {
-              url: '',
-              name: 'abc4'
-            }
-          }
+          "ulbName": 'Abcd',
+          "populationCategory": '4M',
+          "participatedULBs": 23,
+          "rankedULBs": 56,
+          "annualBudget2021": 'werwr.pdf',
+          "annualBudget2122": 'efeqrg.pdf',
+          "annualBudget2223": 'vrftgwr.pdf',
+          "annualBudget2324": '',
+          "auditedAccounts1819": '',
+          "auditedAccounts1920": 'gegwe.pdf',
+          "auditedAccounts2021": '',
+          "auditedAccounts2122": 'vwegwer.pdf',
+
         },
-      
-     
-      ],
-      "lastRow": [
-        "Total",
-        "$sum",
-        "$sum",
-        "$sum",
-      ],
+      ]
     }
   }
   ngOnInit(): void {
+    this.getFilters();
   }
-  populationCategoryChange(e){
+  populationCategoryChange(e) {
 
   }
-  ulbParticipationChange(e){
+  ulbParticipationChange(e) {
 
   }
-  ulbRankingStatusFilterChange(e){
+  ulbRankingStatusFilterChange(e) {
 
   }
+
+  // get the state Id from routes
   checkRouterForApi() {
     this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const urlArray = event.url.split("/");
-        console.log('abcdef',urlArray);
+        console.log('abcdef', urlArray);
         this.selectedStateId = urlArray[3];
       }
     });
-  }
+  };
+
+  // find the state from state list and call the api for data
   private fetchStateList() {
-    this.fiscalRankingService.callGetMethod('scoring-fr/states', null).subscribe((res:any) => {
+    this.fiscalRankingService.callGetMethod('scoring-fr/states', null).subscribe((res: any) => {
       console.log('1234', res);
-       this.stateList = res?.data;
-       const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
-       console.log('selectedState', selectedState);
-       this.selectedStateName = selectedState?.name
-       
+      this.stateList = res?.data;
+      const selectedState = this.stateList.find(({ _id }) => _id === this.selectedStateId);
+      console.log('selectedState', selectedState);
+      this.selectedStateName = selectedState?.name;
+      this.getTableData();
+
     });
   }
-  resetFilter(){
+  resetFilter() {
     this.populationCategory = 'all';
     this.ulbParticipation = 'all';
     this.ulbRankingStatus = 'all';
-  //  this.getTableData();
+    this.getTableData();
   }
   ngOnDestroy() {
     this.routerSubs.unsubscribe();
+  };
+
+  // get the ulbs data 
+  getTableData() {
+    // https://staging.cityfinance.in/api/v1/scoring-fr/ulbs/5dcf9d7316a06aed41c748e7
+    const filterObj = {
+      populationCategory: this.populationCategory,
+      ulbParticipationFilter: this.ulbParticipation,
+      ulbRankingStatusFilter: this.ulbRankingStatus
+
+    }
+    this.fiscalRankingService.callGetMethod(`scoring-fr/ulbs/${this.selectedStateId}`, filterObj).subscribe((res: any) => {
+      //  console.log('participated-state table responces', res);
+      // this.table["response"] = res?.data;
+    },
+      (error) => {
+        console.log('participated-state table error', error);
+      }
+    )
+  }
+
+  // for all filters
+
+  getFilters() {
+    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state-filter', null).subscribe((res: any) => {
+      console.log('scoring-fr/participated-state-filter', res);
+      const filter: Filter = res?.data;
+      this.populationCategoryFilter = filter?.populationBucketFilter;
+      this.ulbParticipationFilter = filter?.ulbParticipationFilter;
+      this.ulbRankingStatusFilter = filter?.ulbRankingStatusFilter;
+
+    },
+      (error) => {
+        swal('Error', error?.message ?? 'Something went wrong', 'error');
+      }
+    )
   }
 }

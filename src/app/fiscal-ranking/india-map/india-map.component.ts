@@ -24,6 +24,12 @@ export interface ColorDetails {
   max: number
 }
 
+export interface Marker{
+  lat: number,
+  lng: number,
+  name: string
+}
+
 @Component({
   selector: 'app-india-map',
   templateUrl: './india-map.component.html',
@@ -31,12 +37,9 @@ export interface ColorDetails {
 })
 export class IndiaMapComponent extends NationalHeatMapComponent implements OnInit, AfterViewInit {
   @Output() onStateChange = new EventEmitter();
+  @Input() label: string = '';
   @Input() mapData: MapData;
-  @Input() markers: {
-    x: number,
-    y: number,
-    text: string
-  }[] = [];
+  @Input() markers: Marker[] = [];
   @Input() colorCoding: any = [];
   @Input() colorDetails: ColorDetails[];
   randomNumber = 0;
@@ -121,7 +124,7 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   createLegends() {
     const legend = new L.Control({ position: "bottomright" });
     const labels = [
-      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">${this.label}</span>`,
     ];
     const colorDetails = this.colorDetails;
     legend.onAdd = function (map) {
@@ -331,10 +334,10 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
     this.showMapLegends();
     this.markers.forEach(marker => {
-      L.marker([marker.x, marker.y], {
+      L.marker([marker.lat, marker.lng], {
         icon: new L.Icon({
           iconUrl: 'assets/fiscal-rankings/map-marker.png',
-        }), title: marker.text
+        }), title: marker.name
       }).addTo(this.nationalLevelMap);
     });
 
