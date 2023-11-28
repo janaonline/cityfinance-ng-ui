@@ -193,10 +193,13 @@ export class AssessmentParameterComponent implements OnInit {
 
   currentPageData: object | any = {};
   routerSubs: any;
+  // isApiInProgress: boolean = true;
+
   ngOnInit(): void {
     //   this.currentPageData = this.allPageData[this.pageKey];
   }
   checkRouterForApi() {
+  //  this.isApiInProgress = true;
     this.routerSubs = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const urlArray = event.url.split("/");
@@ -214,15 +217,23 @@ export class AssessmentParameterComponent implements OnInit {
       console.log('assessment-parameters', res);
       this.allPageData = res?.data;
       this.currentPageData = this.allPageData[this.pageKey];
+    //  this.isApiInProgress = false;
     },
       (error) => {
         console.log('participated-state table error', error);
         swal('Error', error?.message ?? 'Something went wrong', 'error');
+        this.currentPageData = {};
+      //  this.isApiInProgress = false;
       }
     )
   }
 
   ngOnDestroy() {
+  //  this.isApiInProgress = false;
     this.routerSubs.unsubscribe();
   }
+
+//   isEmptyObject(obj: any): boolean {
+//     return obj && Object.keys(obj).length === 0;
+// }
 }
