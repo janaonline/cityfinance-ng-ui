@@ -6,8 +6,7 @@
     </div>
 </div>
 
-<form>
-
+<form (submit)="apply()">
     <div class="mt-4">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="State Average" id="stateAverageCheckbox">
@@ -36,18 +35,18 @@
     </div>
 
     <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngFor="let result of searchResults" (click)="addState(result)">
+        <button mat-menu-item *ngFor="let result of searchResults" (click)="addUlb(result)">
             {{ result.name }}
         </button>
     </mat-menu>
 
 
     <div class="chip-container">
-        <span class="chip" *ngFor="let state of states">
-            {{ state?.name }} <mat-icon>close</mat-icon>
+        <span class="chip" *ngFor="let ulb of ulbs">
+            {{ ulb?.name }} <mat-icon>close</mat-icon>
         </span>
     </div>
     <div class="mt-3 text-center">
-        <button class="btn btn-orange">Apply</button>
+        <button type="submit" class="btn btn-orange">Apply</button>
     </div>
 </form>

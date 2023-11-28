@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
 import { FiscalRankingService } from '../../fiscal-ranking.service';
@@ -19,15 +20,18 @@ export class ComparisionFiltersComponent implements OnInit {
   query: string = '';
   searchResults = [];
 
-  states = [];
+  ulbs = [];
 
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    public dialogRef: MatDialogRef<DialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
+    this.ulbs = this.data?.ulbs;
   }
 
   search() {
@@ -39,14 +43,20 @@ export class ComparisionFiltersComponent implements OnInit {
 
   debouncedSearch = this.utilityService.debounce(this.search, 500);
 
-  addState(state) {
+  addUlb(ulb) {
     this.query = '';
     this.searchResults = [];
+    this.ulbs.push(ulb);
     this.menuTrigger.closeMenu();
-    this.states.push(state);
+  }
+
+  apply() {
+    this.dialogRef.close({
+      ulbs: this.ulbs
+    })
   }
   
   close() {
-    this.matDialog.closeAll();
+    this.dialogRef.close();
   }
 }
