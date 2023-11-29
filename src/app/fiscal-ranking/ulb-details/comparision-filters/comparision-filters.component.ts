@@ -50,6 +50,10 @@ export class ComparisionFiltersComponent implements OnInit {
     this.menuTrigger.closeMenu();
   }
 
+  removeUlb(index) {
+    this.ulbs.splice(index, 1);
+  }
+
   apply() {
     this.dialogRef.close({
       ulbs: this.ulbs

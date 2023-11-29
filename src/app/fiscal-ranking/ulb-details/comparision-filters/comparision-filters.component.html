@@ -42,8 +42,8 @@
 
 
     <div class="chip-container">
-        <span class="chip" *ngFor="let ulb of ulbs">
-            {{ ulb?.name }} <mat-icon>close</mat-icon>
+        <span class="chip" *ngFor="let ulb of ulbs; let i = index;">
+            {{ ulb?.name }} <mat-icon *ngIf="!ulb?.disabled" class="cursor-pointer" (click)="removeUlb(i)">close</mat-icon>
         </span>
     </div>
     <div class="mt-3 text-center">

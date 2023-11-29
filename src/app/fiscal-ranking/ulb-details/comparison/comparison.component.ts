@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Chart from 'chart.js';
 import { FiscalRankingService } from '../../fiscal-ranking.service';
@@ -10,9 +10,9 @@ import { ComparisionFiltersComponent } from '../comparision-filters/comparision-
   templateUrl: './comparison.component.html',
   styleUrls: ['./comparison.component.scss']
 })
-export class ComparisonComponent implements OnInit {
+export class ComparisonComponent implements OnInit, OnChanges {
   public chart: any;
-
+  @Input() ulb;
   allTypeGraphData = {};
   types = [
     { id: 'overAll', label: 'Over All' },
@@ -30,7 +30,13 @@ export class ComparisonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getBarchartData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ulb?.currentValue && this.ulbs.length == 0) {
+      this.ulbs = [{ ...this.ulb, disabled: true }];
+      this.getBarchartData();
+    }
   }
 
   getBarchartData() {
@@ -46,6 +52,8 @@ export class ComparisonComponent implements OnInit {
   }
 
   createChart() {
+    if (this.chart) this.chart.destroy();
+
     this.chart = new Chart("bar-chart-with-line", {
       type: 'bar',
       data: this.graphData,
