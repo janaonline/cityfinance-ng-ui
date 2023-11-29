@@ -50,10 +50,13 @@ export class CommonTableComponent implements OnInit, OnChanges {
   @Input() page: number = 0;
   @Input() limit: number = 10;
   @Input() classLists?:string;
+  @Input() allowedExtensions: string[] = [];
+  @Input() targetExtension:string = "";
   @Output() update: EventEmitter<any> = new EventEmitter<any>();
 
 
   isSearchable: boolean = false;
+  
   constructor(
     private dialog: MatDialog
   ) { }

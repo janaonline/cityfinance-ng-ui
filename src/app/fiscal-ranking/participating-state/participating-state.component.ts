@@ -265,6 +265,7 @@ export class ParticipatingStateComponent implements OnInit {
     this.getTableData();
   }
   getTableData() {
+    this.colorCoding = [];
     //  https://staging.cityfinance.in/api/v1/scoring-fr/participated-state?stateType=all&ulbParticipationFilter=all&ulbRankingStatusFilter=nonRanked
     const filterObj = {
       stateType: this.stateType,
