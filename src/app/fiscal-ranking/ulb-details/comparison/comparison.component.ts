@@ -22,6 +22,8 @@ export class ComparisonComponent implements OnInit {
   ];
   type = 'overAll';
 
+  ulbs = [];
+
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService
@@ -32,7 +34,8 @@ export class ComparisonComponent implements OnInit {
   }
 
   getBarchartData() {
-    this.fiscalRankingService.getBarchartData().subscribe((res: any) => {
+    const ulbQuery = this.ulbs.map(item => `ulb[]=${item?.ulb}`).join('&');
+    this.fiscalRankingService.getBarchartData(ulbQuery).subscribe((res: any) => {
       this.allTypeGraphData = res.graphData;
       this.createChart();
     })
@@ -77,7 +80,16 @@ export class ComparisonComponent implements OnInit {
   openFilter() {
     this.matDialog.open(ComparisionFiltersComponent, {
       minWidth: '400px',
-      maxWidth: '500px'
+      maxWidth: '500px',
+      data: {
+        ulbs: this.ulbs
+      }
+    }).afterClosed().subscribe(res => {
+      console.log('res', res);
+      if (res) {
+        this.ulbs = res.ulbs;
+        this.getBarchartData();
+      }
     });
   }
 
