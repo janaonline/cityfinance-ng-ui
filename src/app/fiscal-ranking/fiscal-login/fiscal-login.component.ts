@@ -14,7 +14,6 @@ import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { SweetAlert } from "sweetalert/typings/core";
-import { GoogleAnalyticsService } from "ngx-google-analytics";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -103,8 +102,7 @@ export class FiscalLoginComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private commonService: CommonService,
-    private newCommonService: NewCommonService,
-    private gaService: GoogleAnalyticsService
+    private newCommonService: NewCommonService
   ) {
     if (this.authService.loggedIn()) {
       this.router.navigate(["/rankings/home"]);
@@ -160,7 +158,7 @@ export class FiscalLoginComponent implements OnInit {
       body["email"] = body["email"].trim();
       this.loginForm.disable();
       this.authService.signin(body).subscribe(
-        (res) => this.onSuccessfullLogin(res, body?.email),
+        (res) => this.onSuccessfullLogin(res),
         (error) => {
           this.onLoginError(error);
         }
@@ -170,14 +168,7 @@ export class FiscalLoginComponent implements OnInit {
     }
   }
 
-  private onSuccessfullLogin(res, user_id) {
-    const gData = { 
-      user_role: res?.user?.role,
-      user_id, 
-      ...res?.user 
-    };
-    this.gaService.set(gData);
-    this.gaService.gtag('event', 'login', gData);
+  private onSuccessfullLogin(res) {
     this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
@@ -322,7 +313,7 @@ export class FiscalLoginComponent implements OnInit {
     const body = { ...this.loginForm.value };
     this.otpCreads.otp = body["otp"];
     this.authService.otpVerify(this.otpCreads).subscribe(
-      (res) => this.onSuccessfullLogin(res, body?.email),
+      (res) => this.onSuccessfullLogin(res),
       (error) => this.onLoginError(error)
     );
   }
