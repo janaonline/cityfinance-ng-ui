@@ -21,9 +21,6 @@ export class UlbDetailsComponent implements OnInit {
       url: '/rankings/top-rankings'
     }
   ];
-
-  ulbData;
-  
   data;
 
 

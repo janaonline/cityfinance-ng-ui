@@ -22,6 +22,8 @@ export class ComparisionFiltersComponent implements OnInit {
 
   ulbs = [];
 
+  datasetsFilter = {};
+
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
@@ -32,6 +34,11 @@ export class ComparisionFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.ulbs = this.data?.ulbs;
+    this.datasetsFilter = this.data?.datasetsFilter;
+  }
+
+  filterKeys() {
+    return Object.keys(this.datasetsFilter);
   }
 
   search() {
@@ -50,10 +57,19 @@ export class ComparisionFiltersComponent implements OnInit {
     this.menuTrigger.closeMenu();
   }
 
+  removeUlb(index) {
+    this.ulbs.splice(index, 1);
+  }
+
   apply() {
     this.dialogRef.close({
-      ulbs: this.ulbs
+      ulbs: this.ulbs,
+      datasetsFilter: this.datasetsFilter
     })
+  }
+
+  reset() {
+    this.dialogRef.close('reset');
   }
   
   close() {
