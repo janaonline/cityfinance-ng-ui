@@ -113,6 +113,7 @@ export class ComparisonComponent implements OnInit, OnChanges {
       }
     }).afterClosed().subscribe(res => {
       if (res) {
+        if (res == 'reset') return this.reset();
         this.ulbs = res.ulbs;
         this.datasetsFilter = res.datasetsFilter;
         this.getBarchartData();
@@ -120,4 +121,14 @@ export class ComparisonComponent implements OnInit, OnChanges {
     });
   }
 
+  reset() {
+    console.log('reset');
+    this.ulbs = [{ ...this.ulb, disabled: true }];
+    this.datasetsFilter = {
+      "State Average": true,
+      "National Average": true,
+      "Population Average": true,
+    };
+    this.getBarchartData();
+  }
 }

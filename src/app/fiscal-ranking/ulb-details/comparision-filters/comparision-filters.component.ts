@@ -67,6 +67,10 @@ export class ComparisionFiltersComponent implements OnInit {
       datasetsFilter: this.datasetsFilter
     })
   }
+
+  reset() {
+    this.dialogRef.close('reset');
+  }
   
   close() {
     this.dialogRef.close();
