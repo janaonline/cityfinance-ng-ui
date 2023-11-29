@@ -4,24 +4,15 @@
 
 a {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     text-decoration: none;
-    font-family: Montserrat;
 }
 
 .disabled {
+    font-weight: 500;
     color: #6C757D;
-   // background: #6C757D;
     pointer-events: none;
 }
-
 .pd {
     padding: 2rem 0rem 0rem 2rem;
-}
-
-.breadcrumb-item {
-    font-family: Montserrat;
-    font-size: 16px;
-    font-weight: 500;
-
 }

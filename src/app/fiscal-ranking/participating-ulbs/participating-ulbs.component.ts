@@ -39,9 +39,71 @@ export class ParticipatingUlbsComponent implements OnInit {
 
   ];
 
-  populationCategoryFilter: FrFilter[] = [];
-  ulbParticipationFilter: FrFilter[]= [];
-  ulbRankingStatusFilter: FrFilter[]= [];
+  populationCategoryFilter: FrFilter[];
+  //  [
+  //   {
+  //     label: 'All',
+  //     id: '1',
+  //     key: 'all'
+  //   },
+  //   {
+  //     label: '4M+',
+  //     id: '2',
+  //     key: 'greaterThanFourM'
+  //   },
+  //   {
+  //     label: '1M-4M',
+  //     id: '3',
+  //     key: 'OneToFourM'
+  //   },
+  //   {
+  //     label: '100K-1M',
+  //     id: '4',
+  //     key: 'hundradKtoOneM'
+  //   },
+  //   {
+  //     label: '<100K',
+  //     id: '5',
+  //     key: 'lessThan100K'
+  //   },
+
+  // ]
+  ulbParticipationFilter: FrFilter[];
+  // = [
+  //   {
+  //     label: 'All',
+  //     id: '1',
+  //     key: 'all'
+  //   },
+  //   {
+  //     label: 'Participated',
+  //     id: '2',
+  //     key: 'participated'
+  //   },
+  //   {
+  //     label: 'Non Participated',
+  //     id: '3',
+  //     key: 'nonParticipated'
+  //   },
+  // ];
+  ulbRankingStatusFilter: FrFilter[];
+  // = [
+  //   {
+  //     label: 'All',
+  //     id: '1',
+  //     key: 'all'
+  //   },
+  //   {
+  //     label: 'Ranked',
+  //     id: '2',
+  //     key: 'ranked'
+  //   },
+  //   {
+  //     label: 'Non Ranked',
+  //     id: '3',
+  //     key: 'nonRanked'
+  //   },
+  // ];
   populationCategory: string;
   ulbParticipation: string;
   ulbRankingStatus: string;
@@ -49,8 +111,6 @@ export class ParticipatingUlbsComponent implements OnInit {
   routerSubs: any;
   selectedStateId: string = '';
   selectedStateName: string = '';
-  allowedExtensions: string[] = ['pdf', 'excel'];
-  targetExtension = 'pdf';
   table = {
     response: {
       "status": true,
@@ -164,14 +224,14 @@ export class ParticipatingUlbsComponent implements OnInit {
           "populationCategory": '4M',
           "participatedULBs": 23,
           "rankedULBs": 56,
-          "annualBudget2021": 'werwr.pdf',
-          "annualBudget2122": 'efeqrg.pdf',
-          "annualBudget2223": 'vrftgwr.pdf',
-          "annualBudget2324": '',
-          "auditedAccounts1819": '',
-          "auditedAccounts1920": 'gegwe.pdf',
-          "auditedAccounts2021": '',
-          "auditedAccounts2122": 'vwegwer.pdf',
+          "annualBudget2021": 0,
+          "annualBudget2122": 0,
+          "annualBudget2223": 0,
+          "annualBudget2324": 1,
+          "auditedAccounts1819": 0,
+          "auditedAccounts1920": 0,
+          "auditedAccounts2021": 0,
+          "auditedAccounts2122": 1,
 
         },
       ]

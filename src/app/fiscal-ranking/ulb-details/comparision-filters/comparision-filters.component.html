@@ -6,7 +6,8 @@
     </div>
 </div>
 
-<form (submit)="apply()">
+<form>
+
     <div class="mt-4">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="State Average" id="stateAverageCheckbox">
@@ -28,25 +29,27 @@
         </div>
     </div>
     <div class="mt-3">
-        <input type="search" [(ngModel)]="query" name="query" (input)="debouncedSearch()" class="form-control"
-            placeholder="Search ULB...">
-        <div class="" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu"></div>
+        <input type="search" class="form-control" placeholder="Search ULB...">
         <div id="emailHelp" class="form-text">Maximum of 5 ULBs can be compared at once</div>
     </div>
-
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngFor="let result of searchResults" (click)="addUlb(result)">
-            {{ result.name }}
-        </button>
-    </mat-menu>
-
-
     <div class="chip-container">
-        <span class="chip" *ngFor="let ulb of ulbs">
-            {{ ulb?.name }} <mat-icon>close</mat-icon>
+        <span class="chip">
+            Navi Mumbai <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Hyderabad <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Chennai <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Bangalore <mat-icon>close</mat-icon>
+        </span>
+        <span class="chip">
+            Udipi <mat-icon>close</mat-icon>
         </span>
     </div>
     <div class="mt-3 text-center">
-        <button type="submit" class="btn btn-orange">Apply</button>
+        <button class="btn btn-orange">Apply</button>
     </div>
 </form>
