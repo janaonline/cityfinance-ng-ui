@@ -54,21 +54,19 @@
                     [ngClass]="{'table-secondary': row?.selected, 'border-0': !theme}">
                     <td *ngFor="let column of response.columns; let i = index;"
                         [ngClass]="{'text-center': i != 0, 'border-0': !theme}">
-                        <ng-container *ngIf="row[column.key + 'Link']; else text;">
-                            <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank">{{ row[column.key]
-                                }}</a>
+                        <ng-container *ngIf="row[column.key + 'Link']; else fileValue;">
+                            <a *ngIf="isDialog" [href]="row[column.key + 'Link']" target="_blank" >{{ row[column.key] }}</a>
                             <a *ngIf="!isDialog" [routerLink]="row[column.key + 'Link']">{{ row[column.key] }}</a>
                         </ng-container>
-                        <ng-template #text>
-                            <span *ngIf="row[column.key] | fileUrlCheck: targetExtension : allowedExtensions">
-                                <a href="{{row[column.key]}}" target="_blank" rel="fiscal-rankings">
-                                    <img [src]="'assets/fiscal-rankings/' + targetExtension + '.png'"
-                                        alt="{{column.key}}" srcset="">
-                                </a>
-                            </span>
-                            <span *ngIf="!(row[column.key] | fileUrlCheck: targetExtension : allowedExtensions)">
-                                {{ row[column.key] }}
-                            </span>
+                        <ng-template #fileValue>
+                            <ng-container *ngIf="(row[column.key] | fileUrlCheck: targetExtension : allowedExtensions); else simpleValue">
+                              <a href="{{row[column.key]}}" target="_blank" rel="fiscal-rankings">
+                                <img [src]="'assets/fiscal-rankings/' + targetExtension + '.png'" alt="{{column.key}}" srcset="">
+                              </a>
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #simpleValue>
+                          {{ row[column.key] }}
                         </ng-template>
                     </td>
                 </tr>

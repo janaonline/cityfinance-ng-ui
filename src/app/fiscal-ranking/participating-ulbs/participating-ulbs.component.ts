@@ -50,7 +50,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateId: string = '';
   selectedStateName: string = '';
   allowedExtensions: string[] = ['pdf', 'excel'];
-  targetExtension = 'pdf';
+  targetExtension:string = 'pdf';
   table = {
     response: {
       "status": true,
@@ -245,7 +245,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   // for all filters
 
   getFilters() {
-    this.fiscalRankingService.callGetMethod('scoring-fr/participated-state-filter', null).subscribe((res: any) => {
+    this.fiscalRankingService.callGetMethod('scoring-fr/filters', null).subscribe((res: any) => {
       console.log('scoring-fr/participated-state-filter', res);
       const filter: Filter = res?.data;
       this.populationCategoryFilter = filter?.populationBucketFilter;

@@ -39,7 +39,7 @@ export class MapUtil {
     Punjab: { lat: 31.632808, lng: 75.976851 },
     Goa: { lat: 15.441705, lng: 74.699032 },
     Haryana: { lat: 29.501121, lng: 76.180837 },
-    Delhi: { lat: 28.689453, lng: 77.814074 },
+    "The Government of NCT of Delhi": { lat: 28.689453, lng: 77.814074 },
     "Himachal Pradesh": { lat: 31.747344, lng: 78.364865 },
   };
 
