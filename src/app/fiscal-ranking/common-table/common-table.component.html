@@ -16,12 +16,13 @@
             <thead *ngIf="response?.columns?.length > 0">
                 <tr>
                     <ng-container *ngFor="let column of response.columns">
-                        <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1" class="border-0 {{column?.class}}"
-                            [ngClass]="{'table-primary': !theme}">
+                        <th scope="col" *ngIf="!column?.hidden" [attr.colspan]="column?.colspan || 1"
+                            class="border-0 {{column?.class}}" [ngClass]="{'table-primary': !theme}">
                             <div (click)="updateSorting(column)" class="d-flex " style="cursor: pointer;">
                                 <div>
                                     <p [innerHTML]="column.label" class="m-0 text-center"></p>
-                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info }}</small>
+                                    <div *ngIf="column?.info" class="fw-light text-muted"><small>{{ column?.info
+                                            }}</small>
                                     </div>
                                 </div>
                                 <i *ngIf="column?.sortable" class="mt-1 ms-2 fa fa-sort" [ngClass]="{
@@ -34,7 +35,8 @@
                     </ng-container>
                 </tr>
                 <tr *ngIf="response.subHeaders">
-                    <td class="text-muted fst-italic text-nowrap"  scope="col" *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
+                    <td class="text-muted fst-italic text-nowrap" scope="col"
+                        *ngFor="let subHeader of response.subHeaders" [ngClass]="{'table-primary': !theme}">
                         {{ subHeader}}
                     </td>
                 </tr>
@@ -69,7 +71,7 @@
                     </td>
                 </tr>
                 <tr *ngIf="response.lastRow">
-                    <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}" >{{
+                    <th *ngFor="let item of response.lastRow; let i = index;" [ngClass]="{'text-center': i != 0}">{{
                         item |
                         tableRowCalculator : response?.columns[i]?.key : response.data }}</th>
                 </tr>

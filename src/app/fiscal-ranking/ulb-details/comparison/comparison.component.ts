@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import Chart from 'chart.js';
 import { FiscalRankingService } from '../../fiscal-ranking.service';
@@ -10,9 +10,9 @@ import { ComparisionFiltersComponent } from '../comparision-filters/comparision-
   templateUrl: './comparison.component.html',
   styleUrls: ['./comparison.component.scss']
 })
-export class ComparisonComponent implements OnInit {
+export class ComparisonComponent implements OnInit, OnChanges {
   public chart: any;
-
+  @Input() ulb;
   allTypeGraphData = {};
   types = [
     { id: 'overAll', label: 'Over All' },
@@ -22,6 +22,12 @@ export class ComparisonComponent implements OnInit {
   ];
   type = 'overAll';
 
+  datasetsFilter = {
+    "State Average": true,
+    "National Average": true,
+    "Population Average": true,
+  }
+
   ulbs = [];
 
   constructor(
@@ -30,7 +36,13 @@ export class ComparisonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getBarchartData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.ulb?.currentValue && this.ulbs.length == 0) {
+      this.ulbs = [{ ...this.ulb, disabled: true }];
+      this.getBarchartData();
+    }
   }
 
   getBarchartData() {
@@ -46,9 +58,17 @@ export class ComparisonComponent implements OnInit {
   }
 
   createChart() {
+    if (this.chart) this.chart.destroy();
+    const that = this;
     this.chart = new Chart("bar-chart-with-line", {
       type: 'bar',
-      data: this.graphData,
+      data: {
+        ...this.graphData,
+        datasets: this.graphData.datasets.map(item => ({
+          ...item,
+          hidden: !(this.datasetsFilter[item.label] != undefined ? this.datasetsFilter[item.label] : true)
+        }))
+      },
       options: {
         maintainAspectRatio: false,
         scales: {
@@ -70,6 +90,12 @@ export class ComparisonComponent implements OnInit {
           labels: {
             boxWidth: 10
           },
+          onClick: function (event, legendItem) {
+            if (Object.keys(that.datasetsFilter).includes(legendItem.text)) {
+              that.datasetsFilter[legendItem.text] = legendItem?.hidden;
+            }
+            Chart.defaults.global.legend.onClick.call(this, event, legendItem);
+          }
         }
       }
     } as any);
@@ -82,15 +108,27 @@ export class ComparisonComponent implements OnInit {
       minWidth: '400px',
       maxWidth: '500px',
       data: {
-        ulbs: this.ulbs
+        ulbs: this.ulbs,
+        datasetsFilter: this.datasetsFilter
       }
     }).afterClosed().subscribe(res => {
-      console.log('res', res);
       if (res) {
+        if (res == 'reset') return this.reset();
         this.ulbs = res.ulbs;
+        this.datasetsFilter = res.datasetsFilter;
         this.getBarchartData();
       }
     });
   }
 
+  reset() {
+    console.log('reset');
+    this.ulbs = [{ ...this.ulb, disabled: true }];
+    this.datasetsFilter = {
+      "State Average": true,
+      "National Average": true,
+      "Population Average": true,
+    };
+    this.getBarchartData();
+  }
 }

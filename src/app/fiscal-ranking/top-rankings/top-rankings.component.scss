@@ -26,6 +26,13 @@ section {
     color: #000000;
 }
 
+.map-loader {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .custom-btn-group {
     $primary-color: #E67E15;
