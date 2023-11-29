@@ -70,6 +70,7 @@ import { SearchPopupComponent } from './ulb-details/search-popup/search-popup.co
 import { ParticipatingStateComponent } from './participating-state/participating-state.component';
 import { ParticipatingUlbsComponent } from './participating-ulbs/participating-ulbs.component';
 import { IndiaMapComponent } from './india-map/india-map.component';
+import { FileUrlCheckPipe } from './pipes/file-url-check.pipe';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { IndiaMapComponent } from './india-map/india-map.component';
     SearchPopupComponent,
     ParticipatingStateComponent,
     ParticipatingUlbsComponent,
-    IndiaMapComponent
+    IndiaMapComponent,
+    FileUrlCheckPipe
   ],
   imports: [
     CommonModule,
