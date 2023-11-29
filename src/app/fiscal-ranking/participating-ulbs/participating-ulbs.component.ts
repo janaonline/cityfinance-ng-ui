@@ -50,7 +50,7 @@ export class ParticipatingUlbsComponent implements OnInit {
   selectedStateId: string = '';
   selectedStateName: string = '';
   allowedExtensions: string[] = ['pdf', 'excel'];
-  targetExtension = 'pdf';
+  targetExtension:string = 'pdf';
   table = {
     response: {
       "status": true,

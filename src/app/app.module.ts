@@ -17,7 +17,7 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { CarouselModule } from "ngx-bootstrap/carousel";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { CustomHttpInterceptor } from "src/app/security/custom-http.interceptor";
-
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { AngularMaterialModule } from "./angular-material.module";
 import { AppComponent } from "./app.component";
 import { AppRouter } from "./app.route";
@@ -43,6 +43,7 @@ import { ProfileUpdateComponent } from './newPagesFc/profile-update/profile-upda
 import { NgxPaginationModule } from "ngx-pagination";
 import { GlobalErrorHandler } from "./global-error-handler.service";
 import { VersionCheckService } from "./version-check.service";
+import { environment } from "src/environments/environment";
 
 
 
@@ -81,7 +82,9 @@ import { VersionCheckService } from "./version-check.service";
     CollapseModule.forRoot(),
     MunicipalLawModule,
     NgxPaginationModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    NgxGoogleAnalyticsModule.forRoot(environment.GoogleTagID),
+    NgxGoogleAnalyticsRouterModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
