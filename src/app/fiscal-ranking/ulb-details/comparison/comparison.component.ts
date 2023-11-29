@@ -22,6 +22,12 @@ export class ComparisonComponent implements OnInit, OnChanges {
   ];
   type = 'overAll';
 
+  datasetsFilter = {
+    "State Average": true,
+    "National Average": true,
+    "Population Average": true,
+  }
+
   ulbs = [];
 
   constructor(
@@ -53,10 +59,16 @@ export class ComparisonComponent implements OnInit, OnChanges {
 
   createChart() {
     if (this.chart) this.chart.destroy();
-
+    const that = this;
     this.chart = new Chart("bar-chart-with-line", {
       type: 'bar',
-      data: this.graphData,
+      data: {
+        ...this.graphData,
+        datasets: this.graphData.datasets.map(item => ({
+          ...item,
+          hidden: !(this.datasetsFilter[item.label] != undefined ? this.datasetsFilter[item.label] : true)
+        }))
+      },
       options: {
         maintainAspectRatio: false,
         scales: {
@@ -78,6 +90,12 @@ export class ComparisonComponent implements OnInit, OnChanges {
           labels: {
             boxWidth: 10
           },
+          onClick: function (event, legendItem) {
+            if (Object.keys(that.datasetsFilter).includes(legendItem.text)) {
+              that.datasetsFilter[legendItem.text] = legendItem?.hidden;
+            }
+            Chart.defaults.global.legend.onClick.call(this, event, legendItem);
+          }
         }
       }
     } as any);
@@ -90,12 +108,13 @@ export class ComparisonComponent implements OnInit, OnChanges {
       minWidth: '400px',
       maxWidth: '500px',
       data: {
-        ulbs: this.ulbs
+        ulbs: this.ulbs,
+        datasetsFilter: this.datasetsFilter
       }
     }).afterClosed().subscribe(res => {
-      console.log('res', res);
       if (res) {
         this.ulbs = res.ulbs;
+        this.datasetsFilter = res.datasetsFilter;
         this.getBarchartData();
       }
     });

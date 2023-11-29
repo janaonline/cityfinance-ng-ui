@@ -8,22 +8,11 @@
 
 <form (submit)="apply()">
     <div class="mt-4">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="State Average" id="stateAverageCheckbox">
-            <label class="form-check-label" for="stateAverageCheckbox">
-                State Average
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="National Average" id="nationalAverageCheckbox">
-            <label class="form-check-label" for="nationalAverageCheckbox">
-                National Average
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Population Average" id="populationAverageCheckbox">
-            <label class="form-check-label" for="populationAverageCheckbox">
-                Population Average
+        <div *ngFor="let key of filterKeys()" class="form-check">
+            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}"
+                [id]="key + 'Checkbox'" [(ngModel)]="datasetsFilter[key]">
+            <label class="form-check-label" [for]="key + 'Checkbox'">
+                {{ key }}
             </label>
         </div>
     </div>
@@ -43,7 +32,8 @@
 
     <div class="chip-container">
         <span class="chip" *ngFor="let ulb of ulbs; let i = index;">
-            {{ ulb?.name }} <mat-icon *ngIf="!ulb?.disabled" class="cursor-pointer" (click)="removeUlb(i)">close</mat-icon>
+            {{ ulb?.name }} <mat-icon *ngIf="!ulb?.disabled" class="cursor-pointer" (click)="removeUlb(i)">close
+            </mat-icon>
         </span>
     </div>
     <div class="mt-3 text-center">
