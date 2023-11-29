@@ -100,7 +100,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "2019-20",
     "2020-21",
     "2021-22",
-  ].reverse();
+  ];
   cType = ["Raw Data PDF", "Raw Data Excel", "Standardised Excel"];
   // "Standardised Excel",
   // "Standardised PDF",
@@ -123,6 +123,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
     this.getStatesList();
+    this.addYearsTillCurrent();
   }
 
   onChange(event) {
@@ -291,5 +292,29 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   onStateChange(state) {
     this.filterForm.patchValue({ state: state._id })
     this.filterData('state', '')
+  }
+
+  addYearsTillCurrent() {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+    // get the previous year which is presented in the year list
+    let lastYear = parseInt(this.yearList[this.yearList.length - 1]);
+
+    // Generate and add years until the current year
+    while (lastYear <= currentYear) {
+      const formattedYear = `${lastYear - 1}-${String(lastYear).slice(2)}`;
+
+      // Check if the year is not already in the array
+      if (!this.yearList.includes(formattedYear)) {
+        // Add the year to the array
+        this.yearList.push(formattedYear);
+      }
+
+      // Move to the next year
+      lastYear++;
+    }
+
+    // Reverse the array if needed
+    this.yearList.reverse();
   }
 }
