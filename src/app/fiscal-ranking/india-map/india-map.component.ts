@@ -24,7 +24,7 @@ export interface ColorDetails {
   max: number
 }
 
-export interface Marker{
+export interface Marker {
   lat: number,
   lng: number,
   name: string
@@ -81,6 +81,8 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
   currentId: any;
+
+
 
   constructor(
     protected _commonService: CommonService,
@@ -336,7 +338,9 @@ export class IndiaMapComponent extends NationalHeatMapComponent implements OnIni
     this.markers.forEach(marker => {
       L.marker([marker.lat, marker.lng], {
         icon: new L.Icon({
-          iconUrl: 'assets/fiscal-rankings/map-marker.png',
+          iconUrl: 'assets/images/maps/simple_blue_dot.png',
+          iconSize: [10, 10],
+          iconAnchor: [6, 6],
         }), title: marker.name
       }).addTo(this.nationalLevelMap);
     });
