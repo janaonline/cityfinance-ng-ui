@@ -101,8 +101,9 @@ export class ParticipatingStateComponent implements OnInit {
   stateType: string = 'All';
   ulbParticipation: string = 'All';
   ulbRankingStatus: string = 'All';
-  table = {
-    response: {
+  table:object | any = { response: null };
+  // table = {
+  //   response: {
       // "status": true,
       // "message": "Successfully saved data!",
       // "columns": [
@@ -238,8 +239,8 @@ export class ParticipatingStateComponent implements OnInit {
       //   "$sum",
       //   "$sum",
       // ],
-    }
-  };
+  //   }
+  // };
   colorCoding;
 
   colorDetails: ColorDetails[] = [
@@ -290,9 +291,9 @@ export class ParticipatingStateComponent implements OnInit {
   // }
   // reset all filter
   resetFilter() {
-    this.stateType = this.stateTypeFilter[0].value;
-    this.ulbParticipation = this.ulbParticipationFilter[0].value;
-    this.ulbRankingStatus = this.ulbRankingStatusFilter[0].value;
+    this.stateType = this.stateTypeFilter[0]?.value;
+    this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
     this.getTableData();
   }
 
