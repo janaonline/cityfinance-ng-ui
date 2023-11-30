@@ -73,12 +73,13 @@ export class TopRankingsComponent implements OnInit {
     { color: "#31CFF1", text: "9 to 10", min: 9, max: 10 },
     { color: "#04DC00", text: "10+", min: 11, max: Infinity },
   ];
+  isShowingMap: boolean = false;
 
   constructor(
     private matDialog: MatDialog,
     private fiscalRankingService: FiscalRankingService,
     private fb: FormBuilder
-  ) { 
+  ) {
     this.filter = this.fb.group({
       populationBucket: '',
       stateData: [''],
@@ -88,11 +89,11 @@ export class TopRankingsComponent implements OnInit {
     });
 
     this.filter.get('stateData')?.valueChanges.subscribe(value => {
-      this.filter.patchValue({ state: value?.[0]?._id || ''}, { emitEvent: false });
+      this.filter.patchValue({ state: value?.[0]?._id || '' }, { emitEvent: false });
     });
     this.filter.valueChanges.subscribe(() => this.loadData());
   }
-  
+
   ngOnInit(): void {
     this.loadStates();
     this.loadData();
@@ -110,7 +111,9 @@ export class TopRankingsComponent implements OnInit {
   }
 
   loadTopRankedUlbs() {
+    this.isShowingMap = false;
     this.fiscalRankingService.topRankedUlbs(this.params).subscribe((res: any) => {
+      this.isShowingMap = true;
       this.table.response = res.tableData;
       this.markers = res.mapDataTopUlbs;
     })
@@ -124,7 +127,7 @@ export class TopRankingsComponent implements OnInit {
 
   loadTopRankedStates() {
     this.fiscalRankingService.topRankedStates(this.params).subscribe((res: any) => {
-      this.colorCoding = res?.states?.map(state => ({...state, percentage: state.count }));
+      this.colorCoding = res?.states?.map(state => ({ ...state, percentage: state.count }));
     });
   }
 
