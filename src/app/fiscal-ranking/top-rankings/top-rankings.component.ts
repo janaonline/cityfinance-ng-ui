@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BreadcrumbLink } from '../breadcrumb/breadcrumb.component';
-import { FiscalRankingService } from '../fiscal-ranking.service';
+import { FiscalRankingService, Table } from '../fiscal-ranking.service';
 import { ColorDetails, Marker } from '../india-map/india-map.component';
 import { SearchPopupComponent } from '../ulb-details/search-popup/search-popup.component';
 
@@ -45,7 +45,9 @@ export class TopRankingsComponent implements OnInit {
   ]
 
   filter: FormGroup;
-  table = { response: null };
+  table: Table = {
+    response: null,
+  };
   selectedMap: string = 'topUlbs'; // Initialize to default value
   stateList = [];
   populationCategories = [
@@ -84,8 +86,7 @@ export class TopRankingsComponent implements OnInit {
       populationBucket: '',
       stateData: [''],
       state: '',
-      sortBy: 'overAll',
-      sortOrder: 1
+      category: 'overAll',
     });
 
     this.filter.get('stateData')?.valueChanges.subscribe(value => {
@@ -106,17 +107,22 @@ export class TopRankingsComponent implements OnInit {
   }
 
   loadData() {
-    this.loadTopRankedStates();
-    this.loadTopRankedUlbs();
+    this.loadTopRankedStatesMap();
+    this.loadTopRankedUlbs(this.table, '');
   }
 
-  loadTopRankedUlbs() {
+  loadTopRankedUlbs(table: Table, queryParams: string = '') {
     this.isShowingMap = false;
-    this.fiscalRankingService.topRankedUlbs(this.params).subscribe((res: any) => {
+    this.fiscalRankingService.topRankedUlbs(queryParams, table?.response?.columns, this.params).subscribe((res: any) => {
       this.isShowingMap = true;
       this.table.response = res.tableData;
       this.markers = res.mapDataTopUlbs;
     })
+  }
+
+
+  onUpdate(table, event) {
+    this.loadTopRankedUlbs(table, event?.queryParams);
   }
 
   loadStates() {
@@ -125,7 +131,7 @@ export class TopRankingsComponent implements OnInit {
     });
   }
 
-  loadTopRankedStates() {
+  loadTopRankedStatesMap() {
     this.fiscalRankingService.topRankedStates(this.params).subscribe((res: any) => {
       this.colorCoding = res?.states?.map(state => ({ ...state, percentage: state.count }));
     });

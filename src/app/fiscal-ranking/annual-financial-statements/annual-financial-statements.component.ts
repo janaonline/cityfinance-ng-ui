@@ -22,7 +22,6 @@ export class AnnualFinancialStatementsComponent implements OnInit {
   ];
 
   table: Table = {
-    id: "",
     endpoint: 'scoring-fr/states/auditedAccounts',
     response: null,
   };

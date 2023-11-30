@@ -23,7 +23,6 @@ export class AnnualBudgetsComponent implements OnInit {
 
 
   table: Table = {
-    id: "",
     endpoint: 'scoring-fr/states/annualBudgets',
     response: null,
   };

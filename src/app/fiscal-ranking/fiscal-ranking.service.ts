@@ -21,8 +21,8 @@ export enum StatusType {
   "ackByPMU" = 11
 }
 export interface Table {
-  id: string;
-  endpoint: string;
+  id?: string;
+  endpoint?: string;
   response: TableResponse;
 }
 
@@ -170,13 +170,10 @@ export class FiscalRankingService {
     return url;
   }
 
-  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = 'data') {
-    return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(tableMapperPipe(columns, tablePath));
+  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '') {
+    return this.http.get(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(tableMapperPipe(columns, tablePath));
   }
 
-  auditedAccounts(endpoint: string, queryParams: string, columns, tablePath: string = 'data') {
-    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts?${queryParams}`).pipe(tableMapperPipe(columns, 'data'));
-  }
 
   getStateWiseForm(params = {}) {
     if (this.userUtil.getUserType() == USER_TYPE.STATE) {
@@ -223,8 +220,8 @@ export class FiscalRankingService {
 
 
 
-  topRankedUlbs(params) {
-    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`, { params })
+  topRankedUlbs(queryParams: string, columns, params) {
+    return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs?${queryParams}`, { params }).pipe(tableMapperPipe(columns, 'tableData'))
   }
 
   topRankedStates(params) {
