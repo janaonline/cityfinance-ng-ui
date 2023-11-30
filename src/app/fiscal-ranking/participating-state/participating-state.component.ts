@@ -290,9 +290,9 @@ export class ParticipatingStateComponent implements OnInit {
   // }
   // reset all filter
   resetFilter() {
-    this.stateType = this.stateTypeFilter[0].value;
-    this.ulbParticipation = this.ulbParticipationFilter[0].value;
-    this.ulbRankingStatus = this.ulbRankingStatusFilter[0].value;
+    this.stateType = this.stateTypeFilter[0]?.value;
+    this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
     this.getTableData();
   }
 

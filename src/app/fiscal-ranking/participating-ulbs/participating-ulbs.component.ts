@@ -214,9 +214,9 @@ export class ParticipatingUlbsComponent implements OnInit {
     });
   }
   resetFilter() {
-    this.populationCategory = this.populationCategoryFilter[0].value;
-    this.ulbParticipation = this.ulbParticipationFilter[0].value;
-    this.ulbRankingStatus = this.ulbRankingStatusFilter[0].value;
+    this.populationCategory = this.populationCategoryFilter[0]?.value;
+    this.ulbParticipation = this.ulbParticipationFilter[0]?.value;
+    this.ulbRankingStatus = this.ulbRankingStatusFilter[0]?.value;
     this.getTableData();
   }
   ngOnDestroy() {
