@@ -21,7 +21,11 @@ export class AnnualFinancialStatementsComponent implements OnInit {
     }
   ];
 
-  table = { response: null };
+  table: Table = {
+    id: "",
+    endpoint: 'scoring-fr/states/auditedAccounts',
+    response: null,
+  };
 
   constructor(
     private fiscalRankingService: FiscalRankingService
@@ -31,20 +35,13 @@ export class AnnualFinancialStatementsComponent implements OnInit {
     this.loadData(this.table);
   }
 
-
   onUpdate(table, event) {
-    console.log({
-      table, event
-    })
-
     this.loadData(table, event?.queryParams);
-
   }
 
-  loadData(table, queryParams: string = '') {
-    this.fiscalRankingService.auditedAccounts(queryParams, table?.response?.columns).subscribe((res: any) => {
+  loadData(table: Table, queryParams: string = '') {
+    this.fiscalRankingService.getTableResponse(table.endpoint, queryParams, table?.response?.columns, 'data').subscribe(res => {
       this.table.response = res.data;
     })
   }
-
 }

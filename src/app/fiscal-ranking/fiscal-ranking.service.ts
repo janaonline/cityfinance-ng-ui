@@ -170,8 +170,12 @@ export class FiscalRankingService {
     return url;
   }
 
-  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = '') {
+  getTableResponse(endpoint: string, queryParams: string, columns, tablePath: string = 'data') {
     return this.http.get<TableResponse>(`${environment.api.url}/${endpoint}?${queryParams}`).pipe(tableMapperPipe(columns, tablePath));
+  }
+
+  auditedAccounts(endpoint: string, queryParams: string, columns, tablePath: string = 'data') {
+    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts?${queryParams}`).pipe(tableMapperPipe(columns, 'data'));
   }
 
   getStateWiseForm(params = {}) {
@@ -217,13 +221,7 @@ export class FiscalRankingService {
     return this.http.get(`${environment.api.url}scoring-fr/states`)
   }
 
-  auditedAccounts(queryParams, columns) {
-    return this.http.get(`${environment.api.url}scoring-fr/states/auditedAccounts?${queryParams}`).pipe(tableMapperPipe(columns, 'data'));
-  }
 
-  annualBudgets() {
-    return this.http.get(`${environment.api.url}scoring-fr/states/annualBudgets`)
-  }
 
   topRankedUlbs(params) {
     return this.http.get(`${environment.api.url}scoring-fr/top-ranked-ulbs`, { params })
