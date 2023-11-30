@@ -1366,6 +1366,13 @@ input[type=number] {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
+    &.btn-text {
+        color: $orange;
+        background-color: inherit;
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        box-shadow: none;
+    }
+
     &:hover {
         background: #cf7113;
         border-color: #cf7113;

@@ -16,6 +16,9 @@ thead {
     thead {
         position: static;
         top: 5px;
+        tr {
+            border-bottom: 2px solid #e6e6e6;
+        }
     }
     table {
         text-align: left;
