@@ -42,9 +42,9 @@ export class ParticipatingUlbsComponent implements OnInit {
   populationCategoryFilter: FrFilter[] = [];
   ulbParticipationFilter: FrFilter[]= [];
   ulbRankingStatusFilter: FrFilter[]= [];
-  populationCategory: string = 'ALL';
-  ulbParticipation: string = 'ALL';
-  ulbRankingStatus: string = 'ALL';
+  populationCategory: string = 'All';
+  ulbParticipation: string = 'All';
+  ulbRankingStatus: string = 'All';
   stateList = [];
   routerSubs: any;
   selectedStateId: string = '';
